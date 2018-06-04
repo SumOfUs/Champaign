@@ -5,6 +5,9 @@
   .button--twitter a::before{
     content: "{{ 'share.tweet' | t }}";
   }
+  .button--whatsapp a::before{
+    content: "{{ 'share.whatsapp' | t }}";
+  }
   .share-buttons__simple-email-link.sp_em_small a::before, .share-buttons__simple-email-link.sp_em_large a::before {
     content: "{{ 'share.send_email' | t }}";
   }
@@ -17,6 +20,10 @@
 
   {% unless shares['twitter'] == blank %}
     <div class="share-buttons__button button--twitter {{ shares['twitter'] }}"></div>
+  {% endunless %}
+
+  {% unless shares['whatsapp'] == blank %}
+  <div class="share-buttons__button button--whatsapp {{ shares['whatsapp'] }}"></div>
   {% endunless %}
 
   {% unless shares['email'] == blank %}

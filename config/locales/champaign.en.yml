@@ -298,8 +298,9 @@ en:
         body: "Email body"
 
     whatsapp:
+      title: 'Whatsapp Message Variant'
       form:
-        text: 'WhatsApp message text'
+        text: "WhatsApp message text"
 
   plugins:
     petition:
