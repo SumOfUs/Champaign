@@ -47,32 +47,18 @@ class ShareVariantBuilder
   def update
     @variant = variant_class.find(@id)
     @variant.assign_attributes(@params)
-
     return @variant if @variant.changed.empty? || @variant.invalid?
-
     @button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
-
-    if @variant.share_progress?
-      update_sp_resources
-    end
-    @variant
+    update_and_return
   end
 
   def create
     @variant = variant_class.new(@params)
     @variant.page = @page
-
     return @variant unless @variant.valid?
     @button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
     @variant.button = @button
-
-    if @variant.share_progress?
-      update_sp_resources
-    else
-      # Update button with sp_button_html and page_url
-      update_button
-    end
-    @variant
+    update_and_return
   end
 
   def destroy
@@ -93,11 +79,21 @@ class ShareVariantBuilder
 
   private
 
+  def update_and_return
+    if @variant.share_progress?
+      update_sp_resources
+    else
+      update_button
+    end
+    @variant.save
+    @variant
+  end
+
   def update_button
     # Update with other options when we will support other non-sp share types.
     case @variant_type
-    when 'whatsapp'
-      @button.update(sp_button_html: "<div class=''>Whatsapp ftw! #{params[:text]}</div>", url: @url)
+    when :whatsapp
+      @button.update(sp_button_html: "<a href=whatsapp://send?text=#{URI.encode(@variant.text)}</a>", url: @url)
     end
   end
 
