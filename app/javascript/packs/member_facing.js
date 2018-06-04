@@ -53,7 +53,7 @@ const initializeApp = () => {
     redirectors,
     store,
   });
-  // initializeCookieConsent();
+  initializeCookieConsent();
 };
 
 initializeApp();
