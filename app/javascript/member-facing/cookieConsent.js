@@ -1,19 +1,33 @@
-import { formatMessage } from '../util/TranslationsLoader';
+import {
+  formatMessage,
+  isTranslationPresent,
+} from '../util/TranslationsLoader';
 
 const initializeCookieConsent = () => {
   $(() => {
     if (isEEA()) {
       const locale = window.champaign.page.language_code || 'en';
+      let privacyPolicyURL;
+      if (isTranslationPresent('cookie_consent.privacy_policy_url', locale)) {
+        privacyPolicyURL = formatMessage(
+          'cookie_consent.privacy_policy_url',
+          locale
+        );
+      } else {
+        privacyPolicyURL = '/privacy';
+      }
+
       window.cookieconsent.initialise({
-        theme: 'block',
+        theme: 'edgeless',
+        position: 'top',
         content: {
           message: formatMessage('cookie_consent.message', locale),
           dismiss: formatMessage('cookie_consent.dismiss_button_text', locale),
-          link: formatMessage('cookie_consent.more_info_link_text', locale),
-          href: 'http://cookiesandyou.com',
-        },
-        layouts: {
-          basic: '{{messagelink}}{{compliance}}',
+          link: formatMessage(
+            'cookie_consent.privacy_policy_link_text',
+            locale
+          ),
+          href: privacyPolicyURL,
         },
       });
     }
