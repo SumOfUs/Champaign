@@ -10,38 +10,65 @@ describe 'Confirmation Reminder' do
     allow(client).to receive(:publish)
   end
 
-  it 'finds and sends repeat email' do
-    Timecop.freeze do
-      now = Time.now.utc
-      page = create(:page)
-      data = { 'page_id' => page.id }
-      create(:pending_action, data: data, token: '1234', email_count: 1, emailed_at: 23.hours.ago)
+  let(:page) { create(:page) }
 
-      pending_action = create(:pending_action,
-                              data: data,
-                              token: '5678',
-                              email_count: 1,
-                              emailed_at: 25.hours.ago)
+  context 'action remains unconfirmed 24 hours later' do
+    it 'finds and sends repeat email if member has not given consent' do
+      Timecop.freeze do
+        now = Time.now.utc
 
-      create(:pending_action, data: data, token: '91011', email_count: 2, emailed_at: 25.hours.ago)
+        # not due a reminder
+        create(:pending_action, token: '1234', email_count: 1, emailed_at: 23.hours.ago)
+
+        # due a reminder
+        pending_action = create(:pending_action,
+                                page: page,
+                                token: '5678',
+                                data: { name: 'Bob' },
+                                email_count: 1,
+                                emailed_at: 25.hours.ago)
+
+        # not due a reminder (has already been confirmed)
+        create(:pending_action,
+               token: 'abcd',
+               email_count: 1,
+               confirmed_at: 24.hours.ago,
+               emailed_at: 25.hours.ago)
+
+        create(:pending_action, token: '91011', email_count: 2, emailed_at: 25.hours.ago)
+
+        post resend_confirmations_api_action_confirmations_path, headers: { 'X-Api-Key': Settings.api_key }
+
+        expect(client).to have_received(:publish).exactly(1).times
+
+        expect(client).to have_received(:publish).with(
+          hash_including(
+            message: /5678/
+          )
+        )
+
+        expect(pending_action.reload.emailed_at.to_s).to eq(now.to_s)
+      end
+    end
+
+    it 'does nothing if consented member already exists' do
+      create(:pending_action,
+             token: '5678',
+             email: 'foo@example.com',
+             email_count: 1,
+             emailed_at: 25.hours.ago)
+
+      create(:member, email: 'foo@example.com', consented: true)
 
       post resend_confirmations_api_action_confirmations_path, headers: { 'X-Api-Key': Settings.api_key }
 
-      expect(client).to have_received(:publish).exactly(1).times
-
-      expect(client).to have_received(:publish).with(
-        hash_including(
-          message: /5678/
-        )
-      )
-
-      expect(pending_action.reload.emailed_at.to_s).to eq(now.to_s)
+      expect(client).not_to have_received(:publish)
     end
-  end
 
-  it 'returns 402 if not authorized' do
-    post resend_confirmations_api_action_confirmations_path, headers: { 'X-Api-Key': 'invalid_key' }
-    expect(response).to have_http_status(:forbidden)
+    it 'returns 402 if not authorized' do
+      post resend_confirmations_api_action_confirmations_path, headers: { 'X-Api-Key': 'invalid_key' }
+      expect(response).to have_http_status(:forbidden)
+    end
   end
 end
 
