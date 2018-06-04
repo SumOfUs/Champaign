@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :pending_action do
-    data ''
+    data {}
     confirmed_at nil
-    email 'MyString'
-    token 'MyString'
+    email 'bar@example.com'
+    token '1234'
   end
 end
