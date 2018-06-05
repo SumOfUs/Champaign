@@ -56,7 +56,7 @@ class ShareVariantBuilder
     @variant = variant_class.new(@params)
     @variant.page = @page
     return @variant unless @variant.valid?
-    @button = Share::Button.find_or_create_by!(sp_type: @variant_type, page_id: @page.id)
+    @button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
     @variant.button = @button
     update_and_return
   end
@@ -85,18 +85,20 @@ class ShareVariantBuilder
     else
       update_button
     end
-    @variant.save
     @variant
   end
 
   def update_button
     # Update with other options when we will support other non-sp share types.
-    # Note that the share button html MUST have a class - otherwise it'll be missed by Shares.get_all
-    # Add a class that indicates the variant type, and also one that identifies the button for tracking analytics.
+    # Note that the share button html MUST have a css class - otherwise it'll be missed by Shares.get_all
+    # Add a class that indicates the variant type, and in _share.liquid, add a class that identifies the variant/button.
     case @variant_type
     when :whatsapp
-      @button.update(sp_button_html: "<a class='whatsapp_large champaign_button_#{@button.id}'"\
-      " href=whatsapp://send?text=#{URI.encode(@variant.text)}</a>", url: @url)
+      @button.update(
+        sp_button_html: "<a class=\"whatsapp_large\" href=\"whatsapp://send?text=#{URI.encode(@variant.text)}\"></a>",
+        url: @url
+      )
+      @variant.save
     end
   end
 
