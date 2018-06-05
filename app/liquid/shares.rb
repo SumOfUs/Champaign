@@ -11,7 +11,8 @@ module Shares
         css_class = class_from_html(button.sp_button_html)
         shares[button.sp_type] = {
           css_class: css_class,
-          sp_button_html: button.sp_button_html
+          sp_button_html: button.sp_button_html,
+          button_id: button.id
         }
         shares
       end

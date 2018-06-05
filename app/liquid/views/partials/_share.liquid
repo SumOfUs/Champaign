@@ -24,7 +24,7 @@
   {% endunless %}
 
   {% unless shares['whatsapp'] == blank %}
-    <div class="share-buttons__button button--whatsapp {{ shares['whatsapp'].css_class }}"> {{ shares['whatsapp'].sp_button_html }} </div>
+    <div class="share-buttons__button button--whatsapp champaign_button_{{shares['whatsapp'].button_id}} {{ shares['whatsapp'].css_class }}"> {{ shares['whatsapp'].sp_button_html }} </div>
   {% endunless %}
 
   {% unless shares['email'] == blank %}
