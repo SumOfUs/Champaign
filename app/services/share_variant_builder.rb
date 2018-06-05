@@ -84,6 +84,7 @@ class ShareVariantBuilder
       update_sp_resources
     else
       update_button
+      @variant.save
     end
     @variant
   end
@@ -98,7 +99,6 @@ class ShareVariantBuilder
         sp_button_html: "<a class=\"whatsapp_large\" href=\"whatsapp://send?text=#{URI.encode(@variant.text)}\"></a>",
         url: @url
       )
-      @variant.save
     end
   end
 
