@@ -10,8 +10,3 @@
 
   p
    = link_to @page.title, @page
-
-  javascript:
-    if (window.opener !== null) {
-      window.opener.postMessage({event: "donation:error", errors: #{@errors.to_json.html_safe}}, '*');
-    }
