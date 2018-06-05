@@ -135,6 +135,7 @@ de:
     send_email: E-Mail senden
     share: Facebook
     tweet: Twitter
+    share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus_de'
   errors:
     probably_invalid: sieht nicht richtig aus
