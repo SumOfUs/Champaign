@@ -25,7 +25,6 @@ rails_serve_static_assets: true
 compile_static: true
 asset_host: 'localhost:3000'
 webpack_host: 'localhost'
-amplitude_token:
 
 # NewRelic Connection information.
 newrelic_license_key: 'fake-newrelic-agent'
@@ -109,5 +108,5 @@ development_database: 'champaign'
 member_services_secret: 'hotpotato!'
 oxr_app_id: '' # get app id from https://openexchangerates.org
 
-mailer_topic_arn: 
+mailer_topic_arn:
 api_key: ''

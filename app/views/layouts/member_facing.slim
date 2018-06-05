@@ -20,7 +20,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
     = render partial: "shared/js_locale"
     = render partial: "layouts/mixpanel" if Settings.mixpanel_token
-    = render partial: "shared/amplitude_snippet" if Settings.amplitude_token
     = render 'shared/page_object'
     = render 'pages/personalization', data: @data
   body
