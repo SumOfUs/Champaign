@@ -16,7 +16,10 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
   },
 
   // options: object with any of the following keys
-  //    followUpUrl: the url to redirect to after success
+  //    - followUpUrl: the url to redirect to after success.
+  //    - onSubmitSuccess: when present this will be called
+  //    after a successfull submission of the action form instead of
+  //    the doing the redirect.
   initialize(options = {}) {
     this.store = window.champaign.store;
     this.followUpUrl = options.followUpUrl;
@@ -30,6 +33,7 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
 
     this.optInButton.on('click', this.optInCallback.bind(this));
     this.optOutButton.on('click', this.optOutCallback.bind(this));
+    this.onSubmitSuccess = options.onSubmitSuccess;
 
     GlobalEvents.bindEvents(this);
   },
@@ -51,7 +55,11 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
   },
 
   onSubmitSuccess() {
-    this.redirectToFollowUp();
+    if (this.onSubmitSuccess) {
+      this.onSubmitSuccess();
+    } else {
+      this.redirectToFollowUp();
+    }
   },
 
   optInCallback() {
