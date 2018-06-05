@@ -121,7 +121,6 @@ sentry_dsn: <%= ENV['SENTRY_DSN'] %>
 admins: <%= ENV['ADMIN_WHITELIST'] %>
 
 mixpanel_token: "<%= ENV['MIXPANEL_TOKEN'] %>"
-amplitude_token: <%= ENV['AMPLITUDE_TOKEN'] %>
 
 facebook:
   pixel_id: <%= ENV['FACEBOOK_PIXEL_ID'] %>
