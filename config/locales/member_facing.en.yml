@@ -142,6 +142,7 @@ en:
     send_email: Send Email
     share: Share
     tweet: Tweet
+    share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus' # override this with your orgs twitter handle
   errors:
     probably_invalid: doesn't look right

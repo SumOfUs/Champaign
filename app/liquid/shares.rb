@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Shares
   class << self
     # we're making the assumption that all that matters from the ShareProgress HTML
@@ -8,7 +9,10 @@ module Shares
     def get_all(page)
       buttons_with_variants(page).inject({}) do |shares, button|
         css_class = class_from_html(button.sp_button_html)
-        shares[button.sp_type] = css_class unless css_class.blank?
+        shares[button.sp_type] = {
+          css_class: css_class,
+          sp_button_html: button.sp_button_html
+        }
         shares
       end
     end
