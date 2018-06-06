@@ -234,7 +234,8 @@ describe ManageAction do
       end
 
       context 'for a new user' do
-        describe 'when Germany or Austria are selected and the action is not a donation' do
+        describe 'when Germany or Austria are selected and the action is a petition' do
+          let(:page) { create(:page, :with_petition) }
           let(:params) { { email: 'bob@example.com', name: 'Bob', country: 'DE', page_id: page.id } }
 
           before do

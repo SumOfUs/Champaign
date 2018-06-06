@@ -58,6 +58,12 @@ FactoryGirl.define do
       publish_status :unpublished
     end
 
+    trait :with_petition do
+      after(:create) do |page, _evaluator|
+        create(:plugins_petition, page: page)
+      end
+    end
+
     trait :with_call_tool do
       after(:create) do |page, _evaluator|
         create(:call_tool, page: page)
