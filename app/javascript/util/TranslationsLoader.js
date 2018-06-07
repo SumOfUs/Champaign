@@ -25,4 +25,8 @@ const formatMessage = (key: string, locale: string) => {
   );
 };
 
-export { formatMessage };
+const isTranslationPresent = (key: string, locale: string) => {
+  return !!loadTranslations(locale)[key];
+};
+
+export { formatMessage, isTranslationPresent };

@@ -118,6 +118,7 @@ class ManageAction
 
   def requires_double_opt_in
     return false if @params[:consented] == false
+    return false unless page.plugins.map(&:class).include? Plugins::Petition
 
     requires_consent? &&
       DOUBLE_OPT_IN_COUNTRIES.include?(@params[:country]) && !@params[:consented]

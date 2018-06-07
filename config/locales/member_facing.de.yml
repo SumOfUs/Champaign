@@ -234,4 +234,4 @@ de:
   cookie_consent:
     message: 'Cookies erleichtern die Nutzung unserer Webseite.'
     dismiss_button_text: 'Einverstanden, weiter'
-    more_info_link_text: ''
+    privacy_policy_link_text: 'Datenschutz'

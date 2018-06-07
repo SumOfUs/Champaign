@@ -232,4 +232,4 @@ fr:
   cookie_consent:
     message: 'Les cookies sont importants pour le bon fonctionnement de notre site.'
     dismiss_button_text: 'Accepter et continuer'
-    more_info_link_text: ''
+    privacy_policy_link_text: 'Mentions Légales'

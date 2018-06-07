@@ -236,4 +236,4 @@ en:
   cookie_consent:
     message: 'Cookies are important to the proper functioning of this site.'
     dismiss_button_text: 'Agree & Proceed'
-    more_info_link_text: ''
+    privacy_policy_link_text: 'Privacy Policy'

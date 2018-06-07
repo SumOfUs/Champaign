@@ -4,9 +4,6 @@ require 'rails_helper'
 
 describe 'Double opt-in' do
   describe 'creating an action' do
-    let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
-    let(:form) { create(:form_with_email_and_optional_country) }
-
     let(:params) do
       {
         email:    'hello@example.com',
@@ -17,47 +14,61 @@ describe 'Double opt-in' do
       }
     end
 
-    let(:client) { double }
-
     let(:pending_action) { PendingAction.last }
+    let(:form) { create(:form_with_email_and_optional_country) }
 
-    before do
-      allow(Aws::SNS::Client).to receive(:new) { client }
-      allow(client).to receive(:publish)
-    end
+    context 'without petiton plugin' do
+      let(:page) { create(:page, :with_call_tool, title: 'Foo Bar', slug: 'foo-bar') }
 
-    it 'sets email' do
-      post "/api/pages/#{page.id}/actions", params: params
-      expect(pending_action.email).to eq('hello@example.com')
-    end
-
-    it 'increments email count' do
-      post "/api/pages/#{page.id}/actions", params: params
-      expect(pending_action.email_count).to eq(1)
-    end
-
-    it 'triggers sns event' do
-      post "/api/pages/#{page.id}/actions", params: params
-
-      expect(client).to have_received(:publish).with(
-        hash_including(
-          message: /token=#{PendingAction.last.token}/
-        )
-      )
-    end
-
-    it 'sets when email was sent' do
-      Timecop.freeze do
-        @now = Time.now.utc
+      it 'does not record a pending action' do
         post "/api/pages/#{page.id}/actions", params: params
-        expect(pending_action.emailed_at.to_s).to eq(@now.to_s)
+        expect(pending_action).to be nil
       end
     end
 
-    it 'redirects to notice' do
-      post "/api/pages/#{page.id}/actions", params: params
-      path = '/pages/foo-bar/confirmation?d_email=hello%40example.com&d_name=John+Doe&double_opt_in=true'
-      expect(response.body).to include("location.href = '#{path}'")
+    context 'with petition plugin' do
+      let(:page) { create(:page, :with_petition, title: 'Foo Bar', slug: 'foo-bar') }
+
+      let(:client) { double }
+
+      before do
+        allow(Aws::SNS::Client).to receive(:new) { client }
+        allow(client).to receive(:publish)
+      end
+
+      it 'records email address' do
+        post "/api/pages/#{page.id}/actions", params: params
+        expect(pending_action.email).to eq('hello@example.com')
+      end
+
+      it 'increments email count (number of confirmation emails sent)' do
+        post "/api/pages/#{page.id}/actions", params: params
+        expect(pending_action.email_count).to eq(1)
+      end
+
+      it 'triggers an sns event' do
+        post "/api/pages/#{page.id}/actions", params: params
+
+        expect(client).to have_received(:publish).with(
+          hash_including(
+            message: /token=#{PendingAction.last.token}/
+          )
+        )
+      end
+
+      it 'records when email was sent' do
+        Timecop.freeze do
+          @now = Time.now.utc
+          post "/api/pages/#{page.id}/actions", params: params
+          expect(pending_action.emailed_at.to_s).to eq(@now.to_s)
+        end
+      end
+
+      it 'redirects to notice' do
+        post "/api/pages/#{page.id}/actions", params: params
+        path = '/pages/foo-bar/confirmation?d_email=hello%40example.com&d_name=John+Doe&double_opt_in=true'
+        expect(response.body).to include("location.href = '#{path}'")
+      end
     end
   end
 end

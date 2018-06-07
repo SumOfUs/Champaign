@@ -33,7 +33,7 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
 
     this.optInButton.on('click', this.optInCallback.bind(this));
     this.optOutButton.on('click', this.optOutCallback.bind(this));
-    this.onSubmitSuccess = options.onSubmitSuccess;
+    this.onSubmitSuccessCallback = options.onSubmitSuccess;
 
     GlobalEvents.bindEvents(this);
   },
@@ -55,8 +55,8 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
   },
 
   onSubmitSuccess() {
-    if (this.onSubmitSuccess) {
-      this.onSubmitSuccess();
+    if (this.onSubmitSuccessCallback) {
+      this.onSubmitSuccessCallback();
     } else {
       this.redirectToFollowUp();
     }
