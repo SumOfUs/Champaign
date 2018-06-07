@@ -10,7 +10,8 @@
 #  button_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#
+#  click_count :integer
+#  share_count :integer
 
 class Share::Whatsapp < ApplicationRecord
   include Share::Variant

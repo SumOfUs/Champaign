@@ -10,6 +10,7 @@ class PagesController < ApplicationController
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
   before_action :localize, only: %i[show follow_up]
+  before_action :record_tracking, only: %i[show]
 
   def index
     @pages = Search::PageSearcher.search(search_params)
@@ -125,6 +126,11 @@ class PagesController < ApplicationController
   end
 
   private
+
+  def record_tracking
+    # Currently the only use case is to parse query parameters for a whatsapp variant
+    # to see if the member has come from a whatsapp share.
+  end
 
   def get_page
     @page = Page.find(params[:id])
