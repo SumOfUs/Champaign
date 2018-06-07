@@ -96,7 +96,7 @@ class ShareVariantBuilder
     case @variant_type
     when :whatsapp
       @button.update(
-        sp_button_html: "<a class=\"whatsapp_large\" href=\"whatsapp://send?text=#{URI.encode(@variant.text)}\"></a>",
+        sp_button_html: "<a class=\"whatsapp_large\" href=\"whatsapp://send?text=#{CGI.escape(@variant.text)}\"></a>",
         url: @url
       )
     end

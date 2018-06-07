@@ -8,12 +8,17 @@ module Shares
     # of the sharing buttons
     def get_all(page)
       buttons_with_variants(page).inject({}) do |shares, button|
-        css_class = class_from_html(button.sp_button_html)
-        shares[button.sp_type] = {
-          css_class: css_class,
-          button_id: button.id,
-          link_html: button.sp_button_html.gsub('%7BLINK%7D', button.url)
+        view_params = {
+          css_class: class_from_html(button.sp_button_html)
         }
+        unless button.share_progress?
+          variant = random_share_variant(button.sp_type, page)
+          view_params[:variant_id] = variant.id
+          # Prepend the desired query parameters (uri encoded) into the url we want to share
+          url = button.url << CGI.escape("?src=whatsapp&variant_id=#{variant.id}")
+          view_params[:link_html] = button.sp_button_html.gsub('%7BLINK%7D', url)
+        end
+        shares[button.sp_type] = view_params
         shares
       end
     end
@@ -26,6 +31,16 @@ module Shares
     end
 
     private
+
+    def random_share_variant(share_type, page)
+      # Whatsapp variants are served locally rather than from ShareProgress, so we need to find a way to decide
+      # which whatsapp share to show. The easiest way is to choose by random.
+      variant_class(share_type).where(page_id: page.id).order('RANDOM()').first
+    end
+
+    def variant_class(share_type)
+      "Share::#{share_type.classify}".constantize
+    end
 
     def buttons_with_variants(page)
       # Find all buttons that have share variants and that have a corresponding page_id
