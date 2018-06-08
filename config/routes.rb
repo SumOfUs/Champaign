@@ -108,6 +108,10 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
+    scope :shares do
+      post 'track', to: '/share/shares#track'
+    end
+
     resources :pending_action_notifications, only: [] do
       member do
         put 'delivered'
