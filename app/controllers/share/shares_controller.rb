@@ -4,8 +4,8 @@ require 'share_progress'
 
 class Share::SharesController < ApplicationController
   before_action :set_resource
-  before_action :find_page
-  before_action :authenticate_user!
+  before_action :find_page, except: 'track'
+  before_action :authenticate_user!, except: 'track'
 
   def new
     @share = share_class.new(new_defaults)
@@ -83,6 +83,14 @@ class Share::SharesController < ApplicationController
       else
         format.html { render 'share/edit' }
       end
+    end
+  end
+
+  def track
+    params.permit(:variant_type, :variant_id)
+    case variant_type
+    when 'whatsapp'
+      Share::Whatsapp.find(variant_id).increment!(:click_count)
     end
   end
 

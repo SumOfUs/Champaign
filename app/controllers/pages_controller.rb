@@ -130,6 +130,9 @@ class PagesController < ApplicationController
   def record_tracking
     # Currently the only use case is to parse query parameters for a whatsapp variant
     # to see if the member has come from a whatsapp share.
+    params.permit(:src, :variant_id, :id)
+    return unless params[:src] == 'whatsapp'
+    Share::Whatsapp.find(params[:variant_id]).increment!(:conversion_count)
   end
 
   def get_page

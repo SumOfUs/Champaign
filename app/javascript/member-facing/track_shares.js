@@ -8,7 +8,27 @@ $(() => {
 
   let shared = false;
 
-  const handleShare = event => {
+  $('.button--whatsapp').click(function(e) {
+    e.preventDefault();
+    $.post({
+      url: window.location.origin + '/api/shares/track',
+      data: {
+        variant_type: 'whatsapp',
+        variant_id: $(this).attr('variant_id'),
+      },
+    })
+      .done(function() {
+        console.log('So that happened...');
+      })
+      .fail(function(error) {
+        console.log('Swimming with the fishes.', error);
+      })
+      .always(function() {
+        console.log('Always redirect to the share page regardless.');
+      });
+  });
+
+  const handleFacebookShare = event => {
     // SP triggers 'share' twice so need to block
     // a duplicate event from being posted to GA.
     if (shared) return;
@@ -27,5 +47,5 @@ $(() => {
     }
   };
 
-  $(window).bind('share', handleShare);
+  $(window).bind('share', handleFacebookShare);
 });
