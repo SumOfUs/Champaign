@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_buttons
@@ -43,6 +44,15 @@ describe Share::Button do
     it 'is invalid with a blank url' do
       button.url = ' '
       expect(button).to be_invalid
+    end
+  end
+
+  describe '.share_progress?' do
+    let(:facebook) { create :share_button, sp_type: 'facebook' }
+    let(:whatsapp) { create :share_button, sp_type: 'whatsapp' }
+    it 'returns true if the share type is managed by ShareProgress' do
+      expect(facebook.share_progress?).to eq true
+      expect(whatsapp.share_progress?).to eq false
     end
   end
 end
