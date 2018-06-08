@@ -5,7 +5,7 @@ class CreateShareWhatsapps < ActiveRecord::Migration[5.1]
       t.string :text
       t.integer :button_id
       t.integer :click_count
-      t.integer :share_count
+      t.integer :conversion_count
 
       t.timestamps null: false
     end

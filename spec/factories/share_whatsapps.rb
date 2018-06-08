@@ -10,7 +10,8 @@
 #  button_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#
+#  click_count :integer
+#  conversion_count :integer
 
 FactoryGirl.define do
   factory :share_whatsapp, class: 'Share::Whatsapp' do
@@ -18,5 +19,7 @@ FactoryGirl.define do
     page nil
     text 'MyMessage {LINK}'
     button_id 1
+    click_count 1
+    conversion_count 1
   end
 end

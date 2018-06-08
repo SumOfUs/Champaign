@@ -1,5 +1,4 @@
 import $ from 'jquery';
-//TODO: Fix this import :) And rename / modify this file to hide the whatsapp button if the person is not on a mobile device
 import MobileCheck from './backbone/mobile_check';
 
 $(() => {
