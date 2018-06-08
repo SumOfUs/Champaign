@@ -11,7 +11,7 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  click_count :integer
-#  share_count :integer
+#  conversion_count :integer
 
 class Share::Whatsapp < ApplicationRecord
   include Share::Variant
