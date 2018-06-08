@@ -2,43 +2,42 @@
 
 # == Schema Information
 #
-# Table name: share_twitters
+# Table name: share_whatsapps
 #
 #  id          :integer          not null, primary key
-#  sp_id       :integer
 #  page_id     :integer
-#  title       :string
-#  description :string
+#  text        :string
 #  button_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#
+#  click_count :integer
+#  share_count :integer
 
 require 'rails_helper'
 
-describe Share::Twitter do
+describe Share::Whatsapp do
   describe 'validation' do
-    subject { build(:share_twitter) }
+    subject { build(:share_whatsapp) }
 
     it 'is valid' do
       expect(subject).to be_valid
     end
 
-    it 'description must be present' do
-      subject.description = nil
+    it 'text must be present' do
+      subject.text = nil
       expect(subject).to_not be_valid
     end
 
-    it 'must have {LINK} in description' do
-      subject.description = 'Foo'
+    it 'must have {LINK} in text' do
+      subject.text = 'Foo'
       expect(subject).to_not be_valid
     end
   end
 
   describe 'share_progress?' do
-    let(:twitter) { create(:share_twitter) }
-    it 'is managed by ShareProgress' do
-      expect(twitter.share_progress?).to eq true
+    let(:whatsapp) { create(:share_whatsapp) }
+    it 'is not managed by ShareProgress' do
+      expect(whatsapp.share_progress?).to eq false
     end
   end
 end
