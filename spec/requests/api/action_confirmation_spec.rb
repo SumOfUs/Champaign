@@ -114,6 +114,11 @@ describe 'New Action Confirmation' do
       expect(Action.last).not_to be nil
     end
 
+    it 'sets consented to true on pending action' do
+      get confirm_api_action_confirmations_path(token: '1234', consented: true)
+      expect(pending_action.reload.consented).to be true
+    end
+
     it 'stores member_id to cookie' do
       expect(cookies['member_id']).to eq nil
       get confirm_api_action_confirmations_path(token: '1234', consented: true)
@@ -139,6 +144,11 @@ describe 'New Action Confirmation' do
         get confirm_api_action_confirmations_path(token: '1234')
         expect(pending_action.reload.confirmed_at.to_s).to eq(now.to_s)
       end
+    end
+
+    it 'sets consented to false on pending action' do
+      get confirm_api_action_confirmations_path(token: '1234')
+      expect(pending_action.reload.consented).to be false
     end
 
     it 'creates action without a member' do
