@@ -12,7 +12,7 @@ class Api::ActionConfirmationsController < ApplicationController
 
   def confirm
     pending = PendingAction.find_by!(token: params[:token])
-    pending.update(confirmed_at: Time.now)
+    pending.update(confirmed_at: Time.now, consented: params[:consented] == 'true')
     action = ManageAction.create(
       pending
       .data
