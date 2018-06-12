@@ -89,6 +89,9 @@ en:
       conversion_rate: "The percentage of the shares that got at least one person to take action"
       traffic_allocation: "As one share starts to win, more traffic will be automatically directed to that share. This shows current traffic allocation between different shares."
       winner: "If a share performs better than the others with statistical significance, it is declared the winner."
+      click_count: "How many times this share button has been clicked"
+      conversion_count: "How many times a page has been viewed through a share made out of this share variant."
+      local_conversion_rate: "Percentage of the clicks / shares of this variant that got at least one person to view the page."
     thermometer_offset: "Number of fake signatures to add to true signature count. No commas or spaces."
     fundraiser:
       donation_band: "This determines the amounts displayed on the page to an unknown user without any information in their URL. Generally, you will want to stick with an option designed for non-donors."
@@ -272,6 +275,8 @@ en:
       conversion_rate: 'Conversion rate'
       winner: 'Winner'
       no_data: "We haven't any data, yet!"
+      click_count: "Click count"
+      conversion_count: "Conversion count"
 
     get_started: "Click 'new variation' below to get started"
     form:
