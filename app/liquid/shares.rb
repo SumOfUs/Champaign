@@ -15,7 +15,7 @@ module Shares
           variant = select_share_variant(button.sp_type, page)
           view_params[:variant_id] = variant.id
           # Prepend the desired query parameters (uri encoded) into the url we want to share
-          url = button.url << CGI.escape("?src=whatsapp&variant_id=#{variant.id}")
+          url = button.url << ERB::Util.url_encode("?src=whatsapp&variant_id=#{variant.id}")
           view_params[:link_html] = button.sp_button_html.gsub('%7BLINK%7D', url)
         end
         shares[button.sp_type] = view_params

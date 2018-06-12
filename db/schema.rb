@@ -46,8 +46,8 @@ ActiveRecord::Schema.define(version: 20180525151104) do
     t.text "body"
     t.string "resource_id", null: false
     t.string "resource_type", null: false
-    t.integer "author_id"
     t.string "author_type"
+    t.integer "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -64,20 +64,13 @@ ActiveRecord::Schema.define(version: 20180525151104) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "authentication_nonces", force: :cascade do |t|
-    t.string "nonce"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["nonce"], name: "index_authentication_nonces_on_nonce"
-  end
-
   create_table "calls", id: :serial, force: :cascade do |t|
     t.integer "page_id"
     t.integer "member_id"
     t.string "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb "target_call_info", default: {}, null: false
+    t.jsonb "target_call_info", default: "{}", null: false
     t.json "member_call_events", default: [], array: true
     t.integer "twilio_error_code"
     t.json "target"
@@ -122,8 +115,8 @@ ActiveRecord::Schema.define(version: 20180525151104) do
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
     t.boolean "master", default: false
-    t.integer "formable_id"
     t.string "formable_type"
+    t.integer "formable_id"
     t.integer "position", default: 0, null: false
     t.index ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id"
   end
@@ -618,6 +611,8 @@ ActiveRecord::Schema.define(version: 20180525151104) do
     t.bigint "page_id"
     t.string "text"
     t.integer "button_id"
+    t.integer "click_count", default: 0, null: false
+    t.integer "conversion_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["page_id"], name: "index_share_whatsapps_on_page_id"
