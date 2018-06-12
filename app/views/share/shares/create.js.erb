@@ -1,5 +1,9 @@
 <%- if @share.errors.empty? %>
-  $("table.shares-editor__existing tbody").append('<%= escape_javascript(render @share, page: @page) %>');
+    <%- if @share.share_progress? %>
+        $("table.shares-editor__existing__shareprogress tbody").append('<%= escape_javascript(render @share, page: @page) %>');
+    <% else %>
+        $("table.shares-editor__existing__champaign tbody").append('<%= escape_javascript(render @share, page: @page) %>');
+    <% end %>
 <% end %>
 
 $("#share-url-updater").
