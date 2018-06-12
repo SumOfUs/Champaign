@@ -12,7 +12,11 @@ class ShareAnalytics
   end
 
   def data
-    raw_data.select { |s| s['id'] == @share.sp_id.to_i }
+    if @share.share_progress?
+      raw_data.select { |s| s['id'] == @share.sp_id.to_i }
+    else
+      @share.slice(:id, :click_count, :conversion_count).merge(weight: 'random')
+    end
   end
 
   def raw_data

@@ -88,9 +88,9 @@ class Share::SharesController < ApplicationController
 
   def track
     params.permit(:variant_type, :variant_id)
-    case variant_type
+    case params[:variant_type]
     when 'whatsapp'
-      Share::Whatsapp.find(variant_id).increment!(:click_count)
+      Share::Whatsapp.find(params[:variant_id]).increment!(:click_count)
     end
   end
 
@@ -100,11 +100,9 @@ class Share::SharesController < ApplicationController
     @share = share_class.find params[:id]
   end
 
-  #
-  # Assigns resource name, which is taken from controller's class name.
-  # +Share::TwittersController+ becomes +twitter+
-  #
   def set_resource
+    # Assigns resource name, which is taken from controller's class name.
+    # +Share::TwittersController+ becomes +twitter+
     @resource = self.class.name.demodulize.gsub('Controller', '').downcase.singularize
   end
 

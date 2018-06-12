@@ -94,8 +94,16 @@ class Page < ApplicationRecord
     tags.map { |tag| tag.name.downcase }
   end
 
-  def shares
-    [Share::Facebook, Share::Twitter, Share::Email, Share::Whatsapp].inject([]) do |variations, share_class|
+  def shares(type)
+    share_classes = case type
+                    when 'local'
+                      [Share::Whatsapp]
+                    when 'sp'
+                      [Share::Facebook, Share::Twitter, Share::Email]
+                    else
+                      [Share::Facebook, Share::Twitter, Share::Email, Share::Whatsapp]
+                    end
+    share_classes.inject([]) do |variations, share_class|
       variations += share_class.where(page_id: id)
     end
   end

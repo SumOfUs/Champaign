@@ -24,4 +24,6 @@ class Share::Button < ApplicationRecord
     # the share types currently managed by share progress
     %w[facebook twitter email].include? sp_type
   end
+
+  scope :sp, -> { where sp_type: %w[facebook twitter email] }
 end

@@ -5,12 +5,21 @@
 
   table.table.shares-editor__existing
     thead.shares-editor__stats-heading.hidden-closed
-      = render 'share_analytics_header'
+      = render 'sp_share_analytics_header'
 
     tbody
-      - @variations.each do |variation|
+      - @sp_variations.each do |variation|
         = render variation, page: @page
       = render 'links_to_share_progress'
+
+
+  table.table.shares-editor__existing
+    thead.shares-editor__stats-heading.hidden-closed
+      = render 'local_share_analytics_header'
+
+    tbody
+      - @local_variations.each do |variation|
+        = render variation, page: @page
 
   .col-md-6
     .well
