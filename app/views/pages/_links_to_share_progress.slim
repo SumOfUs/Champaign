@@ -1,5 +1,5 @@
 - only_stats = local_assigns.fetch(:only_stats, false)
-- buttons = Share::Button.sp.where(page_id: @page.id)
+- buttons = Share::Button.share_progress.where(page_id: @page.id)
 - if buttons.present?
   tr
     td colspan='7'

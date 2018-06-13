@@ -25,5 +25,5 @@ class Share::Button < ApplicationRecord
     %w[facebook twitter email].include? sp_type
   end
 
-  scope :sp, -> { where sp_type: %w[facebook twitter email] }
+  scope :share_progress, -> { where sp_type: %w[facebook twitter email] }
 end

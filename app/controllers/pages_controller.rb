@@ -133,6 +133,10 @@ class PagesController < ApplicationController
     # to see if the member has come from a whatsapp share.
     return unless params[:src] == 'whatsapp'
     Share::Whatsapp.find(params[:variant_id]).increment!(:conversion_count)
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error(
+      "Conversion count increment attempted on an invalid #{params[:src]} variant ID #{params[:variant_id]}."
+    )
   end
 
   def get_page
