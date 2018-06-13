@@ -94,7 +94,7 @@ class Page < ApplicationRecord
     tags.map { |tag| tag.name.downcase }
   end
 
-  def shares(type)
+  def shares(type = nil)
     share_classes = case type
                     when 'local'
                       [Share::Whatsapp]

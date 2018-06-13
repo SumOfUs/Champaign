@@ -15,7 +15,9 @@ class ShareAnalytics
     if @share.share_progress?
       raw_data.select { |s| s['id'] == @share.sp_id.to_i }
     else
-      @share.slice(:id, :click_count, :conversion_count).merge(weight: 'random')
+      c_rate = @share.click_count.zero? ? 'N/A' : (@share.conversion_count.to_f / @share.click_count.to_f) * 100
+      @share.slice(:id, :click_count, :conversion_count).merge(weight: 'random',
+                                                               conversion_rate: "#{c_rate}%")
     end
   end
 
