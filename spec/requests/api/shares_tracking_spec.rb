@@ -21,5 +21,10 @@ describe 'tracking clicks and conversions on whatsapp shares' do
       get '/pages/123', params: { variant_id: share.id, src: 'whatsapp' }
       expect(share.reload.conversion_count).to eq 1
     end
+
+    it 'returns 200 even if variant ID in the parameters doesnt find a match' do
+      get '/pages/123', params: { variant_id: 12_342, src: 'whatsapp' }
+      expect(status).to eq 200
+    end
   end
 end

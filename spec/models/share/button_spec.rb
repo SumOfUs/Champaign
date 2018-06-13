@@ -55,4 +55,17 @@ describe Share::Button do
       expect(whatsapp.share_progress?).to eq false
     end
   end
+
+  describe 'scopes' do
+    describe 'share_progress' do
+      let(:facebook) { create :share_button, sp_type: 'facebook' }
+      let(:whatsapp) { create :share_button, sp_type: 'whatsapp' }
+      let(:twitter) { create :share_button, sp_type: 'twitter' }
+      let(:email) { create :share_button, sp_type: 'email' }
+      it 'returns buttons types that are managed by ShareProgress' do
+        expect(Share::Button.share_progress).to include(facebook, twitter, email)
+        expect(Share::Button.share_progress).to_not include(whatsapp)
+      end
+    end
+  end
 end

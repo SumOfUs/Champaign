@@ -16,16 +16,11 @@ $(() => {
         variant_type: 'whatsapp',
         variant_id: $(this).attr('variant_id'),
       },
-    })
-      .done(function() {
-        console.log('So that happened...');
-      })
-      .fail(function(error) {
-        console.log('Swimming with the fishes.', error);
-      })
-      .always(function() {
-        console.log('Always redirect to the share page regardless.');
-      });
+    }).then(function() {
+      window.location = $(e.currentTarget)
+        .children('a')
+        .attr('href');
+    });
   });
 
   const handleFacebookShare = event => {
