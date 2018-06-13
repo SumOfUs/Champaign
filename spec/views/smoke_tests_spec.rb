@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples'
 
@@ -8,11 +9,11 @@ describe 'renderin smoke tests' do
   end
 
   describe 'donation_bands/' do
-    include_examples 'view smoke test', :donation_band, [:edit, :index, :new]
+    include_examples 'view smoke test', :donation_band, %i[edit index new]
   end
 
   describe 'forms/' do
-    include_examples 'view smoke test', :form, [:index, :new]
+    include_examples 'view smoke test', :form, %i[index new]
 
     describe 'edit' do
       it 'renders without error' do
@@ -36,12 +37,16 @@ describe 'renderin smoke tests' do
       allow(view).to receive(:user_signed_in?).and_return(true)
     end
 
-    include_examples 'view smoke test', :page, [:new, :show]
+    include_examples 'view smoke test', :page, %i[new show]
 
     describe 'edit' do
       it 'renders without error' do
         assign :page, build(:page, id: 1)
-        assign :variations, [build(:share_facebook, id: 1, button: build(:share_button, sp_id: 2, sp_type: 'facebook'))]
+        assign :sp_variations, [build(:share_facebook,
+                                      id: 1,
+                                      button:
+                                        build(:share_button, sp_id: 2, sp_type: 'facebook'))]
+        assign :local_variations, []
         expect { render template: 'pages/edit' }.not_to raise_error
       end
     end

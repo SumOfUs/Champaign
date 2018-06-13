@@ -11,7 +11,7 @@ tr.shares-editor__stats-row class="#{only_stats ? '' : 'hidden-closed'}"
   td = whatsapp.text
   td = analytics['click_count']
   td = analytics['conversion_count']
-  td = analytics['conversion_count'] / analytics['conversion_count']
+  td = analytics['conversion_rate']
   td = analytics['weight']
   td.shares-editor__button-cell
     - unless only_stats
