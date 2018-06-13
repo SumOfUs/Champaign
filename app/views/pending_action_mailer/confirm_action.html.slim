@@ -1,8 +1,10 @@
-h3 Hallo #{@name},
+h3 Hallo #{@name.titleize},
 
 p Sie haben gerade die SumOfUs-Petition "#{@page.title}" unterzeichnet. Jetzt müssen Sie Ihre Teilnahme nur noch durch den Klick auf einen der nachfolgenden Links bestätigen.
 
-p Ihr Engagement entscheidet, ob unsere Petitionen und Aktionen erfolgreich sind. Wir möchten Sie daher in entscheidenden Momenten per E-Mail informieren. Sie können sich jederzeit entscheiden, keine weiteren E-Mails zu erhalten. Bitte klicken Sie hier:
+p Ihr Engagement entscheidet, ob unsere Petitionen und Aktionen erfolgreich sind. Wir möchten Sie daher in entscheidenden Momenten per E-Mail informieren. Sie können sich jederzeit entscheiden, keine weiteren E-Mails zu erhalten.
+
+p Bitte klicken Sie hier:
 
 h3
  = link_to "Ich möchte teilnehmen und weiter informiert werden", confirm_api_action_confirmations_url(token: @token, consented: true)
