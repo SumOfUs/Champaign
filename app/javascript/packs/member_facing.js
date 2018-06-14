@@ -5,6 +5,7 @@ import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
+import '../util/intl-locale-data';
 
 require('lodash');
 require('backbone');
@@ -50,6 +51,7 @@ const initializeApp = () => {
     store,
   });
 };
+
 $(document).ready(initializeCookieConsent);
 
 initializeApp();
