@@ -45,7 +45,7 @@ describe 'renderin smoke tests' do
         assign :sp_variations, [build(:share_facebook,
                                       id: 1,
                                       button:
-                                        build(:share_button, sp_id: 2, sp_type: 'facebook'))]
+                                        build(:share_button, sp_id: 2, share_type: 'facebook'))]
         assign :local_variations, []
         expect { render template: 'pages/edit' }.not_to raise_error
       end

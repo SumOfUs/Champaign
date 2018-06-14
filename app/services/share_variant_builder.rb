@@ -21,7 +21,7 @@ class ShareVariantBuilder
       if button.share_progress?
         sp_button = ShareProgress::Button.new(id: button.sp_id,
                                               page_url: url,
-                                              button_template: "sp_#{variant_initials(button.sp_type)}_large")
+                                              button_template: "sp_#{variant_initials(button.share_type)}_large")
         return unless sp_button.save
       end
       button.update(url: url)
@@ -48,7 +48,7 @@ class ShareVariantBuilder
     @variant = variant_class.find(@id)
     @variant.assign_attributes(@params)
     return @variant if @variant.changed.empty? || @variant.invalid?
-    @button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
+    @button = Share::Button.find_by(share_type: @variant_type, page_id: @page.id)
     update_and_return
   end
 
@@ -56,14 +56,14 @@ class ShareVariantBuilder
     @variant = variant_class.new(@params)
     @variant.page = @page
     return @variant unless @variant.valid?
-    @button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
+    @button = Share::Button.find_or_initialize_by(share_type: @variant_type, page_id: @page.id)
     @variant.button = @button
     update_and_return
   end
 
   def destroy
     @variant = variant_class.find(@id)
-    @button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
+    @button = Share::Button.find_by(share_type: @variant_type, page_id: @page.id)
 
     if @variant.share_progress?
       sp_button = ShareProgress::Button.new(share_progress_button_params(@variant, @button))
@@ -96,7 +96,7 @@ class ShareVariantBuilder
     case @variant_type
     when :whatsapp
       @button.update(
-        sp_button_html: '<a class="whatsapp_large" href="https://api.whatsapp.com'\
+        share_button_html: '<a class="whatsapp_large" href="https://api.whatsapp.com'\
         "/send?text=#{ERB::Util.url_encode(@variant.text)}\"></a>",
         url: @url
       )
@@ -106,7 +106,7 @@ class ShareVariantBuilder
   def update_sp_resources
     sp_button = ShareProgress::Button.new(share_progress_button_params(@variant, @button))
     if sp_button.save
-      @button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html, url: sp_button.page_url)
+      @button.update(sp_id: sp_button.id, share_button_html: sp_button.share_button_html, url: sp_button.page_url)
       @variant.update(sp_id: sp_button.variants[@variant_type].last[:id])
     else
       add_sp_errors_to_variant(sp_button, @variant)
