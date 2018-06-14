@@ -158,10 +158,10 @@ module PagesHelper
 
   def share_url(button)
     if button.share_progress?
-      "http://sumof.us/99/#{button.sp_id}/#{button.sp_type}"
+      "http://sumof.us/99/#{button.sp_id}/#{button.share_type}"
     else
-      # Extracts the share URL out of the sp_button_html field, which contains the markup for the button.
-      URI.extract(button.sp_button_html).first
+      # Extracts the share URL out of the share_button_html field, which contains the markup for the button.
+      URI.extract(button.share_button_html).first
     end
   end
 

@@ -91,7 +91,7 @@ describe ShareVariantBuilder do
 
         button = Share::Button.first
         expect(button.sp_id).to eq('1')
-        expect(button.sp_button_html).to eq('<div />')
+        expect(button.share_button_html).to eq('<div />')
         expect(button.url).to eq 'http://example.com/foo'
       end
 
@@ -176,7 +176,7 @@ describe ShareVariantBuilder do
 
   describe '.update' do
     let!(:share) { create(:share_facebook, title: 'Foo') }
-    let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 23) }
+    let!(:button) { create(:share_button, share_type: 'facebook', page: page, sp_id: 23) }
     let(:params) { { title: 'Bar' } }
 
     subject(:update_variant) do
@@ -242,7 +242,7 @@ describe ShareVariantBuilder do
     end
 
     describe 'success' do
-      let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 24) }
+      let!(:button) { create(:share_button, share_type: 'facebook', page: page, sp_id: 24) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: 24) }
       let(:params) { { title: 'Bar' } }
 
@@ -269,7 +269,7 @@ describe ShareVariantBuilder do
     end
 
     describe 'failure' do
-      let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: nil) }
+      let!(:button) { create(:share_button, share_type: 'facebook', page: page, sp_id: nil) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: nil) }
       let(:params) { { title: 'Bar' } }
 

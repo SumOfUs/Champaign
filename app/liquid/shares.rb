@@ -9,23 +9,23 @@ module Shares
     def get_all(page)
       buttons_with_variants(page).inject({}) do |shares, button|
         view_params = {
-          css_class: class_from_html(button.sp_button_html)
+          css_class: class_from_html(button.share_button_html)
         }
         unless button.share_progress?
-          variant = select_share_variant(button.sp_type, page)
+          variant = select_share_variant(button.share_type, page)
           view_params[:variant_id] = variant.id
           # Prepend the desired query parameters (uri encoded) into the url we want to share
           url = button.url << ERB::Util.url_encode("?src=whatsapp&variant_id=#{variant.id}")
-          view_params[:link_html] = button.sp_button_html.gsub('%7BLINK%7D', url)
+          view_params[:link_html] = button.share_button_html.gsub('%7BLINK%7D', url)
         end
-        shares[button.sp_type] = view_params
+        shares[button.share_type] = view_params
         shares
       end
     end
 
     def get_all_html(page)
       buttons_with_variants(page).inject({}) do |shares, button|
-        shares[button.sp_type] = button.sp_button_html.html_safe unless button.sp_button_html.blank?
+        shares[button.share_type] = button.share_button_html.html_safe unless button.share_button_html.blank?
         shares
       end
     end
