@@ -314,7 +314,9 @@ const ActionForm = Backbone.View.extend({
   },
 
   handleSuccess(e, data) {
-    data.petitionForm = this.formValues();
+    // FIXME: we should return consistently from the backend
+    // FIXME: we should not rely on mutating function arguments of unkown type
+    if (typeof data === 'object') data.petitionForm = this.formValues();
     Backbone.trigger('form:submitted', e, data);
   },
 

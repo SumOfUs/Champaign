@@ -123,7 +123,9 @@ declare module 'champaign-i18n' {
   declare type I18nDict = { [key: string]: I18nDictValue };
   declare type I18nDictValue = I18nDict | string;
   declare type I18nFlatDict = { [string]: string };
+  declare var locale: string;
   declare var translations: {
     [lang: string]: I18nDict,
   };
+  declare function t(string): string;
 }
