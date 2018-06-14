@@ -1,47 +1,165 @@
 {% if plugins.fundraiser[ref].active %}
-  <div class="overlay-toggle">
-    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
+  <div class="fundraiser-bar sidebar {{ extra_class }} {% if freestanding %} fundraiser-bar--freestanding {% endif %}">
+    <div class="{% unless freestanding %}overlay-toggle__mobile-view overlay-toggle__mobile-view--closed{% endunless %}">
       <div class="fundraiser-bar__content">
-        <div id="fundraiser-component" class="fundraiser-bar {{ extra_class }} {% if freestanding %} fundraiser-bar--freestanding {% else %} sidebar stuck-right {% endif %}"></div>
+        <div class="fundraiser-bar__top script-dependent__for-height hidden-closed">
+          <div class="overlay-toggle__mobile-ui">
+            <a class="overlay-toggle__close-button">&#x2715;</a>
+          </div>
+          <h2>
+          {% if fundraiser_title %}
+            {{ fundraiser_title }}
+          {% else %}
+            {{ plugins.fundraiser[ref].title }}
+          {% endif %}
+          </h2>
+          <div class="fundraiser-bar__steps script-dependent">
+            <hr class="fundraiser-bar__step-connector" />
+            <div class="fundraiser-bar__step-label" data-step="1">
+              <div class="fundraiser-bar__step-number fundraiser-bar__step-number--past">1</div>
+              <div class="fundraiser-bar__step-name fundraiser-bar__step-name--past fundraiser-bar__display-amount">
+                {{ 'fundraiser.amount' | t }}
+              </div>
+            </div>
+            <div class="fundraiser-bar__step-label" data-step="2">
+              <div class="fundraiser-bar__step-number fundraiser-bar__step-number--current" data-step="2">2</div>
+              <div class="fundraiser-bar__step-name fundraiser-bar__step-name--current">
+                {{ 'fundraiser.details' | t }}
+              </div>
+            </div>
+            <div class="fundraiser-bar__step-label" data-step="3">
+              <div class="fundraiser-bar__step-number fundraiser-bar__step-number--upcoming" data-step="3">3</div>
+              <div class="fundraiser-bar__step-name fundraiser-bar__step-name--upcoming">
+                {{ 'fundraiser.payment' | t }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fundraiser-bar__main form--big">
+          {% include 'No Script' %}
+          <div class="fundraiser-bar__errors hidden-closed">
+            <span class="fa fa-exclamation-triangle"></span>
+            <div class="fundraiser-bar__error-intro">
+              {{ 'fundraiser.error_intro' | t }}
+            </div>
+          </div>
+          <div class="fundraiser-bar__step-panel script-dependent hidden-closed" data-step="1">
+            <div class="fundraiser-bar__amount-buttons">
+            </div>
+            <input class="fundraiser-bar__custom-field" placeholder="{{ 'fundraiser.other_amount' | t }}" />
+            <div class="fundraiser-bar__switch-currency">
+              <span class="fundraiser-bar__current-currency">{{ 'fundraiser.currency_in, currency: USD' | t }}</span>.
+              <a class="fundraiser-bar__engage-currency-switcher">{{ 'fundraiser.switch_currency' | t }}.</a>
+              <select class="fundraiser-bar__currency-selector" style="display: none;"></select>
+            </div>
+            <button class="fundraiser-bar__first-continue button" style="display:none;">
+              {{ 'fundraiser.proceed_to_details' | t }}
+            </button>
+          </div>
+          <div class="fundraiser-bar__step-panel script-dependent hidden-closed" data-step="2">
+            {% capture cta %}{{ 'fundraiser.proceed_to_payment' | t }}{% endcapture %}
+            {% include 'Form',
+              cta: cta,
+              form_id: plugins.fundraiser[ref].form_id,
+              form_url_postscript: '/validate',
+              outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
+              fields: plugins.fundraiser[ref].fields %}
+            <div class="fundraiser-bar__fine-print">
+              {{ 'petition.fine_print' | t }}
+            </div>
+          </div>
+          <div class="fundraiser-bar__step-panel form--big script-dependent hosted-fields-view hidden-closed" data-step="3">
+            <div class="action-form__welcome-text hidden-irrelevant">
+              <i class="fa fa-check-square-o fundraiser-bar__user-icon"></i>
+              <span class="action-form__welcome-name"></span> <br />
+              <a href="javascript:;" class=" action-form__clear-form">{{ 'form.switch_user' | t }}</a>
+            </div>
+            <div class="fundraiser-bar__fields-loading">
+              <i class="fa fa-spin fa-cog"></i>
+              {{ 'fundraiser.loading' | t }}
+            </div>
+            <form action='/' id="hosted-fields" class="hidden-closed">
+              <div class="form__group hosted-fields__direct-debit-container hosted-fields__button-container">
+                <div class="hosted-fields__direct-debit">
+                  <i class="hosted-fields__direct-debit-logo"></i>
+                  {{ 'fundraiser.debit.direct_debit' | t }}
+                </div>
+                <div class="hosted-fields__or hosted-fields__or--bottom">{{ 'basics.or' | t }}</div>
+              </div>
+              <div class="form__group">
+                <div id="hosted-fields__paypal" class="hosted-fields__button-container"></div>
+              </div>
+              <div class="hosted-fields__credit-card-fields">
+                <div class="hosted-fields__or hosted-fields__or--top">{{ 'basics.or' | t }}</div>
+                <div class="form__group">
+                  <div class="hosted-fields__host hosted-fields__number"></div>
+                  <span class="hosted-fields__card-type fa hidden-irrelevant"></span>
+                </div>
+                <div class="form__group form__group--half-width form__group--half-width--left">
+                  <div class="hosted-fields__host hosted-fields__cvv"></div>
+                </div>
+                <div class="form__group form__group--half-width">
+                  <div class="hosted-fields__host hosted-fields__expiration"></div>
+                </div>
+                <div class="form__group">
+                  <hr class="fundraiser-bar__step-connector fundraiser-bar__step-connector--static" />
+                </div>
+              </div>
+              <div class="form__group">
+                <label class="checkbox-label">
+                  <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" />
+                  {{ 'fundraiser.make_recurring' | t }}
+                </label>
+                <label class="checkbox-label">
+                  <input class="fundraiser-bar__store-in-vault" type="checkbox" name="store_in_vault" checked="checked" />
+                  {{ 'fundraiser.store_in_vault' | t }}
+                </label>
+              </div>
+              <button type="submit" class="button fundraiser-bar__submit-button">{{ 'form.submit' | t }}</button>
+            </form>
+            <div class="action-form__one-click">
+              {% include 'Oneclick Form' %}
+            </div>
+            <div class="fundraiser-bar__fine-print">
+              {{ 'fundraiser.fine_print' | t }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var chmp = window.champaign; // convenience binding
+        chmp.myActionForm  = new chmp.ActionForm({
+          member:            chmp.personalization.member,
+          outstandingFields: chmp.personalization.outstandingFields,
+          location:          chmp.personalization.location,
+          akid:              chmp.personalization.urlParams.akid,
+          referring_akid:    chmp.personalization.urlParams.referring_akid,
+          rid:               chmp.personalization.urlParams.rid,
+          source:            chmp.personalization.urlParams.source,
+          referrer_id:       chmp.personalization.urlParams.referrer_id,
+          bucket:            chmp.personalization.urlParams.bucket,
+          prefill:           true
+        });
+        chmp.myFundraiser = new chmp.Fundraiser({
+          pageId:           "{{ id }}",
+          member:           chmp.personalization.member,
+          showDirectDebit:  chmp.personalization.showDirectDebit,
+          currency:         chmp.personalization.urlParams.currency || chmp.personalization.location.currency,
+          donationBands:    chmp.personalization.donationBands,
+          amount:           chmp.personalization.urlParams.amount,
+          recurringDefault: chmp.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+          paymentMethods:   chmp.personalization.paymentMethods
+        });
+        {% unless freestanding %}
+          chmp.mySidebar     = new chmp.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
+        {% endunless %}
+        chmp.hostedFields  = new chmp.BraintreeHostedFields();
+        chmp.overlayToggle = new chmp.OverlayToggle();
+      });
+    </script>
   </div>
 
-  <script type="text/javascript">
-    $(function() {
-      var global = window.champaign.personalization;
-      var data = {
-        el: 'fundraiser-component',
-        paymentMethods: global.paymentMethods,
-        member: global.member,
-        locale: '{{locale}}',
-        fundraiser: {
-          pageId: "{{ id }}",
-          currency: global.urlParams.currency || global.location.currency,
-          donationBands: global.donationBands,
-          showDirectDebit: global.showDirectDebit,
-          formValues: global.formValues,
-          formId: "{{ plugins.fundraiser[ref].form_id }}",
-          outstandingFields: global.outstandingFields,
-        {% if fundraiser_title %}
-          title: "{{ fundraiser_title }}",
-        {% else %}
-          title: "{{ plugins.fundraiser[ref].title }}",
-        {% endif %}
-          preselectAmount: {{ plugins.fundraiser[ref].preselect_amount }},
-          fields: {{ plugins.fundraiser[ref].fields | jsonify }},
-          recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
-          freestanding: {% if freestanding %} true {% else %} false {% endif %}
-        }
-      };
-      window.setTimeout(function(){
-        champaign.overlayToggle = new champaign.OverlayToggle();
-      {% unless freestanding %}
-        champaign.mySidebar = new champaign.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
-      {% endunless %}
-      }, 100);
-
-      mountFundraiser('fundraiser-component', data);
-    })
-  </script>
 {% endif %}
