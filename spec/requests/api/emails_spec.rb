@@ -42,7 +42,7 @@ describe 'Emails', type: :request do
             item: {
               MailingId: /foo-bar:\d*/,
               UserId: 'john@email.com',
-              Body: '<p>Lorem ipsum</p>',
+              Body: 'Lorem ipsum',
               Subject: 'A Subject',
               ToEmails: ["#{target.name} <#{target.email}>"],
               FromName: 'John Doe',
