@@ -20,7 +20,7 @@ class EmailSender
       item: {
         MailingId: "#{opts[:id]}:#{Time.now.to_i}",
         UserId: opts[:from_email],
-        Body: simple_format(opts[:body]),
+        Body: opts[:body],
         Subject: opts[:subject],
         ToEmails: format_emails_list(opts[:to]),
         FromName: opts[:from_name],

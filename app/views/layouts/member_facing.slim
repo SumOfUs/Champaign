@@ -36,6 +36,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
 
+    javascript:
+      window.$ = window.jQuery;
+
     = yield
 
     = render partial: 'shared/google_analytics_snippet'

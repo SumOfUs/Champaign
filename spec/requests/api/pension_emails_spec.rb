@@ -43,7 +43,7 @@ describe 'Pension Emails', type: :request do
         item: {
           MailingId: /foo-bar:\d*/,
           UserId: registered_email.email,
-          Body: '<p>Body text</p>',
+          Body: 'Body text',
           Subject: 'Subject',
           ToEmails: ['Target name <recipient@example.com>'],
           FromName: "Sender's Name",
