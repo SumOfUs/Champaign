@@ -51,7 +51,6 @@ const initializeApp = () => {
     store,
   });
 };
-
 $(document).ready(initializeCookieConsent);
 
 initializeApp();
