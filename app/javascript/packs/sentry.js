@@ -1,5 +1,4 @@
 import Raven from 'raven-js';
-import $ from 'jquery';
 
 Raven.config(process.env.SENTRY_DSN, {
   release: process.env.CIRCLE_SHA1,
