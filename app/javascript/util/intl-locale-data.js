@@ -8,8 +8,6 @@ if (!window.Intl) {
     require('intl/locale-data/jsonp/fr');
   });
 } else {
-  console.log('adding locale data');
-
   addLocaleData([
     ...require('react-intl/locale-data/en'),
     ...require('react-intl/locale-data/de'),
