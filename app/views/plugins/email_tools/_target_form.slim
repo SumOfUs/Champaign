@@ -49,7 +49,7 @@ javascript:
     = form_tag targets_plugins_email_tool_path(plugin), remote: true, data: {type: 'html'}, method: :post, id: 'targets-by-text-form' do
       = label_tag_with_tooltip :targets_csv_text, 'CSV Text', t('plugins.email_tool.tooltips.targets_csv_text')
       = text_area_tag "plugins_email_tool[targets_csv_text]",
-          @targets_csv_text || TargetsCSVFormatter.run(plugin.targets),
+          @targets_csv_text || CSVFormatter.run(plugin.targets),
           placeholder: "email, name\nmember@gmail.com, John Doe",
           class: 'form-control height-short'
       = submit_tag "Update targets", class: 'btn btn-default'

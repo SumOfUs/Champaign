@@ -53,6 +53,7 @@ class Target
       fields[key.to_sym]
     end
   end
+  alias [] get
 
   private
 
