@@ -1,14 +1,15 @@
 import Raven from 'raven-js';
-import $ from 'jquery';
 
-Raven.config(process.env.SENTRY_DSN, {
-  release: process.env.CIRCLE_SHA1,
-  environment: process.env.SENTRY_ENVIRONMENT || 'development',
-  dataCallback: data => {
-    addReduxState(data);
-    return data;
-  },
-}).install();
+function addUserData(data) {
+  if (!window.champaign) return;
+  if (!window.champaign.personalization) return;
+  const { location, member } = window.champaign.personalization;
+  data.user = {
+    id: member ? member.id : undefined,
+    username: member ? member.name : undefined,
+    ip: location ? location.ip : undefined,
+  };
+}
 
 function addReduxState(data) {
   if (window.champaign && window.champaign.store) {
@@ -18,3 +19,13 @@ function addReduxState(data) {
     };
   }
 }
+
+Raven.config(process.env.SENTRY_DSN, {
+  release: process.env.CIRCLE_SHA1,
+  environment: process.env.SENTRY_ENVIRONMENT || 'development',
+  dataCallback: data => {
+    addUserData(data);
+    addReduxState(data);
+    return data;
+  },
+}).install();
