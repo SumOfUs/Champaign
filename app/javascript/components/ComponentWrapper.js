@@ -1,7 +1,10 @@
 /* @flow */
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, addLocaleData } from 'react-intl';
+import enLocaleData from 'react-intl/locale-data/en';
+import deLocaleData from 'react-intl/locale-data/de';
+import frLocaleData from 'react-intl/locale-data/fr';
 import loadTranslations from '../util/TranslationsLoader';
 
 function WrapInStore({ store, children }) {
@@ -47,3 +50,5 @@ export default class ComponentWrapper extends Component {
     );
   }
 }
+
+addLocaleData([...enLocaleData, ...deLocaleData, ...frLocaleData]);
