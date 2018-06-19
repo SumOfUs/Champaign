@@ -1,4 +1,5 @@
 import setupOnce from './setup_once';
+import ee from '../shared/pub_sub';
 
 $(function() {
   let ActivationToggle = Backbone.View.extend({
@@ -57,7 +58,7 @@ $(function() {
     },
   });
 
-  $.subscribe('activation:toggle', function() {
+  ee.on('activation:toggle', function() {
     setupOnce('form.activation-toggle', ActivationToggle);
   });
 });

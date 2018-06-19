@@ -1,4 +1,6 @@
 import { logEvent } from './../packs/log_event';
+import ee from '../shared/pub_sub';
+
 [
   'page:arrived',
   'form:update',
@@ -8,9 +10,9 @@ import { logEvent } from './../packs/log_event';
   'fundraiser:transaction_submitted',
 ].forEach(eventName => {
   const callback = (e, ...rest) => logEvent(eventName, ...rest);
-  $.subscribe(eventName, callback);
+  ee.on(eventName, callback);
 });
 
 $(() => {
-  $.publish('page:arrived');
+  ee.emit('page:arrived');
 });

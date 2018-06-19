@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import ee from '../shared/pub_sub';
 import setupOnce from './setup_once';
 
 const Sidebar = Backbone.View.extend({
@@ -12,6 +12,6 @@ const Sidebar = Backbone.View.extend({
   },
 });
 
-$.subscribe('sidebar:nesting', function() {
+ee.on('sidebar:nesting', function() {
   setupOnce('.sidebar', Sidebar);
 });

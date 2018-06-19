@@ -1,11 +1,11 @@
 // @flow
 import React, { Component } from 'react';
-import $ from 'jquery';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client';
 import dataCollector from 'braintree-web/data-collector';
 import { isEmpty } from 'lodash';
+import ee from '../../shared/pub_sub';
 
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
@@ -127,7 +127,7 @@ export class Payment extends Component {
   }
 
   componentDidUpdate() {
-    $.publish('sidebar:height_change');
+    ee.emit('sidebar:height_change');
   }
 
   selectPaymentType(paymentType: PaymentType) {
@@ -219,7 +219,7 @@ export class Payment extends Component {
     if (typeof event.data === 'object') {
       if (event.data.event === 'follow_up:loaded') {
         event.source.close();
-        $.publish('direct_debit:donated');
+        ee.emit('direct_debit:donated');
         this.onSuccess({});
       } else if (event.data.event === 'donation:error') {
         const messages = event.data.errors.map(({ message }) => message);
@@ -265,7 +265,7 @@ export class Payment extends Component {
       window.fbq('track', 'AddPaymentInfo', eventPayload);
     }
 
-    $.publish('fundraiser:transaction_submitted', [
+    ee.emit('fundraiser:transaction_submitted', [
       eventPayload,
       this.props.formData,
     ]);
@@ -288,12 +288,12 @@ export class Payment extends Component {
           : 'not_recurring',
       });
     }
-    $.publish('fundraiser:transaction_success', [data, this.props.formData]);
+    ee.emit('fundraiser:transaction_success', [data, this.props.formData]);
     this.setState({ errors: [] });
   }
 
   onError(reason: any) {
-    $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
+    ee.emit('fundraiser:transaction_error', [reason, this.props.formData]);
     this.props.setSubmitting(false);
   }
 
