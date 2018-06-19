@@ -1,13 +1,14 @@
-import Backbone from "backbone";
+// @flow
+import Backbone from 'backbone';
 
 const Notification = Backbone.View.extend({
   OPEN_AFTER: 0.5, // seconds
   CLOSE_AFTER: 20, // seconds
 
-  el: ".notification",
+  el: '.notification',
 
   events: {
-    "click .notification__close": "disappear"
+    'click .notification__close': 'disappear',
   },
 
   initialize() {
@@ -16,12 +17,12 @@ const Notification = Backbone.View.extend({
   },
 
   disappear() {
-    this.$el.addClass("notification--hidden");
+    this.$el.addClass('notification--hidden');
   },
 
   appear() {
-    this.$el.removeClass("notification--hidden");
-  }
+    this.$el.removeClass('notification--hidden');
+  },
 });
 
 export default Notification;

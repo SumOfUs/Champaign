@@ -43,3 +43,4 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render partial: 'shared/google_analytics_snippet'
     = javascript_pack_tag 'event_tracking'
     script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"
+    = stylesheet_pack_tag "globals"

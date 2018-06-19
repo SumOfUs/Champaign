@@ -1,10 +1,13 @@
 import ErrorDisplay from '../shared/show_errors';
+import $ from 'jquery';
 
 $(function() {
   var handleStart = function(e, i) {
     var button = $(e.target).find('.xhr-feedback');
 
-    $(e.target).find('.xhr-feedback-saving').remove();
+    $(e.target)
+      .find('.xhr-feedback-saving')
+      .remove();
 
     button.prop('disabled', true);
 

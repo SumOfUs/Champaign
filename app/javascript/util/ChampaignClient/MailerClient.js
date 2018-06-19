@@ -1,4 +1,5 @@
 // @flow
+import $ from 'jquery';
 import { parseResponse } from './Base';
 import type { OperationResponse } from './Base';
 

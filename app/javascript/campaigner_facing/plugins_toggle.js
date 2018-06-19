@@ -1,3 +1,6 @@
+// @flow
+import $ from 'jquery';
+import Backbone from 'backbone';
 import setupOnce from './setup_once';
 import ee from '../shared/pub_sub';
 
