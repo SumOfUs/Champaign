@@ -3,5 +3,5 @@
 
 javascript:
   $(function () {
-    $.publish("wysiwyg:setup", "#{id}");
+    event.emit("wysiwyg:setup", "#{id}");
   });

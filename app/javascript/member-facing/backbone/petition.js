@@ -1,7 +1,9 @@
-import $ from 'jquery';
+// @flow
 import Backbone from 'backbone';
+import ee from '../../shared/pub_sub';
 import GlobalEvents from '../../shared/global_events';
 import FacebookShareView from './facebook_share_view';
+import I18n from 'champaign-i18n';
 
 const Petition = Backbone.View.extend({
   el: '.petition-bar',
@@ -33,7 +35,7 @@ const Petition = Backbone.View.extend({
   },
 
   handleSuccess(e, data) {
-    $.publish('petition:submitted');
+    ee.emit('petition:submitted');
     if (this.skipOnSuccessAction) {
       return;
     }

@@ -1,8 +1,8 @@
-import $ from 'jquery';
+import ee from '../shared/pub_sub';
 
 const TALL_EDITORS = ['page_body'];
 
-function configureWysiwyg(e, id) {
+function configureWysiwyg(id) {
   const $editor = $('#' + id);
   if ($editor.length === 0) {
     return false;
@@ -42,9 +42,14 @@ function configureWysiwyg(e, id) {
     }
     const $html = $(html);
     // addClass is idempotent so we just call it every time we save
-    $html.find('iframe').parent().addClass('iframe-responsive-container');
+    $html
+      .find('iframe')
+      .parent()
+      .addClass('iframe-responsive-container');
     // this little goof is just cause jquery doesn't have $el.outerHtml();
-    return $('<div></div>').append($html).html();
+    return $('<div></div>')
+      .append($html)
+      .html();
   };
 
   const updateContentBeforeSave = function() {
@@ -52,7 +57,7 @@ function configureWysiwyg(e, id) {
     $contentField.val(content);
   };
 
-  $.subscribe('wysiwyg:submit', updateContentBeforeSave);
+  ee.on('wysiwyg:submit', updateContentBeforeSave);
 }
 
-$.subscribe('wysiwyg:setup', configureWysiwyg);
+ee.on('wysiwyg:setup', configureWysiwyg);

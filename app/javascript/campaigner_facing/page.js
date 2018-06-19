@@ -1,6 +1,6 @@
 'use strict';
-import $ from 'jquery';
 import { Model, View } from 'backbone';
+import ee from '../shared/pub_sub';
 
 const slugChecker = Model.extend({
   url: '/action_kit/check_slug',
@@ -137,4 +137,4 @@ const initialize = () => {
   new slugView();
 };
 
-$.subscribe('pages:new', initialize);
+ee.on('pages:new', initialize);

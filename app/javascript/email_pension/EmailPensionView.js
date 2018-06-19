@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { isEmpty, find, template, merge, each, pick } from 'lodash';
-import $ from 'jquery';
+
 import { connect } from 'react-redux';
 import Select from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';

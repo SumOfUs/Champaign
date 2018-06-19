@@ -1,19 +1,10 @@
-import $ from 'jquery';
+// @flow
 
-const setupPubSub = function($) {
-  const o = $({});
+import EventEmitter from 'eventemitter3';
 
-  $.subscribe = function() {
-    o.on.apply(o, arguments);
-  };
+let event = window.event;
+if (!event) {
+  event = new EventEmitter();
+}
 
-  $.unsubscribe = function() {
-    o.off.apply(o, arguments);
-  };
-
-  $.publish = function() {
-    o.trigger.apply(o, arguments);
-  };
-};
-
-setupPubSub($);
+export default event;

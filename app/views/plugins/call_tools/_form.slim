@@ -34,10 +34,10 @@
 
 javascript:
   $(function () {
-    $.publish("collection:edit:loaded");
-    $.publish("plugin:form:loaded")
-    $.publish("wysiwyg:setup", "call-tool-wysiwyg");
+    event.emit("collection:edit:loaded");
+    event.emit("plugin:form:loaded")
+    event.emit("wysiwyg:setup", "call-tool-wysiwyg");
     $('.call-tool form.one-form').on('ajax:before', function(){
-      $.publish('wysiwyg:submit')
+      event.emit('wysiwyg:submit')
     });
   })

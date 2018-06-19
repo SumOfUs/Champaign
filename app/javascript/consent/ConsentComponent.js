@@ -1,10 +1,10 @@
 // @flow
-import $ from 'jquery';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import classnames from 'classnames';
 import { ConsentControls } from './ConsentControls';
+import ee from '../shared/pub_sub';
 import { changeConsent } from '../state/consent';
 import type { AppState } from '../state/reducers';
 import './ConsentComponent.css';
@@ -40,7 +40,7 @@ class ConsentComponent extends PureComponent {
   }
 
   componentDidUpdate() {
-    $.publish('sidebar:height_change');
+    ee.emit('sidebar:height_change');
   }
 
   optOutWarning() {

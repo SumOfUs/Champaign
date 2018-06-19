@@ -50,7 +50,7 @@
 
 javascript:
   $(document).ready(function(){
-    $.publish('form:edit');
+    event.emit('form:edit');
     new window.FormElementCreator({el: '.#{klass}'});
     new window.ListEditor({el: '.#{klass}'});
     $('.reveal-default-value').on('click', function(e){

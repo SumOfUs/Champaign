@@ -12,7 +12,7 @@
 
 javascript:
   $(function() {
-    $.publish("pages:analytics");
+    event.emit("pages:analytics");
     Analytics.makeDashboard("#{@page.id}");
   });
 

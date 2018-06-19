@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import Backbone from 'backbone';
 import GlobalEvents from '../../shared/global_events';
 import {

@@ -1,9 +1,8 @@
-import $ from "jquery";
-import _ from "lodash";
-import Backbone from "backbone";
-import ErrorDisplay from "../../shared/show_errors";
-import GlobalEvents from "../../shared/global_events";
-import MobileCheck from "./mobile_check";
+import _ from 'lodash';
+import Backbone from 'backbone';
+import ErrorDisplay from '../../shared/show_errors';
+import GlobalEvents from '../../shared/global_events';
+import MobileCheck from './mobile_check';
 
 const Survey = Backbone.View.extend({
   el: '.survey',
@@ -11,10 +10,10 @@ const Survey = Backbone.View.extend({
   DEFAULT_SCROLL_OFFSET: 80,
 
   events: {
-    "click .survey__skip-button": "skipSection",
-    "ajax:success form.survey__form": "handleSuccess",
-    "ajax:error form.survey__form": "handleFailure",
-    "ajax:send form.survey__form": "handleSend"
+    'click .survey__skip-button': 'skipSection',
+    'ajax:success form.survey__form': 'handleSuccess',
+    'ajax:error form.survey__form': 'handleFailure',
+    'ajax:send form.survey__form': 'handleSend',
   },
 
   // options: object with any of the following keys
@@ -29,11 +28,11 @@ const Survey = Backbone.View.extend({
   //    scrollOffset: the gap to leave between the top of the browser
   //      window and the start of a form when scrolling down. default is 80
   initialize(options = {}) {
-    const hasScrollOffset = options.hasOwnProperty("scrollOffset");
+    const hasScrollOffset = options.hasOwnProperty('scrollOffset');
     this.scrollOffset = hasScrollOffset
       ? options.scrollOffset
       : this.DEFAULT_SCROLL_OFFSET;
-    this.$forms = this.$(".survey__form");
+    this.$forms = this.$('.survey__form');
     this.insertHiddenFields(options);
     this.prefill(options.prefill);
     this.revealFirstForm();
@@ -46,12 +45,14 @@ const Survey = Backbone.View.extend({
   },
 
   revealFirstForm() {
-    this.$(".survey__form").first().removeClass("hidden-closed");
+    this.$('.survey__form')
+      .first()
+      .removeClass('hidden-closed');
   },
 
   selectizeDropdowns() {
     this.$(
-      ".action-form__country-selector, .survey-form__dropdown"
+      '.action-form__country-selector, .survey-form__dropdown'
     ).selectize();
   },
 
@@ -61,14 +62,14 @@ const Survey = Backbone.View.extend({
     if (!_.isObject(prefillValues)) {
       return;
     }
-    this.$(".survey__form input, select").each((ii, field) => {
+    this.$('.survey__form input, select').each((ii, field) => {
       const $field = $(field);
-      const name = $field.prop("name");
+      const name = $field.prop('name');
       if (prefillValues.hasOwnProperty(name)) {
         const radioOrCheck =
-          $field.prop("type") === "radio" || $field.prop("type") === "checkbox";
+          $field.prop('type') === 'radio' || $field.prop('type') === 'checkbox';
         if (radioOrCheck && $field.val() == prefillValues[name]) {
-          $field.prop("checked", "checked");
+          $field.prop('checked', 'checked');
         } else {
           $field.val(prefillValues[name]);
         }
@@ -83,10 +84,10 @@ const Survey = Backbone.View.extend({
     const $form = this.$forms.first();
     const serialized = $form.serialize();
     const noneEmpty =
-      serialized.indexOf("=&") === -1 && serialized.slice(-1) !== "=";
-    const allPresent = _.every($form.find("input, select"), el => {
-      if (this.$(el).prop("type") === "hidden") return true;
-      const name = this.$(el).prop("name");
+      serialized.indexOf('=&') === -1 && serialized.slice(-1) !== '=';
+    const allPresent = _.every($form.find('input, select'), el => {
+      if (this.$(el).prop('type') === 'hidden') return true;
+      const name = this.$(el).prop('name');
       const outputIncludesName =
         serialized.indexOf(`&${name}=`) !== -1 ||
         serialized.indexOf(`${name}=`) === -0;
@@ -105,11 +106,11 @@ const Survey = Backbone.View.extend({
   },
 
   insertHiddenInput(name, value, element) {
-    $("<input>")
+    $('<input>')
       .attr({
-        type: "hidden",
+        type: 'hidden',
         name: name,
-        value: value
+        value: value,
       })
       .appendTo(element);
   },
@@ -134,11 +135,11 @@ const Survey = Backbone.View.extend({
   // we assume all sections are skippable, since required sections should
   // not have a visible skip button
   skipSection(e) {
-    this.followForm(this.$(e.target).parents(".survey__form"));
+    this.followForm(this.$(e.target).parents('.survey__form'));
   },
 
   followForm($form) {
-    const $nextForm = $form.next(".survey__form");
+    const $nextForm = $form.next('.survey__form');
     if ($nextForm.length) {
       this.revealForm($nextForm);
     } else {
@@ -147,16 +148,16 @@ const Survey = Backbone.View.extend({
   },
 
   revealForm($form) {
-    $form.removeClass("hidden-closed");
+    $form.removeClass('hidden-closed');
     const position = $form.offset().top - this.scrollOffset; // leave room for header
-    $("html, body").animate({ scrollTop: position }, 500);
+    $('html, body').animate({ scrollTop: position }, 500);
   },
 
   followUp() {
     if (this.followUpUrl) {
       this.redirectTo(this.followUpUrl);
     } else {
-      window.alert("Thanks for completing our survey!");
+      window.alert('Thanks for completing our survey!');
     }
   },
 
@@ -165,25 +166,29 @@ const Survey = Backbone.View.extend({
   },
 
   disableButton(e) {
-    this.$(e.target).find(".survey__button").each((ii, el) => {
-      const $btn = this.$(el);
-      if ($btn.data("enabled-text") === undefined) {
-        $btn.data("enabled-text", $btn.text());
-      }
-      if (!$btn.hasClass("survey__skip-button")) {
-        $btn.text(I18n.t("form.processing"));
-      }
-      $btn.addClass("button--disabled");
-    });
+    this.$(e.target)
+      .find('.survey__button')
+      .each((ii, el) => {
+        const $btn = this.$(el);
+        if ($btn.data('enabled-text') === undefined) {
+          $btn.data('enabled-text', $btn.text());
+        }
+        if (!$btn.hasClass('survey__skip-button')) {
+          $btn.text(I18n.t('form.processing'));
+        }
+        $btn.addClass('button--disabled');
+      });
   },
 
   enableButton(e) {
-    this.$(e.target).find(".survey__button").each((ii, el) => {
-      const $btn = this.$(el);
-      $btn.text($btn.data("enabled-text"));
-      $btn.removeClass("button--disabled");
-    });
-  }
+    this.$(e.target)
+      .find('.survey__button')
+      .each((ii, el) => {
+        const $btn = this.$(el);
+        $btn.text($btn.data('enabled-text'));
+        $btn.removeClass('button--disabled');
+      });
+  },
 });
 
 export default Survey;
