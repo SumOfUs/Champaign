@@ -1,3 +1,5 @@
+// @flow
+import $ from 'jquery';
 import ee from '../shared/pub_sub';
 
 const TALL_EDITORS = ['page_body'];

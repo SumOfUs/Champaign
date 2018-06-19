@@ -1,3 +1,6 @@
+// @flow
+import $ from 'jquery';
+import I18n from 'champaign-i18n';
 import Backbone from 'backbone';
 import GlobalEvents from '../../shared/global_events';
 import {

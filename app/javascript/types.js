@@ -121,5 +121,5 @@ declare module 'champaign-i18n' {
   declare var translations: {
     [lang: string]: I18nDict,
   };
-  declare function t(string): string;
+  declare function t(string, options?: { [string]: string }): string;
 }

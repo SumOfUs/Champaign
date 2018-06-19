@@ -1,3 +1,5 @@
+// @flow
+import $ from 'jquery';
 import ee from '../shared/pub_sub';
 
 $(function() {
@@ -32,8 +34,8 @@ $(function() {
     const updater = function(plugin_type) {
       return function(ii, el) {
         const $el = $(el);
-        (plugin_id = $el.data('plugin-id')),
-          (url = ['/plugins/forms/', plugin_type, '/', plugin_id].join(''));
+        const plugin_id = $el.data('plugin-id');
+        const url = ['/plugins/forms/', plugin_type, '/', plugin_id].join('');
 
         $.get(url, function(resp) {
           $el.find('.plugin-form-preview .content').html(resp);

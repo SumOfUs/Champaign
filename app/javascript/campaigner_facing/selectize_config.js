@@ -1,10 +1,15 @@
+// @flow
+import $ from 'jquery';
+
 $(function() {
+  // $FlowIgnore
   $('.selectize-container').selectize({
     plugins: ['remove_button'],
     closeAfterSelect: true,
   });
 
   var lastVal;
+  // $FlowIgnore
   $('.selectize-container--clear-on-open').selectize({
     onDropdownOpen: function() {
       lastVal = this.getValue();

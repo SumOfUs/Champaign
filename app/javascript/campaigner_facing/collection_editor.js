@@ -7,6 +7,7 @@
 //
 //   Twitter's typeahead: http://twitter.github.io/typeahead.js/
 //   - Use for autocompleting for setting the field's name value
+import $ from 'jquery';
 import ee from '../shared/pub_sub';
 import setupOnce from './setup_once';
 import ErrorDisplay from '../shared/show_errors';

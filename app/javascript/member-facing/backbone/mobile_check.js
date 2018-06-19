@@ -1,3 +1,6 @@
+// @flow
+import $ from 'jquery';
+
 const MobileCheck = {
   el: '.mobile-indicator',
 

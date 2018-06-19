@@ -1,3 +1,5 @@
+// @flow
+import $ from 'jquery';
 import Backbone from 'backbone';
 
 const OverlayToggle = Backbone.View.extend({
