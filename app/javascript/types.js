@@ -13,12 +13,6 @@ declare var window: typeof window & {
   ) => void,
 };
 
-declare var $: typeof jQuery & {
-  subscribe: (eventName: string, callback: (...data: any) => void) => void,
-  unsubscribe: (eventName: string) => void,
-  publish: (eventName: string, data: any) => void,
-};
-
 declare type ChampaignMember =
   | {
       id: number,

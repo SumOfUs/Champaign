@@ -1,13 +1,10 @@
 import 'babel-polyfill';
 import 'whatwg-fetch';
 import 'cookieconsent';
-import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
 
-require('lodash');
-require('backbone');
 import URI from 'urijs';
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
@@ -50,6 +47,6 @@ const initializeApp = () => {
   });
 };
 
-$(document).ready(() => initializeCookieConsent());
+window.$(document).ready(initializeCookieConsent);
 
 initializeApp();

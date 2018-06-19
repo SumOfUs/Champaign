@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import $ from 'jquery';
+
 import { FormattedNumber, injectIntl } from 'react-intl';
 import classnames from 'classnames';
 import DonationBandButton from './DonationBandButton';

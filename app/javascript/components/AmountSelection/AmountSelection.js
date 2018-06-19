@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
 import Button from '../Button/Button';
-import $ from 'jquery';
+import ee from '../../shared/pub_sub';
+
 import CurrencyAmount from '../../components/CurrencyAmount';
 
 export type OwnProps = {
@@ -45,7 +46,7 @@ export default class AmountSelection extends Component {
   }
 
   componentDidUpdate() {
-    $.publish('sidebar:height_change');
+    ee.emit('sidebar:height_change');
   }
 
   toggleCurrencyDropdown() {
@@ -100,21 +101,25 @@ export default class AmountSelection extends Component {
             />
           </a>
         </p>
-        {this.state.currencyDropdownVisible &&
+        {this.state.currencyDropdownVisible && (
           <select
             value={this.props.currency}
             className="AmountSelection__currency-selector"
             onChange={(e: SyntheticInputEvent) =>
-              this.onSelectCurrency(e.target.value)}
+              this.onSelectCurrency(e.target.value)
+            }
           >
             {Object.keys(this.props.donationBands).map(currency => {
               return (
-                <option key={currency} value={currency}>{currency}</option>
+                <option key={currency} value={currency}>
+                  {currency}
+                </option>
               );
             })}
-          </select>}
+          </select>
+        )}
 
-        {(this.props.donationAmount || this.props.donationFeaturedAmount) &&
+        {(this.props.donationAmount || this.props.donationFeaturedAmount) && (
           <Button
             className="btn AmountSelection__proceed-button"
             onClick={() => this.proceed()}
@@ -122,13 +127,16 @@ export default class AmountSelection extends Component {
               !(this.props.donationAmount || this.props.donationFeaturedAmount)
             }
           >
-            {this.props.nextStepTitle
-              ? this.props.nextStepTitle
-              : <FormattedMessage
-                  id="fundraiser.proceed_to_details"
-                  defaultMessage="Proceed to details"
-                />}
-          </Button>}
+            {this.props.nextStepTitle ? (
+              this.props.nextStepTitle
+            ) : (
+              <FormattedMessage
+                id="fundraiser.proceed_to_details"
+                defaultMessage="Proceed to details"
+              />
+            )}
+          </Button>
+        )}
       </div>
     );
   }

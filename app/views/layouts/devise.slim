@@ -6,6 +6,7 @@ html
 
     = stylesheet_link_tag    "application", media: 'all'
     = javascript_pack_tag 'sentry'
+    = javascript_pack_tag 'globals'
     = javascript_include_tag "application"
 
     = csrf_meta_tags
@@ -14,4 +15,3 @@ html
     .photo-bg class="photo-#{rand(5)}"
     .centered-overlay
       = yield
-    = render 'cdn/jquery'
