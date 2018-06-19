@@ -1,3 +1,6 @@
+// @flow
+import $ from 'jquery';
+import I18n from 'champaign-i18n';
 import _ from 'lodash';
 import Backbone from 'backbone';
 import ErrorDisplay from '../../shared/show_errors';

@@ -1,3 +1,4 @@
+// @flow
 import 'babel-polyfill';
 import 'whatwg-fetch';
 import 'cookieconsent';
@@ -24,6 +25,7 @@ import initializeCookieConsent from '../member-facing/cookieConsent';
 window.URI = URI;
 
 if (process.env.EXTERNAL_ASSETS_JS_PATH) {
+  // $FlowIgnore
   require(process.env.EXTERNAL_ASSETS_JS_PATH);
 }
 

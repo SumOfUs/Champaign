@@ -1,16 +1,19 @@
+// @flow
+import $ from 'jquery';
 $(() => {
   let shared = false;
 
-  const handleShare = event => {
+  const handleShare = (event: JQueryEventObject) => {
     // SP triggers 'share' twice so need to block
     // a duplicate event from being posted to GA.
     if (shared) return;
 
+    // $FlowIgnore
     const share = event.originalEvent.share;
     shared = true;
 
-    if (share.share_type === 'f') {
-      ga(
+    if (share.share_type === 'f' && window.ga) {
+      window.ga(
         'send',
         'event',
         'fb:sign_share',

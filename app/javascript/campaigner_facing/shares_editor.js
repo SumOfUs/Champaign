@@ -1,6 +1,9 @@
-import ee from '../shared/pub_sub';
+// @flow
+import $ from 'jquery';
+import Backbone from 'backbone';
 import _ from 'lodash';
 import setupOnce from './setup_once';
+import ee from '../shared/pub_sub';
 import GlobalEvents from '../shared/global_events';
 import Clipboard from 'clipboard';
 
@@ -140,7 +143,11 @@ ee.on('shares:edit', function() {
 $(function() {
   new Clipboard('.share-copy-url');
 
-  $('.shares-editor__existing').on('click', '.share-copy-url', e => {
-    e.preventDefault();
-  });
+  $('.shares-editor__existing').on(
+    'click',
+    '.share-copy-url',
+    (e: JQueryEventObject) => {
+      e.preventDefault();
+    }
+  );
 });

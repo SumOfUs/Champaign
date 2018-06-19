@@ -1,3 +1,5 @@
+// @flow
+import $ from 'jquery';
 import _ from 'lodash';
 import Backbone from 'backbone';
 import FacebookShareModel from './facebook_share_model';
@@ -12,7 +14,7 @@ const FacebookShareView = Backbone.View.extend({
   },
 
   trackEvent(name) {
-    ga(
+    window.ga(
       'send',
       'event',
       'fb:sign_share',
@@ -43,12 +45,12 @@ const FacebookShareView = Backbone.View.extend({
     $.ajaxSetup({ cache: true });
 
     $.getScript('//connect.facebook.net/en_US/sdk.js', () => {
-      FB.init({
+      window.FB.init({
         appId: `${this.fbAppId}`,
         version: 'v2.7',
       });
 
-      FB.getLoginStatus(response => {
+      window.FB.getLoginStatus(response => {
         if (response.status === 'connected') {
           this.processConnected();
         } else {
@@ -61,7 +63,7 @@ const FacebookShareView = Backbone.View.extend({
 
   processConnected() {
     let permitted = false;
-    FB.api('/me/permissions', response => {
+    window.FB.api('/me/permissions', response => {
       _.forEach(response.data, function(item) {
         if (
           item.permission === 'publish_actions' &&
@@ -81,7 +83,7 @@ const FacebookShareView = Backbone.View.extend({
 
   post(cb) {
     if (this.model.isEnabled()) {
-      this.model.post(FB, () => {
+      this.model.post(window.FB, () => {
         this.trackEvent('shared');
 
         if (this.model.get('message') !== '') {
@@ -119,7 +121,7 @@ const FacebookShareView = Backbone.View.extend({
 
     if (checked) {
       this.trackEvent('enabled');
-      if (!this.fbConnected) FB.login(loginHandler, options);
+      if (!this.fbConnected) window.FB.login(loginHandler, options);
       this.model.enable();
     } else {
       this.trackEvent('disabled');

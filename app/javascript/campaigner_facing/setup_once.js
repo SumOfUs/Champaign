@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 function setupOnce(selector, viewClass) {
   $(selector).each(function(ii, el) {
     let $el = $(el);

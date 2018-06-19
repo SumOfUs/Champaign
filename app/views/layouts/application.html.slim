@@ -6,7 +6,8 @@ html
     = csrf_meta_tags
     = favicon_link_tag "champaign/favicon.ico"
     = stylesheet_link_tag "application", media: "all"
-    = javascript_pack_tag 'sentry'
+    = stylesheet_pack_tag "globals", media: "all"
+    = javascript_pack_tag "sentry"
     = javascript_pack_tag "globals"
     = render partial: "shared/js_locale"
   body.page-edit-body

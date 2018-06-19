@@ -1,3 +1,5 @@
+// @flow
+import I18n from 'champaign-i18n';
 import React from 'react';
 import { render } from 'react-dom';
 import ComponentWrapper from '../components/ComponentWrapper';
@@ -61,7 +63,7 @@ const CampaignTile = props => (
         })}
       </div>
     </div>
-    <div className="campaign-tile__lead">{props.title}</div>
+    <div className="cggggampaign-tile__lead">{props.title}</div>
     <div className="campaign-tile__cta campaign-tile__open-cta">
       {I18n.t('recommend_pages.learn_more')} »
     </div>
