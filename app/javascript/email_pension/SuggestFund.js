@@ -1,5 +1,5 @@
 // @flow
-
+import $ from 'jquery';
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Input from '../components/SweetInput/SweetInput';

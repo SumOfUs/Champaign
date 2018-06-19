@@ -1,3 +1,5 @@
+// @flow
+import $ from 'jquery';
 import ErrorDisplay from '../shared/show_errors';
 
 $(() => {

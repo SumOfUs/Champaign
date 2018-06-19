@@ -4477,6 +4477,12 @@ jest@^22.3.0:
     import-local "^1.0.0"
     jest-cli "^22.4.2"
 
+jquery-sticky@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/jquery-sticky/-/jquery-sticky-1.0.4.tgz#2fe8d03dc904685340daa12cbdd1ca0c921b09ac"
+  dependencies:
+    jquery "*"
+
 jquery-typeahead@^2.10.4:
   version "2.10.4"
   resolved "https://registry.yarnpkg.com/jquery-typeahead/-/jquery-typeahead-2.10.4.tgz#9a46d74fda419b0724ae0ff3663f800d280bc6ce"
@@ -4494,7 +4500,7 @@ jquery-ujs@^1.2.2:
   dependencies:
     jquery ">=1.8.0"
 
-jquery@>=1.7.2, jquery@>=1.8.0, jquery@^3.3.1:
+jquery@*, jquery@>=1.7.2, jquery@>=1.8.0, jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 

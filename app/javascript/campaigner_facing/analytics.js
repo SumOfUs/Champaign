@@ -1,4 +1,5 @@
-'use strict';
+import $ from 'jquery';
+import d3 from 'd3';
 const Y_AXIS_LABEL_LIMIT = 20;
 
 class AnalyticsDashboard {

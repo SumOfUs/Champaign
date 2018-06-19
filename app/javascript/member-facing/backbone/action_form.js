@@ -1,3 +1,5 @@
+// @flow
+import $ from 'jquery';
 import I18n from 'champaign-i18n';
 import React from 'react';
 import { render } from 'react-dom';
@@ -57,6 +59,7 @@ const ActionForm = Backbone.View.extend({
   //    async: when true the form will validate by default.
   //      To submit trigger event `form:submit_action_form`
   initialize(options = {}) {
+    this.$ = $;
     this.store = window.champaign.store;
     this.member = options.member;
     this.variant = options.variant || 'simple';
@@ -170,9 +173,9 @@ const ActionForm = Backbone.View.extend({
   },
 
   selectizeDropdowns() {
-    this.$(
-      '.action-form__country-selector, .action-form__dropdown'
-    ).selectize();
+    $(this.$el)
+      .find('.action-form__country-selector, .action-form__dropdown')
+      .selectize();
   },
 
   clearFormErrors() {
@@ -189,7 +192,7 @@ const ActionForm = Backbone.View.extend({
 
   clearForm() {
     this.store.dispatch(resetMember());
-    const $fields_holder = this.$('.form__group--prefilled');
+    const $fields_holder = $(this.$el).find('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
     $fields_holder
       .find(
@@ -215,7 +218,9 @@ const ActionForm = Backbone.View.extend({
   },
 
   completePrefill(prefillValues, unvalidatedPrefillValues) {
-    this.$('.action-form__field-container').addClass('form__group--prefilled');
+    $(this.$el)
+      .find('.action-form__field-container')
+      .addClass('form__group--prefilled');
     this.partialPrefill(prefillValues, unvalidatedPrefillValues, []);
 
     // DESIRED BUT WEIRD BEHAVIOR - unhide empty fields,
@@ -229,7 +234,7 @@ const ActionForm = Backbone.View.extend({
     const $checkboxes = this.$('.action-form__field-container').find(
       '.checkbox-label, .radio-container, .form__instruction'
     );
-    $.merge($empties, $checkboxes)
+    $($.merge($empties, $checkboxes))
       .parents('.action-form__field-container')
       .removeClass('form__group--prefilled');
   },

@@ -1,3 +1,6 @@
+// @flow
+import $ from 'jquery';
+import Backbone from 'backbone';
 import ee from '../shared/pub_sub';
 import GlobalEvents from '../shared/global_events';
 

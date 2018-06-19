@@ -1,7 +1,8 @@
 // @flow
-import $ from 'jquery';
+import $ from '../vendor/jquery';
 import _ from 'lodash';
 import event from '../shared/pub_sub';
+import 'selectize/dist/css/selectize.default.css';
 
 window.$ = window.jQuery = $;
 window._ = _;
@@ -30,4 +31,4 @@ _.extend($, {
 require('jquery-ui');
 require('jquery-ujs');
 require('selectize');
-require('../vendor/jquery.sticky').setup(window.$);
+require('jquery-sticky');
