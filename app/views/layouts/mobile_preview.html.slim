@@ -4,9 +4,9 @@ html
     = stylesheet_link_tag "mobile-preview"
     = stylesheet_link_tag "member-facing"
     = csrf_meta_tags
-    = javascript_pack_tag 'sentry'
+    = javascript_pack_tag "sentry"
+    = javascript_pack_tag "globals"
   body
     = yield
-    = render partial: "cdn/member_facing"
     = javascript_pack_tag "member_facing"
     = render 'pages/campaigner_overlay', page: @page

@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import ee from '../shared/pub_sub';
 import _ from 'lodash';
 import setupOnce from './setup_once';
 import GlobalEvents from '../shared/global_events';
@@ -94,7 +94,9 @@ const SharesEditor = Backbone.View.extend({
   },
 
   clearFormAndConformView: function(e) {
-    $(e.target).find('input[type="text"], textarea').val('');
+    $(e.target)
+      .find('input[type="text"], textarea')
+      .val('');
     this.setView(this.view); // make new rows conform
   },
 
@@ -126,12 +128,12 @@ const SharesEditor = Backbone.View.extend({
     this.$('.shares-editor__image-selector').append(newOption);
   },
 
-  pruneImageSelectors: function(e, id) {
+  pruneImageSelectors: function(id) {
     this.$(`option[value="${id}"]`).remove();
   },
 });
 
-$.subscribe('shares:edit', function() {
+ee.on('shares:edit', function() {
   setupOnce('.shares-editor', SharesEditor);
 });
 

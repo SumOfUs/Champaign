@@ -1,9 +1,9 @@
 // allow backbone views to use a hash to declaratively
 // bind their methods to events called through
-// $.publish or Backbone.trigger
-import $ from "jquery";
-import _ from "lodash";
-import Backbone from "backbone";
+// ee.emit or Backbone.trigger
+import ee from '../shared/pub_sub';
+import _ from 'lodash';
+import Backbone from 'backbone';
 
 export default {
   bindEvents(view) {
@@ -14,8 +14,8 @@ export default {
       const method = view[methodName];
       if (method) {
         Backbone.on(eventName, method, view);
-        $.subscribe(eventName, method.bind(view));
+        ee.on(eventName, method, view);
       }
     }
-  }
+  },
 };

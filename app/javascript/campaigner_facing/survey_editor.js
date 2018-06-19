@@ -1,3 +1,4 @@
+import ee from '../shared/pub_sub';
 import GlobalEvents from '../shared/global_events';
 
 const SurveyEditor = Backbone.View.extend({
@@ -38,7 +39,7 @@ const SurveyEditor = Backbone.View.extend({
       method: 'PUT',
       data: { form_ids: ids.join(',') },
     }).done(function() {
-      $.publish('plugin:form:preview:update');
+      ee.emit('plugin:form:preview:update');
     });
   },
 });
