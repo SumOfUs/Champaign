@@ -243,10 +243,16 @@ describe PagesHelper do
   end
 
   describe '#share_url' do
-    let(:button) { double(sp_id: '2', share_type: 'facebook', share_progress?: true) }
+    let(:variant) {
+      double(
+        id: 12_342,
+        share_progress?: true,
+        button: double(id: 3, sp_id: '2', share_type: 'facebook')
+      )
+    }
 
     it 'returns share url' do
-      expect(helper.share_url(button)).to eq('http://sumof.us/99/2/facebook')
+      expect(helper.share_url(variant)).to eq('http://sumof.us/99/2/facebook')
     end
   end
 end
