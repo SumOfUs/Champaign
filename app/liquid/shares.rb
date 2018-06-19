@@ -12,11 +12,11 @@ module Shares
           css_class: class_from_html(button.share_button_html)
         }
         unless button.share_progress?
+          # TODO: if you're adding more share types, you will need a case here that checks the share type.
+          # This assumes WhatsApp share.
           variant = select_share_variant(button.share_type, page)
           view_params[:variant_id] = variant.id
-          # Prepend the desired query parameters (uri encoded) into the url we want to share
-          url = button.url << ERB::Util.url_encode("?src=whatsapp&variant_id=#{variant.id}")
-          view_params[:link_html] = button.share_button_html.gsub('%7BLINK%7D', url)
+          view_params[:link_html] = variant.html
         end
         shares[button.share_type] = view_params
         shares

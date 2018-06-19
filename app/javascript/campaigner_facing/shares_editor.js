@@ -94,7 +94,9 @@ const SharesEditor = Backbone.View.extend({
   },
 
   clearFormAndConformView: function(e) {
-    $(e.target).find('input[type="text"], textarea').val('');
+    $(e.target)
+      .find('input[type="text"], textarea')
+      .val('');
     this.setView(this.view); // make new rows conform
   },
 
@@ -138,7 +140,7 @@ $.subscribe('shares:edit', function() {
 $(function() {
   new Clipboard('.share-copy-url');
 
-  $('.shares-editor__existing').on('click', '.share-copy-url', e => {
+  $('.share-copy-url').on('click', e => {
     e.preventDefault();
   });
 });

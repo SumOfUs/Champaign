@@ -40,4 +40,13 @@ describe Share::Whatsapp do
       expect(whatsapp.share_progress?).to eq false
     end
   end
+
+  describe 'html' do
+    let(:button) { create(:share_button, share_button_html: '<div>{TEXT}</div>', url: 'example.com') }
+    let(:whatsapp) { create(:share_whatsapp, button: button, text: 'Hello: {LINK}') }
+
+    it 'constructs the share HTML from the encoded button URL, parameters and the text' do
+      expect(whatsapp.html).to eq('<div>Hello%3A%20example.com%3Fsrc%3Dwhatsapp%26variant_id%3D1</div>')
+    end
+  end
 end

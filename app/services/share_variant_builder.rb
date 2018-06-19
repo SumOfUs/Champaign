@@ -96,8 +96,7 @@ class ShareVariantBuilder
     case @variant_type
     when :whatsapp
       @button.update(
-        share_button_html: '<a class="whatsapp_large" href="https://api.whatsapp.com'\
-        "/send?text=#{ERB::Util.url_encode(@variant.text)}\"></a>",
+        share_button_html: '<a class="whatsapp_large" href="https://api.whatsapp.com/send?text={TEXT}"></a>',
         url: @url
       )
     end
