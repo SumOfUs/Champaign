@@ -1,4 +1,5 @@
 // @flow
+import $ from 'jquery';
 import React, { Component } from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { connect } from 'react-redux';

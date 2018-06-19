@@ -1,5 +1,8 @@
+// @flow
+import $ from 'jquery';
 import ee from '../shared/pub_sub';
 import setupOnce from './setup_once';
+import Backbone from 'backbone';
 
 const ActionsEditor = Backbone.View.extend({
   events: {

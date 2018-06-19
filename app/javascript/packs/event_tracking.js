@@ -1,5 +1,6 @@
 import { logEvent } from './../packs/log_event';
 import ee from '../shared/pub_sub';
+import $ from 'jquery';
 
 [
   'page:arrived',

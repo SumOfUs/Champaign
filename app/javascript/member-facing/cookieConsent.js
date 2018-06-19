@@ -1,3 +1,5 @@
+// @flow
+import $ from 'jquery';
 import {
   formatMessage,
   isTranslationPresent,

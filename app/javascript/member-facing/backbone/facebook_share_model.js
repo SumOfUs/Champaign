@@ -1,3 +1,5 @@
+// @flow
+import I18n from 'champaign-i18n';
 import Cookie from 'js-cookie';
 import { Model } from 'backbone';
 

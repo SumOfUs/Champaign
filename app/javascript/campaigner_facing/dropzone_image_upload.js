@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import ee from '../shared/pub_sub';
 
 const configureDropZone = function() {

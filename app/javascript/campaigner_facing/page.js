@@ -1,4 +1,3 @@
-'use strict';
 import { Model, View } from 'backbone';
 import ee from '../shared/pub_sub';
 
@@ -24,7 +23,7 @@ const slugView = View.extend({
 
   initialize() {
     this.slugChecker = new slugChecker();
-    this.slugChecker.on('change:valid', _.bind(this.updateViewWithValid, this));
+    this.slugChecker.on('change:valid', this.updateViewWithValid.bind(this));
     this.cacheDomElements();
     this.checking = false;
   },
@@ -64,6 +63,7 @@ const slugView = View.extend({
   },
 
   generateSlug() {
+    // FIXME: Where does getSlug come from?
     const slug = getSlug(this.$title.val());
     this.resetFeedback();
     this.$slug.val(slug);
@@ -95,6 +95,7 @@ const slugView = View.extend({
   },
 
   updateSlug() {
+    // FIXME: Where does getSlug come from?
     const slug = getSlug(this.$slug.val());
     this.resetFeedback();
     this.$slug.val(slug);

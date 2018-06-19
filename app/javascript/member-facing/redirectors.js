@@ -1,8 +1,9 @@
-import uri from "urijs";
+// @flow
+import uri from 'urijs';
 
 const RegisterMemberRedirector = {
-  attemptRedirect(followUpUrl, member) {
-    if (typeof member !== "object") {
+  attemptRedirect(followUpUrl: string, member: any) {
+    if (typeof member !== 'object') {
       member = window.champaign.personalization.member;
     }
 
@@ -22,15 +23,15 @@ const RegisterMemberRedirector = {
     }
 
     function registrationUrl(url, email) {
-      return uri("/member_authentication/new")
+      return uri('/member_authentication/new')
         .query({ follow_up_url: url, email: email })
         .toString();
     }
-  }
+  },
 };
 
 const AfterDonationRedirector = {
-  attemptRedirect(followUpUrl, donationFormData) {
+  attemptRedirect(followUpUrl: string, donationFormData: any) {
     if (
       !(
         donationFormData.storeInVault &&
@@ -44,7 +45,7 @@ const AfterDonationRedirector = {
     }
 
     return true;
-  }
+  },
 };
 
 function redirectTo(url) {
@@ -53,5 +54,5 @@ function redirectTo(url) {
 
 export default {
   RegisterMemberRedirector,
-  AfterDonationRedirector
+  AfterDonationRedirector,
 };

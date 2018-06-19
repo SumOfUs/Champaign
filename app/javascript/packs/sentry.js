@@ -1,3 +1,4 @@
+// @flow
 import Raven from 'raven-js';
 
 function addUserData(data) {

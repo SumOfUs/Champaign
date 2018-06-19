@@ -43,6 +43,7 @@
     "ismobilejs": "^0.4.1",
     "jest": "^22.3.0",
     "jquery": "^3.3.1",
+    "jquery-sticky": "^1.0.4",
     "jquery-typeahead": "^2.10.4",
     "jquery-ui": "^1.12.1",
     "jquery-ujs": "^1.2.2",

@@ -1,3 +1,6 @@
+import $ from 'jquery';
+import I18n from 'champaign-i18n';
+import Backbone from 'backbone';
 import ee from '../shared/pub_sub';
 import ErrorDisplay from '../shared/show_errors';
 import _ from 'lodash';
