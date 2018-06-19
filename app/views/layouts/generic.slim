@@ -8,13 +8,13 @@ html lang= I18n.locale
     = favicon_link_tag "images/favicon.ico"
     = metamagic
     = javascript_pack_tag 'sentry'
+    = javascript_pack_tag 'globals'
     = render partial: "shared/optimizely_snippet"
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
     = render partial: "shared/js_locale"
     = stylesheet_link_tag "member-facing"
   body
     = render partial: "layouts/notification"
-    = render partial: "cdn/member_facing"
     = javascript_pack_tag "member_facing"
 
     = yield

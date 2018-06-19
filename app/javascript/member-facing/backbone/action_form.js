@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import I18n from 'champaign-i18n';
 import React from 'react';
 import { render } from 'react-dom';

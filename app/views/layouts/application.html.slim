@@ -7,9 +7,10 @@ html
     = favicon_link_tag "champaign/favicon.ico"
     = stylesheet_link_tag "application", media: "all"
     = javascript_pack_tag 'sentry'
+    = javascript_pack_tag "globals"
     = render partial: "shared/js_locale"
-    = render partial: "cdn/campaigner_facing"
   body.page-edit-body
+    = render partial: "cdn/campaigner_facing"
     .navbar--fixed__spacer
     .navbar.navbar-static-top.navbar--dark.navbar--fixed
       button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"

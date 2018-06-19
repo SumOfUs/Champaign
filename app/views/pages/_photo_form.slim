@@ -17,4 +17,4 @@
       = f.select :primary_image_id, page.images.map { |im| [im.content_file_name, im.id] }, {}, class: "form-control"
 
 javascript:
-  $.publish("dropzone:setup");
+  event.emit("dropzone:setup");
