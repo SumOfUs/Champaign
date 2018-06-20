@@ -9,7 +9,7 @@ window._ = _;
 
 if (!window.event) window.event = event;
 
-function $subscribe(eventName: string, callback: () => any) {
+function $subscribe(eventName: string, callback: (...args: mixed) => any) {
   // to maintain backwards compatibility, jQuery events always
   // pass the event object as the first parameter. We don't have it
   const compatibleCallback = function(...args) {
