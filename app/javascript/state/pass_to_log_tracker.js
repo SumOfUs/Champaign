@@ -1,10 +1,15 @@
-import { logEvent } from './../packs/log_event';
+// @flow
+import { logEvent } from '../util/log_event';
+import type { AppState } from './index';
 
 const blacklist = ['update_form'];
 
 const blacklisted = event => blacklist.indexOf(event) > -1;
 
-const passToLogTracker = state => next => action => {
+const passToLogTracker = () => (next: Dispatch) => (action: {
+  type: string,
+  [string]: any,
+}) => {
   const { type, skip_log = false, ...rest } = action;
 
   if (!skip_log && !blacklisted(type)) {

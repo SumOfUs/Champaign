@@ -5,6 +5,8 @@ import 'cookieconsent';
 import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
+import '../recommend_pages/recommend_pages';
+import '../util/event_tracking';
 
 import URI from 'urijs';
 import configureStore from '../state';
