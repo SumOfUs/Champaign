@@ -19,6 +19,14 @@ module.exports = {
       }
       callback();
     },
+    function(context, request, callback) {
+      const isLodash = /^lodash$/.test(request);
+      const isVendorContext = /javascript\/vendor$/.test(context);
+      if (isLodash) {
+        return isVendorContext ? callback() : callback(null, 'var window._');
+      }
+      callback();
+    },
     {
       'champaign-i18n': 'window.I18n',
     },

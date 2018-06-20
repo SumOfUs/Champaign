@@ -1,6 +1,6 @@
 // @flow
 import $ from '../vendor/jquery';
-import _ from 'lodash';
+import _ from '../vendor/lodash';
 import event from '../shared/pub_sub';
 import 'selectize/dist/css/selectize.default.css';
 
