@@ -7,11 +7,9 @@
 
 <script type="text/javascript">
   $(function() {
-    var global = window.champaign.personalization;
-    var data = {
+    window.event.emit('champaign:recommend_pages:init', 'recommend-pages-component', {
       locale: '{{locale}}',
       pageId: "{{ id }}"
-    };
-   mountRecommendPages('recommend-pages-component', data);
+    });
   })
 </script>
