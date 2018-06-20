@@ -1,6 +1,7 @@
-import { logEvent } from './../packs/log_event';
-import ee from '../shared/pub_sub';
+// @flow
 import $ from 'jquery';
+import ee from '../shared/pub_sub';
+import { logEvent } from './log_event';
 
 [
   'page:arrived',

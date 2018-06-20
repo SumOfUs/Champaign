@@ -19,6 +19,7 @@ module.exports = {
       }
       callback();
     },
+    // Same as above but for lodash
     function(context, request, callback) {
       const isLodash = /^lodash$/.test(request);
       const isVendorContext = /javascript\/vendor$/.test(context);

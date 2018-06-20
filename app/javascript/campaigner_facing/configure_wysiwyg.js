@@ -7,9 +7,10 @@ const TALL_EDITORS = ['page_body'];
 function configureWysiwyg(id) {
   const $editor = $('#' + id);
   if ($editor.length === 0) {
-    return false;
+    return;
   }
 
+  // $FlowIgnore
   $editor.summernote({
     toolbar: [
       ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -30,8 +31,9 @@ function configureWysiwyg(id) {
     },
   });
   const $contentField = $('#' + id + '_content');
-
+  // $FlowIgnore
   $editor.summernote('fontSize', '16'); // default
+  // $FlowIgnore
   $editor.summernote('code', $contentField.val());
 
   // In order to make an iframe size down with the containing column
@@ -55,6 +57,7 @@ function configureWysiwyg(id) {
   };
 
   const updateContentBeforeSave = function() {
+    // $FlowIgnore
     const content = encapsulateIframes($editor.summernote('code'));
     $contentField.val(content);
   };
