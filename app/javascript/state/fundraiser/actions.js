@@ -4,12 +4,12 @@ import ee from '../../shared/pub_sub';
 import type { FundraiserAction, PaymentType } from './types';
 
 export function changeAmount(payload: ?number): FundraiserAction {
-  ee.emit('fundraiser:change_amount', [payload]);
+  ee.emit('fundraiser:change_amount', payload);
   return { type: 'change_amount', payload };
 }
 
 export function changeCurrency(payload: string): FundraiserAction {
-  ee.emit('fundraiser:change_currency', [payload]);
+  ee.emit('fundraiser:change_currency', payload);
   return { type: 'change_currency', payload };
 }
 
@@ -19,7 +19,7 @@ export function setSubmitting(payload: boolean): FundraiserAction {
 
 export function changeStep(payload: number): FundraiserAction {
   // we put it in a timeout because otherwise the event is fired before the step has switched
-  setTimeout(() => ee.emit('fundraiser:change_step', [payload]), 100);
+  setTimeout(() => ee.emit('fundraiser:change_step', payload), 100);
   return { type: 'change_step', payload };
 }
 
