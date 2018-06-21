@@ -266,10 +266,11 @@ export class Payment extends Component {
       window.fbq('track', 'AddPaymentInfo', eventPayload);
     }
 
-    ee.emit('fundraiser:transaction_submitted', [
+    ee.emit(
+      'fundraiser:transaction_submitted',
       eventPayload,
-      this.props.formData,
-    ]);
+      this.props.formData
+    );
 
     $.post(
       `/api/payment/braintree/pages/${this.props.page.id}/transaction`,
@@ -289,12 +290,12 @@ export class Payment extends Component {
           : 'not_recurring',
       });
     }
-    ee.emit('fundraiser:transaction_success', [data, this.props.formData]);
+    ee.emit('fundraiser:transaction_success', data, this.props.formData);
     this.setState({ errors: [] });
   }
 
   onError(reason: any) {
-    ee.emit('fundraiser:transaction_error', [reason, this.props.formData]);
+    ee.emit('fundraiser:transaction_error', reason, this.props.formData);
     this.props.setSubmitting(false);
   }
 

@@ -173,9 +173,13 @@ const ActionForm = Backbone.View.extend({
   },
 
   selectizeDropdowns() {
-    $(this.$el)
-      .find('.action-form__country-selector, .action-form__dropdown')
-      .selectize();
+    try {
+      $(this.$el)
+        .find('.action-form__country-selector, .action-form__dropdown')
+        .selectize();
+    } catch (e) {
+      return;
+    }
   },
 
   clearFormErrors() {
