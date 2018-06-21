@@ -30,3 +30,5 @@ Raven.config(process.env.SENTRY_DSN, {
     return data;
   },
 }).install();
+
+window.Raven = Raven;

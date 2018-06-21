@@ -98,6 +98,8 @@ class BraintreeCardFields extends Component {
         },
       },
       (err, hostedFieldsInstance) => {
+        if (err && window.Raven) return window.Raven.captureException(err);
+
         this.setState({ hostedFields: hostedFieldsInstance }, () => {
           if (this.props.onInit) {
             this.props.onInit();
@@ -200,7 +202,6 @@ class BraintreeCardFields extends Component {
           method="post"
           onSubmit={this.submit.bind(this)}
         >
-
           <div
             id="braintree-card-number"
             className="BraintreeCardFields__hosted-field BraintreeCardFields__card-number"
@@ -232,7 +233,6 @@ class BraintreeCardFields extends Component {
               'expiration',
               'BraintreeCardFields__error-msg--col-right'
             )}
-
         </form>
         <div className="clearfix"> </div>
       </div>
