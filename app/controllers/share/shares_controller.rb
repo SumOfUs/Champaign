@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 require 'share_progress'
 
 class Share::SharesController < ApplicationController
   before_action :set_resource
-  before_action :find_page
-  before_action :authenticate_user!
+  before_action :find_page, except: 'track'
+  before_action :authenticate_user!, except: 'track'
 
   def new
     @share = share_class.new(new_defaults)
@@ -22,7 +23,7 @@ class Share::SharesController < ApplicationController
   end
 
   def update
-    @share = ShareProgressVariantBuilder.update(
+    @share = ShareVariantBuilder.update(
       params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
@@ -40,10 +41,10 @@ class Share::SharesController < ApplicationController
 
   def update_url
     @page.share_buttons.each do |button|
-      url = params[button.sp_type.to_sym]
+      url = params[button.share_type.to_sym]
 
       if url
-        ShareProgressVariantBuilder.update_button_url(url, button)
+        ShareVariantBuilder.update_button_url(url, button)
       end
     end
 
@@ -51,13 +52,12 @@ class Share::SharesController < ApplicationController
   end
 
   def create
-    @share = ShareProgressVariantBuilder.create(
+    @share = ShareVariantBuilder.create(
       params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
       url: member_facing_page_url(@page)
     )
-
     respond_to do |format|
       if @share.errors.empty?
         format.html { redirect_to index_path }
@@ -71,7 +71,7 @@ class Share::SharesController < ApplicationController
 
   def destroy
     find_share
-    @deleted_share = ShareProgressVariantBuilder.destroy(
+    @deleted_share = ShareVariantBuilder.destroy(
       params: {},
       variant_type: @resource.to_sym,
       page: @page,
@@ -86,17 +86,23 @@ class Share::SharesController < ApplicationController
     end
   end
 
+  def track
+    params.permit(:variant_type, :variant_id)
+    case params[:variant_type]
+    when 'whatsapp'
+      Share::Whatsapp.find(params[:variant_id]).increment!(:click_count)
+    end
+  end
+
   private
 
   def find_share
     @share = share_class.find params[:id]
   end
 
-  #
-  # Assigns resource name, which is taken from controller's class name.
-  # +Share::TwittersController+ becomes +twitter+
-  #
   def set_resource
+    # Assigns resource name, which is taken from controller's class name.
+    # +Share::TwittersController+ becomes +twitter+
     @resource = self.class.name.demodulize.gsub('Controller', '').downcase.singularize
   end
 

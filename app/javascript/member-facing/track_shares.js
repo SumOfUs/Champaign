@@ -1,7 +1,27 @@
-// @flow
 import $ from 'jquery';
+import MobileCheck from './backbone/mobile_check';
+
 $(() => {
+  if (!MobileCheck.isMobile()) {
+    $('.button--whatsapp').remove();
+  }
+
   let shared = false;
+
+  $('.button--whatsapp').click(function(e) {
+    e.preventDefault();
+    $.post({
+      url: window.location.origin + '/api/shares/track',
+      data: {
+        variant_type: 'whatsapp',
+        variant_id: $(this).attr('variant_id'),
+      },
+    }).then(function() {
+      window.location = $(e.currentTarget)
+        .children('a')
+        .attr('href');
+    });
+  });
 
   const handleShare = (event: JQueryEventObject) => {
     // SP triggers 'share' twice so need to block
@@ -23,5 +43,5 @@ $(() => {
     }
   };
 
-  $(window).bind('share', handleShare);
+  $(window).bind('share', handleFacebookShare);
 });

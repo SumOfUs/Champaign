@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_twitters
@@ -31,6 +32,13 @@ describe Share::Twitter do
     it 'must have {LINK} in description' do
       subject.description = 'Foo'
       expect(subject).to_not be_valid
+    end
+  end
+
+  describe 'share_progress?' do
+    let(:twitter) { create(:share_twitter) }
+    it 'is managed by ShareProgress' do
+      expect(twitter.share_progress?).to eq true
     end
   end
 end

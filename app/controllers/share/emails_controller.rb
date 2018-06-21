@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Share::EmailsController < Share::SharesController
   private
 
@@ -12,7 +13,7 @@ class Share::EmailsController < Share::SharesController
   def permitted_params
     params
       .require(:share_email)
-      .permit(:subject, :body)
+      .permit(:subject, :body, :name)
   end
 
   def share_class

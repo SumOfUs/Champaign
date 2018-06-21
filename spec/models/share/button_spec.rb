@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_buttons
@@ -10,8 +11,8 @@
 #  updated_at     :datetime         not null
 #  sp_id          :string
 #  page_id        :integer
-#  sp_type        :string
-#  sp_button_html :string
+#  share_type        :string
+#  share_button_html :string
 #  analytics      :text
 #
 
@@ -43,6 +44,28 @@ describe Share::Button do
     it 'is invalid with a blank url' do
       button.url = ' '
       expect(button).to be_invalid
+    end
+  end
+
+  describe '.share_progress?' do
+    let(:facebook) { create :share_button, share_type: 'facebook' }
+    let(:whatsapp) { create :share_button, share_type: 'whatsapp' }
+    it 'returns true if the share type is managed by ShareProgress' do
+      expect(facebook.share_progress?).to eq true
+      expect(whatsapp.share_progress?).to eq false
+    end
+  end
+
+  describe 'scopes' do
+    describe 'share_progress' do
+      let(:facebook) { create :share_button, share_type: 'facebook' }
+      let(:whatsapp) { create :share_button, share_type: 'whatsapp' }
+      let(:twitter) { create :share_button, share_type: 'twitter' }
+      let(:email) { create :share_button, share_type: 'email' }
+      it 'returns buttons types that are managed by ShareProgress' do
+        expect(Share::Button.share_progress).to include(facebook, twitter, email)
+        expect(Share::Button.share_progress).to_not include(whatsapp)
+      end
     end
   end
 end

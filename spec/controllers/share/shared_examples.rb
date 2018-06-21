@@ -83,7 +83,7 @@ shared_examples 'shares' do |share_class, service|
   describe 'PUT#update' do
     describe 'success' do
       before do
-        allow(ShareProgressVariantBuilder).to receive(:update) { share }
+        allow(ShareVariantBuilder).to receive(:update) { share }
 
         put :update, params: { page_id: 1, id: 2, "share_#{service}": params }
       end
@@ -93,7 +93,7 @@ shared_examples 'shares' do |share_class, service|
       end
 
       it 'updates' do
-        expect(ShareProgressVariantBuilder).to have_received(:update)
+        expect(ShareVariantBuilder).to have_received(:update)
           .with(
             params: ActionController::Parameters.new(params),
             variant_type: service.to_sym,
@@ -109,7 +109,7 @@ shared_examples 'shares' do |share_class, service|
 
     describe 'failure' do
       before do
-        allow(ShareProgressVariantBuilder).to receive(:update) { failed_share }
+        allow(ShareVariantBuilder).to receive(:update) { failed_share }
         put :update, params: { page_id: 1, id: 2, "share_#{service}": params }
       end
 
@@ -126,7 +126,7 @@ shared_examples 'shares' do |share_class, service|
   describe 'POST#create' do
     describe 'success' do
       before do
-        allow(ShareProgressVariantBuilder).to receive(:create) { share }
+        allow(ShareVariantBuilder).to receive(:create) { share }
 
         post :create, params: { page_id: 1, "share_#{service}": params }
       end
@@ -136,7 +136,7 @@ shared_examples 'shares' do |share_class, service|
       end
 
       it 'creates' do
-        expect(ShareProgressVariantBuilder).to have_received(:create)
+        expect(ShareVariantBuilder).to have_received(:create)
           .with(
             params: ActionController::Parameters.new(params),
             variant_type: service.to_sym,
@@ -152,7 +152,7 @@ shared_examples 'shares' do |share_class, service|
 
     describe 'success' do
       before do
-        allow(ShareProgressVariantBuilder).to receive(:create) { failed_share }
+        allow(ShareVariantBuilder).to receive(:create) { failed_share }
         post :create, params: { page_id: 1, "share_#{service}": params }
       end
 
