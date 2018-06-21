@@ -67,14 +67,14 @@ export class ExpressDonation extends Component {
   }
 
   async onSuccess(data: any): any {
-    ee.emit('fundraiser:transaction_success', [data, this.props.formData]);
+    ee.emit('fundraiser:transaction_success', data, this.props.formData);
     return data;
   }
 
   async onFailure(reason: any): any {
     this.setState({ submitting: false });
     this.props.setSubmitting(false);
-    ee.emit('fundraiser:transaction_error', [reason, this.props.formData]);
+    ee.emit('fundraiser:transaction_error', reason, this.props.formData);
     return reason;
   }
 
