@@ -58,6 +58,9 @@ const LayoutPicker = Backbone.View.extend({
   },
 });
 
-ee.on('layout:edit pages:new', function() {
+ee.on('pages:new', () => {
+  setupOnce('.layout-settings', LayoutPicker);
+});
+ee.on('layout:edit', () => {
   setupOnce('.layout-settings', LayoutPicker);
 });
