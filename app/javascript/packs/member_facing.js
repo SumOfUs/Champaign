@@ -1,7 +1,5 @@
 // @flow
-import 'babel-polyfill';
 import 'whatwg-fetch';
-import 'cookieconsent';
 import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
@@ -22,7 +20,6 @@ import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import redirectors from '../member-facing/redirectors';
 import { formatMessage } from '../util/TranslationsLoader';
-import initializeCookieConsent from '../member-facing/cookieConsent';
 
 window.URI = URI;
 
@@ -31,26 +28,21 @@ if (process.env.EXTERNAL_ASSETS_JS_PATH) {
   require(process.env.EXTERNAL_ASSETS_JS_PATH);
 }
 
-const initializeApp = () => {
-  window.sumofus = window.sumofus || {}; // for legacy templates that reference window.sumofus
-  window.champaign = window.champaign || window.sumofus || {};
-  const store = configureStore(window.champaign);
-  Object.assign(window.champaign, {
-    Petition,
-    PetitionAndScrollToConsent,
-    Survey,
-    ActionForm,
-    OverlayToggle,
-    Thermometer,
-    Sidebar,
-    Notification,
-    SweetPlaceholder,
-    CampaignerOverlay,
-    redirectors,
-    store,
-  });
-};
+window.champaign = window.champaign || {};
 
-$(document).ready(initializeCookieConsent);
+const store = configureStore(window.champaign);
 
-initializeApp();
+Object.assign(window.champaign, {
+  Petition,
+  PetitionAndScrollToConsent,
+  Survey,
+  ActionForm,
+  OverlayToggle,
+  Thermometer,
+  Sidebar,
+  Notification,
+  SweetPlaceholder,
+  CampaignerOverlay,
+  redirectors,
+  store,
+});
