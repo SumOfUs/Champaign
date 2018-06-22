@@ -41,6 +41,6 @@
 javascript:
   $(function () {
     $('.email-body-section .wysiwyg').each(function (index, el) {
-      event.emit("wysiwyg:setup", el.id);
+      window.ee.emit("wysiwyg:setup", el.id);
     });
   });

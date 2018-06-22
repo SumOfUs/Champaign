@@ -27,7 +27,7 @@
 
 javascript:
   $(document).ready(function(){
-    event.emit("collection:edit:loaded");
-    event.emit("plugin:form:loaded");
+    window.ee.emit("collection:edit:loaded");
+    window.ee.emit("plugin:form:loaded");
     new SurveyEditor();
   });

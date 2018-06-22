@@ -4,9 +4,10 @@
 
 - meta optimization_tags: @page.optimization_tags
 - meta liquid_layout: @page.liquid_layout.title.downcase
+
 = @rendered
+
 = render 'pages/campaigner_overlay', page: @page
-= render partial: 'shared/countries', cached: true
 
 javascript:
   $(document).ready(function() {
