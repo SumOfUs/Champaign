@@ -22,7 +22,7 @@ function addReduxState(data) {
 }
 
 Raven.config(process.env.SENTRY_DSN, {
-  release: process.env.CIRCLE_SHA1,
+  release: new Date().toISOString(),
   environment: process.env.SENTRY_ENVIRONMENT || 'development',
   dataCallback: data => {
     addUserData(data);
