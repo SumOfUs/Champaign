@@ -1,0 +1,17 @@
+h3 Hi #{@name.titleize},
+
+p You just signed the petition "#{@page.title}" with SumOfUs. To confirm your signature, you only have to click one of the following links.
+
+p The success of our petitions and actions depends entirely on your engagement. That’s why we want to inform you about crucial campaign moments via email. You can unsubscribe from our emails at any point. Please click here:
+
+h3
+ = link_to "I want to sign and receive updates about this and other campaigns", confirm_api_action_confirmations_url(token: @token, consented: true)
+p
+ = link_to "I want to sign but don’t want any updates", confirm_api_action_confirmations_url(token: @token)
+
+p Your signature only counts if you click to confirm!
+
+p
+  | Best regards,
+  br
+  | The team at SumOfUs
