@@ -4,18 +4,23 @@ html lang= I18n.locale
     title = @title
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     meta name="description" content=t("branding.description")
+
     = csrf_meta_tags
-    = favicon_link_tag "images/favicon.ico"
+    = favicon_link_tag "images/org-favicon.ico"
     = metamagic
-    = javascript_pack_tag 'sentry'
-    = javascript_pack_tag 'globals'
+
+    = javascript_pack_tag "sentry"
+    = javascript_pack_tag "globals"
+
+    = render partial: "shared/browser_polyfills"
     = render partial: "shared/optimizely_snippet"
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
     = render partial: "shared/js_locale"
+
+    = stylesheet_pack_tag "globals"
     = stylesheet_link_tag "member-facing"
   body
     = render partial: "layouts/notification"
-    = javascript_pack_tag "member_facing"
 
     = yield
     .mobile-indicator
