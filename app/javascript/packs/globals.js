@@ -1,13 +1,13 @@
 // @flow
 import $ from '../vendor/jquery';
 import _ from '../vendor/lodash';
-import event from '../shared/pub_sub';
+import ee from '../shared/pub_sub';
 import 'selectize/dist/css/selectize.default.css';
 
 window.$ = window.jQuery = $;
 window._ = _;
 
-if (!window.event) window.event = event;
+if (!window.ee) window.ee = ee;
 
 function $subscribe(eventName: string, callback: (...args: mixed) => any) {
   // to maintain backwards compatibility, jQuery events always
@@ -15,11 +15,11 @@ function $subscribe(eventName: string, callback: (...args: mixed) => any) {
   const compatibleCallback = function(...args) {
     callback(this, ...args);
   };
-  event.on(eventName, compatibleCallback);
+  ee.on(eventName, compatibleCallback);
 }
 
 function $publish(eventName: string, ...args: any) {
-  event.emit(eventName, ...args);
+  ee.emit(eventName, ...args);
 }
 
 _.extend($, {

@@ -44,8 +44,8 @@ section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-li
 
 javascript:
   $(document).ready(function(){
-    event.emit("pages:edit", #{@page.id});
-    event.emit("activation:toggle");
-    event.emit("shares:edit");
+    window.ee.emit("pages:edit", #{@page.id});
+    window.ee.emit("activation:toggle");
+    window.ee.emit("shares:edit");
     new PageEditBar();
   });
