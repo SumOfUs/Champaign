@@ -107,7 +107,7 @@ const SharesEditor = Backbone.View.extend({
     this.openEditor(this.$('.has-error').parents('.shares-editor__edit-row'));
   },
 
-  updateSummaryRows: function(e, data) {
+  updateSummaryRows: function(data) {
     // this only updates existing shares. new ones are appended by
     // code in view/share/shares/create.js.erb, using rails UJS
     $.get(`/api/pages/${data.id}/share-rows`, rows => {
@@ -126,7 +126,7 @@ const SharesEditor = Backbone.View.extend({
     });
   },
 
-  addImageSelectors: function(e, file, id, html) {
+  addImageSelectors: function(file, id, html) {
     const newOption = `<option value='${id}'>${file.name}</option>`;
     this.$('.shares-editor__image-selector').append(newOption);
   },
