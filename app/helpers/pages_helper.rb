@@ -23,6 +23,16 @@ module PagesHelper
     match[1]
   end
 
+  def page_canonical_url(page)
+    return page.canonical_url if page.canonical_url.present?
+    member_facing_page_url(page)
+  end
+
+  def page_description(page)
+    return page.meta_description if page.meta_description.present?
+    t('branding.description')
+  end
+
   def serialize(data, field)
     hash = HashWithIndifferentAccess.new(data)
     (hash[field].nil? ? {} : hash[field]).to_json.html_safe
@@ -182,7 +192,7 @@ module PagesHelper
   end
 
   def countries
-    @countries ||= ISO3166::Country.all.map do |c|
+    ISO3166::Country.all.map do |c|
       {
         name: c.name,
         alpha2: c.alpha2,
@@ -190,14 +200,7 @@ module PagesHelper
         country_code: c.country_code,
         currency_code: c.currency_code,
         eu_member: c.in_eu?,
-        eea_member: c.in_eea?,
-        languages_official: c.languages_official,
-        translations: {
-          en: c.translations['en'],
-          fr: c.translations['fr'],
-          de: c.translations['de'],
-          es: c.translations['es']
-        }
+        eea_member: c.in_eea?
       }
     end
   end

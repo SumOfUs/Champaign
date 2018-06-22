@@ -3,42 +3,41 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
   head
     title  = @page.title
     meta name="viewport" content="width=device-width, initial-scale=1.0"
-    meta name="description" content="#{@page.meta_description.present? ? @page.meta_description : t('branding.description') }"
-
-    = stylesheet_pack_tag "globals"
-    = javascript_pack_tag "sentry"
-    = javascript_pack_tag "globals"
+    meta name="description" content="#{page_description(@page)}"
+    link rel="canonical" href="#{page_canonical_url(@page)}"
 
     - if Settings.facebook_app_id.present?
       meta property="fb:app_id" content="#{Settings.facebook_app_id}"
-    = @page.meta_tags&.html_safe
-
-    = stylesheet_link_tag "member-facing"
 
     = csrf_meta_tags
     = favicon_link_tag "images/org-favicon.ico"
     = metamagic
-    - canonical_url = @page.canonical_url.blank? ? member_facing_page_url(@page) : @page.canonical_url
-    link rel="canonical" href=canonical_url
 
-    = javascript_include_tag "https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.de,Intl.~locale.fr&rum=1&unknown=polyfill"
+    = javascript_pack_tag "sentry"
+    = javascript_pack_tag "globals"
+
+    = render partial: "shared/browser_polyfills"
     = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
-    = render partial: "shared/js_locale"
     = render partial: "layouts/mixpanel" if Settings.mixpanel_token
-    = render 'shared/page_object'
-    = render 'pages/personalization', data: @data
+    = render partial: "shared/js_locale"
+    = render partial: "shared/champaign_object"
+    = render "pages/personalization", data: @data
+
+    = stylesheet_pack_tag "globals"
+    = stylesheet_link_tag "member-facing"
+    = stylesheet_pack_tag "member_facing"
   body
     = render partial: "layouts/notification"
 
     .mobile-indicator
 
-    = stylesheet_pack_tag "member_facing"
+    = render partial: "shared/facebook_pixel" unless Rails.env.test?
+
     = javascript_pack_tag "member_facing"
     = render "pages/packs", plugins: @page.plugins
 
-    = render partial: "shared/facebook_pixel" unless Rails.env.test?
-
     = yield
 
-    = render partial: 'shared/google_analytics_snippet'
-    script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"
+    = javascript_pack_tag "cookie_consent"
+    = render partial: "shared/google_analytics_snippet"
+    = render partial: "shared/shareprogress_snippet"
