@@ -1,5 +1,10 @@
 // @flow
 import 'babel-polyfill';
+import 'intl';
+import 'intl/locale-data/jsonp/en.js';
+import 'intl/locale-data/jsonp/de.js';
+import 'intl/locale-data/jsonp/fr.js';
+
 import $ from '../vendor/jquery';
 import _ from '../vendor/lodash';
 import ee from '../shared/pub_sub';
