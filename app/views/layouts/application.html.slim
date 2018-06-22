@@ -5,11 +5,15 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     = csrf_meta_tags
     = favicon_link_tag "champaign/favicon.ico"
-    = stylesheet_link_tag "application", media: "all"
-    = stylesheet_pack_tag "globals", media: "all"
+
     = javascript_pack_tag "sentry"
     = javascript_pack_tag "globals"
+
+    = render partial: "shared/browser_polyfills"
     = render partial: "shared/js_locale"
+
+    = stylesheet_link_tag "application", media: "all"
+    = stylesheet_pack_tag "globals", media: "all"
   body.page-edit-body
     = render partial: "cdn/campaigner_facing"
     .navbar--fixed__spacer
