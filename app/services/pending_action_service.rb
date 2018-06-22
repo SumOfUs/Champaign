@@ -26,7 +26,7 @@ class PendingActionService
         action,
         html: html,
         text: text,
-        subject: I18n.t('double_opt_in.email.subject', locale: :de)
+        subject: I18n.t('double_opt_in.email.subject', locale: page.language_code)
       )
     end
 
@@ -53,10 +53,10 @@ class PendingActionService
   end
 
   def html
-    EmailRenderer.render(assigns, 'confirm_action.html')
+    EmailRenderer.render(assigns, "confirm_action.#{page.language_code}.html")
   end
 
   def text
-    EmailRenderer.render(assigns, 'confirm_action.text')
+    EmailRenderer.render(assigns, "confirm_action.#{page.language_code}.text")
   end
 end
