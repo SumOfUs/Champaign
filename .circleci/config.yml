@@ -74,6 +74,11 @@ jobs:
           at: ~/circleci-champaign
       - run: bundle install --path vendor/bundle
       - run:
+          name: Set BUILD_TIME environment variable
+          command: |
+            echo 'export BUILD_TIME=$(date +%Y%m%d.%H%M)' >> $BASH_ENV
+            source $BASH_ENV
+      - run:
           name: Precompile assets
           # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
           command: bundle exec rake assets:precompile
