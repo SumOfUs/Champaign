@@ -1,4 +1,5 @@
 // @flow
+import 'babel-polyfill';
 import $ from '../vendor/jquery';
 import _ from '../vendor/lodash';
 import ee from '../shared/pub_sub';
