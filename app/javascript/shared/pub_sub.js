@@ -2,9 +2,9 @@
 
 import EventEmitter from 'eventemitter3';
 
-let event = window.event;
-if (!event) {
-  event = new EventEmitter();
+let ee = window.ee;
+if (!ee) {
+  ee = new EventEmitter();
 }
 
-export default event;
+export default ee;
