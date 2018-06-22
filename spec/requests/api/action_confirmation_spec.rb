@@ -10,7 +10,7 @@ describe 'Confirmation Reminder' do
     allow(client).to receive(:publish)
   end
 
-  let(:page) { create(:page) }
+  let(:page) { create(:page, language: create(:language, :german)) }
 
   context 'action remains unconfirmed 24 hours later' do
     it 'finds and sends repeat email if member has not given consent' do
@@ -73,7 +73,7 @@ describe 'Confirmation Reminder' do
 end
 
 describe 'New Action Confirmation' do
-  let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
+  let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar', language: create(:language, :german)) }
   let(:form) { create(:form_with_email_and_optional_country) }
 
   let(:params) do
