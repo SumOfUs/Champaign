@@ -1,4 +1,7 @@
 fr:
+  double_opt_in:
+    email:
+      subject: 'Juste un dernier clic - confirmez votre signature'
   page:
     more_info: Plus d’informations
     no_script: "Merci de votre intérêt pour ce problème ! Malheureusement, vous ne pouvez pas réaliser cette action tant que Javascript n’est pas activé sur votre navigateur. Merci d’activer Javascript ou d’utiliser un navigateur avec Javascript actif pour pouvoir réaliser cette action."

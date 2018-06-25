@@ -1,4 +1,7 @@
 en:
+  double_opt_in:
+    email:
+      subject: 'Just one more click - please confirm your signature!'
   footer:
     home_url: http://example.com
   page:

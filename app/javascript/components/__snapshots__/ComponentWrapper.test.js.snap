@@ -61,6 +61,7 @@ exports[`Snapshots: With default messages object 1`] = `
       "cookie_consent.dismiss_button_text": "Agree & Proceed",
       "cookie_consent.message": "Cookies are important to the proper functioning of this site.",
       "cookie_consent.privacy_policy_link_text": "Privacy Policy",
+      "double_opt_in.email.subject": "Just one more click - please confirm your signature!",
       "email_pension.form.select_target": "Select your Pension or Mutual Fund",
       "email_tool.form.email_body": "Body",
       "email_tool.form.errors.country": "Please select a country",
