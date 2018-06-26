@@ -66,6 +66,18 @@ describe 'Api Actions' do
       }
     end
 
+    describe 'with extra action fields' do
+      let(:_params) {
+        params.merge extra_action_fields: {
+          action_test_variant: 'test_variant_name'
+        }
+      }
+      it 'creates an action with the extra action fields' do
+        post "/api/pages/#{page.id}/actions", params: _params, headers: headers
+        expect(Action.last.form_data['action_test_variant']).to eq('test_variant_name')
+      end
+    end
+
     describe 'queue' do
       before do
         post "/api/pages/#{page.id}/actions", params: params, headers: headers

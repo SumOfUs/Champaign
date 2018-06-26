@@ -10,7 +10,10 @@ class Api::ActionsController < ApplicationController
     validator = FormValidator.new(action_params.to_h)
 
     if validator.valid?
-      action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
+      action = ManageAction.create action_params
+        .merge(referer_url)
+        .merge(mobile_value)
+        .merge(extra_fields)
 
       if action.is_a?(PendingAction)
         path = confirmation_page_path(page, double_opt_in: true,
@@ -54,7 +57,7 @@ class Api::ActionsController < ApplicationController
   private
 
   def action_params
-    @action_params ||= params.permit(fields + base_params)
+    @action_params ||= params.except(:extra_action_fields).permit(fields + base_params)
   end
 
   def base_params
@@ -63,6 +66,10 @@ class Api::ActionsController < ApplicationController
 
   def fields
     Form.find(params[:form_id]).form_elements.map(&:name)
+  end
+
+  def extra_fields
+    unsafe_params[:extra_action_fields] || {}
   end
 
   def page
