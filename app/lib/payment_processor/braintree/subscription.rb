@@ -26,13 +26,14 @@ module PaymentProcessor
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
       attr_reader :action, :result
 
-      def self.make_subscription(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false, device_data: {})
-        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data)
+      def self.make_subscription(nonce:, amount:, currency:, user:, page_id:,
+                                 store_in_vault: false, device_data: {}, extra_params: {})
+        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data, extra_params)
         builder.subscribe
         builder
       end
 
-      def initialize(nonce, amount, currency, user, page_id, store_in_vault, device_data)
+      def initialize(nonce, amount, currency, user, page_id, store_in_vault, device_data, extra_params)
         @amount = amount
         @nonce = nonce
         @user = user
@@ -40,6 +41,7 @@ module PaymentProcessor
         @page_id = page_id
         @store_in_vault = store_in_vault
         @device_data = device_data
+        @extra_params = extra_params || {}
       end
 
       # the `catch` is used because if any of the BT requests fails, we want to stop
@@ -77,11 +79,21 @@ module PaymentProcessor
       end
 
       def record_in_local_database(payment_method, customer_result, subscription_result)
-        @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: subscription_result, is_subscription: true, store_in_vault: @store_in_vault)
-        customer = Payment::Braintree::BraintreeCustomerBuilder.build(customer_result.customer, payment_method, @action.member_id, existing_customer, store_in_vault: @store_in_vault)
+        params = @user.merge(page_id: @page_id).merge(@extra_params)
+        @action = ManageBraintreeDonation.create(params: params, braintree_result: subscription_result,
+                                                 is_subscription: true, store_in_vault: @store_in_vault)
+        customer = Payment::Braintree::BraintreeCustomerBuilder.build customer_result.customer,
+                                                                      payment_method,
+                                                                      @action.member_id, existing_customer,
+                                                                      store_in_vault: @store_in_vault
 
         payment_method_id = customer.payment_methods.find_by(token: payment_method.token).id
-        Payment::Braintree.write_subscription(payment_method_id, customer.customer_id, subscription_result, @page_id, @action.id, @currency)
+        Payment::Braintree.write_subscription payment_method_id,
+                                              customer.customer_id,
+                                              subscription_result,
+                                              @page_id,
+                                              @action.id,
+                                              @currency
       end
 
       # we make 2 or 3 requests to braintree. if any of them fails, set it as the result
