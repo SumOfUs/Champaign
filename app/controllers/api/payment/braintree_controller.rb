@@ -30,7 +30,11 @@ class Api::Payment::BraintreeController < PaymentController
       currency: unsafe_params[:currency],
       page_id: unsafe_params[:page_id],
       store_in_vault: store_in_vault?
-    }
+    }.tap do |options|
+      if unsafe_params[:extra_action_fields].present?
+        options[:extra_params] = unsafe_params[:extra_action_fields]
+      end
+    end
   end
 
   def client

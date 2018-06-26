@@ -12,8 +12,9 @@ class ManageBraintreeDonation
     ).create
   end
 
-  def initialize(params:, braintree_result:, is_subscription: false, store_in_vault: false)
+  def initialize(params:, extra_params: {}, braintree_result:, is_subscription: false, store_in_vault: false)
     @params = params
+    @extra_params = extra_params.clone
     @braintree_result = braintree_result
     @is_subscription = is_subscription
     @store_in_vault = store_in_vault
@@ -39,7 +40,7 @@ class ManageBraintreeDonation
       end
     )
 
-    ManageAction.create(@params, extra_params: { donation: true })
+    ManageAction.create(@params, extra_params: { donation: true }.merge(@extra_params))
   end
 
   private

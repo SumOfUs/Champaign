@@ -21,15 +21,17 @@ module PaymentProcessor
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
       attr_reader :action, :result, :store_in_vault
 
-      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false, device_data: {})
-        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data)
+      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:,
+                                store_in_vault: false, device_data: {}, extra_params: {})
+        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data, extra_params)
         builder.transact
         builder
       end
 
       # Long parameter list is doing my head in - let's replace with a parameter object
       #
-      def initialize(nonce, amount, currency, user, page_id, store_in_vault = false, device_data = {})
+      def initialize(nonce, amount, currency, user, page_id,
+                     store_in_vault = false, device_data = {}, extra_params = {})
         @amount = amount
         @nonce = nonce
         @user = user
@@ -37,16 +39,21 @@ module PaymentProcessor
         @page_id = page_id
         @store_in_vault = store_in_vault
         @device_data = device_data
+        @extra_params = extra_params || {}
       end
 
       def transact
         @result = ::Braintree::Transaction.sale(options)
 
         if @result.success?
-          @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: @result, is_subscription: false, store_in_vault: @store_in_vault)
-          Payment::Braintree.write_transaction(@result, @page_id, @action.member_id, existing_customer, store_in_vault: @store_in_vault)
+          params = @user.merge(page_id: @page_id).merge(@extra_params)
+          @action = ManageBraintreeDonation.create(params: params, braintree_result: @result, is_subscription: false,
+                                                   store_in_vault: @store_in_vault)
+          Payment::Braintree.write_transaction(@result, @page_id, @action.member_id, existing_customer,
+                                               store_in_vault: @store_in_vault)
         else
-          Payment::Braintree.write_transaction(@result, @page_id, nil, existing_customer, store_in_vault: @store_in_vault)
+          Payment::Braintree.write_transaction(@result, @page_id, nil, existing_customer,
+                                               store_in_vault: @store_in_vault)
         end
       end
 
