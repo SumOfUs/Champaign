@@ -381,6 +381,29 @@ describe 'Braintree API' do
         end
       end
 
+      describe 'with whitelisted action fields' do
+        let(:params) do
+          {
+            currency: 'EUR',
+            payment_method_nonce: 'fake-valid-nonce',
+            recurring: false,
+            amount: 2.00,
+            store_in_vault: false,
+            user: user_params,
+            extra_action_fields: {
+              action_test_variant: 'test_variant_name'
+            }
+          }
+        end
+
+        it 'creates an action with the extra parameters' do
+          VCR.use_cassette('braintree_transaction whitelisted_fields') do
+            post api_payment_braintree_transaction_path(page.id), params: params
+            expect(Action.last.form_data['action_test_variant']).to eq('test_variant_name')
+          end
+        end
+      end
+
       describe "without storing in Braintree's vault" do
         let(:params) do
           {
@@ -1146,6 +1169,24 @@ describe 'Braintree API' do
               expect(response.status).to eq 200
               data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
               expect(response.body).to eq(data.to_json)
+            end
+          end
+
+          context 'with extra action params' do
+            let(:amount) { 823.20 } # to avoid duplicate donations recording specs
+            let(:params) {
+              basic_params.merge user: user_params,
+                                 amount: amount,
+                                 extra_action_fields: {
+                                   action_test_variant: 'test_variant_name'
+                                 }
+            }
+
+            it 'creates an action with the extra parameters' do
+              VCR.use_cassette('braintree_subscription whitelisted_fields') do
+                post api_payment_braintree_transaction_path(page.id), params: params
+                expect(Action.last.form_data['action_test_variant']).to eq('test_variant_name')
+              end
             end
           end
 

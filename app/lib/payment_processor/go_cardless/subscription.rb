@@ -33,22 +33,31 @@ module PaymentProcessor
         client.subscriptions.cancel(go_cardless_id)
       end
 
-      def initialize(amount:, currency:, user:, page_id:, redirect_flow_id:, session_token:)
+      def initialize(amount:, currency:, user:, page_id:, redirect_flow_id:, session_token:, extra_params: {})
         @page_id = page_id
         @original_amount_in_cents = (amount.to_f * 100).to_i # Price in pence/cents
         @original_currency = currency.try(:upcase)
         @redirect_flow_id = redirect_flow_id
         @user = user
         @session_token = session_token
+        @extra_params = extra_params || {}
       end
 
       def subscribe
         @subscription = client.subscriptions.create(params: subscription_params)
         @action = ManageDonation.create(params: action_params)
         @local_customer = Payment::GoCardless.write_customer(customer_id, @action.member_id)
-        @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
-        @local_subscription = Payment::GoCardless.write_subscription(@subscription.id, amount_in_whole_currency,
-                                                                     currency, @page_id, @action.id, @local_customer.id, @local_mandate.id)
+        @local_mandate = Payment::GoCardless.write_mandate mandate.id,
+                                                           mandate.scheme,
+                                                           mandate.next_possible_charge_date,
+                                                           @local_customer.id
+        @local_subscription = Payment::GoCardless.write_subscription @subscription.id,
+                                                                     amount_in_whole_currency,
+                                                                     currency,
+                                                                     @page_id,
+                                                                     @action.id,
+                                                                     @local_customer.id,
+                                                                     @local_mandate.id
       rescue GoCardlessPro::Error => e
         @error = e
       end
@@ -73,7 +82,7 @@ module PaymentProcessor
           bank_name:            bank_account.bank_name,
           account_number_ending: bank_account.account_number_ending,
           payment_provider:     'go_cardless'
-        )
+        ).merge!(@extra_params)
       end
     end
   end

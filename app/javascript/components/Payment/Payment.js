@@ -53,6 +53,7 @@ type OwnProps = {
   setPaymentType: (value: PaymentType) => void,
   setSubmitting: (value: boolean) => void,
   showDirectDebit: boolean,
+  extraActionFields: { [string]: string | boolean | number },
 };
 
 type OwnState = {
@@ -173,6 +174,7 @@ export class Payment extends Component {
         form,
         formValues,
       },
+      extraActionFields,
     } = this.props;
 
     return {
@@ -184,6 +186,7 @@ export class Payment extends Component {
         ...formValues,
         ...form,
       },
+      extra_action_fields: extraActionFields,
     };
   }
 
@@ -488,6 +491,7 @@ const mapStateToProps = (state: AppState) => ({
       ...state.fundraiser.form,
     },
   },
+  extraActionFields: state.extraActionFields,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
