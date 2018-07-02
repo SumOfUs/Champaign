@@ -143,12 +143,7 @@ ee.on('shares:edit', function() {
 $(function() {
   new Clipboard('.share-copy-url');
 
-  $('.shares-editor__existing').on(
-    'click',
-    '.share-copy-url',
-    (e: JQueryEventObject) => {
-      e.preventDefault();
-    }
-  );
-
+  $('.share-copy-url').on('click', (e: JQueryEventObject) => {
+    e.preventDefault();
+  });
 });
