@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'API::Stateless GoCardless PaymentMethods' do
@@ -100,7 +101,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
       Timecop.freeze do
         VCR.use_cassette('stateless api cancel go_cardless mandate') do
           delete "/api/stateless/go_cardless/payment_methods/#{delete_me.id}", headers: auth_headers
-          expect(response.success?).to eq true
+          expect(response.successful?).to eq true
           expect(Payment::GoCardless::PaymentMethod.find(delete_me.id).cancelled_at)
             .to be_within(1.second).of Time.now
         end
@@ -123,7 +124,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
         expect(Rails.logger).to receive(:error).with('GoCardlessPro::InvalidApiUsageError occurred when cancelling'\
         ' mandate nosuchthingongocardless: Resource not found')
         delete "/api/stateless/go_cardless/payment_methods/#{i_dont_exist.id}", headers: auth_headers
-        expect(response.success?).to eq false
+        expect(response.successful?).to eq false
         expect(json_hash['errors']).to eq([{ 'reason' => 'resource_not_found', 'message' => 'Resource not found' }])
         expect(Payment::GoCardless::PaymentMethod.find(i_dont_exist.id).cancelled_at).to be nil
       end

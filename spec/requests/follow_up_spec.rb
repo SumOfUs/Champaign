@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'rendering a post action share page' do
@@ -15,7 +16,7 @@ describe 'rendering a post action share page' do
 
   let(:subject) do
     get "/a/#{page.slug}/follow-up"
-    expect(response.success?).to be true
+    expect(response.successful?).to be true
   end
 
   describe 'a page with no variants' do

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'api/pages/:id/survey_responses', type: :request do
@@ -19,7 +20,7 @@ describe 'api/pages/:id/survey_responses', type: :request do
 
       it 'returns a successful response' do
         post "/api/pages/#{page.id}/survey_responses", params: params
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'creates a new action and sets the form data submitted' do
@@ -97,11 +98,11 @@ describe 'api/pages/:id/survey_responses', type: :request do
 
       it 'updates the existing action' do
         post "/api/pages/#{page.id}/survey_responses", params: form_params
-        expect(response).to be_success
+        expect(response).to be_successful
         @action = Action.last
 
         post "/api/pages/#{page.id}/survey_responses", params: form_2_params
-        expect(response).to be_success
+        expect(response).to be_successful
 
         @action.reload
         expect(@action.form_data).to include(

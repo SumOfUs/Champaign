@@ -191,7 +191,7 @@ describe Api::ActionsController do
     describe 'successful' do
       it 'returns 200' do
         put :update, params: { page_id: 2, id: a.id, publish_status: 'published' }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'changes the status to published' do
