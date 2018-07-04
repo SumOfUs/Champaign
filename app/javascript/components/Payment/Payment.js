@@ -418,7 +418,7 @@ export class Payment extends Component {
             <Checkbox
               className="Payment__config"
               disabled={hideRecurring}
-              defaultChecked={recurring}
+              checked={recurring}
               onChange={e => this.props.setRecurring(e.target.checked)}
             >
               <FormattedMessage
@@ -430,7 +430,7 @@ export class Payment extends Component {
 
           <Checkbox
             className="Payment__config"
-            defaultChecked={storeInVault}
+            checked={storeInVault}
             onChange={e => this.props.setStoreInVault(e.target.checked)}
           >
             <FormattedMessage
