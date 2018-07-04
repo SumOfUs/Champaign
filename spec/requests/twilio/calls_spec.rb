@@ -8,7 +8,7 @@ describe 'POST /twilio/calls/:id/start' do
 
   it 'returns successfully' do
     post "/twilio/calls/#{call.id}/start"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it 'sets the call status to started' do
@@ -28,7 +28,7 @@ describe 'POST /twilio/calls/:id/menu' do
 
   it 'returns successfully' do
     post "/twilio/calls/#{call.id}/menu"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 end
 
@@ -38,7 +38,7 @@ describe 'POST /twilio/calls/:id/connect' do
 
   it 'returns successfully' do
     post "/twilio/calls/#{call.id}/connect"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it 'sets the call status to connected' do
@@ -60,7 +60,7 @@ describe 'POST /twilio/calls/:id/target_call_status' do
   it 'updates call target_call_info' do
     post "/twilio/calls/#{call.id}/target_call_status", params: { foo: 'bar' }
     expect(call.reload.target_call_info['foo']).to eq('bar')
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it 'publishes an event' do
@@ -83,7 +83,7 @@ describe 'POST /twilio/calls/:id/member_call_event' do
 
   it 'returns successfully' do
     post "/twilio/calls/#{call.id}/member_call_event", params: params
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it 'updates the call' do
