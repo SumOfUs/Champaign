@@ -1,0 +1,3 @@
+.form-group.whatsapp-share
+  = label_with_tooltip(form, :text, t('share.whatsapp.form.text'), t('tooltips.shares.link_explanation'))
+  = form.text_field :text, class: 'form-control', maxlength: 500

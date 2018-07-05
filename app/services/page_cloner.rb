@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ClonePageError < StandardError; end
 
 class PageCloner
@@ -96,7 +97,7 @@ class PageCloner
 
   def shares
     page.shares.each do |share|
-      ShareProgressVariantBuilder.create(
+      ShareVariantBuilder.create(
         params: share_params(share),
         variant_type: share_class(share),
         page: cloned_page,

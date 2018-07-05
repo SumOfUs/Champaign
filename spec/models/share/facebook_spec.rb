@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_facebooks
@@ -57,6 +58,13 @@ describe Share::Facebook do
       expect(share.image.content.url).to match('test-image.gif')
       expect { image.destroy }.not_to raise_error
       expect(share.reload.image).to eq nil
+    end
+  end
+
+  describe 'share_progress?' do
+    let(:facebook) { create(:share_facebook) }
+    it 'is managed by ShareProgress' do
+      expect(facebook.share_progress?).to eq true
     end
   end
 end

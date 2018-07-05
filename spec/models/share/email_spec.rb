@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_emails
@@ -36,6 +37,13 @@ describe Share::Email do
     it 'body must contain {LINK}' do
       subject.body = 'Foo'
       expect(subject).to_not be_valid
+    end
+  end
+
+  describe 'share_progress?' do
+    let(:email) { create(:share_email) }
+    it 'is managed by ShareProgress' do
+      expect(email.share_progress?).to eq true
     end
   end
 end

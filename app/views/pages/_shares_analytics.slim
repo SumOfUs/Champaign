@@ -1,8 +1,17 @@
-table.table
-  thead.shares-editor__stats-heading
-    = render 'share_analytics_header'
-  
-  tbody
-    - @page.shares.each do |variation|
-      = render variation, page: @page, only_stats: true
-    = render 'links_to_share_progress', only_stats: true
+.shares-summary
+  table.table
+    thead.shares-editor__stats-heading
+      = render 'sp_share_analytics_header', hide_title: false
+
+    tbody
+      - @page.shares('sp').each do |variation|
+        = render variation, page: @page, only_stats: true
+      = render 'links_to_share_progress', only_stats: true
+
+  table.table
+    thead.shares-editor__stats-heading
+      = render 'local_share_analytics_header', hide_title: false
+
+    tbody
+      - @page.shares('local').each do |variation|
+        = render variation, page: @page, only_stats: true

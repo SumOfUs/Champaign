@@ -205,7 +205,7 @@ describe 'Api Actions' do
         end
 
         it 'responds with success' do
-          expect(response).to be_success
+          expect(response).to be_successful
         end
 
         it 'does not assign an actionkit_user_id to the created Member' do

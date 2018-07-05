@@ -123,7 +123,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
       Timecop.freeze do
         VCR.use_cassette('stateless api cancel go_cardless subscription') do
           delete "/api/stateless/go_cardless/subscriptions/#{delete_subscription.id}", headers: auth_headers
-          expect(response.success?).to eq true
+          expect(response.successful?).to eq true
           expect(Payment::GoCardless::Subscription.find(delete_subscription.id).cancelled_at)
             .to be_within(1.second).of Time.now
         end
@@ -135,7 +135,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
         expect(Rails.logger).to receive(:error).with('GoCardlessPro::InvalidApiUsageError occurred when cancelling'\
         ' subscription idontexist: Resource not found')
         delete "/api/stateless/go_cardless/subscriptions/#{nonexistent_subscription.id}", headers: auth_headers
-        expect(response.success?).to eq false
+        expect(response.successful?).to eq false
         expect(json_hash['errors']).to eq([{ 'reason' => 'resource_not_found', 'message' => 'Resource not found' }])
         expect(Payment::GoCardless::Subscription.find(nonexistent_subscription.id).cancelled_at).to be nil
       end

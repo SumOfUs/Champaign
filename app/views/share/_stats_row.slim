@@ -1,6 +1,5 @@
 - only_stats = local_assigns.fetch(:only_stats, false)
 - analytics = ShareAnalytics.data(page, share_type, share )[0]
-
 tr.shares-editor__stats-row class="#{only_stats ? '' : 'hidden-closed'}"
   td
     - case share_type

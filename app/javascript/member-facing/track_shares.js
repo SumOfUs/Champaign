@@ -1,9 +1,27 @@
 // @flow
 import $ from 'jquery';
+import MobileCheck from './backbone/mobile_check';
+
 $(() => {
+  if (!MobileCheck.isMobile()) {
+    $('.button--whatsapp').remove();
+  }
+
+  $('.button--whatsapp').click(function(e) {
+    e.preventDefault();
+    $.post(window.location.origin + '/api/shares/track', {
+      variant_type: 'whatsapp',
+      variant_id: $(this).attr('variant_id'),
+    }).then(function() {
+      window.location = $(e.currentTarget)
+        .children('a')
+        .attr('href');
+    });
+  });
+
   let shared = false;
 
-  const handleShare = (event: JQueryEventObject) => {
+  const handleFacebookShare = (event: JQueryEventObject) => {
     // SP triggers 'share' twice so need to block
     // a duplicate event from being posted to GA.
     if (shared) return;
@@ -23,5 +41,5 @@ $(() => {
     }
   };
 
-  $(window).bind('share', handleShare);
+  $(window).bind('share', handleFacebookShare);
 });
