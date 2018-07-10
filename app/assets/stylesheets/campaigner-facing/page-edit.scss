@@ -335,6 +335,13 @@ textarea#page_meta_description {
   .twitter-share .char-count {
     text-align: right;
   }
+
+  .errors {
+    @extend .text-danger;
+    font-size: 14px;
+    font-weight: normal;
+    display: none;
+  }
 }
 
 .dropzone {
