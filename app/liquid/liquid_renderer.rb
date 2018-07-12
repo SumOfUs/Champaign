@@ -19,9 +19,9 @@ class LiquidRenderer
     render_layout(@page.liquid_layout)
   end
 
-  def render_custom(layout_name)
+  def render_custom(layout_name, data = {})
     render_layout(
-      LiquidLayout.find_by_title!(layout_name)
+      LiquidLayout.find_by_title!(layout_name), data
     )
   end
 
@@ -52,10 +52,10 @@ class LiquidRenderer
 
   private
 
-  def render_layout(layout)
+  def render_layout(layout, extra_data = {})
     cache = Cache.new(@page.cache_key, layout.try(:cache_key))
     cache.fetch do
-      Liquid::Template.parse(layout.content).render(markup_data).html_safe
+      Liquid::Template.parse(layout.content).render(markup_data.merge(extra_data.stringify_keys)).html_safe
     end
   end
 

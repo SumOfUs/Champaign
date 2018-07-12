@@ -17,8 +17,8 @@ class Api::ActionsController < ApplicationController
 
       if action.is_a?(PendingAction)
         path = confirmation_page_path(page, double_opt_in: true,
-                                            d_name: action.data['name'],
-                                            d_email: action.data['email'])
+                                            name: action.data['name'],
+                                            email: action.data['email'])
 
         render js: "location.href = '#{path}';", status: 200
         return

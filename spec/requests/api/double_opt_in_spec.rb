@@ -74,7 +74,7 @@ describe 'Double opt-in' do
 
       it 'redirects to notice' do
         post "/api/pages/#{page.id}/actions", params: params
-        path = '/pages/foo-bar/confirmation?d_email=hello%40example.com&d_name=John+Doe&double_opt_in=true'
+        path = '/pages/foo-bar/confirmation?double_opt_in=true&email=hello%40example.com&name=John+Doe'
         expect(response.body).to include("location.href = '#{path}'")
       end
     end
