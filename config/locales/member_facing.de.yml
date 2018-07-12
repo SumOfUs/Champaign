@@ -1,5 +1,8 @@
 de:
   double_opt_in:
+    check_email:
+      title: "Fast geschafft, %{name}!"
+      body: "<p>Wir haben einen Bestätigungslink per E-Mail an folgende Adresse gesendet: <strong>%{email}</strong></p><p>Bitte rufen Sie die E-Mail jetzt gleich ab und klicken Sie auf den enthaltenen Link. Nur wenn Sie Ihre Unterschrift bestätigen, zählt Ihre Stimme!</p>"
     email:
       subject: 'Nur noch ein Klick - bitte Teilnahme bestätigen!'
   page:
