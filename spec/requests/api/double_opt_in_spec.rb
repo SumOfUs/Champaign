@@ -18,7 +18,11 @@ describe 'Double opt-in' do
     let(:form) { create(:form_with_email_and_optional_country) }
 
     context 'without petiton plugin' do
-      let(:page) { create(:page, :with_call_tool, title: 'Foo Bar', slug: 'foo-bar') }
+      let(:page) {
+        create(:page, :with_call_tool, title: 'Foo Bar',
+                                       slug: 'foo-bar',
+                                       language: create(:language, :german))
+      }
 
       it 'does not record a pending action' do
         post "/api/pages/#{page.id}/actions", params: params
@@ -27,7 +31,11 @@ describe 'Double opt-in' do
     end
 
     context 'with petition plugin' do
-      let(:page) { create(:page, :with_petition, title: 'Foo Bar', slug: 'foo-bar') }
+      let(:page) {
+        create(:page, :with_petition, title: 'Foo Bar',
+                                      slug: 'foo-bar',
+                                      language: create(:language, :german))
+      }
 
       let(:client) { double }
 
@@ -66,7 +74,7 @@ describe 'Double opt-in' do
 
       it 'redirects to notice' do
         post "/api/pages/#{page.id}/actions", params: params
-        path = '/pages/foo-bar/confirmation?d_email=hello%40example.com&d_name=John+Doe&double_opt_in=true'
+        path = '/pages/foo-bar/confirmation?double_opt_in=true&email=hello%40example.com&name=John+Doe'
         expect(response.body).to include("location.href = '#{path}'")
       end
     end

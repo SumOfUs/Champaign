@@ -1,0 +1,14 @@
+| Hi #{@name.titleize},
+
+  We're happy that you want to support our petition "#{@page.title}". Unfortunately, you haven’t confirmed your signature, yet.
+
+  We'd love to stay in touch with you by email to keep you informed about this and other SumOfUs campaigns (you can unsubscribe at any time). Please click one of the following links:
+
+= link_to "I want to sign and receive updates about this and other campaigns", confirm_api_action_confirmations_url(token: @token, consented: true)
+
+= link_to "I want to sign but don’t want any updates", confirm_api_action_confirmations_url(token: @token)
+
+| Your signature only counts if you click to confirm!
+
+| Best regards,
+  The team at SumOfUs

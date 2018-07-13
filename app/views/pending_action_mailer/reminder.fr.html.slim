@@ -1,0 +1,17 @@
+h3 Bonjour #{@name.titleize},
+
+p Nous nous réjouissons que vous ayez décidé de soutenir notre pétition "#{@page.title}". Cependant, vous n’avez pas encore confirmé votre signature.
+
+p Nous serions extrêmement heureux de rester en contact avec vous par mail afin de vous tenir informé-e des suites de cette campagne, ainsi que des autres à SumOfUs (vous pouvez bien sûr vous désinscrire à tout moment). Veuillez s’il vous plaît cliquer sur l’un des liens suivants:
+
+h3
+  = link_to "Je signe et je souhaite être tenu-e au courant des suites de cette campagne et des autres campagnes de SumOfUs", confirm_api_action_confirmations_url(token: @token, consented: true)
+p
+  = link_to "Je signe mais je ne souhaite pas être tenu-e au courant", confirm_api_action_confirmations_url(token: @token)
+
+p Votre signature ne sera prise en compte seulement si vous cliquez pour confirmer !
+
+p
+  | Bien cordialement,
+  br
+  | L'équipe de SumOfUs

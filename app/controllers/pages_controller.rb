@@ -10,7 +10,7 @@ class PagesController < ApplicationController
   before_action :get_page, only: %i[edit update destroy follow_up double_opt_in_notice analytics actions preview]
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
-  before_action :localize, only: %i[show follow_up]
+  before_action :localize, only: %i[show follow_up double_opt_in_notice]
   before_action :record_tracking, only: %i[show]
 
   def index
@@ -87,7 +87,10 @@ class PagesController < ApplicationController
   end
 
   def double_opt_in_notice
-    @rendered = renderer.render_custom('Double Opt In Follow Up')
+    @rendered = renderer.render_custom('Double Opt In Follow Up',
+                                       email: params[:email],
+                                       name: params[:name].capitalize)
+
     render :follow_up, layout: 'member_facing'
   end
 

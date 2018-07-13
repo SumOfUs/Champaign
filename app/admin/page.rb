@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Page do
-  actions :all, except: [:new, :destroy]
-  permit_params :active, :featured
+  actions :all, except: %i[new destroy]
+  permit_params :publish_status, :featured
 
   config.per_page = 20
-  scope :active, show_count: false
+  scope :publish_status, show_count: false
 
   filter :liquid_layout, label: 'Layout'
   filter :language
@@ -20,16 +21,8 @@ ActiveAdmin.register Page do
     id_column
     column :title
     column :featured
-    column :active
+    column :publish_status
     column :status
-    actions
-  end
-
-  form do |f|
-    f.inputs 'Page Details - Edit the page in the page editor' do
-      f.input :active
-      f.input :featured
-    end
     actions
   end
 
