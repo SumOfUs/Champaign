@@ -1,4 +1,6 @@
 = form_for [page, share], remote: true, html: { class: "shares-editor__new-form #{css_class}", data: {share: share.name} }  do |f|
+  .errors
+    p = t('share.form.error')
 
   = f.hidden_field :name
   = render partial: "share/#{share.name}s/share_fields", locals: { form: f, share: share, page: page }

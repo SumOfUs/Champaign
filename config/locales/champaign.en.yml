@@ -282,6 +282,7 @@ en:
     form:
       new_variation: 'Create new share variant'
       url: 'URL to share (leave blank to share this page)'
+      error: 'Oops! Something went wrong with the submission. Please correct any errors indicated and try again.'
 
     facebook:
       title: 'Facebook Share Headline'

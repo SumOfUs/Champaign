@@ -1,7 +1,7 @@
 // @flow
 import $ from 'jquery';
 import Backbone from 'backbone';
-import _ from 'lodash';
+import _, { forEach, capitalize } from 'lodash';
 import setupOnce from './setup_once';
 import ee from '../shared/pub_sub';
 import GlobalEvents from '../shared/global_events';
@@ -14,6 +14,7 @@ const SharesEditor = Backbone.View.extend({
     'click .shares-editor__new-type-toggle .btn': 'switchVariantForm',
     'click .shares-editor__view-toggle .btn': 'switchView',
     'ajax:success form.shares-editor__new-form': 'clearFormAndConformView',
+    'ajax:error form.shares-editor__new-form': 'handleError',
   },
 
   globalEvents: {
@@ -26,6 +27,29 @@ const SharesEditor = Backbone.View.extend({
   initialize: function() {
     this.view = 'summary';
     GlobalEvents.bindEvents(this);
+  },
+
+  handleError: function(event, response) {
+    const errors = JSON.parse(response.responseText).errors;
+    this.displayErrors(errors);
+  },
+
+  displayErrors: function(errors) {
+    const activeForm = $('form:not(.hidden-closed)');
+    activeForm.find('.errors ul').remove();
+    activeForm.find('.errors').append('<ul> </ul>');
+    const $ul = activeForm.find('.errors ul');
+    forEach(errors, function(fieldErrors, field) {
+      fieldErrors.forEach(function(error) {
+        $ul.append(`<li> ${capitalize(field)} ${error} </li>`);
+      });
+    });
+    activeForm.find('.errors').show();
+  },
+
+  clearErrors: function() {
+    this.$('.errors').hide();
+    this.$('.errors ul').remove();
   },
 
   deleteVariant: function(e) {
@@ -101,6 +125,7 @@ const SharesEditor = Backbone.View.extend({
       .find('input[type="text"], textarea')
       .val('');
     this.setView(this.view); // make new rows conform
+    this.clearErrors();
   },
 
   openEditorForErrors: function() {
