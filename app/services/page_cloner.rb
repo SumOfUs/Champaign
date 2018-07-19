@@ -114,6 +114,8 @@ class PageCloner
       share.slice(:description)
     when :email
       share.slice(:subject, :body)
+    when :whatsapp
+      share.slice(:text)
     end
   end
 
