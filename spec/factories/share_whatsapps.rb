@@ -15,7 +15,6 @@
 
 FactoryGirl.define do
   factory :share_whatsapp, class: 'Share::Whatsapp' do
-    id 1
     page nil
     text 'MyMessage {LINK}'
     button_id 1

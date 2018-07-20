@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PageCloner do
@@ -32,12 +33,20 @@ describe PageCloner do
            page: page,
            description: 'twitter share {LINK}')
   end
+
   let!(:email_share) do
     create(:share_email,
            page: page,
            subject: 'forward this email',
            body: 'They are on it! {LINK}')
   end
+
+  let!(:whatsapp_share) do
+    create(:share_whatsapp,
+           page: page,
+           text: 'whatsapp share {LINK}')
+  end
+
   let!(:link) { create(:link, page: page) }
 
   subject(:cloned_page) do
@@ -91,6 +100,15 @@ describe PageCloner do
       expect(share.id).to_not eq(email_share.id)
       expect(share.subject).to eq('forward this email')
       expect(share.body).to eq('They are on it! {LINK}')
+    end
+  end
+
+  it 'clones whatsapp shares' do
+    shares = cloned_page.shares.select { |s| s.class.name.downcase.demodulize == 'whatsapp' }
+    expect(shares.length).to eq 1
+    shares.each do |share|
+      expect(share.id).to_not eq(whatsapp_share.id)
+      expect(share.text).to eq('whatsapp share {LINK}')
     end
   end
 
