@@ -1,7 +1,7 @@
 // @flow
 import { includes } from 'lodash';
 import type { InitialAction } from '../reducers';
-import ee from '../shared/pub_sub';
+import ee from '../../shared/pub_sub';
 
 export type ConsentState = {
   previouslyConsented: boolean,
