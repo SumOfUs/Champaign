@@ -1,6 +1,7 @@
 // @flow
 import { includes } from 'lodash';
 import type { InitialAction } from '../reducers';
+import ee from '../../shared/pub_sub';
 
 export type ConsentState = {
   previouslyConsented: boolean,
@@ -71,6 +72,11 @@ export default function reducer(
 }
 
 export function changeConsent(consented: ?boolean = false): Action {
+  if (consented = true) {
+    ee.emit('consent:change_consent:yes');
+  } else {
+    ee.emit('consent:change_consent:no');
+  }
   return { type: '@@chmp:consent:change_consent', consented };
 }
 
