@@ -14,4 +14,14 @@ export const logEvent = (eventName: string, payload: any) => {
 
   if (window.TRACK_USER_ACTIONS)
     window.mixpanel.track('champaign:' + eventName, opts);
+
+
+  if (window.ga)
+    window.ga(
+      'send',
+      'event',
+      'champaign',
+      eventName,
+      window.champaign.page.slug
+      );
 };

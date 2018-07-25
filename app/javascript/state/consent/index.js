@@ -71,6 +71,7 @@ export default function reducer(
 }
 
 export function changeConsent(consented: ?boolean = false): Action {
+  ee.emit('consent:change_consent:'+consented);
   return { type: '@@chmp:consent:change_consent', consented };
 }
 
