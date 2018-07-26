@@ -12,6 +12,5 @@ export const logEvent = (eventName: string, payload: any) => {
     ...payload,
   };
 
-  if (window.TRACK_USER_ACTIONS)
-    window.mixpanel.track('champaign:' + eventName, opts);
+  if (window.TRACK_USER_ACTIONS) window.mixpanel.track(eventName, opts);
 };
