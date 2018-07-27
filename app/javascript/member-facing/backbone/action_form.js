@@ -5,6 +5,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import _ from 'lodash';
 import Backbone from 'backbone';
+import ee from '../../shared/pub_sub';
 import ErrorDisplay from '../../shared/show_errors';
 import MobileCheck from './mobile_check';
 import GlobalEvents from '../../shared/global_events';
@@ -324,6 +325,7 @@ const ActionForm = Backbone.View.extend({
   handleSuccess(e, data) {
     // FIXME: we should return consistently from the backend
     // FIXME: we should not rely on mutating function arguments of unkown type
+    ee.emit('action:submitted_success');
     if (typeof data === 'object') data.petitionForm = this.formValues();
     Backbone.trigger('form:submitted', e, data);
   },
