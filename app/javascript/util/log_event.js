@@ -13,4 +13,42 @@ export const logEvent = (eventName: string, payload: any) => {
   };
 
   if (window.TRACK_USER_ACTIONS) window.mixpanel.track(eventName, opts);
+
+  if (window.ga) logToGa(eventName, payload);
+};
+
+const getEventData = (eventName: string, data: any) => {
+  switch (eventName) {
+    case 'action:submitted_success':
+      return ['action', 'submitted_success'];
+    case '@@chmp:consent:change_country':
+      return ['gdpr', 'change_country', data.countryCode];
+    case '@@chmp:consent:change_consent':
+      return ['gdpr', 'change_consent', data.consented ? 'true' : 'false'];
+    case 'change_amount':
+      return ['fundraising', 'change_amount', null, parseFloat(data.payload)];
+    case 'set_store_in_vault':
+      return [
+        'fundraising',
+        'set_store_in_valut',
+        data.payload ? 'true' : 'false',
+      ];
+    case 'set_recurring':
+      return ['fundraising', 'set_recurring', data.payload ? 'true' : 'false'];
+    case 'fundraiser:transaction_submitted':
+      return [
+        'fundraising',
+        'transaction_submitted',
+        null,
+        parseFloat(data.amount),
+      ];
+    default:
+      return false;
+  }
+};
+
+const logToGa = (eventName: string, data: any) => {
+  const eventData = getEventData(eventName, data);
+
+  window.ga('send', 'event', ...eventData);
 };
