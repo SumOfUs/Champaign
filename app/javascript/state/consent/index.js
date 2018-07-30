@@ -3,6 +3,7 @@ import { includes } from 'lodash';
 import type { InitialAction } from '../reducers';
 
 export type ConsentState = {
+  mustConsent: boolean,
   previouslyConsented: boolean,
   isRequiredExisting: boolean,
   isRequiredNew: boolean,
@@ -10,9 +11,11 @@ export type ConsentState = {
   countryCode: string,
   variant: string,
   modalOpen: boolean,
+  showConsentRequired: boolean,
 };
 
 const defaultState: ConsentState = {
+  mustConsent: false,
   previouslyConsented: false,
   isRequiredNew: false,
   isRequiredExisting: false,
@@ -20,6 +23,7 @@ const defaultState: ConsentState = {
   countryCode: '',
   variant: 'simple',
   modalOpen: false,
+  showConsentRequired: false,
 };
 
 type Action =
@@ -28,6 +32,8 @@ type Action =
   | { type: '@@chmp:consent:change_country', countryCode: string }
   | { type: '@@chmp:consent:reset_state' }
   | { type: '@@chmp:consent:change_variant', variant: string }
+  | { type: '@@chmp:consent:show_consent_required', value: boolean }
+  | { type: '@@chmp:consent:must_consent', value: boolean }
   | { type: '@@chmp:consent:toggle_modal', modalOpen: boolean };
 
 export default function reducer(
@@ -39,10 +45,12 @@ export default function reducer(
       const {
         personalization: { member, location },
       } = action.payload;
+      const urlParams = action.payload.personalization.urlParams || {};
       return {
         ...state,
         countryCode: member.country || location.country || '',
         previouslyConsented: member.consented || false,
+        mustConsent: urlParams.req_gdpr === '1',
       };
     case '@@chmp:consent:change_country':
       return {
@@ -63,6 +71,10 @@ export default function reducer(
       return { ...state, variant: action.variant };
     case '@@chmp:consent:toggle_modal':
       return { ...state, modalOpen: action.modalOpen };
+    case '@@chmp:consent:show_consent_required':
+      return { ...state, showConsentRequired: action.value };
+    case '@@chmp:consent:must_consent':
+      return { ...state, mustConsent: action.value };
     case '@@chmp:consent:reset_state':
       return defaultState;
     default:
@@ -88,6 +100,14 @@ export function resetState(): Action {
 
 export function toggleModal(value: boolean): Action {
   return { type: '@@chmp:consent:toggle_modal', modalOpen: value };
+}
+
+export function showConsentRequired(value: boolean): Action {
+  return { type: '@@chmp:consent:show_consent_required', value };
+}
+
+export function mustConsent(value: boolean): Action {
+  return { type: '@@chmp:consent:must_consent', value };
 }
 
 // Conditions:

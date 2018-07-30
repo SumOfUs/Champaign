@@ -15,6 +15,7 @@ import {
   changeCountry,
   changeVariant,
   resetState,
+  showConsentRequired,
   toggleModal,
 } from '../../state/consent';
 import { resetMember } from '../../state/member/reducer';
@@ -134,12 +135,27 @@ const ActionForm = Backbone.View.extend({
         }
       });
     }
+
+    const consentState = this.state().consent;
+
+    if (
+      consentState.mustConsent &&
+      consentState.isRequiredNew &&
+      consentState.consented === null
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.store.dispatch(showConsentRequired(true));
+    }
   },
 
   validateForm() {
     return $.post(`${this.url}/validate`, this.$el.serialize()).then(
       undefined,
-      data => this.handleFailure({ target: this.$el }, data)
+      data => {
+        this.handleFailure({ target: this.$el }, data);
+        throw data;
+      }
     );
   },
 

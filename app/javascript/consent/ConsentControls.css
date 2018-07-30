@@ -2,13 +2,42 @@
   position: relative;
 }
 
-.ConsentControls label {
-  display: inline-block;
-  margin-right: 30px;
+.ConsentControls.warning {
+  border: 1px solid rgb(223, 184, 84);
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-.ConsentControls input[type="radio"] {
-  float: none;
+.ConsentControls.warning .notice {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: rgb(255, 251, 222);
+}
+
+.ConsentControls .notice {
+  display: none;
+}
+
+.ConsentControls.warning .notice {
+  display: block;
+}
+
+.ConsentControls label {
+  display: block;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  font-weight: 95%;
+}
+
+.simple .ConsentControls input[type="radio"] {
+  float: left;
+  display: block;
+}
+
+.simple .ConsentControls label span {
+  display: block;
+  margin-left: 30px;
 }
 
 /* Selectable Buttons variant */
