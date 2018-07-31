@@ -228,8 +228,8 @@ de:
     opt_out_warn_title: "Sind Sie sicher?"
     opt_out_warn_message: "Wenn Sie 'Ja' wählen, werden Sie von uns über aktuelle SumOfUs-Kampagnen informiert, damit Sie etwas tun können, wenn wieder ein Großkonzern versucht, skrupellose Geschäfte zu machen."
     how_to_opt_out: 'Sie können sich jederzeit wieder abmelden - gehen Sie dazu einfach auf: <a href="https://www.sumofus.org/de/unsubscribe" target="_blank">https://www.sumofus.org/de/unsubscribe</a>. Mit der Eingabe Ihrer Daten bestätigen Sie, dass Sie mindestens 16 Jahre alt sind.'
-    accept: "Ja"
-    decline: "Nein"
+    accept: "Ja, ich möchte erfahren, ob wir diese Kampagne gewinnen und wie ich bei ähnlichen Kampagnen mithelfen kann."
+    decline: "Nein, ich möchte nicht wissen, wie diese Kampagne weitergeht und welche anderen wichtigen Kampagnen es gibt."
     accept_alt: "Ja - unterschreiben und E-Mails erhalten"
     decline_alt: "Nein - unterschreiben, aber in Zukunft über keine weiteren Aktionen informiert werden"
     existing:
