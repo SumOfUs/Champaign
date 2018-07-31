@@ -46,7 +46,7 @@ describe Share::Whatsapp do
     let(:whatsapp) { create(:share_whatsapp, button: button, text: 'Hello: {LINK}') }
 
     it 'constructs the share HTML from the encoded button URL, parameters and the text' do
-      expect(whatsapp.html).to eq("<div>Hello%3A%20example.com%3Fsrc%3Dwhatsapp%26variant_id%3D#{whatsapp.id}</div>")
+      expect(whatsapp.html).to eq("<div>Hello%3A%20example.com%3Fsource%3Dwhatsapp%26variant_id%3D#{whatsapp.id}</div>")
     end
   end
 end

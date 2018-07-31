@@ -135,11 +135,11 @@ class PagesController < ApplicationController
   def record_tracking
     # Currently the only use case is to parse query parameters for a whatsapp variant
     # to see if the member has come from a whatsapp share.
-    return unless params[:src] == 'whatsapp'
+    return unless params[:source] == 'whatsapp'
     Share::Whatsapp.find(params[:variant_id]).increment!(:conversion_count)
   rescue ActiveRecord::RecordNotFound
     Rails.logger.error(
-      "Conversion count increment attempted on an invalid #{params[:src]} variant ID #{params[:variant_id]}."
+      "Conversion count increment attempted on an invalid #{params[:source]} variant ID #{params[:variant_id]}."
     )
   end
 
