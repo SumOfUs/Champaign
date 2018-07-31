@@ -19,6 +19,8 @@ type Props = {
   consented: ?boolean,
   // variant: applied as a css class, used to style the input elements
   variant: string,
+  // showConsentRequired: displays a message prompting the user to select an option
+  showConsentRequired: boolean,
   // changeConsent: dispatches the change consent action.
   changeConsent: (value: boolean) => void,
 };
@@ -58,7 +60,13 @@ class ConsentComponent extends PureComponent {
   }
 
   render() {
-    const { consented, active, hidden, variant } = this.props;
+    const {
+      consented,
+      active,
+      hidden,
+      variant,
+      showConsentRequired,
+    } = this.props;
     if (!active) return null;
 
     const classNames = classnames('ConsentComponent', variant, {
@@ -75,6 +83,7 @@ class ConsentComponent extends PureComponent {
             consented={consented}
             onChange={this.changeConsent}
             shortLabels={this.shortLabels()}
+            showConsentRequired={showConsentRequired}
           />
         </div>
         {this.optOutWarning()}
@@ -87,7 +96,13 @@ class ConsentComponent extends PureComponent {
 }
 
 const mapStateToProps = ({ member, consent }: AppState) => {
-  const { consented, variant, isRequiredNew, isRequiredExisting } = consent;
+  const {
+    consented,
+    variant,
+    isRequiredNew,
+    isRequiredExisting,
+    showConsentRequired,
+  } = consent;
   const active = (member && isRequiredExisting) || (!member && isRequiredNew);
   const hidden = !!member;
 
@@ -96,6 +111,7 @@ const mapStateToProps = ({ member, consent }: AppState) => {
     hidden,
     consented,
     variant,
+    showConsentRequired,
   };
 };
 
