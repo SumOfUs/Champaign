@@ -76,7 +76,7 @@ export default function reducer(
     case '@@chmp:consent:must_consent':
       return { ...state, mustConsent: action.value };
     case '@@chmp:consent:reset_state':
-      return defaultState;
+      return { ...defaultState, mustConsent: state.mustConsent };
     default:
       return state;
   }
