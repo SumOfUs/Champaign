@@ -15,7 +15,7 @@ $mobile-width: 700px;
     margin-top: 17px;
   }
   &.stuck-right {
-    .petition-bar__main, .fundraiser-bar__main {
+    .fundraiser-bar__main {
       @include viewport-unit(height, 100vh);
     }
     .petition-bar__title-bar {
@@ -49,7 +49,6 @@ $mobile-width: 700px;
     padding: $padding;
 
     position: absolute;
-    overflow: visible;
 
     width: 100%;
     @include box-sizing(border-box);
