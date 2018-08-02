@@ -75,9 +75,6 @@ class ConsentComponent extends PureComponent {
 
     return (
       <div className={classNames}>
-        <div className="ConsentComponent--opt-in-reason opt-in-reason">
-          <FormattedHTMLMessage id="consent.opt_in_reason" />
-        </div>
         <div className={classnames('ConsentComponent--prompt', variant)}>
           <ConsentControls
             consented={consented}

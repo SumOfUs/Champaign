@@ -224,7 +224,6 @@ de:
       success: 'Sie haben Ihr SumOfUs-Konto erfolgreich bestätigt. Vielen Dank!'
       member_management: "Um Ihre Zahlungsoptionen und -details zu verwalten, können Sie jederzeit die <a href='%{url}'>Seite für SumOfUs-Mitglieder</a> besuchen."
   consent:
-    opt_in_reason: "<b>SumOfUs ist eine Gemeinschaft von Menschen aus der ganzen Welt, die gemeinsam Großkonzerne zur Verantwortung zieht.</b>. Möchten Sie über aktuelle Kampagnen, Neuigkeiten, Veranstaltungen sowie Spendenaktionen informiert werden und erfahren, wie Sie sich engagieren können? <b>Dann klicken Sie 'Ja', um sich für unseren Newsletter anzumelden:</b>"
     opt_out_warn_title: "Sind Sie sicher?"
     opt_out_warn_message: "Wenn Sie 'Ja' wählen, werden Sie von uns über aktuelle SumOfUs-Kampagnen informiert, damit Sie etwas tun können, wenn wieder ein Großkonzern versucht, skrupellose Geschäfte zu machen."
     how_to_opt_out: 'Sie können sich jederzeit wieder abmelden - gehen Sie dazu einfach auf: <a href="https://www.sumofus.org/de/unsubscribe" target="_blank">https://www.sumofus.org/de/unsubscribe</a>. Mit der Eingabe Ihrer Daten bestätigen Sie, dass Sie mindestens 16 Jahre alt sind.'
