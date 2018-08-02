@@ -26,7 +26,7 @@ class Share::Whatsapp < ApplicationRecord
   def html
     # Prepend the desired query parameters (uri encoded) into the url we want {LINK} to point to.
     # Then construct the whole share URL by replacing the {LINK} with that.
-    query = "?src=whatsapp&variant_id=#{id}"
+    query = "?source=whatsapp&variant_id=#{id}"
     copy = text.gsub('{LINK}', "#{button.url}#{query}")
     button.share_button_html.gsub('{TEXT}', ERB::Util.url_encode(copy))
   end

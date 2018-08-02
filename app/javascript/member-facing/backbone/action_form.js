@@ -5,6 +5,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import _ from 'lodash';
 import Backbone from 'backbone';
+import ee from '../../shared/pub_sub';
 import ErrorDisplay from '../../shared/show_errors';
 import MobileCheck from './mobile_check';
 import GlobalEvents from '../../shared/global_events';
@@ -15,6 +16,7 @@ import {
   changeCountry,
   changeVariant,
   resetState,
+  showConsentRequired,
   toggleModal,
 } from '../../state/consent';
 import { resetMember } from '../../state/member/reducer';
@@ -134,12 +136,27 @@ const ActionForm = Backbone.View.extend({
         }
       });
     }
+
+    const consentState = this.state().consent;
+
+    if (
+      consentState.mustConsent &&
+      consentState.isRequiredNew &&
+      consentState.consented === null
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.store.dispatch(showConsentRequired(true));
+    }
   },
 
   validateForm() {
     return $.post(`${this.url}/validate`, this.$el.serialize()).then(
       undefined,
-      data => this.handleFailure({ target: this.$el }, data)
+      data => {
+        this.handleFailure({ target: this.$el }, data);
+        throw data;
+      }
     );
   },
 
@@ -324,6 +341,7 @@ const ActionForm = Backbone.View.extend({
   handleSuccess(e, data) {
     // FIXME: we should return consistently from the backend
     // FIXME: we should not rely on mutating function arguments of unkown type
+    ee.emit('action:submitted_success');
     if (typeof data === 'object') data.petitionForm = this.formValues();
     Backbone.trigger('form:submitted', e, data);
   },

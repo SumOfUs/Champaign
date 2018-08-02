@@ -8,12 +8,16 @@ type Props = {
   onChange: (consented: boolean) => void,
   consented: ?boolean,
   shortLabels?: boolean,
+  showConsentRequired?: boolean,
 };
 
 export class ConsentControls extends PureComponent {
   props: Props;
   render() {
-    const { shortLabels, consented } = this.props;
+    const { shortLabels, consented, showConsentRequired } = this.props;
+    const wrapperClass = classnames('ConsentControls', {
+      warning: showConsentRequired,
+    });
     const acceptClass = classnames({
       active: consented === true,
     });
@@ -22,7 +26,13 @@ export class ConsentControls extends PureComponent {
     });
 
     return (
-      <div className="ConsentControls">
+      <div className={wrapperClass}>
+        <p className="notice">
+          <FormattedMessage
+            id="consent.select_an_option"
+            defaultMessage="Please select an option"
+          />
+        </p>
         <label className={acceptClass}>
           <input
             type="radio"
@@ -31,14 +41,7 @@ export class ConsentControls extends PureComponent {
             checked={consented === true}
             onChange={() => this.props.onChange(true)}
           />
-          {shortLabels ? (
-            <FormattedMessage id="consent.accept_short" defaultMessage="Yes" />
-          ) : (
-            <FormattedMessage
-              id="consent.accept_long"
-              defaultMessage="Yes – sign and receive emails"
-            />
-          )}
+          <FormattedMessage id="consent.accept" defaultMessage="Yes" />
         </label>
         <label className={declineClass}>
           <input
@@ -48,14 +51,7 @@ export class ConsentControls extends PureComponent {
             checked={consented === false}
             onChange={() => this.props.onChange(false)}
           />
-          {shortLabels ? (
-            <FormattedMessage id="consent.decline_short" defaultMessage="No" />
-          ) : (
-            <FormattedMessage
-              id="consent.decline_long"
-              defaultMessage="No – sign, but don't receive emails"
-            />
-          )}
+          <FormattedMessage id="consent.decline" defaultMessage="No" />
         </label>
       </div>
     );
