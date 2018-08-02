@@ -1,7 +1,6 @@
 .ConsentComponent {
   clear: both;
-  padding-top: 1px;
-  margin-top: 20px;
+  padding-top: 20px;
 }
 .ConsentComponent--opt-in-reason {
   margin: 20px 0;
