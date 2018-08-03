@@ -51,7 +51,10 @@ class ExistingMemberConsent extends Component {
             className="ExistingMemberConsent--accept"
             onClick={() => this.submit(true)}
           >
-            <FormattedMessage id="consent.accept_short" defaultMessage="Yes" />
+            <FormattedMessage
+              id="consent.existing.accept"
+              defaultMessage="Yes"
+            />
           </Button>
           <Button
             className="ExistingMemberConsent--decline"

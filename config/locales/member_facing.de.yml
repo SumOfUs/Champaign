@@ -234,6 +234,7 @@ de:
     decline_alt: "Nein - unterschreiben, aber in Zukunft über keine weiteren Aktionen informiert werden"
     existing:
       opt_in_reason: "<p>Wir bitten alle SumOfUs-Mitglieder zu bestätigen, dass sie auch weiterhin E-mails zu dieser und anderen wichtigen Kampagnen erhalten möchten.</p><p><b>Möchten Sie jetzt bestätigen?</b></p>"
+      accept: "Ja"
       decline: "Nein, jetzt nicht"
   cookie_consent:
     message: 'Cookies erleichtern die Nutzung unserer Webseite.'
