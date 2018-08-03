@@ -240,6 +240,7 @@ en:
     select_an_option: "Please select an option"
     existing:
       opt_in_reason: "<p>We’re asking SumOfUs members to confirm that they still want to receive emails from us about this and other urgent campaigns.</p><p><b>Would you like to confirm today?</b></p>"
+      accept: "Yes"
       decline: "Not right now"
   cookie_consent:
     message: 'Cookies are important to the proper functioning of this site.'
