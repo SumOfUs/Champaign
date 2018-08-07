@@ -87,9 +87,9 @@ class PagesController < ApplicationController
   end
 
   def double_opt_in_notice
-    @rendered = renderer.render_custom('Double Opt In Follow Up',
-                                       email: params[:email],
-                                       name: params[:name])
+    @rendered = renderer.render_custom_without_cache('Double Opt In Follow Up',
+                                                     email: params[:email],
+                                                     name: params[:name])
 
     render :follow_up, layout: 'member_facing'
   end
