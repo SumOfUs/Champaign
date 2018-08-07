@@ -19,10 +19,12 @@ class LiquidRenderer
     render_layout(@page.liquid_layout)
   end
 
-  def render_custom(layout_name, data = {})
-    render_layout(
-      LiquidLayout.find_by_title!(layout_name), data
-    )
+  def render_custom_without_cache(layout_name, data = {})
+    layout = LiquidLayout.find_by_title!(layout_name)
+
+    Liquid::Template
+      .parse(layout.content)
+      .render(markup_data.merge(data.stringify_keys)).html_safe
   end
 
   def render_follow_up
