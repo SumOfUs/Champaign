@@ -38,3 +38,9 @@
 .ExistingMemberConsent--how-to-opt-out {
   font-size: 0.9em;
 }
+
+@media(max-width: 700px) {
+  .ExistingMemberConsent {
+    width: 100%;
+  }
+}
