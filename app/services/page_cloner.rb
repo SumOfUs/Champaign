@@ -34,7 +34,8 @@ class PageCloner
   def clone_page
     @cloned_page = page.dup
     @cloned_page.title = @title unless @title.blank?
-
+    @cloned_page.ak_petition_resource_uri = nil
+    @cloned_page.ak_donation_resource_uri = nil
     ActiveRecord::Base.transaction do
       @cloned_page.save! # so the new page will have an id to associate with
       yield(self)
