@@ -146,6 +146,11 @@ describe PageCloner do
     expect(cloned_page.featured).to be false
   end
 
+  it 'does not set ActionKit resources' do
+    expect(cloned_page.ak_petition_resource_uri).to be nil
+    expect(cloned_page.ak_donation_resource_uri).to be nil
+  end
+
   describe 'title and slug' do
     context 'no title is passed in' do
       it 'clones title' do
