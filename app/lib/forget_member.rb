@@ -11,10 +11,12 @@ class ForgetMember
   end
 
   def forget
-    anonymise_actions
-    delete_authentication
-    anonymise_braintree_customer
-    anonymise_member
+    Member.transaction do
+      anonymise_actions
+      delete_authentication
+      anonymise_braintree_customer
+      anonymise_member
+    end
   end
 
   private
