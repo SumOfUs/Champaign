@@ -10,6 +10,7 @@ import URI from 'urijs';
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
 import PetitionAndScrollToConsent from '../member-facing/backbone/petition_and_scroll_to_consent';
+import DoubleOptIn from '../member-facing/double_opt_in';
 import Survey from '../member-facing/backbone/survey';
 import ActionForm from '../member-facing/backbone/action_form';
 import OverlayToggle from '../member-facing/backbone/overlay_toggle';
@@ -43,6 +44,7 @@ Object.assign(window.champaign, {
   Notification,
   SweetPlaceholder,
   CampaignerOverlay,
+  DoubleOptIn,
   redirectors,
   store,
 });
