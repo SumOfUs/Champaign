@@ -15,12 +15,18 @@ class Api::ActionsController < ApplicationController
         .merge(mobile_value)
         .merge(extra_fields)
 
-      if action.is_a?(PendingAction)
+      if action.is_a?(PendingActionService)
         path = confirmation_page_path(page, double_opt_in: true,
                                             name: action.data['name'],
                                             email: action.data['email'])
 
-        render js: "location.href = '#{path}';", status: 200
+        action.send_email(version: params[:test_version] || 1)
+
+        if params[:test_version] == '2'
+          render js: 'champaign.DoubleOptIn.showNotice();', status: 200
+        else
+          render js: "location.href = '#{path}';", status: 200
+        end
         return
       end
 
