@@ -2,7 +2,6 @@
   background-color: $navy;
   color: white;
 }
-
 .cc-message {
   a, a:hover, a:visited {
     color: $teal;
@@ -20,5 +19,27 @@
     font-weight: normal;
     border: 0;
     text-decoration: none;
+  }
+}
+
+// Rules for double-opt-in notification
+
+.cc-window.cc-double-opt-in  {
+  font-size: 23px;
+  line-height: 1.3em;
+
+  .cc-message {
+    font-size: 23px;
+    line-height: 1.3em;
+
+    @media(max-width: 950px) {
+      font-size: 20px;
+      line-height: 1em;
+    }
+
+    @media(max-width: 415px) {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
   }
 }
