@@ -4,16 +4,14 @@ import $ from 'jquery';
 let version = 1;
 
 const DoubleOptIn = {
-  version(number) {
-    if (number) {
-      version = number;
+  version(versionNumber: number) {
+    if (versionNumber) {
+      version = versionNumber;
       $('.action-form').append(
-        `<input type='hidden' name='test_version' value='${number}' />`
+        `<input type='hidden' name='test_version' value='${version}' />`
       );
-      return number;
-    } else {
-      return version;
     }
+    return version;
   },
 
   showNotice() {
