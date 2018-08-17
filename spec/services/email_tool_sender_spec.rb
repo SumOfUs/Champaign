@@ -15,7 +15,10 @@ describe EmailToolSender do
   let(:params) do
     { from_email: 'john@email.com',
       from_name: 'John',
-      body: 'Lorem ipsum',
+      body: 'Suspendisse vestibulum dolor et libero sollicitudin aliquam eu eu purus. Phasellus eget diam in felis
+gravida mollis a vitae velit. Duis tempus dolor non finibus convallis. In in ipsum lacinia, pulvinar lectus nec,
+condimentum sapien. Nunc non dui dolor. Ut ornare pretium nunc sed ornare. Praesent at risus a felis lacinia pretium
+et a neque. Nam non mi in eros sollicitudin imperdiet.',
       subject: 'Some subject',
       country: 'US' }
   end
