@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/SumOfUs/actionkit_connector
-  revision: 43454681be53430f9671795bcb3a250554231acb
+  revision: f78d643aaaad14c5cfd1116df35a6b5101aa5a48
   branch: master
   specs:
     actionkit_connector (0.4.4)
