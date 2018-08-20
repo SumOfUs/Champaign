@@ -57,7 +57,7 @@ gem 'lograge', '~> 0.10.0'
 gem 'metamagic'
 gem 'money-oxr'
 gem 'newrelic_rpm'
-gem 'puma', '~> 3.9.1'
+gem 'puma', '~> 3.12.0'
 gem 'sass-rails'
 gem 'sentry-raven'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false

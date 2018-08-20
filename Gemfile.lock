@@ -360,7 +360,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     public_suffix (2.0.5)
-    puma (3.9.1)
+    puma (3.12.0)
     rack (2.0.5)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -593,7 +593,7 @@ DEPENDENCIES
   pg
   phony_rails
   poltergeist
-  puma (~> 3.9.1)
+  puma (~> 3.12.0)
   rack-cors
   rails (~> 5.2)
   rails-controller-testing
