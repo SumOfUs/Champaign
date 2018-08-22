@@ -35,7 +35,7 @@ gem 'slim-rails'
 
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 3'
 gem 'paper_trail', '~> 9.0'
 gem 'paperclip', '~> 5.2'
 gem 'rmagick' # rmagick for image processing
