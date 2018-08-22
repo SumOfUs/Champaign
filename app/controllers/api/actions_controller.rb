@@ -21,12 +21,7 @@ class Api::ActionsController < ApplicationController
                                             email: action.data['email'])
 
         action.send_email(version: params[:test_version] || 1)
-
-        if params[:test_version] == '2'
-          render js: 'champaign.DoubleOptIn.showNotice();', status: 200
-        else
-          render js: "location.href = '#{path}';", status: 200
-        end
+        render json: { follow_up: path, double_opt_in: true }, status: 200
         return
       end
 
