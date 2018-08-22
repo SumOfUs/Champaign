@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class PendingActionService
-  attr_reader :email, :payload
+  attr_reader :email, :payload, :action
+  delegate :data, to: :action
 
   class << self
     def create(payload)
@@ -14,23 +15,23 @@ class PendingActionService
   end
 
   def create
-    action = PendingAction.create(
+    @action = PendingAction.create(
       email: payload[:email],
       data: payload,
       token: token,
       page: page
     )
 
-    if action
-      EmailDelivery.send_email(
-        action,
-        html: html,
-        text: text,
-        subject: I18n.t('double_opt_in.email.subject', locale: page.language_code)
-      )
-    end
+    self
+  end
 
-    action
+  def send_email(version: 1)
+    EmailDelivery.send_email(
+      action,
+      html: html(version),
+      text: text(version),
+      subject: I18n.t("double_opt_in_#{version}.email.subject", locale: page.language_code)
+    )
   end
 
   private
@@ -52,11 +53,11 @@ class PendingActionService
     }
   end
 
-  def html
-    EmailRenderer.render(assigns, "confirm_action.#{page.language_code}.html")
+  def html(version)
+    EmailRenderer.render(assigns, "confirm_action_#{version}.#{page.language_code}.html")
   end
 
-  def text
-    EmailRenderer.render(assigns, "confirm_action.#{page.language_code}.text")
+  def text(version)
+    EmailRenderer.render(assigns, "confirm_action_#{version}.#{page.language_code}.text")
   end
 end

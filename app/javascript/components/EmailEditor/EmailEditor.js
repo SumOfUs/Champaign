@@ -39,7 +39,8 @@ export default class EmailEditor extends Component {
     return (
       !isEqual(nextProps.templateVars, this.props.templateVars) ||
       this.state.subject !== nextState.subject ||
-      this.state.editorState !== nextState.editorState
+      this.state.editorState !== nextState.editorState ||
+      !isEqual(this.props.errors, nextProps.errors)
     );
   }
 

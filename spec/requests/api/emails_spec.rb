@@ -15,7 +15,10 @@ describe 'Emails', type: :request do
       let(:params) do
         {
           email: {
-            body: 'Lorem ipsum',
+            body: 'Suspendisse vestibulum dolor et libero sollicitudin aliquam eu eu purus. Phasellus eget diam in felis
+        gravida mollis a vitae velit. Duis tempus dolor non finibus convallis. In in ipsum lacinia, pulvinar lectus nec,
+        condimentum sapien. Nunc non dui dolor. Ut ornare pretium nunc sed ornare. Praesent at risus a felis lacinia
+        pretium et a neque. Nam non mi in eros sollicitudin imperdiet.',
             subject: 'A Subject',
             from_email: 'john@email.com',
             from_name: 'John Doe',
@@ -42,7 +45,7 @@ describe 'Emails', type: :request do
             item: {
               MailingId: /foo-bar:\d*/,
               UserId: 'john@email.com',
-              Body: 'Lorem ipsum',
+              Body: /[a-zA-Z'",.!?<> \n]/,
               Subject: 'A Subject',
               ToEmails: ["#{target.name} <#{target.email}>"],
               FromName: 'John Doe',

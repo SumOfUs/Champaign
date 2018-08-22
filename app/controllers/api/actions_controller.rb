@@ -15,12 +15,13 @@ class Api::ActionsController < ApplicationController
         .merge(mobile_value)
         .merge(extra_fields)
 
-      if action.is_a?(PendingAction)
+      if action.is_a?(PendingActionService)
         path = confirmation_page_path(page, double_opt_in: true,
                                             name: action.data['name'],
                                             email: action.data['email'])
 
-        render js: "location.href = '#{path}';", status: 200
+        action.send_email(version: params[:test_version] || 1)
+        render json: { follow_up: path, double_opt_in: true }, status: 200
         return
       end
 

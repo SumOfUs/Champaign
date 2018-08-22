@@ -1,5 +1,10 @@
 en:
-  double_opt_in:
+  double_opt_in_2:
+    check_email:
+      body: "Please check your e-mail to confirm your e-mail address and validate your signature"
+    email:
+      subject: 'Confirm your signature'
+  double_opt_in_1:
     check_email:
       title: "You're almost there, %{name}!"
       body: "<p>We just sent you a confirmation link to the following email address: <strong>%{email}</strong></p><p>Please check your email right now and click the confirmation link. Your signature only counts if you confirm it.</p>"
