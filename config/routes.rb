@@ -53,8 +53,9 @@ Rails.application.routes.draw do
     end
 
     get 'analytics', on: :member
-    get 'actions', on:   :member
-    get 'preview', on:   :member
+    get 'actions',   on: :member
+    get 'preview',   on: :member
+    get 'emails',    on: :member
 
     get 'follow-up', on: :member, action: 'follow_up'
     get 'confirmation', on: :member, action: 'double_opt_in_notice'
@@ -111,6 +112,8 @@ Rails.application.routes.draw do
     scope :shares do
       post 'track', to: '/share/shares#track'
     end
+
+    resources :email_target_emails, only: [:index]
 
     resources :pending_action_notifications, only: [] do
       member do

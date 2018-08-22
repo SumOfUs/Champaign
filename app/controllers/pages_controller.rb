@@ -7,7 +7,7 @@ require 'browser'
 class PagesController < ApplicationController
   newrelic_ignore_enduser only: %i[show follow_up double_opt_in_notice]
   before_action :authenticate_user!, except: %i[show follow_up double_opt_in_notice]
-  before_action :get_page, only: %i[edit update destroy follow_up double_opt_in_notice analytics actions preview]
+  before_action :get_page, only: %i[edit update destroy follow_up double_opt_in_notice analytics actions preview emails]
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
   before_action :localize, only: %i[show follow_up double_opt_in_notice]
@@ -42,6 +42,9 @@ class PagesController < ApplicationController
 
   def preview
     render :preview, layout: 'mobile_preview'
+  end
+
+  def emails
   end
 
   def create

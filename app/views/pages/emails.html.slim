@@ -1,0 +1,8 @@
+- content_for(:title, "Emails | #{@page.title}")
+
+= render "sidebar", action: :emails, id: @page.id
+
+.edit-block
+  h1.edit-block__title= @page.title
+  h2 Emails
+  div#email-target-view-root
