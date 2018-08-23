@@ -139,11 +139,7 @@ const ActionForm = Backbone.View.extend({
 
     const consentState = this.state().consent;
 
-    if (
-      consentState.mustConsent &&
-      consentState.isRequiredNew &&
-      consentState.consented === null
-    ) {
+    if (consentState.isRequiredNew && consentState.consented === null) {
       event.preventDefault();
       event.stopPropagation();
       this.store.dispatch(showConsentRequired(true));

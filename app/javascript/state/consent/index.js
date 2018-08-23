@@ -3,7 +3,6 @@ import { includes } from 'lodash';
 import type { InitialAction } from '../reducers';
 
 export type ConsentState = {
-  mustConsent: boolean,
   previouslyConsented: boolean,
   isRequiredExisting: boolean,
   isRequiredNew: boolean,
@@ -15,7 +14,6 @@ export type ConsentState = {
 };
 
 const defaultState: ConsentState = {
-  mustConsent: false,
   previouslyConsented: false,
   isRequiredNew: false,
   isRequiredExisting: false,
@@ -50,7 +48,6 @@ export default function reducer(
         ...state,
         countryCode: member.country || location.country || '',
         previouslyConsented: member.consented || false,
-        mustConsent: urlParams.req_gdpr === '1',
       };
     case '@@chmp:consent:change_country':
       return {
@@ -73,10 +70,8 @@ export default function reducer(
       return { ...state, modalOpen: action.modalOpen };
     case '@@chmp:consent:show_consent_required':
       return { ...state, showConsentRequired: action.value };
-    case '@@chmp:consent:must_consent':
-      return { ...state, mustConsent: action.value };
     case '@@chmp:consent:reset_state':
-      return { ...defaultState, mustConsent: state.mustConsent };
+      return defaultState;
     default:
       return state;
   }
@@ -104,10 +99,6 @@ export function toggleModal(value: boolean): Action {
 
 export function showConsentRequired(value: boolean): Action {
   return { type: '@@chmp:consent:show_consent_required', value };
-}
-
-export function mustConsent(value: boolean): Action {
-  return { type: '@@chmp:consent:must_consent', value };
 }
 
 // Conditions:
