@@ -113,7 +113,9 @@ class ManageAction
   end
 
   def requires_consent?
-    Country[@params[:country]]&.in_eea? && !@extra_attrs[:donation] && existing_member.nil?
+    Country[@params[:country]]&.in_eea? &&
+      !@extra_attrs[:donation] &&
+      (existing_member.nil? || !existing_member.consented?)
   end
 
   def requires_double_opt_in
