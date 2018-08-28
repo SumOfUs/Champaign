@@ -3,17 +3,17 @@
 require 'rails_helper'
 
 describe 'Double opt-in' do
-  describe 'creating an action' do
-    let(:params) do
-      {
-        email:    'hello@example.com',
-        form_id:  form.id,
-        source:   'fb',
-        country:  'DE',
-        name: 'John Doe'
-      }
-    end
+  let(:params) do
+    {
+      email:    'hello@example.com',
+      form_id:  form.id,
+      source:   'fb',
+      country:  'DE',
+      name: 'John Doe'
+    }
+  end
 
+  describe 'creating an action' do
     let(:pending_action) { PendingAction.last }
     let(:form) { create(:form_with_email_and_optional_country) }
 
@@ -42,6 +42,32 @@ describe 'Double opt-in' do
       before do
         allow(Aws::SNS::Client).to receive(:new) { client }
         allow(client).to receive(:publish)
+      end
+
+      context 'with existing member' do
+        let!(:member) { create(:member, email: 'hello@example.com') }
+
+        context 'without consent' do
+          before do
+            member.update(consented: false)
+          end
+
+          it 'creates pending action' do
+            post "/api/pages/#{page.id}/actions", params: params
+            expect(pending_action.email).to eq('hello@example.com')
+          end
+        end
+
+        context 'with consent' do
+          before do
+            member.update(consented: true)
+          end
+
+          it 'does not create a pending action' do
+            post "/api/pages/#{page.id}/actions", params: params
+            expect(pending_action).to be nil
+          end
+        end
       end
 
       it 'records email address' do
