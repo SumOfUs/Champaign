@@ -268,7 +268,7 @@ describe ManageAction do
               expect {
                 action = ManageAction.create(params)
               }.to change(Action, :count).by(1)
-              expect(action.form_data).to eq('name' => 'Bob')
+              expect(action.form_data).to eq('name' => 'Bob', 'country' => 'FR')
             end
 
             it "doesn't create a member" do

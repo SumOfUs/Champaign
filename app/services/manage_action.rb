@@ -47,7 +47,7 @@ class ManageAction
       @action = Action.create!(action_params)
       publish_event
     else
-      action_params[:form_data] = @params.slice(:name, :first_name, :last_name)
+      action_params[:form_data] = @params.slice(:name, :first_name, :last_name, :country)
       action_params[:subscribed_member] = false
       @action = Action.create!(action_params)
     end
