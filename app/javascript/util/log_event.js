@@ -42,6 +42,14 @@ const getEventData = (eventName: string, data: any) => {
         null,
         parseFloat(data.amount),
       ];
+    case 'change_step':
+      return ['fundraising', 'change_step', data.payload];
+    case 'change_currency':
+      return ['fundraising', 'change_currency', data.payload];
+    case 'set_payment_type':
+      return ['fundraising', 'set_payment_type', data.payload];
+    case 'share':
+      return ['social_share', 'shared_on_' + data.share_type];
     default:
       return false;
   }
@@ -49,5 +57,8 @@ const getEventData = (eventName: string, data: any) => {
 
 const logToGa = (eventName: string, data: any) => {
   const eventData = getEventData(eventName, data);
-  window.ga('send', 'event', ...eventData);
+
+  if (eventData) {
+    window.ga('send', 'event', ...eventData);
+  }
 };
