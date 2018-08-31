@@ -67,6 +67,16 @@ class Emails extends Component {
 
     return (
       <div>
+        <form className="form-inline">
+          <div className="form-group">
+            <input className="form-control" placeholder="Email Address" />
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-default">
+              Export as CSV
+            </button>
+          </div>
+        </form>
         <div>{this.state.loading ? <p>Fetching...</p> : emails}</div>
         <div>{pagination}</div>
       </div>
