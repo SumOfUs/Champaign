@@ -45,7 +45,9 @@ function mount(root: string, options: any, Component?: any = FundraiserView) {
 }
 
 window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
-  const search: SearchParams = queryString.parse(location.search);
+  const search: SearchParams = queryString.parse(location.search, {
+    arrayFormat: 'bracket',
+  });
   const { personalization, page } = window.champaign;
   dispatch({
     type: 'initialize_fundraiser',
