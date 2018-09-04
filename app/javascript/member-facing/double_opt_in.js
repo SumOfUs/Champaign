@@ -32,7 +32,7 @@ const DoubleOptIn = {
   },
 
   handleActionSuccess(resp: Response) {
-    if (!resp.double_opt_in) return;
+    if (!resp || !resp.double_opt_in) return;
 
     if (DoubleOptIn.version() === 2) {
       showNotice();
