@@ -48,7 +48,7 @@ const getEventData = (eventName: string, data: any) => {
       return ['fundraising', 'change_currency', data.payload];
     case 'set_payment_type':
       return ['fundraising', 'set_payment_type', data.payload];
-    case 'share':
+    case 'social_share':
       return ['social_share', 'shared_on_' + data.share_type];
     default:
       return false;
