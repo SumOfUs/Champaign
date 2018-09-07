@@ -23,6 +23,56 @@ const Email = props => {
   );
 };
 
+class DownloadForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { email: '' };
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const opts = {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        slug: this.props.page,
+        email: this.state.email,
+      }),
+    };
+
+    fetch('/api/email_target_emails/download', opts)
+      .then(resp => resp.json())
+      .then(json => console.log(json));
+  }
+
+  handleChange(e) {
+    this.setState({ email: e.target.value });
+  }
+
+  render() {
+    return (
+      <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
+        <div className="input-group">
+          <input
+            onChange={this.handleChange.bind(this)}
+            className="form-control"
+            placeholder="Email Address"
+          />
+          <span className="input-group-btn">
+            <button type="submit" className="btn btn-default">
+              Export as CSV
+            </button>
+          </span>
+        </div>
+      </form>
+    );
+  }
+}
+
 class Emails extends Component {
   state = {
     emails: [],
@@ -67,16 +117,11 @@ class Emails extends Component {
 
     return (
       <div>
-        <form className="form-inline">
-          <div className="form-group">
-            <input className="form-control" placeholder="Email Address" />
+        <div className="panel panel-default">
+          <div className="panel-body">
+            <DownloadForm page={this.props.page} />
           </div>
-          <div className="form-group">
-            <button type="submit" className="btn btn-default">
-              Export as CSV
-            </button>
-          </div>
-        </form>
+        </div>
         <div>{this.state.loading ? <p>Fetching...</p> : emails}</div>
         <div>{pagination}</div>
       </div>

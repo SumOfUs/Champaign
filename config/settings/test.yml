@@ -30,6 +30,7 @@ oauth_domain_whitelist:
 # queue. Only set these settings to values if you want Champaign to take these actions. Disabled by default, except
 # in production situations.
 aws_region: 'us-west-2'
+aws_account_id: 1234
 sqs_queue_url: 'http://example.com'
 ak_processor_url: 'http://example.com'
 

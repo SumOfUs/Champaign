@@ -39,21 +39,23 @@ describe 'Emails', type: :request do
       it 'sends an email with the expected params' do
         target = plugin.targets.first
         from_email = plugin.from_email_address
-        expect_any_instance_of(Aws::DynamoDB::Client).to receive(:put_item)
-          .with(
-            table_name: Settings.dynamodb_mailer_table,
-            item: {
-              MailingId: /foo-bar:\d*/,
-              UserId: 'john@email.com',
-              Body: /[a-zA-Z'",.!?<> \n]/,
-              Subject: 'A Subject',
-              ToEmails: ["#{target.name} <#{target.email}>"],
-              FromName: 'John Doe',
-              FromEmail: 'john@email.com',
-              ReplyTo: ["#{from_email.name} <#{from_email.email}>", 'John Doe <john@email.com>']
-            }
-          )
-        post "/api/pages/#{page.id}/emails", params: params
+
+        Timecop.freeze do
+          expect_any_instance_of(Aws::DynamoDB::Client).to receive(:put_item)
+            .with(
+              table_name: Settings.dynamodb_mailer_table,
+              item: hash_including(MailingId: /foo-bar:\d*/,
+                                   UserId: 'john@email.com',
+                                   Subject: 'A Subject',
+                                   Slug: 'foo-bar',
+                                   Body: /dolor et libero/,
+                                   ToEmails: ["#{target.name} <#{target.email}>"],
+                                   FromName: 'John Doe',
+                                   FromEmail: 'john@email.com',
+                                   ReplyTo: ["#{from_email.name} <#{from_email.email}>", 'John Doe <john@email.com>'])
+            )
+          post "/api/pages/#{page.id}/emails", params: params
+        end
       end
 
       it 'creates an action' do
