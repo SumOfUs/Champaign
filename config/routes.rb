@@ -113,7 +113,11 @@ Rails.application.routes.draw do
       post 'track', to: '/share/shares#track'
     end
 
-    resources :email_target_emails, only: [:index]
+    resources :email_target_emails, only: [:index] do
+      collection do
+        post 'download'
+      end
+    end
 
     resources :pending_action_notifications, only: [] do
       member do

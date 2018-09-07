@@ -30,7 +30,38 @@ class Api::EmailTargetEmailsController < ApplicationController
     }
   end
 
+  def download
+    message = {
+      email: params[:email],
+      slug: params[:slug]
+    }
+
+    sns = Aws::SNS::Client.new(region: Settings.aws_region, stub_responses: Rails.env.test?)
+
+    sns.publish(
+      message: message.to_json,
+      topic_arn: topic_arn,
+      message_attributes: {
+        service: {
+          data_type: 'String',
+          string_value: 'email_target:download_emails'
+        }
+      }
+    )
+
+    render json: { status: 'ok' }
+  end
+
   private
+
+  def topic_arn
+    %w[
+      arn:aws:sns
+      #{Settings.aws_region}
+      #{Settings.aws_account_id}
+      champaign-#{Rails.env.production? ? prod : dev'}
+    ].join(':')
+  end
 
   def dynamodb_client
     @dynamodb ||= Aws::DynamoDB::Client.new(region: 'us-west-2')
