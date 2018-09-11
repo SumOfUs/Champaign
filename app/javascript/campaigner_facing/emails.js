@@ -26,11 +26,21 @@ const Email = props => {
 class DownloadForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { email: '' };
+    this.state = {
+      email: '',
+      submitting: false,
+      submitted: false,
+      error: false,
+    };
   }
 
   handleSubmit(e) {
     e.preventDefault();
+
+    const re = /\S+@\S+\.\S+/;
+    if (!re.test(this.state.email)) return;
+
+    this.setState({ submitting: true });
 
     const opts = {
       method: 'POST',
@@ -46,7 +56,14 @@ class DownloadForm extends Component {
 
     fetch('/api/email_target_emails/download', opts)
       .then(resp => resp.json())
-      .then(json => console.log(json));
+      .then(json => {
+        this.setState({ submitting: false, email: '', submitted: true });
+        window.setTimeout(() => this.setState({ submitted: false }), 10000);
+      })
+      .catch(() => {
+        this.setState({ submitting: false, error: true });
+        window.setTimeout(() => this.setState({ error: false }), 10000);
+      });
   }
 
   handleChange(e) {
@@ -55,20 +72,38 @@ class DownloadForm extends Component {
 
   render() {
     return (
-      <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
-        <div className="input-group">
-          <input
-            onChange={this.handleChange.bind(this)}
-            className="form-control"
-            placeholder="Email Address"
-          />
-          <span className="input-group-btn">
-            <button type="submit" className="btn btn-default">
-              Export as CSV
-            </button>
+      <div>
+        <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
+          <div className="input-group">
+            <input
+              onChange={this.handleChange.bind(this)}
+              className="form-control"
+              placeholder="Email Address"
+            />
+            <span className="input-group-btn">
+              <button
+                type="submit"
+                disabled={this.state.submitting}
+                className="btn btn-default"
+              >
+                {this.state.submitting ? 'Processing' : 'Export as CSV'}
+              </button>
+            </span>
+          </div>
+        </form>
+        {this.state.submitted ? (
+          <span className="label label-success">Now go check your email!</span>
+        ) : (
+          ''
+        )}
+        {this.state.error ? (
+          <span className="label label-danger">
+            Whoops! Sorry, something went wrong.
           </span>
-        </div>
-      </form>
+        ) : (
+          ''
+        )}
+      </div>
     );
   }
 }

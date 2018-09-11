@@ -55,11 +55,11 @@ class Api::EmailTargetEmailsController < ApplicationController
   private
 
   def topic_arn
-    %w[
+    %W[
       arn:aws:sns
       #{Settings.aws_region}
       #{Settings.aws_account_id}
-      champaign-#{Rails.env.production? ? prod : dev'}
+      champaign-#{Rails.env.production? ? 'prod' : 'dev'}
     ].join(':')
   end
 
