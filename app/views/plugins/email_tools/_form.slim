@@ -50,6 +50,8 @@
     .email-tool__target-form
       = render partial: 'plugins/email_tools/target_form.slim', locals: { plugin: plugin }
 
+    p
+      = link_to t('plugins.email_tool.view_and_download'), emails_page_path(@page)
 
 javascript:
   $(function () {

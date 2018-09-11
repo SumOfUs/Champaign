@@ -339,6 +339,7 @@ en:
     email_tool:
       title: "Title (e.g. 'Compose your email')"
       subject: 'Email subject'
+      view_and_download: 'View and download emails'
       email_header: "Header (member can't edit)"
       email_body: 'Body'
       email_footer: "Footer (member can't edit)"
