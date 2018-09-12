@@ -10,6 +10,7 @@ facebook_url: <%= ENV['FACEBOOK_URL'] %>
 oauth_domain_whitelist: <%= ENV['OAUTH_DOMAIN_WHITELIST']&.split(':') %>
 
 aws_region: <%= ENV['AWS_REGION'] %>
+aws_account_id: <%= ENV['AWS_ACCOUNT_ID'] %>
 sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
 s3_host_name: <%= ENV['S3_HOST_NAME'] %>
 ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>

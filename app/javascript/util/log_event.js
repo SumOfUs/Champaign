@@ -30,7 +30,7 @@ const getEventData = (eventName: string, data: any) => {
     case 'set_store_in_vault':
       return [
         'fundraising',
-        'set_store_in_valut',
+        'set_store_in_vault',
         data.payload ? 'true' : 'false',
       ];
     case 'set_recurring':
@@ -49,6 +49,5 @@ const getEventData = (eventName: string, data: any) => {
 
 const logToGa = (eventName: string, data: any) => {
   const eventData = getEventData(eventName, data);
-
   window.ga('send', 'event', ...eventData);
 };

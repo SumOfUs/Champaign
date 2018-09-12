@@ -7,6 +7,7 @@ oauth_domain_whitelist:
   - 'your-domain.org'
 
 aws_region: 'us-west-2'
+aws_account_id: '' # set in development.local
 sqs_queue_url: 'sqs-queue-url'
 s3_host_name: 's3-host'
 ak_processor_url: 'url of your worker that subscribes to your SQS and ships messages to AK'

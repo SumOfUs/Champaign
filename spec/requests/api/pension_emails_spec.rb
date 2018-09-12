@@ -38,21 +38,25 @@ describe 'Pension Emails', type: :request do
     end
 
     it 'saves email to dynamodb' do
-      expected_options = {
-        table_name: 'UserMailing',
-        item: {
-          MailingId: /foo-bar:\d*/,
-          UserId: registered_email.email,
-          Body: 'Body text',
-          Subject: 'Subject',
-          ToEmails: ['Target name <recipient@example.com>'],
-          FromName: "Sender's Name",
-          FromEmail: registered_email.email,
-          ReplyTo: ["#{registered_email.name} <#{registered_email.email}>"]
+      Timecop.freeze do
+        expected_options = {
+          table_name: 'UserMailing',
+          item: {
+            MailingId: /foo-bar:\d*/,
+            Slug: 'foo-bar',
+            CreatedAt: Time.now.utc.iso8601,
+            UserId: registered_email.email,
+            Body: 'Body text',
+            Subject: 'Subject',
+            ToEmails: ['Target name <recipient@example.com>'],
+            FromName: "Sender's Name",
+            FromEmail: registered_email.email,
+            ReplyTo: ["#{registered_email.name} <#{registered_email.email}>"]
+          }
         }
-      }
 
-      expect(aws_client).to have_received(:put_item).with(expected_options)
+        expect(aws_client).to have_received(:put_item).with(expected_options)
+      end
     end
 
     it 'creates an action and member (not-EEA country)' do

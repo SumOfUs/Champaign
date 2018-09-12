@@ -19,7 +19,9 @@ class EmailSender
       table_name: Settings.dynamodb_mailer_table,
       item: {
         MailingId: "#{opts[:id]}:#{Time.now.to_i}",
+        Slug: opts[:id],
         UserId: opts[:from_email],
+        CreatedAt: Time.now.utc.iso8601,
         Body: opts[:body],
         Subject: opts[:subject],
         ToEmails: format_emails_list(opts[:to]),

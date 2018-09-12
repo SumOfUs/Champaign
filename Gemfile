@@ -35,7 +35,7 @@ gem 'slim-rails'
 
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 3'
 gem 'paper_trail', '~> 9.0'
 gem 'paperclip', '~> 5.2'
 gem 'rmagick' # rmagick for image processing
@@ -57,7 +57,7 @@ gem 'lograge', '~> 0.10.0'
 gem 'metamagic'
 gem 'money-oxr'
 gem 'newrelic_rpm'
-gem 'puma', '~> 3.9.1'
+gem 'puma', '~> 3.12.0'
 gem 'sass-rails'
 gem 'sentry-raven'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
