@@ -2,7 +2,7 @@
 
 class DirectDebitDecider
   ALWAYS_COUNTRIES = %i[DE AT ES AU].freeze # Germany, Austria, Spain and Australia
-  ONLY_RECURRING_COUNTRIES = %i[GB NL].freeze # Britain and Netherlands
+  ONLY_RECURRING_COUNTRIES = %i[GB NL FR].freeze # Britain, Netherlands and France
 
   def self.decide(member_countries, recurring_default)
     new(member_countries, recurring_default).decide
