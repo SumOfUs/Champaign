@@ -20,6 +20,7 @@ import {
   toggleModal,
 } from '../../state/consent';
 import { resetMember } from '../../state/member/reducer';
+import { actionFormUpdated } from '../../state/fundraiser/actions';
 
 const ActionForm = Backbone.View.extend({
   el: 'form.action-form',
@@ -336,28 +337,20 @@ const ActionForm = Backbone.View.extend({
 
   handleSuccess(e, data) {
     // FIXME: we should return consistently from the backend
-    // FIXME: we should not rely on mutating function arguments of unkown type
     ee.emit('action:submitted_success');
-    if (typeof data === 'object') data.petitionForm = this.formValues();
     Backbone.trigger('form:submitted', e, data);
+    this.store.dispatch(actionFormUpdated(this.formData()));
   },
 
-  formValues() {
-    const values = {};
-    this.$(
-      'input[type=text], input[type=email], input[type=tel], textarea, select'
-    ).each((i, input) => {
-      values[input.name] = this.$(input).val();
-    });
-
-    this.$('input[type=checkbox]').each((i, input) => {
-      values[input.name] = input.checked ? '1' : '0';
-    });
-
-    this.$('input[type=radio]:checked').each((i, input) => {
-      values[input.name] = this.$(input).val();
-    });
-    return values;
+  formData() {
+    return _.reduce(
+      $(this.el).serializeArray(),
+      (reducedData, arrayItem) => ({
+        ...reducedData,
+        [arrayItem.name]: arrayItem.value,
+      }),
+      {}
+    );
   },
 
   handleFailure(e, data) {
