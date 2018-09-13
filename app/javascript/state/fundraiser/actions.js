@@ -1,7 +1,7 @@
 // @flow
 import ee from '../../shared/pub_sub';
 
-import type { FundraiserAction, PaymentType } from './types';
+import type { FundraiserAction, PaymentType, ActionFormField } from './types';
 
 export function changeAmount(payload: ?number): FundraiserAction {
   ee.emit('fundraiser:change_amount', payload);
@@ -37,4 +37,8 @@ export function setStoreInVault(payload: boolean = false): FundraiserAction {
 
 export function setPaymentType(payload: PaymentType): FundraiserAction {
   return { type: 'set_payment_type', payload };
+}
+
+export function actionFormUpdated(data: ActionFormField): FundraiserAction {
+  return { type: '@@chmp:action_form:updated', payload: data };
 }

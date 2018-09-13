@@ -62,18 +62,6 @@ export default (state: State = initialState, action: Action): State => {
       return { ...state, ...initialData };
     case 'search_string_overrides':
       return searchStringOverrides(state, action.payload);
-    case 'login_member':
-      const formValues = action.payload.formValues || {};
-      const outstandingFields = state.fields
-        .map(field => field.name)
-        .filter(fieldName => !keys(formValues).includes(fieldName));
-
-      return {
-        ...state,
-        form: formValues,
-        formValues,
-        outstandingFields,
-      };
     case 'reset_member':
       return {
         ...state,
@@ -140,6 +128,19 @@ export default (state: State = initialState, action: Action): State => {
           donationBands: state.donationBands,
           currency: state.currency,
         }),
+      };
+    // Update our form with data from another form
+    // E.g. petition was signed, so we can re-use the data from that form in
+    // this form.
+    case '@@chmp:action_form:updated':
+      const relevantFields = state.fields.map(field => field.name);
+      const formValues = pick(action.payload, relevantFields);
+      const outstandingFields = relevantFields.filter(key => !formValues[key]);
+      return {
+        ...state,
+        form: formValues,
+        formValues,
+        outstandingFields,
       };
     default:
       return state;
