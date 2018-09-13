@@ -1,5 +1,5 @@
 // @flow
-export const logEvent = (eventName: string, payload: any) => {
+export const logEvent = (eventName: string, ...payload: any) => {
   if (typeof window.mixpanel === 'undefined') return;
   if (typeof window.champaign === 'undefined') return;
 
@@ -14,10 +14,10 @@ export const logEvent = (eventName: string, payload: any) => {
 
   if (window.TRACK_USER_ACTIONS) window.mixpanel.track(eventName, opts);
 
-  if (window.ga) logToGa(eventName, payload);
+  if (window.ga) logToGa(eventName, ...payload);
 };
 
-const getEventData = (eventName: string, data: any) => {
+const getEventData = (eventName: string, ...data: any) => {
   switch (eventName) {
     case 'action:submitted_success':
       return ['action', 'submitted_success'];
@@ -36,6 +36,7 @@ const getEventData = (eventName: string, data: any) => {
     case 'set_recurring':
       return ['fundraising', 'set_recurring', data.payload ? 'true' : 'false'];
     case 'fundraiser:transaction_submitted':
+      logEcommerce(data);
       return [
         'fundraising',
         'transaction_submitted',
@@ -61,4 +62,51 @@ const logToGa = (eventName: string, data: any) => {
   if (eventData) {
     window.ga('send', 'event', ...eventData);
   }
+};
+
+const logEcommerce = (...data) => {
+  console.log('logEcommerce', JSON.stringify(data));
+
+  //[
+  // {
+  // "value":10,
+  // "currency":"EUR",
+  // "content_category":"card",
+  // "recurring":true
+  // },
+
+  // {
+  // "storeInVault":false,
+  // "member":
+  //   {
+  //   "name":"tuuli",
+  //   "action_phone_number":"",
+  //   "email":"tuuli@sumofus.org",
+  //   "country":"SI",
+  //   "postal":"1000"
+  //   }
+  // }
+  // ]
+  //
+  ga('ecommerce:addTransaction', {
+    id: 1234,
+    affiliation: data.first.content_category,
+  });
+
+  //ga('ecommerce:addItem', {
+  //  'id': '1234',                     // Transaction ID. Required.
+  //  'name': 'Fluffy Pink Bunnies',    // Product name. Required.
+  //  'sku': 'DD23444',                 // SKU/code.
+  //  'category': 'Party Toys',         // Category or variation.
+  //  'price': '11.99',                 // Unit price.
+  //  'quantity': '1'                   // Quantity.
+  //});
+  //
+  //ga('ecommerce:addTransaction', {
+  //  'id': '1234',                     // Transaction ID. Required.
+  //  'affiliation': 'Acme Clothing',   // Affiliation or store name.
+  //  'revenue': '11.99',               // Grand Total.
+  //  'shipping': '5',                  // Shipping.
+  //  'tax': '1.29'                     // Tax.
+  //});
 };
