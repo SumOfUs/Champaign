@@ -12,7 +12,7 @@ import { logEvent } from './log_event';
   'fundraiser:transaction_submitted',
   'action:submitted_success',
 ].forEach(eventName => {
-  const callback = (e, ...rest) => logEvent(eventName, ...rest);
+  const callback = (...rest) => logEvent(eventName, ...rest);
   ee.on(eventName, callback);
 });
 

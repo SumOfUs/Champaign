@@ -269,6 +269,12 @@ export class Payment extends Component {
       window.fbq('track', 'AddPaymentInfo', eventPayload);
     }
 
+    console.log(
+      'ABOUT TO EMIT EVENT WITH: ',
+      eventPayload,
+      this.props.formData
+    );
+
     ee.emit(
       'fundraiser:transaction_submitted',
       eventPayload,
