@@ -13,6 +13,8 @@ export type FeaturedAmountState = {
   preselectAmount: boolean,
 };
 
+export type ActionFormField = { [key: string]: string };
+
 export type Fundraiser = {
   currency: string,
   currentPaymentType: PaymentType,
@@ -40,6 +42,7 @@ export type Fundraiser = {
 
 export type FundraiserAction =
   | { type: 'initialize_fundraiser', payload: FundraiserInitializationOptions }
+  | { type: '@@chmp:action_form:updated', payload: ActionFormField }
   | { type: 'change_amount', payload: ?number }
   | { type: 'change_currency', payload: string }
   | { type: 'change_step', payload: number }

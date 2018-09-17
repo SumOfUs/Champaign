@@ -1,6 +1,7 @@
 // @flow
 import $ from 'jquery';
 import MobileCheck from './backbone/mobile_check';
+import { logEvent } from './../util/log_event';
 
 $(() => {
   if (!MobileCheck.isMobile()) {
@@ -30,15 +31,7 @@ $(() => {
     const share = event.originalEvent.share;
     shared = true;
 
-    if (share.share_type === 'f' && window.ga) {
-      window.ga(
-        'send',
-        'event',
-        'fb:sign_share',
-        'share_progress_share',
-        window.champaign.personalization.urlParams.id
-      );
-    }
+    logEvent('social_share', share);
   };
 
   $(window).bind('share', handleFacebookShare);
