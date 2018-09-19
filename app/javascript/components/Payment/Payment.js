@@ -236,6 +236,7 @@ export class Payment extends Component {
   makePayment() {
     if (this.props.currentPaymentType === 'gocardless') {
       this.submitGoCardless();
+      // TODO: Emit fundraiser:transaction_submitted with [{value, currency, content_category, recurring},this.props.formData]
       return;
     }
     const delegate = this.delegate();
@@ -268,12 +269,6 @@ export class Payment extends Component {
     if (typeof window.fbq === 'function') {
       window.fbq('track', 'AddPaymentInfo', eventPayload);
     }
-
-    console.log(
-      'ABOUT TO EMIT EVENT WITH: ',
-      eventPayload,
-      this.props.formData
-    );
 
     ee.emit(
       'fundraiser:transaction_submitted',
