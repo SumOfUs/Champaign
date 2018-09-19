@@ -55,13 +55,13 @@ const getEventData = (eventName: string, ...data: any) => {
         parseFloat(data[0].value),
       ];
     case 'change_step':
-      return ['fundraising', 'change_step', data.payload];
+      return ['fundraising', 'change_step', data[0].payload];
     case 'change_currency':
-      return ['fundraising', 'change_currency', data.payload];
+      return ['fundraising', 'change_currency', data[0].payload];
     case 'set_payment_type':
-      return ['fundraising', 'set_payment_type', data.payload];
+      return ['fundraising', 'set_payment_type', data[0].payload];
     case 'social_share':
-      return ['social_share', 'shared_on_' + data.share_type];
+      return ['social_share', 'shared_on_' + data[0].share_type];
     default:
       return false;
   }
