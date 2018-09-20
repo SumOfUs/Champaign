@@ -52,7 +52,7 @@ const getEventData = (eventName: string, ...data: any) => {
         'fundraising',
         'transaction_submitted',
         null,
-        parseFloat(data[0].value),
+        parseFloat(data[0].value || data[0].amount),
       ];
     case 'change_step':
       return ['fundraising', 'change_step', data[0].payload];
@@ -79,15 +79,15 @@ const logEcommerce = data => {
   const UUID = uuid();
   window.ga('ecommerce:addTransaction', {
     id: UUID,
-    revenue: data[0].value,
+    revenue: data[0].value || data[0].amount,
     currency: data[0].currency,
   });
 
   window.ga('ecommerce:addItem', {
     id: UUID,
     name: data[0].recurring == true ? 'recurring' : 'one-time',
-    category: data[0].content_category,
-    price: data[0].value,
+    category: data[0].content_category || 'stored_payment_method',
+    price: data[0].value || data[0].amount,
     quantity: 1,
     currency: data[0].currency,
   });
