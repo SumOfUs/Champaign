@@ -213,6 +213,8 @@ export class Payment extends Component {
     }/start_flow?${$.param(payload)}`;
     window.open(url);
 
+    this.emitTransactionSubmitted();
+
     if (!this.state.waitingForGoCardless) {
       window.addEventListener('message', this.waitForGoCardless.bind(this));
       this.setState({ waitingForGoCardless: true });
@@ -233,32 +235,7 @@ export class Payment extends Component {
     }
   }
 
-  makePayment() {
-    if (this.props.currentPaymentType === 'gocardless') {
-      this.submitGoCardless();
-      // TODO: Emit fundraiser:transaction_submitted with [{value, currency, content_category, recurring},this.props.formData]
-      return;
-    }
-    const delegate = this.delegate();
-
-    this.props.setSubmitting(true);
-
-    if (delegate && delegate.submit) {
-      delegate
-        .submit()
-        .then(success => this.submit(success), reason => this.onError(reason));
-    } else {
-      this.submit();
-    }
-  }
-
-  submit(data: any) {
-    const payload = {
-      ...this.donationData(),
-      payment_method_nonce: data.nonce,
-      device_data: this.state.deviceData,
-    };
-
+  emitTransactionSubmitted() {
     const eventPayload = {
       value: this.props.fundraiser.donationAmount,
       currency: this.props.fundraiser.currency,
@@ -275,6 +252,32 @@ export class Payment extends Component {
       eventPayload,
       this.props.formData
     );
+  }
+
+  makePayment() {
+    if (this.props.currentPaymentType === 'gocardless') {
+      this.submitGoCardless();
+      return;
+    }
+    const delegate = this.delegate();
+    this.props.setSubmitting(true);
+    if (delegate && delegate.submit) {
+      delegate
+        .submit()
+        .then(success => this.submit(success), reason => this.onError(reason));
+    } else {
+      this.submit();
+    }
+  }
+
+  submit(data: any) {
+    const payload = {
+      ...this.donationData(),
+      payment_method_nonce: data.nonce,
+      device_data: this.state.deviceData,
+    };
+
+    this.emitTransactionSubmitted();
 
     $.post(
       `/api/payment/braintree/pages/${this.props.page.id}/transaction`,
