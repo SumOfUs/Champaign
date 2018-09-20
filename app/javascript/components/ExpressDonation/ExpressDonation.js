@@ -81,6 +81,11 @@ export class ExpressDonation extends Component {
   submit() {
     const data = this.oneClickData();
     if (data) {
+      ee.emit(
+        'fundraiser:transaction_submitted',
+        data.payment,
+        this.props.formData
+      );
       this.setState({ submitting: true });
       this.props.setSubmitting(true);
       $.post(
