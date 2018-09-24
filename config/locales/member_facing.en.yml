@@ -54,6 +54,8 @@ en:
       fund_contact: '[Select fund from above]'
       fund_email: '[Select fund from above]'
       name: '[Enter your name above]'
+      constituency_name: '[Select your representative above]'
+      target_full_name: '[Select your representative above]'
 
   fundraiser:
     payment_methods:

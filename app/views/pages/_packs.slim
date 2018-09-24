@@ -1,4 +1,11 @@
 - plugins.each do |plugin|
   - name = plugin.name.underscore
-  = stylesheet_pack_tag(name) if pack_exists?(name, :stylesheet)
-  = javascript_pack_tag(name) if pack_exists?(name, :javascript)
+  = plugin.name.underscore
+  - if name == 'email_pension'
+    = stylesheet_pack_tag(name) if pack_exists?(name, :stylesheet)
+    - puts "OMAR"
+    - puts pack_exists?('email_representative', :javascript)
+    = javascript_pack_tag('email_representative') if pack_exists?('email_representative', :javascript)
+  - else
+    = stylesheet_pack_tag(name) if pack_exists?(name, :stylesheet)
+    = javascript_pack_tag(name) if pack_exists?(name, :javascript)

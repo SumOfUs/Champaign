@@ -13,12 +13,31 @@ class Api::EmailsController < ApplicationController
     end
   end
 
-  def create_pension_email
-    PensionEmailSender.run(params[:page_id], pension_email_params)
-    action = ManageAction.create(action_params)
-    write_member_cookie(action.member_id)
+  def create_constituency_targets_email
+    endpoint = "https://pzeb4jmr4l.execute-api.us-east-1.amazonaws.com/dev/germany/#{params[:postcode]}"
+    resp = HTTParty.get(endpoint)
+    targets = JSON.parse(resp.body)
 
-    render js: "window.location = '#{PageFollower.new_from_page(page).follow_up_path}'"
+    PensionEmailSender.run(params[:page_id], constituency_targets_email_params(targets))
+    render json: resp.body
+  end
+
+  def create_pension_email
+    create_constituency_targets_email
+
+    # return
+
+    endpoint = "https://pzeb4jmr4l.execute-api.us-east-1.amazonaws.com/dev/germany/#{params[:postcode]}"
+
+    resp = HTTParty.get(endpoint)
+    # JSON.parse(resp.body)
+
+    # PensionEmailSender.run(params[:page_id], pension_email_params)
+    # action = ManageAction.create(action_params)
+    # write_member_cookie(action.member_id)
+    #
+    # render js: "window.location = '#{PageFollower.new_from_page(page).follow_up_path}'"
+    render json: resp.body
   end
 
   private
@@ -33,6 +52,19 @@ class Api::EmailsController < ApplicationController
     (params.to_unsafe_hash[:tracking_params] || {})
       .slice(:source, :akid, :referring_akid, :referrer_id, :rid)
       .merge(mobile_value)
+  end
+
+  def constituency_targets_email_params(targets)
+    data = params
+      .to_unsafe_hash
+      .symbolize_keys
+      .slice(:body, :subject, :from_email, :from_name)
+
+    data[:targets] = targets.map do |target|
+      { target_name: "#{target['last_name']}, #{target['first_name']}", target_email: target['email_1'] }
+    end
+
+    data
   end
 
   def pension_email_params
