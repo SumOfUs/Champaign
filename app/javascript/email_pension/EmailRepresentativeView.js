@@ -5,73 +5,15 @@ import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
+import SelectTarget from './SelectTarget';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import './EmailPensionView.scss';
-
-import type { Dispatch } from 'redux';
-
-class SelectTarget extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      postcode: '',
-      targets: [],
-    };
-  }
-
-  componentDidMount() {
-    this.getTarget('10178');
-  }
-
-  getTarget = (postcode: string) => {
-    this.setState({ postcode: postcode });
-
-    if (!postcode) return;
-    if (postcode.length < 5) return;
-
-    fetch(
-      `https://pzeb4jmr4l.execute-api.us-east-1.amazonaws.com/dev/germany/${postcode}`
-    )
-      .then(resp => resp.json())
-      .then(json => {
-        this.setState({ targets: json });
-        const data = { postcode, targets: json };
-        this.props.handler(data);
-      });
-  };
-
-  renderTarget({ id, title, first_name, last_name }) {
-    return (
-      <p key={id}>
-        {title} {first_name} {last_name}
-      </p>
-    );
-  }
-
-  render() {
-    const targets = this.state.targets.map(target => this.renderTarget(target));
-
-    return (
-      <div>
-        <FormGroup>
-          <Input
-            name="postcode"
-            type="text"
-            label="Enter your postcode"
-            value={this.state.postcode}
-            onChange={value => this.getTarget(value)}
-          />
-        </FormGroup>
-        {targets}
-      </div>
-    );
-  }
-}
 
 class EmailRepresentativeView extends Component {
   constructor(props) {
     super(props);
+
+    this.handleChange = this.handleChange.bind(this);
 
     this.defaultTemplateVars = {
       targets_names: this.props.intl.formatMessage({
@@ -111,6 +53,7 @@ class EmailRepresentativeView extends Component {
     });
 
     this.setState({ errors: errors });
+    console.log(errors);
     return isEmpty(errors);
   }
 
@@ -160,13 +103,18 @@ class EmailRepresentativeView extends Component {
       from_name: this.state.name,
       from_email: this.state.email,
       postcode: this.state.postcode,
+      plugin_id: this.props.pluginId,
     };
 
     merge(payload, this.props.formValues);
-    // this.setState({isSubmitting: true});
+    this.setState({ isSubmitting: true });
 
     // FIXME Handle errors
-    $.post(`/api/pages/${this.props.pageId}/pension_emails`, payload);
+    $.post(`/api/pages/${this.props.pageId}/pension_emails`, payload).fail(
+      e => {
+        console.log('Unable to send email', e);
+      }
+    );
   };
 
   handleTargetSelection(data) {
@@ -177,12 +125,20 @@ class EmailRepresentativeView extends Component {
     });
   }
 
+  handleChange(data) {
+    this.setState(data);
+  }
+
   render() {
     return (
       <div className="email-target">
         <div className="email-target-form">
           <form onSubmit={this.onSubmit} className="action-form form--big">
-            <SelectTarget handler={this.handleTargetSelection.bind(this)} />
+            <SelectTarget
+              handler={this.handleTargetSelection.bind(this)}
+              endpoint={this.props.targetEndpoint}
+              error={this.state.errors.targets}
+            />
 
             <div className="email-target-action">
               <h3>
@@ -201,9 +157,11 @@ class EmailRepresentativeView extends Component {
                       defaultMessage="Your name (default)"
                     />
                   }
-                  value={this.props.name}
+                  value={this.state.name}
                   errorMessage={this.state.errors.name}
-                  onChange={value => this.props.changeName(value)}
+                  onChange={value => {
+                    this.handleChange({ name: value });
+                  }}
                 />
               </FormGroup>
 
@@ -217,9 +175,11 @@ class EmailRepresentativeView extends Component {
                       defaultMessage="Your email (default)"
                     />
                   }
-                  value={this.props.email}
+                  value={this.state.email}
                   errorMessage={this.state.errors.email}
-                  onChange={value => this.props.changeEmail(value)}
+                  onChange={value => {
+                    this.handleChange({ email: value });
+                  }}
                 />
               </FormGroup>
 

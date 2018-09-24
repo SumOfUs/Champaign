@@ -40,18 +40,21 @@ describe 'Pension Emails', type: :request do
     it 'saves email to dynamodb' do
       expected_options = {
         table_name: 'UserMailing',
-        item: {
-          MailingId: /foo-bar:\d*/,
-          Slug: 'foo-bar',
-          CreatedAt: /\d{4}./,
-          UserId: registered_email.email,
-          Body: 'Body text',
-          Subject: 'Subject',
-          ToEmails: ['Target name <recipient@example.com>'],
-          FromName: "Sender's Name",
-          FromEmail: registered_email.email,
-          ReplyTo: ["#{registered_email.name} <#{registered_email.email}>"]
-        }
+        item:
+          hash_including(
+            MailingId: /foo-bar:\d*/,
+            Slug: 'foo-bar',
+            CreatedAt: /\d{4}./,
+            UserId: registered_email.email,
+            Body: 'Body text',
+            Subject: 'Subject',
+            Recipients: [{ name: "Target's Name", email: 'recipient@example.com' }],
+            Sender: { name: "Sender's Name", email: registered_email.email },
+            ReplyTo: [
+              { name: registered_email.name, email: registered_email.email }
+            ]
+          )
+
       }
 
       expect(aws_client).to have_received(:put_item).with(expected_options)

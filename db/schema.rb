@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180614131526) do
+ActiveRecord::Schema.define(version: 2018_09_24_155611) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
   enable_extension "intarray"
+  enable_extension "plpgsql"
 
   create_table "actionkit_page_types", id: :serial, force: :cascade do |t|
     t.string "actionkit_page_type", null: false
@@ -468,6 +468,7 @@ ActiveRecord::Schema.define(version: 20180614131526) do
     t.text "email_body_footer"
     t.boolean "use_member_email", default: false
     t.integer "from_email_address_id"
+    t.integer "registered_target_endpoint_id"
     t.index ["page_id"], name: "index_plugins_email_pensions_on_page_id"
   end
 
@@ -554,6 +555,14 @@ ActiveRecord::Schema.define(version: 20180614131526) do
   create_table "registered_email_addresses", force: :cascade do |t|
     t.string "email"
     t.string "name"
+  end
+
+  create_table "registered_target_endpoints", force: :cascade do |t|
+    t.string "url"
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "share_buttons", id: :serial, force: :cascade do |t|
