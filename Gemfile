@@ -86,6 +86,7 @@ group :development do
   gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard' # [OSX] brew install terminal-notifier
   gem 'web-console'
+  gem 'byebug'
 end
 
 group :test do

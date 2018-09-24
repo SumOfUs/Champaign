@@ -6,11 +6,11 @@ class PensionEmailSender
   def initialize(page_id, params)
     @plugin ||= Plugins::EmailPension.find_by(page_id: page_id)
     @page = Page.find(page_id)
-    @params = params.slice(:body, :subject, :targets, :from_name, :from_email)
+    @params = params.slice(:body, :subject, :to_email, :target_name, :from_name, :from_email)
   end
 
   def run
-    opts = {
+    EmailSender.run(
       id:         @page.slug,
       subject:    @params[:subject],
       body:       @params[:body],
@@ -18,20 +18,17 @@ class PensionEmailSender
       from_name:  @params[:from_name],
       from_email: from_email,
       reply_to:   reply_to_emails
-    }
+    )
+  end
 
-    pp @params[:body]
-    # byebug
-
-    EmailSender.run(opts)
+  def find_target
+    HTTParty.get 'https://pzeb4jmr4l.execute-api.us-east-1.amazonaws.com/dev/germany/51545'
   end
 
   private
 
   def to_emails
     if @plugin.test_email_address.blank?
-      return @params[:targets] if @params[:targets].is_a?(Array)
-
       { name: @params[:target_name], address: @params[:to_email] }
     else
       { name: 'Test', address: @plugin.test_email_address }

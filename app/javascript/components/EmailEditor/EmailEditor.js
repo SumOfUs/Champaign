@@ -20,6 +20,11 @@ export default class EmailEditor extends Component {
   constructor(props: Props) {
     super(props);
 
+    console.log(
+      EditorState.createWithContent(
+        stateFromHTML(interpolateVars(props.body, props.templateVars))
+      )
+    );
     this.state = {
       subject: interpolateVars(props.subject, props.templateVars),
       editorState: EditorState.createWithContent(
@@ -46,6 +51,7 @@ export default class EmailEditor extends Component {
 
   componentDidMount() {
     this.update();
+    console.log(stateToHTML(this.state.editorState.getCurrentContent()));
   }
 
   componentDidUpdate() {
