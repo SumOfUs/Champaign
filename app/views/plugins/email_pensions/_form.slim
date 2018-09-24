@@ -5,6 +5,14 @@
       = render 'plugins/shared/plugin_metadata', f: f
 
       .form-group
+        = label_with_tooltip(f, :registered_target_endpoint_id, "Data Source", t('plugins.email_tool.tooltips.from_address'))
+
+        = f.select :registered_target_endpoint_id,
+                   RegisteredTargetEndpoint.all_for_select,
+                   {},
+                   class: 'form-control'
+
+      .form-group
         = label_with_tooltip(f, :from_email_address_id, t('plugins.email_tool.from_address'), t('plugins.email_tool.tooltips.from_address'))
         = f.select :from_email_address_id,
                    RegisteredEmailAddress.all.map { |e| [e.email, e.id] },

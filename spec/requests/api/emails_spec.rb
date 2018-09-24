@@ -37,9 +37,6 @@ describe 'Emails', type: :request do
       end
 
       it 'sends an email with the expected params' do
-        target = plugin.targets.first
-        from_email = plugin.from_email_address
-
         Timecop.freeze do
           expect_any_instance_of(Aws::DynamoDB::Client).to receive(:put_item)
             .with(
@@ -49,10 +46,8 @@ describe 'Emails', type: :request do
                                    Subject: 'A Subject',
                                    Slug: 'foo-bar',
                                    Body: /dolor et libero/,
-                                   ToEmails: ["#{target.name} <#{target.email}>"],
-                                   FromName: 'John Doe',
-                                   FromEmail: 'john@email.com',
-                                   ReplyTo: ["#{from_email.name} <#{from_email.email}>", 'John Doe <john@email.com>'])
+                                   Recipients: [{ name: /\w/, email: /[\w@.]/ }],
+                                   Sender: { name: 'John Doe', email: 'john@email.com' })
             )
           post "/api/pages/#{page.id}/emails", params: params
         end

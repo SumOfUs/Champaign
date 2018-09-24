@@ -1,3 +1,4 @@
+
 {% if plugins.email_pension[ref].active %}
   <div id='email-pension-component'></div>
 
@@ -13,7 +14,7 @@
         formValues: window.champaign.personalization.formValues
       });
 
-      mountEmailRepresentative('email-pension-component', data);
+      mountEmailPension('email-pension-component', data, '{{plugins.email_pension[ref].target_endpoint}}');
     });
   </script>
 

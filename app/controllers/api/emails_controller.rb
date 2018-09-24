@@ -13,31 +13,26 @@ class Api::EmailsController < ApplicationController
     end
   end
 
-  def create_constituency_targets_email
-    endpoint = "https://pzeb4jmr4l.execute-api.us-east-1.amazonaws.com/dev/germany/#{params[:postcode]}"
-    resp = HTTParty.get(endpoint)
-    targets = JSON.parse(resp.body)
-
-    PensionEmailSender.run(params[:page_id], constituency_targets_email_params(targets))
-    render json: resp.body
-  end
-
   def create_pension_email
-    create_constituency_targets_email
+    reg_endpoint = plugin.try(:registered_target_endpoint)
 
-    # return
+    target_data = if reg_endpoint
+                    targets =
+                      EmailTool::TargetsFinder.new(
+                        postcode: params[:postcode],
+                        endpoint: reg_endpoint.url
+                      )
 
-    endpoint = "https://pzeb4jmr4l.execute-api.us-east-1.amazonaws.com/dev/germany/#{params[:postcode]}"
+                    constituency_targets_email_params(targets)
+                  else
+                    pension_email_params
+                  end
 
-    resp = HTTParty.get(endpoint)
-    # JSON.parse(resp.body)
+    PensionEmailSender.run(params[:page_id], target_data)
+    action = ManageAction.create(action_params)
+    write_member_cookie(action.member_id)
 
-    # PensionEmailSender.run(params[:page_id], pension_email_params)
-    # action = ManageAction.create(action_params)
-    # write_member_cookie(action.member_id)
-    #
-    # render js: "window.location = '#{PageFollower.new_from_page(page).follow_up_path}'"
-    render json: resp.body
+    render js: "window.location = '#{PageFollower.new_from_page(page).follow_up_path}'"
   end
 
   private
@@ -60,20 +55,18 @@ class Api::EmailsController < ApplicationController
       .symbolize_keys
       .slice(:body, :subject, :from_email, :from_name)
 
-    data[:targets] = targets.map do |target|
-      { target_name: "#{target['last_name']}, #{target['first_name']}", target_email: target['email_1'] }
-    end
-
+    data[:targets] = targets
     data
   end
 
   def pension_email_params
-    params
+    data = params
       .to_unsafe_hash
       .symbolize_keys
-      .slice(:body, :subject, :country, :target_name,
-             :to_name, :to_email, :from_email,
-             :from_name)
+      .slice(:body, :subject, :from_email, :from_name)
+
+    data[:recipients] = [{ name: params[:to_name], email: params[:to_email] }]
+    data
   end
 
   def action_params
@@ -94,5 +87,9 @@ class Api::EmailsController < ApplicationController
 
   def page
     Page.find(params[:page_id])
+  end
+
+  def plugin
+    @plugin ||= Plugins::EmailPension.find_by id: params[:plugin_id], page_id: page.id
   end
 end

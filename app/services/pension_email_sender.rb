@@ -6,7 +6,7 @@ class PensionEmailSender
   def initialize(page_id, params)
     @plugin ||= Plugins::EmailPension.find_by(page_id: page_id)
     @page = Page.find(page_id)
-    @params = params.slice(:body, :subject, :targets, :from_name, :from_email)
+    @params = params
   end
 
   def run
@@ -14,14 +14,11 @@ class PensionEmailSender
       id:         @page.slug,
       subject:    @params[:subject],
       body:       @params[:body],
-      to:         to_emails,
+      recipients: to_emails,
       from_name:  @params[:from_name],
       from_email: from_email,
       reply_to:   reply_to_emails
     }
-
-    pp @params[:body]
-    # byebug
 
     EmailSender.run(opts)
   end
@@ -30,11 +27,9 @@ class PensionEmailSender
 
   def to_emails
     if @plugin.test_email_address.blank?
-      return @params[:targets] if @params[:targets].is_a?(Array)
-
-      { name: @params[:target_name], address: @params[:to_email] }
+      @params[:recipients]
     else
-      { name: 'Test', address: @plugin.test_email_address }
+      [{ name: 'Test Email', email: @plugin.test_email_address }]
     end
   end
 
@@ -47,17 +42,17 @@ class PensionEmailSender
   end
 
   def reply_to_emails
-    list = @plugin.from_email_address ? [plugin_email_from_hash] : []
+    list = [plugin_email_from_hash]
     list << member_email_hash if @plugin.use_member_email?
     list
   end
 
   def member_email_hash
-    { name: @params[:from_name], address: @params[:from_email] }
+    { name: @params[:from_name], email: @params[:from_email] }
   end
 
   def plugin_email_from_hash
     email = @plugin.from_email_address
-    { name: email.name, address: email.email }
+    { name: email.name, email: email.email }
   end
 end

@@ -31,7 +31,7 @@ class EmailToolSender
   def send_email
     EmailSender.run(
       id:         @page.slug,
-      to:         to_emails,
+      recipients: to_emails,
       from_name:  @params[:from_name],
       from_email: from_email,
       reply_to:   reply_to_emails,
@@ -60,12 +60,12 @@ class EmailToolSender
   def to_emails
     if @plugin.test_email_address.blank?
       if @target.present?
-        { name: @target.name, address: @target.email }
+        [{ name: @target.name, email: @target.email }]
       else
-        @plugin.targets.map { |t| { name: t.name, address: t.email } }
+        @plugin.targets.map { |t| { name: t.name, email: t.email } }
       end
     else
-      { name: 'Test', address: @plugin.test_email_address }
+      [{ name: 'Test Email', email: @plugin.test_email_address }]
     end
   end
 
@@ -78,12 +78,12 @@ class EmailToolSender
   end
 
   def member_email_hash
-    { name: @params[:from_name], address: @params[:from_email] }
+    { name: @params[:from_name], email: @params[:from_email] }
   end
 
   def plugin_email_from_hash
     email = @plugin.from_email_address
-    { name: email.name, address: email.email }
+    { name: email.name, email: email.email }
   end
 
   def reply_to_emails
