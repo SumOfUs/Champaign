@@ -1,8 +1,12 @@
 class MemberExporter
-  attr_reader :member
+  attr_reader :member, :data, :errors
 
   def self.to_csv(member)
     new(member).to_csv
+  end
+
+  def self.raw_data(member)
+    new(member).raw_data
   end
 
   def initialize(member)
@@ -15,6 +19,10 @@ class MemberExporter
       map[category] = CSVFormatter.run(Array.wrap(records))
     end
     map
+  end
+
+  def raw_data
+    @data = extract_data.with_indifferent_access
   end
 
   private
