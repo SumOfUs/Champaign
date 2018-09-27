@@ -1,5 +1,5 @@
 class MemberExporter
-  attr_reader :member, :data, :errors
+  attr_reader :member, :data
 
   def self.to_csv(member)
     new(member).to_csv

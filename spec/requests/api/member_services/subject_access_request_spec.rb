@@ -43,6 +43,7 @@ describe 'API::MemberServices' do
         it 'returns data for the member as JSON' do
           get '/api/member_services/subject_access_request/', params: params, headers: valid_headers
           expect(response.status).to eq 200
+          expect(response.content_type).to eq('application/json')
           expect(response_json.to_hash.keys).to match_array(keys_array)
         end
       end
