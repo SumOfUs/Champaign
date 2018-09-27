@@ -43,7 +43,7 @@ class Api::MemberServicesController < ApplicationController
       @data = service.data
       render 'api/member_services/subject_access_request', status: :ok
     else
-      render json: { errors: service.errors }
+      render json: { errors: ['There was an issue with the Champaign MemberExporter. Check application logs.'] }
     end
   end
 
