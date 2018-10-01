@@ -17,6 +17,7 @@ If you're interested in collaborating on the project with us, or have ideas or r
 
 * Install gem dependencies by running `gem install bundler` and then `bundle install`.
 * Install node dependencies by running `yarn`
+* Setup your local env variables by running `cp .env .env.development` and edit `.env.development` if needed.
 * Setup your db connection by running `cp config/env.template.yml config/env.yml` and edit
   `config/env.yml` with your development database information.
 * Create the development databases: `bundle exec rake db:create`
@@ -24,6 +25,9 @@ If you're interested in collaborating on the project with us, or have ideas or r
 * Run the seed task: `bundle exec rake db:seed`
 * Run the test suite to make sure everything's setup correctly: `bundle
   exec rake spec`
+* Create a user via the rails console - run `bundle exec rails console`, then
+  `User.create!(email: 'email@domain.com', password: 'password')`
+* Start the server (`bundle exec rails s`) and navigate to http://localhost:3000/admin
 
 ## Champaign Configuration
 
