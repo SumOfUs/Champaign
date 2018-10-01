@@ -10,7 +10,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
       meta property="fb:app_id" content="#{Settings.facebook_app_id}"
 
     = csrf_meta_tags
-    = favicon_link_tag "images/org-favicon.ico"
+    = favicon_link_tag "org-favicon.ico"
     = metamagic
 
     = javascript_pack_tag "sentry"
