@@ -15,6 +15,7 @@ import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
+import GooglePayButton from '../GooglePayButton';
 import { resetMember } from '../../state/member/reducer';
 import {
   changeStep,
@@ -270,7 +271,7 @@ export class Payment extends Component {
     }
   }
 
-  submit(data: any) {
+  submit = (data: any) => {
     const payload = {
       ...this.donationData(),
       payment_method_nonce: data.nonce,
@@ -283,7 +284,7 @@ export class Payment extends Component {
       `/api/payment/braintree/pages/${this.props.page.id}/transaction`,
       payload
     ).then(this.onSuccess.bind(this), this.onBraintreeError.bind(this));
-  }
+  };
 
   onSuccess(data: any) {
     if (typeof window.fbq === 'function') {
@@ -421,7 +422,9 @@ export class Payment extends Component {
           {!hideRecurring && (
             <Checkbox
               className="Payment__config"
-              disabled={hideRecurring}
+              disabled={
+                hideRecurring || this.props.currentPaymentType === 'google'
+              }
               checked={recurring}
               onChange={e => this.props.setRecurring(e.target.checked)}
             >
@@ -443,14 +446,18 @@ export class Payment extends Component {
             />
           </Checkbox>
 
-          <DonateButton
-            currency={currency}
-            amount={donationAmount || 0}
-            submitting={this.state.submitting}
-            recurring={recurring}
-            disabled={this.disableSubmit()}
-            onClick={() => this.makePayment()}
-          />
+          {this.props.currentPaymentType !== 'google' && (
+            <DonateButton
+              currency={currency}
+              amount={donationAmount || 0}
+              submitting={this.state.submitting}
+              recurring={recurring}
+              disabled={this.disableSubmit()}
+              onClick={() => this.makePayment()}
+            />
+          )}
+
+          <GooglePayButton client={this.state.client} onSubmit={this.submit} />
         </ShowIf>
 
         <div className="Payment__fine-print">

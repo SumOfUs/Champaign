@@ -489,7 +489,7 @@ describe('Payment Panel', function() {
         suite.wrapper.find(
           '.PaymentTypeSelection__payment-methods .PaymentMethod input[type="radio"]'
         ).length
-      ).toEqual(3);
+      ).toEqual(4);
     });
 
     it('does not display the GoCardless button when not in a direct debit country', () => {
@@ -502,7 +502,7 @@ describe('Payment Panel', function() {
         suite.wrapper.find(
           '.PaymentTypeSelection__payment-methods .PaymentMethod input[type="radio"]'
         ).length
-      ).toEqual(2);
+      ).toEqual(3);
     });
   });
 

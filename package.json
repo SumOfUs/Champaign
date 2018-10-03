@@ -2,9 +2,9 @@
   "scripts": {
     "precommit": "lint-staged",
     "flow": "flow",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:update_snapshot": "jest --updateSnapshot"
+    "test": "jest --testURL=http://localhost/",
+    "test:watch": "jest --testURL=http://localhost/ --watch",
+    "test:update_snapshot": "jest --testURL=http://localhost/ --updateSnapshot"
   },
   "lint-staged": {
     "*.js": [
