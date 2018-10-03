@@ -60,6 +60,8 @@ de:
       gocardless: "Lastschrift"
       paypal: "PayPal"
       card: 'Kreditkarte'
+      google: 'Google Pay'
+      apple: 'Apple Pay'
       ready_for_gocardless: "Klicken Sie auf \"Spenden\", um den Vorgang mit unserem Zahlungsdienstleister GoCardless abzuschließen."
       ready_for_paypal: "Wenn Sie auf das Feld unten klicken, leitet Paypal Sie durch die letzten Schritte, um Ihre Spende abzuschließen. "
     payment_type_prompt: Zahlungsmethode

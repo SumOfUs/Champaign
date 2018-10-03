@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { without } from 'lodash';
 import PaymentMethodWrapper from '../ExpressDonation/PaymentMethodWrapper';
 import type { AppState } from '../../state';
 import type { PaymentType } from '../../state/fundraiser/types';
@@ -11,6 +12,7 @@ type Props = {
   disabled?: boolean,
   currentPaymentType?: PaymentType,
   paymentTypes: PaymentType[],
+  recurring: boolean,
   onChange: (paymentType: string) => void,
   showDirectDebit: boolean,
   directDebitOnly: boolean,
@@ -22,6 +24,10 @@ export class PaymentTypeSelection extends Component {
     if (this.props.directDebitOnly && !this.props.showDirectDebit) return true;
     if (this.props.directDebitOnly) return false;
     return true;
+  }
+
+  paymentTypes() {
+    return this.props.paymentTypes;
   }
 
   render() {
@@ -37,12 +43,14 @@ export class PaymentTypeSelection extends Component {
             />
           </span>
 
-          {this.props.paymentTypes.map((paymentType, i) => {
+          {this.paymentTypes().map((paymentType, i) => {
+            const currentDisabled =
+              paymentType === 'google' && this.props.recurring;
             return (
               <div className={classnames('PaymentMethod', paymentType)} key={i}>
                 <label>
                   <input
-                    disabled={disabled}
+                    disabled={disabled || currentDisabled}
                     type="radio"
                     checked={currentPaymentType === paymentType}
                     onChange={e => onChange(paymentType)}
@@ -62,6 +70,8 @@ export class PaymentTypeSelection extends Component {
 }
 
 export default connect((state: AppState) => ({
+  recurring: state.fundraiser.recurring,
+  recurringOnly: state.fundraiser.recurringDefault === 'only_recurring',
   showDirectDebit: state.fundraiser.showDirectDebit,
   directDebitOnly: state.fundraiser.directDebitOnly,
   paymentTypes: state.fundraiser.paymentTypes,

@@ -73,7 +73,7 @@ export type FundraiserInitializationOptions = {
   title: string,
 };
 
-export type PaymentType = 'card' | 'paypal' | 'gocardless';
+export type PaymentType = 'card' | 'paypal' | 'gocardless' | 'google' | 'apple';
 
 export type RecurringState = {
   recurring: boolean,

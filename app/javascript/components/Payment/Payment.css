@@ -45,3 +45,11 @@
   margin-top: 10px;
   padding-bottom: 15px;
 }
+
+.Payment .gpay-button {
+  width: 100%;
+  height: 60px;
+}
+.Payment .gpay-button:focus {
+  outline: none;
+}
