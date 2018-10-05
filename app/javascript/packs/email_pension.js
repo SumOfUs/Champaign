@@ -30,7 +30,6 @@ window.mountEmailPension = (
   props = camelizeKeys(props);
   store.dispatch({ type: 'email_target:initialize', payload: props });
 
-  console.log(targetEndpoint);
   render(
     <ComponentWrapper store={store} locale={props.locale}>
       {targetEndpoint === '' ? (

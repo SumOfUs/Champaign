@@ -91,7 +91,7 @@ class EmailRepresentativeView extends Component {
     }
   };
 
-  onSubmit = e => {
+  onSubmission = e => {
     e.preventDefault();
 
     const valid = this.validateForm();
@@ -133,7 +133,10 @@ class EmailRepresentativeView extends Component {
     return (
       <div className="email-target">
         <div className="email-target-form">
-          <form onSubmit={this.onSubmit} className="action-form form--big">
+          <form
+            onSubmit={e => e.preventDefault()}
+            className="action-form form--big"
+          >
             <SelectTarget
               handler={this.handleTargetSelection.bind(this)}
               endpoint={this.props.targetEndpoint}
@@ -196,7 +199,9 @@ class EmailRepresentativeView extends Component {
 
             <div className="form__group">
               <Button
+                onClick={this.onSubmission}
                 disabled={this.state.isSubmitting}
+                type="button"
                 className="button action-form__submit-button"
               >
                 <FormattedMessage
