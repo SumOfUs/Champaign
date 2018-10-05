@@ -30,6 +30,12 @@ de:
     section:
       compose: "Schreiben Sie Ihre E-Mail"
     form:
+      representative:
+        postal_code: 'Bitte geben Sie Ihre Postleitzahl ein'
+        selected_targets: 'Abgeordnete'
+        searching: 'Ihr/e Abgeordnete/r wird gesucht'
+        not_found: "Leider konnten wir in dieser Gegend niemanden finden"
+        search_pending: "Bitte geben Sie Ihre Postleitzahl ein"
       select_country: 'Wählen Sie Ihr Land'
       select_target: "Wählen Sie den/die Empfänger/in"
       subject: 'Betreffzeile'
@@ -52,8 +58,8 @@ de:
       fund_contact: '[Select fund from above]'
       fund_email: '[Select fund from above]'
       name: '[Enter your name above]'
-      constituency_name: '[Select your representative above]'
-      target_full_name: '[Select your representative above]'
+      constituency_name: '[Wählen Sie Ihre/n Abgeordnete/n aus]'
+      target_full_name: '[Wählen Sie Ihre/n Abgeordnete/n aus]'
   fundraiser:
     payment_methods:
       gocardless: "Lastschrift"
