@@ -1,15 +1,9 @@
 de:
-  double_opt_in_2:
+  double_opt_in:
     check_email:
       body: "Schauen Sie in Ihrem Postfach nach, um Ihre E-Mail-Adresse zu bestätigen und Ihre Unterschrift zu validieren."
     email:
       subject: 'Bestätigen Sie Ihre Unterschrift'
-  double_opt_in_1:
-    check_email:
-      title: "Fast geschafft, %{name}!"
-      body: "<p>Wir haben einen Bestätigungslink per E-Mail an folgende Adresse gesendet: <strong>%{email}</strong></p><p>Bitte rufen Sie die E-Mail jetzt gleich ab und klicken Sie auf den enthaltenen Link. Nur wenn Sie Ihre Unterschrift bestätigen, zählt Ihre Stimme!</p>"
-    email:
-      subject: 'Nur noch ein Klick - bitte Teilnahme bestätigen!'
   page:
     more_info: Mehr Informationen
     no_script: "Vielen Dank für Ihr Interesse an diesem Thema. Leider können Sie nur unterzeichnen, wenn Javascript in Ihrem Browser aktiviert ist. Bitte aktivieren Sie Javascript oder versuchen Sie es noch einmal mit einem anderen Browser, der Javascript erlaubt."
