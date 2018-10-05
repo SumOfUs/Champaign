@@ -51,6 +51,7 @@ de:
         name: 'Bitte fügen Sie Ihren Namen hinzu'
         fund: 'Bitte wählen Sie einen Rentenfonds'
         suggest_fund: Bitte geben Sie den Namen Ihres Rentenfonds ein
+        targets: "Bitte geben Sie Ihren Wohnort an, damit wir Ihre/n Abgeordnete/n finden können"
         target:
           outdated: "Offensichtlich haben sich gerade Informationen auf Empfänger-Seite verändert. Bitte laden Sie die Seite erneut und probieren es noch einmal. "
     template_defaults:

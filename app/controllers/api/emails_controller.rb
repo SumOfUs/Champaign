@@ -21,7 +21,7 @@ class Api::EmailsController < ApplicationController
                       EmailTool::TargetsFinder.new(
                         postcode: params[:postcode],
                         endpoint: reg_endpoint.url
-                      )
+                      ).find
 
                     constituency_targets_email_params(targets)
                   else
@@ -55,7 +55,7 @@ class Api::EmailsController < ApplicationController
       .symbolize_keys
       .slice(:body, :subject, :from_email, :from_name)
 
-    data[:targets] = targets
+    data[:recipients] = targets
     data
   end
 

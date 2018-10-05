@@ -244,7 +244,9 @@ SumOfUs",
         "validation.postal.too_long": "May contain no more than 9 letter or number characters",
       },
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   proceed={[MockFunction]}
@@ -675,7 +677,9 @@ SumOfUs",
         "validation.postal.too_long": "May contain no more than 9 letter or number characters",
       },
       "now": [Function],
+      "onError": [Function],
       "textComponent": "span",
+      "timeZone": null,
     }
   }
   proceed={[MockFunction]}
