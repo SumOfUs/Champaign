@@ -78,7 +78,7 @@ class SelectTarget extends Component {
     if (this.state.not_found) {
       targets = (
         <FormattedMessage
-          id="email_tool.select_target.not_found"
+          id="email_tool.form.representative.not_found"
           defaultMessage="Sorry, we couldn't find a target with this location."
         />
       );
@@ -87,7 +87,7 @@ class SelectTarget extends Component {
         this.state.targets.map(target => this.renderTarget(target))
       ) : (
         <FormattedMessage
-          id="email_tool.select_target.search_pending"
+          id="email_tool.form.representative.search_pending"
           defaultMessage="Please enter your postal code above."
         />
       );

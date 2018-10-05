@@ -33,10 +33,13 @@ en:
     section:
       compose: "Compose Your Email"
     form:
+      target_selection:
       representative:
         postal_code: 'Enter your postal code'
         selected_targets: 'Representatives'
         searching: 'Searching for your representative'
+        not_found: "Sorry, we couldn't find a target with this location."
+        search_pending: "Please enter your postal code above."
       select_country: 'Select your Country'
       select_target: 'Select a target'
       subject: 'Subject line'
