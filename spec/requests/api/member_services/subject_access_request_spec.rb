@@ -9,7 +9,8 @@ describe 'API::MemberServices' do
     let!(:gc_customer) { create(:payment_go_cardless_customer, go_cardless_id: 'abc', member: member) }
     let!(:donation) { create(:payment_braintree_transaction, customer: bt_customer) }
     let!(:subscription) { create(:payment_go_cardless_subscription, customer: gc_customer) }
-    let!(:action) { create(:action) }
+    let!(:page) { create(:page) }
+    let!(:action) { create(:action, member: member, page: page) }
 
     context 'with valid auth headers' do
       let(:valid_headers) do
@@ -18,13 +19,13 @@ describe 'API::MemberServices' do
           'X-CHAMPAIGN-NONCE' => 'd7b82ede-17f2-4e79-8377-0ad1a1dd8621'
         }
       end
+      let(:params) do
+        {
+          email: 'foo@example.com'
+        }
+      end
 
       context 'member with customer' do
-        let(:params) do
-          {
-            email: 'foo@example.com'
-          }
-        end
         let(:keys_array) do
           %w[member
              actions
@@ -45,6 +46,14 @@ describe 'API::MemberServices' do
           expect(response.status).to eq 200
           expect(response.content_type).to eq('application/json')
           expect(response_json.to_hash.keys).to match_array(keys_array)
+        end
+      end
+
+      context 'edge cases' do
+        let!(:action) { create(:action, page_id: nil, member: member) }
+        it 'does not break with actions that do not belong to pages' do
+          get '/api/member_services/subject_access_request/', params: params, headers: valid_headers
+          expect(response.status).to eq 200
         end
       end
     end
