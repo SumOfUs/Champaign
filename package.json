@@ -83,6 +83,7 @@
     "roots": [
       "<rootDir>/app/javascript"
     ],
+    "testURL": "http://example.com",
     "setupFiles": [
       "<rootDir>/spec/jest/setupJest",
       "babel-polyfill"

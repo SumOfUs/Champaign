@@ -1,6 +1,7 @@
 const initialState = {
   name: '',
   email: '',
+  postcode: '',
   isSubmitting: false,
   emailSubject: '',
   fundContact: '',
@@ -85,4 +86,8 @@ export const changeFund = fund => {
 
 export const changePensionFunds = funds => {
   return { type: 'email_target:change_pension_funds', funds };
+};
+
+export const findMP = postcode => {
+  return { type: 'email_target:find_mp', postcode };
 };

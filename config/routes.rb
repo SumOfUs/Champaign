@@ -219,6 +219,7 @@ Rails.application.routes.draw do
       delete '/recurring_donations/:provider/:id', action: 'cancel_recurring_donation'
       put '/members/', action: 'update_member'
       get '/gocardless/customers', action: :gocardless_customers
+      get '/subject_access_request/', action: 'subject_access_request'
     end
   end
 

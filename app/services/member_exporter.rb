@@ -1,8 +1,12 @@
 class MemberExporter
-  attr_reader :member
+  attr_reader :member, :data
 
   def self.to_csv(member)
     new(member).to_csv
+  end
+
+  def self.raw_data(member)
+    new(member).raw_data
   end
 
   def initialize(member)
@@ -17,13 +21,18 @@ class MemberExporter
     map
   end
 
+  def raw_data
+    @data = extract_data.with_indifferent_access
+  end
+
   private
 
   def extract_data
     data = OpenStruct.new
     data.member = member.attributes
     data.actions = member.actions.includes(:page).map do |action|
-      action.attributes.merge(page_slug: action.page.slug)
+      slug = action.page.nil? ? '' : action.page.slug
+      action.attributes.merge(page_slug: slug)
     end
     data.calls = Call.where(member_id: member.id).map(&:attributes)
     data.authentications = member.authentication&.attributes&.except('password_digest')

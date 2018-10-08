@@ -14,7 +14,21 @@ class Api::EmailsController < ApplicationController
   end
 
   def create_pension_email
-    PensionEmailSender.run(params[:page_id], pension_email_params)
+    reg_endpoint = plugin.try(:registered_target_endpoint)
+
+    target_data = if reg_endpoint
+                    targets =
+                      EmailTool::TargetsFinder.new(
+                        postcode: params[:postcode],
+                        endpoint: reg_endpoint.url
+                      ).find
+
+                    constituency_targets_email_params(targets)
+                  else
+                    pension_email_params
+                  end
+
+    PensionEmailSender.run(params[:page_id], target_data)
     action = ManageAction.create(action_params)
     write_member_cookie(action.member_id)
 
@@ -35,13 +49,24 @@ class Api::EmailsController < ApplicationController
       .merge(mobile_value)
   end
 
-  def pension_email_params
-    params
+  def constituency_targets_email_params(targets)
+    data = params
       .to_unsafe_hash
       .symbolize_keys
-      .slice(:body, :subject, :country, :target_name,
-             :to_name, :to_email, :from_email,
-             :from_name)
+      .slice(:body, :subject, :from_email, :from_name)
+
+    data[:recipients] = targets
+    data
+  end
+
+  def pension_email_params
+    data = params
+      .to_unsafe_hash
+      .symbolize_keys
+      .slice(:body, :subject, :from_email, :from_name)
+
+    data[:recipients] = [{ name: params[:to_name], email: params[:to_email] }]
+    data
   end
 
   def action_params
@@ -62,5 +87,9 @@ class Api::EmailsController < ApplicationController
 
   def page
     Page.find(params[:page_id])
+  end
+
+  def plugin
+    @plugin ||= Plugins::EmailPension.find_by id: params[:plugin_id], page_id: page.id
   end
 end

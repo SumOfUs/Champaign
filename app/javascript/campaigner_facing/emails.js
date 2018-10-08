@@ -166,7 +166,9 @@ class Emails extends Component {
 
 const page = window.location.pathname.split('/')[2];
 
-ReactDOM.render(
-  <Emails page={page} />,
-  document.getElementById('email-target-view-root')
-);
+if (document.getElementById('email-target-view-root')) {
+  ReactDOM.render(
+    <Emails page={page} />,
+    document.getElementById('email-target-view-root')
+  );
+}

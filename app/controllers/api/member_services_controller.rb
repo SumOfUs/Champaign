@@ -35,6 +35,18 @@ class Api::MemberServicesController < ApplicationController
     end
   end
 
+  def subject_access_request
+    email = params.require(:email)
+    member = Member.find_by(email: email)
+    service = MemberExporter.new(member)
+    if service.raw_data
+      @data = service.data
+      render 'api/member_services/subject_access_request', status: :ok
+    else
+      render json: { errors: ['There was an issue with the Champaign MemberExporter. Check application logs.'] }
+    end
+  end
+
   private
 
   def authenticate_member_services

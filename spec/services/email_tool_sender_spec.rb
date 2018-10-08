@@ -52,8 +52,8 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
     it 'sets the reply_to to both the member and the plugin from_email_address' do
       expect_email_sender_to_be_called_with(
         reply_to: a_collection_containing_exactly(
-          { name: params[:from_name], address: params[:from_email] },
-          { name: registered_email.name, address: registered_email.email }
+          { name: params[:from_name], email: params[:from_email] },
+          { name: registered_email.name, email: registered_email.email }
         )
       )
       EmailToolSender.run(page.id, params)
@@ -70,7 +70,7 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
 
     it 'sets the reply_to to the plugin from_email_address' do
       expect_email_sender_to_be_called_with(
-        reply_to: [{ name: registered_email.name, address: registered_email.email }]
+        reply_to: [{ name: registered_email.name, email: registered_email.email }]
       )
       EmailToolSender.run(page.id, params)
     end
@@ -80,7 +80,7 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
     it 'sends it to the test email if present' do
       plugin.update!(test_email_address: 'test@test.com')
       expect_email_sender_to_be_called_with(
-        to: { name: 'Test', address: 'test@test.com' }
+        recipients: [{ name: 'Test Email', email: 'test@test.com' }]
       )
       EmailToolSender.run(page.id, params)
     end
@@ -88,15 +88,15 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
     it 'sends it to the selected target if target_id is present' do
       target = targets.sample
       expect_email_sender_to_be_called_with(
-        to: { name: target.name, address: target.email }
+        recipients: [{ name: target.name, email: target.email }]
       )
       EmailToolSender.run(page.id, params.merge(target_id: target.id))
     end
 
     it 'sends it to all targets if neither the test email nor the target_id are present' do
       expect_email_sender_to_be_called_with(
-        to: a_collection_containing_exactly(
-          *plugin.targets.map { |t| { name: t.name, address: t.email } }
+        recipients: a_collection_containing_exactly(
+          *plugin.targets.map { |t| { name: t.name, email: t.email } }
         )
       )
       EmailToolSender.run(page.id, params)

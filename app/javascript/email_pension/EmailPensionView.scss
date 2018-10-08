@@ -1,4 +1,21 @@
 .email-target {
+  .target-panel {
+    margin: 20px 0;
+
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+  .target-panel-body {
+    background: white;
+    border-radius: 5px;
+    padding: 10px;    
+  }
+}
+
+.email-target {
   .email-target_box {
     border: 1px solid #f8492e;
     border-radius: 5px;

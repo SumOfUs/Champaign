@@ -25,6 +25,7 @@ class Plugins::EmailPension < ApplicationRecord
   belongs_to :page, touch: true
   belongs_to :form
   belongs_to :from_email_address, class_name: 'RegisteredEmailAddress'
+  belongs_to :registered_target_endpoint
 
   def name
     self.class.name.demodulize
@@ -33,12 +34,14 @@ class Plugins::EmailPension < ApplicationRecord
   def liquid_data(_supplemental_data = {})
     {
       page_id: page_id,
+      plugin_id: id,
       locale: page.language_code,
       active: active,
       email_subject: email_subjects.sample,
       email_header: email_body_header,
       email_body: email_body,
-      email_footer: email_body_footer
+      email_footer: email_body_footer,
+      target_endpoint: registered_target_endpoint.try(:url)
     }
   end
 end

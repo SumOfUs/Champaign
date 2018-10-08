@@ -5,6 +5,14 @@
       = render 'plugins/shared/plugin_metadata', f: f
 
       .form-group
+        = label_with_tooltip(f, :registered_target_endpoint_id, "Data Source", t('plugins.email_tool.tooltips.from_address'))
+
+        = f.select :registered_target_endpoint_id,
+                   RegisteredTargetEndpoint.all_for_select,
+                   {},
+                   class: 'form-control'
+
+      .form-group
         = label_with_tooltip(f, :from_email_address_id, t('plugins.email_tool.from_address'), t('plugins.email_tool.tooltips.from_address'))
         = f.select :from_email_address_id,
                    RegisteredEmailAddress.all.map { |e| [e.email, e.id] },
@@ -37,10 +45,19 @@
         .form-group
           = label_with_tooltip f, :email_body_footer, t('plugins.email_tool.email_footer'), t('plugins.pension_tool.tooltips.email_content')
           = f.text_area :email_body_footer, class: 'wysiwyg form-control height-short'
+      p
+        = link_to t('plugins.email_tool.view_and_download'), emails_page_path(@page)
 
 javascript:
   $(function () {
+    var editorOptions = [
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['insert', ['link']],
+      ['view', ['fullscreen', 'codeview', 'help']],
+    ]
+
     $('.email-body-section .wysiwyg').each(function (index, el) {
-      window.ee.emit("wysiwyg:setup", el.id);
+      window.ee.emit("wysiwyg:setup", el.id, editorOptions);
     });
   });

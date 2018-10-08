@@ -58,10 +58,16 @@ module PaymentProcessor
       end
 
       def currency
-        scheme = mandate.scheme.downcase
-        return 'GBP' if scheme == 'bacs'
-        return 'SEK' if scheme == 'autogiro'
-        'EUR'
+        case mandate.scheme.downcase
+        when 'becs'
+          'AUD'
+        when 'bacs'
+          'GBP'
+        when 'autogiro'
+          'SEK'
+        else
+          'EUR'
+        end
       end
 
       def bacs?
@@ -69,7 +75,9 @@ module PaymentProcessor
       end
 
       def complete_redirect_flow
-        @complete_redirect_flow ||= client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
+        @complete_redirect_flow ||= client
+          .redirect_flows
+          .complete(@redirect_flow_id, params: { session_token: @session_token })
       rescue GoCardlessPro::InvalidStateError => e
         raise e unless e.message.match?(/already completed/)
         @complete_redirect_flow = client.redirect_flows.get(@redirect_flow_id)
@@ -102,10 +110,16 @@ module PaymentProcessor
 
       def create_gbp_date(mandate_date)
         # GBP needs to be charged on the specified date. Use the next possible time that date is possible.
-        Date.new(mandate_date.year, mandate_date.month, Settings.gocardless.gbp_charge_day.to_i)
+        Date.new(
+          mandate_date.year,
+          mandate_date.month,
+          Settings.gocardless.gbp_charge_day.to_i
+        )
       rescue ArgumentError
-        Rails.logger.error("With #{mandate_date.year}-#{mandate_date.month}-#{Settings.gocardless.gbp_charge_day.to_i}, \
-your GBP charge date is invalid! Resorting to the mandate's next possible charge date.")
+        Rails.logger.error(
+          "With #{mandate_date.year}-#{mandate_date.month}-#{Settings.gocardless.gbp_charge_day.to_i}, \
+your GBP charge date is invalid! Resorting to the mandate's next possible charge date."
+        )
         mandate_date
       end
 

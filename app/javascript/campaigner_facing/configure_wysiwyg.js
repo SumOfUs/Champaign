@@ -4,7 +4,7 @@ import ee from '../shared/pub_sub';
 
 const TALL_EDITORS = ['page_body'];
 
-function configureWysiwyg(id) {
+function configureWysiwyg(id, editorOptions = []) {
   const $editor = $('#' + id);
   if ($editor.length === 0) {
     return;
@@ -12,14 +12,16 @@ function configureWysiwyg(id) {
 
   // $FlowIgnore
   $editor.summernote({
-    toolbar: [
-      ['style', ['bold', 'italic', 'underline', 'clear']],
-      ['font', ['fontname', 'fontsize']],
-      ['para', ['ul', 'ol', 'paragraph']],
-      ['color', ['color']],
-      ['insert', ['link', 'picture', 'video']],
-      ['view', ['fullscreen', 'codeview', 'help']],
-    ],
+    toolbar: editorOptions.length
+      ? editorOptions
+      : [
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['fontname', 'fontsize']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['color', ['color']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']],
+        ],
     height: TALL_EDITORS.indexOf(id) > -1 ? 280 : 120,
     fontSizes: ['8', '10', '11', '12', '14', '16', '20', '24', '36', '72'],
     codemirror: {

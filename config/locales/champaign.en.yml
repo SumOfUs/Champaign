@@ -363,6 +363,7 @@ en:
         targets_csv_text: "Enter the name followed by email separated by a comma. Eg., Tom Hanks, tomhanks@sumofus.org"
     pension_tool:
       tooltips:
+        api_endpoint: "Enter an API endpoint if you want to use a service other than  service offering postcode based lookups."
         email_content: "You can include information dynamically from the form. For example, to use the name of the member you can use the ${name} tag.\
          The available fields are: ${name}, ${email}, ${fund}, ${fundContact}, ${fundEmail}, ${country}, ${postal}."
     call_tool:

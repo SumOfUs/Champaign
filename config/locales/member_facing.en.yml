@@ -27,11 +27,19 @@ en:
     form:
       select_target: 'Select your Pension or Mutual Fund'
   email_tool:
+    selected_target: 'Your selected target(s)'
     title: 'Compose your email'
     suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
     section:
       compose: "Compose Your Email"
     form:
+      target_selection:
+      representative:
+        postal_code: 'Enter your postal code'
+        selected_targets: 'Representatives'
+        searching: 'Searching for your representative'
+        not_found: "Sorry, we couldn't find a target with this location."
+        search_pending: "Please enter your postal code above."
       select_country: 'Select your Country'
       select_target: 'Select a target'
       subject: 'Subject line'
@@ -47,6 +55,7 @@ en:
         name: 'Please add you name'
         fund: 'Please select a pension fund'
         suggest_fund: Name of pension fund can't be blank
+        targets: 'Please enter your location to find your representative'
         target:
           outdated: "It seems the targets information has recently changed. Please reload the page and try again."
     template_defaults:
@@ -54,6 +63,8 @@ en:
       fund_contact: '[Select fund from above]'
       fund_email: '[Select fund from above]'
       name: '[Enter your name above]'
+      constituency_name: '[Select your representative above]'
+      target_full_name: '[Select your representative above]'
 
   fundraiser:
     payment_methods:
