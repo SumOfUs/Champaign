@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe EmailTool::TargetsFinder do
   let(:opts) {
-    { postcode: 'BN1', endpoint: 'https://my-target-endpoint/targets' }
+    { postcode: 'BN1 ', endpoint: 'https://my-target-endpoint/targets' }
   }
 
   let(:representatives) { [{ first_name: 'Bob', last_name: 'Lib', email_1: 'bob@example.com' }] }

@@ -102,7 +102,7 @@ class EmailRepresentativeView extends Component {
       subject: this.state.subject,
       from_name: this.state.name,
       from_email: this.state.email,
-      postcode: this.state.postcode,
+      postcode: this.state.postcode.trim(),
       plugin_id: this.props.pluginId,
     };
 
