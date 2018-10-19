@@ -27,7 +27,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = stylesheet_link_tag "member-facing"
     = stylesheet_pack_tag "member_facing"
   body
+    = render partial: "layouts/double_opt_in_notification"
     = render partial: "layouts/notification"
+
 
     .mobile-indicator
 
