@@ -23,14 +23,19 @@ const showNotice = () => {
 const DoubleOptIn = {
   handleActionSuccess(resp: Response) {
     if (!resp || !resp.double_opt_in) return;
+
     showNotice();
   },
 };
 
-$(() =>
-  $('.action-form').on('ajax:success', (e, data) =>
-    DoubleOptIn.handleActionSuccess(data)
-  )
-);
+$(() => {
+  if (window.location.search.match(/double_opt_in=true/)) {
+    showNotice();
+  }
+
+  $('.action-form').on('ajax:success', (e, data) => {
+    DoubleOptIn.handleActionSuccess(data);
+  });
+});
 
 export default DoubleOptIn;

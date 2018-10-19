@@ -34,6 +34,7 @@ describe 'Double opt-in' do
       let(:page) {
         create(:page, :with_petition, title: 'Foo Bar',
                                       slug: 'foo-bar',
+                                      follow_up_liquid_layout: create(:liquid_layout),
                                       language: create(:language, :german))
       }
 
@@ -98,10 +99,10 @@ describe 'Double opt-in' do
         end
       end
 
-      it 'redirects to notice' do
+      it 'redirects to follow up' do
         post "/api/pages/#{page.id}/actions", params: params
         resp = {
-          follow_up: '/pages/foo-bar/confirmation?double_opt_in=true&email=hello%40example.com&name=John+Doe',
+          follow_up_url: '/a/foo-bar/follow-up?double_opt_in=true',
           double_opt_in: true
         }
 
