@@ -5,7 +5,7 @@ const NoEmailsFound = () => <p>No emails were found</p>;
 
 const Email = props => {
   const body = () => ({ __html: props.Body });
-
+  console.log(props.Recipients);
   return (
     <div className="panel panel-default">
       <div className="panel-heading">
@@ -13,7 +13,7 @@ const Email = props => {
         <h3 className="panel-title">{props.CreatedAt}</h3>
         <h3 className="panel-title">
           <strong>To: </strong>
-          {props.ToEmails.join(', ')}
+          {props.Recipients.map(({ email }) => email).join(', ')}
         </h3>
       </div>
       <div className="panel-body">
