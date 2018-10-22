@@ -32,10 +32,6 @@ $(() => {
   if (window.location.search.match(/double_opt_in=true/)) {
     showNotice();
   }
-
-  $('.action-form').on('ajax:success', (e, data) => {
-    DoubleOptIn.handleActionSuccess(data);
-  });
 });
 
 export default DoubleOptIn;

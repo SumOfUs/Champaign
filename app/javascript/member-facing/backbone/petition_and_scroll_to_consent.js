@@ -3,6 +3,8 @@ import $ from 'jquery';
 import I18n from 'champaign-i18n';
 import Backbone from 'backbone';
 import GlobalEvents from '../../shared/global_events';
+import DoubleOptIn from '../double_opt_in';
+
 import {
   changeCountry,
   changeVariant,
@@ -56,7 +58,8 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
     }
   },
 
-  onSubmitSuccess() {
+  onSubmitSuccess(e, data) {
+    DoubleOptIn.handleActionSuccess(data);
     if (this.onSubmitSuccessCallback) {
       this.onSubmitSuccessCallback();
     } else {
