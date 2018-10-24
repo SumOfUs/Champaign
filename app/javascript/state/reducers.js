@@ -5,6 +5,7 @@ import fundraiser from './fundraiser/reducer';
 import paymentMethods from './paymentMethods/reducer';
 import page from './page/reducer';
 import consent from './consent';
+import features from './features';
 import extraActionFields from './extraActionFields';
 import { reducer as emailTarget } from './email_pension/actions';
 
@@ -12,6 +13,7 @@ const reducers = {
   consent,
   emailTarget,
   extraActionFields,
+  features,
   fundraiser,
   member,
   page,
@@ -21,19 +23,21 @@ const reducers = {
 export default combineReducers(reducers);
 
 // import types
-import type { Member } from './member/reducer';
-import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
-import type { PaymentMethod } from './paymentMethods/reducer';
 import type { ConsentState } from './consent';
+import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
+import type { Member } from './member/reducer';
+import type { PaymentMethod } from './paymentMethods/reducer';
 import type { State as ExtraActionFieldsState } from './extraActionFields';
+import type { State as FeaturesState } from './features';
 
 export type AppState = {
-  member: Member,
-  fundraiser: Fundraiser,
-  paymentMethods: PaymentMethod[],
-  page: ChampaignPage,
   consent: ConsentState,
   extraActionFields: ExtraActionFieldsState,
+  features: FeaturesState,
+  fundraiser: Fundraiser,
+  member: Member,
+  page: ChampaignPage,
+  paymentMethods: PaymentMethod[],
 };
 
 type ChampaignPaymentMethod = any;

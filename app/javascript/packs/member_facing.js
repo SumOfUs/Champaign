@@ -21,6 +21,7 @@ import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import redirectors from '../member-facing/redirectors';
 import { formatMessage } from '../util/TranslationsLoader';
+import { FeaturesHelper } from '../state/features';
 
 window.URI = URI;
 
@@ -47,4 +48,5 @@ Object.assign(window.champaign, {
   DoubleOptIn,
   redirectors,
   store,
+  features: new FeaturesHelper(store),
 });

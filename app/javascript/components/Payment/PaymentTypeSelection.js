@@ -9,13 +9,14 @@ import type { AppState } from '../../state';
 import type { PaymentType } from '../../state/fundraiser/types';
 
 type Props = {
-  disabled?: boolean,
   currentPaymentType?: PaymentType,
+  directDebitOnly: boolean,
+  disabled?: boolean,
+  features: $PropertyType<AppState, 'features'>,
+  onChange: (paymentType: string) => void,
   paymentTypes: PaymentType[],
   recurring: boolean,
-  onChange: (paymentType: string) => void,
   showDirectDebit: boolean,
-  directDebitOnly: boolean,
 };
 export class PaymentTypeSelection extends Component {
   props: Props;
@@ -26,8 +27,23 @@ export class PaymentTypeSelection extends Component {
     return true;
   }
 
-  paymentTypes() {
-    return this.props.paymentTypes;
+  paymentTypes(): PaymentType[] {
+    const paymentTypes = [];
+
+    if (this.props.showDirectDebit) {
+      paymentTypes.push('gocardless');
+    }
+
+    if (this.showCardAndPaypal()) {
+      paymentTypes.push('paypal', 'card');
+    }
+
+    // These methods don't support recurring payments
+    if (!this.props.recurringOnly && this.props.features.googlepay) {
+      paymentTypes.push('google');
+    }
+
+    return paymentTypes;
   }
 
   render() {
@@ -70,9 +86,10 @@ export class PaymentTypeSelection extends Component {
 }
 
 export default connect((state: AppState) => ({
+  directDebitOnly: state.fundraiser.directDebitOnly,
+  features: state.features,
+  paymentTypes: state.fundraiser.paymentTypes,
   recurring: state.fundraiser.recurring,
   recurringOnly: state.fundraiser.recurringDefault === 'only_recurring',
   showDirectDebit: state.fundraiser.showDirectDebit,
-  directDebitOnly: state.fundraiser.directDebitOnly,
-  paymentTypes: state.fundraiser.paymentTypes,
 }))(PaymentTypeSelection);
