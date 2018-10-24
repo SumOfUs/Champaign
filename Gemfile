@@ -68,7 +68,6 @@ gem 'uglifier'
 gem 'webpacker', '~> 3.0'
 
 group :development, :test do
-  gem 'byebug'
   gem 'capybara' # Capybara for integration testing
   gem 'database_cleaner'
   gem 'factory_girl_rails'
