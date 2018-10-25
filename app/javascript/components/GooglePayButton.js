@@ -7,7 +7,7 @@ import type { AppState, PaymentMethod } from '../state';
 
 type Props = {
   client: ?any,
-  onSubmit: () => void,
+  onSubmit: (result: Object) => void,
 } & typeof mapStateToProps;
 
 type State = {
