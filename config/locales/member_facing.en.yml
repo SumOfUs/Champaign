@@ -69,6 +69,7 @@ en:
       apple: 'Apple Pay'
       ready_for_gocardless: "Click 'Donate' to finish donating through GoCardless, our direct debit provider."
       ready_for_paypal: "When you click the button below, Paypal will guide you to finish your donation."
+      ready_for_google: "When you click the button below, Google will guide you to finish your donation."
     payment_type_prompt: Payment Method
     amount: Amount
     details: Details

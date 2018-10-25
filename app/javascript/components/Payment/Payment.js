@@ -403,14 +403,6 @@ export class Payment extends Component {
             onInit={() => this.paymentInitialized('card')}
           />
 
-          {currentPaymentType === 'paypal' && (
-            <div className="PaymentMethod__guidance">
-              <FormattedMessage
-                id={'fundraiser.payment_methods.ready_for_paypal'}
-              />
-            </div>
-          )}
-
           {currentPaymentType === 'gocardless' && (
             <div className="PaymentMethod__guidance">
               <FormattedMessage
@@ -446,6 +438,14 @@ export class Payment extends Component {
             />
           </Checkbox>
 
+          {currentPaymentType === 'paypal' && (
+            <div className="PaymentMethod__guidance">
+              <FormattedMessage
+                id={'fundraiser.payment_methods.ready_for_paypal'}
+              />
+            </div>
+          )}
+
           {this.props.currentPaymentType !== 'google' && (
             <DonateButton
               currency={currency}
@@ -455,6 +455,14 @@ export class Payment extends Component {
               disabled={this.disableSubmit()}
               onClick={() => this.makePayment()}
             />
+          )}
+
+          {currentPaymentType === 'google' && (
+            <div className="PaymentMethod__guidance">
+              <FormattedMessage
+                id={'fundraiser.payment_methods.ready_for_google'}
+              />
+            </div>
           )}
 
           <GooglePayButton client={this.state.client} onSubmit={this.submit} />
