@@ -55,6 +55,7 @@ fr:
       apple: 'Apple Pay'
       ready_for_gocardless: "Cliquez sur «faire un don» afin de procéder au don via GoCardless, notre prestataire sécurisé de prélèvement automatique."
       ready_for_paypal: "En cliquant sur le bouton ci-dessous, Paypal vous guidera afin de finaliser votre don."
+      ready_for_google: "FR When you click the button below, Google will guide you to finish your donation."
     payment_type_prompt: Moyen de paiement
     amount: Montant
     details: Détails
