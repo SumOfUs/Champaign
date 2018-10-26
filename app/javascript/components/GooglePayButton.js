@@ -22,6 +22,18 @@ type State = {
 // Google Pay not restricted to Android devices.
 const isAndroid = navigator.userAgent.toLowerCase().indexOf('android') >= 0;
 
+// GooglePayButton renders a Google Pay button. In order to do that, we need:
+//   1. A Braintree client to be initialised
+//   2. A Braintree Google Payments client to be initialised (with the braintree client)
+//   3. Fetch pay.js from Google, and use that to create the Google Pay button.
+// This component / class orchestrates the process.
+// Note: One aspect of this that's not ideal is that this button component and
+// its corresponding the "google" payment method option in the PaymentTypeSelection
+// component are independent of each other, so if this button fails to initialise
+// properly, the option might still be visible (but no button would be rendered). We
+// could try to couple them but it would require communicating both components via
+// the global state, or refactor the fundraising component to contain that state at
+// the parent, or to "register" itself once it's "ready" (with a callback to the parent).
 export class GooglePayButton extends Component {
   props: Props;
   state: State;
@@ -37,6 +49,9 @@ export class GooglePayButton extends Component {
     };
   }
 
+  // createGooglePayButton downloads the pay.js script from Google,
+  // and if successful, creates a google payments client. That client is
+  // then used to create a google pay button.
   createGooglePayButton = () => {
     $.ajax({
       url: 'https://pay.google.com/gp/p/js/pay.js',
@@ -59,6 +74,12 @@ export class GooglePayButton extends Component {
     });
   };
 
+  // setupGooglePay creates a *Braintree* google payment instance. This
+  // is necessary since we're integrating through Braintree. It requires
+  // a braintree client (passed down via props) and a google payments client
+  // (to check `isReadyToPay` method)
+  // Once the isReadyToPay promise resolves, we update state and set ready: true,
+  // which enables this component.
   setupGooglePay() {
     const { client } = this.props;
     const { paymentsClient } = this.state;

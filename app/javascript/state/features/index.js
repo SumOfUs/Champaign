@@ -1,4 +1,9 @@
 // @flow
+// The features store is essentially a key => value store that
+// holds a list of features (keys) with their on/off values (values).
+// To add a feature toggle, add a key with a default value to the defaults
+// and then use FeaturesHelper to enable or disable it.
+
 import type { InitialAction } from '../reducers';
 import type { AppState } from '../';
 import type { Store } from 'redux';
@@ -42,6 +47,12 @@ export function disableFeature(featureName: string): Action {
   return { type: '@@chmp:feature:disable', featureName };
 }
 
+// FeaturesHelper needs to be initialised with your redux store.
+//   const features = new FeaturesHelper(store);
+//   features.enable('featurename');
+//   features.disable('featurename');
+// If you try to enable or disable a feature that's not in the list
+// of features (those listed in defaults), it will be ignored.
 export class FeaturesHelper {
   store: Store<AppState, Action>;
   constructor(store: Store<AppState, Action>) {
