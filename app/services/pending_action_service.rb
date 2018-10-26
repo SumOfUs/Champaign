@@ -25,12 +25,12 @@ class PendingActionService
     self
   end
 
-  def send_email(version: 1)
+  def send_email
     EmailDelivery.send_email(
       action,
-      html: html(version),
-      text: text(version),
-      subject: I18n.t("double_opt_in_#{version}.email.subject", locale: page.language_code)
+      html: html,
+      text: text,
+      subject: I18n.t('double_opt_in.email.subject', locale: page.language_code)
     )
   end
 
@@ -53,11 +53,11 @@ class PendingActionService
     }
   end
 
-  def html(version)
-    EmailRenderer.render(assigns, "confirm_action_#{version}.#{page.language_code}.html")
+  def html
+    EmailRenderer.render(assigns, "confirm_action.#{page.language_code}.html")
   end
 
-  def text(version)
-    EmailRenderer.render(assigns, "confirm_action_#{version}.#{page.language_code}.text")
+  def text
+    EmailRenderer.render(assigns, "confirm_action.#{page.language_code}.text")
   end
 end

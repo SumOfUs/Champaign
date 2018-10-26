@@ -1,15 +1,9 @@
 fr:
-  double_opt_in_2:
+  double_opt_in:
     check_email:
       body: "Veuillez vérifier votre boîte de réception d’emails afin de confirmer votre adresse email and valider votre signature."
     email:
       subject: 'Validez votre signature'
-  double_opt_in_1:
-    check_email:
-      title: "Vous y êtes presque, %{name}!"
-      body: "<p>Nous venons de vous envoyer un lien de confirmation à l’adresse email suivante : <strong>%{email}</strong></p><p>Veuillez maintenant vérifier votre boîte mail et cliquer sur le lien de confirmation qui vous a été adressé. Votre signature ne pourra être prise en compte qu’après votre confirmation.</p>"
-    email:
-      subject: 'Juste un dernier clic - confirmez votre signature'
   page:
     more_info: Plus d’informations
     no_script: "Merci de votre intérêt pour ce problème ! Malheureusement, vous ne pouvez pas réaliser cette action tant que Javascript n’est pas activé sur votre navigateur. Merci d’activer Javascript ou d’utiliser un navigateur avec Javascript actif pour pouvoir réaliser cette action."

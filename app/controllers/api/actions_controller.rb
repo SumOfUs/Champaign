@@ -16,12 +16,15 @@ class Api::ActionsController < ApplicationController
         .merge(extra_fields)
 
       if action.is_a?(PendingActionService)
-        path = confirmation_page_path(page, double_opt_in: true,
-                                            name: action.data['name'],
-                                            email: action.data['email'])
+        action.send_email
 
-        action.send_email(version: params[:test_version] || 1)
-        render json: { follow_up: path, double_opt_in: true }, status: 200
+        render json: {
+          follow_up_url: PageFollower.new_from_page(
+            page,
+            double_opt_in: true
+          ).follow_up_path,
+          double_opt_in: true
+        }, status: 200
         return
       end
 

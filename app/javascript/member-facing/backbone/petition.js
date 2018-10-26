@@ -36,9 +36,11 @@ const Petition = Backbone.View.extend({
 
   handleSuccess(e, data) {
     ee.emit('petition:submitted');
+
     if (this.skipOnSuccessAction) {
       return;
     }
+
     const hasCallbackFunction = typeof this.submissionCallback === 'function';
 
     if (hasCallbackFunction) {

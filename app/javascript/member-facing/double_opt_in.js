@@ -21,31 +21,17 @@ const showNotice = () => {
 };
 
 const DoubleOptIn = {
-  version(versionNumber?: number) {
-    if (versionNumber) {
-      version = versionNumber;
-      $('.action-form').append(
-        `<input type='hidden' name='test_version' value='${version}' />`
-      );
-    }
-    return version;
-  },
-
   handleActionSuccess(resp: Response) {
     if (!resp || !resp.double_opt_in) return;
 
-    if (DoubleOptIn.version() === 2) {
-      showNotice();
-    } else {
-      window.location.href = resp.follow_up;
-    }
+    showNotice();
   },
 };
 
-$(() =>
-  $('.action-form').on('ajax:success', (e, data) =>
-    DoubleOptIn.handleActionSuccess(data)
-  )
-);
+$(() => {
+  if (window.location.search.match(/double_opt_in=true/)) {
+    showNotice();
+  }
+});
 
 export default DoubleOptIn;
