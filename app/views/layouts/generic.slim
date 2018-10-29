@@ -13,10 +13,10 @@ html lang= I18n.locale
     = javascript_pack_tag "globals"
 
     = render partial: "shared/browser_polyfills"
-    = render partial: "shared/optimizely_snippet"
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
     = render partial: "shared/js_locale"
 
+    = render partial: "shared/optimizely_snippet"
     = stylesheet_pack_tag "globals"
     = stylesheet_link_tag "member-facing"
   body
