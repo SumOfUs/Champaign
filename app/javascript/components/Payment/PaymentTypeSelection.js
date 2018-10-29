@@ -9,7 +9,8 @@ import type { PaymentType } from '../../state/fundraiser/types';
 
 type Props = {
   disabled?: boolean,
-  currentPaymentType?: string,
+  currentPaymentType?: PaymentType,
+  paymentTypes: PaymentType[],
   onChange: (paymentType: string) => void,
   showDirectDebit: boolean,
   directDebitOnly: boolean,
@@ -21,20 +22,6 @@ export class PaymentTypeSelection extends Component {
     if (this.props.directDebitOnly && !this.props.showDirectDebit) return true;
     if (this.props.directDebitOnly) return false;
     return true;
-  }
-
-  paymentTypes(): PaymentType[] {
-    const paymentTypes = [];
-
-    if (this.props.showDirectDebit) {
-      paymentTypes.push('gocardless');
-    }
-
-    if (this.showCardAndPaypal()) {
-      paymentTypes.push('paypal', 'card');
-    }
-
-    return paymentTypes;
   }
 
   render() {
@@ -50,7 +37,7 @@ export class PaymentTypeSelection extends Component {
             />
           </span>
 
-          {this.paymentTypes().map((paymentType, i) => {
+          {this.props.paymentTypes.map((paymentType, i) => {
             return (
               <div className={classnames('PaymentMethod', paymentType)} key={i}>
                 <label>
@@ -77,4 +64,5 @@ export class PaymentTypeSelection extends Component {
 export default connect((state: AppState) => ({
   showDirectDebit: state.fundraiser.showDirectDebit,
   directDebitOnly: state.fundraiser.directDebitOnly,
+  paymentTypes: state.fundraiser.paymentTypes,
 }))(PaymentTypeSelection);

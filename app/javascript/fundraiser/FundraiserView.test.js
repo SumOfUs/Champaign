@@ -97,7 +97,6 @@ const fetchInitialState = vals => {
     fundraiser: {
       currency: 'USD',
       donationAmount: null,
-      showDirectDebit: false,
       donationBands: fundraiserDefaults.donationBands,
       formValues: fundraiserDefaults.formValues,
       formId: fundraiserDefaults.formId,
@@ -146,7 +145,6 @@ const initialize = vals => {
   suite.store = configureStore(data);
   const {
     donationBands,
-    showDirectDebit,
     currency,
     preselectAmount,
     recurringDefault,
@@ -160,11 +158,6 @@ const initialize = vals => {
   suite.store.dispatch({
     type: 'set_donation_bands',
     payload: donationBands,
-  });
-
-  suite.store.dispatch({
-    type: 'toggle_direct_debit',
-    payload: showDirectDebit,
   });
 
   suite.store.dispatch({
@@ -472,11 +465,11 @@ describe('Payment Panel', function() {
       ).toEqual(1);
     });
 
-    it('displays the GoCardless button when told to', () => {
+    it('displays the GoCardless button when in a Direct Debit Country', () => {
       initialize({
         outstandingFields: [],
         donationAmount: 2,
-        showDirectDebit: true,
+        formValues: { country: 'DE' },
       });
       expect(
         suite.wrapper.find(
@@ -485,11 +478,25 @@ describe('Payment Panel', function() {
       ).toEqual(3);
     });
 
-    it('does not display the GoCardless button when told not to', () => {
+    it('displays the GoCardless button when in a recurring Direct Debit Country', () => {
       initialize({
         outstandingFields: [],
         donationAmount: 2,
-        showDirectDebit: false,
+        formValues: { country: 'GB' },
+        recurringDefault: 'recurring',
+      });
+      expect(
+        suite.wrapper.find(
+          '.PaymentTypeSelection__payment-methods .PaymentMethod input[type="radio"]'
+        ).length
+      ).toEqual(3);
+    });
+
+    it('does not display the GoCardless button when not in a direct debit country', () => {
+      initialize({
+        outstandingFields: [],
+        donationAmount: 2,
+        formValues: { country: 'CA' },
       });
       expect(
         suite.wrapper.find(

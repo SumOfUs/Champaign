@@ -506,4 +506,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   setPaymentType: (value: PaymentType) => dispatch(setPaymentType(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Payment);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Payment);
