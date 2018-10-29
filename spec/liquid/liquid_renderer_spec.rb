@@ -164,7 +164,6 @@ describe LiquidRenderer do
         donation_bands
         thermometer
         action_count
-        show_direct_debit
         payment_methods
         form_values
         call_tool
@@ -173,33 +172,6 @@ describe LiquidRenderer do
       ]
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)
-    end
-
-    describe 'show_direct_debit' do
-      let(:location) { instance_double('Geocoder::Result::Freegeoip', data: { country_code: 'US' }, country_code: 'US') }
-      let(:member) { build :member, country: 'DE' }
-      let(:form) { create :form_with_email_and_name }
-      let(:fundraiser) { create :plugins_fundraiser, page: page, form: form }
-
-      before :each do
-        create :plugins_fundraiser, page: page, form: form, recurring_default: 'recurring'
-        allow(DirectDebitDecider).to receive(:decide).and_return(true)
-      end
-
-      it 'calls DirectDebitDecider with url_params[:recurring_default] if both present' do
-        LiquidRenderer.new(page, member: member, url_params: { recurring_default: 'one_off' }).personalization_data
-        expect(DirectDebitDecider).to have_received(:decide).with([nil, 'DE'], 'one_off')
-      end
-
-      it 'calls DirectDebitDecider with fundraiser.recurring_default if no url_params[:recurring_default]' do
-        LiquidRenderer.new(page, member: member).personalization_data
-        expect(DirectDebitDecider).to have_received(:decide).with([nil, 'DE'], 'recurring')
-      end
-
-      it 'calls DirectDebitDecider with location country and member country' do
-        LiquidRenderer.new(page, member: member, location: location).personalization_data
-        expect(DirectDebitDecider).to have_received(:decide).with(%w[US DE], 'recurring')
-      end
     end
 
     describe 'outstanding_fields' do

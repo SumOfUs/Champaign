@@ -2,7 +2,6 @@ javascript:
   window.champaign = window.champaign || {};
   window.champaign.personalization = {
     outstandingFields: #{serialize(data, 'outstanding_fields')},
-    showDirectDebit: #{ serialize(data, 'show_direct_debit') },
     paymentMethods: #{serialize(data, 'payment_methods')},
     donationBands: #{serialize(data, 'donation_bands')},
     actionCount: #{ serialize(data, 'action_count') },

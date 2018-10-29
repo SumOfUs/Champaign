@@ -47,7 +47,6 @@ class LiquidRenderer
       email_tool: email_tool_data,
       email_pension: email_pension_data,
       action_count: @page.action_count,
-      show_direct_debit: show_direct_debit?,
       payment_methods: @payment_methods
     }.deep_stringify_keys
   end
@@ -108,11 +107,6 @@ class LiquidRenderer
     field_keys = @page.plugins.map { |p| p.try(:form_fields) }.compact.flatten.map { |ff| ff[:name] }
     field_keys += HIDDEN_FIELDS
     (member_data || {}).merge(@url_params).stringify_keys.select { |k, _| field_keys.include? k }
-  end
-
-  def show_direct_debit?
-    recurring_default = @url_params[:recurring_default] || isolate_from_plugin_data(:recurring_default).first
-    DirectDebitDecider.decide([@location.try(:country_code), @member.try(:country)], recurring_default)
   end
 
   def outstanding_fields

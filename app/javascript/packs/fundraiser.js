@@ -61,12 +61,6 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   });
 
   dispatch({
-    type: 'toggle_direct_debit',
-    payload: data.fundraiser.showDirectDebit,
-    skip_log: true,
-  });
-
-  dispatch({
     type: 'change_currency',
     payload: search.currency || data.fundraiser.currency,
     skip_log: true,
@@ -90,6 +84,7 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
     payload: search.dd_only === '1',
     skip_log: true,
   });
+
   dispatch({
     type: 'search_string_overrides',
     payload: search,
