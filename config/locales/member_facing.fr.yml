@@ -50,7 +50,7 @@ fr:
     payment_methods:
       gocardless: "Prélèvement SEPA"
       paypal: "PayPal"
-      card: 'Carte de paiement'
+      card: 'Carte bancaire'
       ready_for_gocardless: "Cliquez sur «faire un don» afin de procéder au don via GoCardless, notre prestataire sécurisé de prélèvement automatique."
       ready_for_paypal: "En cliquant sur le bouton ci-dessous, Paypal vous guidera afin de finaliser votre don."
     payment_type_prompt: Moyen de paiement
