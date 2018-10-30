@@ -100,8 +100,9 @@ export default (state: State = initialState, action: Action): State => {
       const currentStep = state.currentStep + 1;
       return { ...state, currentStep };
     case 'update_form': {
+      const form = action.payload;
       const showDirectDebit = isDirectDebitSupported({
-        country: state.form.country || state.formValues.country,
+        country: form.country,
         recurring: state.recurring,
       });
       const paymentTypes = supportedPaymentTypes({
@@ -114,11 +115,10 @@ export default (state: State = initialState, action: Action): State => {
       );
       return {
         ...state,
-        form: action.payload,
-        showDirectDebit: isDirectDebitSupported({
-          country: action.payload.country,
-          recurring: state.recurring,
-        }),
+        form,
+        showDirectDebit,
+        paymentTypes,
+        currentPaymentType,
       };
     }
     case 'set_direct_debit_only': {
