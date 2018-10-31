@@ -108,6 +108,7 @@ export default (state: State = initialState, action: Action): State => {
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
         directDebitOnly: state.directDebitOnly,
+        recurring: state.recurring,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -125,6 +126,7 @@ export default (state: State = initialState, action: Action): State => {
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit: state.showDirectDebit,
         directDebitOnly: action.payload,
+        recurring: state.recurring,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -161,7 +163,11 @@ export default (state: State = initialState, action: Action): State => {
         country: state.form.country || state.formValues.country,
         recurring: action.payload,
       });
-      const paymentTypes = supportedPaymentTypes({ showDirectDebit });
+      const paymentTypes = supportedPaymentTypes({
+        showDirectDebit,
+        directDebitOnly: state.directDebitOnly,
+        recurring: action.payload,
+      });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
         paymentTypes
@@ -181,7 +187,11 @@ export default (state: State = initialState, action: Action): State => {
         country: state.form.country || state.formValues.country,
         recurring: data.recurring,
       });
-      const paymentTypes = supportedPaymentTypes({ showDirectDebit });
+      const paymentTypes = supportedPaymentTypes({
+        showDirectDebit,
+        directDebitOnly: state.directDebitOnly,
+        recurring: data.recurring,
+      });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
         paymentTypes
@@ -209,7 +219,7 @@ export default (state: State = initialState, action: Action): State => {
     // Update our form with data from another form
     // E.g. petition was signed, so we can re-use the data from that form in
     // this form.
-    case '@@chmp:action_form:updated':
+    case '@@chmp:action_form:updated': {
       const relevantFields = state.fields.map(field => field.name);
       const formValues = pick(action.payload, relevantFields);
       const form = formValues;
@@ -221,6 +231,7 @@ export default (state: State = initialState, action: Action): State => {
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit: showDirectDebit,
         directDebitOnly: state.directDebitOnly,
+        recurring: state.recurring,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -234,6 +245,7 @@ export default (state: State = initialState, action: Action): State => {
         paymentTypes,
         currentPaymentType,
       };
+    }
     default:
       return state;
   }
@@ -307,11 +319,11 @@ export function searchStringOverrides(state: State, search: Search): State {
 }
 
 function supportedPaymentTypes(data: any) {
-  return compact([
-    data.showDirectDebit ? 'gocardless' : null,
-    data.directDebitOnly ? null : 'paypal',
-    data.directDebitOnly ? null : 'card',
-  ]);
+  const list = [];
+  if (data.showDirectDebit) list.push('gocardless');
+  if (!data.directDebitOnly) list.push('paypal', 'card');
+  if (!(data.directDebitOnly || data.recurring)) list.push('google');
+  return list;
 }
 
 function safePaymentType(pt: PaymentType, pts: PaymentType[]): PaymentType {

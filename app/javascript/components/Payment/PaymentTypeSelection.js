@@ -28,22 +28,11 @@ export class PaymentTypeSelection extends Component {
   }
 
   paymentTypes(): PaymentType[] {
-    const paymentTypes = [];
-
-    if (this.props.showDirectDebit) {
-      paymentTypes.push('gocardless');
+    if (!this.props.features.googlepay) {
+      return without(this.props.paymentTypes, 'google');
     }
 
-    if (this.showCardAndPaypal()) {
-      paymentTypes.push('paypal', 'card');
-    }
-
-    // These methods don't support recurring payments
-    if (!this.props.recurringOnly && this.props.features.googlepay) {
-      paymentTypes.push('google');
-    }
-
-    return paymentTypes;
+    return this.props.paymentTypes;
   }
 
   render() {
