@@ -255,7 +255,7 @@ export class Payment extends Component {
     );
   }
 
-  makePayment() {
+  makePayment = () => {
     if (this.props.currentPaymentType === 'gocardless') {
       this.submitGoCardless();
       return;
@@ -269,7 +269,7 @@ export class Payment extends Component {
     } else {
       this.submit();
     }
-  }
+  };
 
   submit = (data: any) => {
     const payload = {
@@ -283,10 +283,10 @@ export class Payment extends Component {
     $.post(
       `/api/payment/braintree/pages/${this.props.page.id}/transaction`,
       payload
-    ).then(this.onSuccess.bind(this), this.onBraintreeError.bind(this));
+    ).then(this.onSuccess, this.onBraintreeError);
   };
 
-  onSuccess(data: any) {
+  onSuccess = (data: any) => {
     if (typeof window.fbq === 'function') {
       window.fbq('track', 'Purchase', {
         value: this.props.fundraiser.donationAmount,
@@ -300,14 +300,14 @@ export class Payment extends Component {
     }
     ee.emit('fundraiser:transaction_success', data, this.props.formData);
     this.setState({ errors: [] });
-  }
+  };
 
-  onError(reason: any) {
+  onError = (reason: any) => {
     ee.emit('fundraiser:transaction_error', reason, this.props.formData);
     this.props.setSubmitting(false);
-  }
+  };
 
-  onBraintreeError(response: any) {
+  onBraintreeError = (response: any) => {
     let errors;
     if (
       response.status === 422 &&
@@ -326,7 +326,7 @@ export class Payment extends Component {
     }
     this.setState({ errors: errors });
     this.onError(response);
-  }
+  };
 
   isExpressHidden() {
     return this.state.expressHidden || this.props.disableSavedPayments;
@@ -411,32 +411,33 @@ export class Payment extends Component {
             </div>
           )}
 
-          {!hideRecurring && (
+          {!hideRecurring &&
+            this.props.currentPaymentType !== 'google' && (
+              <Checkbox
+                className="Payment__config"
+                disabled={hideRecurring}
+                checked={recurring}
+                onChange={e => this.props.setRecurring(e.target.checked)}
+              >
+                <FormattedMessage
+                  id="fundraiser.make_recurring"
+                  defaultMessage="Make my donation monthly"
+                />
+              </Checkbox>
+            )}
+
+          {this.props.currentPaymentType !== 'google' && (
             <Checkbox
               className="Payment__config"
-              disabled={
-                hideRecurring || this.props.currentPaymentType === 'google'
-              }
-              checked={recurring}
-              onChange={e => this.props.setRecurring(e.target.checked)}
+              checked={storeInVault}
+              onChange={e => this.props.setStoreInVault(e.target.checked)}
             >
               <FormattedMessage
-                id="fundraiser.make_recurring"
-                defaultMessage="Make my donation monthly"
+                id="fundraiser.store_in_vault"
+                defaultMessage="Securely store my payment information"
               />
             </Checkbox>
           )}
-
-          <Checkbox
-            className="Payment__config"
-            checked={storeInVault}
-            onChange={e => this.props.setStoreInVault(e.target.checked)}
-          >
-            <FormattedMessage
-              id="fundraiser.store_in_vault"
-              defaultMessage="Securely store my payment information"
-            />
-          </Checkbox>
 
           {currentPaymentType === 'paypal' && (
             <div className="PaymentMethod__guidance">
@@ -453,7 +454,7 @@ export class Payment extends Component {
               submitting={this.state.submitting}
               recurring={recurring}
               disabled={this.disableSubmit()}
-              onClick={() => this.makePayment()}
+              onClick={this.makePayment}
             />
           )}
 
@@ -465,7 +466,11 @@ export class Payment extends Component {
             </div>
           )}
 
-          <GooglePayButton client={this.state.client} onSubmit={this.submit} />
+          <GooglePayButton
+            client={this.state.client}
+            onSubmit={this.submit}
+            onError={this.onBraintreeError}
+          />
         </ShowIf>
 
         <div className="Payment__fine-print">

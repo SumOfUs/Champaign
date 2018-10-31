@@ -2,13 +2,16 @@
 import React, { Component } from 'react';
 import googlePayment from 'braintree-web/google-payment';
 import { connect } from 'react-redux';
+import { setSubmitting } from '../state/fundraiser/actions';
 
 import type { AppState, PaymentMethod } from '../state';
 
 type Props = {
   client: ?any,
   onSubmit: (result: Object) => void,
-} & typeof mapStateToProps;
+  onError: (error: any) => void,
+} & typeof mapStateToProps &
+  typeof mapDispatchToProps;
 
 type State = {
   paymentsClient?: Object,
@@ -119,6 +122,7 @@ export class GooglePayButton extends Component {
 
   onClick = (e: any) => {
     e.preventDefault();
+    this.props.setSubmitting(true);
     const { ready, googlePaymentInstance, paymentsClient } = this.state;
     if (ready && googlePaymentInstance && paymentsClient) {
       const paymentDataRequest = googlePaymentInstance.createPaymentDataRequest(
@@ -139,17 +143,11 @@ export class GooglePayButton extends Component {
         .loadPaymentData(paymentDataRequest)
         .then(paymentData => {
           googlePaymentInstance.parseResponse(paymentData, (err, result) => {
-            if (err) {
-              // TODO
-              // Handle parsing error
-            }
+            if (err) return this.props.onError(err);
             this.props.onSubmit(result);
           });
         })
-        .catch(function(err) {
-          // TODO
-          // Handle errors
-        });
+        .catch(this.props.onError);
     }
   };
 
@@ -168,4 +166,11 @@ const mapStateToProps = (state: AppState) => ({
   amount: state.fundraiser.donationAmount,
 });
 
-export default connect(mapStateToProps)(GooglePayButton);
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
+  setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GooglePayButton);
