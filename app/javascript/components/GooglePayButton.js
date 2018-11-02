@@ -135,6 +135,7 @@ export class GooglePayButton extends Component {
           },
           cardRequirements: {
             billingAddressRequired: true,
+            billingAddressParameters: { format: 'MIN' },
           },
         }
       );
