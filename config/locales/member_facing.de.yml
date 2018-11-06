@@ -32,7 +32,7 @@ de:
         search_pending: "Bitte geben Sie Ihre Postleitzahl ein"
       select_country: 'Wählen Sie Ihr Land'
       select_target: "Wählen Sie den/die Empfänger/in"
-      subject: 'Betreffzeile'
+      subject: 'Bitte geben Sie eine Betreffzeile ein'
       your_name: 'Ihr Name'
       your_email: 'Ihre E-Mail-Adresse'
       send_email: 'E-Mail senden'
