@@ -35,7 +35,12 @@ class MemberExporter
       action.attributes.merge(page_slug: slug)
     end
     data.calls = Call.where(member_id: member.id).map(&:attributes)
-    data.authentications = member.authentication&.attributes&.except('password_digest')
+
+    # Authentication
+    authentication = member.authentication
+    if authentication
+      data.authentication = member.authentication&.attributes&.except('password_digest')
+    end
 
     # Braintree
     braintree_customer = member.braintree_customer
