@@ -228,6 +228,7 @@ Rails.application.routes.draw do
   post '/twilio/calls/:id/connect',            to: 'twilio/calls#connect', as: :call_connect
   post '/twilio/calls/:id/target_call_status', to: 'twilio/calls#create_target_call_status', as: :target_call_status
   post '/twilio/calls/:id/member_call_event',  to: 'twilio/calls#create_member_call_event', as: :member_call_event
+  get 'generate_cookie', to: 'payment#generate_cookie'
 
   root to: 'uris#show'
   mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']

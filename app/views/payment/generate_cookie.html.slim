@@ -1,0 +1,16 @@
+section.page-edit-step
+  h1 Cookie Setter
+
+  - if @customer
+    h2 Cookies for #{@email} have been successfully set
+
+  - if !@customer && !@email.nil?
+    h2 No customer with that email address was found
+
+  p Enter member's email address below:
+
+  = form_tag generate_cookie_path, method: :get
+    .form-group
+      = text_field_tag :email, @email, placeholder: 'Email address', class: 'form-control'
+    .form-group
+      = submit_tag 'Set Cookies!', class: 'btn btn-primary'
