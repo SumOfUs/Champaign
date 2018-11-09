@@ -16,7 +16,7 @@
 #  analytics      :text
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :share_button, class: 'Share::Button' do
     title 'MyString'
     url 'MyString'

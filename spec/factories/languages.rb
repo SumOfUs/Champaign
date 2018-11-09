@@ -11,7 +11,7 @@
 #  actionkit_uri :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :language do
     code 'en'
     name 'English'

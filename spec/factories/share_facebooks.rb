@@ -17,7 +17,7 @@
 #  image_id    :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :share_facebook, class: 'Share::Facebook' do
     title 'MyString'
     description 'MyText'

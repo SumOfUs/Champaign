@@ -16,7 +16,7 @@
 #  position      :integer          default("0"), not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :form do
     name { Faker::Name.name }
     description 'A description'

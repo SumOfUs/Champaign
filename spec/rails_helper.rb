@@ -66,7 +66,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.cleaning do
-      FactoryGirl.lint
+      FactoryBot.lint
     end
   end
 

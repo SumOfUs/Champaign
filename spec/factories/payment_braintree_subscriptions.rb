@@ -18,7 +18,7 @@
 #  payment_method_id    :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :payment_braintree_subscription, class: 'Payment::Braintree::Subscription' do
     subscription_id { "s#{Faker::Number.number(4)}" }
     amount 79.41

@@ -15,7 +15,7 @@
 #  cancelled_at              :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :payment_go_cardless_payment_method, class: 'Payment::GoCardless::PaymentMethod' do
     go_cardless_id { "MD#{Faker::Number.number(6)}" }
     scheme { %w(bacs sepa_core).sample }

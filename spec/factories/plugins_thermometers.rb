@@ -14,7 +14,7 @@
 #  ref        :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :plugins_thermometer, class: 'Plugins::Thermometer' do
     title 'MyString'
     offset 1

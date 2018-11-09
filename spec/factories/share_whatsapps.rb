@@ -13,7 +13,7 @@
 #  click_count :integer
 #  conversion_count :integer
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :share_whatsapp, class: 'Share::Whatsapp' do
     page nil
     text 'MyMessage {LINK}'

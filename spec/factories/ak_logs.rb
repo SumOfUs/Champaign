@@ -12,7 +12,7 @@
 #  updated_at      :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :ak_log do
     request_body 'MyText'
     response_body 'MyText'

@@ -23,7 +23,7 @@
 #  consented            :boolean          default("false")
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :member do
     email { Faker::Internet.email }
     actionkit_user_id { Faker::Number.number(10) }

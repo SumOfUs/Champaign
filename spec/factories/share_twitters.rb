@@ -13,7 +13,7 @@
 #  updated_at  :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :share_twitter, class: 'Share::Twitter' do
     sp_id 1
     page nil

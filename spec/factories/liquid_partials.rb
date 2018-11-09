@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :liquid_partial do
     title { Faker::Company.bs }
     content "<div class='fun'>{{ title }}</div>"

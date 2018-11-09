@@ -13,7 +13,7 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :share_email, class: 'Share::Email' do
     subject 'MyString'
     body 'MyText {LINK}'

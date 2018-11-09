@@ -17,7 +17,7 @@
 #  preselect_amount  :boolean          default("false")
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :plugins_fundraiser, class: 'Plugins::Fundraiser' do
     title 'Donate now'
     ref nil

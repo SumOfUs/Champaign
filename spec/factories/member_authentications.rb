@@ -17,7 +17,7 @@
 #  reset_password_token   :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :member_authentication do
     member
     password 'password'
