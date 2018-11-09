@@ -1,16 +1,16 @@
 section.page-edit-step
-  h1 Cookie Setter
+  h1 Donor Cookie Setter
 
   - if @customer
-    h2 Cookies for #{@email} have been successfully set
+    h2 Cookies for donor with email address #{@email} have been successfully set
 
   - if !@customer && !@email.nil?
-    h2 No customer with that email address was found
+    h2 No donor with that email address was found
 
-  p Enter member's email address below:
+  p Enter a <strong>sumofus.org</strong> email address below:
 
   = form_tag generate_cookie_path, method: :get
     .form-group
-      = text_field_tag :email, @email, placeholder: 'Email address', class: 'form-control'
+      = text_field_tag :email, @email, placeholder: "Donor's Email address", class: 'form-control'
     .form-group
       = submit_tag 'Set Cookies!', class: 'btn btn-primary'
