@@ -749,7 +749,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.4)
-    database_cleaner (1.6.1)
+    database_cleaner (1.7.0)
     deep_merge (1.1.1)
     devise (4.4.3)
       bcrypt (~> 3.0)
