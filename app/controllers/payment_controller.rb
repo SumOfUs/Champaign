@@ -3,6 +3,27 @@
 class PaymentController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
   before_action :localize_from_page_id, only: :transaction
+  before_action :authenticate_user!, only: :generate_cookie
+
+  def generate_cookie
+    @email = params[:email]
+
+    @customer = Payment::Braintree::Customer.find_by email: @email
+
+    unless @customer.nil?
+      payment_method = @customer.payment_methods.last
+
+      cookies.signed[:member_id] = {
+        value: @customer.member.id,
+        expires: 1.day.from_now
+      }
+
+      cookies.signed[:payment_methods] = {
+        value: payment_method.token,
+        expires: 1.day.from_now
+      }
+    end
+  end
 
   def transaction
     if builder.success?
