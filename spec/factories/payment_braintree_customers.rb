@@ -20,7 +20,7 @@
 #  member_id                     :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :payment_braintree_customer, class: 'Payment::Braintree::Customer' do
     card_type { Faker::Business.credit_card_type }
     card_bin ''

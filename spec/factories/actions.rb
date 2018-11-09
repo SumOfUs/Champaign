@@ -18,7 +18,7 @@
 #  publish_status    :integer          default("0"), not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :action do
     page nil
     member nil

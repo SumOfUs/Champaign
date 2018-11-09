@@ -16,7 +16,7 @@
 #  cta         :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :plugins_petition, class: 'Plugins::Petition' do
     page nil
     active false

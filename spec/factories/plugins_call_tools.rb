@@ -26,7 +26,7 @@
 #  target_by_attributes         :string           default("{}"), is an Array
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :call_tool, class: 'Plugins::CallTool' do
     association :caller_phone_number, factory: :phone_number
     association :page

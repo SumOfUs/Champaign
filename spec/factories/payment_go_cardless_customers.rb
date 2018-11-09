@@ -16,7 +16,7 @@
 #  updated_at     :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :payment_go_cardless_customer, class: 'Payment::GoCardless::Customer' do
     go_cardless_id { "CU#{Faker::Number.number(6)}" }
     email { Faker::Internet.email }

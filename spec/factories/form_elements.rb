@@ -19,7 +19,7 @@
 #  display_mode  :integer          default("0")
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :form_element do
     form
     label     { Faker::Lorem.word }

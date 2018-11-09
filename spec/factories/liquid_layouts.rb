@@ -16,7 +16,7 @@
 #  post_action_layout          :boolean
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :liquid_layout do
     title { Faker::Company.bs }
     content "<div class='fun'></div>"

@@ -22,7 +22,7 @@
 #  title                 :string           default("")
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :email_tool, class: 'Plugins::EmailTool' do
     association :page
   end

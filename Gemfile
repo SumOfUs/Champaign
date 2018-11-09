@@ -35,7 +35,8 @@ gem 'slim-rails'
 
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
-gem 'aws-sdk', '~> 3'
+gem 'aws-sdk-sns', '~> 1.3'
+gem 'aws-sdk-dynamodb', '~> 1.10'
 gem 'paper_trail', '~> 9.0'
 gem 'paperclip', '~> 6.0'
 gem 'rmagick' # rmagick for image processing
@@ -70,7 +71,7 @@ gem 'webpacker', '~> 3.0'
 group :development, :test do
   gem 'capybara' # Capybara for integration testing
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'magic_lamp'
   gem 'rspec-rails'

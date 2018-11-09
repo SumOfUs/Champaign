@@ -22,7 +22,7 @@
 #  subscription_id         :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :payment_braintree_transaction, class: 'Payment::Braintree::Transaction' do
     transaction_id { "t#{Faker::Number.number(4)}" }
     transaction_type 'credit_card'

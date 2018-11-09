@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pending_action do
     data {}
     confirmed_at nil

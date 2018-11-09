@@ -18,7 +18,7 @@
 #  action_id           :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :call do
     association :page, :with_call_tool
     member_phone_number {
