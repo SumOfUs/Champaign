@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
 import Button from '../Button/Button';
 import ee from '../../shared/pub_sub';
+import Thermometer from '../Thermometer';
 
 import CurrencyAmount from '../../components/CurrencyAmount';
 
@@ -74,6 +75,7 @@ export default class AmountSelection extends React.Component<Props, State> {
   render() {
     return (
       <div className="AmountSelection-container section">
+        <Thermometer donations={1000} goal={600000} currencyCode={'USD'} />
         <DonationBands
           ref="donationBands"
           amounts={this.props.donationBands[this.props.currency]}

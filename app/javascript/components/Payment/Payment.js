@@ -502,8 +502,8 @@ const mapStateToProps = (state: AppState) => ({
     ? 'gocardless'
     : state.fundraiser.currentPaymentType,
   fundraiser: state.fundraiser,
-  page: state.page,
   paymentMethods: state.paymentMethods,
+  paymentMethodss: state.fundraisingThermometer,
   member: state.member,
   hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
   formData: {

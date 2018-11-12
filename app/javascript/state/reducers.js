@@ -6,8 +6,18 @@ import paymentMethods from './paymentMethods/reducer';
 import page from './page/reducer';
 import consent from './consent';
 import features from './features';
+import fundraisingThermometer from './thermometer';
 import extraActionFields from './extraActionFields';
 import { reducer as emailTarget } from './email_pension/actions';
+
+import type { ConsentState } from './consent';
+import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
+import type { Member } from './member/reducer';
+import type { PaymentMethod } from './paymentMethods/reducer';
+import type { State as ExtraActionFieldsState } from './extraActionFields';
+import type { State as FeaturesState } from './features';
+import type { ChampaignPage, ChampaignGlobalObject } from '../types';
+import type { State as FundraisingThermometerState } from './thermometer';
 
 const reducers = {
   consent,
@@ -18,31 +28,23 @@ const reducers = {
   member,
   page,
   paymentMethods,
+  fundraisingThermometer,
+};
+
+// type ReturnTypes = <V>((...args: any[]) => V) => V;
+// export type AppState = $ObjMap<typeof reducers, ReturnTypes>;
+export type AppState = {
+  +consent: ConsentState,
+  +extraActionFields: ExtraActionFieldsState,
+  +features: FeaturesState,
+  +fundraiser: Fundraiser,
+  +member: Member,
+  +page: ChampaignPage,
+  +paymentMethods: PaymentMethod[],
+  +fundraisingThermometer: FundraisingThermometerState,
 };
 
 export default combineReducers(reducers);
-
-// import types
-import type { ConsentState } from './consent';
-import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
-import type { Member } from './member/reducer';
-import type { PaymentMethod } from './paymentMethods/reducer';
-import type { State as ExtraActionFieldsState } from './extraActionFields';
-import type { State as FeaturesState } from './features';
-import type { ChampaignPage, ChampaignGlobalObject } from '../types';
-
-export type AppState = {
-  consent: ConsentState,
-  extraActionFields: ExtraActionFieldsState,
-  emailTarget: { [string]: any },
-  features: FeaturesState,
-  fundraiser: Fundraiser,
-  member: Member,
-  page: ChampaignPage,
-  paymentMethods: PaymentMethod[],
-};
-
-type ChampaignPaymentMethod = any;
 
 export type FormField = {
   id: number,

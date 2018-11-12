@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders as expected 1`] = `
+<div
+  className="Thermometer"
+>
+  <div
+    className="Thermometer-stats"
+  >
+    <div
+      className="Thermometer-temperature"
+    >
+      <span>
+        £1,000
+      </span>
+    </div>
+    <div
+      className="Thermometer-goal"
+    >
+      <span>
+        £600,000
+      </span>
+    </div>
+  </div>
+  <div
+    className="Thermometer-bg"
+  >
+    <div
+      className="Thermometer-mercury"
+      style={
+        Object {
+          "backgroundColor": "#00c0cf",
+          "width": "0%",
+        }
+      }
+    />
+  </div>
+</div>
+`;

@@ -10,10 +10,12 @@ import type { Store } from 'redux';
 
 export type State = {
   googlepay: boolean,
+  thermometer: boolean,
 };
 
 const defaults: State = {
   googlepay: false,
+  thermometer: false,
 };
 
 type Action =
