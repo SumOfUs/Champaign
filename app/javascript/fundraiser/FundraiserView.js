@@ -134,6 +134,7 @@ export class FundraiserView extends Component<Props> {
 
           <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
             <Payment
+              page={this.props.page}
               disableFormReveal={this.showStepTwo()}
               setSubmitting={s => this.props.setSubmitting(s)}
             />
@@ -145,6 +146,7 @@ export class FundraiserView extends Component<Props> {
 }
 
 export const mapStateToProps = (state: AppState) => ({
+  features: state.features,
   fundraiser: state.fundraiser,
   member: state.member,
   page: state.page,
