@@ -8,7 +8,7 @@ class PaymentController < ApplicationController
   def generate_cookie
     @email = params[:email]
 
-    @customer = Payment::Braintree::Customer.find_by(email: @email) if @email.match?(/sumofus.org/)
+    @customer = Payment::Braintree::Customer.find_by(email: @email) if @email.to_s.match?(/sumofus.org/)
 
     unless @customer.nil?
       payment_method = @customer.payment_methods.last
