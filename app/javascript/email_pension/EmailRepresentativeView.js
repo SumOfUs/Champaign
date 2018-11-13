@@ -6,6 +6,7 @@ import Button from '../components/Button/Button';
 import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
 import SelectTarget from './SelectTarget';
+import SelectCountry from '../components/SelectCountry/SelectCountry';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import './EmailPensionView.scss';
 
@@ -33,6 +34,7 @@ class EmailRepresentativeView extends Component {
       name: '',
       email: '',
       subject: '',
+      country: '',
       target_name: '',
       target_email: '',
       ...props,
@@ -42,7 +44,7 @@ class EmailRepresentativeView extends Component {
   validateForm() {
     const errors = {};
 
-    const fields = ['subject', 'name', 'email', 'targets'];
+    const fields = ['country', 'subject', 'name', 'email', 'targets'];
 
     fields.forEach(field => {
       if (isEmpty(this.state[field])) {
@@ -99,6 +101,7 @@ class EmailRepresentativeView extends Component {
 
     const payload = {
       body: this.state.body,
+      country: this.state.country,
       subject: this.state.subject,
       from_name: this.state.name,
       from_email: this.state.email,
@@ -137,6 +140,23 @@ class EmailRepresentativeView extends Component {
             onSubmit={e => e.preventDefault()}
             className="action-form form--big"
           >
+            <FormGroup>
+              <SelectCountry
+                value={this.state.country}
+                name="country"
+                label={
+                  <FormattedMessage
+                    id="email_tool.form.select_country"
+                    defaultMessage="Select country (default)"
+                  />
+                }
+                className="form-control"
+                errorMessage={this.state.errors.country}
+                onChange={value => {
+                  this.handleChange({ country: value });
+                }}
+              />
+            </FormGroup>
             <SelectTarget
               handler={this.handleTargetSelection.bind(this)}
               endpoint={this.props.targetEndpoint}
