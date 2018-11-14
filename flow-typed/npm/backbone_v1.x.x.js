@@ -1,16 +1,16 @@
-// flow-typed signature: fb5b318015ce43b56757be011685e6bd
-// flow-typed version: 2e4abfd1ba/backbone_v1.x.x/flow_>=v0.25.x
+// flow-typed signature: b677239690cb8aa609e517f287d230b2
+// flow-typed version: 00cdfecf02/backbone_v1.x.x/flow_>=v0.42.x
 
 type Comparator<T> = (attr: string) => any | ((attrA: T, attrB: T) => number);
 
-declare module 'backbone' {
+declare module "backbone" {
   declare var $: any; // @TODO this is no correct, but it is difficult to require another definition from here.
   declare var _: any; // @TODO this is no correct, but it is difficult to require another definition from here.
   declare var version: string;
 
   declare type EventCallback = (event: Event) => void | mixed;
-  declare type Backbone$Attrs = { [name: string]: mixed };
-  declare type CRUDMethod = 'create' | 'read' | 'update' | 'delete';
+  declare type Backbone$Attrs = {[name: string]: mixed};
+  declare type CRUDMethod = "create" | "read" | "update" | "delete";
 
   /**
    * Events Module - http://backbonejs.org/#Events
@@ -77,7 +77,7 @@ declare module 'backbone' {
     set(attr: string, value: mixed, options?: Object): this;
     escape(attr: string): mixed;
     has(attr: string): boolean;
-    unset(attr: string, options?: { unset?: boolean }): this;
+    unset(attr: string, options?: {unset?: boolean}): this;
     clear(options?: Object): this;
     id: string | number;
     idAttribute: string;
@@ -85,10 +85,12 @@ declare module 'backbone' {
     cidPrefix: string;
     attributes: Backbone$Attrs;
     changed: Object;
-    defaults: Backbone$Attrs;
-    defaults(): Backbone$Attrs;
+    defaults: {
+      (): Backbone$Attrs,
+      ...Backbone$Attrs,
+    };
     toJSON(): Backbone$Attrs;
-    sync: sync;
+    sync: typeof sync;
     //Start jQuery XHR
     // @TODO should return a jQuery XHR, but I cannot define this without the dependency on jquery lib def
     fetch(options?: Object): any;
@@ -105,7 +107,7 @@ declare module 'backbone' {
     clone(): this;
     isNew(): boolean;
     hasChanged(attribute?: string): boolean;
-    changedAttributes(attributes?: { [attr: string]: mixed }): boolean;
+    changedAttributes(attributes?: {[attr: string]: mixed}): boolean;
     previous(attribute: string): mixed;
     previousAttributes(): Backbone$Attrs;
     // Start Underscore methods
@@ -135,7 +137,7 @@ declare module 'backbone' {
     modelId(attributes: TModel): string;
     models: TModel[];
     toJSON(options?: Object): TModel[];
-    sync: sync;
+    sync: typeof sync;
     // Underscore Methods
     // @TODO should be defined by the underscore library defintion and not as generic functions.
     forEach: Function; //(each)
@@ -188,8 +190,8 @@ declare module 'backbone' {
     comparator: string | Comparator<TModel>;
     sort(options?: Object): Array<TModel>;
     pluck(attribute: string): Array<TModel>;
-    where(attributes: { [attributeName: string]: mixed }): Array<TModel>;
-    findWhere(attributes: { [attributeName: string]: mixed }): TModel;
+    where(attributes: {[attributeName: string]: mixed}): Array<TModel>;
+    findWhere(attributes: {[attributeName: string]: mixed}): TModel;
     url: () => string | string;
     parse(response: Object, options: Object): Object;
     clone(): this;
@@ -217,7 +219,7 @@ declare module 'backbone' {
     ): this;
     navigate(
       fragment: string,
-      options?: { trigger?: boolean, replace?: boolean }
+      options?: {trigger?: boolean, replace?: boolean}
     ): this;
     execute(callback: Function, args: Array<mixed>, name: string): void | mixed;
   }
@@ -240,7 +242,7 @@ declare module 'backbone' {
     }): this;
     navigate(
       fragment: string,
-      options?: { trigger?: boolean, replace?: boolean }
+      options?: {trigger?: boolean, replace?: boolean}
     ): boolean | void;
     loadUrl(fragment: string): boolean;
     route(route: string, callback: Function): void;
@@ -311,7 +313,7 @@ declare module 'backbone' {
 
     // Utilty
     $: typeof $; // @TODO this is no correct, but it is difficult to require another definition from here.
-    _: typeof _; // @TODO this is no correct, but it is difficult to require another definition from here.
+    // _: typeof _; // @TODO this is no correct, but it is difficult to require another definition from here.
     version: typeof version;
     noConflict(): this;
   }
