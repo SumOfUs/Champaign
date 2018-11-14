@@ -2,7 +2,7 @@
 
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
-  before_action :get_page, except: %i[index featured similar]
+  before_action :get_page, except: %i[index featured similar total_donations]
   before_action :authenticate_user!, only: %i[update share_rows]
 
   layout false
@@ -56,6 +56,13 @@ class Api::PagesController < ApplicationController
   def similar
     @pages = PageService.list_similar(Page.find(params[:page_id]), limit: params[:limit] || 5)
     render :index, format: :json
+  end
+
+  def total_donations
+    # take page ID, currency, return page.total_donations as a string in the given currency
+    @page = Page.find(params[:page_id])
+    total_donations = FundingCounter.convert(page: @page, currency: params[:currency])
+    render json: { total_donations: total_donations.to_s }
   end
 
   private

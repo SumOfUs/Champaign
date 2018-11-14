@@ -208,4 +208,13 @@ describe 'api/pages' do
       end
     end
   end
+
+  describe 'GET /total_donations' do
+    let!(:page) { create(:page, title: 'Foo', content: 'Bar', total_donations: 142_326) }
+
+    it 'returns the total amount of donations for that page converted into the desired currency' do
+      get "/api/pages/#{page.id}/total_donations", params: { currency: 'USD' }
+      expect(json_hash).to match(total_donations: 142_326)
+    end
+  end
 end

@@ -34,6 +34,7 @@
 #  publish_actions            :integer          default("0"), not null
 #  meta_tags                  :string
 #  meta_description           :string
+#  total_donations            :double            default("0")
 #
 
 require 'rails_helper'
@@ -520,19 +521,43 @@ describe Page do
         expect(page).to be_invalid
       end
     end
+  end
 
-    describe 'meta_tags' do
-      it 'is invalid if it has the wrong format' do
-        page.meta_tags = 'random text <hello>'
-        expect(page).to be_invalid
-        expect(page.errors[:meta_tags]).to be_present
-      end
+  describe 'meta_tags' do
+    it 'is invalid if it has the wrong format' do
+      page.meta_tags = 'random text <hello>'
+      expect(page).to be_invalid
+      expect(page.errors[:meta_tags]).to be_present
+    end
 
-      it 'is invalid if it doesn\'t contain at least one META tag' do
-        page.meta_tags = '<hello> </hello>'
-        expect(page).to be_invalid
-        expect(page.errors[:meta_tags]).to be_present
-      end
+    it 'is invalid if it doesn\'t contain at least one META tag' do
+      page.meta_tags = '<hello> </hello>'
+      expect(page).to be_invalid
+      expect(page.errors[:meta_tags]).to be_present
+    end
+  end
+
+  describe 'total donations counter' do
+    it 'updates the total donations counter when a Braintree transaction is created in USD' do
+      expect(page.total_donations).to eq 0
+      transaction = FactoryGirl.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'USD')
+      expect(page.total_donations.to_s).to eq '10.0'
+    end
+
+    it 'updates the total donations counter when a GoCardless transaction is created' do
+      expect(page.total_donations).to eq 0
+      transaction = FactoryGirl.create(:payment_go_cardless_transaction, page: page, amount: 10, currency: 'USD')
+      expect(page.total_donations.to_s).to eq '10.0'
+    end
+
+    it 'updates the total donations counter with a converted amount when a donation is created in another currency' do
+      new_money = double('new money')
+      allow(Money).to receive(:new).and_return(new_money)
+      allow(new_money).to receive(:exchange_to).with('USD').and_return(12)
+
+      expect(page.total_donations).to eq 0
+      transaction = FactoryGirl.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'TEST')
+      expect(page.total_donations.to_s).to eq '12.0'
     end
   end
 end

@@ -77,6 +77,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
+  gem 'byebug'
 end
 
 group :development do
@@ -85,7 +86,6 @@ group :development do
   gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard' # [OSX] brew install terminal-notifier
   gem 'web-console'
-  gem 'byebug'
 end
 
 group :test do
