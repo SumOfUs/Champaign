@@ -541,23 +541,26 @@ describe Page do
     let!(:page_with_donations) { create :page, total_donations: 1010 }
 
     it 'increments the total donations counter' do
-      transaction = FactoryGirl.create(:payment_braintree_transaction, page: page_with_donations, amount: 10, currency: 'USD')
+      FactoryGirl.create(:payment_braintree_transaction, page: page_with_donations, amount: 10, currency: 'USD')
       expect(page_with_donations.reload.total_donations.to_s).to eq '1020.0'
     end
 
     it 'updates the total donations counter when a GoCardless transaction is created' do
       expect(page.total_donations).to eq 0
-      transaction = FactoryGirl.create(:payment_go_cardless_transaction, page: page, amount: 10, currency: 'USD')
+      FactoryGirl.create(:payment_go_cardless_transaction, page: page, amount: 10, currency: 'USD')
       expect(page.total_donations.to_s).to eq '10.0'
     end
 
     it 'updates the total donations counter with a converted amount when a donation is created in another currency' do
-      new_money = double('new money')
-      allow(Money).to receive(:new).and_return(new_money)
-      allow(new_money).to receive(:exchange_to).with('USD').and_return(12)
+      converted_amount = double(amount: 10, currency: 'EUR')
+      # Money.from_amount gets called twice in FundingCounter.update to create two Money objects - first to get
+      # page.total_donations, then the amount of the new donation. That's why I stub it to return
+      # two different things.
+      allow(Money).to receive(:from_amount).and_return(page.total_donations, converted_amount)
+      allow(converted_amount).to receive(:exchange_to).with('USD').and_return(12)
 
       expect(page.total_donations).to eq 0
-      transaction = FactoryGirl.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'TEST')
+      FactoryGirl.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'EUR')
       expect(page.total_donations.to_s).to eq '12.0'
     end
   end
