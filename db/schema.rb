@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_24_155611) do
+ActiveRecord::Schema.define(version: 2018_11_12_103031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(version: 2018_09_24_155611) do
     t.integer "publish_actions", default: 0, null: false
     t.string "meta_tags"
     t.string "meta_description"
+    t.decimal "total_donations", precision: 10, scale: 2, default: "0.0"
     t.index ["campaign_id"], name: "index_pages_on_campaign_id"
     t.index ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id"
     t.index ["follow_up_page_id"], name: "index_pages_on_follow_up_page_id"

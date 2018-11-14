@@ -30,6 +30,8 @@ class Payment::GoCardless::Transaction < ApplicationRecord
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
   belongs_to :subscription, class_name:   'Payment::GoCardless::Subscription'
 
+  after_create :increment_funding_counter
+
   validates :go_cardless_id, presence: true, allow_blank: false
 
   scope :one_off, -> { where(subscription_id: nil) }
@@ -89,5 +91,9 @@ class Payment::GoCardless::Transaction < ApplicationRecord
       }
     },
                         { group_id: "gocardless-subscription:#{id}" })
+  end
+
+  def increment_funding_counter
+    FundingCounter.update(page, amount, currency)
   end
 end

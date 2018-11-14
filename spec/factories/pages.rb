@@ -34,6 +34,7 @@
 #  publish_actions            :integer          default("0"), not null
 #  meta_tags                  :string
 #  meta_description           :string
+#  total_donations            :double            default("0")
 #
 
 FactoryGirl.define do
@@ -46,6 +47,7 @@ FactoryGirl.define do
     language
     ak_petition_resource_uri 'http://example.com/petition'
     ak_donation_resource_uri 'http://example.com/donation'
+    total_donations 0
 
     trait :featured do
       featured true

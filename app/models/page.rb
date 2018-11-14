@@ -34,6 +34,7 @@
 #  publish_actions            :integer          default("0"), not null
 #  meta_tags                  :string
 #  meta_description           :string
+#  total_donations            :double            default("0")
 #
 
 class Page < ApplicationRecord
