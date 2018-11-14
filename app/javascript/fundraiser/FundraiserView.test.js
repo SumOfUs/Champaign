@@ -365,11 +365,6 @@ describe('Donation Amount Tab', function() {
 
 describe('Payment Panel', function() {
   describe('Initial state', () => {
-    describe('when directDebitOnly = true', () => {
-      it('[pending] gocardless is the default if showDirectDebit is true');
-      it('[pending] has no effect if showDirectDebit is false');
-    });
-
     it("displays the user's name if they are logged in", () => {
       initialize({
         member: { email: 'asdf@gmail.com', name: 'As Df', country: 'US' },
@@ -562,31 +557,6 @@ describe('Payment Panel', function() {
           suite.wrapper.find('FundraiserView').prop('fundraiser').formValues
         ).toEqual({});
       });
-    });
-
-    describe("clicking 'Add Payment Method'", () => {
-      it.skip('hides the panel of existing payment methods', () => {});
-      it.skip('reveals the panel to add a new payment method', () => {});
-    });
-
-    describe('existing payment methods', () => {
-      it('can toggle correctly between them');
-      it('submits the correct selected payment method');
-    });
-
-    describe('new payment method', () => {
-      it('can toggle correctly between them');
-      it('shows the credit card fields only if that is the selected method');
-      it(
-        'shows a PayPal advisory over the button if that is the selected method'
-      );
-      it(
-        'shows a GoCardless advisory over the button if that is the selected method'
-      );
-    });
-
-    describe('error reporting', () => {
-      // TODO
     });
   });
 });
