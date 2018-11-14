@@ -59,7 +59,6 @@ class Api::PagesController < ApplicationController
   end
 
   def total_donations
-    # take page ID, currency, return page.total_donations as a string in the given currency
     @page = Page.find(params[:page_id])
     total_donations = FundingCounter.convert(page: @page, currency: params[:currency])
     render json: { total_donations: total_donations.to_s }
