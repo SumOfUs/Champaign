@@ -538,10 +538,11 @@ describe Page do
   end
 
   describe 'total donations counter' do
-    it 'updates the total donations counter when a Braintree transaction is created in USD' do
-      expect(page.total_donations).to eq 0
-      transaction = FactoryGirl.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'USD')
-      expect(page.total_donations.to_s).to eq '10.0'
+    let!(:page_with_donations) { create :page, total_donations: 1010 }
+
+    it 'increments the total donations counter' do
+      transaction = FactoryGirl.create(:payment_braintree_transaction, page: page_with_donations, amount: 10, currency: 'USD')
+      expect(page_with_donations.reload.total_donations.to_s).to eq '1020.0'
     end
 
     it 'updates the total donations counter when a GoCardless transaction is created' do

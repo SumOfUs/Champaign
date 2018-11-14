@@ -214,7 +214,7 @@ describe 'api/pages' do
 
     it 'returns the total amount of donations for that page converted into the desired currency' do
       get "/api/pages/#{page.id}/total_donations", params: { currency: 'USD' }
-      expect(json_hash).to match(total_donations: 142_326)
+      expect(json_hash).to match('total_donations' => '142326.00')
     end
   end
 end
