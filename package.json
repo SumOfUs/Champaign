@@ -26,7 +26,7 @@
     "enzyme-to-json": "^3.3.1",
     "eventemitter3": "^3.1.0",
     "faker": "^4.1.0",
-    "flow-bin": "^0.86.0",
+    "flow-bin": "^0.84.0",
     "husky": "^1.1.4",
     "intl": "^1.2.5",
     "ismobilejs": "^0.5.1",

@@ -33,11 +33,13 @@ function mount(
   Component: typeof EmailToolView = EmailToolView
 ) {
   const { locale, ...emailProps } = props;
+  const el = document.getElementById(root);
+  if (!el) return;
   render(
     <ComponentWrapper locale={props.locale}>
       <Component {...camelizeKeys(emailProps)} />
     </ComponentWrapper>,
-    document.getElementById(root)
+    el
   );
 }
 

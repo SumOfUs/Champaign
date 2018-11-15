@@ -2,22 +2,18 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import Select from 'react-select';
+import type { SelectOption } from 'react-select';
 import 'react-select/dist/react-select.css';
 import './SweetSelect.scss';
-
-export interface SelectOption {
-  label: any,
-  value: string,
-}
 
 // TODO: deduplicate this (also seen in SweetInput)
 export type ValidationState = 'success' | 'warning' | 'error' | null;
 
 type Props = {
   name: string,
-  value?: string,
+  value?: string | number,
   onChange: (value: any) => void,
-  options: SelectOption[] | string[],
+  options: SelectOption[],
   label?: any,
   clearable?: boolean,
   disabled?: boolean,
@@ -27,11 +23,8 @@ type Props = {
   className?: string,
 };
 
-export default class SweetSelect extends Component {
-  props: Props;
-
-  state: { filled: boolean, focused: boolean };
-
+type State = { filled: boolean, focused: boolean };
+export default class SweetSelect extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -88,12 +81,10 @@ export default class SweetSelect extends Component {
           ref="select"
           placeholder=""
           openOnFocus={true}
-          options={this.props.options}
           onFocus={e => this.toggleFocus(true)}
           onBlur={e => this.toggleFocus(false)}
           onChange={this.onChange.bind(this)}
           className={this.hasError() ? 'has-error' : ''}
-          clearable={this.props.clearable}
         />
         <span className="error-msg">{this.props.errorMessage}</span>
       </div>

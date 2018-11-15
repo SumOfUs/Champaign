@@ -30,10 +30,7 @@ type State = {
   filters: Filters,
   targets: TargetWithFields[],
 };
-export default class CallToolDrillDown extends Component {
-  props: Props;
-  state: State;
-
+export default class CallToolDrillDown extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 

@@ -29,10 +29,12 @@ import type { Member } from './member/reducer';
 import type { PaymentMethod } from './paymentMethods/reducer';
 import type { State as ExtraActionFieldsState } from './extraActionFields';
 import type { State as FeaturesState } from './features';
+import type { ChampaignPage, ChampaignGlobalObject } from '../types';
 
 export type AppState = {
   consent: ConsentState,
   extraActionFields: ExtraActionFieldsState,
+  emailTarget: { [string]: any },
   features: FeaturesState,
   fundraiser: Fundraiser,
   member: Member,

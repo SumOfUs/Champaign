@@ -3,15 +3,13 @@ import React, { Component } from 'react';
 import Step from './Step';
 
 type Props = {
-  steps: string[];
-  currentStep: number;
-  title: string;
-  changeStep: (step: number) => void;
+  steps: string[],
+  currentStep: number,
+  title: string,
+  changeStep: (step: number) => void,
 };
 
-export default class Stepper extends Component {
-  props: Props;
-
+export default class Stepper extends Component<Props> {
   changeStep(index: number) {
     if (this.props.currentStep > index) {
       this.props.changeStep(index);
@@ -27,7 +25,8 @@ export default class Stepper extends Component {
         label={step}
         active={currentStep === index}
         complete={currentStep > index}
-        onClick={() => this.changeStep(index)} />
+        onClick={() => this.changeStep(index)}
+      />
     );
   }
 

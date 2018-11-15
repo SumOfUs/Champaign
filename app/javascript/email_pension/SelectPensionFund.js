@@ -1,4 +1,3 @@
-// @flow
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -18,15 +17,7 @@ import {
   changeFund,
 } from '../state/email_pension/actions';
 
-type Props = {
-  errors: {
-    country: any,
-    fund: any,
-  },
-} & typeof mapStateToProps &
-  typeof mapDispatchToProps;
-
-const SUPPORTED_COUNTRIES: string[] = [
+const SUPPORTED_COUNTRIES = [
   'AU',
   'BE',
   'CA',
@@ -48,13 +39,11 @@ const SUPPORTED_COUNTRIES: string[] = [
 ];
 
 class SelectPensionFund extends Component {
-  props: Props;
-
   componentWillMount() {
     this.getPensionFunds(this.props.country);
   }
 
-  getPensionFunds = (country: string) => {
+  getPensionFunds = country => {
     if (!country) return;
 
     const url = `/api/pension_funds?country=${country.toLowerCase()}`;
@@ -71,12 +60,12 @@ class SelectPensionFund extends Component {
       .then(this.props.changePensionFunds);
   };
 
-  onChangeCountry = (country: string) => {
+  onChangeCountry = country => {
     this.getPensionFunds(country);
     this.props.changeCountry(country);
   };
 
-  changeFund = (_id: string) => {
+  changeFund = _id => {
     const contact = find(this.props.pensionFunds, { _id });
     this.props.changeFund(contact);
   };
@@ -122,7 +111,7 @@ class SelectPensionFund extends Component {
   }
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state) {
   return {
     country: state.emailTarget.country,
     pensionFunds: state.emailTarget.pensionFunds,
@@ -133,10 +122,13 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(disp) {
   return {
-    changeCountry: (country: string) => disp(changeCountry(country)),
-    changePensionFunds: (funds: string[]) => disp(changePensionFunds(funds)),
-    changeFund: (fund: string) => disp(changeFund(fund)),
+    changeCountry: country => disp(changeCountry(country)),
+    changePensionFunds: funds => disp(changePensionFunds(funds)),
+    changeFund: fund => disp(changeFund(fund)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectPensionFund);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SelectPensionFund);

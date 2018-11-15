@@ -5,9 +5,9 @@ import {
   mountWithIntl,
 } from '../../../../spec/jest/intl-enzyme-test-helpers';
 import AmountSelection from './AmountSelection';
-import type { OwnProps } from './AmountSelection';
+import type { Props } from './AmountSelection';
 
-const defaultProps: OwnProps = {
+const defaultProps: Props = {
   donationAmount: undefined,
   donationBands: {
     USD: [1, 2, 3, 4, 5],

@@ -5,31 +5,29 @@ import classnames from 'classnames';
 import hostedFields from 'braintree-web/hosted-fields';
 import type { Client } from 'braintree-web';
 import type {
-  HostedFieldsInstance,
+  HostedFields,
   HostedFieldsTokenizePayload,
 } from 'braintree-web/hosted-fields';
+import type { IntlShape } from 'react-intl';
 import './Braintree.scss';
 
-type OwnProps = {
+type Props = {
   client: ?Client,
   isActive: boolean,
   recurring: boolean,
-  intl: any,
+  intl: IntlShape,
   onInit?: () => void,
   onSuccess?: (data: any) => void,
   onFailure?: (data: any) => void,
 };
 
-class BraintreeCardFields extends Component {
-  props: OwnProps;
-
-  state: {
-    hostedFields: ?HostedFieldsInstance,
-    cardType?: string,
-    errors: { [key: string]: boolean },
-  };
-
-  constructor(props: OwnProps) {
+type State = {
+  hostedFields: ?HostedFields,
+  cardType?: string,
+  errors: { [key: string]: boolean },
+};
+class BraintreeCardFields extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -48,8 +46,8 @@ class BraintreeCardFields extends Component {
     }
   }
 
-  componentWillReceiveProps(newProps: OwnProps) {
-    if (newProps.client !== this.props.client) {
+  componentWillReceiveProps(newProps: Props) {
+    if (newProps.client !== this.props.client && newProps.client) {
       this.createHostedFields(newProps.client);
     }
   }
@@ -74,27 +72,27 @@ class BraintreeCardFields extends Component {
           '.valid': { color: '#333' },
         },
         fields: {
-          number: {
+          number: Object.freeze({
             selector: '#braintree-card-number',
             placeholder: formatMessage({
               id: 'fundraiser.fields.number',
               defaultMessage: 'Card number',
             }),
-          },
-          cvv: {
+          }),
+          cvv: Object.freeze({
             selector: '#braintree-cvv',
             placeholder: formatMessage({
               id: 'fundraiser.fields.cvv',
               defaultMessage: 'CVV',
             }),
-          },
-          expirationDate: {
+          }),
+          expirationDate: Object.freeze({
             selector: '#braintree-expiration-date',
             placeholder: formatMessage({
               id: 'fundraiser.fields.expiration_format',
               defaultMessage: 'MM/YY',
             }),
-          },
+          }),
         },
       },
       (err, hostedFieldsInstance) => {
@@ -133,7 +131,7 @@ class BraintreeCardFields extends Component {
     );
   }
 
-  submit(event?: SyntheticEvent) {
+  submit(event: SyntheticEvent<HTMLFormElement>) {
     if (event) event.preventDefault();
     this.resetErrors();
 
@@ -200,7 +198,7 @@ class BraintreeCardFields extends Component {
           id="braintree-hosted-fields-form"
           className="BraintreeCardFields__form"
           method="post"
-          onSubmit={this.submit.bind(this)}
+          onSubmit={this.submit}
         >
           <div
             id="braintree-card-number"

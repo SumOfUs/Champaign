@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -7,20 +7,19 @@ import { without } from 'lodash';
 import PaymentMethodWrapper from '../ExpressDonation/PaymentMethodWrapper';
 import type { AppState } from '../../state';
 import type { PaymentType } from '../../state/fundraiser/types';
+import type { Dispatch } from 'redux';
 
 type Props = {
   currentPaymentType?: PaymentType,
   directDebitOnly: boolean,
   disabled?: boolean,
   features: $PropertyType<AppState, 'features'>,
-  onChange: (paymentType: string) => void,
+  onChange: (paymentType: PaymentType) => void,
   paymentTypes: PaymentType[],
   recurring: boolean,
   showDirectDebit: boolean,
 };
-export class PaymentTypeSelection extends Component {
-  props: Props;
-
+export class PaymentTypeSelection extends PureComponent<Props> {
   showCardAndPaypal() {
     if (this.props.directDebitOnly && !this.props.showDirectDebit) return true;
     if (this.props.directDebitOnly) return false;
@@ -74,11 +73,20 @@ export class PaymentTypeSelection extends Component {
   }
 }
 
-export default connect((state: AppState) => ({
+const mapStateToProps = (state: AppState) => ({
   directDebitOnly: state.fundraiser.directDebitOnly,
   features: state.features,
   paymentTypes: state.fundraiser.paymentTypes,
   recurring: state.fundraiser.recurring,
-  recurringOnly: state.fundraiser.recurringDefault === 'only_recurring',
   showDirectDebit: state.fundraiser.showDirectDebit,
-}))(PaymentTypeSelection);
+  currentPaymentType: state.fundraiser.directDebitOnly
+    ? 'gocardless'
+    : state.fundraiser.currentPaymentType,
+});
+
+const mapDispatch = (dispatch: Dispatch<*>) => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatch
+)(PaymentTypeSelection);

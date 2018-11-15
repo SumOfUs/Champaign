@@ -1,4 +1,3 @@
-// @flow
 import 'whatwg-fetch';
 import '../shared/show_errors';
 import '../member-facing/registration';
