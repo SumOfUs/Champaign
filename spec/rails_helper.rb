@@ -33,6 +33,7 @@ VCR.configure do |config|
     match_requests_on: %i[path host method],
     record: :once
   }
+  config.allow_http_connections_when_no_cassette = false
 
   %w[merchant_id public_key private_key].each do |env|
     config.filter_sensitive_data("<#{env}>") { Settings.braintree.send(env) }

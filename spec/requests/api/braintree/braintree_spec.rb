@@ -14,6 +14,7 @@ describe 'Express Donation' do
 
   before do
     allow(ChampaignQueue).to receive(:push)
+    allow(FundingCounter).to receive(:update)
   end
 
   describe 'making multiple transactions on the same page' do
@@ -339,6 +340,7 @@ describe 'Braintree API' do
     allow(ChampaignQueue).to receive(:push)
     allow(Analytics::Page).to receive(:increment)
     allow(MobileDetector).to receive(:detect).and_return(action_mobile: 'desktop')
+    allow(FundingCounter).to receive(:update)
   end
 
   describe 'making a transaction' do

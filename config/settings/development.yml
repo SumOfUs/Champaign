@@ -18,7 +18,7 @@ action_kit:
 ak_api_url: 'http://actionkit_api_url.com'
 # ak_username: username
 # ak_password: password
-
+default_currency: 'USD'
 
 # Assets config
 s3_asset_bucket: your-asset-bucket

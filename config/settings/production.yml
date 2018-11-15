@@ -14,7 +14,7 @@ aws_account_id: <%= ENV['AWS_ACCOUNT_ID'] %>
 sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
 s3_host_name: <%= ENV['S3_HOST_NAME'] %>
 ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>
-
+default_currency: <%= ENV['DEFAULT_CURRENCY'] || 'USD' %>
 
 # Direct ActionKit Connection variables.
 ak_api_url: <%= ENV['AK_API_URL'] %>
