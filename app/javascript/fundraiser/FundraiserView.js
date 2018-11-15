@@ -19,20 +19,12 @@ import {
 import type { Dispatch } from 'redux';
 import type { AppState } from '../state';
 import type { Member, Fundraiser } from '../state';
+import type { ChampaignPage } from '../types';
 
-type OwnProps = {
-  fundraiser: Fundraiser,
-  member: Member,
-  page: ChampaignPage,
-  changeStep: number => void,
-  selectAmount: (?number) => void,
-  selectCurrency: string => void,
-  setSubmitting: boolean => void,
-};
+type Props = $Call<typeof mapStateToProps, AppState> &
+  $Call<typeof mapDispatchToProps, *>;
 
-export class FundraiserView extends Component {
-  props: OwnProps;
-
+export class FundraiserView extends Component<Props> {
   componentDidMount() {
     const { donationAmount } = this.props.fundraiser;
 
@@ -165,4 +157,7 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FundraiserView);

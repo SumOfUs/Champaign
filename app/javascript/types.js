@@ -1,19 +1,10 @@
 /* eslint-disable */
 // @flow
+import type { Store } from 'redux';
 import type { AppState } from './state/reducers';
-import type { I18nDict } from './util/locales/helpers';
+import type { I18nDict } from 'champaign-i18n';
 
-declare var window: typeof window & {
-  champaign: ChampaignGlobalObject,
-  optimizelyHook?: void => void,
-  fbq?: (
-    action: 'init' | 'track' | 'trackCustom',
-    eventName: FBStandardEvent,
-    data?: FBEventParams
-  ) => void,
-};
-
-declare type ChampaignMember =
+export type ChampaignMember =
   | {
       id: number,
       email: string,
@@ -34,7 +25,7 @@ declare type ChampaignMember =
     }
   | {};
 
-declare type ChampaignLocation = {
+export type ChampaignLocation = {
   country?: string,
   country_code?: string,
   country_name?: string,
@@ -44,7 +35,7 @@ declare type ChampaignLocation = {
   longitude?: string,
 };
 
-declare type ChampaignPage = {
+export type ChampaignPage = {
   action_count: number,
   allow_duplicate_actions: boolean,
   canonical_url: string,
@@ -67,21 +58,21 @@ declare type ChampaignPage = {
   follow_up_liquid_layout_id?: number,
 };
 
-declare type ChampaignPersonalizationData = {
+export type ChampaignPersonalizationData = {
   locale: string,
   location: ChampaignLocation,
   member: ChampaignMember,
-  paymentMethods: ChampaignPaymentMethod[],
+  paymentMethods: any[],
   urlParams: { [key: string]: string },
 };
 
-declare type ChampaignGlobalObject = {
+export type ChampaignGlobalObject = {
   personalization: ChampaignPersonalizationData,
   page: ChampaignPage,
   store?: Store<AppState, *>,
 };
 
-declare type FBStandardEvent =
+export type FBStandardEvent =
   | 'ViewContent'
   | 'Search'
   | 'AddToCart'
@@ -92,7 +83,7 @@ declare type FBStandardEvent =
   | 'Lead'
   | 'CompleteRegistration';
 
-declare type FBEventParams = {
+export type FBEventParams = {
   value?: any,
   currency?: any,
   content_name?: any,
@@ -101,25 +92,3 @@ declare type FBEventParams = {
   content_ids?: any[],
   num_items?: any,
 };
-
-declare var module: WebpackModule;
-
-declare type WebpackModule = {
-  hot: WebpackModuleHot,
-};
-
-declare type WebpackModuleHot = {
-  accept: (path: string, callback: () => void) => void,
-};
-
-/* This is just an alias to windows.I18n */
-declare module 'champaign-i18n' {
-  declare type I18nDict = { [key: string]: I18nDictValue };
-  declare type I18nDictValue = I18nDict | string;
-  declare type I18nFlatDict = { [string]: string };
-  declare var locale: string;
-  declare var translations: {
-    [lang: string]: I18nDict,
-  };
-  declare function t(string, options?: { [string]: string }): string;
-}

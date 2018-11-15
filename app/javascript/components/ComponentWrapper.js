@@ -7,22 +7,25 @@ import deLocaleData from 'react-intl/locale-data/de';
 import frLocaleData from 'react-intl/locale-data/fr';
 import loadTranslations from '../util/TranslationsLoader';
 
-function WrapInStore({ store, children }) {
-  if (store) {
-    return <Provider store={store}>{children}</Provider>;
+import type { Store } from 'redux';
+import type { AppState } from '../state';
+
+function WrapInStore(options) {
+  if (options.store) {
+    return <Provider store={options.store}>{options.children}</Provider>;
   }
-  return children;
+  return options.children;
 }
 
-export default class ComponentWrapper extends Component {
-  props: {
-    store?: Store,
-    children?: any,
-    locale: string,
-    messages?: { [key: string]: string },
-    optimizelyHook?: void => void,
-  };
+type Props = {
+  store?: Store<AppState, *>,
+  children?: any,
+  locale: string,
+  messages?: { [key: string]: string },
+  optimizelyHook?: void => void,
+};
 
+export default class ComponentWrapper extends Component<Props> {
   componentDidMount() {
     this.optimizelyHook();
   }

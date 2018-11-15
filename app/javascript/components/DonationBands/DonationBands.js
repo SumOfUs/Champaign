@@ -24,13 +24,10 @@ type Props = {
   featuredAmount?: number,
 };
 
-export class DonationBands extends Component {
-  props: Props;
-
-  state: {
-    customAmount?: number,
-  };
-
+type State = {
+  customAmount?: number,
+};
+export class DonationBands extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -88,8 +85,8 @@ export class DonationBands extends Component {
           })}
           pattern={/^[0-9]+$/}
           value={this.customFieldDisplay()}
-          onChange={(e: SyntheticInputEvent) =>
-            this.onInputUpdated(e.target.value)
+          onChange={(e: SyntheticEvent<HTMLInputElement>) =>
+            this.onInputUpdated(e.currentTarget.value)
           }
         />
       </div>

@@ -8,7 +8,7 @@ type Props = {
   errors?: any[],
 };
 
-export default function ErrorMessages(props: Props): React$Node<*> | null {
+export default function ErrorMessages(props: Props) {
   if (!props.errors) return null;
   const { errors } = props;
   const name = props.name || (

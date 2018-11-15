@@ -5,13 +5,18 @@ import { connect } from 'react-redux';
 import { setSubmitting } from '../state/fundraiser/actions';
 
 import type { AppState, PaymentMethod } from '../state';
+import type { PaymentType } from '../state/fundraiser/types';
+import type { Dispatch } from 'redux';
 
 type Props = {
   client: ?any,
+  currentPaymentType: PaymentType,
+  currency: string,
+  amount: number,
   onSubmit: (result: Object) => void,
   onError: (error: any) => void,
-} & typeof mapStateToProps &
-  typeof mapDispatchToProps;
+  setSubmitting: (submitting: boolean) => void,
+};
 
 type State = {
   paymentsClient?: Object,
@@ -37,9 +42,7 @@ const isAndroid = navigator.userAgent.toLowerCase().indexOf('android') >= 0;
 // could try to couple them but it would require communicating both components via
 // the global state, or refactor the fundraising component to contain that state at
 // the parent, or to "register" itself once it's "ready" (with a callback to the parent).
-export class GooglePayButton extends Component {
-  props: Props;
-  state: State;
+export class GooglePayButton extends Component<Props, State> {
   buttonRef: any;
   constructor(props: Props) {
     super(props);

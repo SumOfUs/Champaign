@@ -11,8 +11,7 @@ type Props = {
   showConsentRequired?: boolean,
 };
 
-export class ConsentControls extends PureComponent {
-  props: Props;
+export class ConsentControls extends PureComponent<Props> {
   render() {
     const { shortLabels, consented, showConsentRequired } = this.props;
     const wrapperClass = classnames('ConsentControls', {

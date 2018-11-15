@@ -9,6 +9,8 @@ import { changeConsent, toggleModal } from '../state/consent';
 import './ExistingMemberConsent.css';
 
 import type { Member } from '../state/member/reducer';
+import type { AppState } from '../state';
+import type { Dispatch } from 'redux';
 
 const style = {
   width: 'auto',
@@ -23,9 +25,7 @@ type Props = {
   changeConsent: boolean => void,
 };
 
-class ExistingMemberConsent extends Component {
-  props: Props;
-
+class ExistingMemberConsent extends Component<Props> {
   closeModal = () => this.props.toggleModal(false);
 
   submit = (value?: boolean) => {
@@ -80,11 +80,12 @@ const mapStateToProps = (state: AppState) => ({
   member: state.member,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   toggleModal: (value: boolean) => dispatch(toggleModal(value)),
   changeConsent: (value: boolean) => dispatch(changeConsent(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ExistingMemberConsent
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExistingMemberConsent);

@@ -29,6 +29,7 @@ import type { Dispatch } from 'redux';
 import type { Client } from 'braintree-web';
 import type { AppState, Member, Fundraiser, PaymentMethod } from '../../state';
 import type { PaymentType } from '../../state/fundraiser/types';
+import type { ChampaignPage } from '../../types';
 
 // Styles
 import './Payment.css';
@@ -71,10 +72,7 @@ type OwnState = {
   errors: any[],
   waitingForGoCardless: boolean,
 };
-export class Payment extends Component {
-  props: OwnProps;
-  state: OwnState;
-
+export class Payment extends Component<OwnProps, OwnState> {
   static title = <FormattedMessage id="payment" defaultMessage="payment" />;
 
   constructor(props: OwnProps) {
@@ -382,7 +380,6 @@ export class Payment extends Component {
         <ShowIf condition={this.isExpressHidden()}>
           <PaymentTypeSelection
             disabled={this.state.loading}
-            currentPaymentType={this.props.currentPaymentType}
             onChange={p => this.selectPaymentType(p)}
           />
 
@@ -411,26 +408,27 @@ export class Payment extends Component {
             </div>
           )}
 
-          {!hideRecurring &&
-            this.props.currentPaymentType !== 'google' && (
-              <Checkbox
-                className="Payment__config"
-                disabled={hideRecurring}
-                checked={recurring}
-                onChange={e => this.props.setRecurring(e.target.checked)}
-              >
-                <FormattedMessage
-                  id="fundraiser.make_recurring"
-                  defaultMessage="Make my donation monthly"
-                />
-              </Checkbox>
-            )}
+          {!hideRecurring && this.props.currentPaymentType !== 'google' && (
+            <Checkbox
+              className="Payment__config"
+              disabled={hideRecurring}
+              checked={recurring}
+              onChange={e => this.props.setRecurring(e.currentTarget.checked)}
+            >
+              <FormattedMessage
+                id="fundraiser.make_recurring"
+                defaultMessage="Make my donation monthly"
+              />
+            </Checkbox>
+          )}
 
           {this.props.currentPaymentType !== 'google' && (
             <Checkbox
               className="Payment__config"
               checked={storeInVault}
-              onChange={e => this.props.setStoreInVault(e.target.checked)}
+              onChange={e =>
+                this.props.setStoreInVault(e.currentTarget.checked)
+              }
             >
               <FormattedMessage
                 id="fundraiser.store_in_vault"

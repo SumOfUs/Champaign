@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 import React, { Component } from 'react';
 import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
@@ -14,9 +14,24 @@ import './EmailEditor.scss';
 
 const MAX_SUBJECT_LENGTH = 64;
 
-export default class EmailEditor extends Component {
-  props: Props;
-  state: State;
+type Props = {
+  body: string,
+  footer?: string,
+  header?: string,
+  subject: string,
+  templateVars: { [key: string]: any },
+  errors: ErrorMap,
+  onUpdate: (email: EmailProps) => void,
+};
+
+type State = {
+  subject: string,
+  editorState: EditorState,
+  header?: string,
+  footer?: string,
+};
+
+export default class EmailEditor extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -147,24 +162,4 @@ function interpolateVars(templateString: ?string, templateVars: any): string {
   return template(templateString)(templateVars);
 }
 
-export type EmailProps = {
-  subject: string,
-  body: string,
-};
-
-type Props = {
-  body: string,
-  footer?: string,
-  header?: string,
-  subject: string,
-  templateVars: { [key: string]: any },
-  errors: ErrorMap,
-  onUpdate: (email: EmailProps) => void,
-};
-
-type State = {
-  subject: string,
-  editorState: EditorState,
-  header?: string,
-  footer?: string,
-};
+export type EmailProps = { subject: string, body: string };

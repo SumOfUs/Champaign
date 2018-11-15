@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
 import Button from '../Button/Button';
@@ -7,26 +7,23 @@ import ee from '../../shared/pub_sub';
 
 import CurrencyAmount from '../../components/CurrencyAmount';
 
-export type OwnProps = {
+export type Props = {
   donationAmount?: number,
   donationBands: { [id: string]: number[] },
   donationFeaturedAmount?: number,
   currency: string,
-  nextStepTitle?: mixed,
+  nextStepTitle?: React.Element<any>,
   selectAmount: (amount: ?number) => void,
   changeCurrency: (currency: string) => void,
   proceed: () => void,
 };
 
-export type OwnState = {
+export type State = {
   customAmount: ?number,
-  currencyDropdownVisible: boolean,
+  currencyDropdVisible: boolean,
 };
 
-export default class AmountSelection extends Component {
-  props: OwnProps;
-  state: OwnState;
-
+export default class AmountSelection extends React.Component<Props, State> {
   static title(amount: ?number, currency: string): any {
     if (amount == null) {
       return (
@@ -36,12 +33,12 @@ export default class AmountSelection extends Component {
     return <CurrencyAmount amount={amount} currency={currency} />;
   }
 
-  constructor(props: OwnProps) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
       customAmount: null,
-      currencyDropdownVisible: false,
+      currencyDropdVisible: false,
     };
   }
 
@@ -49,9 +46,9 @@ export default class AmountSelection extends Component {
     ee.emit('sidebar:height_change');
   }
 
-  toggleCurrencyDropdown() {
+  toggleCurrencyDropd() {
     this.setState({
-      currencyDropdownVisible: !this.state.currencyDropdownVisible,
+      currencyDropdVisible: !this.state.currencyDropdVisible,
     });
   }
 
@@ -88,11 +85,12 @@ export default class AmountSelection extends Component {
         <p>
           <FormattedMessage
             id="fundraiser.currency_in"
-            defaultMessage="Values are shown in {currency}."
+            defaultMessage="Values are sh in {currency}."
             values={{ currency: this.props.currency }}
-          />.&nbsp;
+          />
+          .&nbsp;
           <a
-            onClick={this.toggleCurrencyDropdown.bind(this)}
+            onClick={this.toggleCurrencyDropd.bind(this)}
             className="AmountSelection__currency-toggle"
           >
             <FormattedMessage
@@ -101,12 +99,12 @@ export default class AmountSelection extends Component {
             />
           </a>
         </p>
-        {this.state.currencyDropdownVisible && (
+        {this.state.currencyDropdVisible && (
           <select
             value={this.props.currency}
             className="AmountSelection__currency-selector"
-            onChange={(e: SyntheticInputEvent) =>
-              this.onSelectCurrency(e.target.value)
+            onChange={(e: SyntheticEvent<HTMLSelectElement>) =>
+              this.onSelectCurrency(e.currentTarget.value)
             }
           >
             {Object.keys(this.props.donationBands).map(currency => {

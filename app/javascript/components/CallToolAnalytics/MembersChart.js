@@ -4,12 +4,10 @@ import c3 from 'c3';
 
 type OwnProps = {
   data: any,
-  xLabel?: string
-}
+  xLabel?: string,
+};
 
-class LastWeekChart extends Component {
-  props: OwnProps;
-
+class LastWeekChart extends Component<OwnProps> {
   componentDidMount() {
     this.createChart();
   }
@@ -26,19 +24,19 @@ class LastWeekChart extends Component {
         json: this.props.data,
         keys: {
           x: 'date',
-          value: ['unstarted', 'started', 'connected']
+          value: ['unstarted', 'started', 'connected'],
         },
         type: 'bar',
       },
       axis: {
         x: {
           type: 'category',
-          label: xLabel
+          label: xLabel,
         },
         y: {
-          label: 'calls'
-        }
-      }
+          label: 'calls',
+        },
+      },
     });
     // Hack to fix positioning of legends
     chart.legend.show();

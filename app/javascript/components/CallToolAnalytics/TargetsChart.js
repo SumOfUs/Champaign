@@ -3,12 +3,10 @@ import React, { Component } from 'react';
 import c3 from 'c3';
 
 type OwnProps = {
-  data: any
-}
+  data: any,
+};
 
-class TargetsChart extends Component {
-  props: OwnProps;
-
+class TargetsChart extends Component<OwnProps> {
   componentDidMount() {
     this.createChart();
   }
@@ -25,21 +23,19 @@ class TargetsChart extends Component {
         json: this.props.data,
         keys: {
           x: 'target_name',
-          value: ['completed', 'busy', 'no-answer', 'failed']
+          value: ['completed', 'busy', 'no-answer', 'failed'],
         },
-        groups: [
-          ['completed', 'busy', 'no-answer', 'failed']
-        ]
+        groups: [['completed', 'busy', 'no-answer', 'failed']],
       },
       axis: {
         rotated: 'true',
         x: {
-          type: 'category'
+          type: 'category',
         },
         y: {
-          label: 'calls'
-        }
-      }
+          label: 'calls',
+        },
+      },
     });
     // Hack to fix positioning of legends
     chart.legend.show();

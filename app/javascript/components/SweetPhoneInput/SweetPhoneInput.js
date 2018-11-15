@@ -29,9 +29,7 @@ type State = {
   selectingCountry: boolean,
 };
 
-class SweetPhoneInput extends Component {
-  props: Props;
-  state: State;
+class SweetPhoneInput extends Component<Props, State> {
   selectCountry: any;
 
   constructor(props: Props) {
@@ -59,7 +57,7 @@ class SweetPhoneInput extends Component {
     return get(window, 'champaign.personalization.location.country', 'US');
   }
 
-  handleClickOutside(e: SyntheticEvent) {
+  handleClickOutside(e: SyntheticEvent<*>) {
     this.setState(state => ({ ...state, selectingCountry: false }));
   }
 
@@ -170,7 +168,7 @@ class SweetPhoneInput extends Component {
             clearable={false}
             label="Select your country..."
             value={this.getCountryCode()}
-            filter={restrictedCountryCode ? [restrictedCountryCode] : null}
+            filter={restrictedCountryCode ? [restrictedCountryCode] : undefined}
             onChange={code => this.onCountryCodeChange(code)}
           />
         </div>

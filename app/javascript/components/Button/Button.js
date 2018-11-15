@@ -9,8 +9,8 @@ type Props = {
   type?: string,
   disabled?: boolean,
   className?: string,
-  onClick?: (e: SyntheticEvent) => any,
-  children?: Element<any>,
+  onClick?: (e: SyntheticEvent<HTMLButtonElement>) => any,
+  children?: any,
 };
 
 const Button = (props: Props) => {

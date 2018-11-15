@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import {
   compact,
   includes,
@@ -96,9 +96,6 @@ export default (state: State = initialState, action: Action): State => {
       return { ...state, donationAmount };
     case 'change_step':
       return { ...state, currentStep: action.payload };
-    case 'proceed_step':
-      const currentStep = state.currentStep + 1;
-      return { ...state, currentStep };
     case 'update_form': {
       const form = action.payload;
       const showDirectDebit = isDirectDebitSupported({

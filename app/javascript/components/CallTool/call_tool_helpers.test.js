@@ -1,4 +1,3 @@
-// @flow
 import faker from 'faker';
 import { sample } from 'lodash';
 import {

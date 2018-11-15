@@ -12,9 +12,7 @@ type State = {
   newPensionFundNameError: boolean,
 };
 
-export default class SuggestFund extends Component {
-  state: State;
-
+export default class SuggestFund extends Component<*, State> {
   constructor() {
     super();
     this.state = {
@@ -60,7 +58,7 @@ export default class SuggestFund extends Component {
     }));
   };
 
-  submit = (e: SyntheticEvent) => {
+  submit = (e: SyntheticEvent<HTMLElement>) => {
     e.preventDefault();
     if (this.state.newPensionFundName.trim() === '') {
       this.setState({ newPensionFundNameError: true });

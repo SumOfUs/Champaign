@@ -1,11 +1,12 @@
 // @flow
 import React from 'react';
 import classnames from 'classnames';
+import type { Element } from 'react';
 import './FormGroup.scss';
 
 type Props = {
   className?: string,
-  children: React$Element<any>,
+  children: any,
 };
 
 export default function FormGroup(props: Props): React$Element<any> {
