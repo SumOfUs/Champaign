@@ -33,7 +33,7 @@ aws_region: 'us-west-2'
 aws_account_id: 1234
 sqs_queue_url: 'http://example.com'
 ak_processor_url: 'http://example.com'
-
+default_currency: 'USD'
 
 # Direct ActionKit Connection variables.
 ak_api_url: 'https://act.sumofus.org/rest/v1'

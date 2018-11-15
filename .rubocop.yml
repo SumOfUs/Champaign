@@ -48,3 +48,7 @@ Lint/HandleExceptions:
 
 Style/AccessorMethodName:
   Enabled: false
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*'

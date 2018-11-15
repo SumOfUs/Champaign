@@ -49,6 +49,7 @@ class Payment::Braintree::Transaction < ApplicationRecord
   end
 
   def increment_funding_counter
+    return unless status == 'success'
     FundingCounter.update(page: page, currency: currency, amount: amount)
   end
 end

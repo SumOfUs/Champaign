@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 shared_examples 'creates nothing' do
@@ -13,6 +14,9 @@ shared_examples 'creates nothing' do
   end
   it "does not increment the Page's action count" do
     expect { subject }.not_to change { page.action_count }
+  end
+  it 'does not increase the pages total donations count' do
+    expect { subject }.not_to change { page.total_donations }
   end
   it 'does not leave a cookie' do
     subject

@@ -62,6 +62,7 @@ feature 'Express From Mailing Link' do
 
   before do
     allow(ChampaignQueue).to receive(:push)
+    allow(FundingCounter).to receive(:update)
   end
 
   scenario 'Authenticated member makes a one-click donation' do
