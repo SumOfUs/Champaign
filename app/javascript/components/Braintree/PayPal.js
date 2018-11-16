@@ -1,12 +1,12 @@
 // @flow
 import { Component } from 'react';
 import paypal from 'braintree-web/paypal';
+import type { Client } from 'braintree-web';
 import type {
   PayPal as PayPalInstance,
   PayPalTokenizeOptions,
   PayPalTokenizePayload,
 } from 'braintree-web/paypal';
-import type { Client } from 'braintree-web';
 
 type Props = {
   currency: string,
@@ -53,12 +53,6 @@ export default class PayPal extends Component<Props, State> {
         this.props.onInit();
       }
     });
-  }
-
-  componentWillUnmount() {
-    if (this.state.paypalInstance) {
-      this.state.paypalInstance.teardown();
-    }
   }
 
   flow(): $PropertyType<PayPalTokenizeOptions, 'flow'> {
