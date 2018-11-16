@@ -266,9 +266,9 @@ describe('Donation Amount Tab', function() {
 
     it('updates the selected amount when we use the custom input box', () => {
       suite.wrapper.find('#DonationBands-custom-amount').simulate('focus');
-      suite.wrapper
-        .find('#DonationBands-custom-amount')
-        .simulate('change', { target: { value: '8' } });
+      const el = suite.wrapper.find('#DonationBands-custom-amount');
+      el.getDOMNode().value = 8;
+      el.simulate('change');
       expect(
         suite.wrapper.find('FundraiserView').prop('fundraiser').donationAmount
       ).toEqual(8);
@@ -296,9 +296,9 @@ describe('Donation Amount Tab', function() {
         suite.wrapper.find('FundraiserView').prop('fundraiser').currency
       ).toEqual('USD');
       suite.wrapper.find('.AmountSelection__currency-toggle').simulate('click');
-      suite.wrapper
-        .find('.AmountSelection__currency-selector')
-        .simulate('change', { target: { value: 'GBP' } });
+      const el = suite.wrapper.find('.AmountSelection__currency-selector');
+      el.getDOMNode().value = 'GBP';
+      el.simulate('change');
       expect(
         suite.wrapper.find('FundraiserView').prop('fundraiser').currency
       ).toEqual('GBP');
@@ -313,14 +313,7 @@ describe('Donation Amount Tab', function() {
       expect(labels).toEqual(['$2', '$5', '$10', '$25', '$50']);
 
       // interaction
-      suite.wrapper.find('#DonationBands-custom-amount').simulate('focus');
-      suite.wrapper
-        .find('#DonationBands-custom-amount')
-        .simulate('change', { target: { value: '8' } });
-      suite.wrapper.find('.AmountSelection__currency-toggle').simulate('click');
-      suite.wrapper
-        .find('.AmountSelection__currency-selector')
-        .simulate('change', { target: { value: 'GBP' } });
+      suite.wrapper.find('FundraiserView').prop('selectCurrency')('GBP');
 
       // outcome
       labels = suite.wrapper
@@ -328,15 +321,6 @@ describe('Donation Amount Tab', function() {
         .find('Button')
         .map(node => node.text());
       expect(labels).toEqual(['£2', '£5', '£10', '£25', '£50']);
-      expect(
-        suite.wrapper
-          .find('Step')
-          .find('FormattedNumber')
-          .text()
-      ).toEqual('£8');
-      expect(
-        suite.wrapper.find('#DonationBands-custom-amount').prop('value')
-      ).toEqual('£8');
     });
 
     // transitioning
@@ -352,9 +336,9 @@ describe('Donation Amount Tab', function() {
     it('transitions to the next step when we click proceed with an amount entered', () => {
       expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(0);
       suite.wrapper.find('#DonationBands-custom-amount').simulate('focus');
-      suite.wrapper
-        .find('#DonationBands-custom-amount')
-        .simulate('change', { target: { value: '8' } });
+      const el = suite.wrapper.find('#DonationBands-custom-amount');
+      el.getDOMNode().value = '8';
+      el.simulate('change');
       suite.wrapper
         .find('Button.AmountSelection__proceed-button')
         .simulate('click');
