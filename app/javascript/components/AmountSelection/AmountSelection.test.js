@@ -107,7 +107,8 @@ describe('Changing currency', () => {
   it('updates the currency in the store when we select a currency', () => {
     component.find('.AmountSelection__currency-toggle').simulate('click');
     const selector = component.find('.AmountSelection__currency-selector');
-    selector.simulate('change', { target: { value: 'GBP' } });
+    selector.getDOMNode().value = 'GBP';
+    selector.simulate('change');
     expect(defaultProps.changeCurrency).toBeCalledWith('GBP');
   });
 });

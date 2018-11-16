@@ -51,7 +51,8 @@ it('clears the input when the user clicks on a donation amount button', () => {
   const wrapper = mountWithIntl(component);
   const input = wrapper.find('#DonationBands-custom-amount');
   input.simulate('focus');
-  input.simulate('change', { target: { value: '123' } });
+  input.getDOMNode().value = '123';
+  input.simulate('change');
   expect(selectAmount).toHaveBeenCalledWith(123);
   wrapper
     .find('DonationBandButton')
