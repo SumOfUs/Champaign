@@ -126,6 +126,8 @@ Style/EachWithObject:
 Style/FormatString:
   Exclude:
     - 'app/models/plugins/thermometer.rb'
+    - 'app/models/plugins/actions_thermometer.rb'
+    - 'app/models/plugins/donations_thermometer.rb'
 
 # Offense count: 5
 # Configuration parameters: MinBodyLength.

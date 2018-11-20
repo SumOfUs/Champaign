@@ -5,6 +5,7 @@
 # Table name: plugins_thermometers
 #
 #  id         :integer          not null, primary key
+#  type       :string           not null
 #  title      :string
 #  offset     :integer
 #  page_id    :integer
@@ -16,11 +17,11 @@
 
 require 'rails_helper'
 
-describe Plugins::Thermometer do
+describe Plugins::ActionsThermometer do
   let(:starting_action_count) { 37 }
   let(:liquid_layout) { LiquidLayout.create! title: 'test', content: 'test' }
   let(:page) { Page.create! title: 'test page', action_count: starting_action_count, liquid_layout: liquid_layout }
-  let(:thermometer) { Plugins::Thermometer.create! page: page }
+  let(:thermometer) { Plugins::ActionsThermometer.create! page: page }
 
   it 'can accept random supplemental data to liquid_data method' do
     expect { thermometer.liquid_data(foo: 'bar') }.not_to raise_error
@@ -99,7 +100,7 @@ describe Plugins::Thermometer do
   describe '#current_total' do
     context "given the page doesn't belong to a campaign" do
       let!(:page) { create(:page, action_count: 12) }
-      let!(:thermometer) { Plugins::Thermometer.create! offset: 10, page: page }
+      let!(:thermometer) { Plugins::ActionsThermometer.create! offset: 10, page: page }
 
       it 'it returns the page action_count + offset' do
         expect(thermometer.current_total).to eq 22
@@ -109,7 +110,7 @@ describe Plugins::Thermometer do
     context 'given the page belongs to a campaign' do
       let(:campaign) { create(:campaign) }
       let!(:page) { create(:page, campaign: campaign, action_count: 20) }
-      let!(:thermometer) { Plugins::Thermometer.create! offset: 10, page: page }
+      let!(:thermometer) { Plugins::ActionsThermometer.create! offset: 10, page: page }
       before { create(:page, campaign: campaign, action_count: 30) }
 
       it 'consolidates the action counter of all pages of the campaign' do

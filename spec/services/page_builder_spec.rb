@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PageBuilder do
@@ -34,7 +35,7 @@ describe PageBuilder do
     expect(Page.last.liquid_layout_id).to eq template.id
   end
 
-  [Plugins::Thermometer, Plugins::Petition].each do |plugin|
+  [Plugins::ActionsThermometer, Plugins::Petition].each do |plugin|
     it "creates a #{plugin.name}" do
       expect { subject }.to change { plugin.count }.by 1
     end

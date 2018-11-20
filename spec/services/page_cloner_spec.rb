@@ -6,7 +6,9 @@ describe PageCloner do
   let!(:tag) { create(:tag) }
   let(:campaign) { create(:campaign) }
   let!(:petition_partial) { create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref] }}' }
-  let!(:thermo_partial) { create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref] }}' }
+  let!(:actions_thermo_partial) do
+    create :liquid_partial, title: 'thermometer', content: '{{ plugins.actions_thermometer[ref] }}'
+  end
   let(:liquid_layout) { create(:liquid_layout, :default) }
   let(:page) do
     create(
@@ -212,7 +214,7 @@ describe PageCloner do
 
     it 'has the plugins indicated by the liquid layout before the clone' do
       expect(page.plugins.count).to eq 2
-      expect(page.plugins.map(&:class)).to match_array([Plugins::Petition, Plugins::Thermometer])
+      expect(page.plugins.map(&:class)).to match_array([Plugins::Petition, Plugins::ActionsThermometer])
     end
 
     it 'clones plugins' do
@@ -225,8 +227,8 @@ describe PageCloner do
       expect(cloned).not_to eq(original)
     end
 
-    it 'clones thermometer' do
-      original, cloned = get_plugin(Plugins::Thermometer)
+    it 'clones actions thermometer' do
+      original, cloned = get_plugin(Plugins::ActionsThermometer)
       expect(cloned).not_to eq(original)
     end
 

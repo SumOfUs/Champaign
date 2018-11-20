@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class Plugins::ThermometersController < Plugins::BaseController
+class Plugins::ActionsThermometersController < Plugins::BaseController
   private
 
   def permitted_params
     params
-      .require(:plugins_thermometer)
+      .require(:plugins_actions_thermometer)
       .permit(:title, :offset, :goal, :active, :type)
   end
 
