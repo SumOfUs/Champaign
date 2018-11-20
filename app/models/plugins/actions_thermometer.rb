@@ -15,11 +15,7 @@
 #  ref        :string
 #
 
-class Plugins::Thermometer < ApplicationRecord
-  def self.store_full_sti_class
-    false
-  end
-
+class Plugins::ActionsThermometer < Plugins::Thermometer
   belongs_to :page, touch: true
 
   DEFAULTS = { offset: 0 }.freeze

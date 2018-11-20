@@ -1,19 +1,19 @@
 {% if plugins.thermometer[ref].active %}
-  <!-- this partial will be cached, so the javascript replaces the
-       values for signature, remaining, and thermometer width -->
-  <div class='thermometer'>
+<!-- this partial will be cached, so the javascript replaces the
+     values for signature, remaining, and thermometer width -->
+<div class='thermometer'>
     <div class="thermometer__stats">
-      <div class='thermometer__signatures'>
-        {{ plugins.thermometer[ref].signatures }} {{ 'thermometer.signatures' | t }}
-      </div>
-      <div class="thermometer__remaining">
-        {{ 'thermometer.signatures_until_goal' |
+        <div class='thermometer__signatures'>
+            {{ plugins.thermometer[ref].signatures }} {{ 'thermometer.signatures' | t }}
+        </div>
+        <div class="thermometer__remaining">
+            {{ 'thermometer.signatures_until_goal' |
             val: 'goal', plugins.thermometer[ref].goal_k |
             val: 'remaining', plugins.thermometer[ref].remaining | t }}
-      </div>
+        </div>
     </div>
     <div class="thermometer__bg">
-      <div class="thermometer__mercury" style="width: {{ plugins.thermometer[ref].percentage }}%"></div>
+        <div class="thermometer__mercury" style="width: {{ plugins.thermometer[ref].percentage }}%"></div>
     </div>
-  </div>
+</div>
 {% endif %}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_12_103031) do
+ActiveRecord::Schema.define(version: 2018_11_16_103619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -551,6 +551,7 @@ ActiveRecord::Schema.define(version: 2018_11_12_103031) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ref"
+    t.string "type", default: "ActionsThermometer", null: false
     t.index ["page_id"], name: "index_plugins_thermometers_on_page_id"
   end
 

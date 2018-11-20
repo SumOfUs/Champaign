@@ -196,9 +196,9 @@ namespace :sumofus do
 
       Page.reset_counters(page.id, :actions)
       Page.update_counters(page.id, action_count: entry['signature_count'])
-      thermometer = Plugins::Thermometer.where(page_id: page.id).first
-      thermometer.goal = entry['thermometer_target']
-      thermometer.save!
+      actions_thermometer = Plugins::ActionsThermometer.where(page_id: page.id).first
+      actions_thermometer.goal = entry['thermometer_target']
+      actions_thermometer.save!
       petition = Plugins::Petition.where(page_id: page.id).first
       petition.description = entry['petition_ask'].delete('"').gsub('Petition Text:', '')
       petition.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').delete(':')
