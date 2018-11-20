@@ -5,7 +5,7 @@ environment.plugins.delete('UglifyJs');
 environment.plugins.append(
   'UglifyJs',
   new UglifyJSPlugin({
-    sourceMap: true,
+    sourceMap: false,
     uglifyOptions: {
       ecma: 5,
     },

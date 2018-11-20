@@ -85,7 +85,7 @@ export default class AmountSelection extends React.Component<Props, State> {
         <p>
           <FormattedMessage
             id="fundraiser.currency_in"
-            defaultMessage="Values are sh in {currency}."
+            defaultMessage="Values shown in {currency}."
             values={{ currency: this.props.currency }}
           />
           .&nbsp;

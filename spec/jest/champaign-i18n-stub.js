@@ -12,4 +12,7 @@ export const translations = {
   ...YAML.parse(
     fs.readFileSync('./config/locales/member_facing.fr.yml', 'utf8')
   ),
+  ...YAML.parse(
+    fs.readFileSync('./config/locales/member_facing.es.yml', 'utf8')
+  ),
 };

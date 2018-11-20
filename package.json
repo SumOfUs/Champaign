@@ -1,9 +1,9 @@
 {
   "scripts": {
     "flow": "flow",
-    "test": "jest --testURL=http://localhost/",
-    "test:watch": "jest --testURL=http://localhost/ --watch",
-    "test:update_snapshot": "jest --testURL=http://localhost/ --updateSnapshot"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:update_snapshot": "jest --updateSnapshot"
   },
   "dependencies": {
     "@rails/webpacker": "^3.5.3",
@@ -26,6 +26,7 @@
     "enzyme-to-json": "^3.3.1",
     "eventemitter3": "^3.1.0",
     "faker": "^4.1.0",
+    "flat": "^4.1.0",
     "flow-bin": "^0.84.0",
     "husky": "^1.1.4",
     "intl": "^1.2.5",

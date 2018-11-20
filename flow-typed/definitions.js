@@ -1,7 +1,7 @@
 // @flow
 
 export var window: typeof window & {
-  champaign: ChampaignGlobalObject,
+  champaign: any,
   optimizelyHook?: void => void,
   fbq?: (...args: any[]) => void,
 };
@@ -29,5 +29,6 @@ declare module 'champaign-i18n' {
     locale: string;
     translations: { [lang: string]: I18nDict };
     t(string, options?: { [string]: string }): string;
+    lookup(scope: string, options: any): ?string;
   }
 }

@@ -9,6 +9,10 @@ export function transform(translations: I18nDict): I18nFlatDict {
   return translateInterpolations(flattenObject(translations));
 }
 
+export function replaceInterpolations<T>(value: T): T {
+  if (typeof value === 'string') return value.replace(/%{(\w+)}/g, '{$1}');
+  return value;
+}
 // Translate interpolation format
 // Rails "hello %{name}" to ReactIntl: "hello {name}"
 export function translateInterpolations<T>(translations: T): T {

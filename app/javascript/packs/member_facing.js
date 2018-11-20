@@ -5,6 +5,7 @@ import '../member-facing/track_shares';
 import '../recommend_pages/recommend_pages';
 import '../util/event_tracking';
 
+import { mapValues, pick } from 'lodash';
 import URI from 'urijs';
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
@@ -19,7 +20,6 @@ import Notification from '../member-facing/backbone/notification';
 import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import redirectors from '../member-facing/redirectors';
-import { formatMessage } from '../util/TranslationsLoader';
 import { FeaturesHelper } from '../state/features';
 
 window.URI = URI;
@@ -49,3 +49,37 @@ Object.assign(window.champaign, {
   store,
   features: new FeaturesHelper(store),
 });
+
+import flatten from 'flat';
+
+I18n.flatTranslations = mapValues(I18n.translations, (value, key) =>
+  flatten(
+    pick(value, [
+      'double_opt_in',
+      'footer',
+      'page',
+      'basics',
+      'branding',
+      'recommend_pages',
+      'email_pension',
+      'email_tool',
+      'fundraiser',
+      'petition',
+      'form',
+      'thermometer',
+      'call_tool',
+      'share',
+      'errors',
+      'validation',
+      'time',
+      'reset_passwords',
+      'survey',
+      'reset_password_mailer',
+      'facebook_share',
+      'member_registration',
+      'confirmation_mailer',
+      'consent',
+      'cookie_consent',
+    ])
+  )
+);

@@ -7,7 +7,7 @@ es:
   footer:
     home_url: http://example.com
   page:
-    more_info: More information
+    more_info: Más información
     no_script: "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action."
   basics:
     or: o
@@ -71,21 +71,21 @@ es:
       ready_for_paypal: "Al hacer clic en el botón de abajo, Paypal te guiará para completar tu donación."
       ready_for_google: "Al hacer clic en el botón de abajo, Google te guiará para completar tu donación.."
     payment_type_prompt: Payment Method
-    amount: Amount
-    details: Details
-    payment: Payment
-    donate: "Donate %{amount}" # used on the submit button, eg 'Donate $15'
-    donate_monthly: "Donate %{amount} / month"
-    month: month
+    amount: Cantidad
+    details: Detalles
+    payment: Pago
+    donate: "Donar %{amount}" # used on the submit button, eg 'Donate $15'
+    donate_monthly: "Donar %{amount} cada mes"
+    month: mes
     error_intro: We were unable to process your donation!
-    currency_in: "Values shown in %{currency}"
-    switch_currency: Switch currency
-    proceed_to_details: Proceed to details
-    proceed_to_payment: Proceed to payment
-    other_amount: Other
-    make_recurring: Make my donation monthly
-    store_in_vault: Securely store my payment information
-    thank_you: Thank you for your donation!
+    currency_in: "Cantidades en %{currency}"
+    switch_currency: Cambiar divisa
+    proceed_to_details: Avanzar a detalles
+    proceed_to_payment: Avanzar a pago
+    other_amount: Otro
+    make_recurring: Hacer una donación mensual
+    store_in_vault: Guardar mis datos de pago de forma segura
+    thank_you: ¡Gracias por tu donación!
     thank_you_with_amount: "<strong>Thank you for your donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
     recurring_thank_you_with_amount: "<strong>Thank you for your recurring donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
 
@@ -106,14 +106,14 @@ es:
       direct_debit: "Direct Debit"
     fields:
       cvv: CVV
-      number: Card number
-      expiration: Expiration date
+      number: Número de tarjeta
+      expiration: Fecha de caducidad
       expiration_format: MM / YY
-      postalCode: Postal code
+      postalCode: Código postal
     field_names: # these are used in sentence form, eg with errors.probably_invalid
       cvv: CVV
       number: Card number
-      expiration: Expiration date
+      expiration: Fecha de caducidad
   petition:
     sign_it: Firma la petición
     target_prefix: PARA
@@ -250,7 +250,7 @@ es:
       member_management: "To manage your payment methods and details, you can visit the <a href='%{url}'>members dashboard</a> at any time."
   consent:
     opt_in_reason: "<b>SumOfUs is a global community of people committed to fighting corporate power</b>. Would you like to hear about our latest campaigns, news, events and fundraising, and find out more about how you can get involved? <b>Choose 'yes' to opt in to email below:</b>"
-    opt_out_warn_title: "Are you sure?"
+    opt_out_warn_title: "¿Estás seguro?"
     opt_out_warn_message: "If you choose ‘Yes,’ we’ll keep you posted about SumOfUs campaigns so you can take action when the next big company steps out of line."
     how_to_opt_out: 'You can opt out of receiving our messages at any time. Just go to our <a href="https://www.sumofus.org/unsubscribe" target="_blank">unsubscribe page</a>. By entering your details you confirm that you are 16 or older.'
     accept: "Yes! Tell me if this campaign wins, and how I can help other relevant campaigns."
@@ -263,6 +263,6 @@ es:
       accept: "Yes"
       decline: "Not right now"
   cookie_consent:
-    message: 'Cookies are important to the proper functioning of this site.'
-    dismiss_button_text: 'Agree & Proceed'
-    privacy_policy_link_text: 'Privacy Policy'
+    message: 'Las cookies son importantes para el funcionamiento de este sitio.'
+    dismiss_button_text: 'Aceptar & Continuar'
+    privacy_policy_link_text: 'Política de privacidad'

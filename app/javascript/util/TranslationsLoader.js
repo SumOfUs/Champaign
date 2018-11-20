@@ -1,32 +1,24 @@
 // @flow
 // champaign-i18n is an external (aliases to window.I18n)
-// see config/webpack/app-config.js to see where it's aliased
-import { translations } from 'champaign-i18n';
+// see config/webpack/custom.js to see where it's aliased
+import flatten from 'flat';
+import { mapValues, pick } from 'lodash';
 import type { I18nFlatDict } from 'champaign-i18n';
-import { transform } from './locales/helpers';
+import I18n from 'champaign-i18n';
+import { replaceInterpolations } from './locales/helpers';
 import IntlMessageFormat from 'intl-messageformat';
 
-const transformedMessages = {};
-
-export default function loadTranslations(locale: string) {
-  const messages = translations[locale];
-  if (!messages) {
-    throw new Error(`Unsuported locale: ${locale}`);
-  }
-  if (!transformedMessages[locale]) {
-    transformedMessages[locale] = transform(messages);
-  }
-  return transformedMessages[locale];
+if (!window.I18n.flat) {
+  window.I18n.flat = mapValues(I18n.translations, tree =>
+    mapValues(flatten(tree), replaceInterpolations)
+  );
 }
 
-const formatMessage = (key: string, locale: string) => {
-  return new IntlMessageFormat(loadTranslations(locale)[key], locale).format(
-    {}
-  );
-};
+const translations = window.I18n.flat;
 
-const isTranslationPresent = (key: string, locale: string) => {
-  return !!loadTranslations(locale)[key];
-};
-
-export { formatMessage, isTranslationPresent };
+export default function loadTranslations(locale: string) {
+  if (!translations[locale]) {
+    throw new Error(`Unsuported locale: ${locale}`);
+  }
+  return translations[locale];
+}
