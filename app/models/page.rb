@@ -35,6 +35,7 @@
 #  meta_tags                  :string
 #  meta_description           :string
 #  total_donations            :double            default("0")
+#  fundraising_goal            :double            default("0")
 #
 
 class Page < ApplicationRecord
