@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PluginsController < ApplicationController
   before_action :find_page
 
@@ -12,6 +13,7 @@ class PluginsController < ApplicationController
   end
 
   def show
+    pp 'PARAMS:', params
     @plugin = Plugins.find_for(params[:type], params[:id])
   end
 
