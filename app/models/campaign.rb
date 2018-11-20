@@ -25,4 +25,8 @@ class Campaign < ApplicationRecord
   def donations_count
     pages.sum(:total_donations)
   end
+
+  def fundraising_goal
+    pages.sum(:fundraising_goal)
+  end
 end

@@ -35,6 +35,7 @@
 #  meta_tags                  :string
 #  meta_description           :string
 #  total_donations            :double            default("0")
+#  fundraising_goal            :double            default("0")
 #
 
 FactoryGirl.define do
@@ -48,6 +49,7 @@ FactoryGirl.define do
     ak_petition_resource_uri 'http://example.com/petition'
     ak_donation_resource_uri 'http://example.com/donation'
     total_donations 0
+    fundraising_goal 0
 
     trait :featured do
       featured true

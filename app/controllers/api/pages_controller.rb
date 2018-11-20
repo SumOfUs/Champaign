@@ -60,13 +60,16 @@ class Api::PagesController < ApplicationController
 
   def total_donations
     @page = Page.find(params[:page_id])
-    @amount = if @page.campaign.blank?
-                @page.total_donations
-              else
-                @page.campaign.donations_count
-              end
+    if @page.campaign.blank?
+      @amount = @page.total_donations
+      @goal = @page.fundraising_goal
+    else
+      @amount = @page.campaign.donations_count
+      @goal = @page.campaign.fundraising_goal
+    end
     total_donations = FundingCounter.convert(currency: params[:currency], amount: @amount)
-    render json: { total_donations: total_donations.to_s }
+    fundraisingg_goal = FundingCounter.convert(currency: params[:currency], amount: @goal)
+    render json: { total_donations: total_donations.to_s, fundraising_goal: fundraisingg_goal.to_s }
   end
 
   private

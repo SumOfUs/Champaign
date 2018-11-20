@@ -35,4 +35,14 @@ describe Campaign do
       expect(campaign.donations_count).to eq(1500)
     end
   end
+
+  describe 'fundraising goal' do
+    let(:campaign) { create(:campaign) }
+    let!(:page_a) { create(:page, campaign: campaign, fundraising_goal: 1000) }
+    let!(:page_b) { create(:page, campaign: campaign, fundraising_goal: 1000) }
+
+    it 'returns sum of fundraising goals from associated pages' do
+      expect(campaign.fundraising_goal).to eq(2000)
+    end
+  end
 end
