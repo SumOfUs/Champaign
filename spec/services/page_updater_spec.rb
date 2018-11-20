@@ -7,13 +7,15 @@ describe PageUpdater do
   # that will actually make or break the campaigner experience
 
   let!(:petition_partial) { create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref].lol }}' }
-  let!(:thermo_partial) { create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref].lol }}' }
+  let!(:thermo_partial) do
+    create :liquid_partial, title: 'thermometer', content: '{{ plugins.actions_thermometer[ref].lol }}'
+  end
   let(:liquid_layout) { create :liquid_layout, :default }
   let(:page) { create :page, liquid_layout: liquid_layout }
   let(:url) { 'sumofus.org/my-path' }
   let(:simple_changes) { { page: { title: 'howdy folks!', content: 'Did they get you to trade' } } }
   let(:breaking_changes) { { page: { title: nil, content: 'your heros for ghosts' } } }
-  let(:thermo_plugin) { page.plugins.select { |p| p.name == 'Thermometer' }.first }
+  let(:thermo_plugin) { page.plugins.select { |p| p.name == 'ActionsThermometer' }.first }
   let(:petition_plugin) { page.plugins.select { |p| p.name == 'Petition' }.first }
 
   subject(:pupdater) { PageUpdater.new(page, url) }
@@ -110,7 +112,7 @@ describe PageUpdater do
           id: petition_plugin.id,
           name: petition_plugin.name
         },
-        plugins_thermometer: {
+        plugins_actions_thermometer: {
           offset: 1612,
           id: thermo_plugin.id,
           name: thermo_plugin.name
@@ -136,7 +138,7 @@ describe PageUpdater do
 
     it "updates the plugins even if it can't update the page" do
       params = {
-        plugins_thermometer: { offset: 1492, id: thermo_plugin.id, name: thermo_plugin.name },
+        plugins_actions_thermometer: { offset: 1492, id: thermo_plugin.id, name: thermo_plugin.name },
         page: { title: nil, content: 'hot air for a cool breeze' }
       }
       expect(pupdater.update(params)).to eq false
@@ -146,7 +148,7 @@ describe PageUpdater do
 
     it "updates the page even if it can't update the plugins" do
       params = {
-        plugins_thermometer: { offset: -100, id: thermo_plugin.id, name: thermo_plugin.name },
+        plugins_actions_thermometer: { offset: -100, id: thermo_plugin.id, name: thermo_plugin.name },
         page: { content: 'cold comfort for change' }
       }
       expect(pupdater.update(params)).to eq false
@@ -155,12 +157,12 @@ describe PageUpdater do
     end
 
     it 'raises ActiveRecord::RecordNotFound if missing plugin name' do
-      params = { plugins_thermometer: { offset: 100, id: thermo_plugin.id } }
+      params = { plugins_actions_thermometer: { offset: 100, id: thermo_plugin.id } }
       expect { pupdater.update(params) }.to raise_error ActiveRecord::RecordNotFound
     end
 
     it 'raises ActiveRecord::RecordNotFound if missing plugin id' do
-      params = { plugins_thermometer: { offset: 100, name: thermo_plugin.name } }
+      params = { plugins_actions_thermometer: { offset: 100, name: thermo_plugin.name } }
       expect { pupdater.update(params) }.to raise_error ActiveRecord::RecordNotFound
     end
 
@@ -253,7 +255,7 @@ describe PageUpdater do
   describe 'errors' do
     it 'returns errors nested by page' do
       params = {
-        plugins_thermometer: {
+        plugins_actions_thermometer: {
           offset: 1492,
           id: thermo_plugin.id,
           name: thermo_plugin.name
@@ -269,7 +271,7 @@ describe PageUpdater do
 
     it 'returns errors nested by plugin' do
       params = {
-        plugins_thermometer: {
+        plugins_actions_thermometer: {
           offset: -149,
           id: thermo_plugin.id,
           name: thermo_plugin.name
@@ -280,7 +282,7 @@ describe PageUpdater do
         }
       }
       expect(pupdater.update(params)).to eq false
-      expect(pupdater.errors).to eq(plugins_thermometer: { offset: 'must be greater than or equal to 0' })
+      expect(pupdater.errors).to eq(plugins_actions_thermometer: { offset: 'must be greater than or equal to 0' })
     end
   end
 

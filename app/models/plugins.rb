@@ -2,6 +2,18 @@
 
 module Plugins
   class << self
+    def registered
+      [Plugins::Petition,
+       Plugins::ActionsThermometer,
+       Plugins::DonationsThermometer,
+       Plugins::Fundraiser,
+       Plugins::Survey,
+       Plugins::Text,
+       Plugins::CallTool,
+       Plugins::EmailTool,
+       Plugins::EmailPension]
+    end
+
     def table_name_prefix
       'plugins_'
     end
@@ -20,17 +32,6 @@ module Plugins
       plugin.active = true
       plugin.ref = ref if ref.present?
       plugin.save!
-    end
-
-    def registered
-      [Plugins::Petition,
-       Plugins::Thermometer,
-       Plugins::Fundraiser,
-       Plugins::Survey,
-       Plugins::Text,
-       Plugins::CallTool,
-       Plugins::EmailTool,
-       Plugins::EmailPension]
     end
 
     def translate_defaults(defaults, locale)
@@ -55,7 +56,7 @@ module Plugins
     end
 
     def names
-      registered.map { |plugin| plugin.to_s.underscore.split('/').last }
+      registered.map { |plugin| plugin.name.demodulize.underscore }
     end
 
     def find_for(plugin_class, plugin_id)

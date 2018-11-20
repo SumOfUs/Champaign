@@ -92,7 +92,7 @@ class Page < ApplicationRecord
   end
 
   def plugin_names
-    plugins.map { |plugin| plugin.model_name.name.split('::')[1].downcase }
+    plugins.map { |plugin| plugin.name.demodulize.underscore }
   end
 
   def tag_names

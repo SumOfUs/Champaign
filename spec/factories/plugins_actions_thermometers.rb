@@ -15,15 +15,11 @@
 #
 
 FactoryGirl.define do
-  factory :plugins_thermometer, class: 'Plugins::Thermometer' do
+  factory :plugins_actions_thermometer, class: 'Plugins::Thermometer' do
     title 'MyString'
     type 'ActionsThermometer'
     offset 1
     page nil
     active false
-
-    trait :donations_thermometer do
-      type 'DonationsThermometer'
-    end
   end
 end

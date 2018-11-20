@@ -8,6 +8,6 @@
         = page_nav_item(plugin_title(plugin), path)
 
   .col-md-10
-    = render partial: "#{@plugin.class.to_s.underscore.pluralize}/form", locals: { plugin: @plugin, page: @page }
+    = render partial: "#{@plugin.class.name.underscore.pluralize}/form", locals: { plugin: @plugin, page: @page }
 
 
