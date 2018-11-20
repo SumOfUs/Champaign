@@ -8,13 +8,9 @@ import I18n from 'champaign-i18n';
 import { replaceInterpolations } from './locales/helpers';
 import IntlMessageFormat from 'intl-messageformat';
 
-if (!window.I18n.flat) {
-  window.I18n.flat = mapValues(I18n.translations, tree =>
-    mapValues(flatten(tree), replaceInterpolations)
-  );
-}
-
-const translations = window.I18n.flat;
+const translations = mapValues(I18n.translations, tree =>
+  mapValues(flatten(tree), replaceInterpolations)
+);
 
 export default function loadTranslations(locale: string) {
   if (!translations[locale]) {
