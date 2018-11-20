@@ -90,7 +90,7 @@ es:
     recurring_thank_you_with_amount: "<strong>Thank you for your recurring donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
 
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
-    unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
+    unknown_error: Nuestro equipo técnico ha sido notificado. Por favor revise su información o pruebe con un método de pago diferente.
     fine_print: "Donations are not tax deductable. For more information please email us." # override this with org-specific details in your own yml file.
     confirmation: Donation received
     donate_now: Donate now

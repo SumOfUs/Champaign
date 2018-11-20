@@ -162,7 +162,7 @@ module PaymentProcessor
         describe "with language as #{locale}" do
           let(:messages) do
             {
-              es: 'Nuestro equipo técnico ha sido notificado de este problema.',
+              es: 'Nuestro equipo técnico ha sido notificado. Por favor revise su información o pruebe con un método de pago diferente.',
               fr: 'Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.',
               de: 'Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.'
             }
