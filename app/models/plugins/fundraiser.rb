@@ -50,5 +50,6 @@ class Plugins::Fundraiser < ApplicationRecord
   end
 
   def create_donations_thermometer
+    Plugins::DonationsThermometer.create!(page: page)
   end
 end
