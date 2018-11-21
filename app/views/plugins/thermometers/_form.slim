@@ -1,7 +1,7 @@
 .col-md-7
   = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_thermometer_path(plugin) }
 
-  - name = "plugins_actions_thermometer_#{plugin.id}"
+  - name = "plugins_thermometer_#{plugin.id}"
   = form_for plugin, url: plugins_thermometer_path(plugin), remote: true, as: name, html: {class: 'plugin-settings one-form', data: {type: name }} do |f|
     = render "shared/error_messages", target: plugin
     = render "shared/success_message", success: (defined?(success) || false)
