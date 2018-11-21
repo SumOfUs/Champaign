@@ -43,6 +43,7 @@ class LiquidRenderer
       outstanding_fields: outstanding_fields,
       donation_bands: donation_bands,
       actions_thermometer: actions_thermometer,
+      donations_thermometer: donations_thermometer,
       call_tool: call_tool_data,
       email_tool: email_tool_data,
       email_pension: email_pension_data,
@@ -118,8 +119,12 @@ class LiquidRenderer
   end
 
   def actions_thermometer
-    data = plugin_data.deep_symbolize_keys[:plugins][:actions_thermometer].try(:values).try(:first)
-    pp 'Actions thermometer data:', data
+    plugin_data.deep_symbolize_keys[:plugins][:actions_thermometer].try(:values).try(:first)
+  end
+
+  def donations_thermometer
+    data = plugin_data.deep_symbolize_keys[:plugins][:donations_thermometer].try(:values).try(:first)
+    pp 'Donations thermometer data: ', data
     data
   end
 
