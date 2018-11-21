@@ -15,8 +15,13 @@ module BraintreeServices
 
     private
 
+    def status
+      %(settled settling submitted_for_settlement).include?(transaction.status) ? :success : :failure
+    end
+
     def attributes
       {
+        status:                          status,
         amount:                          transaction.amount,
         currency:                        transaction.currency_iso_code,
         transaction_id:                  transaction.id,
