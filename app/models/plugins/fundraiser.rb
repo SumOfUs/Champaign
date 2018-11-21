@@ -25,6 +25,8 @@ class Plugins::Fundraiser < ApplicationRecord
   belongs_to :page, touch: true
   belongs_to :donation_band
 
+  after_create :create_donations_thermometer
+
   DEFAULTS = { title: 'fundraiser.donate_now' }.freeze
 
   def liquid_data(supplemental_data = {})
@@ -45,5 +47,8 @@ class Plugins::Fundraiser < ApplicationRecord
   def self.donation_default_for_page(page_id)
     plugin = Plugins::Fundraiser.find_by(page_id: page_id)
     plugin ? plugin.recurring? : false
+  end
+
+  def create_donations_thermometer
   end
 end

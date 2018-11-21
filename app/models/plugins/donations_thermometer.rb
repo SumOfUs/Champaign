@@ -18,38 +18,37 @@
 class Plugins::DonationsThermometer < Plugins::Thermometer
   belongs_to :page, touch: true
 
-  def current_total
-    Money.from_amount(offset, Settings.default_currency) + total_donations
-  end
-
   def current_progress
+    return 0 if fundraising_goal.zero?
     total_donations / fundraising_goal * 100
   end
 
   def liquid_data(_supplemental_data = {})
     attributes.merge(
       percentage: current_progress,
-      remaining: ActionController::Base.helpers.number_with_delimiter(fundraising_goal - current_total),
-      total_donations: ActionController::Base.helpers.number_with_delimiter(current_total),
-      goal_k: abbreviate_number(fundraising_goal)
+      remaining_amounts: currencies_hash(fundraising_goal - current_total),
+      total_donations: currencies_hash(current_total),
+      goals: currencies_hash(fundraising_goal)
     )
   end
 
   private
 
+  def currencies_hash(amount)
+    # Get a hash with amount converted into all supported currencies.
+    # Transform values from arrays of amounts to single amounts (e.g. GBP: [10] to GBP: 10)
+    Donations::Currencies.for([amount]).to_hash.with_indifferent_access.transform_values(&:pop)
+  end
+
   def fundraising_goal
-    if page.campaign.blank?
-      page.fundraising_goal
-    else
-      page.campaign.fundraising_goal
-    end
+    page.campaign.blank? ? page.fundraising_goal : page.campaign.fundraising_goal
   end
 
   def total_donations
-    if page.campaign.blank?
-      page.total_donations
-    else
-      page.campaign.total_donations
-    end
+    page.campaign.blank? ? page.total_donations : page.campaign.total_donations
+  end
+
+  def current_total
+    offset + total_donations
   end
 end
