@@ -37,6 +37,10 @@ describe Plugins::Fundraiser do
     expect(Plugins.registered).to include(Plugins::Fundraiser)
   end
 
+  it 'creates a fundraising thermometer when created' do
+    expect { create :plugins_fundraiser }.to change { Plugins::DonationsThermometer.count }.from(0).to(1)
+  end
+
   it 'serializes the currency band' do
     allow(PaymentProcessor::Currency).to receive(:convert)
     band = create :donation_band
