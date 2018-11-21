@@ -60,7 +60,6 @@ module Plugins
     end
 
     def find_for(plugin_class, plugin_id)
-      pp 'PLUGIN CLASS:', plugin_class.camelize
       Plugins.const_get(plugin_class.camelize).find(plugin_id)
     end
   end

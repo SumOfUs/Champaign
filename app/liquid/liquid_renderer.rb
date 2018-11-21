@@ -123,9 +123,7 @@ class LiquidRenderer
   end
 
   def donations_thermometer
-    data = plugin_data.deep_symbolize_keys[:plugins][:donations_thermometer].try(:values).try(:first)
-    pp 'Donations thermometer data: ', data
-    data
+    plugin_data.deep_symbolize_keys[:plugins][:donations_thermometer].try(:values).try(:first)
   end
 
   def call_tool_data

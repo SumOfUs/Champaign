@@ -163,6 +163,7 @@ describe LiquidRenderer do
         member
         donation_bands
         actions_thermometer
+        donations_thermometer
         action_count
         payment_methods
         form_values
@@ -383,7 +384,6 @@ describe LiquidRenderer do
         t1 = create :plugins_actions_thermometer, page: page, ref: 'secondary'
         create :plugins_actions_thermometer, page: page
         expect(page.plugins.size).to eq 2
-        t1.current_progress # allow goal to update
         expected = t1.liquid_data.stringify_keys
         actual = LiquidRenderer.new(page).personalization_data['actions_thermometer']
         # disagreement over timestamps is not what this test is about
@@ -391,20 +391,19 @@ describe LiquidRenderer do
           h.delete('updated_at')
           h.delete('created_at')
         end
-        expect(actual).to eq expected
+        expect(actual).to match expected
       end
     end
 
     describe 'donations_thermometer' do
       it 'is nil if no donations thermometer plugin' do
-        create :plugins_fundraiser, :donations_thermometer, page: page
+        create :plugins_fundraiser, page: page
         expect(page.plugins.size).to eq 1
         expect(LiquidRenderer.new(page).personalization_data['donations_thermometer']).to eq nil
       end
 
-      it "is serializes the actions thermometer plugin's data" do
-        t1 = create :plugins_thermometer, :donations_thermometer, page: page
-        t1.current_progress # allow goal to update
+      it "is serializes the donations thermometer plugin's data" do
+        t1 = create :plugins_donations_thermometer, page: page
         expected = t1.liquid_data.stringify_keys
         actual = LiquidRenderer.new(page).personalization_data['donations_thermometer']
         # disagreement over timestamps is not what this test is about
@@ -412,14 +411,13 @@ describe LiquidRenderer do
           h.delete('updated_at')
           h.delete('created_at')
         end
-        expect(actual).to eq expected
+        expect(actual).to match expected
       end
 
-      it 'is uses the first if multiple actions thermometer plugins' do
-        t1 = create :plugins_thermometer, :donations_thermometer, page: page, ref: 'secondary'
-        create :plugins_thermometer, :donations_thermometer, page: page
+      it 'is uses the first if multiple donations thermometer plugins' do
+        t1 = create :plugins_donations_thermometer, page: page, ref: 'secondary'
+        create :plugins_donations_thermometer, page: page
         expect(page.plugins.size).to eq 2
-        t1.current_progress # allow goal to update
         expected = t1.liquid_data.stringify_keys
         actual = LiquidRenderer.new(page).personalization_data['donations_thermometer']
         # disagreement over timestamps is not what this test is about
@@ -427,7 +425,7 @@ describe LiquidRenderer do
           h.delete('updated_at')
           h.delete('created_at')
         end
-        expect(actual).to eq expected
+        expect(actual).to match expected
       end
     end
 
