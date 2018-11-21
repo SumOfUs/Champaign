@@ -395,6 +395,42 @@ describe LiquidRenderer do
       end
     end
 
+    describe 'donations_thermometer' do
+      it 'is nil if no donations thermometer plugin' do
+        create :plugins_fundraiser, :donations_thermometer, page: page
+        expect(page.plugins.size).to eq 1
+        expect(LiquidRenderer.new(page).personalization_data['donations_thermometer']).to eq nil
+      end
+
+      it "is serializes the actions thermometer plugin's data" do
+        t1 = create :plugins_thermometer, :donations_thermometer, page: page
+        t1.current_progress # allow goal to update
+        expected = t1.liquid_data.stringify_keys
+        actual = LiquidRenderer.new(page).personalization_data['donations_thermometer']
+        # disagreement over timestamps is not what this test is about
+        [expected, actual].each do |h|
+          h.delete('updated_at')
+          h.delete('created_at')
+        end
+        expect(actual).to eq expected
+      end
+
+      it 'is uses the first if multiple actions thermometer plugins' do
+        t1 = create :plugins_thermometer, :donations_thermometer, page: page, ref: 'secondary'
+        create :plugins_thermometer, :donations_thermometer, page: page
+        expect(page.plugins.size).to eq 2
+        t1.current_progress # allow goal to update
+        expected = t1.liquid_data.stringify_keys
+        actual = LiquidRenderer.new(page).personalization_data['donations_thermometer']
+        # disagreement over timestamps is not what this test is about
+        [expected, actual].each do |h|
+          h.delete('updated_at')
+          h.delete('created_at')
+        end
+        expect(actual).to eq expected
+      end
+    end
+
     describe 'action_count' do
       it 'serializes page.action_count' do
         page.action_count = 1337

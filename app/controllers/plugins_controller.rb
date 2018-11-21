@@ -13,7 +13,6 @@ class PluginsController < ApplicationController
   end
 
   def show
-    pp 'PARAMS:', params
     @plugin = Plugins.find_for(params[:type], params[:id])
   end
 

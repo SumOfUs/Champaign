@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This controller is only used for ActionsThermometers.
 class Plugins::ThermometersController < Plugins::BaseController
   private
 
