@@ -2,7 +2,6 @@
 // @flow
 import type { Store } from 'redux';
 import type { AppState } from './state/reducers';
-import type { I18nDict } from 'champaign-i18n';
 
 export type ChampaignMember =
   | {

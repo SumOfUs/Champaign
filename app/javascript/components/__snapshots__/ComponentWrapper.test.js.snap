@@ -85,7 +85,6 @@ exports[`Snapshots: With default messages object 1`] = `
       "email_tool.form.select_target": "Select a target",
       "email_tool.form.send_email": "Send email",
       "email_tool.form.subject": "Subject line",
-      "email_tool.form.target_selection": null,
       "email_tool.form.your_email": "Your email address",
       "email_tool.form.your_name": "Your name",
       "email_tool.section.compose": "Compose Your Email",

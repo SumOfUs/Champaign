@@ -14,7 +14,7 @@
  */
 
 declare module 'flat' {
-  declare type FlatObject = {
+  declare export type FlatObject = {
     [key: string]: boolean | string | number | void | Function | Array<boolean | string | number | void | Function>
   };
 

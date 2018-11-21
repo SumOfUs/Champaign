@@ -27,7 +27,6 @@ es:
     section:
       compose: "Compose Your Email"
     form:
-      target_selection:
       representative:
         postal_code: 'Enter your postal code'
         selected_targets: 'Representatives'

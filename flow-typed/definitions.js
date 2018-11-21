@@ -19,15 +19,12 @@ declare type WebpackModuleHot = {
 declare var module: WebpackModule;
 
 declare module 'champaign-i18n' {
-  declare export type I18nDict = { [key: string]: I18nDictValue };
-  declare export type I18nDictValue = I18nDict | string;
-  declare export type I18nFlatDict = { [string]: string };
   declare export type locale= string;
-  declare export var translations: { [lang: string]: I18nDict };
+  declare export var translations: Object;
   declare export function t(string, options?: { [string]: string }): string;
   declare export default {
     locale: string;
-    translations: { [lang: string]: I18nDict };
+    translations: Object;
     t(string, options?: { [string]: string }): string;
     lookup(scope: string, options: any): ?string;
   }
