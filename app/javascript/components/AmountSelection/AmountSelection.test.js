@@ -1,9 +1,11 @@
 // @flow
 import React from 'react';
+import { Provider } from 'react-redux';
 import {
   shallowWithIntl,
   mountWithIntl,
 } from '../../../../spec/jest/intl-enzyme-test-helpers';
+import { store } from '../../../../spec/jest/mockReduxStore';
 import AmountSelection from './AmountSelection';
 import type { Props } from './AmountSelection';
 
@@ -20,12 +22,20 @@ const defaultProps: Props = {
 };
 
 it('renders', () => {
-  const component = mountWithIntl(<AmountSelection {...defaultProps} />);
+  const component = mountWithIntl(
+    <Provider store={store}>
+      <AmountSelection {...defaultProps} />
+    </Provider>
+  );
   expect(component.html()).toBeTruthy();
 });
 
 describe('Donation bands', () => {
-  const component = mountWithIntl(<AmountSelection {...defaultProps} />);
+  const component = mountWithIntl(
+    <Provider store={store}>
+      <AmountSelection {...defaultProps} />
+    </Provider>
+  );
 
   it('shows the donation band passed as an argument', () => {
     const firstButton = component
@@ -60,7 +70,11 @@ describe('Donation bands', () => {
 });
 
 describe('Changing currency', () => {
-  const component = mountWithIntl(<AmountSelection {...defaultProps} />);
+  const component = mountWithIntl(
+    <Provider store={store}>
+      <AmountSelection {...defaultProps} />
+    </Provider>
+  );
 
   it('does not show the currency menu by default', () => {
     expect(component.find('.AmountSelection__currency-selector').length).toBe(

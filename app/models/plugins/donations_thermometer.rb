@@ -37,7 +37,7 @@ class Plugins::DonationsThermometer < Plugins::Thermometer
   def currencies_hash(amount)
     # Get a hash with amount converted into all supported currencies.
     # Transform values from arrays of amounts to single amounts (e.g. GBP: [10] to GBP: 10)
-    Donations::Currencies.for([amount]).to_hash.with_indifferent_access.transform_values(&:pop).transform_values(&:to_d)
+    ::Donations::Currencies.for([amount]).to_hash.map { |k, v| [k, ::Donations::Utils.round(v).first] }.to_h
   end
 
   def fundraising_goal
