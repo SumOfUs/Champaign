@@ -216,7 +216,9 @@ describe 'api/pages' do
     context 'single page campaign' do
       it 'returns the total amount of donations for the campaign of the page converted into the desired currency' do
         get "/api/pages/#{page.id}/total_donations", params: { currency: 'USD' }
-        expect(json_hash).to match('total_donations' => '142326.00', 'fundraising_goal' => '0.00')
+        expect(json_hash).to match(
+          hash_including('total_donations' => '142326.00', 'fundraising_goal' => '0.00')
+        )
       end
     end
 
@@ -230,7 +232,9 @@ describe 'api/pages' do
         allow(FundingCounter).to receive(:convert).with(donation_args).and_return(Money.from_amount(148_159.20, 'EUR'))
         allow(FundingCounter).to receive(:convert).with(goal_args).and_return(Money.from_amount(162_521.20, 'EUR'))
         get "/api/pages/#{page.id}/total_donations", params: { currency: 'EUR' }
-        expect(json_hash).to match('total_donations' => '148159.20', 'fundraising_goal' => '162521.20')
+        expect(json_hash).to match(
+          hash_including('total_donations' => '148159.20', 'fundraising_goal' => '162521.20')
+        )
       end
     end
   end
