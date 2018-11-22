@@ -220,6 +220,7 @@ describe LiquidRenderer do
       end
 
       before :each do
+        allow_any_instance_of(Plugins::DonationsThermometer).to receive(:liquid_data).and_return({})
         allow(PaymentProcessor::Currency).to receive(:convert)
       end
 
