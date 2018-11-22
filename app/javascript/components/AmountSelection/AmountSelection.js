@@ -75,7 +75,7 @@ export default class AmountSelection extends React.Component<Props, State> {
   render() {
     return (
       <div className="AmountSelection-container section">
-        <Thermometer donations={1000} goal={600000} currencyCode={'USD'} />
+        <Thermometer />
         <DonationBands
           ref="donationBands"
           amounts={this.props.donationBands[this.props.currency]}

@@ -57,12 +57,23 @@ export type ChampaignPage = {
   follow_up_liquid_layout_id?: number,
 };
 
+type DonationsThermometer =
+  | {}
+  | {
+      active: boolean,
+      goals: { [currency: string]: number },
+      offset: number,
+      remaining_amounts: { [currency: string]: number },
+      title: string,
+      total_donations: { [currency: string]: number },
+    };
 export type ChampaignPersonalizationData = {
   locale: string,
   location: ChampaignLocation,
   member: ChampaignMember,
   paymentMethods: any[],
   urlParams: { [key: string]: string },
+  donationsThermometer: DonationsThermometer,
 };
 
 export type ChampaignGlobalObject = {
