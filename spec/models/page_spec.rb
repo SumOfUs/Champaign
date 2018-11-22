@@ -448,8 +448,8 @@ describe Page do
   describe 'plugins' do
     it 'correctly lists the names of plugins' do
       page = create :page
-      [create(:plugins_petition, page: page), create(:plugins_fundraiser, page: page), create(:plugins_actions_thermometer, page: page)]
-      plugin_names = %w[petition fundraiser actions_thermometer]
+      [create(:plugins_petition, page: page), create(:call_tool, page: page), create(:plugins_actions_thermometer, page: page)]
+      plugin_names = %w[petition call_tool actions_thermometer]
       expect(page.plugin_names).to match_array(plugin_names)
     end
   end

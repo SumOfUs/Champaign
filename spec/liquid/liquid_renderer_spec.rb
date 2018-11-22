@@ -362,7 +362,7 @@ describe LiquidRenderer do
       end
 
       it 'is nil if no actions thermometer plugin' do
-        create :plugins_fundraiser, page: page
+        create :call_tool, page: page
         expect(page.plugins.size).to eq 1
         expect(LiquidRenderer.new(page).personalization_data['actions_thermometer']).to eq nil
       end
@@ -397,7 +397,7 @@ describe LiquidRenderer do
 
     describe 'donations_thermometer' do
       it 'is nil if no donations thermometer plugin' do
-        create :plugins_fundraiser, page: page
+        create :call_tool, page: page
         expect(page.plugins.size).to eq 1
         expect(LiquidRenderer.new(page).personalization_data['donations_thermometer']).to eq nil
       end
