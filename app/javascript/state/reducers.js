@@ -6,7 +6,7 @@ import paymentMethods from './paymentMethods/reducer';
 import page from './page/reducer';
 import consent from './consent';
 import features from './features';
-import fundraisingThermometer from './thermometer';
+import donationsThermometer from './thermometer';
 import extraActionFields from './extraActionFields';
 import { reducer as emailTarget } from './email_pension/actions';
 
@@ -17,7 +17,7 @@ import type { PaymentMethod } from './paymentMethods/reducer';
 import type { State as ExtraActionFieldsState } from './extraActionFields';
 import type { State as FeaturesState } from './features';
 import type { ChampaignPage, ChampaignGlobalObject } from '../types';
-import type { State as FundraisingThermometerState } from './thermometer';
+import type { State as donationsThermometerState } from './thermometer';
 
 const reducers = {
   consent,
@@ -28,7 +28,7 @@ const reducers = {
   member,
   page,
   paymentMethods,
-  fundraisingThermometer,
+  donationsThermometer,
 };
 
 // type ReturnTypes = <V>((...args: any[]) => V) => V;
@@ -41,7 +41,7 @@ export type AppState = {
   +member: Member,
   +page: ChampaignPage,
   +paymentMethods: PaymentMethod[],
-  +fundraisingThermometer: FundraisingThermometerState,
+  +donationsThermometer: donationsThermometerState,
 };
 
 export default combineReducers(reducers);
