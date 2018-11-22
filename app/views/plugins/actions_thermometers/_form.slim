@@ -1,4 +1,6 @@
 .col-md-7
+  // There's a single ThermometersController that handles both actions and donations thermometers, so use the
+  // generic plugins_thermometer_path for the toggle.
   = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_thermometer_path(plugin) }
 
   - name = "plugins_actions_thermometer_#{plugin.id}"
