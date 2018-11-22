@@ -503,7 +503,7 @@ const mapStateToProps = (state: AppState) => ({
     : state.fundraiser.currentPaymentType,
   fundraiser: state.fundraiser,
   paymentMethods: state.paymentMethods,
-  paymentMethodss: state.fundraisingThermometer,
+  paymentMethodss: state.donationsThermometer,
   member: state.member,
   hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
   formData: {

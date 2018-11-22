@@ -19,7 +19,7 @@ export class Thermometer {
   }
 
   attrs() {
-    return this.store.getState().fundraisingThermometer;
+    return this.store.getState().donationsThermometer;
   }
 
   update(attrs: $Shape<State>) {
@@ -30,12 +30,3 @@ export class Thermometer {
     this.store.dispatch(increment(donation));
   }
 }
-
-const myThermometer = new Thermometer({
-  store: window.champaign.store,
-  attrs: {
-    donations: 0,
-    goal: 100,
-    currencyCode: 'GBP',
-  },
-});
