@@ -61,15 +61,26 @@ class Api::PagesController < ApplicationController
   def total_donations
     @page = Page.find(params[:page_id])
     if @page.campaign.blank?
-      @amount = @page.total_donations
-      @goal = @page.fundraising_goal
+      amount = @page.total_donations
+      goal = @page.fundraising_goal
     else
-      @amount = @page.campaign.donations_count
-      @goal = @page.campaign.fundraising_goal
+      amount = @page.campaign.donations_count
+      goal = @page.campaign.fundraising_goal
     end
-    total_donations = FundingCounter.convert(currency: params[:currency], amount: @amount)
-    fundraisingg_goal = FundingCounter.convert(currency: params[:currency], amount: @goal)
-    render json: { total_donations: total_donations.to_s, fundraising_goal: fundraisingg_goal.to_s }
+
+    total_donations = FundingCounter.convert(currency: params[:currency], amount: amount)
+    fundraising_goal = FundingCounter.convert(currency: params[:currency], amount: goal)
+
+    subscriptions_count = Rails.cache.fetch("funding_counters/#{@page.id}/total_recurring", expires_in: 10.seconds) do
+      (@page.campaign || @page).subscriptions_count
+    end
+
+    render json: {
+      total_donations: total_donations.to_s,
+      fundraising_goal: fundraising_goal.to_s,
+      recurring_donations: subscriptions_count,
+      recurring_donations_goal: 100 # recurring_donations_goal
+    }
   end
 
   private
