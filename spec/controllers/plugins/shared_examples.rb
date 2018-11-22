@@ -13,13 +13,13 @@ shared_examples 'plugins controller' do |plugin_class, plugin_name|
 
     describe 'successful' do
       before do
-        allow(plugin_class).to receive(:find).with('1') { plugin }
+        allow(plugin_class.base_class).to receive(:find).with('1') { plugin }
         allow(plugin).to receive(:update) { true }
         put :update, params: { id: '1', plugin_name => { title: 'bar' }, format: :js }
       end
 
       it 'finds the plugin' do
-        expect(plugin_class).to have_received(:find).with('1')
+        expect(plugin_class.base_class).to have_received(:find).with('1')
       end
 
       it 'updates the plugin' do
@@ -40,7 +40,7 @@ shared_examples 'plugins controller' do |plugin_class, plugin_name|
 
     describe 'failure' do
       before do
-        allow(plugin_class).to receive(:find).with('1') { plugin }
+        allow(plugin_class.base_class).to receive(:find).with('1') { plugin }
         allow(plugin).to receive(:update) { false }
         allow(plugin).to receive(:errors) { {} }
         put :update, params: { id: '1', plugin_name => { title: 'bar' }, format: :js }

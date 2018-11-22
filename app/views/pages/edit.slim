@@ -15,7 +15,7 @@ section.page-edit-step#layout data-icon='cog'
   - next if low_priority_plugins.include? plugin.class
   section.page-edit-step id=plugin_section_id(plugin) data-icon=plugin_icon(plugin)
     h1.page-edit-step__title= plugin_title(plugin)
-    = render "#{plugin.class.base_class.name.underscore.pluralize}/form", plugin: plugin, page: @page
+    = render "#{plugin.class.name.underscore.pluralize}/form", plugin: plugin, page: @page
 
 section.page-edit-step#pictures data-icon='camera-retro'
   h1.page-edit-step__title = t('.pictures')
@@ -33,7 +33,7 @@ section.page-edit-step#sources data-icon='link'
   - next unless low_priority_plugins.include? plugin.class
   section.page-edit-step id=plugin_section_id(plugin) data-icon=plugin_icon(plugin)
     h1.page-edit-step__title= plugin_title(plugin)
-    = render "#{plugin.class.base_class.name.underscore.pluralize}/form", plugin: plugin, page: @page
+    = render "#{plugin.class.name.underscore.pluralize}/form", plugin: plugin, page: @page
 
 section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-link-to=member_facing_page_url(@page)
   h1.page-edit-step__title
