@@ -9,6 +9,12 @@ describe LiquidRenderer do
   let(:renderer)      { LiquidRenderer.new(page) }
   let(:cache_helper)  { double(:cache_helper, key_for_data: 'foo', key_for_markup: 'bar') }
 
+  around(:each) do |example|
+    VCR.use_cassette('money_from_oxr') do
+      example.run
+    end
+  end
+
   describe 'new' do
     it 'receives the correct arguments' do
       expect do
@@ -405,7 +411,7 @@ describe LiquidRenderer do
 
       it "is serializes the donations thermometer plugin's data" do
         t1 = create :plugins_donations_thermometer, page: page
-        expected = t1.liquid_data.stringify_keys
+        expected = t1.liquid_data.deep_stringify_keys
         actual = LiquidRenderer.new(page).personalization_data['donations_thermometer']
         # disagreement over timestamps is not what this test is about
         [expected, actual].each do |h|
@@ -419,7 +425,7 @@ describe LiquidRenderer do
         t1 = create :plugins_donations_thermometer, page: page, ref: 'secondary'
         create :plugins_donations_thermometer, page: page
         expect(page.plugins.size).to eq 2
-        expected = t1.liquid_data.stringify_keys
+        expected = t1.liquid_data.deep_stringify_keys
         actual = LiquidRenderer.new(page).personalization_data['donations_thermometer']
         # disagreement over timestamps is not what this test is about
         [expected, actual].each do |h|
