@@ -227,7 +227,7 @@ describe 'api/pages' do
       let!(:page3) { create(:page, total_donations: 30_000, campaign: campaign, fundraising_goal: 100_000) }
 
       it 'returns the total amount of donations and the donations goal for the campaign of the page' do
-        donation_args = { amount: campaign.donations_count, currency: 'EUR' }
+        donation_args = { amount: campaign.total_donations, currency: 'EUR' }
         goal_args = { amount: campaign.fundraising_goal, currency: 'EUR' }
         allow(FundingCounter).to receive(:convert).with(donation_args).and_return(Money.from_amount(148_159.20, 'EUR'))
         allow(FundingCounter).to receive(:convert).with(goal_args).and_return(Money.from_amount(162_521.20, 'EUR'))

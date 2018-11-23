@@ -32,7 +32,7 @@ describe Campaign do
     let!(:page_b) { create(:page, campaign: campaign, total_donations: 1000) }
 
     it 'returns sum of counts from associated pages' do
-      expect(campaign.donations_count).to eq(1500)
+      expect(campaign.total_donations).to eq(1500)
     end
   end
 
