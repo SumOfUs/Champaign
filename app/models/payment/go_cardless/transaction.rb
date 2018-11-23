@@ -94,6 +94,6 @@ class Payment::GoCardless::Transaction < ApplicationRecord
   end
 
   def increment_funding_counter
-    FundingCounter.update(page: page, currency: currency, amount: amount)
+    FundingCounter.update(page: page, currency: currency, amount: amount * 100)
   end
 end

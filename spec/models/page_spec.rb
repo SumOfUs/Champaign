@@ -542,6 +542,8 @@ describe Page do
     let!(:page_with_donations) { create :page, total_donations: 1010 }
 
     it 'increments the total donations counter' do
+      # FIXME: Figure out how to make this work. The `Money` gem is changing
+      # amounts to cents here.
       FactoryBot.create(:payment_braintree_transaction, page: page_with_donations, amount: 10, currency: 'USD')
       expect(page_with_donations.reload.total_donations.to_s).to eq '1020.0'
     end
