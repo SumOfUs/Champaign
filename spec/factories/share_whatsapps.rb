@@ -15,10 +15,10 @@
 
 FactoryBot.define do
   factory :share_whatsapp, class: 'Share::Whatsapp' do
-    page nil
-    text 'MyMessage {LINK}'
-    button_id 1
-    click_count 0
-    conversion_count 0
+    page { nil }
+    text { 'MyMessage {LINK}' }
+    button_id { 1 }
+    click_count { 0 }
+    conversion_count { 0 }
   end
 end

@@ -19,8 +19,8 @@
 FactoryBot.define do
   factory :form do
     name { Faker::Name.name }
-    description 'A description'
-    master false
+    description { 'A description' }
+    master { false }
 
     factory :form_with_email do
       after(:create) do |form, _evaluator|

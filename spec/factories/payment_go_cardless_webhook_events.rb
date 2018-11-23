@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_go_cardless_webhook_events
@@ -15,8 +16,8 @@
 
 FactoryBot.define do
   factory :payment_go_cardless_webhook_event, class: 'Payment::GoCardless::WebhookEvent' do
-    event_id 'MyString'
-    resource_type 'MyString'
-    action 'MyString'
+    event_id { 'MyString' }
+    resource_type { 'MyString' }
+    action { 'MyString' }
   end
 end

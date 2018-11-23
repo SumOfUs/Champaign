@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_emails
@@ -15,10 +16,10 @@
 
 FactoryBot.define do
   factory :share_email, class: 'Share::Email' do
-    subject 'MyString'
-    body 'MyText {LINK}'
-    page nil
-    sp_id ''
-    button_id 1
+    subject { 'MyString' }
+    body { 'MyText {LINK}' }
+    page { nil }
+    sp_id { '' }
+    button_id { 1 }
   end
 end

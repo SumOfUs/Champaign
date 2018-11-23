@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_go_cardless_payment_methods
@@ -18,7 +19,7 @@
 FactoryBot.define do
   factory :payment_go_cardless_payment_method, class: 'Payment::GoCardless::PaymentMethod' do
     go_cardless_id { "MD#{Faker::Number.number(6)}" }
-    scheme { %w(bacs sepa_core).sample }
-    cancelled_at nil
+    scheme { %w[bacs sepa_core].sample }
+    cancelled_at { nil }
   end
 end

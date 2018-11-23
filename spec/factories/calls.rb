@@ -28,28 +28,28 @@ FactoryBot.define do
 
     trait :with_busy_target_status do
       connected
-      target_call_info('DialCallStatus' => 'busy')
+      target_call_info { { 'DialCallStatus' => 'busy' } }
     end
 
     trait :with_completed_target_status do
       connected
-      target_call_info('DialCallStatus' => 'completed')
+      target_call_info { { 'DialCallStatus' => 'completed' } }
     end
 
     trait :unstarted do
-      status :unstarted
+      status { :unstarted }
     end
 
     trait :started do
-      status :started
+      status { :started }
     end
 
     trait :connected do
-      status :connected
+      status { :connected }
     end
 
     trait :failed do
-      status :failed
+      status { :failed }
     end
   end
 end

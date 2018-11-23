@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: languages
@@ -13,25 +14,25 @@
 
 FactoryBot.define do
   factory :language do
-    code 'en'
-    name 'English'
-    actionkit_uri '/rest/v1/language/102/'
+    code { 'en' }
+    name { 'English' }
+    actionkit_uri { '/rest/v1/language/102/' }
 
     trait :english
 
     trait :french do
-      code 'fr'
-      name 'French'
+      code { 'fr' }
+      name { 'French' }
     end
 
     trait :spanish do
-      code 'es'
-      name 'Spanish'
+      code { 'es' }
+      name { 'Spanish' }
     end
 
     trait :german do
-      code 'de'
-      name 'German'
+      code { 'de' }
+      name { 'German' }
     end
   end
 end

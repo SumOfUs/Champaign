@@ -10,12 +10,12 @@ FactoryBot.define do
   factory :user do
     email { Faker::Internet.email }
     password { Faker::Internet.password }
-    admin false
+    admin { false }
   end
 
   factory :admin, class: :user do
     email
     password { Faker::Internet.password }
-    admin true
+    admin { true }
   end
 end
