@@ -1,10 +1,11 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { isEmpty, min } from 'lodash';
 import CurrencyAmount from './CurrencyAmount';
-import './Thermometer.css';
 import type { AppState } from '../state/reducers';
+import './Thermometer.scss';
 
 type Props =
   | {}
@@ -24,6 +25,14 @@ export function Thermometer(props: Props) {
 
   // Prevent overflow when donations > goal.
   const donations = min([props.donations, props.goal]);
+  const remaining = props.goal - donations;
+
+  const $remaining = (
+    <CurrencyAmount amount={remaining} currency={props.currency} />
+  );
+  const $goal = (
+    <CurrencyAmount amount={props.goal} currency={props.currency} />
+  );
 
   return (
     <div className="Thermometer">
@@ -33,7 +42,15 @@ export function Thermometer(props: Props) {
           <CurrencyAmount amount={donations} currency={props.currency} />
         </div>
         <div className="Thermometer-goal">
-          <CurrencyAmount amount={props.goal} currency={props.currency} />
+          {remaining > 0 ? (
+            <FormattedMessage
+              id="fundraiser.thermometer.remaining"
+              defaultMessage="{remaining} until {goal}"
+              values={{ remaining: $remaining, goal: $goal }}
+            />
+          ) : (
+            $goal
+          )}
         </div>
       </div>
       <div className="Thermometer-bg">
