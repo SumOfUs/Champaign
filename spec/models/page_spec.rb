@@ -542,14 +542,18 @@ describe Page do
     let!(:page_with_donations) { create :page, total_donations: 1010 }
 
     it 'increments the total donations counter' do
-      FactoryGirl.create(:payment_braintree_transaction, page: page_with_donations, amount: 10, currency: 'USD')
-      expect(page_with_donations.reload.total_donations.to_s).to eq '1020.0'
+      # TODO: Figure out how to make this consistent. The `Money` library
+      # deals with currencies in cents, which causes the total_donations fields
+      # to be saved in cents.
+      # 1010 in this case is US$10.10
+      FactoryGirl.create(:payment_braintree_transaction, page: page_with_donations, amount: 0.1, currency: 'USD')
+      expect(page_with_donations.reload.total_donations.to_d).to eq 1020
     end
 
     it 'updates the total donations counter when a GoCardless transaction is created' do
       expect(page.total_donations).to eq 0
       FactoryGirl.create(:payment_go_cardless_transaction, page: page, amount: 10, currency: 'USD')
-      expect(page.total_donations.to_s).to eq '10.0'
+      expect(page.reload.total_donations.to_d).to eq 1000
     end
 
     it 'updates the total donations counter with a converted amount when a donation is created in another currency' do
