@@ -542,13 +542,13 @@ describe Page do
     let!(:page_with_donations) { create :page, total_donations: 1010 }
 
     it 'increments the total donations counter' do
-      FactoryGirl.create(:payment_braintree_transaction, page: page_with_donations, amount: 10, currency: 'USD')
+      FactoryBot.create(:payment_braintree_transaction, page: page_with_donations, amount: 10, currency: 'USD')
       expect(page_with_donations.reload.total_donations.to_s).to eq '1020.0'
     end
 
     it 'updates the total donations counter when a GoCardless transaction is created' do
       expect(page.total_donations).to eq 0
-      FactoryGirl.create(:payment_go_cardless_transaction, page: page, amount: 10, currency: 'USD')
+      FactoryBot.create(:payment_go_cardless_transaction, page: page, amount: 10, currency: 'USD')
       expect(page.total_donations.to_s).to eq '10.0'
     end
 
@@ -561,7 +561,7 @@ describe Page do
       allow(converted_amount).to receive(:exchange_to).with('USD').and_return(12)
 
       expect(page.total_donations).to eq 0
-      FactoryGirl.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'EUR')
+      FactoryBot.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'EUR')
       expect(page.total_donations.to_s).to eq '12.0'
     end
   end
