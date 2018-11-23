@@ -50,6 +50,6 @@ class Payment::Braintree::Transaction < ApplicationRecord
 
   def increment_funding_counter
     return unless status == 'success'
-    FundingCounter.update(page: page, currency: currency, amount: amount)
+    FundingCounter.update(page: page, currency: currency, amount: amount * 100)
   end
 end
