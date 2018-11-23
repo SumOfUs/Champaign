@@ -5,7 +5,7 @@ class CallTool::TargetsParser
     return_headers: false,
     headers: :first_row,
     header_converters: :symbol,
-    converters: ->(o) { o.strip }
+    converters: ->(o) { o.strip unless o.nil? }
   }.freeze
 
   class << self
