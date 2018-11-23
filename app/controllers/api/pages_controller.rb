@@ -64,7 +64,7 @@ class Api::PagesController < ApplicationController
       amount = @page.total_donations
       goal = @page.fundraising_goal
     else
-      amount = @page.campaign.donations_count
+      amount = @page.campaign.total_donations
       goal = @page.campaign.fundraising_goal
     end
 
