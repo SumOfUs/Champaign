@@ -22,7 +22,7 @@ class Campaign < ApplicationRecord
     pages.sum(:action_count)
   end
 
-  def donations_count
+  def total_donations
     pages.sum(:total_donations)
   end
 
