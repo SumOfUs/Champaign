@@ -86,7 +86,7 @@ Metrics/PerceivedComplexity:
   Max: 9
 
 # Offense count: 9
-Style/AccessorMethodName:
+Naming/AccessorMethodName:
   Exclude:
     - 'app/controllers/api/pages_controller.rb'
     - 'app/controllers/application_controller.rb'
@@ -154,7 +154,7 @@ Style/ModuleFunction:
 # NamePrefix: is_, has_, have_
 # NamePrefixBlacklist: is_, has_, have_
 # NameWhitelist: is_a?
-Style/PredicateName:
+Naming/PredicateName:
   Exclude:
     - 'spec/**/*'
     - 'app/liquid/liquid_tag_finder.rb'
