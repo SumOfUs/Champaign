@@ -18,14 +18,7 @@ export type State =
       totalDonations?: { [currency: string]: number },
     };
 
-const defaults: State = {
-  active: false,
-  goals: {},
-  offset: 0,
-  remainingAmounts: {},
-  title: '',
-  totalDonations: {},
-};
+const defaults: State = {};
 
 export default function reducer(
   state?: State = defaults,
@@ -49,7 +42,7 @@ export function increment(temperature: number): Action {
 
 function getStateFromChampaign(chmp: ChampaignGlobalObject): State {
   const data = chmp.personalization.donationsThermometer;
-  if (isEmpty(data)) return { active: false };
+  if (isEmpty(data)) return {};
   return {
     active: data.active,
     offset: data.offset,
