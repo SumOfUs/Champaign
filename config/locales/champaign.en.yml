@@ -121,6 +121,9 @@ en:
       restricted_country_code: "If you select a country here, members can only enter their phone number if it has the country code of this country."
       caller_id: "Calls made with the CallTool will be seen as made from this phone number"
       target_by_attributes: "Allow members to filter or drill down targets by selecting values from the columns specified here. Specified columns will be shown to the user as dropdowns."
+    fundraising_goal:
+      goal: 'Fundraising goal'
+      formatting: "Unformatted amount in USD for fundraising goal for the page."
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
