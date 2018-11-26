@@ -7,7 +7,7 @@
 #  id         :integer          not null, primary key
 #  type       :string           not null
 #  title      :string
-#  offset     :integer
+#  offset     :integer          -> Offset in CENTS
 #  page_id    :integer
 #  active     :boolean          default("false")
 #  created_at :datetime         not null
@@ -20,6 +20,7 @@ class Plugins::DonationsThermometer < Plugins::Thermometer
 
   def current_progress
     return 0 if fundraising_goal.zero?
+
     total_donations / fundraising_goal * 100
   end
 
