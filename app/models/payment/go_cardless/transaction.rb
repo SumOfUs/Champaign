@@ -37,12 +37,12 @@ class Payment::GoCardless::Transaction < ApplicationRecord
   scope :one_off, -> { where(subscription_id: nil) }
 
   ACTION_FROM_STATE = {
-    submitted:     :submit,
-    confirmed:     :confirm,
-    cancelled:     :cancel,
-    failed:        :fail,
-    charged_back:  :charge_back,
-    paid_out:      :pay_out
+    submitted: :submit,
+    confirmed: :confirm,
+    cancelled: :cancel,
+    failed: :fail,
+    charged_back: :charge_back,
+    paid_out: :pay_out
   }.freeze
 
   aasm do
@@ -81,6 +81,7 @@ class Payment::GoCardless::Transaction < ApplicationRecord
 
   def publish_failed_subscription_charge
     return if subscription.blank?
+
     ChampaignQueue.push({
       type: 'subscription-payment',
       params: {
@@ -95,8 +96,8 @@ class Payment::GoCardless::Transaction < ApplicationRecord
 
   def increment_funding_counter
     FundingCounter.update(page: page, currency: currency, amount: (begin
-                                                                     amount * 100
-                                                                   rescue
+                                                                     amount
+                                                                   rescue StandardError
                                                                      nil
                                                                    end))
   end

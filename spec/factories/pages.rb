@@ -34,8 +34,8 @@
 #  publish_actions            :integer          default("0"), not null
 #  meta_tags                  :string
 #  meta_description           :string
-#  total_donations            :double            default("0")
-#  fundraising_goal            :double            default("0")
+#  total_donations            :double            default("0") -> Total donations in CENTS
+#  fundraising_goal           :double            default("0") -> Fundraising goal in CENTS
 #
 
 FactoryBot.define do

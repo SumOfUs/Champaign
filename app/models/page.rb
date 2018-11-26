@@ -34,8 +34,8 @@
 #  publish_actions            :integer          default("0"), not null
 #  meta_tags                  :string
 #  meta_description           :string
-#  total_donations            :double            default("0")
-#  fundraising_goal            :double            default("0")
+#  total_donations            :double            default("0") -> Total donations in CENTS
+#  fundraising_goal           :double            default("0") -> Fundraising goal in CENTS
 #
 
 class Page < ApplicationRecord
@@ -165,7 +165,7 @@ class Page < ApplicationRecord
 
   def switch_plugins
     fields = %w[liquid_layout_id follow_up_liquid_layout_id follow_up_plan]
-    if fields.any? { |f| saved_changes.keys.include?(f) }
+    if fields.any? { |f| saved_changes.key?(f) }
       secondary = follow_up_plan == 'with_liquid' ? follow_up_liquid_layout : nil
       PagePluginSwitcher.new(self).switch(liquid_layout, secondary)
     end

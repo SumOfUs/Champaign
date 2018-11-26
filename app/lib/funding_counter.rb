@@ -17,10 +17,10 @@ class FundingCounter
 
   def update
     return if @page.blank?
-    original_amount =  Money.from_amount(@page.total_donations, Settings.default_currency)
-    converted_amount = Money.from_amount(@amount, @currency).exchange_to(Settings.default_currency)
 
-    @page.update_attributes(total_donations: (original_amount + converted_amount).to_d)
+    original_amount =  Money.new(@page.total_donations, Settings.default_currency)
+    converted_amount = Money.from_amount(@amount, @currency).exchange_to(Settings.default_currency)
+    @page.update_attributes(total_donations: (original_amount.cents + converted_amount.cents))
   end
 
   def convert
