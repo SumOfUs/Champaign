@@ -99,6 +99,9 @@ fr:
       cvv: Le CVV
       number: Le numéro de votre carte
       expiration: La date d’expiration
+    thermometer:
+      raised: Collectés
+      goal: Objectif
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à

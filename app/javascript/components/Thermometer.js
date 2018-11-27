@@ -25,32 +25,31 @@ export function Thermometer(props: Props) {
 
   // Prevent overflow when donations > goal.
   const donations = min([props.donations, props.goal]);
-  const remaining = props.goal - donations;
-
-  const $remaining = (
-    <CurrencyAmount amount={remaining} currency={props.currency} />
-  );
-  const $goal = (
-    <CurrencyAmount amount={props.goal} currency={props.currency} />
-  );
 
   return (
     <div className="Thermometer">
-      <p className="Thermometer-title">{props.title}</p>
       <div className="Thermometer-stats">
-        <div className="Thermometer-temperature">
-          <CurrencyAmount amount={donations} currency={props.currency} />
+        <div className="Thermometer-raised">
+          <FormattedMessage
+            className="Thermometer-stats-label"
+            id="fundraiser.thermometer.raised"
+            defaultMessage="Raised"
+          />
+          <br />
+          <span className="amount">
+            <CurrencyAmount amount={donations} currency={props.currency} />
+          </span>
         </div>
         <div className="Thermometer-goal">
-          {remaining > 0 ? (
-            <FormattedMessage
-              id="fundraiser.thermometer.remaining"
-              defaultMessage="{remaining} until {goal}"
-              values={{ remaining: $remaining, goal: $goal }}
-            />
-          ) : (
-            $goal
-          )}
+          <FormattedMessage
+            className="Thermometer-stats-label"
+            id="fundraiser.thermometer.goal"
+            defaultMessage="Goal"
+          />
+          <br />
+          <span className="amount">
+            <CurrencyAmount amount={props.goal} currency={props.currency} />
+          </span>
         </div>
       </div>
       <div className="Thermometer-bg">
@@ -60,6 +59,13 @@ export function Thermometer(props: Props) {
             width: `${Math.round((donations / props.goal) * 100)}%`,
           }}
         />
+      </div>
+      <div className="Thermometer-markers">
+        <span className="Thermometer-markers-left">0%</span>
+        <span className="Thermometer-markers-marker p25" />
+        <span className="Thermometer-markers-marker p50" />
+        <span className="Thermometer-markers-marker p75" />
+        <span className="Thermometer-markers-right">100%</span>
       </div>
     </div>
   );

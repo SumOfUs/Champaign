@@ -113,6 +113,9 @@ en:
       cvv: CVV
       number: Card number
       expiration: Expiration date
+    thermometer:
+      raised: Raised
+      goal: Goal
   petition:
     sign_it: Sign the petition
     target_prefix: TO

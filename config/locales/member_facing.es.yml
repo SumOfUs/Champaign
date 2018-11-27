@@ -113,6 +113,9 @@ es:
       cvv: CVV
       number: Card number
       expiration: Fecha de caducidad
+    thermometer:
+      raised: Recaudado
+      goal: Objetivo
   petition:
     sign_it: Firma la petición
     target_prefix: PARA
