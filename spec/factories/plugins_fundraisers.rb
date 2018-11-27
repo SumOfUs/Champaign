@@ -22,5 +22,6 @@ FactoryBot.define do
     title { 'Donate now' }
     ref { nil }
     active { false }
+    association :page, factory: :page
   end
 end
