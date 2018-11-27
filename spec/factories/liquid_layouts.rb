@@ -28,6 +28,11 @@ FactoryBot.define do
       content { %( {% include 'petition' %} {% include 'thermometer' %} ) }
     end
 
+    trait :scrolling do
+      title { 'scrolling' }
+      content { %( {% include 'petition' %} {% include 'thermometer' %} {% include 'fundraiser' %} ) }
+    end
+
     trait :petition do
       title { 'petition template' }
       content { %( {% include 'petition' %} ) }
