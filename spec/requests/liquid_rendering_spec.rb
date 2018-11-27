@@ -7,6 +7,10 @@ describe 'Liquid page rendering' do
     LiquidMarkupSeeder.seed(quiet: true)
   end
 
+  before(:each) do
+    allow_any_instance_of(Money).to receive(:exchange_to)
+  end
+
   after(:all) do
     DatabaseCleaner.clean_with(:truncation)
   end
