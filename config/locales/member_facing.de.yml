@@ -108,6 +108,9 @@ de:
       cvv: Die Kartenprüfnummer
       number: Die Kreditkartennummer
       expiration: Das Ablaufdatum
+    thermometer:
+      raised: Aktueller Spendenstand
+      goal: Ziel
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN
