@@ -20,13 +20,15 @@ type Props = {
   customAmount?: number,
   proceed: () => void,
   intl: IntlShape,
-  selectAmount: (amount: ?number) => void,
+  selectAmount: (amount: ?number) => void | Promise<*>,
+  selectCustomAmount?: (amount: ?number) => void | Promise<*>,
   featuredAmount?: number,
 };
 
 type State = {
   customAmount?: number,
 };
+
 export class DonationBands extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -47,7 +49,9 @@ export class DonationBands extends Component<Props, State> {
     const number = value.replace(/\D/g, '');
     const amount = number ? parseFloat(number) : undefined;
     this.setState({ customAmount: amount });
-    if (this.props.selectAmount) {
+    if (this.props.selectCustomAmount) {
+      this.props.selectCustomAmount(amount);
+    } else {
       this.props.selectAmount(amount);
     }
   }
