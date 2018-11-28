@@ -8,6 +8,10 @@ export function changeAmount(payload: ?number): FundraiserAction {
   return { type: 'change_amount', payload };
 }
 
+export function oneClickFailed(): FundraiserAction {
+  return { type: 'one_click_failed' };
+}
+
 export function changeCurrency(payload: string): FundraiserAction {
   ee.emit('fundraiser:change_currency', payload);
   return { type: 'change_currency', payload };

@@ -42,6 +42,7 @@ export const initialState: State = {
   formId: '',
   formValues: {},
   freestanding: false,
+  oneClick: false,
   outstandingFields: [],
   paymentMethods: [],
   paymentTypes: ['card', 'paypal'],
@@ -50,6 +51,7 @@ export const initialState: State = {
   recurringDefault: 'one_off',
   storeInVault: false,
   submitting: false,
+  oneClickError: false,
   title: '',
 };
 
@@ -66,6 +68,7 @@ export default (state: State = initialState, action: Action): State => {
         'title',
         'fields',
         'freestanding',
+        'oneClick',
         'donationAmount'
       );
       initialData.formValues = initialData.formValues || {};
@@ -94,6 +97,8 @@ export default (state: State = initialState, action: Action): State => {
     case 'change_amount':
       const donationAmount = action.payload || undefined;
       return { ...state, donationAmount };
+    case 'one_click_failed':
+      return { ...state, disableSavedPayments: true, oneClickError: true };
     case 'change_step':
       return { ...state, currentStep: action.payload };
     case 'update_form': {

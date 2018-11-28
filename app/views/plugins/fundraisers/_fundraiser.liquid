@@ -30,7 +30,8 @@
           preselectAmount: {{ plugins.fundraiser[ref].preselect_amount }},
           fields: {{ plugins.fundraiser[ref].fields | jsonify }},
           recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
-          freestanding: {% if freestanding %} true {% else %} false {% endif %}
+          freestanding: {% if freestanding %} true {% else %} false {% endif %},
+          oneClick: {% if one_click %} true {% else %} false {% endif %}
         }
       };
       window.setTimeout(function(){
