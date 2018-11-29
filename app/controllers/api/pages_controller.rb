@@ -41,6 +41,7 @@ class Api::PagesController < ApplicationController
 
   def actions
     return head :forbidden if @page.secure?
+
     query = if @page.default_hidden?
               published_status = Action.publish_statuses['published']
               "page_id = '#{@page.id}' AND publish_status = '#{published_status}'"
@@ -77,7 +78,7 @@ class Api::PagesController < ApplicationController
 
     render json: {
       total_donations: total_donations.to_s,
-      fundraising_goal: fundraising_goal.to_s,
+      fundraising_goal: Donations::Utils.round_fundraising_goals([fundraising_goal]).first.to_s,
       recurring_donations: subscriptions_count,
       recurring_donations_goal: 100 # recurring_donations_goal
     }
@@ -101,6 +102,7 @@ class Api::PagesController < ApplicationController
     unwrapped = {}
     Rack::Utils.parse_nested_query(unsafe_params.to_query).each_pair do |key, nested|
       next unless nested.is_a? Hash
+
       nested.each_pair do |_subkey, subnested|
         unwrapped[key] = subnested if subnested.is_a? Hash
       end
