@@ -40,6 +40,9 @@ Style/GuardClause:
 Naming/VariableNumber:
   Enabled: false
 
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+  
 Lint/HandleExceptions:
   Enabled: false
 

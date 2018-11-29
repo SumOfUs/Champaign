@@ -211,13 +211,24 @@ describe 'api/pages' do
 
   describe 'GET /total_donations' do
     let!(:campaign) { create(:campaign) }
-    let!(:page) { create(:page, campaign: campaign, title: 'Foo', content: 'Bar', total_donations: 142_326) }
+    let!(:page) {
+      create(:page,
+             campaign: campaign,
+             title: 'Foo',
+             content: 'Bar',
+             total_donations: 142_326,
+             fundraising_goal: 100_000)
+    }
 
     context 'single page campaign' do
-      it 'returns the total amount of donations for the campaign of the page converted into the desired currency' do
+      it 'returns the total amount of donations for the campaign of the page
+          converted into the desired currency with the goal rounded to a reasonable precision' do
         get "/api/pages/#{page.id}/total_donations", params: { currency: 'USD' }
         expect(json_hash).to match(
-          hash_including('total_donations' => '142326.00', 'fundraising_goal' => '0.00')
+          hash_including('total_donations' => '142326.00',
+                         'fundraising_goal' => '100000',
+                         'recurring_donations' => 0,
+                         'recurring_donations_goal' => 100)
         )
       end
     end
@@ -233,7 +244,10 @@ describe 'api/pages' do
         allow(FundingCounter).to receive(:convert).with(goal_args).and_return(Money.from_amount(162_521.20, 'EUR'))
         get "/api/pages/#{page.id}/total_donations", params: { currency: 'EUR' }
         expect(json_hash).to match(
-          hash_including('total_donations' => '148159.20', 'fundraising_goal' => '162521.20')
+          hash_including('total_donations' => '148159.20',
+                         'fundraising_goal' => '200000',
+                         'recurring_donations' => 0,
+                         'recurring_donations_goal' => 100)
         )
       end
     end

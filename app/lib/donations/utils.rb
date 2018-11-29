@@ -27,6 +27,21 @@ module Donations
       end
     end
 
+    def round_fundraising_goals(values)
+      values.map do |value|
+        value = value.to_f
+        if value.zero?
+          value
+        else
+          magnitude = Math.log10(value).floor
+          base = (10**magnitude) / 2
+          steps = value.to_f / (10**magnitude) * 2
+          result = (steps.ceil * base)
+          result >= 10 ? result : 10
+        end
+      end
+    end
+
     def deduplicate(values)
       duplicates = values.group_by { |e| e }.select { |_k, v| v.size > 1 }.values.flatten
 
@@ -41,6 +56,7 @@ module Donations
 
     def currency_from_country_code(country_code)
       return 'EUR' if EURO_COUNTRY_CODES.include?(country_code.to_s.to_sym)
+
       {
         US: 'USD',
         GB: 'GBP',
