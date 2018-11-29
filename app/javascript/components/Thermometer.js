@@ -26,6 +26,8 @@ export function Thermometer(props: Props) {
   // Prevent overflow when donations > goal.
   const donations = min([props.donations, props.goal]);
 
+  const percentage = Math.round((donations / props.goal) * 100);
+
   return (
     <div className="Thermometer">
       <div className="Thermometer-stats">
@@ -55,17 +57,8 @@ export function Thermometer(props: Props) {
       <div className="Thermometer-bg">
         <div
           className="Thermometer-mercury"
-          style={{
-            width: `${Math.round((donations / props.goal) * 100)}%`,
-          }}
+          style={{ width: `${percentage}%` }}
         />
-      </div>
-      <div className="Thermometer-markers">
-        <span className="Thermometer-markers-left">0%</span>
-        <span className="Thermometer-markers-marker p25" />
-        <span className="Thermometer-markers-marker p50" />
-        <span className="Thermometer-markers-marker p75" />
-        <span className="Thermometer-markers-right">100%</span>
       </div>
     </div>
   );
