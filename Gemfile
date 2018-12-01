@@ -69,7 +69,7 @@ gem 'sprockets-rails'
 gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier'
-gem 'webpacker', '~> 3.0'
+gem 'webpacker', '~> 3.5'
 
 group :development, :test do
   gem 'capybara' # Capybara for integration testing
