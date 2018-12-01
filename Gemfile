@@ -50,7 +50,7 @@ gem 'airbrake-ruby', '1.7.1'
 gem 'aws-sdk-rails'
 gem 'bootsnap', require: false
 gem 'bootstrap-sass', '~> 3.3.5'
-gem 'browser', '~> 2.0', '>= 2.0.3'
+gem 'browser', '~> 2.5'
 gem 'compass-rails' # was using git master branch before
 gem 'config'
 gem 'envyable', require: 'envyable/rails-now'
