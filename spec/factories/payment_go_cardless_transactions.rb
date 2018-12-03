@@ -28,5 +28,10 @@ FactoryBot.define do
     amount { 23.19 }
     currency { 'EUR' }
     status { :submitted }
+    association :page, factory: :page
+
+    trait :with_subscription do
+      association :subscription, factory: :payment_go_cardless_subscription
+    end
   end
 end

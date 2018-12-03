@@ -32,5 +32,10 @@ FactoryBot.define do
     transaction_created_at { '2015-11-17 16:46:19' }
     payment_method_id { "asdf#{Faker::Number.number(10)}" }
     customer_id { Faker::Number.number(4) }
+    association :page, factory: :page
+
+    trait :with_subscription do
+      association :subscription, factory: :payment_braintree_subscription
+    end
   end
 end
