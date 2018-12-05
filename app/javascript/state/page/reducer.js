@@ -1,5 +1,6 @@
 // @flow
 import type { InitialAction } from '../reducers';
+import type { ChampaignPage } from '../../types';
 
 export const initialState: ChampaignPage = {
   action_count: 0,

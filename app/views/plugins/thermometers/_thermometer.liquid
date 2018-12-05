@@ -1,19 +1,21 @@
-{% if plugins.thermometer[ref].active %}
-  <!-- this partial will be cached, so the javascript replaces the
-       values for signature, remaining, and thermometer width -->
-  <div class='thermometer'>
+<!-- This is the template for ActionsThermometer. It needed to keep under _thermometer.liquid partial name
+ to ensure that all legacy templates (including the ones seeded into the DB and no longer in the filesystem)
+ continued to work. This template is not used by DonationsThermometer. This partial will be cached, so the
+ javascript replaces the values for signature, remaining, and thermometer width -->
+{% if plugins.actions_thermometer[ref].active %}
+<div class='thermometer'>
     <div class="thermometer__stats">
-      <div class='thermometer__signatures'>
-        {{ plugins.thermometer[ref].signatures }} {{ 'thermometer.signatures' | t }}
-      </div>
-      <div class="thermometer__remaining">
-        {{ 'thermometer.signatures_until_goal' |
-            val: 'goal', plugins.thermometer[ref].goal_k |
-            val: 'remaining', plugins.thermometer[ref].remaining | t }}
-      </div>
+        <div class='thermometer__signatures'>
+            {{ plugins.actions_thermometer[ref].signatures }} {{ 'thermometer.signatures' | t }}
+        </div>
+        <div class="thermometer__remaining">
+            {{ 'thermometer.signatures_until_goal' |
+            val: 'goal', plugins.actions_thermometer[ref].goal_k |
+            val: 'remaining', plugins.actions_thermometer[ref].remaining | t }}
+        </div>
     </div>
     <div class="thermometer__bg">
-      <div class="thermometer__mercury" style="width: {{ plugins.thermometer[ref].percentage }}%"></div>
+        <div class="thermometer__mercury" style="width: {{ plugins.actions_thermometer[ref].percentage }}%"></div>
     </div>
-  </div>
+</div>
 {% endif %}

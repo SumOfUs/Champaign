@@ -34,6 +34,8 @@
 #  publish_actions            :integer          default("0"), not null
 #  meta_tags                  :string
 #  meta_description           :string
+#  total_donations            :double            default("0") -> Total donations in CENTS
+#  fundraising_goal           :double            default("0") -> Fundraising goal in CENTS
 #
 
 class Page < ApplicationRecord
@@ -59,6 +61,9 @@ class Page < ApplicationRecord
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
   has_many :share_buttons, class_name: 'Share::Button'
+
+  has_many :go_cardless_subscriptions, class_name: 'Payment::GoCardless::Subscription'
+  has_many :braintree_subscriptions, class_name: 'Payment::Braintree::Subscription'
 
   scope :language,  ->(code) { code ? joins(:language).where(languages: { code: code }) : all }
   scope :featured,  -> { where(featured: true) }
@@ -87,7 +92,7 @@ class Page < ApplicationRecord
   end
 
   def plugin_names
-    plugins.map { |plugin| plugin.model_name.name.split('::')[1].downcase }
+    plugins.map { |plugin| plugin.name.demodulize.underscore }
   end
 
   def tag_names
@@ -152,11 +157,15 @@ class Page < ApplicationRecord
     tag_names << plugin_names
   end
 
+  def subscriptions_count
+    braintree_subscriptions.count + go_cardless_subscriptions.count
+  end
+
   private
 
   def switch_plugins
     fields = %w[liquid_layout_id follow_up_liquid_layout_id follow_up_plan]
-    if fields.any? { |f| saved_changes.keys.include?(f) }
+    if fields.any? { |f| saved_changes.key?(f) }
       secondary = follow_up_plan == 'with_liquid' ? follow_up_liquid_layout : nil
       PagePluginSwitcher.new(self).switch(liquid_layout, secondary)
     end

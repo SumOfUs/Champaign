@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_methods'
 
@@ -16,6 +17,7 @@ feature 'One Click From Save Payment Methods from Page' do
 
   before do
     allow(ChampaignQueue).to receive(:push)
+    allow(FundingCounter).to receive(:update)
   end
 
   scenario 'Authenticated member makes an express donation' do

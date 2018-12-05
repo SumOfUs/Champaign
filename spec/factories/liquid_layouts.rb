@@ -16,46 +16,52 @@
 #  post_action_layout          :boolean
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :liquid_layout do
     title { Faker::Company.bs }
-    content "<div class='fun'></div>"
+    content { "<div class='fun'></div>" }
     description { Faker::Lorem.sentence }
-    experimental false
+    experimental { false }
 
     trait :default do
-      title 'default'
-      content %( {% include 'petition' %} {% include 'thermometer' %} )
+      title { 'default' }
+      content { %( {% include 'petition' %} {% include 'thermometer' %} ) }
+    end
+
+    trait :scrolling do
+      title { 'scrolling' }
+      content { %( {% include 'petition' %} {% include 'thermometer' %} {% include 'fundraiser' %} ) }
     end
 
     trait :petition do
-      title 'petition template'
-      content %( {% include 'petition' %} )
+      title { 'petition template' }
+      content { %( {% include 'petition' %} ) }
     end
 
     trait :donation do
-      title 'donation template'
-      content %( {% include 'donation' %} )
+      title { 'donation template' }
+      content { %( {% include 'donation' %} ) }
     end
 
     trait :thermometer do
-      title 'thermometer template'
-      content %( {% include 'thermometer' %} )
+      title { 'thermometer template' }
+      content { %( {% include 'thermometer' %} ) }
     end
 
     trait :no_plugins do
-      title 'layout with no plugins'
-      content %( whatever )
+      title { 'layout with no plugins' }
+      content { %( whatever ) }
     end
 
     trait :experimental do
-      title 'Experimental template'
-      experimental true
+      title { 'Experimental template' }
+      experimental { true }
     end
 
     trait :post_action_share_layout do
-      title 'post action share template'
-      content %(
+      title { 'post action share template' }
+      content {
+        %(
               <div class="share-buttons">
                 {% unless shares['facebook'] == blank %}
                   <div class="share-buttons__button button--facebook {{ shares['facebook'] }}"></div>
@@ -68,6 +74,7 @@ FactoryGirl.define do
                 {% endunless %}
               </div>
               )
+      }
     end
   end
 end

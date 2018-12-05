@@ -22,6 +22,7 @@ require_relative 'shared_examples'
 
 describe Plugins::Fundraiser do
   let(:fundraiser) { create :plugins_fundraiser }
+  let(:page) { create :page }
 
   subject { fundraiser }
 
@@ -35,6 +36,10 @@ describe Plugins::Fundraiser do
 
   it 'is included in Plugins.registered' do
     expect(Plugins.registered).to include(Plugins::Fundraiser)
+  end
+
+  it 'creates a fundraising thermometer when created' do
+    expect { Plugins::Fundraiser.create(page: page) }.to change { Plugins::DonationsThermometer.count }.from(0).to(1)
   end
 
   it 'serializes the currency band' do

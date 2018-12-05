@@ -5,7 +5,8 @@ import { camelizeKeys } from '../util/util';
 import ComponentWrapper from '../components/ComponentWrapper';
 import EmailPensionView from '../email_pension/EmailPensionView';
 import EmailRepresentativeView from '../email_pension/EmailRepresentativeView';
-import type { AppState } from '../state/reducers';
+import type { AppState } from '../state';
+import type { Store } from 'redux';
 
 type emailPensionInitialState = {
   locale: string,
@@ -27,17 +28,20 @@ window.mountEmailPension = (
   props: emailPensionInitialState,
   targetEndpoint: string
 ) => {
-  props = camelizeKeys(props);
-  store.dispatch({ type: 'email_target:initialize', payload: props });
+  const el = document.getElementById(root);
+  if (!el) return;
 
+  const camelizedProps = camelizeKeys(props);
+
+  store.dispatch({ type: 'email_target:initialize', payload: camelizedProps });
   render(
     <ComponentWrapper store={store} locale={props.locale}>
       {targetEndpoint === '' ? (
-        <EmailPensionView {...props} />
+        <EmailPensionView {...camelizedProps} />
       ) : (
-        <EmailRepresentativeView {...props} />
+        <EmailRepresentativeView {...camelizedProps} />
       )}
     </ComponentWrapper>,
-    document.getElementById(root)
+    el
   );
 };

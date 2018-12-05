@@ -32,6 +32,8 @@ describe 'GoCardless API' do
     )
 
     allow(MobileDetector).to receive(:detect).and_return(action_mobile: 'tablet')
+
+    allow(FundingCounter).to receive(:update)
   end
 
   describe 'redirect flow' do

@@ -2,17 +2,18 @@
 import React, { Component } from 'react';
 import { compact, get, join, sample, template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
-import type { SelectOption } from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
 import ErrorMessages from '../components/ErrorMessages';
-import type { EmailProps } from '../components/EmailEditor/EmailEditor';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../util/ChampaignClient';
+
+import type { EmailProps } from '../components/EmailEditor/EmailEditor';
 import type { ErrorMap } from '../util/ChampaignClient/Base';
+import type { SelectOption } from 'react-select';
 
 import './EmailToolView';
 
@@ -64,10 +65,7 @@ function emailTargetAsSelectOption(target: EmailTarget): SelectOption {
   };
 }
 
-export default class EmailToolView extends Component {
-  props: Props;
-  state: State;
-
+export default class EmailToolView extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -111,9 +109,9 @@ export default class EmailToolView extends Component {
   // Attempt to send the email on submit. If successful, we call the
   // onSuccess prop with the selected target. On failure, we update
   // the state with the errors we receive from the backend.
-  onSubmit = (e: SyntheticEvent) => {
+  onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.setState(s => ({ ...s, isSubmitting: true, errors: [] }));
+    this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
       () => {
         this.setState(s => ({ ...s, isSubmitting: false }));

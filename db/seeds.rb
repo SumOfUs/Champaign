@@ -3,7 +3,7 @@
 puts 'Seeding...'
 
 # Forms
-%w[en fr de].each do |locale|
+%w[en fr de es].each do |locale|
   DefaultFormBuilder.find_or_create(locale: locale)
 end
 

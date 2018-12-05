@@ -1,31 +1,29 @@
 // @flow
 import { Component } from 'react';
 import paypal from 'braintree-web/paypal';
+import type { Client } from 'braintree-web';
 import type {
-  PayPalInstance,
+  PayPal as PayPalInstance,
   PayPalTokenizeOptions,
   PayPalTokenizePayload,
-  PayPalFlow,
 } from 'braintree-web/paypal';
-import type { Client } from 'braintree-web';
 
-type OwnProps = {
+type Props = {
   currency: string,
-  amount: number,
+  amount?: number,
   client: Client,
   vault: boolean,
   onInit?: () => void,
   onFailure?: (data: any) => void,
 };
 
-export default class PayPal extends Component {
-  props: OwnProps;
-  state: {
-    paypalInstance: ?PayPalInstance,
-    disabled: boolean,
-  };
+type State = {
+  paypalInstance: ?PayPalInstance,
+  disabled: boolean,
+};
 
-  constructor(props: OwnProps) {
+export default class PayPal extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       paypalInstance: null,
@@ -37,7 +35,7 @@ export default class PayPal extends Component {
     this.createPayPalInstance(this.props.client);
   }
 
-  componentWillReceiveProps(newProps: OwnProps) {
+  componentWillReceiveProps(newProps: Props) {
     if (newProps.client !== this.props.client) {
       this.createPayPalInstance(newProps.client);
     }
@@ -57,13 +55,7 @@ export default class PayPal extends Component {
     });
   }
 
-  componentWillUnmount() {
-    if (this.state.paypalInstance) {
-      this.state.paypalInstance.teardown();
-    }
-  }
-
-  flow(): PayPalFlow {
+  flow(): $PropertyType<PayPalTokenizeOptions, 'flow'> {
     if (this.props.vault) return 'vault';
     return 'checkout';
   }
@@ -76,7 +68,7 @@ export default class PayPal extends Component {
     return { flow: 'checkout', amount, currency };
   }
 
-  submit() {
+  submit(): Promise<any> {
     const paypalInstance = this.state.paypalInstance;
     return new Promise((resolve, reject) => {
       if (!paypalInstance) return reject();

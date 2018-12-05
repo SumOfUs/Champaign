@@ -12,30 +12,31 @@ import { setRecurring } from '../../state/fundraiser/actions';
 
 import type { Dispatch } from 'redux';
 import type { AppState, PaymentMethod, Fundraiser } from '../../state';
+import type { ChampaignPage } from '../../types';
 
 import './ExpressDonation.scss';
 
-type OwnProps = {
+type Props = {
   hidden: boolean,
-  fundraiser: Fundraiser,
-  page: ChampaignPage,
-  paymentMethods: PaymentMethod[],
-  formData: { member: any, storeInVault: boolean },
-  setRecurring: (value: boolean) => void,
   onHide: () => void,
   setSubmitting: boolean => void,
+  paymentMethods: PaymentMethod[],
+  fundraiser: Fundraiser,
+  page: ChampaignPage,
+  formData: {
+    storeInVault: boolean,
+    member: any,
+  },
+  setRecurring: boolean => void,
 };
 
-type OwnState = {
+type State = {
   currentPaymentMethod: ?PaymentMethod,
   submitting: boolean,
 };
 
-export class ExpressDonation extends Component {
-  props: OwnProps;
-  state: OwnState;
-
-  constructor(props: OwnProps) {
+export class ExpressDonation extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -170,7 +171,7 @@ export class ExpressDonation extends Component {
           className="ExpressDonation__recurring-checkbox"
           disabled={this.props.fundraiser.recurringDefault === 'only_recurring'}
           checked={this.props.fundraiser.recurring}
-          onChange={e => this.props.setRecurring(e.target.checked)}
+          onChange={e => this.props.setRecurring(e.currentTarget.checked)}
         >
           <FormattedMessage
             id="fundraiser.make_recurring"
@@ -208,4 +209,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   setRecurring: (value: boolean) => dispatch(setRecurring(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpressDonation);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExpressDonation);

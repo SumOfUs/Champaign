@@ -1,32 +1,18 @@
 // @flow
 import 'cookieconsent';
 import $ from 'jquery';
-import {
-  formatMessage,
-  isTranslationPresent,
-} from '../util/TranslationsLoader';
+import I18n from 'champaign-i18n';
 
 $(() => {
   if (isEEA()) {
-    const locale = window.champaign.page.language_code || 'en';
-    let privacyPolicyURL;
-    if (isTranslationPresent('cookie_consent.privacy_policy_url', locale)) {
-      privacyPolicyURL = formatMessage(
-        'cookie_consent.privacy_policy_url',
-        locale
-      );
-    } else {
-      privacyPolicyURL = '/privacy';
-    }
-
     window.cookieconsent.initialise({
       theme: 'edgeless',
       position: 'top',
       content: {
-        message: formatMessage('cookie_consent.message', locale),
-        dismiss: formatMessage('cookie_consent.dismiss_button_text', locale),
-        link: formatMessage('cookie_consent.privacy_policy_link_text', locale),
-        href: privacyPolicyURL,
+        message: I18n.t('cookie_consent.message'),
+        dismiss: I18n.t('cookie_consent.dismiss_button_text'),
+        link: I18n.t('cookie_consent.privacy_policy_link_text'),
+        href: I18n.lookup('cookie_consent.privacy_policy_url') || '/privacy',
       },
     });
   }

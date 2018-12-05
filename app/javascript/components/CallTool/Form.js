@@ -34,10 +34,7 @@ type State = {
   countryCode?: string,
 };
 
-class Form extends Component {
-  props: Props;
-  state: State;
-
+class Form extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 

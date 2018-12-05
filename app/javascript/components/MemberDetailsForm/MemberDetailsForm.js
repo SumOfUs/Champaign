@@ -22,16 +22,13 @@ type OwnProps = {
   form: Object,
   formId: number,
   updateForm: (form: Object) => void,
+} & $Shape<mapStateToProps>;
+
+type State = {
+  errors: any,
+  loading: boolean,
 };
-
-export class MemberDetailsForm extends Component {
-  props: OwnProps & $Shape<mapStateToProps>;
-
-  state: {
-    errors: any,
-    loading: boolean,
-  };
-
+export class MemberDetailsForm extends Component<OwnProps, State> {
   static title = <FormattedMessage id="details" defaultMessage="details" />;
 
   HIDDEN_FIELDS = [
@@ -72,7 +69,7 @@ export class MemberDetailsForm extends Component {
     this.props.updateForm({ ...this.props.form, ...data });
   }
 
-  getFieldError(field: string): ?React$Element<FormattedMessage> {
+  getFieldError(field: string) {
     const error = this.state.errors[field];
     if (!error) return null;
     return <FormattedMessage {...error} />;
@@ -118,7 +115,7 @@ export class MemberDetailsForm extends Component {
     });
   }
 
-  submit(e: SyntheticEvent) {
+  submit(e: SyntheticEvent<HTMLFormElement>) {
     this.setState({ loading: true });
     e.preventDefault();
     // HACKISH
@@ -156,7 +153,9 @@ export class MemberDetailsForm extends Component {
           return !this.recognizedMemberPresent();
         default:
           console.log(
-            `Unknown display_mode "${field.display_mode}" for field "${field.name}"`
+            `Unknown display_mode "${field.display_mode}" for field "${
+              field.name
+            }"`
           );
           return false;
       }
@@ -190,7 +189,6 @@ export class MemberDetailsForm extends Component {
             type="submit"
             disabled={loading}
             className="action-form__submit-button"
-            onClick={this.submit.bind(this)}
           >
             {this.buttonText()}
           </Button>
@@ -209,4 +207,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   updateForm: (form: Object) => dispatch(updateForm(form)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MemberDetailsForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MemberDetailsForm);

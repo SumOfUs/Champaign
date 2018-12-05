@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_24_155611) do
+ActiveRecord::Schema.define(version: 2018_11_16_103619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 2018_09_24_155611) do
   create_table "images", id: :serial, force: :cascade do |t|
     t.string "content_file_name"
     t.string "content_content_type"
-    t.integer "content_file_size"
+    t.bigint "content_file_size"
     t.datetime "content_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -239,6 +239,8 @@ ActiveRecord::Schema.define(version: 2018_09_24_155611) do
     t.integer "publish_actions", default: 0, null: false
     t.string "meta_tags"
     t.string "meta_description"
+    t.decimal "total_donations", precision: 10, scale: 2, default: "0.0"
+    t.decimal "fundraising_goal", precision: 10, scale: 2, default: "0.0"
     t.index ["campaign_id"], name: "index_pages_on_campaign_id"
     t.index ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id"
     t.index ["follow_up_page_id"], name: "index_pages_on_follow_up_page_id"
@@ -442,13 +444,13 @@ ActiveRecord::Schema.define(version: 2018_09_24_155611) do
     t.string "title"
     t.string "sound_clip_file_name"
     t.string "sound_clip_content_type"
-    t.integer "sound_clip_file_size"
+    t.bigint "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
     t.json "targets", default: [], array: true
     t.text "description"
     t.string "menu_sound_clip_file_name"
     t.string "menu_sound_clip_content_type"
-    t.integer "menu_sound_clip_file_size"
+    t.bigint "menu_sound_clip_file_size"
     t.datetime "menu_sound_clip_updated_at"
     t.string "restricted_country_code"
     t.integer "caller_phone_number_id"
@@ -549,6 +551,7 @@ ActiveRecord::Schema.define(version: 2018_09_24_155611) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ref"
+    t.string "type", default: "ActionsThermometer", null: false
     t.index ["page_id"], name: "index_plugins_thermometers_on_page_id"
   end
 

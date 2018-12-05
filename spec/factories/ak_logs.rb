@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: ak_logs
@@ -12,11 +13,11 @@
 #  updated_at      :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :ak_log do
-    request_body 'MyText'
-    response_body 'MyText'
-    response_status 'MyString'
-    resource 'MyString'
+    request_body { 'MyText' }
+    response_body { 'MyText' }
+    response_status { 'MyString' }
+    resource { 'MyString' }
   end
 end

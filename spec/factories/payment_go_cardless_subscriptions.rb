@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_go_cardless_subscriptions
@@ -20,12 +21,12 @@
 #  cancelled_at      :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :payment_go_cardless_subscription, class: 'Payment::GoCardless::Subscription' do
     go_cardless_id { "SU#{Faker::Number.number(6)}" }
-    amount 33.12
-    currency 'GBP'
-    status :active
-    cancelled_at nil
+    amount { 33.12 }
+    currency { 'GBP' }
+    status { :active }
+    cancelled_at { nil }
   end
 end

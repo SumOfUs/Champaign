@@ -34,28 +34,32 @@
 #  publish_actions            :integer          default("0"), not null
 #  meta_tags                  :string
 #  meta_description           :string
+#  total_donations            :double            default("0") -> Total donations in CENTS
+#  fundraising_goal           :double            default("0") -> Fundraising goal in CENTS
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :page do
     sequence(:title) { |n| "#{Faker::Company.bs}#{n}" }
-    slug nil # Used by friendly_id  http://norman.github.io/friendly_id/
-    publish_status :published
-    featured false
+    slug { nil } # Used by friendly_id  http://norman.github.io/friendly_id/
+    publish_status { :published }
+    featured { false }
     liquid_layout
     language
-    ak_petition_resource_uri 'http://example.com/petition'
-    ak_donation_resource_uri 'http://example.com/donation'
+    ak_petition_resource_uri { 'http://example.com/petition' }
+    ak_donation_resource_uri { 'http://example.com/donation' }
+    total_donations { 0 }
+    fundraising_goal { 0 }
 
     trait :featured do
-      featured true
+      featured { true }
     end
     trait :published do
-      publish_status :published
+      publish_status { :published }
     end
 
     trait :unpublished do
-      publish_status :unpublished
+      publish_status { :unpublished }
     end
 
     trait :with_petition do

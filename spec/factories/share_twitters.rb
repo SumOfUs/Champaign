@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_twitters
@@ -13,12 +14,12 @@
 #  updated_at  :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :share_twitter, class: 'Share::Twitter' do
-    sp_id 1
-    page nil
-    title 'MyString'
-    description 'MyString {LINK}'
-    button_id 1
+    sp_id { 1 }
+    page { nil }
+    title { 'MyString' }
+    description { 'MyString {LINK}' }
+    button_id { 1 }
   end
 end

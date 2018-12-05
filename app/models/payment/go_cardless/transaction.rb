@@ -30,17 +30,19 @@ class Payment::GoCardless::Transaction < ApplicationRecord
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
   belongs_to :subscription, class_name:   'Payment::GoCardless::Subscription'
 
+  after_create :increment_funding_counter
+
   validates :go_cardless_id, presence: true, allow_blank: false
 
   scope :one_off, -> { where(subscription_id: nil) }
 
   ACTION_FROM_STATE = {
-    submitted:     :submit,
-    confirmed:     :confirm,
-    cancelled:     :cancel,
-    failed:        :fail,
-    charged_back:  :charge_back,
-    paid_out:      :pay_out
+    submitted: :submit,
+    confirmed: :confirm,
+    cancelled: :cancel,
+    failed: :fail,
+    charged_back: :charge_back,
+    paid_out: :pay_out
   }.freeze
 
   aasm do
@@ -79,6 +81,7 @@ class Payment::GoCardless::Transaction < ApplicationRecord
 
   def publish_failed_subscription_charge
     return if subscription.blank?
+
     ChampaignQueue.push({
       type: 'subscription-payment',
       params: {
@@ -89,5 +92,9 @@ class Payment::GoCardless::Transaction < ApplicationRecord
       }
     },
                         { group_id: "gocardless-subscription:#{id}" })
+  end
+
+  def increment_funding_counter
+    FundingCounter.update(page: page, currency: currency, amount: amount)
   end
 end

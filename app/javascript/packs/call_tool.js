@@ -6,11 +6,13 @@ import Wrapper from '../components/ComponentWrapper';
 import CallToolView from '../call_tool/CallToolView';
 
 function mount(root, props, Component = CallToolView) {
+  const el = document.getElementById(root);
+  if (!el) return;
   render(
     <Wrapper locale={props.locale} optimizelyHook={window.optimizelyHook}>
       <Component {...props} />
     </Wrapper>,
-    document.getElementById(root)
+    el
   );
 }
 

@@ -97,7 +97,6 @@ const fetchInitialState = vals => {
     fundraiser: {
       currency: 'USD',
       donationAmount: null,
-      showDirectDebit: false,
       donationBands: fundraiserDefaults.donationBands,
       formValues: fundraiserDefaults.formValues,
       formId: fundraiserDefaults.formId,
@@ -137,6 +136,45 @@ const fetchInitialState = vals => {
         ...defaults.fundraiser,
         ...vals,
       },
+      donationsThermometer: {
+        id: 10,
+        title: null,
+        offset: 0,
+        page_id: 2,
+        active: true,
+        created_at: '2018-11-22T17:58:09.748Z',
+        updated_at: '2018-11-22T17:58:32.582Z',
+        ref: '',
+        type: 'DonationsThermometer',
+        percentage: 0,
+        remaining_amounts: {
+          USD: -90,
+          GBP: -90,
+          EUR: -90,
+          CHF: -90,
+          AUD: -90,
+          NZD: -90,
+          CAD: -90,
+        },
+        total_donations: {
+          USD: 10,
+          GBP: 10,
+          EUR: 10,
+          CHF: 10,
+          AUD: 10,
+          NZD: 10,
+          CAD: 10,
+        },
+        goals: {
+          USD: 100,
+          GBP: 100,
+          EUR: 100,
+          CHF: 100,
+          AUD: 100,
+          NZD: 100,
+          CAD: 100,
+        },
+      },
     },
   };
 };
@@ -146,7 +184,6 @@ const initialize = vals => {
   suite.store = configureStore(data);
   const {
     donationBands,
-    showDirectDebit,
     currency,
     preselectAmount,
     recurringDefault,
@@ -160,11 +197,6 @@ const initialize = vals => {
   suite.store.dispatch({
     type: 'set_donation_bands',
     payload: donationBands,
-  });
-
-  suite.store.dispatch({
-    type: 'toggle_direct_debit',
-    payload: showDirectDebit,
   });
 
   suite.store.dispatch({
@@ -273,9 +305,9 @@ describe('Donation Amount Tab', function() {
 
     it('updates the selected amount when we use the custom input box', () => {
       suite.wrapper.find('#DonationBands-custom-amount').simulate('focus');
-      suite.wrapper
-        .find('#DonationBands-custom-amount')
-        .simulate('change', { target: { value: '8' } });
+      const el = suite.wrapper.find('#DonationBands-custom-amount');
+      el.getDOMNode().value = 8;
+      el.simulate('change');
       expect(
         suite.wrapper.find('FundraiserView').prop('fundraiser').donationAmount
       ).toEqual(8);
@@ -303,9 +335,9 @@ describe('Donation Amount Tab', function() {
         suite.wrapper.find('FundraiserView').prop('fundraiser').currency
       ).toEqual('USD');
       suite.wrapper.find('.AmountSelection__currency-toggle').simulate('click');
-      suite.wrapper
-        .find('.AmountSelection__currency-selector')
-        .simulate('change', { target: { value: 'GBP' } });
+      const el = suite.wrapper.find('.AmountSelection__currency-selector');
+      el.getDOMNode().value = 'GBP';
+      el.simulate('change');
       expect(
         suite.wrapper.find('FundraiserView').prop('fundraiser').currency
       ).toEqual('GBP');
@@ -320,14 +352,7 @@ describe('Donation Amount Tab', function() {
       expect(labels).toEqual(['$2', '$5', '$10', '$25', '$50']);
 
       // interaction
-      suite.wrapper.find('#DonationBands-custom-amount').simulate('focus');
-      suite.wrapper
-        .find('#DonationBands-custom-amount')
-        .simulate('change', { target: { value: '8' } });
-      suite.wrapper.find('.AmountSelection__currency-toggle').simulate('click');
-      suite.wrapper
-        .find('.AmountSelection__currency-selector')
-        .simulate('change', { target: { value: 'GBP' } });
+      suite.wrapper.find('FundraiserView').prop('selectCurrency')('GBP');
 
       // outcome
       labels = suite.wrapper
@@ -335,15 +360,6 @@ describe('Donation Amount Tab', function() {
         .find('Button')
         .map(node => node.text());
       expect(labels).toEqual(['£2', '£5', '£10', '£25', '£50']);
-      expect(
-        suite.wrapper
-          .find('Step')
-          .find('FormattedNumber')
-          .text()
-      ).toEqual('£8');
-      expect(
-        suite.wrapper.find('#DonationBands-custom-amount').prop('value')
-      ).toEqual('£8');
     });
 
     // transitioning
@@ -359,9 +375,9 @@ describe('Donation Amount Tab', function() {
     it('transitions to the next step when we click proceed with an amount entered', () => {
       expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(0);
       suite.wrapper.find('#DonationBands-custom-amount').simulate('focus');
-      suite.wrapper
-        .find('#DonationBands-custom-amount')
-        .simulate('change', { target: { value: '8' } });
+      const el = suite.wrapper.find('#DonationBands-custom-amount');
+      el.getDOMNode().value = '8';
+      el.simulate('change');
       suite.wrapper
         .find('Button.AmountSelection__proceed-button')
         .simulate('click');
@@ -372,11 +388,6 @@ describe('Donation Amount Tab', function() {
 
 describe('Payment Panel', function() {
   describe('Initial state', () => {
-    describe('when directDebitOnly = true', () => {
-      it('[pending] gocardless is the default if showDirectDebit is true');
-      it('[pending] has no effect if showDirectDebit is false');
-    });
-
     it("displays the user's name if they are logged in", () => {
       initialize({
         member: { email: 'asdf@gmail.com', name: 'As Df', country: 'US' },
@@ -472,11 +483,11 @@ describe('Payment Panel', function() {
       ).toEqual(1);
     });
 
-    it('displays the GoCardless button when told to', () => {
+    it('displays the GoCardless button when in a Direct Debit Country', () => {
       initialize({
         outstandingFields: [],
         donationAmount: 2,
-        showDirectDebit: true,
+        formValues: { country: 'DE' },
       });
       expect(
         suite.wrapper.find(
@@ -485,11 +496,25 @@ describe('Payment Panel', function() {
       ).toEqual(3);
     });
 
-    it('does not display the GoCardless button when told not to', () => {
+    it('displays the GoCardless button when in a recurring Direct Debit Country', () => {
       initialize({
         outstandingFields: [],
         donationAmount: 2,
-        showDirectDebit: false,
+        formValues: { country: 'GB' },
+        recurringDefault: 'recurring',
+      });
+      expect(
+        suite.wrapper.find(
+          '.PaymentTypeSelection__payment-methods .PaymentMethod input[type="radio"]'
+        ).length
+      ).toEqual(3);
+    });
+
+    it('does not display the GoCardless button when not in a direct debit country', () => {
+      initialize({
+        outstandingFields: [],
+        donationAmount: 2,
+        formValues: { country: 'CA' },
       });
       expect(
         suite.wrapper.find(
@@ -555,31 +580,6 @@ describe('Payment Panel', function() {
           suite.wrapper.find('FundraiserView').prop('fundraiser').formValues
         ).toEqual({});
       });
-    });
-
-    describe("clicking 'Add Payment Method'", () => {
-      it.skip('hides the panel of existing payment methods', () => {});
-      it.skip('reveals the panel to add a new payment method', () => {});
-    });
-
-    describe('existing payment methods', () => {
-      it('can toggle correctly between them');
-      it('submits the correct selected payment method');
-    });
-
-    describe('new payment method', () => {
-      it('can toggle correctly between them');
-      it('shows the credit card fields only if that is the selected method');
-      it(
-        'shows a PayPal advisory over the button if that is the selected method'
-      );
-      it(
-        'shows a GoCardless advisory over the button if that is the selected method'
-      );
-    });
-
-    describe('error reporting', () => {
-      // TODO
     });
   });
 });

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_facebooks
@@ -17,11 +18,11 @@
 #  image_id    :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :share_facebook, class: 'Share::Facebook' do
-    title 'MyString'
-    description 'MyText'
+    title { 'MyString' }
+    description { 'MyText' }
     page
-    button_id 1
+    button_id { 1 }
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: campaigns
@@ -19,5 +20,17 @@ class Campaign < ApplicationRecord
 
   def action_count
     pages.sum(:action_count)
+  end
+
+  def total_donations
+    pages.sum(:total_donations)
+  end
+
+  def subscriptions_count
+    pages.sum(&:subscriptions_count)
+  end
+
+  def fundraising_goal
+    pages.sum(:fundraising_goal)
   end
 end

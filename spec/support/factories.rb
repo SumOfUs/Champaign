@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:email) { |n| "person#{n}@gmail.com" }
   sequence(:slug)  { |n| "petition-#{n}" }
   sequence(:page_display_order) { |n| n }
@@ -10,12 +10,12 @@ FactoryGirl.define do
   factory :user do
     email { Faker::Internet.email }
     password { Faker::Internet.password }
-    admin false
+    admin { false }
   end
 
   factory :admin, class: :user do
     email
     password { Faker::Internet.password }
-    admin true
+    admin { true }
   end
 end

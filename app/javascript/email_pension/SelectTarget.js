@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import Input from '../components/SweetInput/SweetInput';
 import FormGroup from '../components/Form/FormGroup';
 
-type OwnProps = {
+type Props = {
   handler: (target: any) => void,
   endpoint: string,
   error: any,
@@ -17,18 +17,15 @@ type Target = {
   title: string,
 };
 
-type OwnState = {
+type State = {
   searching: boolean,
   not_found: boolean,
   postcode: string,
   targets: any,
 };
 
-class SelectTarget extends Component {
-  state: OwnState;
-  props: OwnProps;
-
-  constructor(props: OwnProps) {
+class SelectTarget extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

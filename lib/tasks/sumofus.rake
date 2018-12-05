@@ -26,7 +26,7 @@ namespace :sumofus do
 
     puts 'Errors listed below, empty means no errors:'
 
-    %w[en fr de].map do |locale|
+    %w[en fr de es].map do |locale|
       expected_title = I18n.t('fundraiser.generic.title', locale: locale)
       page = Page.find_by(title: expected_title)
       if page.blank?
@@ -105,7 +105,7 @@ namespace :sumofus do
 
     def create_post_action_pages(layout_id, image_handle)
       pages = {}
-      %w[en fr de].map do |locale|
+      %w[en fr de es].map do |locale|
         page = Page.find_or_initialize_by(title: I18n.t('fundraiser.generic.title', locale: locale))
         page.liquid_layout_id = layout_id
         page.language_id = language_ids[locale]
@@ -196,9 +196,9 @@ namespace :sumofus do
 
       Page.reset_counters(page.id, :actions)
       Page.update_counters(page.id, action_count: entry['signature_count'])
-      thermometer = Plugins::Thermometer.where(page_id: page.id).first
-      thermometer.goal = entry['thermometer_target']
-      thermometer.save!
+      actions_thermometer = Plugins::ActionsThermometer.where(page_id: page.id).first
+      actions_thermometer.goal = entry['thermometer_target']
+      actions_thermometer.save!
       petition = Plugins::Petition.where(page_id: page.id).first
       petition.description = entry['petition_ask'].delete('"').gsub('Petition Text:', '')
       petition.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').delete(':')

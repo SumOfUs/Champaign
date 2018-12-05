@@ -34,6 +34,8 @@
 #  publish_actions            :integer          default("0"), not null
 #  meta_tags                  :string
 #  meta_description           :string
+#  total_donations            :double            default("0")
+#  fundraising_goal           :double            default("0")
 #
 
 require 'rails_helper'
@@ -446,8 +448,8 @@ describe Page do
   describe 'plugins' do
     it 'correctly lists the names of plugins' do
       page = create :page
-      [create(:plugins_petition, page: page), create(:plugins_fundraiser, page: page), create(:plugins_thermometer, page: page)]
-      plugin_names = %w[petition fundraiser thermometer]
+      [create(:plugins_petition, page: page), create(:call_tool, page: page), create(:plugins_actions_thermometer, page: page)]
+      plugin_names = %w[petition call_tool actions_thermometer]
       expect(page.plugin_names).to match_array(plugin_names)
     end
   end
@@ -520,19 +522,46 @@ describe Page do
         expect(page).to be_invalid
       end
     end
+  end
 
-    describe 'meta_tags' do
-      it 'is invalid if it has the wrong format' do
-        page.meta_tags = 'random text <hello>'
-        expect(page).to be_invalid
-        expect(page.errors[:meta_tags]).to be_present
-      end
+  describe 'meta_tags' do
+    it 'is invalid if it has the wrong format' do
+      page.meta_tags = 'random text <hello>'
+      expect(page).to be_invalid
+      expect(page.errors[:meta_tags]).to be_present
+    end
 
-      it 'is invalid if it doesn\'t contain at least one META tag' do
-        page.meta_tags = '<hello> </hello>'
-        expect(page).to be_invalid
-        expect(page.errors[:meta_tags]).to be_present
-      end
+    it 'is invalid if it doesn\'t contain at least one META tag' do
+      page.meta_tags = '<hello> </hello>'
+      expect(page).to be_invalid
+      expect(page.errors[:meta_tags]).to be_present
+    end
+  end
+
+  describe 'total donations counter' do
+    let!(:page_with_donations) { create :page, total_donations: 101_000 }
+
+    it 'increments the total donations counter' do
+      FactoryBot.create(:payment_braintree_transaction, page: page_with_donations, amount: 10, currency: 'USD')
+      expect(page_with_donations.reload.total_donations.to_s).to eq '102000.0'
+    end
+
+    it 'updates the total donations counter when a GoCardless transaction is created' do
+      expect(page.total_donations).to eq 0
+      FactoryBot.create(:payment_go_cardless_transaction, page: page, amount: 10, currency: 'USD')
+      expect(page.total_donations.to_s).to eq '1000.0'
+    end
+
+    it 'updates the total donations counter with a converted amount when a donation is created in another currency' do
+      converted_amount = double(amount: 10, currency: 'EUR')
+      total_donations = double(cents: page.total_donations)
+      allow(Money).to receive(:new).and_return(total_donations)
+      allow(Money).to receive(:from_amount).and_return(converted_amount)
+      allow(converted_amount).to receive(:exchange_to).with('USD').and_return(double(cents: 1200))
+
+      expect(page.total_donations).to eq 0
+      FactoryBot.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'EUR')
+      expect(page.total_donations.to_s).to eq '1200.0'
     end
   end
 end

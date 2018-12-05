@@ -42,12 +42,12 @@ class LiquidRenderer
       form_values: form_values,
       outstanding_fields: outstanding_fields,
       donation_bands: donation_bands,
-      thermometer: thermometer,
+      actions_thermometer: actions_thermometer,
+      donations_thermometer: donations_thermometer,
       call_tool: call_tool_data,
       email_tool: email_tool_data,
       email_pension: email_pension_data,
       action_count: @page.action_count,
-      show_direct_debit: show_direct_debit?,
       payment_methods: @payment_methods
     }.deep_stringify_keys
   end
@@ -110,11 +110,6 @@ class LiquidRenderer
     (member_data || {}).merge(@url_params).stringify_keys.select { |k, _| field_keys.include? k }
   end
 
-  def show_direct_debit?
-    recurring_default = @url_params[:recurring_default] || isolate_from_plugin_data(:recurring_default).first
-    DirectDebitDecider.decide([@location.try(:country_code), @member.try(:country)], recurring_default)
-  end
-
   def outstanding_fields
     isolate_from_plugin_data(:outstanding_fields)
   end
@@ -123,8 +118,12 @@ class LiquidRenderer
     isolate_from_plugin_data(:donation_bands).first
   end
 
-  def thermometer
-    plugin_data.deep_symbolize_keys[:plugins][:thermometer].try(:values).try(:first)
+  def actions_thermometer
+    plugin_data.deep_symbolize_keys[:plugins][:actions_thermometer].try(:values).try(:first)
+  end
+
+  def donations_thermometer
+    plugin_data.deep_symbolize_keys[:plugins][:donations_thermometer].try(:values).try(:first)
   end
 
   def call_tool_data

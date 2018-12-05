@@ -11,7 +11,7 @@
 #  updated_at    :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :tag do
     sequence(:name) { |n| "#{['+', '@', '*'].sample}#{Faker::Commerce.color}#{n}" }
     actionkit_uri

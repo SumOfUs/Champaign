@@ -12,10 +12,12 @@ window.mountCallToolAnalytics = (
   root: string,
   props: callToolAnalyticsProps
 ) => {
+  const el = document.getElementById(root);
+  if (!el) return;
   render(
     <ComponentWrapper locale="en">
       <CallToolAnalyticsView {...props} />
     </ComponentWrapper>,
-    document.getElementById(root)
+    el
   );
 };

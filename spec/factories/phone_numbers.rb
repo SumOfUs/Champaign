@@ -7,7 +7,7 @@
 #  country :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :phone_number do
     number {
       ['+448008085422', '+448000119722', '+61261885422', '+13437003422'].sample

@@ -6,7 +6,8 @@ import classnames from 'classnames';
 import { ConsentControls } from './ConsentControls';
 import ee from '../shared/pub_sub';
 import { changeConsent } from '../state/consent';
-import type { AppState } from '../state/reducers';
+import type { AppState } from '../state';
+import type { Dispatch } from 'redux';
 import './ConsentComponent.css';
 
 type Props = {
@@ -25,9 +26,7 @@ type Props = {
   changeConsent: (value: boolean) => void,
 };
 
-class ConsentComponent extends PureComponent {
-  props: Props;
-
+class ConsentComponent extends PureComponent<Props> {
   changeConsent = (consented: boolean) => {
     this.props.changeConsent(consented);
   };
@@ -112,8 +111,11 @@ const mapStateToProps = ({ member, consent }: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeConsent: (value: boolean) => dispatch(changeConsent(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConsentComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConsentComponent);

@@ -14,11 +14,18 @@
 #  ref        :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :plugins_thermometer, class: 'Plugins::Thermometer' do
-    title 'MyString'
-    offset 1
-    page nil
-    active false
+    title { 'MyString' }
+    offset { 1 }
+    page { nil }
+    active { false }
+  end
+
+  factory :plugins_donations_thermometer, parent: :plugins_thermometer, class: 'Plugins::DonationsThermometer' do
+    type { 'DonationsThermometer' }
+  end
+
+  factory :plugins_actions_thermometer, parent: :plugins_thermometer, class: 'Plugins::ActionsThermometer' do
   end
 end

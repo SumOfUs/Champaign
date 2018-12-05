@@ -11,6 +11,7 @@ describe 'API::MemberServices' do
     let!(:subscription) { create(:payment_go_cardless_subscription, customer: gc_customer) }
     let!(:page) { create(:page) }
     let!(:action) { create(:action, member: member, page: page) }
+    let!(:authentication) { create(:member_authentication, member: member) }
 
     context 'with valid auth headers' do
       let(:valid_headers) do
@@ -30,7 +31,7 @@ describe 'API::MemberServices' do
           %w[member
              actions
              calls
-             authentications
+             authentication
              braintree_customer
              braintree_subscriptions
              braintree_payment_methods

@@ -1,6 +1,15 @@
-/* @flow */
-import { includes, isEmpty, keys, pick, reduce, without } from 'lodash';
+// @flow
+import {
+  compact,
+  includes,
+  isEmpty,
+  keys,
+  pick,
+  reduce,
+  without,
+} from 'lodash';
 
+import { isDirectDebitSupported } from '../../util/directDebitDecider';
 import type {
   Fundraiser as State,
   FundraiserAction as Action,
@@ -13,7 +22,12 @@ import type {
 
 export const initialState: State = {
   currency: 'USD',
+  currentPaymentType: 'card',
+  currentStep: 0,
+  showDirectDebit: false,
+  directDebitOnly: false,
   disableSavedPayments: false,
+  donationAmount: undefined,
   donationBands: {
     USD: [2, 5, 10, 25, 50],
     GBP: [2, 5, 10, 25, 50],
@@ -23,24 +37,20 @@ export const initialState: State = {
     AUD: [2, 5, 10, 25, 50],
     NZD: [2, 5, 10, 25, 50],
   },
-  donationAmount: undefined,
-  currentStep: 0,
-  recurringDefault: 'one_off',
-  recurring: false,
-  storeInVault: false,
-  currentPaymentType: 'card',
-  showDirectDebit: false,
-  directDebitOnly: false,
-  paymentMethods: [],
-  title: '',
   fields: [],
-  formId: '',
   form: {},
+  formId: '',
   formValues: {},
-  submitting: false,
   freestanding: false,
   outstandingFields: [],
+  paymentMethods: [],
+  paymentTypes: ['card', 'paypal'],
   preselectAmount: false,
+  recurring: false,
+  recurringDefault: 'one_off',
+  storeInVault: false,
+  submitting: false,
+  title: '',
 };
 
 export default (state: State = initialState, action: Action): State => {
@@ -59,7 +69,11 @@ export default (state: State = initialState, action: Action): State => {
         'donationAmount'
       );
       initialData.formValues = initialData.formValues || {};
-      return { ...state, ...initialData };
+      return {
+        ...state,
+        ...initialData,
+        paymentTypes: ['paypal', 'card'],
+      };
     case 'search_string_overrides':
       return searchStringOverrides(state, action.payload);
     case 'reset_member':
@@ -82,20 +96,47 @@ export default (state: State = initialState, action: Action): State => {
       return { ...state, donationAmount };
     case 'change_step':
       return { ...state, currentStep: action.payload };
-    case 'proceed_step':
-      const currentStep = state.currentStep + 1;
-      return { ...state, currentStep };
-    case 'update_form':
-      return { ...state, form: action.payload };
-    case 'set_direct_debit_only':
-      if (state.showDirectDebit) {
-        return {
-          ...state,
-          currentPaymentType: 'gocardless',
-          directDebitOnly: action.payload,
-        };
-      }
-      return state;
+    case 'update_form': {
+      const form = action.payload;
+      const showDirectDebit = isDirectDebitSupported({
+        country: form.country,
+        recurring: state.recurring,
+      });
+      const paymentTypes = supportedPaymentTypes({
+        showDirectDebit,
+        directDebitOnly: state.directDebitOnly,
+        recurring: state.recurring,
+      });
+      const currentPaymentType = safePaymentType(
+        state.currentPaymentType,
+        paymentTypes
+      );
+      return {
+        ...state,
+        form,
+        showDirectDebit,
+        paymentTypes,
+        currentPaymentType,
+      };
+    }
+    case 'set_direct_debit_only': {
+      const paymentTypes = supportedPaymentTypes({
+        showDirectDebit: state.showDirectDebit,
+        directDebitOnly: action.payload,
+        recurring: state.recurring,
+      });
+      const currentPaymentType = safePaymentType(
+        state.currentPaymentType,
+        paymentTypes
+      );
+
+      return {
+        ...state,
+        directDebitOnly: action.payload,
+        paymentTypes,
+        currentPaymentType,
+      };
+    }
     case 'set_donation_bands':
       const payload: DonationBands = action.payload;
       const donationBands: DonationBands = isEmpty(payload)
@@ -110,17 +151,60 @@ export default (state: State = initialState, action: Action): State => {
         donationBands,
       };
     case 'set_payment_type':
-      return { ...state, currentPaymentType: action.payload };
-    case 'set_recurring':
-      return { ...state, recurring: action.payload };
-    case 'set_recurring_defaults':
-      return { ...state, ...recurringState(action.payload) };
+      return {
+        ...state,
+        currentPaymentType: safePaymentType(action.payload, state.paymentTypes),
+      };
+    case 'set_recurring': {
+      const showDirectDebit = isDirectDebitSupported({
+        country: state.form.country || state.formValues.country,
+        recurring: action.payload,
+      });
+      const paymentTypes = supportedPaymentTypes({
+        showDirectDebit,
+        directDebitOnly: state.directDebitOnly,
+        recurring: action.payload,
+      });
+      const currentPaymentType = safePaymentType(
+        state.currentPaymentType,
+        paymentTypes
+      );
+
+      return {
+        ...state,
+        recurring: action.payload,
+        showDirectDebit,
+        paymentTypes,
+        currentPaymentType,
+      };
+    }
+    case 'set_recurring_defaults': {
+      const data = recurringState(action.payload);
+      const showDirectDebit = isDirectDebitSupported({
+        country: state.form.country || state.formValues.country,
+        recurring: data.recurring,
+      });
+      const paymentTypes = supportedPaymentTypes({
+        showDirectDebit,
+        directDebitOnly: state.directDebitOnly,
+        recurring: data.recurring,
+      });
+      const currentPaymentType = safePaymentType(
+        state.currentPaymentType,
+        paymentTypes
+      );
+      return {
+        ...state,
+        ...data,
+        showDirectDebit,
+        paymentTypes,
+        currentPaymentType,
+      };
+    }
     case 'set_store_in_vault':
       return { ...state, storeInVault: action.payload };
     case 'set_submitting':
       return { ...state, submitting: action.payload };
-    case 'toggle_direct_debit':
-      return { ...state, showDirectDebit: action.payload };
     case 'preselect_amount':
       return {
         ...state,
@@ -132,16 +216,33 @@ export default (state: State = initialState, action: Action): State => {
     // Update our form with data from another form
     // E.g. petition was signed, so we can re-use the data from that form in
     // this form.
-    case '@@chmp:action_form:updated':
+    case '@@chmp:action_form:updated': {
       const relevantFields = state.fields.map(field => field.name);
       const formValues = pick(action.payload, relevantFields);
+      const form = formValues;
       const outstandingFields = relevantFields.filter(key => !formValues[key]);
+      const showDirectDebit = isDirectDebitSupported({
+        country: formValues.country,
+        recurring: state.recurring,
+      });
+      const paymentTypes = supportedPaymentTypes({
+        showDirectDebit: showDirectDebit,
+        directDebitOnly: state.directDebitOnly,
+        recurring: state.recurring,
+      });
+      const currentPaymentType = safePaymentType(
+        state.currentPaymentType,
+        paymentTypes
+      );
       return {
         ...state,
-        form: formValues,
+        form,
         formValues,
         outstandingFields,
+        paymentTypes,
+        currentPaymentType,
       };
+    }
     default:
       return state;
   }
@@ -212,4 +313,16 @@ type Search = { [key: string]: string };
 export function searchStringOverrides(state: State, search: Search): State {
   const handlers = pick(searchStringHandlers, keys(search));
   return reduce(handlers, (res, handler, k) => handler(res, search[k]), state);
+}
+
+function supportedPaymentTypes(data: any) {
+  const list = [];
+  if (data.showDirectDebit) list.push('gocardless');
+  if (!data.directDebitOnly) list.push('paypal', 'card');
+  if (!(data.directDebitOnly || data.recurring)) list.push('google');
+  return list;
+}
+
+function safePaymentType(pt: PaymentType, pts: PaymentType[]): PaymentType {
+  return pts.includes(pt) ? pt : pts[0];
 }

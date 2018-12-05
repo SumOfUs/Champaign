@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PluginsController < ApplicationController
   before_action :find_page
 

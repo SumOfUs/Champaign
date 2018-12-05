@@ -20,7 +20,7 @@ gem 'i18n-js'
 gem 'jbuilder'
 gem 'kaminari'
 gem 'liquid'
-gem 'loofah', '~> 2.2.1'
+gem 'loofah', '~> 2.2.3'
 gem 'money'
 gem 'omniauth-google-oauth2'
 gem 'pg'
@@ -35,7 +35,11 @@ gem 'slim-rails'
 
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
-gem 'aws-sdk', '~> 3'
+gem 'aws-sdk-core', '~> 3'
+gem 'aws-sdk-s3', '~> 1.25'
+gem 'aws-sdk-sns', '~> 1.3'
+gem 'aws-sdk-sqs', '~> 1.10'
+gem 'aws-sdk-dynamodb', '~> 1.10'
 gem 'paper_trail', '~> 9.0'
 gem 'paperclip', '~> 6.0'
 gem 'rmagick' # rmagick for image processing
@@ -52,7 +56,7 @@ gem 'config'
 gem 'envyable', require: 'envyable/rails-now'
 gem 'friendly_id'
 gem 'jwt'
-gem 'logger'
+gem 'logger', '1.2.7'
 gem 'lograge', '~> 0.10.0'
 gem 'metamagic'
 gem 'money-oxr'
@@ -68,16 +72,16 @@ gem 'uglifier'
 gem 'webpacker', '~> 3.0'
 
 group :development, :test do
-  gem 'byebug'
   gem 'capybara' # Capybara for integration testing
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'magic_lamp'
   gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
+  gem 'byebug'
 end
 
 group :development do
@@ -86,7 +90,6 @@ group :development do
   gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard' # [OSX] brew install terminal-notifier
   gem 'web-console'
-  gem 'byebug'
 end
 
 group :test do
@@ -96,4 +99,5 @@ group :test do
   gem 'rspec-json_expectations'
   gem 'timecop'
   gem 'webmock'
+  gem 'rubocop-rspec'
 end

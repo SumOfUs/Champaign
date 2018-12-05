@@ -6,17 +6,16 @@ describe PendingActionService do
   let(:page) { create(:page) }
   it 'is true' do
     expect(true).to be true
-    puts page.language.code
   end
 
   it 'saves action and creates token' do
     payload = {
-      email:    'hello@example.com',
-      form_id:  '1',
-      page_id:  page.id,
-      source:   'fb',
-      country:  'FR',
-      akid:     '1.2.3',
+      email: 'hello@example.com',
+      form_id: '1',
+      page_id: page.id,
+      source: 'fb',
+      country: 'FR',
+      akid: '1.2.3',
       referring_akid: '4.5.6',
       name: 'Hello There'
     }

@@ -1,0 +1,108 @@
+
+.Thermometer {
+  margin: 5px 0 20px;
+}
+
+.Thermometer-title {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.Thermometer-stats {
+  color: #aaa;
+  width: 100%;
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  .amount {
+    font-size: 1.5em;
+    color: #555;
+  }
+}
+
+.Thermometer-raised {
+  margin:0;
+  display: inline-block;
+  width: 50%;
+  text-align: left;
+}
+.Thermometer-goal {
+  margin:0;
+  display: inline-block;
+  width: 50%;
+  text-align: right;
+}
+
+.Thermometer-bg {
+  border: 2px solid #00c0cf;
+  margin-top: 5px;
+  border-radius: 4px;
+  height: 16px;
+  padding: 0;
+  position: relative;
+}
+
+.Thermometer-mercury {
+  overflow: hidden;
+  background-color: #00c0cf;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-width: 8px;
+}
+
+.Thermometer-markers {
+  position: relative;
+  height: 10px;
+  font-weight: bold;
+  font-size: .9em;
+  margin-top: 5px;
+  color: #555;
+  span { display: inline-block; }
+}
+
+.Thermometer-markers-right {
+  position: absolute;
+  right: 0;
+}
+
+.Thermometer-markers-marker {
+  left: 0;
+  right: 0;
+  border-left: 1px solid #888;
+  position: absolute;
+  height: 6px;
+
+  &.p25 {
+    margin-left: 25%;
+  }
+
+  &.p75 {
+    margin-left: 75%;
+  }
+
+  &.p50 {
+    margin-left: 50%;
+    height: 8px;
+  }
+}
+
+/* Free standing version */
+.fundraiser-bar--freestanding {
+  .Thermometer-markers {
+    font-size: 1.2em;
+  }
+
+  .Thermometer-markers-marker {
+    height: 8px;
+    &.p50 {
+      height: 10px;
+    }
+  }
+
+  .Thermometer-stats {
+    line-height: 18px;
+    font-size: 14px;
+  }
+}

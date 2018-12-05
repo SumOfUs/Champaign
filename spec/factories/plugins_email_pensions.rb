@@ -19,7 +19,7 @@
 #  from_email_address_id :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :email_pension, class: 'Plugins::EmailPension' do
     association :page
   end

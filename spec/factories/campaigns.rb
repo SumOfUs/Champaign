@@ -9,7 +9,7 @@
 #  updated_at :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :campaign do
     sequence(:name) { |n| "#{Faker::Company.bs}#{n}" }
   end

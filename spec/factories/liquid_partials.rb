@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: liquid_partials
@@ -10,9 +11,9 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :liquid_partial do
     title { Faker::Company.bs }
-    content "<div class='fun'>{{ title }}</div>"
+    content { "<div class='fun'>{{ title }}</div>" }
   end
 end

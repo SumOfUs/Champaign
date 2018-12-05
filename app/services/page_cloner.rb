@@ -56,7 +56,6 @@ class PageCloner
 
   def plugins
     cloned_page.plugins.each(&:destroy!)
-
     page.plugins.each do |plugin|
       plugin.dup.tap do |clone|
         clone.page = cloned_page
@@ -74,6 +73,7 @@ class PageCloner
 
   def language
     return unless @language_id.present?
+
     language_record = Language.find_by(id: @language_id)
     cloned_page.update_attributes(language_id: language_record.id) if language_record.present?
   end
@@ -81,6 +81,7 @@ class PageCloner
   def update_form(plugin)
     # plugins_with_forms = page.plugins.select { |p| p.try(:form).present? }
     return unless plugin.respond_to?(:form=)
+
     default_form = DefaultFormBuilder.find_or_create(locale: cloned_page.language.code)
     plugin.form = FormDuplicator.duplicate(default_form)
   end
@@ -122,9 +123,7 @@ class PageCloner
 
   def facebook_params(share)
     vals = share.slice(:description, :title, :image_id)
-    if @image_id_mapping.present? && vals[:image_id].present?
-      vals[:image_id] = @image_id_mapping[vals[:image_id]]
-    end
+    vals[:image_id] = @image_id_mapping[vals[:image_id]] if @image_id_mapping.present? && vals[:image_id].present?
     vals
   end
 

@@ -2,7 +2,7 @@
 
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
-  before_action :get_page, except: %i[index featured similar]
+  before_action :get_page, except: %i[index featured similar total_donations]
   before_action :authenticate_user!, only: %i[update share_rows]
 
   layout false
@@ -41,6 +41,7 @@ class Api::PagesController < ApplicationController
 
   def actions
     return head :forbidden if @page.secure?
+
     query = if @page.default_hidden?
               published_status = Action.publish_statuses['published']
               "page_id = '#{@page.id}' AND publish_status = '#{published_status}'"
@@ -56,6 +57,31 @@ class Api::PagesController < ApplicationController
   def similar
     @pages = PageService.list_similar(Page.find(params[:page_id]), limit: params[:limit] || 5)
     render :index, format: :json
+  end
+
+  def total_donations
+    @page = Page.find(params[:page_id])
+    if @page.campaign.blank?
+      amount = @page.total_donations
+      goal = @page.fundraising_goal
+    else
+      amount = @page.campaign.total_donations
+      goal = @page.campaign.fundraising_goal
+    end
+
+    total_donations = FundingCounter.convert(currency: params[:currency], amount: amount)
+    fundraising_goal = FundingCounter.convert(currency: params[:currency], amount: goal)
+
+    subscriptions_count = Rails.cache.fetch("funding_counters/#{@page.id}/total_recurring", expires_in: 10.seconds) do
+      (@page.campaign || @page).subscriptions_count
+    end
+
+    render json: {
+      total_donations: total_donations.to_s,
+      fundraising_goal: Donations::Utils.round_fundraising_goals([fundraising_goal]).first.to_s,
+      recurring_donations: subscriptions_count,
+      recurring_donations_goal: 100 # recurring_donations_goal
+    }
   end
 
   private
@@ -76,6 +102,7 @@ class Api::PagesController < ApplicationController
     unwrapped = {}
     Rack::Utils.parse_nested_query(unsafe_params.to_query).each_pair do |key, nested|
       next unless nested.is_a? Hash
+
       nested.each_pair do |_subkey, subnested|
         unwrapped[key] = subnested if subnested.is_a? Hash
       end

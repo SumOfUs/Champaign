@@ -31,10 +31,11 @@ export type Fundraiser = {
   freestanding?: boolean,
   outstandingFields: string[],
   paymentMethods: any[],
+  paymentTypes: PaymentType[],
   preselectAmount: boolean,
   recurring: boolean,
   recurringDefault: EnumRecurringDefault,
-  showDirectDebit?: boolean,
+  showDirectDebit: boolean,
   storeInVault: boolean,
   submitting: boolean,
   title: string,
@@ -47,6 +48,7 @@ export type FundraiserAction =
   | { type: 'change_currency', payload: string }
   | { type: 'change_step', payload: number }
   | { type: 'preselect_amount', payload: boolean }
+  | { type: 'reset_member' }
   | { type: 'set_direct_debit_only', payload: boolean }
   | { type: 'set_donation_bands', payload: DonationBands }
   | { type: 'set_payment_type', payload: PaymentType }
@@ -54,7 +56,6 @@ export type FundraiserAction =
   | { type: 'set_recurring_defaults', payload?: string }
   | { type: 'set_submitting', payload: boolean }
   | { type: 'set_store_in_vault', payload: boolean }
-  | { type: 'toggle_direct_debit', payload: boolean }
   | { type: 'search_string_overrides', payload: { [key: string]: string } }
   | { type: 'update_form', payload: { [key: string]: any } };
 
@@ -70,11 +71,10 @@ export type FundraiserInitializationOptions = {
   pageId: string,
   preselectAmount: boolean,
   recurringDefault: EnumRecurringDefault,
-  showDirectDebit: boolean,
   title: string,
 };
 
-export type PaymentType = 'card' | 'paypal' | 'gocardless';
+export type PaymentType = 'card' | 'paypal' | 'gocardless' | 'google' | 'apple';
 
 export type RecurringState = {
   recurring: boolean,

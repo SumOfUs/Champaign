@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Donations::Utils do
   subject { Donations::Utils }
@@ -38,6 +38,20 @@ describe Donations::Utils do
       expect(
         subject.round([4, 5, 7, 12.2, 199, 31, 100, 6])
       ).to eq [4, 5, 7, 12, 200, 30, 100, 6]
+    end
+  end
+
+  describe '.round_fundraising_goals' do
+    it 'returns only integers and handles many values' do
+      expect(
+        subject.round_fundraising_goals([10, 123, 4023, 320_490, 300_000, 281_949, 0, '23981'])
+      ).to eq [10, 150, 4500, 350_000, 300_000, 300_000, 0, 25_000]
+    end
+
+    it 'rounds values proportionately to their magnitude' do
+      expect(
+        subject.round_fundraising_goals([99, 999, 9999, 99_999, 999_999])
+      ).to eq [100, 1000, 10_000, 100_000, 1_000_000]
     end
   end
 

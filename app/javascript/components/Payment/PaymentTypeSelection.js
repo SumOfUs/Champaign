@@ -1,22 +1,25 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { without } from 'lodash';
 import PaymentMethodWrapper from '../ExpressDonation/PaymentMethodWrapper';
 import type { AppState } from '../../state';
 import type { PaymentType } from '../../state/fundraiser/types';
+import type { Dispatch } from 'redux';
 
 type Props = {
-  disabled?: boolean,
-  currentPaymentType?: string,
-  onChange: (paymentType: string) => void,
-  showDirectDebit: boolean,
+  currentPaymentType?: PaymentType,
   directDebitOnly: boolean,
+  disabled?: boolean,
+  features: $PropertyType<AppState, 'features'>,
+  onChange: (paymentType: PaymentType) => void,
+  paymentTypes: PaymentType[],
+  recurring: boolean,
+  showDirectDebit: boolean,
 };
-export class PaymentTypeSelection extends Component {
-  props: Props;
-
+export class PaymentTypeSelection extends PureComponent<Props> {
   showCardAndPaypal() {
     if (this.props.directDebitOnly && !this.props.showDirectDebit) return true;
     if (this.props.directDebitOnly) return false;
@@ -24,17 +27,11 @@ export class PaymentTypeSelection extends Component {
   }
 
   paymentTypes(): PaymentType[] {
-    const paymentTypes = [];
-
-    if (this.props.showDirectDebit) {
-      paymentTypes.push('gocardless');
+    if (!this.props.features.googlepay) {
+      return without(this.props.paymentTypes, 'google');
     }
 
-    if (this.showCardAndPaypal()) {
-      paymentTypes.push('paypal', 'card');
-    }
-
-    return paymentTypes;
+    return this.props.paymentTypes;
   }
 
   render() {
@@ -51,11 +48,13 @@ export class PaymentTypeSelection extends Component {
           </span>
 
           {this.paymentTypes().map((paymentType, i) => {
+            const currentDisabled =
+              paymentType === 'google' && this.props.recurring;
             return (
               <div className={classnames('PaymentMethod', paymentType)} key={i}>
                 <label>
                   <input
-                    disabled={disabled}
+                    disabled={disabled || currentDisabled}
                     type="radio"
                     checked={currentPaymentType === paymentType}
                     onChange={e => onChange(paymentType)}
@@ -74,7 +73,20 @@ export class PaymentTypeSelection extends Component {
   }
 }
 
-export default connect((state: AppState) => ({
-  showDirectDebit: state.fundraiser.showDirectDebit,
+const mapStateToProps = (state: AppState) => ({
   directDebitOnly: state.fundraiser.directDebitOnly,
-}))(PaymentTypeSelection);
+  features: state.features,
+  paymentTypes: state.fundraiser.paymentTypes,
+  recurring: state.fundraiser.recurring,
+  showDirectDebit: state.fundraiser.showDirectDebit,
+  currentPaymentType: state.fundraiser.directDebitOnly
+    ? 'gocardless'
+    : state.fundraiser.currentPaymentType,
+});
+
+const mapDispatch = (dispatch: Dispatch<*>) => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatch
+)(PaymentTypeSelection);

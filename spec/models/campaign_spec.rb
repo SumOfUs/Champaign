@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: campaigns
@@ -22,6 +23,26 @@ describe Campaign do
 
     it 'returns sum of counts from associated pages' do
       expect(campaign.action_count).to eq(10)
+    end
+  end
+
+  describe 'donations count' do
+    let(:campaign) { create(:campaign) }
+    let!(:page_a) { create(:page, campaign: campaign, total_donations: 500) }
+    let!(:page_b) { create(:page, campaign: campaign, total_donations: 1000) }
+
+    it 'returns sum of counts from associated pages' do
+      expect(campaign.total_donations).to eq(1500)
+    end
+  end
+
+  describe 'fundraising goal' do
+    let(:campaign) { create(:campaign) }
+    let!(:page_a) { create(:page, campaign: campaign, fundraising_goal: 1000) }
+    let!(:page_b) { create(:page, campaign: campaign, fundraising_goal: 1000) }
+
+    it 'returns sum of fundraising goals from associated pages' do
+      expect(campaign.fundraising_goal).to eq(2000)
     end
   end
 end

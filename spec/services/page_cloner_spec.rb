@@ -6,8 +6,13 @@ describe PageCloner do
   let!(:tag) { create(:tag) }
   let(:campaign) { create(:campaign) }
   let!(:petition_partial) { create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref] }}' }
-  let!(:thermo_partial) { create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref] }}' }
-  let(:liquid_layout) { create(:liquid_layout, :default) }
+  let!(:actions_thermo_partial) do
+    create :liquid_partial, title: 'thermometer', content: '{{ plugins.actions_thermometer[ref] }}'
+  end
+  let!(:fundraising_partial) do
+    create :liquid_partial, title: 'fundraiser', content: '{{ plugins.fundraiser[ref] }}'
+  end
+  let(:liquid_layout) { create(:liquid_layout, :scrolling) }
   let(:page) do
     create(
       :page,
@@ -211,12 +216,17 @@ describe PageCloner do
     end
 
     it 'has the plugins indicated by the liquid layout before the clone' do
-      expect(page.plugins.count).to eq 2
-      expect(page.plugins.map(&:class)).to match_array([Plugins::Petition, Plugins::Thermometer])
+      plugins_array =
+        [Plugins::Petition,
+         Plugins::ActionsThermometer,
+         Plugins::Fundraiser,
+         Plugins::DonationsThermometer]
+      expect(page.plugins.count).to eq 4
+      expect(page.plugins.map(&:class)).to match_array(plugins_array)
     end
 
     it 'clones plugins' do
-      expect(cloned_page.plugins.count).to eq(2)
+      expect(cloned_page.plugins.count).to eq(4)
       expect(cloned_page.plugins).not_to match(page.plugins)
     end
 
@@ -225,9 +235,18 @@ describe PageCloner do
       expect(cloned).not_to eq(original)
     end
 
-    it 'clones thermometer' do
-      original, cloned = get_plugin(Plugins::Thermometer)
+    it 'clones actions thermometer' do
+      original, cloned = get_plugin(Plugins::ActionsThermometer)
       expect(cloned).not_to eq(original)
+    end
+
+    it 'clones donations thermometer' do
+      original, cloned = get_plugin(Plugins::DonationsThermometer)
+      expect(cloned).not_to eq(original)
+    end
+
+    it 'does not increase donations thermometers on the original page' do
+      expect { cloned_page }.to_not change { Plugins::DonationsThermometer.where(page_id: page.id).count }
     end
 
     context 'forms' do
@@ -251,13 +270,13 @@ describe PageCloner do
 
         it 'with a language_id it creates a new form with the same language' do
           @language_id = create(:language, :german).id
-          expect { cloned_page }.to change { Form.count }.by 2 # it also creates the german master form
+          expect { cloned_page }.to change { Form.count }.by 3 # it also creates the german master form
           expect(cloned_form.form_elements.map(&:name)).not_to match_array(form.form_elements.map(&:name))
           expect(cloned_form.form_elements.map(&:label)).to include('VOLLSTÄNDIGER NAME')
         end
 
         it 'without a language_id' do
-          expect { cloned_page }.to change { Form.count }.by 1
+          expect { cloned_page }.to change { Form.count }.by 2
           expect(cloned_form.form_elements.map(&:name)).not_to match_array(form.form_elements.map(&:name))
         end
       end

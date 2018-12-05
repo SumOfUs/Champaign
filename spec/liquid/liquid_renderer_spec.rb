@@ -9,6 +9,12 @@ describe LiquidRenderer do
   let(:renderer)      { LiquidRenderer.new(page) }
   let(:cache_helper)  { double(:cache_helper, key_for_data: 'foo', key_for_markup: 'bar') }
 
+  around(:each) do |example|
+    VCR.use_cassette('money_from_oxr') do
+      example.run
+    end
+  end
+
   describe 'new' do
     it 'receives the correct arguments' do
       expect do
@@ -162,9 +168,9 @@ describe LiquidRenderer do
         location
         member
         donation_bands
-        thermometer
+        actions_thermometer
+        donations_thermometer
         action_count
-        show_direct_debit
         payment_methods
         form_values
         call_tool
@@ -175,33 +181,6 @@ describe LiquidRenderer do
       expect(actual_keys).to match_array(expected_keys)
     end
 
-    describe 'show_direct_debit' do
-      let(:location) { instance_double('Geocoder::Result::Freegeoip', data: { country_code: 'US' }, country_code: 'US') }
-      let(:member) { build :member, country: 'DE' }
-      let(:form) { create :form_with_email_and_name }
-      let(:fundraiser) { create :plugins_fundraiser, page: page, form: form }
-
-      before :each do
-        create :plugins_fundraiser, page: page, form: form, recurring_default: 'recurring'
-        allow(DirectDebitDecider).to receive(:decide).and_return(true)
-      end
-
-      it 'calls DirectDebitDecider with url_params[:recurring_default] if both present' do
-        LiquidRenderer.new(page, member: member, url_params: { recurring_default: 'one_off' }).personalization_data
-        expect(DirectDebitDecider).to have_received(:decide).with([nil, 'DE'], 'one_off')
-      end
-
-      it 'calls DirectDebitDecider with fundraiser.recurring_default if no url_params[:recurring_default]' do
-        LiquidRenderer.new(page, member: member).personalization_data
-        expect(DirectDebitDecider).to have_received(:decide).with([nil, 'DE'], 'recurring')
-      end
-
-      it 'calls DirectDebitDecider with location country and member country' do
-        LiquidRenderer.new(page, member: member, location: location).personalization_data
-        expect(DirectDebitDecider).to have_received(:decide).with(%w[US DE], 'recurring')
-      end
-    end
-
     describe 'outstanding_fields' do
       it 'is [] if it has no plugins' do
         expect(page.plugins.size).to eq 0
@@ -209,7 +188,7 @@ describe LiquidRenderer do
       end
 
       it "is [] if it's plugins don't have forms" do
-        create :plugins_thermometer, page: page
+        create :plugins_actions_thermometer, page: page
         expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to eq []
       end
 
@@ -247,6 +226,7 @@ describe LiquidRenderer do
       end
 
       before :each do
+        allow_any_instance_of(Plugins::DonationsThermometer).to receive(:liquid_data).and_return({})
         allow(PaymentProcessor::Currency).to receive(:convert)
       end
 
@@ -382,23 +362,23 @@ describe LiquidRenderer do
       end
     end
 
-    describe 'thermometer' do
+    describe 'actions thermometer' do
       it 'is nil if no plugins' do
         expect(page.plugins.size).to eq 0
-        expect(LiquidRenderer.new(page).personalization_data['thermometer']).to eq nil
+        expect(LiquidRenderer.new(page).personalization_data['actions_thermometer']).to eq nil
       end
 
-      it 'is nil if no thermometer plugin' do
-        create :plugins_fundraiser, page: page
+      it 'is nil if no actions thermometer plugin' do
+        create :call_tool, page: page
         expect(page.plugins.size).to eq 1
-        expect(LiquidRenderer.new(page).personalization_data['thermometer']).to eq nil
+        expect(LiquidRenderer.new(page).personalization_data['actions_thermometer']).to eq nil
       end
 
-      it "is serializes the thermometer plugin's data" do
-        t1 = create :plugins_thermometer, page: page
+      it "is serializes the actions thermometer plugin's data" do
+        t1 = create :plugins_actions_thermometer, page: page
         t1.current_progress # allow goal to update
         expected = t1.liquid_data.stringify_keys
-        actual = LiquidRenderer.new(page).personalization_data['thermometer']
+        actual = LiquidRenderer.new(page).personalization_data['actions_thermometer']
         # disagreement over timestamps is not what this test is about
         [expected, actual].each do |h|
           h.delete('updated_at')
@@ -407,19 +387,52 @@ describe LiquidRenderer do
         expect(actual).to eq expected
       end
 
-      it 'is uses the first if multiple thermometer plugins' do
-        t1 = create :plugins_thermometer, page: page, ref: 'secondary'
-        create :plugins_thermometer, page: page
+      it 'is uses the first if multiple actions thermometer plugins' do
+        t1 = create :plugins_actions_thermometer, page: page, ref: 'secondary'
+        create :plugins_actions_thermometer, page: page
         expect(page.plugins.size).to eq 2
-        t1.current_progress # allow goal to update
         expected = t1.liquid_data.stringify_keys
-        actual = LiquidRenderer.new(page).personalization_data['thermometer']
+        actual = LiquidRenderer.new(page).personalization_data['actions_thermometer']
         # disagreement over timestamps is not what this test is about
         [expected, actual].each do |h|
           h.delete('updated_at')
           h.delete('created_at')
         end
-        expect(actual).to eq expected
+        expect(actual).to match expected
+      end
+    end
+
+    describe 'donations_thermometer' do
+      it 'is nil if no donations thermometer plugin' do
+        create :call_tool, page: page
+        expect(page.plugins.size).to eq 1
+        expect(LiquidRenderer.new(page).personalization_data['donations_thermometer']).to eq nil
+      end
+
+      it "is serializes the donations thermometer plugin's data" do
+        t1 = create :plugins_donations_thermometer, page: page
+        expected = t1.liquid_data.deep_stringify_keys
+        actual = LiquidRenderer.new(page).personalization_data['donations_thermometer']
+        # disagreement over timestamps is not what this test is about
+        [expected, actual].each do |h|
+          h.delete('updated_at')
+          h.delete('created_at')
+        end
+        expect(actual).to match expected
+      end
+
+      it 'is uses the first if multiple donations thermometer plugins' do
+        t1 = create :plugins_donations_thermometer, page: page, ref: 'secondary'
+        create :plugins_donations_thermometer, page: page
+        expect(page.plugins.size).to eq 2
+        expected = t1.liquid_data.deep_stringify_keys
+        actual = LiquidRenderer.new(page).personalization_data['donations_thermometer']
+        # disagreement over timestamps is not what this test is about
+        [expected, actual].each do |h|
+          h.delete('updated_at')
+          h.delete('created_at')
+        end
+        expect(actual).to match expected
       end
     end
 

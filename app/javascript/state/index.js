@@ -3,7 +3,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 import passToLogTracker from './pass_to_log_tracker';
+import type { AppState } from './reducers';
+import type { ChampaignGlobalObject } from '../types';
 // flow types
+
 export type { AppState } from './reducers';
 export type { Fundraiser } from './fundraiser/types';
 export type { Member } from './member/reducer';

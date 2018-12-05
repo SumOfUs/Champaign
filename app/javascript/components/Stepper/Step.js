@@ -11,13 +11,11 @@ export type Props = {
   label: string,
 };
 
-export default class Step extends Component {
-  props: Props;
-
+export default class Step extends Component<Props> {
   render() {
     const { active, complete, index, label } = this.props;
     const rootClasses = classnames({
-      'Step': true,
+      Step: true,
       'Step--active': active,
       'Step--complete': complete,
     });
@@ -25,7 +23,7 @@ export default class Step extends Component {
     return (
       <div className={rootClasses} onClick={this.props.onClick}>
         <div className="Step__circle">
-          <span>{ index + 1 }</span>
+          <span>{index + 1}</span>
         </div>
         <div className="Step__label">{label}</div>
       </div>

@@ -39,7 +39,7 @@ describe ApplicationController do
 
       it 'does nothing when passed an unknown locale' do
         expect do
-          controller.send(:set_locale, 'es')
+          controller.send(:set_locale, 'zh')
         end.not_to change { I18n.locale }.from(:en)
       end
 

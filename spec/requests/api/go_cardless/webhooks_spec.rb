@@ -30,6 +30,10 @@ describe 'subscriptions' do
   let!(:action)       { create(:action, member: member, page: page, donation: true, form_data: { amount: 100, currency: 'GBP', payment_provider: 'go_cardless' }) }
   let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, amount: 100, page: page) }
 
+  before do
+    allow(FundingCounter).to receive(:update)
+  end
+
   describe 'with valid signature' do
     let(:headers) do
       {

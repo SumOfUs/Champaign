@@ -27,7 +27,6 @@ en:
     section:
       compose: "Compose Your Email"
     form:
-      target_selection:
       representative:
         postal_code: 'Enter your postal code'
         selected_targets: 'Representatives'
@@ -65,8 +64,11 @@ en:
       gocardless: "Direct Debit"
       paypal: "PayPal"
       card: 'Credit or debit card'
+      google: 'Google Pay'
+      apple: 'Apple Pay'
       ready_for_gocardless: "Click 'Donate' to finish donating through GoCardless, our direct debit provider."
       ready_for_paypal: "When you click the button below, Paypal will guide you to finish your donation."
+      ready_for_google: "When you click the button below, Google will guide you to finish your donation."
     payment_type_prompt: Payment Method
     amount: Amount
     details: Details
@@ -111,6 +113,9 @@ en:
       cvv: CVV
       number: Card number
       expiration: Expiration date
+    thermometer:
+      raised: Raised
+      goal: Goal
   petition:
     sign_it: Sign the petition
     target_prefix: TO

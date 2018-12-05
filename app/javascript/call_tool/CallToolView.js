@@ -22,14 +22,14 @@ export type Errors = {
   base?: any[],
 };
 
-type OwnState = {
+type State = {
   memberPhoneNumber: string,
   errors: Errors,
   loading: boolean,
   selectedTarget: ?Target,
 };
 
-type OwnProps = {
+type Props = {
   allowManualTargetSelection: boolean,
   restrictedCountryCode?: string,
   targetByAttributes: string[],
@@ -49,11 +49,8 @@ type OwnProps = {
   filters?: any,
 };
 
-class CallToolView extends Component {
-  state: OwnState;
-  props: OwnProps;
-
-  constructor(props: OwnProps) {
+class CallToolView extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -177,17 +174,16 @@ class CallToolView extends Component {
           <FormattedMessage id="call_tool.instructions" />
         </p>
 
-        {errors.base !== undefined &&
-          !isEmpty(this.state.errors.base) && (
-            <div className="base-errors">
-              <ul>
-                {this.state.errors.base &&
-                  this.state.errors.base.map((error, index) => {
-                    return <li key={`error-${index}`}> {error} </li>;
-                  })}
-              </ul>
-            </div>
-          )}
+        {errors.base !== undefined && !isEmpty(this.state.errors.base) && (
+          <div className="base-errors">
+            <ul>
+              {this.state.errors.base &&
+                this.state.errors.base.map((error, index) => {
+                  return <li key={`error-${index}`}> {error} </li>;
+                })}
+            </ul>
+          </div>
+        )}
 
         <Form
           restrictedCountryCode={this.props.restrictedCountryCode}

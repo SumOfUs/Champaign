@@ -32,6 +32,8 @@ class Payment::Braintree::Transaction < ApplicationRecord
 
   scope :one_off, -> { where(subscription_id: nil) }
 
+  after_create :increment_funding_counter
+
   def publish_subscription_charge
     ChampaignQueue.push({
       type: 'subscription-payment',
@@ -44,5 +46,11 @@ class Payment::Braintree::Transaction < ApplicationRecord
       }
     },
                         { group_id: "braintree-subscription:#{subscription.id}" })
+  end
+
+  def increment_funding_counter
+    return unless status == 'success'
+
+    FundingCounter.update(page: page, currency: currency, amount: amount)
   end
 end

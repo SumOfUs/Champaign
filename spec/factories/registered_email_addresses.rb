@@ -7,7 +7,7 @@
 #  name  :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :registered_email_address do
     email { Faker::Internet.email }
     name { Faker::Name.name }

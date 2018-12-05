@@ -54,6 +54,10 @@ module PaymentProcessor::GoCardless
       ]
     end
 
+    before do
+      allow(FundingCounter).to receive(:update)
+    end
+
     describe 'ProcessEvents' do
       let(:event) do
         {

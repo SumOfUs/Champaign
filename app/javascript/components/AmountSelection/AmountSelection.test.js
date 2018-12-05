@@ -1,13 +1,15 @@
 // @flow
 import React from 'react';
+import { Provider } from 'react-redux';
 import {
   shallowWithIntl,
   mountWithIntl,
 } from '../../../../spec/jest/intl-enzyme-test-helpers';
+import { store } from '../../../../spec/jest/mockReduxStore';
 import AmountSelection from './AmountSelection';
-import type { OwnProps } from './AmountSelection';
+import type { Props } from './AmountSelection';
 
-const defaultProps: OwnProps = {
+const defaultProps: Props = {
   donationAmount: undefined,
   donationBands: {
     USD: [1, 2, 3, 4, 5],
@@ -20,12 +22,20 @@ const defaultProps: OwnProps = {
 };
 
 it('renders', () => {
-  const component = mountWithIntl(<AmountSelection {...defaultProps} />);
+  const component = mountWithIntl(
+    <Provider store={store}>
+      <AmountSelection {...defaultProps} />
+    </Provider>
+  );
   expect(component.html()).toBeTruthy();
 });
 
 describe('Donation bands', () => {
-  const component = mountWithIntl(<AmountSelection {...defaultProps} />);
+  const component = mountWithIntl(
+    <Provider store={store}>
+      <AmountSelection {...defaultProps} />
+    </Provider>
+  );
 
   it('shows the donation band passed as an argument', () => {
     const firstButton = component
@@ -60,7 +70,11 @@ describe('Donation bands', () => {
 });
 
 describe('Changing currency', () => {
-  const component = mountWithIntl(<AmountSelection {...defaultProps} />);
+  const component = mountWithIntl(
+    <Provider store={store}>
+      <AmountSelection {...defaultProps} />
+    </Provider>
+  );
 
   it('does not show the currency menu by default', () => {
     expect(component.find('.AmountSelection__currency-selector').length).toBe(
@@ -107,7 +121,8 @@ describe('Changing currency', () => {
   it('updates the currency in the store when we select a currency', () => {
     component.find('.AmountSelection__currency-toggle').simulate('click');
     const selector = component.find('.AmountSelection__currency-selector');
-    selector.simulate('change', { target: { value: 'GBP' } });
+    selector.getDOMNode().value = 'GBP';
+    selector.simulate('change');
     expect(defaultProps.changeCurrency).toBeCalledWith('GBP');
   });
 });

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { indexOf } from 'lodash';
+import { map, indexOf } from 'lodash';
 import SweetSelect from '../SweetSelect/SweetSelect';
 import countriesEn from './countries/en.json';
 import countriesDe from './countries/de.json';
@@ -8,8 +8,9 @@ import countriesEs from './countries/es.json';
 import countriesFr from './countries/fr.json';
 import { injectIntl, intlShape } from 'react-intl';
 import type { Element } from 'react';
+import type { IntlShape } from 'react-intl';
+import type { SelectOption } from 'react-select';
 
-export type Country = { value: string, label: string };
 export const countries = countriesEn;
 
 type FilterCountry = string;
@@ -18,11 +19,11 @@ type Props = {
   name?: string,
   value?: string,
   onChange?: (value: any) => void,
-  options?: Country[],
-  label?: Element<any> | string,
+  options?: SelectOption[],
+  label?: string,
   disabled?: boolean,
   multiple?: boolean,
-  intl: intlShape,
+  intl: IntlShape,
   className?: string,
   clearable?: boolean,
   filter?: FilterCountry[],
@@ -35,8 +36,7 @@ const countriesByLocale = {
   fr: countriesFr,
 };
 
-export class SelectCountry extends Component {
-  props: Props;
+export class SelectCountry extends Component<Props> {
   focus() {
     if (!this.refs.select) return;
     this.refs.select.focus();
@@ -48,19 +48,19 @@ export class SelectCountry extends Component {
     let countries = countriesByLocale[locale];
 
     countries = Object.keys(countries)
-      .map(c => ({ value: c, label: countries[c] }))
+      .map(c => ({ value: c.toString(), label: countries[c].toString() }))
       .sort((a, b) => {
         if (typeof window.Intl.Collator === 'function') {
           return new window.Intl.Collator(locale).compare(a.label, b.label);
         }
-        if (a.label > b.label) return 1;
-        if (a.label < b.label) return -1;
+        if (a.label.toString() > b.label.toString()) return 1;
+        if (a.label.toString() < b.label.toString()) return -1;
         return 0;
       });
 
     if (props.filter && props.filter.length) {
       countries = countries.filter(c => {
-        return indexOf(props.filter, c.value) > -1;
+        return indexOf(props.filter, c.value.toString()) > -1;
       });
     }
 

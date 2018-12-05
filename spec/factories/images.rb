@@ -13,7 +13,7 @@
 #  page_id              :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :image do
     content { File.new("#{Rails.root}/spec/fixtures/cat.jpg") }
   end

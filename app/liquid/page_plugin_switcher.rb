@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PagePluginSwitcher
   def initialize(page)
     @page = page
@@ -15,14 +16,13 @@ class PagePluginSwitcher
 
   def new_refs(layout_1, layout_2)
     return layout_1.plugin_refs if layout_2.blank?
+
     (layout_1.plugin_refs + layout_2.plugin_refs).uniq
   end
 
   def delete_quitters(quitters)
     @page.plugins.each do |plugin|
-      if quitters.include? [plugin.name.underscore, plugin.ref.to_s]
-        plugin.destroy!
-      end
+      plugin.destroy! if quitters.include? [plugin.name.underscore, plugin.ref.to_s]
     end
   end
 
@@ -35,10 +35,22 @@ class PagePluginSwitcher
   def find_overlap(old_plugin_refs, new_plugin_refs)
     old_plugin_refs = standardize_blank_refs(old_plugin_refs)
     new_plugin_refs = standardize_blank_refs(new_plugin_refs)
-    keepers  = old_plugin_refs & new_plugin_refs
+    keepers = old_plugin_refs & new_plugin_refs
+    # If there's a fundraiser plugin that's kept, also keep the first donations thermometer
+    keepers.append(donations_thermometer) if keepers.flatten.include? 'fundraiser'
     quitters = old_plugin_refs - keepers
     starters = new_plugin_refs - keepers
     [keepers, quitters, starters]
+  end
+
+  def donations_thermometer
+    thermometer = Plugins::DonationsThermometer.find_by_page_id(@page.id)
+    if thermometer.nil?
+      # If this page had no DonationsThermometer, create a default one
+      Plugins.create_for_page('donations_thermometer', @page, nil)
+    else
+      ['donations_thermometer', thermometer.ref.to_s]
+    end
   end
 
   def plugin_refs_from_plugins(plugins)

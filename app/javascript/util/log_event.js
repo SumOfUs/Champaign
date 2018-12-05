@@ -91,4 +91,6 @@ const logEcommerce = data => {
     quantity: 1,
     currency: data[0].currency,
   });
+
+  window.ga('ecommerce:send');
 };

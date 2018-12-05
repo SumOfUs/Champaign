@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'money'
-require 'money_oxr/bank'
-
 module PaymentProcessor
   # = PaymentProcessor::Currency
   #
@@ -26,11 +23,6 @@ module PaymentProcessor
     # Cache fetche conversion rates.
     # API provided by https://openexchangerates.org
     #
-    Money.default_bank = MoneyOXR::Bank.new(
-      app_id: Settings.oxr_app_id,
-      cache_path: 'tmp/oxr.json',
-      max_age: 86_400 # 24 hours
-    )
 
     def self.convert(amount, end_currency, start_currency = 'USD')
       Money.new(amount, start_currency).exchange_to(end_currency)

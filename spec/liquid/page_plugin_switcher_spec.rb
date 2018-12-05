@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PagePluginSwitcher do
   let!(:petition_partial) { create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref] }}' }
-  let!(:thermo_partial) { create :liquid_partial, title: 'thermo', content: '{{ plugins.thermometer[ref] }}' }
+  let!(:thermo_partial) { create :liquid_partial, title: 'thermo', content: '{{ plugins.actions_thermometer[ref] }}' }
   let!(:petition_nested_thermo_partial) do
     create :liquid_partial, title: 'petition_nested_thermo', content: '{{ plugins.petition[ref] }}{% include "thermo" %}'
   end
@@ -24,12 +25,12 @@ describe PagePluginSwitcher do
         page.plugins.each(&:destroy)
         expect(page.plugins).to be_empty
         expect(page.liquid_layout).to eq both_refless_layout
-        expect { switcher.switch(both_refless_layout) }.to change { Plugins::Petition.count }.by(1).and change { Plugins::Thermometer.count }.by 1
+        expect { switcher.switch(both_refless_layout) }.to change { Plugins::Petition.count }.by(1).and change { Plugins::ActionsThermometer.count }.by 1
         expect(page.plugins.size).to eq 2
       end
 
       it 'creates new plugins when switching to a template with more plugins' do
-        expect { switcher.switch(many_petition_layout) }.to change { Plugins::Petition.count }.by(2).and change { Plugins::Thermometer.count }.by -1
+        expect { switcher.switch(many_petition_layout) }.to change { Plugins::Petition.count }.by(2).and change { Plugins::ActionsThermometer.count }.by -1
         expect(page.plugins.size).to eq 3
       end
 
@@ -60,7 +61,7 @@ describe PagePluginSwitcher do
           .to change { Plugins::Petition.count }
           .from(1)
           .to(3)
-        expect(page.plugins.map(&:class)).to match_array([Plugins::Petition] * 3 + [Plugins::Thermometer])
+        expect(page.plugins.map(&:class)).to match_array([Plugins::Petition] * 3 + [Plugins::ActionsThermometer])
       end
     end
 
@@ -87,10 +88,10 @@ describe PagePluginSwitcher do
       end
 
       it 'does replace one instance but not the other' do
-        thermo = page.plugins.select { |p| p.name == 'Thermometer' }.first
-        expect { switcher.switch(thermo_petition_ref_layout) }.to change { Plugins::Thermometer.count }.by 0
+        thermo = page.plugins.select { |p| p.name == 'ActionsThermometer' }.first
+        expect { switcher.switch(thermo_petition_ref_layout) }.to change { Plugins::ActionsThermometer.count }.by 0
         expect { thermo.reload }.not_to raise_error
-        new_thermo = page.plugins.select { |p| p.name == 'Thermometer' }.first
+        new_thermo = page.plugins.select { |p| p.name == 'ActionsThermometer' }.first
         expect(new_thermo.id).to eq thermo.id
       end
     end
@@ -98,7 +99,7 @@ describe PagePluginSwitcher do
     describe 'destroying' do
       it 'destroys all plugins when switching to a template without plugins' do
         expect { switcher.switch(blank_layout) }
-          .to change { Plugins::Thermometer.count }.by(-1)
+          .to change { Plugins::ActionsThermometer.count }.by(-1)
           .and change { Plugins::Petition.count }.by(-1)
 
         plugins = page.plugins
