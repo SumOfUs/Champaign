@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_16_103619) do
+ActiveRecord::Schema.define(version: 2018_12_05_144737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
