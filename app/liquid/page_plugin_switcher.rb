@@ -47,7 +47,7 @@ class PagePluginSwitcher
     thermometer = Plugins::DonationsThermometer.find_by_page_id(@page.id)
     if thermometer.nil?
       # If this page had no DonationsThermometer, create a default one
-      Plugins.create_for_page('donations_thermometer', @page, nil)
+      Plugins.create_for_page('donations_thermometer', @page, nil, false)
     else
       ['donations_thermometer', thermometer.ref.to_s]
     end

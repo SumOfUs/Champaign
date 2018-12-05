@@ -28,6 +28,8 @@ export function Thermometer(props: Props) {
 
   const percentage = Math.round((donations / props.goal) * 100);
 
+  if (props.goal === 0) return null;
+
   return (
     <div className="Thermometer">
       <div className="Thermometer-stats">
