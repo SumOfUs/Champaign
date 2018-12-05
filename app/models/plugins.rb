@@ -22,14 +22,16 @@ module Plugins
       "Plugins::#{plugin_name.camelcase}".constantize
     end
 
-    def create_for_page(plugin_name, page, ref)
+    def create_for_page(plugin_name, page, ref, active = true)
       return true if plugin_name.blank? || page.blank?
+
       plugin_class = class_from_name(plugin_name)
       existing = plugin_class.where(ref: ref, page_id: page.id)
       return true unless existing.empty?
+
       plugin = plugin_class.new(translate_defaults(plugin_class.const_get(:DEFAULTS), page.language.try(:code)))
       plugin.page_id = page.id
-      plugin.active = true
+      plugin.active = active
       plugin.ref = ref if ref.present?
       plugin.save!
     end
