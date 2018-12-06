@@ -40,7 +40,7 @@ gem 'aws-sdk-s3', '~> 1.25'
 gem 'aws-sdk-sns', '~> 1.3'
 gem 'aws-sdk-sqs', '~> 1.10'
 gem 'aws-sdk-dynamodb', '~> 1.10'
-gem 'paper_trail', '~> 9.0'
+gem 'paper_trail', '~> 10.0'
 gem 'paperclip', '~> 6.0'
 gem 'rmagick' # rmagick for image processing
 ## AWS SDK for Rails - makes SES integration easy
@@ -50,13 +50,12 @@ gem 'airbrake-ruby', '1.7.1'
 gem 'aws-sdk-rails'
 gem 'bootsnap', require: false
 gem 'bootstrap-sass', '~> 3.3.5'
-gem 'browser', '~> 2.0', '>= 2.0.3'
+gem 'browser', '~> 2.5'
 gem 'compass-rails' # was using git master branch before
 gem 'config'
 gem 'envyable', require: 'envyable/rails-now'
 gem 'friendly_id'
 gem 'jwt'
-gem 'logger', '1.2.7'
 gem 'lograge', '~> 0.10.0'
 gem 'metamagic'
 gem 'money-oxr'
@@ -69,7 +68,7 @@ gem 'sprockets-rails'
 gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier'
-gem 'webpacker', '~> 3.0'
+gem 'webpacker', '~> 3.5'
 
 group :development, :test do
   gem 'capybara' # Capybara for integration testing
