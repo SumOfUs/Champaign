@@ -78,7 +78,7 @@ describe 'API::MemberServices' do
               created_at: /\A\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}[.]\d{3}[a-zA-Z]\z/,
               cancelled_at: /\A\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}[.]\d{3}[a-zA-Z]\z/,
               amount: '100.0',
-              currency: 'GBP'
+              currency: 'USD'
             })
           end
         end
