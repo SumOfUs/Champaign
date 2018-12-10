@@ -14,6 +14,6 @@
 FactoryBot.define do
   factory :tag do
     sequence(:name) { |n| "#{['+', '@', '*'].sample}#{Faker::Commerce.color}#{n}" }
-    actionkit_uri
+    actionkit_uri { Faker::Internet.url }
   end
 end
