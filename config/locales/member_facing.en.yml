@@ -60,6 +60,8 @@ en:
       target_full_name: '[Select your representative above]'
 
   fundraiser:
+    one_click_warning: "Your donation will be processed immediately."
+    one_click_failed: "We're sorry but we could not process your donation. Please try again with a different card."
     payment_methods:
       gocardless: "Direct Debit"
       paypal: "PayPal"

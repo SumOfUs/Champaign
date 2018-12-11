@@ -9,6 +9,7 @@ import StepWrapper from '../components/Stepper/StepWrapper';
 import AmountSelection from '../components/AmountSelection/AmountSelection';
 import MemberDetailsForm from '../components/MemberDetailsForm/MemberDetailsForm';
 import Payment from '../components/Payment/Payment';
+import OneClick from '../components/OneClick/OneClick';
 import {
   changeAmount,
   changeCurrency,
@@ -70,6 +71,7 @@ export class FundraiserView extends Component<Props> {
         currentStep,
         outstandingFields,
         submitting,
+        oneClickError,
       },
     } = this.props;
 
@@ -92,6 +94,23 @@ export class FundraiserView extends Component<Props> {
       'fundraiser-bar--freestanding': this.props.fundraiser.freestanding,
     });
 
+    const oneClickErrorMessage = oneClickError ? (
+      <div className="fundraiser-bar__errors">
+        <FormattedMessage
+          id="fundraiser.one_click_failed"
+          defaultMessage="We're sorry but we could not process your donation. Please try again with a different card"
+        />
+      </div>
+    ) : null;
+
+    if (this.props.oneClickDonate) {
+      return (
+        <div id="fundraiser-view" className={classNames}>
+          <OneClick />
+        </div>
+      );
+    }
+
     return (
       <div id="fundraiser-view" className={classNames}>
         <StepWrapper
@@ -101,16 +120,19 @@ export class FundraiserView extends Component<Props> {
           changeStep={this.props.changeStep}
         >
           <StepContent title={AmountSelection.title(donationAmount, currency)}>
-            <AmountSelection
-              donationAmount={donationAmount}
-              currency={currency}
-              donationBands={donationBands}
-              donationFeaturedAmount={donationFeaturedAmount}
-              nextStepTitle={firstStepButtonTitle}
-              changeCurrency={this.props.selectCurrency.bind(this)}
-              selectAmount={amount => this.selectAmount(amount)}
-              proceed={this.proceed.bind(this)}
-            />
+            <div>
+              {oneClickErrorMessage}
+              <AmountSelection
+                donationAmount={donationAmount}
+                currency={currency}
+                donationBands={donationBands}
+                donationFeaturedAmount={donationFeaturedAmount}
+                nextStepTitle={firstStepButtonTitle}
+                changeCurrency={this.props.selectCurrency.bind(this)}
+                selectAmount={amount => this.selectAmount(amount)}
+                proceed={this.proceed.bind(this)}
+              />
+            </div>
           </StepContent>
 
           {this.showStepTwo() && (
@@ -146,10 +168,16 @@ export class FundraiserView extends Component<Props> {
 }
 
 export const mapStateToProps = (state: AppState) => ({
+  paymentMethods: state.paymentMethods,
   features: state.features,
   fundraiser: state.fundraiser,
   member: state.member,
   page: state.page,
+  oneClickError: state.fundraiser.oneClickError,
+  oneClickDonate:
+    state.fundraiser.oneClick &&
+    state.paymentMethods.length > 0 &&
+    !state.fundraiser.disableSavedPayments,
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({

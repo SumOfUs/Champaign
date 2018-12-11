@@ -17,7 +17,10 @@ class Api::Payment::BraintreeController < PaymentController
 
   def one_click
     @result = client::OneClick.new(unsafe_params, cookies.signed[:payment_methods]).run
-    render status: :unprocessable_entity unless @result.success?
+    unless @result.success?
+      @errors = client::ErrorProcessing.new(@result, locale: locale).process
+      render status: :unprocessable_entity, errors: @errors
+    end
   end
 
   private

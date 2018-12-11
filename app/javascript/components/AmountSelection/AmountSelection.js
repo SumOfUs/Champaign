@@ -15,6 +15,7 @@ export type Props = {
   currency: string,
   nextStepTitle?: React.Element<any>,
   selectAmount: (amount: ?number) => void,
+  selectCustomAmount?: (amount: ?number) => void,
   changeCurrency: (currency: string) => void,
   proceed: () => void,
 };
@@ -83,6 +84,7 @@ export default class AmountSelection extends React.Component<Props, State> {
           proceed={this.props.proceed}
           featuredAmount={this.props.donationFeaturedAmount}
           selectAmount={this.props.selectAmount}
+          selectCustomAmount={this.props.selectCustomAmount}
         />
         <p>
           <FormattedMessage

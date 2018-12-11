@@ -1,6 +1,9 @@
 {% if plugins.fundraiser[ref].active %}
   <div class="overlay-toggle">
     <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
+      {% if mobile_title %}
+      <h1 style='font-size: 24px; text-align: center; line-height: inherit; font-weight: normal;' class="mobile-show">{{ 'petition_and_scroll.fundraiser_intro' | t }}</h1>
+      {% endif %}
       <div class="fundraiser-bar__content">
         <div id="fundraiser-component" class="fundraiser-bar {{ extra_class }} {% if freestanding %} fundraiser-bar--freestanding {% else %} sidebar stuck-right {% endif %}"></div>
       </div>
@@ -30,7 +33,8 @@
           preselectAmount: {{ plugins.fundraiser[ref].preselect_amount }},
           fields: {{ plugins.fundraiser[ref].fields | jsonify }},
           recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
-          freestanding: {% if freestanding %} true {% else %} false {% endif %}
+          freestanding: {% if freestanding %} true {% else %} false {% endif %},
+          oneClick: {% if one_click %} true {% else %} false {% endif %}
         }
       };
       window.setTimeout(function(){

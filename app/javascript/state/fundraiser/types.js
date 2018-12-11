@@ -29,6 +29,8 @@ export type Fundraiser = {
   formId: string,
   formValues: Object,
   freestanding?: boolean,
+  oneClickError?: boolean,
+  oneClick: boolean,
   outstandingFields: string[],
   paymentMethods: any[],
   paymentTypes: PaymentType[],
@@ -47,6 +49,7 @@ export type FundraiserAction =
   | { type: 'change_amount', payload: ?number }
   | { type: 'change_currency', payload: string }
   | { type: 'change_step', payload: number }
+  | { type: 'one_click_failed' }
   | { type: 'preselect_amount', payload: boolean }
   | { type: 'reset_member' }
   | { type: 'set_direct_debit_only', payload: boolean }
@@ -67,6 +70,8 @@ export type FundraiserInitializationOptions = {
   formValues: { [key: string]: string },
   formId: string,
   freestanding: boolean,
+  oneClick?: boolean,
+  oneClickError: boolean,
   outstandingFields: string[],
   pageId: string,
   preselectAmount: boolean,
