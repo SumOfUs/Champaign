@@ -21,6 +21,7 @@ import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import redirectors from '../member-facing/redirectors';
 import { FeaturesHelper } from '../state/features';
+import DonationsThermometer from '../plugins/donations-thermometer';
 
 window.URI = URI;
 
@@ -34,17 +35,18 @@ window.champaign = window.champaign || {};
 const store = configureStore(window.champaign);
 
 Object.assign(window.champaign, {
+  ActionForm,
+  CampaignerOverlay,
+  DonationsThermometer,
+  DoubleOptIn,
+  Notification,
+  OverlayToggle,
   Petition,
   PetitionAndScrollToConsent,
-  Survey,
-  ActionForm,
-  OverlayToggle,
-  Thermometer,
   Sidebar,
-  Notification,
+  Survey,
   SweetPlaceholder,
-  CampaignerOverlay,
-  DoubleOptIn,
+  Thermometer,
   redirectors,
   store,
   features: new FeaturesHelper(store),

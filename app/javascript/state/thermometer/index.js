@@ -4,8 +4,7 @@ import { isEmpty, mapValues } from 'lodash';
 
 export type Action =
   | { type: '@@chmp:initialize', payload: ChampaignGlobalObject }
-  | { type: '@@chmp:thermometer:update', attrs: State }
-  | { type: '@@chmp:thermometer:increment', temperature: number };
+  | { type: '@@chmp:thermometer:update', attrs: State };
 
 export type State =
   | {}
@@ -27,6 +26,8 @@ export default function reducer(
   switch (action.type) {
     case '@@chmp:initialize':
       return getStateFromChampaign(action.payload);
+    case '@@chmp:thermometer:update':
+      return { ...state, ...action.attrs };
     default:
       return state;
   }
@@ -34,10 +35,6 @@ export default function reducer(
 
 export function update(attrs: State): Action {
   return { type: '@@chmp:thermometer:update', attrs };
-}
-
-export function increment(temperature: number): Action {
-  return { type: '@@chmp:thermometer:increment', temperature };
 }
 
 function getStateFromChampaign(chmp: ChampaignGlobalObject): State {
