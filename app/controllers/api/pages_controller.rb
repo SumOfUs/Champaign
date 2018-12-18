@@ -61,6 +61,7 @@ class Api::PagesController < ApplicationController
 
   def total_donations
     @page = Page.find(params[:page_id])
+
     if @page.campaign.blank?
       amount = @page.total_donations
       goal = @page.fundraising_goal
@@ -68,6 +69,14 @@ class Api::PagesController < ApplicationController
       amount = @page.campaign.total_donations
       goal = @page.campaign.fundraising_goal
     end
+
+    donations_thermometers = Plugins::DonationsThermometer.where(page_id: @page.id)
+    offset = donations_thermometers.blank? ? 0 : Plugins::DonationsThermometer.where(page_id: @page.id).first.offset
+
+    converted_offset = FundingCounter.convert(
+      currency: params[:currency],
+      amount: offset
+    )
 
     total_donations = FundingCounter.convert(currency: params[:currency], amount: amount)
     fundraising_goal = FundingCounter.convert(currency: params[:currency], amount: goal)
@@ -79,6 +88,7 @@ class Api::PagesController < ApplicationController
     render json: {
       total_donations: total_donations.to_s,
       fundraising_goal: Donations::Utils.round_fundraising_goals([fundraising_goal]).first.to_s,
+      offset: converted_offset.to_s,
       recurring_donations: subscriptions_count,
       recurring_donations_goal: 100 # recurring_donations_goal
     }

@@ -227,6 +227,7 @@ describe 'api/pages' do
         expect(json_hash).to match(
           hash_including('total_donations' => '142326.00',
                          'fundraising_goal' => '100000',
+                         'offset' => '0.00',
                          'recurring_donations' => 0,
                          'recurring_donations_goal' => 100)
         )
@@ -240,14 +241,28 @@ describe 'api/pages' do
       it 'returns the total amount of donations and the donations goal for the campaign of the page' do
         donation_args = { amount: campaign.total_donations, currency: 'EUR' }
         goal_args = { amount: campaign.fundraising_goal, currency: 'EUR' }
+        offset_args = { amount: 0, currency: 'EUR' }
+
         allow(FundingCounter).to receive(:convert).with(donation_args).and_return(Money.from_amount(148_159.20, 'EUR'))
         allow(FundingCounter).to receive(:convert).with(goal_args).and_return(Money.from_amount(162_521.20, 'EUR'))
+        allow(FundingCounter).to receive(:convert).with(offset_args).and_return(Money.from_amount(0, 'EUR'))
         get "/api/pages/#{page.id}/total_donations", params: { currency: 'EUR' }
         expect(json_hash).to match(
           hash_including('total_donations' => '148159.20',
                          'fundraising_goal' => '200000',
+                         'offset' => '0.00',
                          'recurring_donations' => 0,
                          'recurring_donations_goal' => 100)
+        )
+      end
+    end
+
+    context 'page with a thermometer with an offset' do
+      let!(:thermometer) { create(:plugins_donations_thermometer, offset: 12_000_000, page: page) }
+      it 'returns the correct offset' do
+        get "/api/pages/#{page.id}/total_donations", params: { currency: 'USD' }
+        expect(json_hash).to match(
+          hash_including('offset' => '12000000.00')
         )
       end
     end
