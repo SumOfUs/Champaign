@@ -72,9 +72,17 @@ describe TransactionService do
     end
   end
 
-  describe '.count_in_usd' do
-    it 'converts .count totals to USD and returns a total' do
-      expect(TransactionService.count_in_usd).to be_within(5).of(30.00)
+  describe '.count_in_currency' do
+    it 'converts .count totals to a currency and returns a total' do
+      # default is USD
+      expect(TransactionService.count_in_currency).to be_within(500).of(3000)
+      expect(TransactionService.count_in_currency('GBP')).to be_within(500).of(2200)
+    end
+  end
+
+  describe '.totals' do
+    it 'returns the total count in all supported currencies' do
+      expect(TransactionService.totals).to include(*TransactionService::CURRENCIES)
     end
   end
 end

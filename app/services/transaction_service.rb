@@ -2,11 +2,18 @@
 
 module TransactionService
   extend self
+  CURRENCIES = %i[USD GBP EUR CHF AUD NZD CAD].freeze
 
-  def count_in_usd(date_range = Float::INFINITY..Float::INFINITY)
+  def totals(date_range = Float::INFINITY..Float::INFINITY)
+    CURRENCIES.inject({}) do |result, currency|
+      result.merge(currency => count_in_currency(currency, date_range))
+    end
+  end
+
+  def count_in_currency(currency = 'USD', date_range = Float::INFINITY..Float::INFINITY)
     count(date_range).reduce(0) do |total, item|
-      currency, amount = item
-      total + ::PaymentProcessor::Currency.convert(amount, 'USD', currency).to_d
+      local_currency, amount = item
+      total + ::PaymentProcessor::Currency.convert(amount * 100, currency, local_currency).to_d
     end
   end
 
