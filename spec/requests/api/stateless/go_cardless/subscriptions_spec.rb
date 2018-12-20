@@ -49,14 +49,16 @@ describe 'API::Stateless GoCardless Subscriptions' do
            cancelled_at: last_month)
   end
   let!(:transaction) do
-    create(:payment_go_cardless_transaction,
-           subscription: subscription,
-           customer: customer,
-           go_cardless_id: 999,
-           amount: 4,
-           currency: 'GBP',
-           charge_date: Date.tomorrow,
-           payment_method: payment_method)
+    VCR.use_cassette('money_from_oxr') do
+      create :payment_go_cardless_transaction,
+             subscription: subscription,
+             customer: customer,
+             go_cardless_id: 999,
+             amount: 4,
+             currency: 'GBP',
+             charge_date: Date.tomorrow,
+             payment_method: payment_method
+    end
   end
 
   before :each do
