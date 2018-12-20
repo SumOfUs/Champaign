@@ -1,6 +1,4 @@
 class Api::DonationsController < ApplicationController
-  respond_to :json
-
   # Fetches the sum of all donations (one off and recurring) for a given date range
   # If a date range is not provided, it will default to donations in the current
   # calendar month
@@ -17,7 +15,8 @@ class Api::DonationsController < ApplicationController
         total_donations: TransactionService.totals(start_date...end_date)
       }
     }
-    respond_with response
+
+    render json: response
   rescue ArgumentError
     head :bad_request
   end
