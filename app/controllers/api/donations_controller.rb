@@ -1,6 +1,9 @@
 class Api::DonationsController < ApplicationController
   respond_to :json
 
+  # Fetches the sum of all donations (one off and recurring) for a given date range
+  # If a date range is not provided, it will default to donations in the current
+  # calendar month
   def total
     params.permit(:start, :end)
     start_date = params.fetch(:start, Date.today.beginning_of_month).to_date
