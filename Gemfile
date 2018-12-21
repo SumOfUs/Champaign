@@ -76,7 +76,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'magic_lamp'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.8'
   gem 'rubocop', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'

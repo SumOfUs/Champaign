@@ -8,8 +8,12 @@ AllCops:
     - 'node_modules/**/*'
     - 'db/schema.rb'
 
+Style/ModuleFunction:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
+
 Layout/IndentationConsistency:
   EnforcedStyle: normal
 

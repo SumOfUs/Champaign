@@ -7,7 +7,7 @@ import CurrencyAmount from './CurrencyAmount';
 import type { AppState } from '../state/reducers';
 import './Thermometer.scss';
 
-type Props =
+export type Props =
   | {}
   | {
       active: boolean,

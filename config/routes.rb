@@ -113,6 +113,8 @@ Rails.application.routes.draw do
       post 'track', to: '/share/shares#track'
     end
 
+    get 'donations/total'
+
     resources :email_target_emails, only: [:index] do
       collection do
         post 'download'

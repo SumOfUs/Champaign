@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'API::Stateless GoCardless Subscriptions' do
@@ -29,14 +30,16 @@ describe 'API::Stateless GoCardless Subscriptions' do
            created_at: Time.now)
   end
   let!(:subscription_transaction) do
-    create(:payment_go_cardless_transaction,
-           subscription: subscription,
-           customer: customer,
-           go_cardless_id: 999,
-           amount: 4,
-           currency: 'GBP',
-           charge_date: Date.tomorrow,
-           payment_method: payment_method)
+    VCR.use_cassette('money_from_oxr') do
+      create(:payment_go_cardless_transaction,
+             subscription: subscription,
+             customer: customer,
+             go_cardless_id: 999,
+             amount: 4,
+             currency: 'GBP',
+             charge_date: Date.tomorrow,
+             payment_method: payment_method)
+    end
   end
   let!(:one_off_transaction) do
     create(:payment_go_cardless_transaction,
@@ -85,15 +88,15 @@ describe 'API::Stateless GoCardless Subscriptions' do
     it 'does not list transactions that are associated with subscriptions' do
       get '/api/stateless/go_cardless/transactions', params: {}, headers: auth_headers
       expect(response.status).to eq(200)
-      expect(first_transaction.keys).to match([
-        :id,
-        :go_cardless_id,
-        :charge_date,
-        :amount,
-        :description,
-        :currency,
-        :aasm_state,
-        :payment_method
+      expect(first_transaction.keys).to match(%i[
+        id
+        go_cardless_id
+        charge_date
+        amount
+        description
+        currency
+        aasm_state
+        payment_method
       ])
       expect(first_transaction).to_not include(id: subscription_transaction.id,
                                                go_cardless_id: subscription_transaction.go_cardless_id,
