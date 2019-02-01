@@ -40,7 +40,7 @@ gem 'aws-sdk-s3', '~> 1.25'
 gem 'aws-sdk-sns', '~> 1.3'
 gem 'aws-sdk-sqs', '~> 1.10'
 gem 'aws-sdk-dynamodb', '~> 1.10'
-gem 'paper_trail', '~> 10.0'
+gem 'paper_trail', '~> 10.2'
 gem 'paperclip', '~> 6.0'
 gem 'rmagick' # rmagick for image processing
 ## AWS SDK for Rails - makes SES integration easy
