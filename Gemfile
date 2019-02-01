@@ -36,7 +36,7 @@ gem 'slim-rails'
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
 gem 'aws-sdk-core', '~> 3'
-gem 'aws-sdk-s3', '~> 1.25'
+gem 'aws-sdk-s3', '~> 1.30'
 gem 'aws-sdk-sns', '~> 1.3'
 gem 'aws-sdk-sqs', '~> 1.10'
 gem 'aws-sdk-dynamodb', '~> 1.10'
