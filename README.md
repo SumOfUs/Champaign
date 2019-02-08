@@ -46,7 +46,7 @@ Champaign is a full Rails app. While it's ready to be deployed out of the box, y
 Champaign integrates seamlessly with ActionKit. The integration works
 via events that are triggered from Champaign and are then captured by
 a separate service: [champaign-ak-processor](https://github.com/SumOfUs/champaign-ak-processor), which in turn
-updates ActionKit via its API. Champaign events are delivered using AWS SNS/SQS.
+updates ActionKit via its API. Champaign events are delivered using AWS SQS.
 
 Despite having this external service to communicate with ActionKit,
 Champaign still needs to access ActionKit's API directly in a couple of
