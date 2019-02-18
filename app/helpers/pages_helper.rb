@@ -20,16 +20,19 @@ module PagesHelper
   def ak_resource_id(ak_resource_url)
     match = %r{\/(\d+)\/?$}.match(ak_resource_url)
     return if match.blank?
+
     match[1]
   end
 
   def page_canonical_url(page)
     return page.canonical_url if page.canonical_url.present?
+
     member_facing_page_url(page)
   end
 
   def page_description(page)
     return page.meta_description if page.meta_description.present?
+
     t('branding.description')
   end
 
@@ -51,9 +54,9 @@ module PagesHelper
     new_variant
   end
 
-  def label_with_tooltip(f, field_sym, label_text, tooltip_text)
+  def label_with_tooltip(form, field_sym, label_text, tooltip_text)
     tooltip = render partial: 'pages/tooltip', locals: { label_text: label_text, tooltip_text: tooltip_text }
-    f.label field_sym do
+    form.label field_sym do
       "#{label_text} #{tooltip}".html_safe
     end
   end
@@ -140,18 +143,23 @@ module PagesHelper
   def share_card(page)
     share = Share::Facebook.where(page_id: page.id).last
     return {} if share.blank?
+
     {
       title: share.title,
       description: share.description,
-      image: Image.find_by(id: share.image_id).try(:content).try(:url)
+      image: share_image_url(share)
     }
+  end
+
+  def share_image_url(share)
+    return share.image_url unless share.image_url.blank?
+
+    Image.find_by(id: share.image_id).try(:content).try(:url)
   end
 
   def archive_confirm_message(page)
     msg = 'Are you sure you want to archive this page?'
-    if page.published?
-      msg += ' It will also be unpublished making it inaccessible except to logged-in campaigners.'
-    end
+    msg += ' It will also be unpublished making it inaccessible except to logged-in campaigners.' if page.published?
     msg
   end
 
