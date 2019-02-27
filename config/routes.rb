@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     member do
       post :check_slug
     end
+    post :create_resources
   end
 
   # Standard resources

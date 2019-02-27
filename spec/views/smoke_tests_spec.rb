@@ -41,7 +41,7 @@ describe 'renderin smoke tests' do
 
     describe 'edit' do
       it 'renders without error' do
-        assign :page, build(:page, id: 1)
+        assign :page, build(:page, id: 1, created_at: Time.now)
         assign :sp_variations, [build(:share_facebook,
                                       id: 1,
                                       button:

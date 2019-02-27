@@ -11,4 +11,9 @@ class ActionKitController < ApplicationController
       format.json { render json: { valid: (ak_valid && chmp_valid) } }
     end
   end
+
+  def create_resources
+    @page = Page.find(params[:id])
+    QueueManager.push(@page, job_type: :create)
+  end
 end

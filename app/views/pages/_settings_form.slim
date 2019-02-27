@@ -27,19 +27,36 @@
         = label_with_tooltip(f, :notes, t('pages.edit.notes'), t('tooltips.notes'))
         = f.text_area :notes, class: 'form-control'
 
-    - if Settings.ak_report_url.present?
+    - if Settings.ak_api_url.present? && page.created_at < (DateTime.now - 5.minutes)
+      .form-group
+        label= t('pages.edit.ak_resources')
+        - if page.ak_petition_resource_uri.blank? || page.ak_donation_resource_uri.blank?
+          p.ak-resource-pending = t('pages.edit.ak_resource_missing')
+          = link_to create_resources_action_kit_path(id: page.id), method: :post, class: 'btn btn-danger ak-resource-pending', id: 'ak-resource-button'
+            = t('pages.edit.click_to_create')
+          p.ak-resource-queued.hidden-irrelevant = t('pages.edit.ak_resource_queued')
+        - else
+          br
+            = link_to t('pages.edit.ak_petition_resource', resource_id: ak_resource_id(page.ak_petition_resource_uri)),
+                      page.ak_petition_resource_uri,
+                      target: '_blank'
+          br
+            = link_to t('pages.edit.ak_donation_resource', resource_id: ak_resource_id(page.ak_donation_resource_uri)),
+                      page.ak_donation_resource_uri,
+                      target: '_blank'
+
+
+    - if Settings.ak_report_url.present? && page.status == 'success'
       .form-group
         label= t('pages.edit.ak_reports')
-        - if page.ak_petition_resource_uri.present?
-          br
-          = link_to t('pages.edit.ak_petition_report', resource_id: ak_resource_id(page.ak_petition_resource_uri)),
-                    ak_report_url(page.ak_petition_resource_uri),
-                    target: '_blank'
-        - if page.ak_donation_resource_uri.present?
-          br
-          = link_to t('pages.edit.ak_donation_report', resource_id: ak_resource_id(page.ak_donation_resource_uri)),
-                    ak_report_url(page.ak_donation_resource_uri),
-                    target: '_blank'
+        br
+        = link_to t('pages.edit.ak_petition_report', resource_id: ak_resource_id(page.ak_petition_resource_uri)),
+                  ak_report_url(page.ak_petition_resource_uri),
+                  target: '_blank'
+        br
+        = link_to t('pages.edit.ak_donation_report', resource_id: ak_resource_id(page.ak_donation_resource_uri)),
+                  ak_report_url(page.ak_donation_resource_uri),
+                  target: '_blank'
 
     a data-toggle="collapse" data-target=".additional-settings" aria-expanded="false"
       = t('pages.edit.more_settings')
@@ -71,4 +88,8 @@
     javascript:
       $(function () {
         window.ee.emit('layout:edit');
+        $('#ak-resource-button').click(function(){
+          $('.ak-resource-pending').addClass('hidden-irrelevant');
+          $('.ak-resource-queued').removeClass('hidden-irrelevant');
+        });
       });
