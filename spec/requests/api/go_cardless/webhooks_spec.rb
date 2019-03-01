@@ -89,7 +89,7 @@ describe 'subscriptions' do
         context 'with existing transaction' do
           it 'posts to queue' do
             expect(ChampaignQueue).to have_received(:push).with(
-              { type: 'subscription-payment', params: { recurring_id: 'index_ID_123' } },
+              { type: 'subscription-payment', params: { recurring_id: 'index_ID_123', trans_id: 'payment_ID_123' } },
               { group_id: /gocardless-subscription:\d+/ }
             )
           end
@@ -143,7 +143,8 @@ describe 'subscriptions' do
             created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
             recurring_id: subscription.go_cardless_id,
             success: 0,
-            status: 'failed'
+            status: 'failed',
+            trans_id: 'this_will_fail_123'
           }
         },
                                                       { group_id: /gocardless-subscription:\d+/ })

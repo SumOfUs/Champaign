@@ -33,7 +33,7 @@ class Payment::GoCardless::Subscription < ApplicationRecord
     end
 
     def call
-      Payment::GoCardless.write_transaction(
+      transaction = Payment::GoCardless.write_transaction(
         uuid: event['links']['payment'],
         amount: amount,
         currency: currency,
@@ -47,7 +47,8 @@ class Payment::GoCardless::Subscription < ApplicationRecord
       ChampaignQueue.push({
         type: 'subscription-payment',
         params: {
-          recurring_id: @subscription.go_cardless_id
+          recurring_id: @subscription.go_cardless_id,
+          trans_id: transaction.go_cardless_id
         }
       },
                           { group_id: "gocardless-subscription:#{subscription.id}" })
@@ -69,11 +70,11 @@ class Payment::GoCardless::Subscription < ApplicationRecord
   scope :active, -> { where(cancelled_at: nil) }
 
   ACTION_FROM_STATE = {
-    created:                    :create,
-    cancelled:                  :cancel,
-    payment_created:            :payment_create,
-    customer_approval_granted:  :approve,
-    customer_approval_denied:   :deny
+    created: :create,
+    cancelled: :cancel,
+    payment_created: :payment_create,
+    customer_approval_granted: :approve,
+    customer_approval_denied: :deny
   }.freeze
 
   aasm do

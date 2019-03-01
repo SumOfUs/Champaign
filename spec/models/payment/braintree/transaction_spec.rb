@@ -104,6 +104,7 @@ describe Payment::Braintree::Transaction do
     let!(:transaction) do
       create(:payment_braintree_transaction,
              subscription: subscription,
+             transaction_id: 't7297',
              status: 'success',
              amount: 123)
     end
@@ -116,7 +117,8 @@ describe Payment::Braintree::Transaction do
           recurring_id: 'subscription_id',
           success: 1,
           status: 'completed',
-          amount: '123.0'
+          amount: '123.0',
+          trans_id: 't7297'
         }
       }
       expect(ChampaignQueue).to receive(:push).with(

@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 require 'rails_helper'
@@ -28,8 +27,8 @@ describe 'Express Donation' do
         },
         user: {
           form_id: form.id,
-          email:   'test@example.com',
-          name:    'John Doe'
+          email: 'test@example.com',
+          name: 'John Doe'
         },
         page_id: page.id
       }
@@ -60,8 +59,8 @@ describe 'Express Donation' do
           },
           user: {
             form_id: form.id,
-            email:   'test@example.com',
-            name:    'John Doe'
+            email: 'test@example.com',
+            name: 'John Doe'
           },
           page_id: page.id
         }
@@ -124,8 +123,8 @@ describe 'Express Donation' do
             },
             user: {
               form_id: form.id,
-              email:   'test@example.com',
-              name:    'John Doe'
+              email: 'test@example.com',
+              name: 'John Doe'
             },
             page_id: page.id
           }
@@ -166,8 +165,8 @@ describe 'Express Donation' do
           },
           user: {
             form_id: form.id,
-            email:   'test@example.com',
-            name:    'John Doe'
+            email: 'test@example.com',
+            name: 'John Doe'
           },
           page_id: page.id
         }
@@ -192,7 +191,7 @@ describe 'Express Donation' do
       it 'creates transaction' do
         expected_attributes = {
           transaction_type: 'sale',
-          transaction_id:   /[a-z0-9]{8}/,
+          transaction_id: /[a-z0-9]{8}/,
           page_id: page.id
         }
 
@@ -223,7 +222,8 @@ describe 'Express Donation' do
               order: hash_including(amount: '2.0',
                                     card_num: '1234',
                                     exp_date_month: '12',
-                                    exp_date_year: '2050'),
+                                    exp_date_year: '2050',
+                                    trans_id: 'pm403zy1'),
               action: hash_including(fields: hash_including(action_express_donation: 1)),
               user: hash_including(first_name: 'John',
                                    last_name: 'Doe',
@@ -280,11 +280,11 @@ describe 'Braintree API' do
   end
 
   let(:meta) do
-    hash_including(title:      'Cash rules everything around me',
-                   uri:        '/a/cash-rules-everything-around-me',
-                   slug:       'cash-rules-everything-around-me',
+    hash_including(title: 'Cash rules everything around me',
+                   uri: '/a/cash-rules-everything-around-me',
+                   slug: 'cash-rules-everything-around-me',
                    first_name: 'Bernie',
-                   last_name:  'Sanders',
+                   last_name: 'Sanders',
                    country: 'United States',
                    action_id: instance_of(Integer))
   end
@@ -450,7 +450,7 @@ describe 'Braintree API' do
                 name: 'cash-rules-everything-around-me-donation',
                 payment_account: 'Braintree EUR'
               },
-              order: hash_including(amount: '2.0'),
+              order: hash_including(amount: '2.0', trans_id: '6c9xdhg9'),
               action: {
                 source: 'fb',
                 fields: {
@@ -985,7 +985,8 @@ describe 'Braintree API' do
               card_code: '007',
               exp_date_month: '12',
               exp_date_year: '2020',
-              currency: 'EUR'
+              currency: 'EUR',
+              trans_id: /[a-z0-9]{6}/
             },
             user: {
               email: 'itsme@feelthebern.org',

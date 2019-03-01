@@ -42,7 +42,8 @@ class Payment::Braintree::Transaction < ApplicationRecord
         recurring_id: subscription.try(:action).form_data['subscription_id'],
         success: status == 'success' ? 1 : 0,
         status: status == 'success' ? 'completed' : 'failed',
-        amount: amount.to_s
+        amount: amount.to_s,
+        trans_id: transaction_id
       }
     },
                         { group_id: "braintree-subscription:#{subscription.id}" })

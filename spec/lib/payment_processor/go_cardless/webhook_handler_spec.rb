@@ -366,7 +366,8 @@ module PaymentProcessor::GoCardless
             expect(ChampaignQueue).to have_received(:push).with(
               { type: 'subscription-payment',
                 params: {
-                  recurring_id: 'index_ID_123'
+                  recurring_id: 'index_ID_123',
+                  trans_id: 'payment_ID_123'
                 } },
               { group_id: "gocardless-subscription:#{subscription.id}" }
             ).once
@@ -382,10 +383,19 @@ module PaymentProcessor::GoCardless
             expect(ChampaignQueue).to have_received(:push).with(
               { type: 'subscription-payment',
                 params: {
-                  recurring_id: 'index_ID_123'
+                  recurring_id: 'index_ID_123',
+                  trans_id: 'payment_ID_123'
                 } },
               { group_id: "gocardless-subscription:#{subscription.id}" }
-            ).twice
+            )
+            expect(ChampaignQueue).to have_received(:push).with(
+              { type: 'subscription-payment',
+                params: {
+                  recurring_id: 'index_ID_123',
+                  trans_id: 'payment_ID_1234'
+                } },
+              { group_id: "gocardless-subscription:#{subscription.id}" }
+            )
           end
         end
       end

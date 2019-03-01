@@ -33,14 +33,14 @@ module ActionQueue
     def meta
       {
         meta: {
-          title:      page.title,
-          uri:        "/a/#{page.slug}",
-          slug:       page.slug,
+          title: page.title,
+          uri: "/a/#{page.slug}",
+          slug: page.slug,
           first_name: member.first_name,
-          last_name:  member.last_name,
+          last_name: member.last_name,
           created_at: @action.created_at,
-          country:    country(member.country),
-          action_id:  @action.id,
+          country: country(member.country),
+          action_id: @action.id,
           subscribed_member: @action.subscribed_member
         }
       }
@@ -61,11 +61,11 @@ module ActionQueue
     def user_data
       data.select { |k, v| v.present? && ActionKitFields.is_predefined_by_ak(k) }.merge(
         first_name: member.first_name,
-        last_name:  member.last_name,
-        email:      member.email,
-        country:    country(member.country),
-        akid:       data[:akid],
-        source:     data[:source],
+        last_name: member.last_name,
+        email: member.email,
+        country: country(member.country),
+        akid: data[:akid],
+        source: data[:source],
         user_express_cookie: data[:store_in_vault] ? 1 : 0,
         user_express_account: data[:express_account] ? 1 : 0
       ).merge(UserLanguageISO.for(page.language))
@@ -152,16 +152,16 @@ module ActionQueue
 
     def subscription_payload
       {
-        type:  'donation',
+        type: 'donation',
         payment_provider: 'go_cardless',
         params: {
           donationpage: {
-            name:             "#{@action.page.slug}-donation",
-            payment_account:  get_payment_account
+            name: "#{@action.page.slug}-donation",
+            payment_account: get_payment_account
           },
           order: {
-            amount:       data[:amount],
-            currency:     currency,
+            amount: data[:amount],
+            currency: currency,
             recurring_id: data[:subscription_id]
           }.merge(fake_card_info),
           action: action_data,
@@ -173,16 +173,17 @@ module ActionQueue
 
     def transaction_payload
       {
-        type:  'donation',
+        type: 'donation',
         payment_provider: 'go_cardless',
         params: {
           donationpage: {
-            name:             "#{@action.page.slug}-donation",
-            payment_account:  get_payment_account
+            name: "#{@action.page.slug}-donation",
+            payment_account: get_payment_account
           },
           order: {
-            amount:       data[:amount],
-            currency:     currency
+            amount: data[:amount],
+            currency: currency,
+            trans_id: data[:transaction_id]
           }.merge(fake_card_info),
           action: action_data,
           user: user_data,
@@ -194,10 +195,10 @@ module ActionQueue
     def action_data
       {
         fields: action_fields.merge(
-          action_account_number_ending:  data[:account_number_ending],
-          action_mandate_reference:      data[:mandate_reference],
-          action_bank_name:              data[:bank_name],
-          action_express_donation:       data[:express_donation] ? 1 : 0
+          action_account_number_ending: data[:account_number_ending],
+          action_mandate_reference: data[:mandate_reference],
+          action_bank_name: data[:bank_name],
+          action_express_donation: data[:express_donation] ? 1 : 0
         ),
         source: data[:source]
       }
@@ -205,10 +206,10 @@ module ActionQueue
 
     def fake_card_info
       {
-        card_num:       'DDEB',
-        card_code:      '007',
+        card_num: 'DDEB',
+        card_code: '007',
         exp_date_month: '01',
-        exp_date_year:  '99'
+        exp_date_year: '99'
       }
     end
 
@@ -235,21 +236,22 @@ module ActionQueue
 
     def subscription_payload
       {
-        type:  'donation',
+        type: 'donation',
         payment_provider: 'braintree',
         params: {
           donationpage: {
-            name:             "#{@action.page.slug}-donation",
-            payment_account:  get_payment_account
+            name: "#{@action.page.slug}-donation",
+            payment_account: get_payment_account
           },
           order: {
-            amount:         data[:amount],
-            card_num:       data[:card_num],
-            card_code:      '007',
+            amount: data[:amount],
+            card_num: data[:card_num],
+            card_code: '007',
             exp_date_month: expire_month,
-            exp_date_year:  expire_year,
-            currency:       currency,
-            recurring_id:   data[:subscription_id]
+            exp_date_year: expire_year,
+            currency: currency,
+            recurring_id: data[:subscription_id],
+            trans_id: data[:transaction_id]
           },
           action: {
             source: data[:source],
@@ -263,20 +265,21 @@ module ActionQueue
 
     def transaction_payload
       {
-        type:  'donation',
+        type: 'donation',
         payment_provider: 'braintree',
         params: {
           donationpage: {
-            name:             "#{@action.page.slug}-donation",
-            payment_account:  get_payment_account
+            name: "#{@action.page.slug}-donation",
+            payment_account: get_payment_account
           },
           order: {
-            amount:         data[:amount],
-            card_num:       data[:card_num],
-            card_code:      '007',
+            amount: data[:amount],
+            card_num: data[:card_num],
+            card_code: '007',
             exp_date_month: expire_month,
-            exp_date_year:  expire_year,
-            currency:       currency
+            exp_date_year: expire_year,
+            currency: currency,
+            trans_id: data[:transaction_id]
           },
           action: {
             source: data[:source],

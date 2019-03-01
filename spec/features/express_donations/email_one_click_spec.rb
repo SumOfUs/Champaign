@@ -29,7 +29,8 @@ feature 'Express From Mailing Link' do
           card_code: '007',
           exp_date_month: '12',
           exp_date_year: '2020',
-          currency: 'GBP'
+          currency: 'GBP',
+          trans_id: /[a-zA-Z\d]{8}/
         },
         action: {
           source: nil,

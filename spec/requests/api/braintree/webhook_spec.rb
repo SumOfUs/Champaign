@@ -105,7 +105,10 @@ describe 'Braintree API' do
                 recurring_id: /[a-z0-9]{6}/,
                 success: 1,
                 status: 'completed',
-                amount: /\A\d+[.]\d+\z/
+                amount: /\A\d+[.]\d+\z/,
+                # We generally use the payment processor ID from the last transaction on the subscription,
+                # however in the test webhook notification supplied by webhook, the ID on that transaction is nil.
+                trans_id: nil
               }
             }
 
@@ -173,7 +176,10 @@ describe 'Braintree API' do
                 recurring_id: /[a-z0-9]{6}/,
                 success: 1,
                 status: 'completed',
-                amount: /\A\d+[.]\d+\z/
+                amount: /\A\d+[.]\d+\z/,
+                # We generally use the payment processor ID from the last transaction on the subscription,
+                # however in the test webhook notification supplied by webhook, the ID on that transaction is nil.
+                trans_id: nil
               }
             }
 
