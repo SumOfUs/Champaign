@@ -12,7 +12,6 @@ module PaymentProcessor::Braintree
 
     def run
       sale = make_payment
-
       if sale.success?
         action = create_action(extra_fields(sale))
         store_locally(sale, action)
@@ -28,8 +27,7 @@ module PaymentProcessor::Braintree
           subscription_id: sale.subscription.id
         }
       end
-
-      {}
+      { transaction_id: sale.transaction.id }
     end
 
     private
