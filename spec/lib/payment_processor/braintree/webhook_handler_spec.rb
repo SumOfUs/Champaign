@@ -55,7 +55,10 @@ describe PaymentProcessor::Braintree::WebhookHandler do
               recurring_id: 'subscription_id',
               success: 1,
               status: 'completed',
-              amount: /\A\d+[.]\d+\z/
+              amount: /\A\d+[.]\d+\z/,
+              # We generally use the payment processor ID from the last transaction on the subscription,
+              # however in the test webhook notification supplied by webhook, the ID on that transaction is nil.
+              trans_id: nil
             }
           }
 
@@ -143,7 +146,10 @@ describe PaymentProcessor::Braintree::WebhookHandler do
             recurring_id: 'subscription_id',
             success: 0,
             status: 'failed',
-            amount: '0.0'
+            amount: '0.0',
+            # We generally use the payment processor ID from the last transaction on the subscription,
+            # however in the test webhook notification supplied by webhook, the ID on that transaction is nil.
+            trans_id: nil
           }
         }
         expect(ChampaignQueue).to receive(:push).with(
@@ -180,7 +186,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
              kind: 'subscription_charged_successfully',
              subscription: double('notification_subscription',
                                   id: 'subscription_id',
-                                  transactions: [double('transaction', amount: 10)]))
+                                  transactions: [double('transaction', amount: 10, id: '124309')]))
     end
 
     before do
@@ -202,7 +208,8 @@ describe PaymentProcessor::Braintree::WebhookHandler do
             recurring_id: 'subscription_id',
             success: 1,
             status: 'completed',
-            amount: '10.0'
+            amount: '10.0',
+            trans_id: '124309'
           }
         }
         update_payload = {
