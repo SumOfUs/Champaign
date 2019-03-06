@@ -96,8 +96,8 @@ GEM
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-dynamodb (1.10.0)
-      aws-sdk-core (~> 3)
+    aws-sdk-dynamodb (1.20.0)
+      aws-sdk-core (~> 3, >= 3.39.0)
       aws-sigv4 (~> 1.0)
     aws-sdk-kms (1.13.0)
       aws-sdk-core (~> 3, >= 3.39.0)
@@ -565,7 +565,7 @@ DEPENDENCIES
   airbrake-ruby (= 1.7.1)
   annotate
   aws-sdk-core (~> 3)
-  aws-sdk-dynamodb (~> 1.10)
+  aws-sdk-dynamodb (~> 1.20)
   aws-sdk-rails
   aws-sdk-s3 (~> 1.30)
   aws-sdk-sns (~> 1.3)
