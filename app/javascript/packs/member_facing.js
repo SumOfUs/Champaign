@@ -22,6 +22,7 @@ import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import redirectors from '../member-facing/redirectors';
 import { FeaturesHelper } from '../state/features';
 import DonationsThermometer from '../plugins/donations-thermometer';
+import ProgressTracker from '../plugins/progress-tracker';
 
 window.URI = URI;
 
@@ -43,6 +44,7 @@ Object.assign(window.champaign, {
   OverlayToggle,
   Petition,
   PetitionAndScrollToConsent,
+  ProgressTracker,
   Sidebar,
   Survey,
   SweetPlaceholder,
