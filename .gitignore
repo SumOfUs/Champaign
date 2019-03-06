@@ -5,7 +5,7 @@
 .byebug_history
 .DS_Store
 .elasticbeanstalk/*
-.env.*
+.env
 .idea/*
 .ruby-gemset
 .ruby-version
