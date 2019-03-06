@@ -17,7 +17,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.12.0)
+    aasm (5.0.1)
       concurrent-ruby (~> 1.0)
     action_parameter (0.0.3)
       actionpack (>= 3.0.0)
