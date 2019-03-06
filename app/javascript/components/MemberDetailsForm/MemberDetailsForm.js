@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Button from '../Button/Button';
 import { updateForm } from '../../state/fundraiser/actions';
 import FieldShape from '../FieldShape/FieldShape';
+import ee from '../../shared/pub_sub';
 
 import type { Element } from 'react';
 import type { Dispatch } from 'redux';
@@ -88,6 +89,7 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
   }
 
   handleSuccess() {
+    ee.emit('fundraiser:form:success');
     this.setState({ errors: {} }, () => {
       if (this.props.proceed) {
         this.props.proceed();
@@ -96,6 +98,7 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
   }
 
   handleFailure(response: any) {
+    ee.emit('fundraiser:form:error', response);
     const errors = _.mapValues(response.errors, ([message]) => {
       return {
         id: 'errors.this_field_with_message',
@@ -118,9 +121,8 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
   submit(e: SyntheticEvent<HTMLFormElement>) {
     this.setState({ loading: true });
     e.preventDefault();
-    // HACKISH
+    // TODO
     // Use a proper xhr lib if we want to make our lives easy.
-    // Ideally a
     fetch(`/api/pages/${this.props.pageId}/actions/validate`, {
       method: 'POST',
       headers: {
