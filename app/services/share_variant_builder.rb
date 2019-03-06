@@ -30,8 +30,8 @@ class ShareVariantBuilder
     def variant_initials(variant_type)
       {
         facebook: 'fb',
-        twitter:  'tw',
-        email:    'em'
+        twitter: 'tw',
+        email: 'em'
       }[variant_type.to_sym]
     end
   end
@@ -48,6 +48,7 @@ class ShareVariantBuilder
     @variant = variant_class.find(@id)
     @variant.assign_attributes(@params)
     return @variant if @variant.changed.empty? || @variant.invalid?
+
     @button = Share::Button.find_by(share_type: @variant_type, page_id: @page.id)
     update_and_return
   end
@@ -56,6 +57,7 @@ class ShareVariantBuilder
     @variant = variant_class.new(@params)
     @variant.page = @page
     return @variant unless @variant.valid?
+
     @button = Share::Button.find_or_initialize_by(share_type: @variant_type, page_id: @page.id)
     @variant.button = @button
     update_and_return
@@ -141,11 +143,19 @@ class ShareVariantBuilder
         {
           facebook_title: variant.title,
           facebook_description: variant.description,
-          facebook_thumbnail: variant.image.blank? ? nil : variant.image.content(:facebook),
+          facebook_thumbnail: facebook_thumbnail(variant),
           id: variant.sp_id
         }
       ]
     }
+  end
+
+  def facebook_thumbnail(variant)
+    # Primarily, use the image_url if it's present. If it's not, check if an image has been selected in the drop down.
+    # If there's no image selected in the dropdown nor image_url, create a share with no image
+    return variant.image_url unless variant.image_url.blank?
+
+    variant.image.blank? ? nil : variant.image.content(:facebook)
   end
 
   def twitter_variants(variant)
@@ -179,3 +189,4 @@ class ShareVariantBuilder
     "Share::#{@variant_type.to_s.classify}".constantize
   end
 end
+# rubocop:enable ClassLength

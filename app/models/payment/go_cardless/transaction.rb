@@ -88,7 +88,8 @@ class Payment::GoCardless::Transaction < ApplicationRecord
         created_at: created_at.strftime('%Y-%m-%d %H:%M:%S'),
         recurring_id: subscription.go_cardless_id,
         success: 0,
-        status: 'failed'
+        status: 'failed',
+        trans_id: go_cardless_id
       }
     },
                         { group_id: "gocardless-subscription:#{id}" })

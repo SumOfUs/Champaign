@@ -185,6 +185,12 @@ en:
       ak_reports: 'ActionKit Reports:'
       ak_petition_report: "AK petition page report (%{resource_id})"
       ak_donation_report: "AK donation page report (%{resource_id})"
+      ak_resources: 'ActionKit Resources:'
+      ak_petition_resource: "AK petition page (%{resource_id})"
+      ak_donation_resource: "AK donation page (%{resource_id})"
+      ak_resource_missing: "This page is missing some of its associated ActionKit resources!"
+      click_to_create: "Click here to try and create them"
+      ak_resource_queued: "Now wait a few minutes and refresh the page. If you still don't see the resource links, repeat once more, then contact someone from the product team."
       clone_page: 'Clone this page'
       layout_select: 'Page layout'
       follow_up_layout_select: 'Follow-up action'
