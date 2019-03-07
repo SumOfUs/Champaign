@@ -339,7 +339,7 @@ GEM
     omniauth (1.9.0)
       hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
-    omniauth-google-oauth2 (0.6.0)
+    omniauth-google-oauth2 (0.6.1)
       jwt (>= 2.0)
       omniauth (>= 1.1.1)
       omniauth-oauth2 (>= 1.5)
@@ -606,7 +606,7 @@ DEPENDENCIES
   money
   money-oxr
   newrelic_rpm
-  omniauth-google-oauth2 (~> 0.6.0)
+  omniauth-google-oauth2 (~> 0.6.1)
   paper_trail (~> 10.2)
   paperclip (~> 6.0)
   pg

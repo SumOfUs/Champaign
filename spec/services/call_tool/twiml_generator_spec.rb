@@ -37,8 +37,11 @@ describe CallTool::TwimlGenerator do
       let(:page) { create(:page, :with_call_tool, language: create(:language, :french)) }
       let(:call) { create(:call, page: page) }
 
-      it 'has a Say element' do
-        expect(subject).to match(/<Say .* language="fr">/)
+      it 'has a Say element nested in a gather' do
+        french = 'Merci de presser la touche 1 lorsque vous serez prêt-e pour être mis en relation. '\
+        'Pressez la touche 2 pour entendre de nouveau le message du chargé de campagne'
+        res = Hash.from_xml(subject)
+        expect(res['Response']['Gather']['Say']).to match(french)
       end
     end
 
@@ -78,14 +81,14 @@ describe CallTool::TwimlGenerator do
     end
 
     it 'has a Dial tag with the number of target' do
-      expect(subject).to match(%r{<Dial.*><Number>#{Regexp.quote(call.target.phone_number)}</Number></Dial>})
+      expect(subject).to match(%r{<Dial.*>\n<Number>#{Regexp.quote(call.target.phone_number)}</Number>\n</Dial>})
     end
 
     context 'given the number has extensions' do
       let(:call) { create(:call, target: build(:call_tool_target, phone_number: '+12345678', phone_extension: '234')) }
 
       it 'includes the sendDigits option' do
-        re = %r{<Dial.*><Number sendDigits="234">\+12345678</Number></Dial>}
+        re = %r{<Dial.*>\n<Number sendDigits="234">\+12345678</Number>\n</Dial>}
         expect(subject).to match re
       end
     end

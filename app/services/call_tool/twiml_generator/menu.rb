@@ -16,16 +16,16 @@ module CallTool::TwimlGenerator
     def render_redirect_to(url)
       Twilio::TwiML::VoiceResponse.new do |r|
         r.redirect url
-      end.text
+      end.to_s
     end
 
     def render_menu
       Twilio::TwiML::VoiceResponse.new do |r|
-        r.gather action: call_menu_url(call), numDigits: 1, timeout: 10 do
+        r.gather action: call_menu_url(call), numDigits: 1, timeout: 10 do |gather|
           if call.menu_sound_clip.present?
-            r.play menu_sound_clip_url
+            gather.play url: menu_sound_clip_url
           else
-            r.say message: text_to_speach_message, voice: 'alice', language: call.page.language_code
+            gather.say message: text_to_speach_message, voice: 'alice', language: call.page.language_code
           end
         end
         r.redirect call_menu_url(call)
