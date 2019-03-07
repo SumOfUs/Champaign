@@ -1,7 +1,7 @@
 module CallTool::TwimlGenerator
   class Empty < Base
     def self.run
-      Twilio::TwiML::Response.new.text
+      Twilio::TwiML::VoiceResponse.new.to_s
     end
   end
 end

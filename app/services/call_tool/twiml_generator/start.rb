@@ -1,14 +1,12 @@
 module CallTool::TwimlGenerator
   class Start < Base
     def run
-      Twilio::TwiML::Response.new do |r|
-        r.Gather action: call_menu_url(call), numDigits: 1, timeout: 0 do
-          if call.sound_clip.present?
-            r.Play sound_clip_url
-          end
+      Twilio::TwiML::VoiceResponse.new do |r|
+        r.gather action: call_menu_url(call), numDigits: 1, timeout: 0 do
+          r.play sound_clip_url if call.sound_clip.present?
         end
-        r.Redirect call_menu_url(call)
-      end.text
+        r.redirect call_menu_url(call)
+      end.to_s
     end
 
     private
