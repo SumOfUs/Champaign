@@ -37,7 +37,6 @@ export default class ProgressTracker {
   }
 
   cross(section: string) {
-    console.log('cross:', section);
     $(`.progress-tracker__circle--${section}`)
       .removeClass('progress-tracker__circle--tick')
       .addClass('progress-tracker__circle--cross');
