@@ -42,38 +42,4 @@ export default class ProgressTracker {
       .removeClass('progress-tracker__circle--tick')
       .addClass('progress-tracker__circle--cross');
   }
-
-  setup() {
-    ee.on('action:submitted_success', function() {});
-  }
 }
-/*
-window.ee.on('action:submitted_success', function() {
-  $('.header-logo__left-constraint').append($(progressTracker));
-  $('.Stepper.fundraiser-bar__top').prepend(
-    $(progressTracker).addClass('progress-tracker--fundraiser')
-  );
-  $('.progress-tracker__circle--signed').addClass(
-    'progress-tracker__circle--tick'
-  );
-});
-
-window.addEventListener(
-  'share',
-  function() {
-    $('.progress-tracker__circle--shared')
-      .removeClass('progress-tracker__circle--cross')
-      .addClass('progress-tracker__circle--tick');
-    ga('send', 'event', 'fa-progress-tracker', 'share', 'variant');
-    faa.event('fa-progress-tracker', 'share', 'variant');
-  },
-  false
-);
-
-$('.two-step__decline').on('click', function() {
-  $('.progress-tracker__circle--shared')
-    .removeClass('progress-tracker__circle--tick')
-    .addClass('progress-tracker__circle--cross');
-});
-
-*/
