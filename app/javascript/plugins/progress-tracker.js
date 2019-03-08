@@ -11,11 +11,7 @@ export default class ProgressTracker {
     ee.on('action:submitted_success', this.show);
     ee.on('action:submitted_success', () => this.tick('signed'));
     ee.on('fundraiser:transaction_success', () => this.tick('donated'));
-    window.addEventListener(
-      'share',
-      () => this.addEventListeners.tick('shared'),
-      false
-    );
+    window.addEventListener('share', () => this.tick('shared'), false);
     $('.two-step__decline').on('click', () => {
       this.cross('shared');
     });
