@@ -7,29 +7,39 @@ module Twilio
     def start
       @call = Call.find(params[:id])
       CallTool::CallStatusUpdater.start!(@call)
-      render xml: CallTool::TwimlGenerator::Start.run(@call)
+      xml = CallTool::TwimlGenerator::Start.run(@call)
+      pp 'START XML: ', xml
+      render xml: xml
     end
 
     def menu
       @call = Call.find(params[:id])
-      render xml: CallTool::TwimlGenerator::Menu.run(@call, menu_params)
+      xml = CallTool::TwimlGenerator::Menu.run(@call, menu_params)
+      pp 'FIND XML: ', xml
+      render xml: xml
     end
 
     def connect
       @call = Call.find(params[:id])
       CallTool::CallStatusUpdater.connect!(@call)
-      render xml: CallTool::TwimlGenerator::Connect.run(@call)
+      xml = CallTool::TwimlGenerator::Connect.run(@call)
+      pp 'CONNECT XML: ', xml
+      render xml: xml
     end
 
     def create_target_call_status
       @call = Call.find(params[:id])
       CallTool::CallStatusUpdater.update!(@call, target_call_info: params)
-      render xml: CallTool::TwimlGenerator::Empty.run
+      xml = CallTool::TwimlGenerator::Empty.run
+      pp 'CREATE TARGET CALL STATUS XML: ', xml
+      render xml: xml
     end
 
     def create_member_call_event
       @call = Call.find(params[:id])
-      CallTool::CallStatusUpdater.new_member_call_event!(@call, params)
+      res = CallTool::CallStatusUpdater.new_member_call_event!(@call, params)
+      pp 'CREATE MEMBER CALL EVENT RES: ', res
+      # TODO: - does this always respond ok?
       head :ok
     end
 

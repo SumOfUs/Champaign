@@ -222,7 +222,7 @@ workflows:
           filters:
             branches:
               only:
-                - oauth-update
+                - development
                 - /^feature(?:\/|-|\.).+$/
 
       - build_docker_image:
@@ -232,7 +232,7 @@ workflows:
             branches:
               only:
                 - master
-                - oauth-update
+                - development
                 - /^feature(?:\/|-|\.).+$/
 
       - build_production_docker_image:
@@ -265,7 +265,7 @@ workflows:
           filters:
             branches:
               only:
-                - oauth-update
+                - development
 
       - deploy_feature:
           requires:
