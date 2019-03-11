@@ -35,7 +35,9 @@ describe CallCreator do
     end
 
     it 'places the call' do
-      expect_any_instance_of(Twilio::REST::Calls).to(
+      calls = double
+      allow_any_instance_of(Twilio::REST::Client).to receive(:calls).and_return(calls)
+      expect(calls).to(
         receive(:create)
         .with(
           hash_including(from: call_tool.caller_phone_number.number,
@@ -60,7 +62,7 @@ describe CallCreator do
 
   context 'given valid params' do
     before do
-      allow_any_instance_of(Twilio::REST::Calls).to receive(:create)
+      allow_any_instance_of(Twilio::REST::Client).to receive_message_chain(:calls, :create)
     end
 
     context 'with a valid manual target' do
@@ -117,9 +119,8 @@ describe CallCreator do
 
   context 'given twilio API responds with error' do
     before do
-      allow_any_instance_of(Twilio::REST::Calls)
-        .to receive(:create)
-        .and_raise(Twilio::REST::RequestError.new('Error', 13_223))
+      allow_any_instance_of(Twilio::REST::Client).to receive_message_chain(:calls, :create)
+        .and_raise(Twilio::REST::RestError.new('Twilio error: ', double(status_code: 13_223, body: {})))
     end
 
     let(:params) do
@@ -186,7 +187,7 @@ describe CallCreator do
       let(:params) { invalid_params.merge(target_id: target.id) }
 
       before do
-        allow_any_instance_of(Twilio::REST::Calls).to receive(:create)
+        allow_any_instance_of(Twilio::REST::Client).to receive_message_chain(:calls, :create)
       end
 
       include_examples 'basic calling'

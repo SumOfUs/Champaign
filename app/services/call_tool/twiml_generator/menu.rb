@@ -14,22 +14,22 @@ module CallTool::TwimlGenerator
     private
 
     def render_redirect_to(url)
-      Twilio::TwiML::Response.new do |r|
-        r.Redirect url
-      end.text
+      Twilio::TwiML::VoiceResponse.new do |r|
+        r.redirect url
+      end.to_s
     end
 
     def render_menu
-      Twilio::TwiML::Response.new do |r|
-        r.Gather action: call_menu_url(call), numDigits: 1, timeout: 10 do
+      Twilio::TwiML::VoiceResponse.new do |r|
+        r.gather action: call_menu_url(call), numDigits: 1, timeout: 10 do |gather|
           if call.menu_sound_clip.present?
-            r.Play menu_sound_clip_url
+            gather.play url: menu_sound_clip_url
           else
-            r.Say text_to_speach_message, voice: 'alice', language: call.page.language_code
+            gather.say message: text_to_speach_message, voice: 'alice', language: call.page.language_code
           end
         end
-        r.Redirect call_menu_url(call)
-      end.text
+        r.redirect call_menu_url(call)
+      end.to_s
     end
 
     def menu_sound_clip_url
