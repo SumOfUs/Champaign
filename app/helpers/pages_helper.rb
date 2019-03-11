@@ -24,6 +24,19 @@ module PagesHelper
     match[1]
   end
 
+  def ak_page_type(ak_resource_url)
+    match = %r{\/(\w+)\/(\d+)\/?$}.match(ak_resource_url)
+    return if match.blank?
+
+    match[1]
+  end
+
+  def ak_page_url(resource_uri)
+    resource_id = ak_resource_id(resource_uri)
+    page_type = ak_page_type(resource_uri)
+    "#{Settings.ak_root_url}admin/core/#{page_type}/#{resource_id}/"
+  end
+
   def page_canonical_url(page)
     return page.canonical_url if page.canonical_url.present?
 
