@@ -26,9 +26,7 @@ class CallCreator
         place_call
       end
 
-      if @call.persisted? && !@call.failed?
-        publish_event
-      end
+      publish_event if @call.persisted? && !@call.failed?
     end
 
     errors.blank?
@@ -76,16 +74,17 @@ class CallCreator
 
   # TODO: Move method to service class, handle error messages in there.
   def place_call
-    client = Twilio::REST::Client.new.account.calls
-    client.create(
+    client = Twilio::REST::Client.new(Settings.twilio.account_sid, Settings.twilio.auth_token)
+    params = {
       from: call.caller_id,
       to: call.member_phone_number,
       url: call_start_url(call),
       status_callback: member_call_event_url(call),
       status_callback_method: 'POST',
       status_callback_event: %w[initiated ringing answered completed]
-    )
-  rescue Twilio::REST::RequestError => e
+    }
+    client.calls.create params
+  rescue Twilio::REST::RestError => e
     # 13223: Dial: Invalid phone number format
     # 13224: Dial: Invalid phone number
     # 13225: Dial: Forbidden phone number
@@ -104,6 +103,7 @@ class CallCreator
 
   def publish_event
     return if @call.member.blank? # handle this in worker
+
     CallEvent::New.publish(@call, @extra_params)
   end
 
@@ -111,15 +111,11 @@ class CallCreator
   # of target_ids on the browser are no longer valid.
   # This validation checks for this edge case.
   def validate_target
-    if call.target.blank? && @params[:target_id].present?
-      add_error(:base, I18n.t('call_tool.errors.target.outdated'))
-    end
+    add_error(:base, I18n.t('call_tool.errors.target.outdated')) if call.target.blank? && @params[:target_id].present?
   end
 
   def validate_call_tool
-    if call.caller_id.blank?
-      add_error(:base, 'Please configure a Caller ID before trying to use the call tool')
-    end
+    add_error(:base, 'Please configure a Caller ID before trying to use the call tool') if call.caller_id.blank?
   end
 
   def add_error(key, message)

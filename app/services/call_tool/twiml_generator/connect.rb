@@ -1,11 +1,11 @@
 module CallTool::TwimlGenerator
   class Connect < Base
     def run
-      Twilio::TwiML::Response.new do |r|
-        r.Dial action: target_call_status_url(call), callerId: call.caller_id do |dial|
-          dial.Number(call.target.phone_number, dial_options)
+      Twilio::TwiML::VoiceResponse.new do |r|
+        r.dial action: target_call_status_url(call), callerId: call.caller_id do |dial|
+          dial.number(call.target.phone_number, dial_options)
         end
-      end.text
+      end.to_s
     end
 
     private

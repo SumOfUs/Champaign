@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'API::Calls' do
   before do
-    allow_any_instance_of(Twilio::REST::Calls).to receive(:create)
+    allow(Twilio::REST::Client).to receive_message_chain(:new, :calls, :create)
   end
 
   describe 'POST /api/pages/:id/call' do
@@ -39,7 +39,9 @@ describe 'API::Calls' do
       end
 
       it 'creates a call on Twilio' do
-        expect_any_instance_of(Twilio::REST::Calls)
+        calls = double
+        allow(Twilio::REST::Client).to receive_message_chain(:new, :calls).and_return(calls)
+        expect(calls)
           .to receive(:create)
           .with(hash_including(from: call_tool.caller_phone_number.number,
                                to: '13437003482',
