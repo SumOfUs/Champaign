@@ -38,11 +38,11 @@
         - else
           br
           = link_to t('pages.edit.ak_petition_resource', resource_id: ak_resource_id(page.ak_petition_resource_uri)),
-                      page.ak_petition_resource_uri,
+                      ak_page_url(page.ak_petition_resource_uri),
                       target: '_blank'
           br
           = link_to t('pages.edit.ak_donation_resource', resource_id: ak_resource_id(page.ak_donation_resource_uri)),
-                      page.ak_donation_resource_uri,
+                      ak_page_url(page.ak_donation_resource_uri),
                       target: '_blank'
 
 

@@ -54,6 +54,23 @@ describe PagesHelper do
     end
   end
 
+  describe 'ak_page_type' do
+    it 'parses ak petition page type' do
+      ak_resource_url = 'https://act.example.org/rest/v1/petitionpage/11207/'
+      expect(helper.ak_page_type(ak_resource_url)).to eq 'petitionpage'
+    end
+
+    it 'parses ak donation page type' do
+      ak_resource_url = 'https://act.example.org/rest/v1/donationpage/12345/'
+      expect(helper.ak_page_type(ak_resource_url)).to eq 'donationpage'
+    end
+
+    it 'works without a trailing slash' do
+      ak_resource_url = 'https://act.example.org/rest/v1/donationpage/12345'
+      expect(helper.ak_page_type(ak_resource_url)).to eq 'donationpage'
+    end
+  end
+
   describe '#prefill_link' do
     it 'prefills link for twitter' do
       variant = Share::Twitter.new
