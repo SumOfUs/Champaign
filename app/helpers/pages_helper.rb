@@ -18,10 +18,25 @@ module PagesHelper
   end
 
   def ak_resource_id(ak_resource_url)
+    # e.g. matches '12345' from 'https://act.example.org/rest/v1/donationpage/12345/'
     match = %r{\/(\d+)\/?$}.match(ak_resource_url)
     return if match.blank?
 
     match[1]
+  end
+
+  def ak_page_type(ak_resource_url)
+    # e.g. matches 'donationpage' from 'https://act.example.org/rest/v1/donationpage/12345/'
+    match = %r{\/(\w+)\/(\d+)\/?$}.match(ak_resource_url)
+    return if match.blank?
+
+    match[1]
+  end
+
+  def ak_page_url(resource_uri)
+    resource_id = ak_resource_id(resource_uri)
+    page_type = ak_page_type(resource_uri)
+    "#{Settings.ak_root_url}admin/core/#{page_type}/#{resource_id}/"
   end
 
   def page_canonical_url(page)
@@ -152,8 +167,6 @@ module PagesHelper
   end
 
   def share_image_url(share)
-    return share.image_url unless share.image_url.blank?
-
     Image.find_by(id: share.image_id).try(:content).try(:url)
   end
 

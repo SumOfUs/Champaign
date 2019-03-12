@@ -23,6 +23,7 @@ ak_password: <%= ENV['AK_PASSWORD'] %>
 action_kit:
   akid_secret: <%= ENV['AKID_SECRET'] %>
 ak_report_url: <%= ENV['AK_REPORT_URL'] %>
+ak_root_url: <%= ENV['ROOT_URL'] %>
 
 # Assets config
 asset_host: <%= ENV['ASSET_HOST'] %>

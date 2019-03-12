@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_18_111908) do
+ActiveRecord::Schema.define(version: 2019_03_11_165617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -604,7 +604,6 @@ ActiveRecord::Schema.define(version: 2019_02_18_111908) do
     t.integer "click_count"
     t.string "sp_id"
     t.integer "image_id"
-    t.string "image_url"
     t.index ["button_id"], name: "index_share_facebooks_on_button_id"
     t.index ["image_id"], name: "index_share_facebooks_on_image_id"
     t.index ["page_id"], name: "index_share_facebooks_on_page_id"

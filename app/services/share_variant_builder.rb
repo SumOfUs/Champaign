@@ -143,19 +143,11 @@ class ShareVariantBuilder
         {
           facebook_title: variant.title,
           facebook_description: variant.description,
-          facebook_thumbnail: facebook_thumbnail(variant),
+          facebook_thumbnail: variant.image.blank? ? nil : variant.image.content(:facebook),
           id: variant.sp_id
         }
       ]
     }
-  end
-
-  def facebook_thumbnail(variant)
-    # Primarily, use the image_url if it's present. If it's not, check if an image has been selected in the drop down.
-    # If there's no image selected in the dropdown nor image_url, create a share with no image
-    return variant.image_url unless variant.image_url.blank?
-
-    variant.image.blank? ? nil : variant.image.content(:facebook)
   end
 
   def twitter_variants(variant)
