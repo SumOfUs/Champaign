@@ -18,6 +18,7 @@ module PagesHelper
   end
 
   def ak_resource_id(ak_resource_url)
+    # e.g. matches '12345' from 'https://act.example.org/rest/v1/donationpage/12345/'
     match = %r{\/(\d+)\/?$}.match(ak_resource_url)
     return if match.blank?
 
@@ -25,6 +26,7 @@ module PagesHelper
   end
 
   def ak_page_type(ak_resource_url)
+    # e.g. matches 'donationpage' from 'https://act.example.org/rest/v1/donationpage/12345/'
     match = %r{\/(\w+)\/(\d+)\/?$}.match(ak_resource_url)
     return if match.blank?
 
