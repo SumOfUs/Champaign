@@ -165,8 +165,6 @@ module PagesHelper
   end
 
   def share_image_url(share)
-    return share.image_url unless share.image_url.blank?
-
     Image.find_by(id: share.image_id).try(:content).try(:url)
   end
 

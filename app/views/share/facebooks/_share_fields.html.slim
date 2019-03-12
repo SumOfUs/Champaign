@@ -9,7 +9,3 @@
 .form-group
   = form.label :image_id, t('share.facebook.form.image')
   = form.select :image_id, page.images.map{|im| [im.content_file_name, im.id] }, { include_blank: "No image" }, class: 'form-control shares-editor__image-selector'
-
-.form-group
-  = form.label :image_url, '...or use an image URL'
-  = form.url_field :image_url, class: 'form-control'
