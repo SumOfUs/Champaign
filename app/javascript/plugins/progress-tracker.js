@@ -18,7 +18,11 @@ export default class ProgressTracker {
   }
 
   show() {
+    const $header = $('.header-logo');
     const $tracker = $('.header-logo .progress-tracker');
+
+    $header.addClass('with-progress-tracker');
+
     $tracker
       .removeClass('hidden-closed')
       .clone()
