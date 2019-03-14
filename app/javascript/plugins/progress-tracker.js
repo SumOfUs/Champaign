@@ -8,11 +8,20 @@ export default class ProgressTracker {
   }
 
   addEventListeners() {
+    const $header = $('.header-logo');
     ee.on('action:submitted_success', this.show);
     ee.on('action:submitted_success', () => this.tick('signed'));
     ee.on('fundraiser:transaction_success', () => this.tick('donated'));
-    window.addEventListener('share', () => this.tick('shared'), false);
+    window.addEventListener(
+      'share',
+      () => {
+        $header.hide();
+        this.tick('shared');
+      },
+      false
+    );
     $('.two-step__decline').on('click', () => {
+      $header.hide();
       this.cross('shared');
     });
   }
