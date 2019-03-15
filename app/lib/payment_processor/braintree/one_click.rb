@@ -1,6 +1,25 @@
 # frozen_string_literal: true
 
 module PaymentProcessor::Braintree
+  class DuplicateDonationError < StandardError
+    def message
+      I18n.t('fundraiser.oneclick.duplicate_donation')
+    end
+  end
+
+  class DuplicateDonationResponse
+    attr_accessor :errors, :message, :params
+    def initialize(errors: [], message: '', params: {})
+      @errors = errors
+      @message = message
+      @params = params
+    end
+
+    def success?
+      @errors.empty?
+    end
+  end
+
   class OneClick
     attr_reader :params, :payment_options
 
@@ -11,6 +30,10 @@ module PaymentProcessor::Braintree
     end
 
     def run
+      # TODO: On the second attempt (if the member consents to duplicate donation), post with the same parameters
+      # but also params[:allow_duplicate] = true
+      return duplicate_donation_error_response if duplicate_donation && !payment_options.params[:allow_duplicate]
+
       sale = make_payment
       if sale.success?
         action = create_action(extra_fields(sale))
@@ -18,6 +41,19 @@ module PaymentProcessor::Braintree
       end
 
       sale
+    end
+
+    def duplicate_donation
+      resources = (payment_options.recurring? ? 'subscriptions' : 'transactions')
+      # Check if there are any transactions/subscriptions for the customer, within 10 minutes, with the same amount
+      !@member.customer.send(resources)
+        .where('created_at < ? AND amount = ?', 10.minutes.ago, payment_options.params[:payment][:amount])
+        .empty?
+    end
+
+    def duplicate_donation_error_response
+      error = DuplicateDonationError.new
+      DuplicateDonationResponse.new(errors: [error], message: error.message, params: @params)
     end
 
     def extra_fields(sale)

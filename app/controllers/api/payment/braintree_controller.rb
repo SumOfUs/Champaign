@@ -16,9 +16,24 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def one_click
-    @result = client::OneClick.new(unsafe_params, cookies.signed[:payment_methods]).run
+    member = Member.find_by_email(params[:user][:email])
+    @result = client::OneClick.new(unsafe_params, cookies.signed[:payment_methods], member).run
     unless @result.success?
-      @errors = client::ErrorProcessing.new(@result, locale: locale).process
+      @errors = if @result.class == Braintree::ErrorResult
+                  client::ErrorProcessing.new(@result, locale: locale).process
+                else
+                  @result.errors
+                  # This is what gets rendered with the one_click.json.jbuilder template:
+                  # json.success @result.success?
+                  # unless @result.success?
+                  #   json.params @result.params
+                  #       {:transaction=>{:payment_method_nonce=>"fake-processor-declined-visa-nonce", :type=>"sale"}}
+                  #   json.errors @result.errors
+                  #       #<Braintree::Errors transaction:[(81502) Amount is required.], , >
+                  #   json.message @result.message
+                  #        "Amount is required."
+                  # end
+                end
       render status: :unprocessable_entity, errors: @errors
     end
   end

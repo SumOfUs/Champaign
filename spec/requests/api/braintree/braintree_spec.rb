@@ -17,32 +17,63 @@ describe 'Express Donation' do
   end
 
   describe 'making multiple transactions on the same page' do
-    subject do
-      body = {
-        payment: {
-          amount: 2.00,
-          payment_method_id: payment_method.id,
-          currency: 'GBP',
-          recurring: false
-        },
-        user: {
-          form_id: form.id,
-          email: 'test@example.com',
-          name: 'John Doe'
-        },
-        page_id: page.id
-      }
-      post api_payment_braintree_one_click_path(page.id), params: body
-      post api_payment_braintree_one_click_path(page.id), params: body
+    context 'with different amounts' do
+      subject do
+        body = {
+          payment: {
+            amount: 2.00,
+            payment_method_id: payment_method.id,
+            currency: 'GBP',
+            recurring: false
+          },
+          user: {
+            form_id: form.id,
+            email: 'test@example.com',
+            name: 'John Doe'
+          },
+          page_id: page.id
+        }
+        body2 = body.deep_dup
+        body2[:payment][:amount] = 10.00
+        post api_payment_braintree_one_click_path(page.id), params: body
+        post api_payment_braintree_one_click_path(page.id), params: body2
+      end
+
+      it 'creates an action and a transaction for each payment' do
+        VCR.use_cassette('express_donation_multiple_transactions') do
+          expect(Action.all.count).to eq 0
+          expect(Payment::Braintree::Transaction.all.count).to eq 0
+          subject
+          expect(Action.all.count).to eq 2
+          expect(Payment::Braintree::Transaction.all.count).to eq 2
+        end
+      end
     end
 
-    it 'creates an action and a transaction for each payment' do
-      VCR.use_cassette('express_donation_multiple_transactions') do
-        expect(Action.all.count).to eq 0
-        expect(Payment::Braintree::Transaction.all.count).to eq 0
-        subject
-        expect(Action.all.count).to eq 2
-        expect(Payment::Braintree::Transaction.all.count).to eq 2
+    context 'with the same amount in short succession' do
+      subject do
+        body = {
+          payment: {
+            amount: 2.00,
+            payment_method_id: payment_method.id,
+            currency: 'GBP',
+            recurring: false
+          },
+          user: {
+            form_id: form.id,
+            email: 'test@example.com',
+            name: 'John Doe'
+          },
+          page_id: page.id
+        }
+        post api_payment_braintree_one_click_path(page.id), params: body
+        post api_payment_braintree_one_click_path(page.id), params: body
+      end
+
+      it 'alerts the user about making multiple duplicate donations in a short succession' do
+        VCR.use_cassette('express_donation_multiple_transactions') do
+          subject
+        end
       end
     end
   end
