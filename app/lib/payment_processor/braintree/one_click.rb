@@ -47,7 +47,7 @@ module PaymentProcessor::Braintree
       resources = (payment_options.recurring? ? 'subscriptions' : 'transactions')
       # Check if there are any transactions/subscriptions for the customer, within 10 minutes, with the same amount
       !@member.customer.send(resources)
-        .where('created_at < ? AND amount = ?', 10.minutes.ago, payment_options.params[:payment][:amount])
+        .where('created_at > ? AND amount = ?', 10.minutes.ago, payment_options.params[:payment][:amount])
         .empty?
     end
 

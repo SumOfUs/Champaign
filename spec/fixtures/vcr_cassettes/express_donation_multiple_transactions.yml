@@ -9,7 +9,7 @@ http_interactions:
         <?xml version="1.0" encoding="UTF-8"?>
         <transaction>
           <payment-method-token>6vg2vw</payment-method-token>
-          <amount>2.0</amount>
+          <amount>10.0</amount>
           <type>sale</type>
         </transaction>
     headers:
@@ -96,7 +96,7 @@ http_interactions:
         /u2HmNEvCh+Ew94GADu18h/DviOwUpHx+QyWSeKhxpiRCd+t50VpwFcazYgh
         XCCDK91bxE5Y11aebVsJgynQkAP1HB1SpT4NmgS9b6smTu/Z6tiVSXGYErxe
         tu4Aj76Vw4gNmkd09g8AAAD//wMA48vAQLISAAA=
-    http_version: 
+    http_version:
   recorded_at: Tue, 11 Oct 2016 20:42:32 GMT
 - request:
     method: post
@@ -194,6 +194,6 @@ http_interactions:
         nf3b9zGDXxQ+CYeDDQB2auU/hn1HYKUi4/MZLJPEQ40xIyO+W8+L0oCvNOoR
         Q7hABle6t4idsK6tvNi2EgVjoD4H6jjap0pdGjQK+thWRZw+stWyK5PiMCV4
         vWzdAR59K/sR6zWP+OIfAAAA//8DAGSD7zyyEgAA
-    http_version: 
+    http_version:
   recorded_at: Tue, 11 Oct 2016 20:46:23 GMT
 recorded_with: VCR 3.0.3

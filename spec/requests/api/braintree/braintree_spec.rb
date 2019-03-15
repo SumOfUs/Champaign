@@ -17,22 +17,25 @@ describe 'Express Donation' do
   end
 
   describe 'making multiple transactions on the same page' do
+    let(:body) do
+      {
+        payment: {
+          amount: 2.00,
+          payment_method_id: payment_method.id,
+          currency: 'GBP',
+          recurring: false
+        },
+        user: {
+          form_id: form.id,
+          email: 'test@example.com',
+          name: 'John Doe'
+        },
+        page_id: page.id
+      }
+    end
+
     context 'with different amounts' do
       subject do
-        body = {
-          payment: {
-            amount: 2.00,
-            payment_method_id: payment_method.id,
-            currency: 'GBP',
-            recurring: false
-          },
-          user: {
-            form_id: form.id,
-            email: 'test@example.com',
-            name: 'John Doe'
-          },
-          page_id: page.id
-        }
         body2 = body.deep_dup
         body2[:payment][:amount] = 10.00
         post api_payment_braintree_one_click_path(page.id), params: body
@@ -51,28 +54,37 @@ describe 'Express Donation' do
     end
 
     context 'with the same amount in short succession' do
-      subject do
-        body = {
-          payment: {
-            amount: 2.00,
-            payment_method_id: payment_method.id,
-            currency: 'GBP',
-            recurring: false
-          },
-          user: {
-            form_id: form.id,
-            email: 'test@example.com',
-            name: 'John Doe'
-          },
-          page_id: page.id
-        }
-        post api_payment_braintree_one_click_path(page.id), params: body
-        post api_payment_braintree_one_click_path(page.id), params: body
-      end
+      let!(:payment_method) { create(:payment_braintree_payment_method, customer: customer, token: 'jbvvvc') }
 
       it 'alerts the user about making multiple duplicate donations in a short succession' do
-        VCR.use_cassette('express_donation_multiple_transactions') do
-          subject
+        VCR.use_cassette('express_donation_duplicate_transactions') do
+          # Set Time.now to March 15th 2018 at 15:55 - that's when the transaction was recorded on the cassette
+          t = Time.local(2018, 3, 15, 15, 55, 0)
+          Timecop.travel(t) do
+            post api_payment_braintree_one_click_path(page.id), params: body
+            post api_payment_braintree_one_click_path(page.id), params: body
+
+            expect(response.status).to eq 422
+            expect(json_hash['message']).to include(
+              "You've just made a donation a few minutes ago. Are you sure, you want to donate again?"
+            )
+          end
+        end
+      end
+
+      it 'allows making two transactions if the parameters allow duplicate donation' do
+        VCR.use_cassette('express_donation_duplicate_transactions') do
+          # Set Time.now to March 15th 2018 at 15:55 - that's when the transaction was recorded on the cassette
+          t = Time.local(2018, 3, 15, 15, 55, 0)
+          Timecop.travel(t) do
+            body2 = body.deep_dup
+            body2[:allow_duplicate] = true
+
+            post api_payment_braintree_one_click_path(page.id), params: body
+            post api_payment_braintree_one_click_path(page.id), params: body2
+
+            expect(response.status).to eq 200
+          end
         end
       end
     end
