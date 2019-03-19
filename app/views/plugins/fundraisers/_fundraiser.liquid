@@ -45,6 +45,110 @@
       }, 100);
 
       mountFundraiser('fundraiser-component', data);
-    })
+    });
+
+    var fundraiserEvents = {
+      stepNames: ['amount', 'details', 'payment'],
+      formSeen: false,
+      source: window.champaign.personalization.urlParams.source || '',
+      pageType: $('meta[name="liquid_layout"]').attr('content'),
+      userLoggedIn: ! $.isEmptyObject(window.champaign.personalization.member),
+      invalidEventsAttached: false,
+      init: function() {
+        this.analytics('page_loaded', this.pageType);
+        this.analytics('user_logged_in', this.userLoggedIn.toString());
+        this.attachEventListeners();
+      },
+      analytics: function(action, label) {
+        if (typeof window.ga === 'function') {
+          window.ga('send', 'event', 'fa_fundraising', action, label);
+        }
+      },
+      attachEventListeners: function() {
+        this.changeStepEvent();
+        this.seenFormEvent();
+        this.formErrorEvents();
+      },
+      formErrorEvents: function() {
+        var self = this;
+        //member details form errors
+        //because the event doesn't bubble we need to make sure elements are present
+        window.ee.on('fundraiser:change_step', function(step) {
+          self.invalidErrorEvents(step);
+        });
+        $('#fundraiser-component').on('click', '.WelcomeMember__link', function(){
+          //because clicking this link doesn't send a change_step event
+          var step = window.champaign.store.getState().fundraiser.currentStep;
+          setTimeout(function () {
+            self.invalidErrorEvents(step)
+          }, 200);
+        });
+
+        //member details form backend validation error
+        window.ee.on('fundraiser:form:error', function(data) {
+          Object.keys(data.errors).forEach(function(err) {
+            data.errors[err].forEach(function(label) {
+              self.analytics('be_validation_error', err +': '+ label);
+            })
+          });
+        })
+
+        //braintree form errors
+        window.ee.on('fundraiser:transaction_error', function(error) {
+          self.analytics('payment_error', error.code);
+        });
+      },
+      invalidErrorEvents: function(step) {
+        var self = this;
+        if (self.invalidEventsAttached) {
+          return;
+        }
+        var formLength = $('.Stepper__steps .Step').length;
+        if (formLength === 3 && step == 1) {
+          $('.MemberDetailsForm-root > form input').on('invalid', function(e) {
+            var fieldName = e.target.name === '' ? 'country' : e.target.name;
+            self.analytics('validation_error', fieldName);
+          });
+          self.invalidEventsAttached = true;
+        }
+      },
+      seenFormEvent: function() {
+        var self = this;
+        $.getScript('https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver', function () {
+          if ('IntersectionObserver' in window) {
+            var fundraiserComponent = document.getElementById('fundraiser-component');
+            var observer = new IntersectionObserver(function (entry) {
+              if (entry[0].isIntersecting) {
+                self.analytics('form_seen', self.source);
+                observer.unobserve(fundraiserComponent);
+              }
+            }, { rootMargin: '0px', threshold: 0.75 });
+            observer.observe(fundraiserComponent);
+          }
+        });
+      },
+      changeStepEvent: function() {
+        var self = this;
+        window.ee.on('fundraiser:change_step', function(step) {
+          var formLength = $('.Stepper__steps .Step').length;
+          if (formLength === 2 && step == 1) {
+            var stepName = 'payment';
+          } else {
+            var stepName = self.stepNames[step];
+          }
+          self.analytics('change_step_name', stepName);
+        })
+      },
+    }
+
+    fundraiserEvents.init();
+
+
   </script>
+
+  {% comment %} Added so optimizely knows if pages set by campaigners one off {% endcomment %}
+  {% if plugins.fundraiser[ref].recurring_default == 'one_off' %}
+    <input type="hidden" id="one-off-page" />
+  {% endif %}
+
 {% endif %}
