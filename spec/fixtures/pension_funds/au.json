@@ -1,23 +1,8 @@
 [{
-	"_id": "cffab428c0b99ad1a8c43be43310724b",
-	"email": "iabbott@australiansuper.com",
-	"name": "Ian Abbott",
-	"fund": "AustralianSuper"
-},{
 	"_id": "bffab428c0b99ad1a8c43be43310756b",
 	"email": "greg.cantor@catholicsuper.com.au",
 	"name": "Greg",
 	"fund": "Australian Catholic Superannuation and Retirement Fund"
-}, {
-	"_id": "446209fdbe815032bb03feb02e4f34bd",
-	"email": "kchristodoulou@australiansuper.com",
-	"name": "Kelly",
-	"fund": "AustralianSuper"
-}, {
-	"_id": "4d178d42e5497e7c68a87d5ec71dbb57",
-	"email": "MFredericks@australiansuper.com",
-	"name": "Michelle",
-	"fund": "AustralianSuper"
 }, {
 	"_id": "2079075ebdd51286c03599ded7cc48dc",
 	"email": "kathy.hocker@boc.com",
@@ -128,4 +113,114 @@
 	"email": "craig.masarei@watercorporation.com.au",
 	"name": "Craig",
 	"fund": "Water Corporation Superannuation Plan"
+}, {
+	"_id": "1ffe4daa6f2f41c3b2b46b92c2785cc9",
+	"email": "andrew_killen@twusuper.com.au",
+	"name": "Andrew Killen",
+	"fund": "TWU Super"
+}, {
+	"_id": "9dfbe80536524487aa4a08de1c54a040",
+	"email": "brendan.casey@rest.com.au",
+	"name": "Brendan Casey",
+	"fund": "REST - Retail Employees Superannuation Trust"
+}, {
+	"_id": "",
+	"email": "",
+	"name": "Russel Jansen",
+	"fund": "MLC"
+}, {
+  "_id": "5facb56fb91042e5b99b6b5e4db2be4a",
+  "email": "russell.j.jansen@nab.com.au",
+  "name": "Russel Jansen",
+  "fund": "MLC"
+}, {
+  "_id": "07ba3fb025014aeab27d9a45598d279a",
+  "email": "normanzhang@mediasuper.com.au",
+  "name": "Norman Zhang",
+  "fund": "Media Super"
+}, {
+  "_id": "3c60e54070a7452481272bcbec128193",
+  "email": "esg@hesta.com.au",
+  "name": "Joanne Saleeba",
+  "fund": "HESTA"
+}, {
+  "_id": "b665b5ad6cb846aa90bfdb3e278db3d5",
+  "email": "jodie.tapscott@cba.com.au",
+  "name": "Jodie Tapscott",
+  "fund": "Colonial First State"
+}, {
+  "_id": "7f4e33d4b4df4eb6810672ec4f1d43a6",
+  "email": "emma.pringle@btfinancialgroup.com",
+  "name": "Emma Pringle",
+  "fund": "BT"
+}, {
+  "_id": "01833fda9332498981190e031bd45227",
+  "email": "alex.wade@amp.com.au",
+  "name": "Alex Wade",
+  "fund": "AMP"
+}, {
+  "_id": "9fd1d78e1f254daa8bcd373d1c25b40e",
+  "email": "icarah@austsafe.com.au",
+  "name": "Ian Carah",
+  "fund": "AustSafe"
+}, {
+  "_id": "1a026eac57d1407b859233738c3612d4",
+  "email": "bill.watson@firstsuper.com.au",
+  "name": "Bill Watson",
+  "fund": "First Super"
+}, {
+  "_id": "d2732977c3b047928896ba0422623ce8",
+  "email": "granth@maritimsuper.com.au",
+  "name": "Grant Harslett",
+  "fund": "Maritime Super"
+}, {
+  "_id": "547a08c30a5540c2a683759182089c09",
+  "email": "kandrews@ngssuper.com.au",
+  "name": "Katharine Andrews",
+  "fund": "NGS Super"
+}, {
+  "_id": "318697562f6c43b3ba316c1253bea778",
+  "email": "stuart_wilson@sunsuper.com.au",
+  "name": "Stuart Wilson",
+  "fund": "Sun Super"
+}, {
+  "_id": "51978fb09f36455dbca1976671ffc766",
+  "email": "nbradford@cbusmail.com.au",
+  "name": "Nicole Bradford",
+  "fund": "CBUS"
+}, {
+  "_id": "77d14e13b1234bf9a4908663c70b252c",
+  "email": "talieh.williams@unisuper.com.au",
+  "name": "Talieh Williams",
+  "fund": "UniSuper"
+}, {
+  "_id": "a256f6f498df4cb19059ea1351500322",
+  "email": "Beyza.Yuksel@crescentwealth.com.au",
+  "name": "Beysa Yuksel",
+  "fund": "Crescent Wealth"
+}, {
+  "_id": "77efea094c0c4d93b8e0f1c1dcfff5d5",
+  "email": "admin@reisuper.com.au",
+  "name": "Angelos Siapkas",
+  "fund": "REI Super"
+}, {
+  "_id": "2519e79f7a6248e085d01e05700bc54a",
+  "email": "askamp@amp.com.au",
+  "name": "AMP",
+  "fund": "AMP"
+}, {
+  "_id": "f122b84d8c83422182ed9388868f6a2b",
+  "email": "contactmlc@mlc.com.au",
+  "name": "MLC",
+  "fund": "MLC"
+}, {
+  "_id": "aaca188d26864a3cb046c4eacda30bd9",
+  "email": "contact@rest.com.au",
+  "name": "Retail Employees Superannuation Trust",
+  "fund": "REST - Retail Employees Superannuation Trust"
+}, {
+  "_id": "314a43a700924a7b9f0c162b3e96cb7b",
+  "email": "memberservice@twusuper.com.au",
+  "name": "TWU Super",
+  "fund": "TWU Super"
 }]
