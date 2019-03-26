@@ -15,13 +15,17 @@ export default class ProgressTracker {
     window.addEventListener(
       'share',
       () => {
-        $header.hide();
+        if ($('.overlay-visible').length > 0) {
+          $header.hide();
+        }
         this.tick('shared');
       },
       false
     );
     $('.two-step__decline').on('click', () => {
-      $header.hide();
+      if ($('.overlay-visible').length > 0) {
+        $header.hide();
+      }
       this.cross('shared');
     });
   }
