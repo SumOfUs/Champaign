@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/circleci-champaign
   docker:
-    - image: soutech/ruby2.4.1_node_awscli:0.2
+    - image: soutech/ruby2.4.5_node_awscli:latest
 
 jobs:
   install_dependencies:
@@ -107,7 +107,7 @@ jobs:
   rspec:
     working_directory: ~/circleci-champaign
     docker:
-      - image: soutech/ruby2.4.1_node_awscli:0.2
+      - image: soutech/ruby2.4.5_node_awscli:latest
         environment:
           PG_USERNAME: champaign
           PG_PASSWORD: champaign

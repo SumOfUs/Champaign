@@ -5,3 +5,8 @@
 log
 node_modules
 vendor/bundle
+log/*.log
+tmp/cache
+public/packs-test
+public/packs
+public/system
