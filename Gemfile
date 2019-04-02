@@ -49,7 +49,7 @@ gem 'airbrake', '~> 5.7.1'
 gem 'airbrake-ruby', '1.7.1'
 gem 'aws-sdk-rails'
 gem 'bootsnap', require: false
-gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'browser', '~> 2.5'
 gem 'compass-rails' # was using git master branch before
 gem 'config'
