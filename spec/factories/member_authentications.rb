@@ -5,17 +5,27 @@
 # Table name: member_authentications
 #
 #  id                     :integer          not null, primary key
-#  member_id              :integer
-#  password_digest        :string           not null
-#  facebook_uid           :string
+#  confirmed_at           :datetime
 #  facebook_token         :string
 #  facebook_token_expiry  :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  token                  :string
-#  confirmed_at           :datetime
+#  facebook_uid           :string
+#  password_digest        :string           not null
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  token                  :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  member_id              :integer
+#
+# Indexes
+#
+#  index_member_authentications_on_facebook_uid          (facebook_uid)
+#  index_member_authentications_on_member_id             (member_id)
+#  index_member_authentications_on_reset_password_token  (reset_password_token)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (member_id => members.id)
 #
 
 FactoryBot.define do

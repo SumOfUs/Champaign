@@ -5,21 +5,34 @@
 # Table name: payment_go_cardless_transactions
 #
 #  id                :integer          not null, primary key
-#  go_cardless_id    :string
-#  charge_date       :date
+#  aasm_state        :string
 #  amount            :decimal(, )
-#  description       :string
-#  currency          :string
-#  status            :integer
-#  reference         :string
 #  amount_refunded   :decimal(, )
-#  page_id           :integer
-#  payment_method_id :integer
-#  customer_id       :integer
+#  charge_date       :date
+#  currency          :string
+#  description       :string
+#  reference         :string
+#  status            :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  aasm_state        :string
+#  customer_id       :integer
+#  go_cardless_id    :string
+#  page_id           :integer
+#  payment_method_id :integer
 #  subscription_id   :integer
+#
+# Indexes
+#
+#  go_cardless_transaction_subscription                         (subscription_id)
+#  index_payment_go_cardless_transactions_on_customer_id        (customer_id)
+#  index_payment_go_cardless_transactions_on_page_id            (page_id)
+#  index_payment_go_cardless_transactions_on_payment_method_id  (payment_method_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (customer_id => payment_go_cardless_customers.id)
+#  fk_rails_...  (page_id => pages.id)
+#  fk_rails_...  (payment_method_id => payment_go_cardless_payment_methods.id)
 #
 
 class Payment::GoCardless::Transaction < ApplicationRecord

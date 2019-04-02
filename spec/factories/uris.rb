@@ -7,9 +7,17 @@
 #  id         :integer          not null, primary key
 #  domain     :string
 #  path       :string
-#  page_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  page_id    :integer
+#
+# Indexes
+#
+#  index_uris_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (page_id => pages.id)
 #
 
 FactoryBot.define do

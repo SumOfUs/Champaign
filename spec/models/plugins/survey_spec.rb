@@ -5,12 +5,16 @@
 # Table name: plugins_surveys
 #
 #  id           :integer          not null, primary key
-#  page_id      :integer
-#  active       :boolean          default("false")
+#  active       :boolean          default(FALSE)
+#  auto_advance :boolean          default(TRUE)
 #  ref          :string
 #  created_at   :datetime
 #  updated_at   :datetime
-#  auto_advance :boolean          default("true")
+#  page_id      :integer
+#
+# Indexes
+#
+#  index_plugins_surveys_on_page_id  (page_id)
 #
 
 require 'rails_helper'

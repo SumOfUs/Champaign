@@ -5,15 +5,15 @@
 # Table name: liquid_layouts
 #
 #  id                          :integer          not null, primary key
-#  title                       :string
 #  content                     :text
+#  description                 :text
+#  experimental                :boolean          default(FALSE), not null
+#  post_action_layout          :boolean
+#  primary_layout              :boolean
+#  title                       :string
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  description                 :text
-#  experimental                :boolean          default("false"), not null
 #  default_follow_up_layout_id :integer
-#  primary_layout              :boolean
-#  post_action_layout          :boolean
 #
 
 class LiquidLayout < ApplicationRecord

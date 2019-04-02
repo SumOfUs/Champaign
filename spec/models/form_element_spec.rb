@@ -5,18 +5,26 @@
 # Table name: form_elements
 #
 #  id            :integer          not null, primary key
-#  form_id       :integer
-#  label         :string
+#  choices       :jsonb
 #  data_type     :string
 #  default_value :string
+#  display_mode  :integer          default("all_members")
+#  label         :string
+#  name          :string
+#  position      :integer          default(0), not null
 #  required      :boolean
 #  visible       :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  name          :string
-#  position      :integer          default("0"), not null
-#  choices       :jsonb            default("[]")
-#  display_mode  :integer          default("0")
+#  form_id       :integer
+#
+# Indexes
+#
+#  index_form_elements_on_form_id  (form_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (form_id => forms.id)
 #
 
 require 'rails_helper'

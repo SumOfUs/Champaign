@@ -5,17 +5,21 @@
 # Table name: calls
 #
 #  id                  :integer          not null, primary key
-#  page_id             :integer
-#  member_id           :integer
+#  member_call_events  :json             is an Array
 #  member_phone_number :string
+#  status              :integer          default("unstarted")
+#  target              :json
+#  target_call_info    :jsonb            not null
+#  twilio_error_code   :integer
 #  created_at          :datetime
 #  updated_at          :datetime
-#  target_call_info    :jsonb            default("{}"), not null
-#  member_call_events  :json             default("{}"), is an Array
-#  twilio_error_code   :integer
-#  target              :json
-#  status              :integer          default("0")
 #  action_id           :integer
+#  member_id           :integer
+#  page_id             :integer
+#
+# Indexes
+#
+#  index_calls_on_target_call_info  (target_call_info) USING gin
 #
 
 class Call < ApplicationRecord
@@ -70,15 +74,12 @@ class Call < ApplicationRecord
 
   def member_phone_number_is_valid
     return if member_phone_number.blank?
+
     valid_characters = (/\A[0-9\-\+\(\) \.]+\z/i =~ member_phone_number).present?
     has_at_least_six_numbers = (member_phone_number.scan(/[0-9]/).size > 5)
-    unless valid_characters
-      errors.add(:member_phone_number, I18n.t('validation.is_invalid_phone'))
-    end
+    errors.add(:member_phone_number, I18n.t('validation.is_invalid_phone')) unless valid_characters
 
-    unless has_at_least_six_numbers
-      errors.add(:member_phone_number, I18n.t('call_tool.errors.phone_number.too_short'))
-    end
+    errors.add(:member_phone_number, I18n.t('call_tool.errors.phone_number.too_short')) unless has_at_least_six_numbers
 
     unless Phony.plausible?(member_phone_number)
       errors.add(:member_phone_number, I18n.t('call_tool.errors.phone_number.is_invalid'))

@@ -5,13 +5,21 @@
 # Table name: share_twitters
 #
 #  id          :integer          not null, primary key
-#  sp_id       :integer
-#  page_id     :integer
-#  title       :string
 #  description :string
-#  button_id   :integer
+#  title       :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  button_id   :integer
+#  page_id     :integer
+#  sp_id       :integer
+#
+# Indexes
+#
+#  index_share_twitters_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (page_id => pages.id)
 #
 
 FactoryBot.define do

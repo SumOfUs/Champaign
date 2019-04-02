@@ -5,22 +5,32 @@
 # Table name: payment_braintree_transactions
 #
 #  id                      :integer          not null, primary key
-#  transaction_id          :string
-#  transaction_type        :string
-#  transaction_created_at  :datetime
+#  amount                  :decimal(10, 2)
+#  currency                :string
+#  payment_instrument_type :string
 #  payment_method_token    :string
-#  customer_id             :string
+#  processor_response_code :string
+#  status                  :integer
+#  transaction_created_at  :datetime
+#  transaction_type        :string
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  customer_id             :string
 #  merchant_account_id     :string
-#  currency                :string
 #  page_id                 :integer
-#  payment_instrument_type :string
-#  status                  :integer
-#  amount                  :decimal(10, 2)
-#  processor_response_code :string
 #  payment_method_id       :integer
 #  subscription_id         :integer
+#  transaction_id          :string
+#
+# Indexes
+#
+#  braintree_payment_method_index                   (payment_method_id)
+#  braintree_transaction_subscription               (subscription_id)
+#  index_payment_braintree_transactions_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (page_id => pages.id)
 #
 
 class Payment::Braintree::Transaction < ApplicationRecord

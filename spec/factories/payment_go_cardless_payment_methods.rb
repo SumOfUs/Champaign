@@ -5,15 +5,23 @@
 # Table name: payment_go_cardless_payment_methods
 #
 #  id                        :integer          not null, primary key
-#  go_cardless_id            :string
-#  reference                 :string
-#  scheme                    :string
-#  next_possible_charge_date :date
-#  customer_id               :integer
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
 #  aasm_state                :string
 #  cancelled_at              :datetime
+#  next_possible_charge_date :date
+#  reference                 :string
+#  scheme                    :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  customer_id               :integer
+#  go_cardless_id            :string
+#
+# Indexes
+#
+#  index_payment_go_cardless_payment_methods_on_customer_id  (customer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (customer_id => payment_go_cardless_customers.id)
 #
 
 FactoryBot.define do

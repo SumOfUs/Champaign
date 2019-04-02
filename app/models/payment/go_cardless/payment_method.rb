@@ -1,29 +1,38 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_go_cardless_payment_methods
 #
 #  id                        :integer          not null, primary key
-#  go_cardless_id            :string
-#  reference                 :string
-#  scheme                    :string
-#  next_possible_charge_date :date
-#  customer_id               :integer
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
 #  aasm_state                :string
 #  cancelled_at              :datetime
+#  next_possible_charge_date :date
+#  reference                 :string
+#  scheme                    :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  customer_id               :integer
+#  go_cardless_id            :string
+#
+# Indexes
+#
+#  index_payment_go_cardless_payment_methods_on_customer_id  (customer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (customer_id => payment_go_cardless_customers.id)
 #
 
 class Payment::GoCardless::PaymentMethod < ApplicationRecord
   include AASM
 
   ACTION_FROM_STATE = {
-    created:    :create,
-    submitted:  :submit,
-    active:     :activate,
-    cancelled:  :cancel,
-    expired:    :expire
+    created: :create,
+    submitted: :submit,
+    active: :activate,
+    cancelled: :cancel,
+    expired: :expire
   }.freeze
 
   aasm do
@@ -39,11 +48,11 @@ class Payment::GoCardless::PaymentMethod < ApplicationRecord
     end
 
     event :run_submit do
-      transitions from: [:pending, :created], to: :submitted
+      transitions from: %i[pending created], to: :submitted
     end
 
     event :run_activate do
-      transitions from: [:pending, :created, :submitted], to: :active
+      transitions from: %i[pending created submitted], to: :active
     end
 
     event :run_cancel do

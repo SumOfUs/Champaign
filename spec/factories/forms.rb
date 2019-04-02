@@ -5,15 +5,19 @@
 # Table name: forms
 #
 #  id            :integer          not null, primary key
-#  name          :string
 #  description   :string
+#  formable_type :string
+#  master        :boolean          default(FALSE)
+#  name          :string
+#  position      :integer          default(0), not null
+#  visible       :boolean          default(FALSE)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  visible       :boolean          default("false")
-#  master        :boolean          default("false")
 #  formable_id   :integer
-#  formable_type :string
-#  position      :integer          default("0"), not null
+#
+# Indexes
+#
+#  index_forms_on_formable_type_and_formable_id  (formable_type,formable_id)
 #
 
 FactoryBot.define do

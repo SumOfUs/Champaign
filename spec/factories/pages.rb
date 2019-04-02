@@ -5,37 +5,54 @@
 # Table name: pages
 #
 #  id                         :integer          not null, primary key
-#  language_id                :integer
-#  campaign_id                :integer
-#  title                      :string           not null
+#  action_count               :integer          default(0)
+#  ak_donation_resource_uri   :string
+#  ak_petition_resource_uri   :string
+#  allow_duplicate_actions    :boolean          default(FALSE)
+#  canonical_url              :string
+#  compiled_html              :text
+#  content                    :text             default("")
+#  enforce_styles             :boolean          default(FALSE), not null
+#  featured                   :boolean          default(FALSE)
+#  follow_up_plan             :integer          default("with_liquid"), not null
+#  fundraising_goal           :decimal(10, 2)   default(0.0)
+#  javascript                 :text
+#  messages                   :text
+#  meta_description           :string
+#  meta_tags                  :string
+#  notes                      :text
+#  optimizely_status          :integer          default("optimizely_enabled"), not null
+#  publish_actions            :integer          default("secure"), not null
+#  publish_status             :integer          default("unpublished"), not null
 #  slug                       :string           not null
+#  status                     :string           default("pending")
+#  title                      :string           not null
+#  total_donations            :decimal(10, 2)   default(0.0)
 #  created_at                 :datetime
 #  updated_at                 :datetime
-#  compiled_html              :text
-#  status                     :string           default("pending")
-#  messages                   :text
-#  content                    :text             default("")
-#  featured                   :boolean          default("false")
-#  liquid_layout_id           :integer
+#  campaign_id                :integer
 #  follow_up_liquid_layout_id :integer
-#  action_count               :integer          default("0")
-#  primary_image_id           :integer
-#  ak_petition_resource_uri   :string
-#  ak_donation_resource_uri   :string
-#  follow_up_plan             :integer          default("0"), not null
 #  follow_up_page_id          :integer
-#  javascript                 :text
-#  publish_status             :integer          default("1"), not null
-#  optimizely_status          :integer          default("0"), not null
-#  canonical_url              :string
-#  allow_duplicate_actions    :boolean          default("false")
-#  enforce_styles             :boolean          default("false"), not null
-#  notes                      :text
-#  publish_actions            :integer          default("0"), not null
-#  meta_tags                  :string
-#  meta_description           :string
-#  total_donations            :double            default("0") -> Total donations in CENTS
-#  fundraising_goal           :double            default("0") -> Fundraising goal in CENTS
+#  language_id                :integer
+#  liquid_layout_id           :integer
+#  primary_image_id           :integer
+#
+# Indexes
+#
+#  index_pages_on_campaign_id                 (campaign_id)
+#  index_pages_on_follow_up_liquid_layout_id  (follow_up_liquid_layout_id)
+#  index_pages_on_follow_up_page_id           (follow_up_page_id)
+#  index_pages_on_liquid_layout_id            (liquid_layout_id)
+#  index_pages_on_primary_image_id            (primary_image_id)
+#  index_pages_on_publish_status              (publish_status)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (campaign_id => campaigns.id)
+#  fk_rails_...  (follow_up_liquid_layout_id => liquid_layouts.id)
+#  fk_rails_...  (language_id => languages.id)
+#  fk_rails_...  (liquid_layout_id => liquid_layouts.id)
+#  fk_rails_...  (primary_image_id => images.id)
 #
 
 FactoryBot.define do

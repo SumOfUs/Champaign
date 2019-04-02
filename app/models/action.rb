@@ -5,17 +5,27 @@
 # Table name: actions
 #
 #  id                :integer          not null, primary key
-#  page_id           :integer
-#  member_id         :integer
-#  link              :string
 #  created_user      :boolean
+#  donation          :boolean          default(FALSE)
+#  form_data         :jsonb
+#  link              :string
+#  publish_status    :integer          default("default"), not null
+#  subscribed_member :boolean          default(TRUE)
 #  subscribed_user   :boolean
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  form_data         :jsonb            default("{}")
-#  subscribed_member :boolean          default("true")
-#  donation          :boolean          default("false")
-#  publish_status    :integer          default("0"), not null
+#  member_id         :integer
+#  page_id           :integer
+#
+# Indexes
+#
+#  index_actions_on_member_id  (member_id)
+#  index_actions_on_page_id    (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (member_id => members.id)
+#  fk_rails_...  (page_id => pages.id)
 #
 
 class Action < ApplicationRecord

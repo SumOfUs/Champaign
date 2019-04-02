@@ -4,22 +4,26 @@
 #
 # Table name: plugins_email_tools
 #
-#  id                    :integer          not null, primary key
-#  ref                   :string
-#  page_id               :integer
-#  active                :boolean          default("false")
-#  email_subjects        :string           default("{}"), is an Array
+#  id                    :bigint(8)        not null, primary key
+#  active                :boolean          default(FALSE)
 #  email_body            :text
-#  email_body_header     :text
 #  email_body_footer     :text
+#  email_body_header     :text
+#  email_subjects        :string           default([]), is an Array
+#  ref                   :string
+#  targeting_mode        :integer          default("member_selected_target")
+#  targets               :json             is an Array
 #  test_email_address    :string
-#  targets               :json             default("{}"), is an Array
+#  title                 :string           default("")
+#  use_member_email      :boolean          default(FALSE)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  use_member_email      :boolean          default("false")
 #  from_email_address_id :integer
-#  targeting_mode        :integer          default("0")
-#  title                 :string           default("")
+#  page_id               :integer
+#
+# Indexes
+#
+#  index_plugins_email_tools_on_page_id  (page_id)
 #
 
 class Plugins::EmailTool < ApplicationRecord

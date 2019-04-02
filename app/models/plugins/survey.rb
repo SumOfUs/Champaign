@@ -5,12 +5,16 @@
 # Table name: plugins_surveys
 #
 #  id           :integer          not null, primary key
-#  page_id      :integer
-#  active       :boolean          default("false")
+#  active       :boolean          default(FALSE)
+#  auto_advance :boolean          default(TRUE)
 #  ref          :string
 #  created_at   :datetime
 #  updated_at   :datetime
-#  auto_advance :boolean          default("true")
+#  page_id      :integer
+#
+# Indexes
+#
+#  index_plugins_surveys_on_page_id  (page_id)
 #
 
 class Plugins::Survey < ApplicationRecord
@@ -41,6 +45,7 @@ class Plugins::Survey < ApplicationRecord
     ensure_has_a_form
     REQUIRED_FIELDS.each do |field|
       next unless fields_with_name(field).empty?
+
       language = page.try(:language).try(:code) || I18n.default_locale
       data_type = FormElement::VALID_TYPES.include?(field.to_s) ? field : 'text'
       FormElement.create(name: field,
@@ -54,6 +59,7 @@ class Plugins::Survey < ApplicationRecord
 
   def ensure_has_a_form
     return forms if forms.size >= 1
+
     Form.create(name: "survey_form_#{id}", master: false, formable: self)
     forms.reload
   end

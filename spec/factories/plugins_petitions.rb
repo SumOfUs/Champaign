@@ -5,15 +5,25 @@
 # Table name: plugins_petitions
 #
 #  id          :integer          not null, primary key
-#  page_id     :integer
-#  active      :boolean          default("false")
-#  form_id     :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  active      :boolean          default(FALSE)
+#  cta         :string
 #  description :text
 #  ref         :string
 #  target      :string
-#  cta         :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  form_id     :integer
+#  page_id     :integer
+#
+# Indexes
+#
+#  index_plugins_petitions_on_form_id  (form_id)
+#  index_plugins_petitions_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (form_id => forms.id)
+#  fk_rails_...  (page_id => pages.id)
 #
 
 FactoryBot.define do
