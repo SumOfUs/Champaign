@@ -18,9 +18,7 @@ class Api::EmailTargetEmailsController < ApplicationController
       table_name: Settings.dynamodb_mailer_table
     }
 
-    if params[:next]
-      opts[:exclusive_start_key] = JSON.parse(params[:next])
-    end
+    opts[:exclusive_start_key] = JSON.parse(params[:next]) if params[:next]
 
     resp = dynamodb_client.query(opts)
 

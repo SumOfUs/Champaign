@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module BraintreeServices
   class PaymentMethodBuilder
     def initialize(transaction:, customer: nil, store_in_vault: false)
@@ -26,7 +27,7 @@ module BraintreeServices
     end
 
     def credit_card_attributes
-      %w(last_4 card_type expiration_date bin token).each_with_object({}) do |attr, attributes|
+      %w[last_4 card_type expiration_date bin token].each_with_object({}) do |attr, attributes|
         attributes[attr] = @transaction.credit_card_details.send(attr)
       end.merge(
         customer: @customer,

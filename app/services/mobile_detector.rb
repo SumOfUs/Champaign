@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'browser'
 
 class MobileDetector
@@ -18,6 +19,7 @@ class MobileDetector
 
   def device
     return 'unknown' if @browser.ua.blank?
+
     if @browser.device.mobile?
       'mobile'
     elsif @browser.device.tablet?

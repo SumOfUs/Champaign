@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.shared_context 'multiple_search_data' do
   let!(:matches_by_content_language_campaign_tags_layout) do
     create(:page,

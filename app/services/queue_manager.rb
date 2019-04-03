@@ -46,12 +46,12 @@ class QueueManager
 
   def params
     {
-      page_id:  page.id,
-      name:     page.slug,
-      title:    page.title,
+      page_id: page.id,
+      name: page.slug,
+      title: page.title,
       language: page.language.try(:actionkit_uri),
-      tags:     tags,
-      url:      member_facing_page_url(page, host: Settings.host),
+      tags: tags,
+      url: member_facing_page_url(page, host: Settings.host),
       hosted_with: '/rest/v1/hostingplatform/2/',
       campaign_id: page.campaign_id
     }

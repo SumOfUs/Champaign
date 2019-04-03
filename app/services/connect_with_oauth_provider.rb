@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Raise if user's email domain is not whitelisted
 class Champaign::NotWhitelisted < StandardError; end
 
@@ -25,6 +26,7 @@ class ConnectWithOauthProvider
 
   def whitelisted
     return true if whitelist.blank?
+
     whitelist.include? email_domain
   end
 

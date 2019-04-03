@@ -106,10 +106,10 @@ describe 'api/pages/:id/survey_responses', type: :request do
 
         @action.reload
         expect(@action.form_data).to include(
-          'email'   => 'l@test.com',
-          'name'    => 'Lucy',
+          'email' => 'l@test.com',
+          'name' => 'Lucy',
           'country' => 'AR',
-          'phone'   => '123456'
+          'phone' => '123456'
         )
       end
     end

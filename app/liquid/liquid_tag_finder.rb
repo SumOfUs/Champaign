@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # The <tt>LiquidTagFinder</tt> class is used to help the app understand
 # the needs and the setup of liquid layouts and partials by parsing
 # relevant liquid tags.
@@ -117,6 +118,7 @@ class LiquidTagFinder
   def ref_from_include(incl)
     attrs = incl.instance_values['attributes']
     return nil unless attrs.include? 'ref'
+
     strip_quotes(attrs['ref'])
   end
 

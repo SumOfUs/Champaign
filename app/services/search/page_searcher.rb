@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Search::PageSearcher
   def self.search(params)
     new(params).search
@@ -12,6 +13,7 @@ class Search::PageSearcher
   def search
     @queries.each_pair do |search_type, query|
       next unless query.present?
+
       case search_type.to_sym
       when :content_search
         search_by_text(query)
@@ -62,9 +64,7 @@ class Search::PageSearcher
     matches_by_tags = []
     @collection.each do |page|
       # if the page has tags and if the queried tags are a subset of the page's tags
-      if page.tags.any? && (tags.map(&:to_i) - page.tags.pluck('id')).empty?
-        matches_by_tags.push(page)
-      end
+      matches_by_tags.push(page) if page.tags.any? && (tags.map(&:to_i) - page.tags.pluck('id')).empty?
     end
     @collection = array_to_relation(Page, matches_by_tags)
   end
@@ -92,12 +92,13 @@ class Search::PageSearcher
       begin
         plugin_class = plugin_type.constantize
       # Rescue for invalid plugin name - constantize throws name error if a constant with the name hasn't been initialized.
-      rescue
+      rescue StandardError
         next
       end
       plugin_class.page.each do |page_plugin|
         # If the page hasn't determined to be filtered from the collection yet
         next unless filtered_pages.include?(page_plugin.page_id)
+
         # If the plugin is active, add its page to matches
         if page_plugin.active?
           matches_by_plugins.push(page_plugin.page_id)
@@ -118,12 +119,13 @@ class Search::PageSearcher
 
   def order_by(query)
     return unless validate_order_by(query)
+
     query = "#{query[0]} #{query[1]}" if query.is_a? Array
     @collection = @collection.order(query)
   end
 
   def validate_order_by(query)
-    acceptable = [:created_at, :updated_at, :title, :featured, :active]
+    acceptable = %i[created_at updated_at title featured active]
     if query.is_a? Array
       acceptable.include? query[0].to_sym
     else

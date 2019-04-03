@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 xdescribe Payment::Braintree do
@@ -35,12 +36,12 @@ xdescribe Payment::Braintree do
 
     it 'saves relevant fields when successful' do
       Payment::Braintree.write_subscription(success_result, 'my_page_id', 'my_action_id', 'my_currency')
-      expect(Payment::Braintree::Subscription).to have_received(:create).with(subscription_id:        'lol',
-                                                                              amount:                 12,
-                                                                              merchant_account_id:    'EUR',
-                                                                              currency:               'my_currency',
-                                                                              page_id:                'my_page_id',
-                                                                              action_id:              'my_action_id')
+      expect(Payment::Braintree::Subscription).to have_received(:create).with(subscription_id: 'lol',
+                                                                              amount: 12,
+                                                                              merchant_account_id: 'EUR',
+                                                                              currency: 'my_currency',
+                                                                              page_id: 'my_page_id',
+                                                                              action_id: 'my_action_id')
     end
 
     it 'does not record when unsuccessful' do
@@ -77,14 +78,14 @@ xdescribe Payment::Braintree do
 
       let(:expected_params) do
         {
-          customer_id:      bt_customer.id,
-          member_id:        member.id,
-          email:            bt_customer.email,
-          card_type:        bt_payment_method.card_type,
-          card_bin:         bt_payment_method.bin,
-          cardholder_name:  bt_payment_method.cardholder_name,
-          card_debit:       bt_payment_method.debit,
-          card_last_4:      bt_payment_method.last_4,
+          customer_id: bt_customer.id,
+          member_id: member.id,
+          email: bt_customer.email,
+          card_type: bt_payment_method.card_type,
+          card_bin: bt_payment_method.bin,
+          cardholder_name: bt_payment_method.cardholder_name,
+          card_debit: bt_payment_method.debit,
+          card_last_4: bt_payment_method.last_4,
           card_unique_number_identifier: bt_payment_method.unique_number_identifier
         }
       end
@@ -114,10 +115,10 @@ xdescribe Payment::Braintree do
       end
       let(:expected_params) do
         {
-          customer_id:      bt_customer.id,
-          member_id:        member.id,
-          email:            bt_customer.email,
-          card_last_4:      'PYPL'
+          customer_id: bt_customer.id,
+          member_id: member.id,
+          email: bt_customer.email,
+          card_last_4: 'PYPL'
         }
       end
 
@@ -179,39 +180,39 @@ xdescribe Payment::Braintree do
 
     let(:transaction_params) do
       {
-        transaction_id:                  transaction.id,
-        transaction_type:                transaction.type,
-        payment_instrument_type:         transaction.payment_instrument_type,
-        amount:                          transaction.amount,
-        transaction_created_at:          transaction.created_at,
-        merchant_account_id:             transaction.merchant_account_id,
-        processor_response_code:         transaction.processor_response_code,
-        currency:                        transaction.currency_iso_code,
-        customer_id:                     existing_customer.customer_id,
-        status:                          status,
+        transaction_id: transaction.id,
+        transaction_type: transaction.type,
+        payment_instrument_type: transaction.payment_instrument_type,
+        amount: transaction.amount,
+        transaction_created_at: transaction.created_at,
+        merchant_account_id: transaction.merchant_account_id,
+        processor_response_code: transaction.processor_response_code,
+        currency: transaction.currency_iso_code,
+        customer_id: existing_customer.customer_id,
+        status: status,
         # Since we always create a new payment method token before the transaction, the id of the new token will with
         # the current implementation always be that of the last token created.
         payment_method_id: Payment::Braintree::PaymentMethod.last.id,
-        page_id:                 page_id
+        page_id: page_id
       }
     end
 
     let(:new_customer_transaction_params) do
       {
-        transaction_id:                  new_customer_transaction.id,
-        transaction_type:                new_customer_transaction.type,
-        payment_instrument_type:         new_customer_transaction.payment_instrument_type,
-        amount:                          new_customer_transaction.amount,
-        transaction_created_at:          new_customer_transaction.created_at,
-        merchant_account_id:             new_customer_transaction.merchant_account_id,
-        processor_response_code:         new_customer_transaction.processor_response_code,
-        currency:                        new_customer_transaction.currency_iso_code,
-        customer_id:                     '123456',
-        status:                          status,
+        transaction_id: new_customer_transaction.id,
+        transaction_type: new_customer_transaction.type,
+        payment_instrument_type: new_customer_transaction.payment_instrument_type,
+        amount: new_customer_transaction.amount,
+        transaction_created_at: new_customer_transaction.created_at,
+        merchant_account_id: new_customer_transaction.merchant_account_id,
+        processor_response_code: new_customer_transaction.processor_response_code,
+        currency: new_customer_transaction.currency_iso_code,
+        customer_id: '123456',
+        status: status,
         # Since we always create a new payment method token before the transaction, the id of the new token will with
         # the current implementation always be that of the last token created.
         payment_method_id: Payment::Braintree::PaymentMethod.last.id,
-        page_id:                 page_id
+        page_id: page_id
       }
     end
 
@@ -226,14 +227,14 @@ xdescribe Payment::Braintree do
       let(:payment_method_token) { credit_card_token }
       let(:customer_params) do
         {
-          card_type:        credit_card_details.card_type,
-          card_bin:         credit_card_details.bin,
-          cardholder_name:  credit_card_details.cardholder_name,
-          card_debit:       credit_card_details.debit,
-          card_last_4:      credit_card_details.last_4,
-          customer_id:      transaction.customer_details.id,
-          email:            transaction.customer_details.email,
-          member_id:        member.id
+          card_type: credit_card_details.card_type,
+          card_bin: credit_card_details.bin,
+          cardholder_name: credit_card_details.cardholder_name,
+          card_debit: credit_card_details.debit,
+          card_last_4: credit_card_details.last_4,
+          customer_id: transaction.customer_details.id,
+          email: transaction.customer_details.email,
+          member_id: member.id
         }
       end
       let(:credit_card_details) do
@@ -369,14 +370,14 @@ xdescribe Payment::Braintree do
       let(:payment_method_token) { paypal_token }
       let(:customer_params) do
         {
-          card_type:        nil,
-          card_bin:         nil,
-          cardholder_name:  nil,
-          card_debit:       'Unknown',
-          customer_id:      transaction.customer_details.id,
-          card_last_4:      'PYPL',
-          email:            transaction.customer_details.email,
-          member_id:        member.id
+          card_type: nil,
+          card_bin: nil,
+          cardholder_name: nil,
+          card_debit: 'Unknown',
+          customer_id: transaction.customer_details.id,
+          card_last_4: 'PYPL',
+          email: transaction.customer_details.email,
+          member_id: member.id
         }
       end
       let(:credit_card_details) { double('Braintree::Transaction::CreditCardDetails', card_type: nil, last_4: nil, bin: nil, cardholder_name: nil, debit: 'Unknown') }

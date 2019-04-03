@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Payment::Braintree
   class << self
     def table_name_prefix
@@ -13,15 +14,15 @@ module Payment::Braintree
 
     def write_subscription(payment_method_id, customer_id, subscription_result, page_id, action_id, currency)
       if subscription_result.success?
-        Payment::Braintree::Subscription.create(payment_method_id:      payment_method_id,
-                                                customer_id:            customer_id,
-                                                subscription_id:        subscription_result.subscription.id,
-                                                amount:                 subscription_result.subscription.price,
-                                                merchant_account_id:    subscription_result.subscription.merchant_account_id,
-                                                billing_day_of_month:   subscription_result.subscription.billing_day_of_month,
-                                                action_id:              action_id,
-                                                currency:               currency,
-                                                page_id:                page_id)
+        Payment::Braintree::Subscription.create(payment_method_id: payment_method_id,
+                                                customer_id: customer_id,
+                                                subscription_id: subscription_result.subscription.id,
+                                                amount: subscription_result.subscription.price,
+                                                merchant_account_id: subscription_result.subscription.merchant_account_id,
+                                                billing_day_of_month: subscription_result.subscription.billing_day_of_month,
+                                                action_id: action_id,
+                                                currency: currency,
+                                                page_id: page_id)
       end
     end
 
@@ -77,20 +78,20 @@ module Payment::Braintree
     end
 
     def customer_attrs
-      card_attrs.merge(customer_id:      @bt_customer.id,
-                       member_id:        @member_id,
-                       email:            @bt_customer.email)
+      card_attrs.merge(customer_id: @bt_customer.id,
+                       member_id: @member_id,
+                       email: @bt_customer.email)
     end
 
     def card_attrs
       if @bt_payment_method.is_a? Braintree::CreditCard
         @bt_payment_method.instance_eval do
           {
-            card_type:        card_type,
-            card_bin:         bin,
-            cardholder_name:  cardholder_name,
-            card_debit:       debit,
-            card_last_4:      last_4,
+            card_type: card_type,
+            card_bin: bin,
+            cardholder_name: cardholder_name,
+            card_debit: debit,
+            card_last_4: last_4,
             card_unique_number_identifier: unique_number_identifier
           }
         end
@@ -143,6 +144,7 @@ module Payment::Braintree
       create_payment_method
       record = create_transaction
       return false unless successful?
+
       @customer.update(customer_attrs) if @save_customer && @customer
       record
     end
@@ -176,18 +178,18 @@ module Payment::Braintree
 
     def transaction_attrs
       {
-        transaction_id:                  transaction.id,
-        transaction_type:                transaction.type,
-        payment_instrument_type:         transaction.payment_instrument_type,
-        amount:                          transaction.amount,
-        transaction_created_at:          transaction.created_at,
-        merchant_account_id:             transaction.merchant_account_id,
-        processor_response_code:         transaction.processor_response_code,
-        currency:                        transaction.currency_iso_code,
-        customer_id:                     @customer.try(:customer_id),
-        status:                          status,
-        payment_method_id:               @local_payment_method_id,
-        page_id:                         @page_id
+        transaction_id: transaction.id,
+        transaction_type: transaction.type,
+        payment_instrument_type: transaction.payment_instrument_type,
+        amount: transaction.amount,
+        transaction_created_at: transaction.created_at,
+        merchant_account_id: transaction.merchant_account_id,
+        processor_response_code: transaction.processor_response_code,
+        currency: transaction.currency_iso_code,
+        customer_id: @customer.try(:customer_id),
+        status: status,
+        payment_method_id: @local_payment_method_id,
+        page_id: @page_id
       }.tap do |data|
         if transaction.try(:subscription_id)
           data[:subscription] = Payment::Braintree::Subscription.find_by_subscription_id(transaction.subscription_id)
@@ -200,14 +202,14 @@ module Payment::Braintree
         # NOTE: we do NOT store card_unique_number_identifier because
         # that is only returned on Braintree::CreditCard, not on
         # Braintree::Transaction::CreditCardDetails
-        card_type:                 card.card_type,
-        card_bin:                  card.bin,
-        cardholder_name:           card.cardholder_name,
-        card_debit:                card.debit,
-        card_last_4:               last_4,
-        customer_id:               transaction.customer_details.id,
-        email:                     transaction.customer_details.email,
-        member_id:                 @member_id
+        card_type: card.card_type,
+        card_bin: card.bin,
+        cardholder_name: card.cardholder_name,
+        card_debit: card.debit,
+        card_last_4: last_4,
+        customer_id: transaction.customer_details.id,
+        email: transaction.customer_details.email,
+        member_id: @member_id
       }
     end
 
@@ -228,6 +230,7 @@ module Payment::Braintree
       if @bt_result.is_a?(Braintree::WebhookNotification) && @bt_result.kind == 'subscription_charged_successfully'
         return true
       end
+
       false
     end
 

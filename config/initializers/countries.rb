@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # ActionKit uses some country names which don't match up to their official
 # ISO names. So, we need to do some replacement on those names.
 

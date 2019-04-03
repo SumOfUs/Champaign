@@ -48,7 +48,7 @@ class MemberWithAuthentication
   end
 
   def cannot_be_already_authenticated
-    errors.add(:authentication, 'already exists') if existing_member && existing_member.authentication
+    errors.add(:authentication, 'already exists') if existing_member&.authentication
   end
 
   def cannot_have_non_matching_passwords

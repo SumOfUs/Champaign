@@ -28,7 +28,7 @@
 #
 
 class ActionKitFields < ActiveModel::Validator
-  VALID_CHARS_RE = /^[0-9a-z_]+$/
+  VALID_CHARS_RE = /^[0-9a-z_]+$/.freeze
 
   # +VALID_PREFIX_RE+ matches for allowed prefixes for custom fields for ActionKit actions.
   #
@@ -40,7 +40,7 @@ class ActionKitFields < ActiveModel::Validator
   #   https://act.sumofus.org/docs/manual/api/rest/actionprocessing.html#custom-user-fields
   #   https://act.sumofus.org/docs/manual/api/rest/actionprocessing.html#custom-action-fields
   #
-  VALID_PREFIX_RE = /^(action)\_[0-9a-z_]+/
+  VALID_PREFIX_RE = /^(action)\_[0-9a-z_]+/.freeze
 
   ACTIONKIT_FIELDS_WHITELIST = %w[
     address1
@@ -74,9 +74,7 @@ class ActionKitFields < ActiveModel::Validator
 
   def validate(record)
     @name = record.name
-    unless has_valid_form
-      record.errors[:name] << "'#{record.name}' is not a permitted ActionKit name."
-    end
+    record.errors[:name] << "'#{record.name}' is not a permitted ActionKit name." unless has_valid_form
     unless has_valid_characters
       record.errors[:name] << "'#{record.name}' may only contain numbers, underscores, and lowercase letters."
     end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::PensionFundsController < ApplicationController
   rescue_from Errno::ENOENT, with: :funds_not_found
 

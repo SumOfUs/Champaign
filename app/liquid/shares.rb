@@ -49,6 +49,7 @@ module Shares
 
     def class_from_html(html)
       return nil if html.blank?
+
       class_finder = /class *= *['"](.*?)['"]/i
       html[class_finder, 1]
     end

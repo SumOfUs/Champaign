@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register FormElement do
   permit_params :label, :data_type, :default_value, :required, :visible, :name, :position
 

@@ -13,9 +13,7 @@ module MemberServices
     def run
       @member = Member.find_by_email(@email)
 
-      unless @member
-        raise ActiveRecord::RecordNotFound
-      end
+      raise ActiveRecord::RecordNotFound unless @member
 
       @member.update(@params)
     end

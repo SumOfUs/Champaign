@@ -5,6 +5,7 @@ class Api::ActionConfirmationsController < ApplicationController
 
   def resend_confirmations
     return head :forbidden unless valid_api_key?
+
     PendingActionService::Reminders.send
 
     head :ok

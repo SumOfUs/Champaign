@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Requests
   # Utility methods for converting JSON strings to hashes and ostructs
   module RequestHelpers

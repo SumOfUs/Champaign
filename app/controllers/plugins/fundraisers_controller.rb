@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Plugins::FundraisersController < Plugins::BaseController
   private
 

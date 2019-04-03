@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # The <tt>LiquidI18nRails</tt> module allows us to use the +translate+
 # method of Rails' I18n library within liquid templates. To use it,
 # simply pass the name of the text entry to the +t+ filter:
@@ -64,6 +65,7 @@ module LiquidI18n
       if depth >= MAX_INTERPOLATIONS
         raise I18n::TooMuchInterpolation, "More than #{MAX_INTERPOLATIONS} interpolation values are not allowed."
       end
+
       _, key, val, string_params = /, *([a-zA-z_]+): *([^,]+)(.*)/.match(string_params).to_a
       params[key.to_sym] = val if key.present? && !key.empty?
       depth += 1

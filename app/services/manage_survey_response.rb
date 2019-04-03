@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ManageSurveyResponse
   attr_accessor :action
 
@@ -32,6 +33,7 @@ class ManageSurveyResponse
 
   def assign_member
     return unless @params[:email].present?
+
     @action.member = Member.find_or_initialize_by(email: @params[:email].downcase)
   end
 

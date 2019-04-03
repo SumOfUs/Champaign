@@ -1,9 +1,7 @@
 module CallTool
   class Stats
     def self.for(page)
-      if Plugins::CallTool.where(page: page).exists?
-        new(page).to_h
-      end
+      new(page).to_h if Plugins::CallTool.where(page: page).exists?
     end
 
     def initialize(page)

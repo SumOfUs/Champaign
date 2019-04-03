@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: languages
@@ -22,7 +23,7 @@ describe Language do
     end
 
     context 'blank is not allowed for' do
-      %w(code name actionkit_uri).each do |attr|
+      %w[code name actionkit_uri].each do |attr|
         it attr.to_s do
           subject.send("#{attr}=", '')
           expect(subject).to_not be_valid
@@ -31,7 +32,7 @@ describe Language do
     end
 
     context 'nil is not allowed for' do
-      %w(code name actionkit_uri).each do |attr|
+      %w[code name actionkit_uri].each do |attr|
         it attr.to_s do
           subject.send("#{attr}=", nil)
           expect(subject).to_not be_valid

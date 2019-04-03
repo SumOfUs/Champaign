@@ -46,20 +46,20 @@ describe 'Braintree API' do
   let(:token_format) { /[a-z0-9]{1,36}/i }
   let(:user) do
     {
-      form_id:  form.id,
-      name:     'bob fischer',
-      email:    'bob@example.com',
-      postal:   '12345',
+      form_id: form.id,
+      name: 'bob fischer',
+      email: 'bob@example.com',
+      postal: '12345',
       address1: 'Lynda Vista',
-      country:  'US'
+      country: 'US'
     }
   end
 
   let(:params) do
     {
-      currency:   'EUR',
-      amount:     '2002.00', # triggers credit limit exceeded
-      recurring:  false,
+      currency: 'EUR',
+      amount: '2002.00', # triggers credit limit exceeded
+      recurring: false,
       payment_method_nonce: 'fake-valid-nonce',
       user: user,
       store_in_vault: true
@@ -78,12 +78,12 @@ describe 'Braintree API' do
         describe 'with invalid user fields' do
           let(:user) do
             {
-              form_id:  form.id,
-              name:     'a' * 365,
-              email:    'bob@example.com',
-              postal:   'invalid postal code',
+              form_id: form.id,
+              name: 'a' * 365,
+              email: 'bob@example.com',
+              postal: 'invalid postal code',
               address1: 'Lynda Vista',
-              country:  'US'
+              country: 'US'
             }
           end
 

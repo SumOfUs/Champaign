@@ -58,9 +58,7 @@ Rails.application.configure do
       %w[controller action].include? k
     end
     log_hash = { 'params' => params.except!(*:bt_payload), 'time' => event.time }
-    unless event.payload[:exception].blank?
-      log_hash['exception'] = event.payload[:exception]
-    end
+    log_hash['exception'] = event.payload[:exception] unless event.payload[:exception].blank?
     log_hash
   end
   # Prepend all log lines with the following tags.
@@ -113,8 +111,8 @@ Rails.application.configure do
   config.cache_store = :readthis_store, {
     namespace: 'cache',
     expires_in: 1.day.to_i,
-    redis:     { host: Settings.cache.host,
-                 port: Settings.cache.port, drive: :hiredis }
+    redis: { host: Settings.cache.host,
+             port: Settings.cache.port, drive: :hiredis }
   }
 
   # In production, we only accept CORS request from sumofus.org or its subdomains.

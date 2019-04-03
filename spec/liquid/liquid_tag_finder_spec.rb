@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 # are these tests failing? it could be a breaking change in the liquid API.
@@ -55,7 +56,7 @@ describe LiquidTagFinder do
 
     it 'finds a plugin nested in a ref to the same plugin' do
       @content  = '<div>{% for field in plugins.Nd_0.fields %}<p>{{ plugins.chill.title }}</p>{% endfor %}</div>'
-      @expected = %w(Nd_0 chill)
+      @expected = %w[Nd_0 chill]
     end
 
     it 'finds plugin nested deeply' do
@@ -69,7 +70,7 @@ describe LiquidTagFinder do
                       {% endunless %}
                     {% endif %}
                   {% endfor %}"
-      @expected = %w(Nd_0 chill Nd_1)
+      @expected = %w[Nd_0 chill Nd_1]
     end
   end
 
@@ -104,7 +105,7 @@ describe LiquidTagFinder do
                         {% include 'swell' %}
                       </div>
                     </section>)
-      @expected = %w(example swell)
+      @expected = %w[example swell]
     end
   end
 
@@ -124,7 +125,7 @@ describe LiquidTagFinder do
     end
     let(:surrounding) { { simple: ['', ''], nested: [nested_top, nested_bottom] } }
 
-    [:simple, :nested].each do |nesting|
+    %i[simple nested].each do |nesting|
       describe "with a #{nesting} partial" do
         after :each do
           liquid_markup = "#{surrounding[nesting][0]}#{@content}#{surrounding[nesting][1]}"
@@ -139,27 +140,27 @@ describe LiquidTagFinder do
 
         it 'finds a single tag with a ref' do
           @content  = "<div class='foo'>{% include 'example', ref: 'juiz' %}</div>"
-          @expected = [%w(example juiz)]
+          @expected = [%w[example juiz]]
         end
 
         it 'finds a single tag with another parameter and a ref' do
           @content  = "<div class='foo'>{% include 'example', color: '#43ab05', ref: 'juiz' %}</div>"
-          @expected = [%w(example juiz)]
+          @expected = [%w[example juiz]]
         end
 
         it 'finds two of the same includes with different refs' do
           @content  = "{% include 'example', ref: 'zebra' %}<div>{% include 'example', ref: 'juiz' %}</div>"
-          @expected = [%w(example zebra), %w(example juiz)]
+          @expected = [%w[example zebra], %w[example juiz]]
         end
 
         it 'finds two of the same includes with one ref' do
           @content  = "{% include 'example', ref: 'zebra' %}<div>{% include 'example' %}</div>"
-          @expected = [%w(example zebra), ['example', nil]]
+          @expected = [%w[example zebra], ['example', nil]]
         end
 
         it 'condenses two same includes with same ref' do
           @content  = "{% include 'example', ref: 'zebra' %}<div>{% include 'example', ref: 'zebra' %}</div>"
-          @expected = [%w(example zebra)]
+          @expected = [%w[example zebra]]
         end
 
         it 'condenses two same includes with no refs' do
@@ -174,12 +175,12 @@ describe LiquidTagFinder do
 
         it 'finds two different includes with different refs' do
           @content  = "{% include 'example', ref: 'zebra' %}<div>{% include 'la paz', ref: 'juiz' %}</div>"
-          @expected = [%w(example zebra), ['la paz', 'juiz']]
+          @expected = [%w[example zebra], ['la paz', 'juiz']]
         end
 
         it 'finds two different includes with same refs' do
           @content  = "{% include 'example', ref: 'zebra' %}<div>{% include 'la paz', ref: 'juiz' %}</div>"
-          @expected = [%w(example zebra), ['la paz', 'juiz']]
+          @expected = [%w[example zebra], ['la paz', 'juiz']]
         end
       end
     end

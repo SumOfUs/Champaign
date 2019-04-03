@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Api
   module Stateless
     # Api::AuthController allows clients to authenticate and receive a

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module HasLiquidPartials
   extend ActiveSupport::Concern
 
@@ -25,12 +26,14 @@ module HasLiquidPartials
   #
   def plugin_refs(ref: nil, depth: 0)
     return [] if depth > 2
+
     introspector = LiquidTagFinder.new(content)
     plugin_names = introspector.plugin_names
     collector = plugin_names.empty? ? [] : [[plugin_names[0], ref]]
     introspector.partial_refs.each do |partial, child_ref|
       child_partial = LiquidPartial.where(title: partial).first
       next if child_partial.blank?
+
       collector += child_partial.plugin_refs(ref: child_ref, depth: depth + 1)
     end
     collector.uniq

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 json.array! @subscriptions do |subscription|
   json.call subscription,
             :id,

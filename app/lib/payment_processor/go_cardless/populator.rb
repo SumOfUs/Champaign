@@ -80,6 +80,7 @@ module PaymentProcessor
           .complete(@redirect_flow_id, params: { session_token: @session_token })
       rescue GoCardlessPro::InvalidStateError => e
         raise e unless e.message.match?(/already completed/)
+
         @complete_redirect_flow = client.redirect_flows.get(@redirect_flow_id)
       end
 
@@ -88,9 +89,7 @@ module PaymentProcessor
       end
 
       def charge_date
-        if Settings.gocardless.gbp_charge_day.blank? || !bacs?
-          return mandate.next_possible_charge_date
-        end
+        return mandate.next_possible_charge_date if Settings.gocardless.gbp_charge_day.blank? || !bacs?
 
         mandate_date = Date.parse(mandate.next_possible_charge_date)
         gbp_date = create_gbp_date(mandate_date)

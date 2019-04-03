@@ -1,4 +1,3 @@
-
 class ForgetMember
   attr_reader :member
 

@@ -5,10 +5,10 @@ class ManageBraintreeDonation
 
   def self.create(params:, braintree_result:, is_subscription: false, store_in_vault: false)
     new(
-      params:           params,
+      params: params,
       braintree_result: braintree_result,
-      is_subscription:  is_subscription,
-      store_in_vault:   store_in_vault
+      is_subscription: is_subscription,
+      store_in_vault: store_in_vault
     ).create
   end
 
@@ -25,16 +25,16 @@ class ManageBraintreeDonation
     # with which we will associate ongoing donations, in the event this is a subscription.
     @params.merge!(
       {
-        amount:               transaction.amount.to_s,
-        card_num:             card_num,
-        currency:             transaction.currency_iso_code,
-        transaction_id:       transaction.id,
-        subscription_id:      subscription_id,
-        is_subscription:      @is_subscription,
+        amount: transaction.amount.to_s,
+        card_num: card_num,
+        currency: transaction.currency_iso_code,
+        transaction_id: transaction.id,
+        subscription_id: subscription_id,
+        is_subscription: @is_subscription,
         card_expiration_date: transaction.credit_card_details.expiration_date,
         payment_provider: 'braintree',
         action_express_donation: 0,
-        store_in_vault:       @store_in_vault
+        store_in_vault: @store_in_vault
       }.tap do |params|
         params[:recurrence_number] = 0 if @is_subscription
       end

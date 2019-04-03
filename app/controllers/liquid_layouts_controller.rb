@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class LiquidLayoutsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_liquid_layout, only: [:show, :edit, :update, :destroy]
+  before_action :set_liquid_layout, only: %i[show edit update destroy]
 
   def index
     @liquid_layouts = LiquidLayout.all

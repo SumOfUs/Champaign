@@ -30,13 +30,13 @@ class EmailToolSender
 
   def send_email
     EmailSender.run(
-      id:         @page.slug,
+      id: @page.slug,
       recipients: to_emails,
-      from_name:  @params[:from_name],
+      from_name: @params[:from_name],
       from_email: from_email,
-      reply_to:   reply_to_emails,
-      subject:    @params[:subject],
-      body:       @params[:body]
+      reply_to: reply_to_emails,
+      subject: @params[:subject],
+      body: @params[:body]
     )
   end
 
@@ -45,12 +45,12 @@ class EmailToolSender
     # No new members for EEA countries
     @action = ManageAction.create(
       {
-        page_id:             @page.id,
-        name:                @params[:from_name],
-        email:               @params[:from_email],
-        action_target:       @target&.name,
+        page_id: @page.id,
+        name: @params[:from_name],
+        email: @params[:from_email],
+        action_target: @target&.name,
         action_target_email: @target&.email,
-        country:             @params[:country]
+        country: @params[:country]
       }.merge(@tracking_params)
     )
   end
@@ -93,17 +93,11 @@ class EmailToolSender
   end
 
   def validate_plugin
-    if @plugin.from_email_address.blank?
-      add_error(:base, 'Please configure a From email address')
-    end
+    add_error(:base, 'Please configure a From email address') if @plugin.from_email_address.blank?
 
-    if @plugin.targets.empty?
-      add_error(:base, 'Please configure at least one target')
-    end
+    add_error(:base, 'Please configure at least one target') if @plugin.targets.empty?
 
-    if @params[:country].blank?
-      add_error(:base, 'Please make sure a country is being sent')
-    end
+    add_error(:base, 'Please make sure a country is being sent') if @params[:country].blank?
 
     target_id = @params[:target_id]
     if target_id.present? && @plugin.find_target(target_id).nil?

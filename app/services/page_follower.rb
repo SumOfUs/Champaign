@@ -36,17 +36,20 @@ class PageFollower
 
   def path_to_follow_up_page
     return nil if @follow_up_page_slug.blank?
+
     member_facing_page_path(@follow_up_page_slug, **url_params)
   end
 
   def path_to_follow_up_layout
     return nil if @page_slug.blank? || @follow_up_liquid_layout_id.blank?
+
     follow_up_member_facing_page_path(@page_slug, **url_params)
   end
 
   def url_params
     return {} if @extra_params.blank?
     return @url_params if @url_params.present?
+
     @url_params = {}.tap do |ps|
       PARAMS_TO_PASS.each do |key|
         ps[key] = @extra_params[key] if @extra_params.key?(key)

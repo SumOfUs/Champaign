@@ -70,18 +70,18 @@ module PaymentProcessor
 
       def action_params
         @user.merge!(
-          page_id:              @page_id,
-          amount:               amount_in_whole_currency.to_s,
-          card_num:             mandate.id,
-          currency:             currency,
-          subscription_id:      subscription_id,
-          is_subscription:      true,
-          recurrence_number:    0,
+          page_id: @page_id,
+          amount: amount_in_whole_currency.to_s,
+          card_num: mandate.id,
+          currency: currency,
+          subscription_id: subscription_id,
+          is_subscription: true,
+          recurrence_number: 0,
           card_expiration_date: nil,
-          mandate_reference:    mandate.reference,
-          bank_name:            bank_account.bank_name,
+          mandate_reference: mandate.reference,
+          bank_name: bank_account.bank_name,
           account_number_ending: bank_account.account_number_ending,
-          payment_provider:     'go_cardless'
+          payment_provider: 'go_cardless'
         ).merge!(@extra_params)
       end
     end
