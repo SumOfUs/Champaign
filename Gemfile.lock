@@ -126,7 +126,7 @@ GEM
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
-    braintree (2.54.0)
+    braintree (2.95.0)
       builder (>= 2.0.0)
     browser (2.5.3)
     builder (3.2.3)
@@ -575,7 +575,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
   bootstrap-sass (~> 3.4.1)
-  braintree (~> 2.54.0)
+  braintree (~> 2)
   browser (~> 2.5)
   byebug
   capybara
@@ -607,7 +607,7 @@ DEPENDENCIES
   magic_lamp
   metamagic
   money
-  money-oxr
+  money-oxr (~> 0.4.1)
   newrelic_rpm
   omniauth-google-oauth2 (~> 0.6.1)
   paper_trail (~> 10.2)
