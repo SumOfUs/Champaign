@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.4.5'
+ruby '2.6.2'
 
 gem 'aasm'
 gem 'activeadmin', '~> 1.4.3'
@@ -77,7 +77,7 @@ group :development, :test do
   gem 'faker'
   gem 'magic_lamp'
   gem 'rspec-rails', '~> 3.8'
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.66', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
   gem 'byebug'
