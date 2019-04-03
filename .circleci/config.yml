@@ -10,12 +10,12 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      # - restore_cache:
-      #     name: Restoring bundler cache
-      #     key: gem-cache-{{ checksum "Gemfile.lock" }}
-      # - restore_cache:
-      #     name: Restoring node_modules cache
-      #     key: yarn-cache-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          name: Restoring bundler cache
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          name: Restoring node_modules cache
+          key: node-{{ checksum "yarn.lock" }}
       - run:
           name: Install gems
           command: bundle install --path vendor/bundle
@@ -27,11 +27,11 @@ jobs:
           name: Download external assets
           command: bundle exec rake assets:download_external_assets[$EXTERNAL_ASSETS_PATH,$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH]
       - save_cache:
-          key: gem-cache-{{ checksum "Gemfile.lock" }}
+          key: gems-{{ checksum "Gemfile.lock" }}
           paths:
           - vendor/bundle
       - save_cache:
-          key: yarn-cache-{{ checksum "yarn.lock" }}
+          key: node-{{ checksum "yarn.lock" }}
           paths:
           - node_modules
       - persist_to_workspace:
