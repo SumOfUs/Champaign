@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ConnectWithOauthProvider do
@@ -23,7 +24,7 @@ describe ConnectWithOauthProvider do
 
   describe 'whitelisting' do
     it 'whitelists domain' do
-      Settings.oauth_domain_whitelist = %w(sumofus.org exxon.mobi)
+      Settings.oauth_domain_whitelist = %w[sumofus.org exxon.mobi]
       expect { ConnectWithOauthProvider.connect(resp) }.to raise_error(Champaign::NotWhitelisted)
     end
 

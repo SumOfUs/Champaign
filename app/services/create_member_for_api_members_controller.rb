@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateMemberForApiMembersController
   attr_reader :member, :errors
 
@@ -29,6 +30,7 @@ class CreateMemberForApiMembersController
 
   def member_params
     return @member_params if @member_params.present?
+
     allowed = Member.new.attributes.keys.map(&:to_sym) + [:name]
     @member_params = @params.select { |k, _| allowed.include? k }
   end

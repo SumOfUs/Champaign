@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register LiquidPartial do
-  actions :all, except: [:new, :edit, :destroy]
+  actions :all, except: %i[new edit destroy]
 
   filter :title
   filter :content

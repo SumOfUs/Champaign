@@ -34,9 +34,7 @@ class Api::Payment::BraintreeController < PaymentController
       page_id: unsafe_params[:page_id],
       store_in_vault: store_in_vault?
     }.tap do |options|
-      if unsafe_params[:extra_action_fields].present?
-        options[:extra_params] = unsafe_params[:extra_action_fields]
-      end
+      options[:extra_params] = unsafe_params[:extra_action_fields] if unsafe_params[:extra_action_fields].present?
     end
   end
 

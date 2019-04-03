@@ -58,6 +58,7 @@ namespace :assets do
       puts "Downloading external assets from #{url}"
       response = HTTParty.get url, http_options
       break if response.success?
+
       errors << "HTTP error while trying to download assets from #{url}: #{response.inspect}"
     end
     unless response.success?

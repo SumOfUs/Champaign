@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class LiquidHelper
   class << self
     # when possible, I think we should try to make this match with
@@ -23,6 +24,7 @@ class LiquidHelper
 
     def petition_target(page)
       return nil unless page.present?
+
       actions = page.plugins.select { |p| p.name == 'Petition' && p.active? }
       actions.map(&:target).reject(&:blank?).first
     end

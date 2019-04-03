@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ActionCollator do
@@ -7,20 +8,20 @@ describe ActionCollator do
 
   describe 'keys' do
     it "includes the keys present on any action's form data" do
-      expect(ActionCollator.new([a1, a2]).keys).to match_array %i(phone name postal action_foo id publish_status)
+      expect(ActionCollator.new([a1, a2]).keys).to match_array %i[phone name postal action_foo id publish_status]
     end
 
     it "excludes fields that aren't prefixes by action_ or match AK fields" do
       form_data = { form_id: '123', action_foo: 'bar', postal: '12345', commit: 'G', foo: 'bar' }
       a = build :action, form_data: form_data
-      expect(ActionCollator.new([a]).keys).to match_array %i(action_foo postal id publish_status)
+      expect(ActionCollator.new([a]).keys).to match_array %i[action_foo postal id publish_status]
     end
 
     it 'excludes action_referrer_email and action_express_donation' do
       form_data = { action_referrer_email: 'a', action_express_donation: '1',
                     action_referer: 'blah', country: 'NI' }
       a = build :action, form_data: form_data
-      expect(ActionCollator.new([a]).keys).to match_array %i(country id publish_status)
+      expect(ActionCollator.new([a]).keys).to match_array %i[country id publish_status]
     end
   end
 

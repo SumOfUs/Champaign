@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 require 'rails_helper'
@@ -16,12 +15,12 @@ describe 'GoCardless API' do
   end
 
   let(:meta) do
-    hash_including(title:      'Foo Bar',
-                   uri:        '/a/foo-bar',
-                   slug:       'foo-bar',
+    hash_including(title: 'Foo Bar',
+                   uri: '/a/foo-bar',
+                   slug: 'foo-bar',
                    first_name: 'Bernie',
-                   last_name:  'Sanders',
-                   action_id:  instance_of(Integer),
+                   last_name: 'Sanders',
+                   action_id: instance_of(Integer),
                    created_at: be_within(30.seconds).of(Time.now),
                    country: 'United States')
   end
@@ -63,6 +62,7 @@ describe 'GoCardless API' do
         )
         request.params.each_pair do |key, val|
           next if key.match?(/controller|action/)
+
           expect(success_redirect_params[key]).to eq val
         end
       end
@@ -158,7 +158,7 @@ describe 'GoCardless API' do
                                                  'created_at' => '2016-04-11T19:15:07.713Z',
                                                  'links' => {
                                                    'creditor' => creditor_id,
-                                                   'mandate'  => mandate_id,
+                                                   'mandate' => mandate_id,
                                                    'customer' => customer_id,
                                                    'customer_bank_account' => customer_bank_account_id
                                                  })
@@ -234,11 +234,11 @@ describe 'GoCardless API' do
               },
               order: hash_including(
                 amount: gbp_amount.to_s,
-                currency:       'GBP',
-                card_num:       'DDEB',
-                card_code:      '007',
+                currency: 'GBP',
+                card_num: 'DDEB',
+                card_code: '007',
                 exp_date_month: '01',
-                exp_date_year:  '99'
+                exp_date_year: '99'
               ),
               user: hash_including(
                 email: email,
@@ -403,10 +403,10 @@ describe 'GoCardless API' do
                 amount: gbp_amount.to_s,
                 currency: 'GBP',
                 recurring_id: subscription_id_regexp,
-                card_num:       'DDEB',
-                card_code:      '007',
+                card_num: 'DDEB',
+                card_code: '007',
                 exp_date_month: '01',
-                exp_date_year:  '99'
+                exp_date_year: '99'
               },
               user: {
                 email: email,

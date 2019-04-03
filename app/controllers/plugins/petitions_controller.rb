@@ -20,6 +20,7 @@ class Plugins::PetitionsController < ApplicationController
 
   def find_form
     return unless params[:plugins_petition][:form_id]
+
     Form.find params[:plugins_petition][:form_id]
   end
 

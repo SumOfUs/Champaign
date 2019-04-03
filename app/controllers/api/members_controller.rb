@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::MembersController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 

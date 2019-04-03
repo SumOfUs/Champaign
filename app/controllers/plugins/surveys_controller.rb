@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Plugins::SurveysController < Plugins::BaseController
   def add_form
     survey = Plugins.find_for('survey', unsafe_params[:plugin_id])

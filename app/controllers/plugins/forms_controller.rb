@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Plugins::FormsController < ApplicationController
   def create
     master = Form.find permitted_params[:master_id]

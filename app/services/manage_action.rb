@@ -29,9 +29,7 @@ class ManageAction
       page: page
     }.merge(@extra_attrs)
 
-    if requires_double_opt_in
-      return PendingActionService.create(@params)
-    end
+    return PendingActionService.create(@params) if requires_double_opt_in
 
     if existing_member.present?
       action_params[:member] = existing_member
@@ -59,11 +57,13 @@ class ManageAction
 
   def previous_action
     return nil unless existing_member.present?
+
     @previous_action ||= Action.not_donation.where(member: existing_member, page_id: page).first
 
     if page.campaign.present? && @previous_action.blank?
       page.campaign.pages.each do |connected_page|
         next if connected_page.id == page.id
+
         @previous_action ||= Action.not_donation.where(member: existing_member, page_id: connected_page.id).first
       end
     end

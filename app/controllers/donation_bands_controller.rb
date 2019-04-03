@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class DonationBandsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_donation_band, only: [:edit, :update]
+  before_action :find_donation_band, only: %i[edit update]
 
   def new
     @donation_band = DonationBand.new

@@ -3,12 +3,14 @@ module CallTool
     class << self
       def start!(call)
         return unless call.unstarted?
+
         call.started!
         CallEvent::Update.publish(call) if call.member.present?
       end
 
       def connect!(call)
         return unless call.started?
+
         call.connected!
         CallEvent::Update.publish(call) if call.member.present?
       end

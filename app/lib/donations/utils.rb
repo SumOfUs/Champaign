@@ -2,7 +2,7 @@
 
 module Donations
   module Utils
-    extend self # rubocop:disable Style/ModuleFunction
+    extend self
     EURO_COUNTRY_CODES = %i[AL AD AT BY BE BA BG HR CY CZ DK EE FO FI FR DE GI GR HU IS IE IT LV LI LT LU MK MT MD MC NL NO PL PT RO RU SM RS SK SI ES SE UA VA RS IM RS ME].freeze # rubocop:disable Metrics/LineLength
     DEFAULT_CURRENCY = 'USD'
 

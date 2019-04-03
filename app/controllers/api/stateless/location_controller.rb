@@ -14,6 +14,7 @@ module Api
       def location
         @location ||= request.location
         raise Api::Exceptions::LocationNotFound unless @location
+
         @location.data
       end
 

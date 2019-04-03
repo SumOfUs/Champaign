@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Plugins::HasForm
   extend ActiveSupport::Concern
 
@@ -17,6 +18,7 @@ module Plugins::HasForm
 
   def outstanding_fields(form_values)
     return [] if form.blank?
+
     FormValidator.new(
       { form_id: form.id }.merge(form_values || {})
     ).errors.keys
@@ -24,6 +26,7 @@ module Plugins::HasForm
 
   def update_form(new_form)
     return if new_form.blank?
+
     old_form = form
     update(form: new_form)
     old_form.destroy if old_form.present?
@@ -42,6 +45,7 @@ module Plugins::HasForm
 
   def create_form
     return if form.present? && !form.form_elements.empty?
+
     locale = try(:page).try(:language).try(:code) || I18n.default_locale
     self.form = FormDuplicator.duplicate(
       DefaultFormBuilder.find_or_create(locale: locale)

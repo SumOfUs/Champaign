@@ -44,17 +44,17 @@ module PaymentProcessor
         it 'passes basic arguments' do
           expected_arguments = {
             amount: 100,
-            payment_method_nonce:       'a_nonce',
-            merchant_account_id:        '123',
-            device_data:                { foo: 'bar' },
+            payment_method_nonce: 'a_nonce',
+            merchant_account_id: '123',
+            device_data: { foo: 'bar' },
             options: {
-              submit_for_settlement:     true,
+              submit_for_settlement: true,
               store_in_vault_on_success: false
             },
             customer: {
-              first_name:               'Bob',
-              last_name:                '',
-              email:                    'test@example.com'
+              first_name: 'Bob',
+              last_name: '',
+              email: 'test@example.com'
             },
             billing: {
               first_name: 'Bob',

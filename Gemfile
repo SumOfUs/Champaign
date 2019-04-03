@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
@@ -36,10 +35,10 @@ gem 'slim-rails'
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
 gem 'aws-sdk-core', '~> 3'
+gem 'aws-sdk-dynamodb', '~> 1.21'
 gem 'aws-sdk-s3', '~> 1.30'
 gem 'aws-sdk-sns', '~> 1.3'
 gem 'aws-sdk-sqs', '~> 1.10'
-gem 'aws-sdk-dynamodb', '~> 1.21'
 gem 'paper_trail', '~> 10.2'
 gem 'paperclip', '~> 6.0'
 gem 'rmagick' # rmagick for image processing
@@ -71,6 +70,7 @@ gem 'uglifier'
 gem 'webpacker', '~> 3.5'
 
 group :development, :test do
+  gem 'byebug'
   gem 'capybara' # Capybara for integration testing
   gem 'database_cleaner'
   gem 'factory_bot_rails'
@@ -80,7 +80,6 @@ group :development, :test do
   gem 'rubocop', '~> 0.66', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
-  gem 'byebug'
 end
 
 group :development do
@@ -96,7 +95,7 @@ group :test do
   gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
+  gem 'rubocop-rspec'
   gem 'timecop'
   gem 'webmock'
-  gem 'rubocop-rspec'
 end

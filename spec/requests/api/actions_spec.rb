@@ -14,11 +14,11 @@ describe 'Api Actions' do
 
   let(:headers) do
     {
-      'HTTP_ACCEPT'           => '*/*',
-      'HTTP_ACCEPT_LANGUAGE'  => 'en',
-      'HTTP_ACCEPT_ENCODING'  => '*',
-      'HTTP_USER_AGENT'       => 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257',
-      'referer'               => 'www.google.com'
+      'HTTP_ACCEPT' => '*/*',
+      'HTTP_ACCEPT_LANGUAGE' => 'en',
+      'HTTP_ACCEPT_ENCODING' => '*',
+      'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257',
+      'referer' => 'www.google.com'
     }
   end
 
@@ -28,12 +28,12 @@ describe 'Api Actions' do
 
     let(:params) do
       {
-        email:    'hello@example.com',
-        form_id:  form.id,
-        source:   'fb',
-        country:  'FR',
+        email: 'hello@example.com',
+        form_id: form.id,
+        source: 'fb',
+        country: 'FR',
         consented: 'true',
-        akid:     '1234.5678.tKK7gX',
+        akid: '1234.5678.tKK7gX',
         referring_akid: '1234.5678.tKK7gX',
         name: 'Bob Mash'
       }
@@ -42,23 +42,23 @@ describe 'Api Actions' do
     let(:message_body) do
       {
         type: 'action',
-        meta: hash_including(title:      'Foo Bar',
-                             uri:        '/a/foo-bar',
-                             slug:       'foo-bar',
+        meta: hash_including(title: 'Foo Bar',
+                             uri: '/a/foo-bar',
+                             slug: 'foo-bar',
                              first_name: 'Bob',
-                             last_name:  'Mash',
+                             last_name: 'Mash',
                              created_at: be_within(1.second).of(Time.zone.now),
                              country: 'France',
                              subscribed_member: true,
                              action_id: instance_of(Integer)),
 
-        params: hash_including(page:    'foo-bar-petition',
-                               email:  'hello@example.com',
-                               name:   'Bob Mash',
+        params: hash_including(page: 'foo-bar-petition',
+                               email: 'hello@example.com',
+                               name: 'Bob Mash',
                                page_id: page.id.to_s,
                                form_id: form.id.to_s,
                                source: 'fb',
-                               akid:   '1234.5678.tKK7gX',
+                               akid: '1234.5678.tKK7gX',
                                referring_akid: '1234.5678.tKK7gX',
                                action_mobile: 'mobile',
                                action_referer: 'www.google.com',

@@ -13,6 +13,7 @@ module PaymentProcessor::Braintree
 
     def process
       return false unless one_click?
+
       PaymentProcessor::Braintree::OneClick.new(options, @cookied_payment_methods).run
       self
     end
@@ -50,6 +51,7 @@ module PaymentProcessor::Braintree
     def payment_method_id
       customer = member&.customer
       return nil unless customer
+
       customer.valid_payment_method_id(cookied_payment_methods.split(','))
     end
 

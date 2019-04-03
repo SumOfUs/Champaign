@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require_relative '../../page_searcher/multiple_criterion_search/multiple_search_data.rb'
 require_relative '../page_searcher_spec_data.rb'

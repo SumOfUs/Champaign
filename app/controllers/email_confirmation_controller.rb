@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class EmailConfirmationController < ApplicationController
   before_action :find_member
 
@@ -18,6 +19,7 @@ class EmailConfirmationController < ApplicationController
 
   def find_member
     raise ActiveRecord::RecordNotFound if params[:email].blank?
+
     @member = Member.find_by_email!(params[:email])
   end
 end

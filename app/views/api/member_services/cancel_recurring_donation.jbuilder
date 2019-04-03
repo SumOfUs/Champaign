@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 record = @donations_updater.resource
 subscription_id = @permitted_params[:provider] == 'braintree' ? record.subscription_id : record.go_cardless_id
 

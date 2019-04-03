@@ -95,12 +95,12 @@ describe 'API::Stateless Members' do
         subject
         expect(json_hash).to match({
           id: member.id,
-          first_name:  'Harry',
-          last_name:  'Tubman',
-          email:  'test+1@example.com',
-          country:  'United Kingdom',
-          city:  'London',
-          postal:  '12345',
+          first_name: 'Harry',
+          last_name: 'Tubman',
+          email: 'test+1@example.com',
+          country: 'United Kingdom',
+          city: 'London',
+          postal: '12345',
           address1: 'Jam Factory 123',
           address2: nil
         }.as_json)

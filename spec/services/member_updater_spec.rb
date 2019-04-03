@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe MemberUpdater do
@@ -7,7 +8,7 @@ describe MemberUpdater do
   let(:more_params) { { action_hair_color: 'blonde', phone: '2135551234' } }
 
   describe '.run' do
-    [:new, :existing].each do |status, member|
+    %i[new existing].each do |status, member|
       describe "with #{status} member" do
         let(:new_member) { Member.new(email: email) }
         let(:existing_member) { create(:member, email: email) }

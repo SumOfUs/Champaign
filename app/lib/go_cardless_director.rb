@@ -16,8 +16,8 @@ class GoCardlessDirector
 
   def redirect_flow_instance
     @redirect_flow_instance ||= client.redirect_flows.create(params: {
-      session_token:        @session_id,
-      description:          description,
+      session_token: @session_id,
+      description: description,
       success_redirect_url: @success_url
     })
   rescue GoCardlessPro::Error => e
@@ -39,7 +39,7 @@ class GoCardlessDirector
   def client
     @client ||= GoCardlessPro::Client.new(
       access_token: Settings.gocardless.token,
-      environment:  Settings.gocardless.environment.to_sym
+      environment: Settings.gocardless.environment.to_sym
     )
   end
 
