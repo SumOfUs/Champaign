@@ -1,4 +1,4 @@
-FROM ruby:2.4.5-stretch
+FROM ruby:2.6-stretch
 
 ENV APP_ROOT /champaign
 
@@ -16,7 +16,7 @@ RUN mkdir $APP_ROOT
 ADD . $APP_ROOT
 WORKDIR $APP_ROOT
 
-RUN gem install bundler
+RUN gem install bundler:2.0.1
 RUN bundle install --jobs 4 --deployment --without development:test:doc
 
 EXPOSE 3000
