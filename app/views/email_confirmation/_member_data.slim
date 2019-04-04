@@ -1,0 +1,7 @@
+javascript:
+  window.champaign = window.champaign || {};
+  window.champaign.personalization = window.champaign.personalization || {};
+
+  window.champaign.personalization.member = #{(@member || {}).to_json.html_safe};
+  window.champaign.personalization.paymentMethods = #{(@payment_methods || {}).to_json.html_safe};
+
