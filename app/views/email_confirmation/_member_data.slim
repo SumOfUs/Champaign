@@ -4,4 +4,5 @@ javascript:
 
   window.champaign.personalization.member = #{(@member || {}).to_json.html_safe};
   window.champaign.personalization.paymentMethods = #{(@payment_methods || {}).to_json.html_safe};
+  window.champaign.personalization.location = #{location.to_json.html_safe}
 
