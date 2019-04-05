@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class CampaignsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_campaign, only: [:show, :edit, :update, :destroy]
+  before_action :find_campaign, only: %i[show edit update destroy]
 
   def index
   end

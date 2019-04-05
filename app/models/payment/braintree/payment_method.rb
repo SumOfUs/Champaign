@@ -5,19 +5,24 @@
 # Table name: payment_braintree_payment_methods
 #
 #  id              :integer          not null, primary key
+#  bin             :string
+#  cancelled_at    :datetime
+#  card_type       :string
+#  cardholder_name :string
+#  email           :string
+#  expiration_date :string
+#  instrument_type :string
+#  last_4          :string
+#  store_in_vault  :boolean          default(FALSE)
 #  token           :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  customer_id     :integer
-#  card_type       :string
-#  bin             :string
-#  cardholder_name :string
-#  last_4          :string
-#  expiration_date :string
-#  instrument_type :string
-#  email           :string
-#  store_in_vault  :boolean          default("false")
-#  cancelled_at    :datetime
+#
+# Indexes
+#
+#  braintree_customer_index                                   (customer_id)
+#  index_payment_braintree_payment_methods_on_store_in_vault  (store_in_vault)
 #
 
 class Payment::Braintree::PaymentMethod < ApplicationRecord

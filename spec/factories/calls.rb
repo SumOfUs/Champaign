@@ -5,17 +5,21 @@
 # Table name: calls
 #
 #  id                  :integer          not null, primary key
-#  page_id             :integer
-#  member_id           :integer
+#  member_call_events  :json             is an Array
 #  member_phone_number :string
+#  status              :integer          default("unstarted")
+#  target              :json
+#  target_call_info    :jsonb            not null
+#  twilio_error_code   :integer
 #  created_at          :datetime
 #  updated_at          :datetime
-#  target_call_info    :jsonb            default("{}"), not null
-#  member_call_events  :json             default("{}"), is an Array
-#  twilio_error_code   :integer
-#  target              :json
-#  status              :integer          default("0")
 #  action_id           :integer
+#  member_id           :integer
+#  page_id             :integer
+#
+# Indexes
+#
+#  index_calls_on_target_call_info  (target_call_info) USING gin
 #
 
 FactoryBot.define do

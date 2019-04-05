@@ -4,14 +4,23 @@
 #
 # Table name: share_whatsapps
 #
-#  id          :integer          not null, primary key
-#  page_id     :integer
-#  text        :string
-#  button_id   :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  click_count :integer
-#  conversion_count :integer
+#  id               :bigint(8)        not null, primary key
+#  click_count      :integer          default(0), not null
+#  conversion_count :integer          default(0), not null
+#  text             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  button_id        :integer
+#  page_id          :bigint(8)
+#
+# Indexes
+#
+#  index_share_whatsapps_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (page_id => pages.id)
+#
 
 require 'rails_helper'
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PageBuilder
   attr_reader :params
 

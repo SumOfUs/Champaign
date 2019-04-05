@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Image do
-  actions :all, except: [:new, :edit, :destroy]
+  actions :all, except: %i[new edit destroy]
 
   index pagination_total: false
   config.per_page = 20

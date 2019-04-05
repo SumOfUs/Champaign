@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'database_cleaner'
 
 MagicLamp.configure do |config|

@@ -5,22 +5,28 @@
 # Table name: members
 #
 #  id                   :integer          not null, primary key
-#  email                :string
-#  country              :string
-#  first_name           :string
-#  last_name            :string
-#  city                 :string
-#  postal               :string
-#  title                :string
 #  address1             :string
 #  address2             :string
+#  city                 :string
+#  consented            :boolean
+#  consented_updated_at :datetime
+#  country              :string
+#  donor_status         :integer          default("nondonor"), not null
+#  email                :string
+#  first_name           :string
+#  last_name            :string
+#  more                 :jsonb
+#  postal               :string
+#  title                :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  actionkit_user_id    :string
-#  donor_status         :integer          default("0"), not null
-#  more                 :jsonb
-#  consented_updated_at :datetime
-#  consented            :boolean          default("false")
+#
+# Indexes
+#
+#  index_members_on_actionkit_user_id  (actionkit_user_id)
+#  index_members_on_email              (email)
+#  index_members_on_email_and_id       (email,id)
 #
 
 class Member < ApplicationRecord
@@ -44,14 +50,13 @@ class Member < ApplicationRecord
   def self.find_from_request(akid: nil, id: nil)
     member = find_by_akid(akid)
     return member if member.present?
+
     id.present? ? find_by(id: id) : nil
   end
 
   def self.find_by_akid(akid)
     actionkit_user_id = AkidParser.parse(akid, Settings.action_kit.akid_secret)[:actionkit_user_id]
-    if actionkit_user_id.present?
-      where(actionkit_user_id: actionkit_user_id).order('created_at ASC').first
-    end
+    where(actionkit_user_id: actionkit_user_id).order('created_at ASC').first if actionkit_user_id.present?
   end
 
   def self.find_by_email(email)

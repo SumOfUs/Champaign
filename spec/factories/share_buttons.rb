@@ -4,16 +4,20 @@
 #
 # Table name: share_buttons
 #
-#  id             :integer          not null, primary key
-#  title          :string
-#  url            :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  sp_id          :string
-#  page_id        :integer
-#  share_type        :string
+#  id                :integer          not null, primary key
+#  analytics         :text
 #  share_button_html :string
-#  analytics      :text
+#  share_type        :string
+#  title             :string
+#  url               :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  page_id           :integer
+#  sp_id             :string
+#
+# Indexes
+#
+#  index_share_buttons_on_page_id  (page_id)
 #
 
 FactoryBot.define do

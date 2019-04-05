@@ -5,18 +5,26 @@
 # Table name: form_elements
 #
 #  id            :integer          not null, primary key
-#  form_id       :integer
-#  label         :string
+#  choices       :jsonb
 #  data_type     :string
 #  default_value :string
+#  display_mode  :integer          default("all_members")
+#  label         :string
+#  name          :string
+#  position      :integer          default(0), not null
 #  required      :boolean
 #  visible       :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  name          :string
-#  position      :integer          default("0"), not null
-#  choices       :jsonb            default("[]")
-#  display_mode  :integer          default("0")
+#  form_id       :integer
+#
+# Indexes
+#
+#  index_form_elements_on_form_id  (form_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (form_id => forms.id)
 #
 
 class FormElement < ApplicationRecord
@@ -52,11 +60,13 @@ class FormElement < ApplicationRecord
 
   def liquid_data
     return attributes.symbolize_keys unless data_type == 'choice' || data_type == 'dropdown'
+
     attributes.symbolize_keys.merge(choices: formatted_choices)
   end
 
   def formatted_choices
     return [] if choices.blank?
+
     choices.map do |choice|
       if choice.is_a? String
         { label: choice, value: choice, id: choice_id(choice) }
@@ -70,6 +80,7 @@ class FormElement < ApplicationRecord
 
   def choices_is_valid
     return if choices.nil?
+
     if choices.class != Array
       errors.add(:choices, 'must be an array of options')
       return
@@ -126,9 +137,7 @@ class FormElement < ApplicationRecord
 
   def set_name
     unless name.blank? || ActionKitFields::ACTIONKIT_FIELDS_WHITELIST.include?(name)
-      if name !~ ActionKitFields::VALID_PREFIX_RE && name !~ /^(action_)+$/
-        self.name = field_prefix(data_type) + name
-      end
+      self.name = field_prefix(data_type) + name if name !~ ActionKitFields::VALID_PREFIX_RE && name !~ /^(action_)+$/
     end
   end
 

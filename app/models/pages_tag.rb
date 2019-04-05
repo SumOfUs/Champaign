@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: pages_tags
@@ -9,6 +10,6 @@
 #
 
 class PagesTag < ApplicationRecord
-  belongs_to :tag,  optional: true
-  belongs_to :page,  optional: true
+  belongs_to :tag, optional: true
+  belongs_to :page, optional: true
 end

@@ -78,11 +78,11 @@ describe 'New Action Confirmation' do
 
   let(:params) do
     {
-      email:    'hello@example.com',
-      form_id:  form.id,
+      email: 'hello@example.com',
+      form_id: form.id,
       page_id: page.id,
-      source:   'fb',
-      country:  'DE',
+      source: 'fb',
+      country: 'DE',
       name: 'John Doe'
     }
   end

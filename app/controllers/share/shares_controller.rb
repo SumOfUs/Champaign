@@ -43,9 +43,7 @@ class Share::SharesController < ApplicationController
     @page.share_buttons.each do |button|
       url = params[button.share_type.to_sym]
 
-      if url
-        ShareVariantBuilder.update_button_url(url, button)
-      end
+      ShareVariantBuilder.update_button_url(url, button) if url
     end
 
     render :update_url_form

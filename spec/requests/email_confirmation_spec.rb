@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Email Confirmation when signing up to express donations' do
@@ -32,8 +33,7 @@ describe 'Email Confirmation when signing up to express donations' do
     let(:params) do
       { token: auth.token,
         email: 'test@example.com',
-        language: 'de'
-      }
+        language: 'de' }
     end
 
     it 'sets locale to passed language code' do

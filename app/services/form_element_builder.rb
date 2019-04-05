@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FormElementBuilder
   class << self
     def create(form, params)
@@ -30,17 +31,17 @@ class FormElementBuilder
 
   def format_many_choices(choice_string)
     return choice_string unless choice_string.present? && choice_string.is_a?(String)
+
     choice_string.split(/\r?\n/)
   end
 
   def format_choices(choice_list)
     return choice_list unless choice_list.respond_to?(:map)
+
     choice_list.map do |choice|
-      begin
-        JSON.parse(choice)
-      rescue JSON::ParserError
-        choice
-      end
+      JSON.parse(choice)
+    rescue JSON::ParserError
+      choice
     end
   end
 end

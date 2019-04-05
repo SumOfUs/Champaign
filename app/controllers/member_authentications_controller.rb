@@ -42,8 +42,6 @@ class MemberAuthenticationsController < ApplicationController
   def redirect_signed_up_members
     member = params['email'].present? && Member.find_by_email(params[:email])
 
-    if member && member.authentication.present?
-      redirect_to params[:follow_up_url] || Settings.home_page_url
-    end
+    redirect_to params[:follow_up_url] || Settings.home_page_url if member && member.authentication.present?
   end
 end

@@ -95,15 +95,14 @@ class PageUpdater
 
   def update_page
     return unless @params[:page]
+
     plugins_before = @page.plugins
 
     ak_sensitive_changes = important_changes_made do
       @page.assign_attributes(@params[:page])
     end
 
-    if @page.save && ak_sensitive_changes
-      QueueManager.push(@page, job_type: :update_pages)
-    end
+    QueueManager.push(@page, job_type: :update_pages) if @page.save && ak_sensitive_changes
 
     @refresh = (@page.plugins != plugins_before)
     @errors[:page] = @page.errors.to_h unless @page.errors.empty?
@@ -112,6 +111,7 @@ class PageUpdater
   def update_plugin(plugin_params)
     plugin = plugins.select { |p| p.id == plugin_params[:id].to_i && p.name == plugin_params[:name] }.first
     raise ActiveRecord::RecordNotFound if plugin.blank?
+
     plugin.update_attributes(plugin_params.except(:name))
     plugin.errors
   end

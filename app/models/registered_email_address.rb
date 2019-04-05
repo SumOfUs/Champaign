@@ -2,7 +2,7 @@
 #
 # Table name: registered_email_addresses
 #
-#  id    :integer          not null, primary key
+#  id    :bigint(8)        not null, primary key
 #  email :string
 #  name  :string
 #

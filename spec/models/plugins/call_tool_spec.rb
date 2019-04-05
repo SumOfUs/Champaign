@@ -5,25 +5,25 @@
 # Table name: plugins_call_tools
 #
 #  id                           :integer          not null, primary key
-#  page_id                      :integer
 #  active                       :boolean
+#  description                  :text
+#  menu_sound_clip_content_type :string
+#  menu_sound_clip_file_name    :string
+#  menu_sound_clip_file_size    :bigint(8)
+#  menu_sound_clip_updated_at   :datetime
 #  ref                          :string
+#  restricted_country_code      :string
+#  sound_clip_content_type      :string
+#  sound_clip_file_name         :string
+#  sound_clip_file_size         :bigint(8)
+#  sound_clip_updated_at        :datetime
+#  target_by_attributes         :string           default([]), is an Array
+#  targets                      :json             is an Array
+#  title                        :string
 #  created_at                   :datetime
 #  updated_at                   :datetime
-#  title                        :string
-#  targets                      :json             default("{}"), is an Array
-#  sound_clip_file_name         :string
-#  sound_clip_content_type      :string
-#  sound_clip_file_size         :integer
-#  sound_clip_updated_at        :datetime
-#  description                  :text
-#  menu_sound_clip_file_name    :string
-#  menu_sound_clip_content_type :string
-#  menu_sound_clip_file_size    :integer
-#  menu_sound_clip_updated_at   :datetime
-#  restricted_country_code      :string
 #  caller_phone_number_id       :integer
-#  target_by_attributes         :string           default("{}"), is an Array
+#  page_id                      :integer
 #
 
 require 'rails_helper'

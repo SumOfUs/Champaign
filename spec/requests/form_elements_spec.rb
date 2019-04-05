@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'form element manipulation' do
@@ -85,9 +86,9 @@ describe 'form element manipulation' do
     end
 
     it 'lets the many_choices value override the choices value' do
-      @params = { form_element: el_params.merge(many_choices: "A\r\nB\r\nC", choices: %w(X Y Z)) }
+      @params = { form_element: el_params.merge(many_choices: "A\r\nB\r\nC", choices: %w[X Y Z]) }
       subject
-      expect(FormElement.last.choices).to eq %w(A B C)
+      expect(FormElement.last.choices).to eq %w[A B C]
     end
 
     it 'returns 200 if successfully made the element' do

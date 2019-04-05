@@ -1,6 +1,8 @@
 # frozen_string_literal: true
+
 class EmailConfirmationController < ApplicationController
   before_action :find_member
+  before_action :find_payment_methods
 
   def verify
     begin
@@ -18,6 +20,11 @@ class EmailConfirmationController < ApplicationController
 
   def find_member
     raise ActiveRecord::RecordNotFound if params[:email].blank?
+
     @member = Member.find_by_email!(params[:email])
+  end
+
+  def find_payment_methods
+    @payment_methods = payment_methods
   end
 end

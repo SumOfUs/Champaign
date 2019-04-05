@@ -5,14 +5,22 @@
 # Table name: plugins_thermometers
 #
 #  id         :integer          not null, primary key
-#  type       :string           not null
-#  title      :string
+#  active     :boolean          default(FALSE)
 #  offset     :integer
-#  page_id    :integer
-#  active     :boolean          default("false")
+#  ref        :string
+#  title      :string
+#  type       :string           default("ActionsThermometer"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  ref        :string
+#  page_id    :integer
+#
+# Indexes
+#
+#  index_plugins_thermometers_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (page_id => pages.id)
 #
 
 class Plugins::Thermometer < ApplicationRecord
@@ -40,7 +48,12 @@ class Plugins::Thermometer < ApplicationRecord
   def abbreviate_number(number)
     return number.to_s if number < 1000
     return "#{(goal / 1000).to_i}k" if number < 1_000_000
+
     locale = page.try(:language).try(:code)
-    "%g #{I18n.t('thermometer.million', locale: locale)}" % (goal / 1_000_000.0).round(1)
+    format(
+      '%<amount>g %<million>s',
+      amount: (goal / 1_000_000.0).round(1),
+      million: I18n.t('thermometer.million', locale: locale)
+    )
   end
 end

@@ -18,6 +18,7 @@ module Api
       # Tries token first then falls back to
       def authenticate_request!
         raise Exceptions::UnauthorizedError unless current_member
+
         current_member
       end
 
@@ -29,15 +30,17 @@ module Api
 
       def authenticate_member_from_token
         return nil if request.headers['authorization'].nil?
+
         _, token = request.headers['authorization'].split
         payload = decode_jwt(token)
         Member.find(payload[:id])
-      rescue
+      rescue StandardError
         raise Exceptions::UnauthorizedError
       end
 
       def authenticate_member_from_cookie
         return nil if cookies.encrypted['authorization'].nil?
+
         payload = decode_jwt(cookies.encrypted['authorization'])
         Member.find(payload[:id])
       end

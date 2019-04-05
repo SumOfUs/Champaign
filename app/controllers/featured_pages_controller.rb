@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class FeaturedPagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_page, only: [:create, :destroy]
+  before_action :find_page, only: %i[create destroy]
 
   def create
     @page.update(featured: true)

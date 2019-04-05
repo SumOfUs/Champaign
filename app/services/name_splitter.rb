@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class NameSplitter
   def initialize(full_name:)
     @full_name = full_name

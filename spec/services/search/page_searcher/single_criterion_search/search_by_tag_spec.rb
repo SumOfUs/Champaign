@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require_relative '../page_searcher_spec_data.rb'
 
@@ -15,15 +16,15 @@ describe 'Search ::' do
         let!(:intersection_page_1) do
           create(:page,
                  title: 'has one same tag as intersection page 2',
-                 slug:  'has-same-page-2',
-                 tags:  [tag1, tag2, tag3, tag4])
+                 slug: 'has-same-page-2',
+                 tags: [tag1, tag2, tag3, tag4])
         end
 
         let!(:intersection_page_2) do
           create(:page,
                  title: 'has one same tag as intersection page 1',
-                 slug:  'has-same-page-1',
-                 tags:  [tag3, tag4, tag5])
+                 slug: 'has-same-page-1',
+                 tags: [tag3, tag4, tag5])
         end
         let(:tag_searcher) { Search::PageSearcher.new(tags: [tag.id]) }
 

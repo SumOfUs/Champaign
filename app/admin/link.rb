@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Link do
   permit_params :url, :title, :date, :source, :link_id
 

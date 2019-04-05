@@ -5,9 +5,7 @@ namespace :action_kit do
     puts 'Importing languages from ActionKit'
     response = ActionKitConnector.client.list_languages
 
-    unless response.success?
-      raise "Error connecting to ActionKit: #{response.inspect}"
-    end
+    raise "Error connecting to ActionKit: #{response.inspect}" unless response.success?
 
     response.parsed_response['objects'].each do |object|
       Language.create!(code: object['iso_code'], name: object['name'], actionkit_uri: object['resource_uri'])
@@ -20,9 +18,7 @@ namespace :action_kit do
 
     pages.each_with_index do |response, index|
       puts "Importing batch ##{index}"
-      unless response.success?
-        raise "Error connecting to ActionKit: #{response.inspect}"
-      end
+      raise "Error connecting to ActionKit: #{response.inspect}" unless response.success?
 
       response.parsed_response['objects'].each do |object|
         tag = Tag.create name: object['name'], actionkit_uri: object['resource_uri']

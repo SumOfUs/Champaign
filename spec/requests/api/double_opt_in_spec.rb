@@ -5,10 +5,10 @@ require 'rails_helper'
 describe 'Double opt-in' do
   let(:params) do
     {
-      email:    'hello@example.com',
-      form_id:  form.id,
-      source:   'fb',
-      country:  'DE',
+      email: 'hello@example.com',
+      form_id: form.id,
+      source: 'fb',
+      country: 'DE',
       name: 'John Doe'
     }
   end

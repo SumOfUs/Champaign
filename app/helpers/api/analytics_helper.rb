@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Api::AnalyticsHelper
   def total_actions_by_hour(page)
     map_data page.total_actions_over_time(period: :hour)

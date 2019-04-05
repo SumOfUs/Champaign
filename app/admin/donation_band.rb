@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register DonationBand do
-  actions :all, except: [:new, :edit]
+  actions :all, except: %i[new edit]
 
   index pagination_total: false
   config.per_page = 20

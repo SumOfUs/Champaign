@@ -5,13 +5,21 @@
 # Table name: links
 #
 #  id         :integer          not null, primary key
-#  url        :string
-#  title      :string
 #  date       :string
 #  source     :string
-#  page_id    :integer
+#  title      :string
+#  url        :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  page_id    :integer
+#
+# Indexes
+#
+#  index_links_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (page_id => pages.id)
 #
 
 require 'rails_helper'

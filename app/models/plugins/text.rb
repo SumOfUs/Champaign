@@ -5,12 +5,16 @@
 # Table name: plugins_texts
 #
 #  id         :integer          not null, primary key
+#  active     :boolean          default(FALSE)
 #  content    :text
 #  ref        :string
-#  page_id    :integer
-#  active     :boolean          default("false")
 #  created_at :datetime
 #  updated_at :datetime
+#  page_id    :integer
+#
+# Indexes
+#
+#  index_plugins_texts_on_page_id  (page_id)
 #
 
 class Plugins::Text < ApplicationRecord

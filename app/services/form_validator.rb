@@ -1,12 +1,12 @@
 # frozen_string_literal: true
-#
+
 class FormValidator
   MAX_LENGTH = {
     PARAGRAPH: 10_000,
     TEXT: 250
   }.freeze
 
-  EMAIL_REGEXP = /\A(?!\.)(?!.*\.{2})(?!.*@\.)(?!.*\.+@)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i
+  EMAIL_REGEXP = /\A(?!\.)(?!.*\.{2})(?!.*@\.)(?!.*\.+@)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i.freeze
 
   def initialize(params, form_elements = nil)
     @params = params.symbolize_keys
@@ -33,6 +33,7 @@ class FormValidator
 
   def form_elements
     return @form_elements if @form_elements.present?
+
     if @params[:form_id].present?
       form = Form.includes(:form_elements).find(@params[:form_id])
       @form_elements = form.form_elements.map do |el|
@@ -64,12 +65,14 @@ class FormValidator
 
   def validate_required(value, form_element)
     return unless form_element[:required] && value.blank?
+
     @errors[form_element[:name]] << I18n.t('validation.is_required')
   end
 
   def validate_checkbox(value, form_element)
     return unless form_element[:data_type] == 'checkbox' && form_element[:required]
     return if value.present? && !value.nil? && value.to_s != '0'
+
     @errors[form_element[:name]] << I18n.t('validation.is_required')
   end
 
@@ -98,9 +101,7 @@ class FormValidator
     country = (@params[:country].blank? ? :US : @params[:country].to_sym)
     validator = PostalValidator.new(postal, country_code: country)
 
-    unless validator.valid?
-      @errors[form_element[:name]] += validator.errors
-    end
+    @errors[form_element[:name]] += validator.errors unless validator.valid?
   end
 
   def is_email?(candidate)

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class UrisController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  before_action :find_uri, only: [:edit, :update, :destroy]
+  before_action :find_uri, only: %i[edit update destroy]
 
   def index
     @uris = Uri.all

@@ -16,10 +16,10 @@ class GoCardlessCancellationService
       ::PaymentProcessor::GoCardless::Populator.client.mandates.cancel(@payment_method.go_cardless_id)
       @payment_method.update(cancelled_at: Time.now)
       cancel_active_subscriptions(@payment_method)
-      return nil
+      nil
     rescue *GO_CARDLESS_ERRORS => e
       Rails.logger.error("#{e.class} occurred when cancelling mandate #{@payment_method.go_cardless_id}: #{e.message}")
-      return e
+      e
     end
 
     def cancel_subscription(current_member, params)
@@ -30,12 +30,12 @@ class GoCardlessCancellationService
       PaymentProcessor::GoCardless::Subscription.cancel(@subscription.go_cardless_id)
       @subscription.update(cancelled_at: Time.now)
       @subscription.publish_cancellation('user')
-      return nil
+      nil
     rescue *GO_CARDLESS_ERRORS => e
       Rails.logger.error(
         "#{e.class} occurred when cancelling subscription #{@subscription.go_cardless_id}: #{e.message}"
       )
-      return e
+      e
     end
 
     def cancel_active_subscriptions(mandate)

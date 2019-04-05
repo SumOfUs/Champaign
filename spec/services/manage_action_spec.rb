@@ -31,9 +31,9 @@ describe ManageAction do
           title: 'Foo Bar'
         ),
         params: hash_including(
-          page:           "#{page.slug}-petition",
-          email:          'bob@example.com',
-          page_id:        page.id,
+          page: "#{page.slug}-petition",
+          email: 'bob@example.com',
+          page_id: page.id,
           referring_akid: '123.456.xyz',
           user_en: 1
         )

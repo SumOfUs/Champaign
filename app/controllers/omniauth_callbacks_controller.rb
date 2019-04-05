@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
     @user = ConnectWithOauthProvider.connect(request.env['omniauth.auth'])

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Form do
   permit_params :name, :description, :visible, :master
 

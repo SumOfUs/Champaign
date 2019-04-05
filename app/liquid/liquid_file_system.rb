@@ -41,6 +41,7 @@ class LiquidFileSystem
 
     def read_template_file(title)
       return read(title) unless Settings.liquid_templating_source == 'file'
+
       read_from_file(title)
     end
 
@@ -56,11 +57,13 @@ class LiquidFileSystem
 
     def read_from_file(title)
       return nil if partials(title).empty?
+
       File.read(partials(title).first)
     end
 
     def external_dirs
       return [] unless Settings.external_assets_path.present? && Settings.external_liquid_path.present?
+
       Settings.external_assets_path.split(':').map { |path| File.join(path, Settings.external_liquid_path) }
     end
   end

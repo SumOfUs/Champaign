@@ -1,16 +1,15 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.4.5'
+ruby '2.6.2'
 
 gem 'aasm'
-gem 'activeadmin'
+gem 'activeadmin', '~> 1.4.3'
 gem 'bcrypt', '~> 3.1.7'
-gem 'braintree', '~> 2.54.0'
+gem 'braintree', '~> 2'
 gem 'countries', require: 'countries/global'
 gem 'country_select'
-gem 'devise', '~> 4.3'
+gem 'devise', '~> 4.6'
 gem 'font-awesome-sass', '~> 4.7.0'
 gem 'geocoder'
 gem 'gocardless_pro'
@@ -36,10 +35,10 @@ gem 'slim-rails'
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
 gem 'aws-sdk-core', '~> 3'
+gem 'aws-sdk-dynamodb', '~> 1.21'
 gem 'aws-sdk-s3', '~> 1.30'
 gem 'aws-sdk-sns', '~> 1.3'
 gem 'aws-sdk-sqs', '~> 1.10'
-gem 'aws-sdk-dynamodb', '~> 1.21'
 gem 'paper_trail', '~> 10.2'
 gem 'paperclip', '~> 6.0'
 gem 'rmagick' # rmagick for image processing
@@ -49,7 +48,7 @@ gem 'airbrake', '~> 5.7.1'
 gem 'airbrake-ruby', '1.7.1'
 gem 'aws-sdk-rails'
 gem 'bootsnap', require: false
-gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'browser', '~> 2.5'
 gem 'compass-rails' # was using git master branch before
 gem 'config'
@@ -58,7 +57,7 @@ gem 'friendly_id'
 gem 'jwt'
 gem 'lograge', '~> 0.10.0'
 gem 'metamagic'
-gem 'money-oxr'
+gem 'money-oxr', '~> 0.4.1'
 gem 'newrelic_rpm'
 gem 'puma', '~> 3.12.0'
 gem 'sass-rails'
@@ -71,16 +70,16 @@ gem 'uglifier'
 gem 'webpacker', '~> 3.5'
 
 group :development, :test do
+  gem 'byebug'
   gem 'capybara' # Capybara for integration testing
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'magic_lamp'
   gem 'rspec-rails', '~> 3.8'
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.66', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
-  gem 'byebug'
 end
 
 group :development do
@@ -96,7 +95,7 @@ group :test do
   gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
+  gem 'rubocop-rspec'
   gem 'timecop'
   gem 'webmock'
-  gem 'rubocop-rspec'
 end

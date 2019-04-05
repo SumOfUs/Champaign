@@ -5,8 +5,8 @@
 # Table name: donation_bands
 #
 #  id         :integer          not null, primary key
+#  amounts    :integer          default([]), is an Array
 #  name       :string
-#  amounts    :integer          default("{}"), is an Array
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

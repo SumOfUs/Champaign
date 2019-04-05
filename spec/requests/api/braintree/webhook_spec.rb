@@ -106,9 +106,7 @@ describe 'Braintree API' do
                 success: 1,
                 status: 'completed',
                 amount: /\A\d+[.]\d+\z/,
-                # We generally use the payment processor ID from the last transaction on the subscription,
-                # however in the test webhook notification supplied by webhook, the ID on that transaction is nil.
-                trans_id: nil
+                trans_id: Payment::Braintree::Subscription.last.subscription_id
               }
             }
 
@@ -177,9 +175,7 @@ describe 'Braintree API' do
                 success: 1,
                 status: 'completed',
                 amount: /\A\d+[.]\d+\z/,
-                # We generally use the payment processor ID from the last transaction on the subscription,
-                # however in the test webhook notification supplied by webhook, the ID on that transaction is nil.
-                trans_id: nil
+                trans_id: Payment::Braintree::Subscription.last.subscription_id
               }
             }
 

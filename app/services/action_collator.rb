@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class ActionCollator
-  PRIVATE_KEYS = %w(action_referrer_email action_referer action_express_donation).freeze
-  PREFIXES = %w(action_ textentry_ box_ dropdown_ choice_).freeze
-  COLUMN_KEYS = %w(publish_status id).freeze
+  PRIVATE_KEYS = %w[action_referrer_email action_referer action_express_donation].freeze
+  PREFIXES = %w[action_ textentry_ box_ dropdown_ choice_].freeze
+  COLUMN_KEYS = %w[publish_status id].freeze
   COMMA = ','
 
   def self.run(actions)
@@ -42,6 +43,7 @@ class ActionCollator
 
   def keys
     return @keys if @keys.present?
+
     all_keys = @actions.map { |a| a.form_data.keys }.flatten.uniq
     @keys = all_keys.reject { |k| PRIVATE_KEYS.include?(k) }.select { |k| ActionKitFields.has_valid_form(k) }
     @keys = (@keys + COLUMN_KEYS).map(&:to_sym)

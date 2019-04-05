@@ -5,14 +5,22 @@
 # Table name: plugins_thermometers
 #
 #  id         :integer          not null, primary key
-#  type       :string           not null
+#  active     :boolean          default(FALSE)
+#  offset     :integer
+#  ref        :string
 #  title      :string
-#  offset     :integer          -> Offset in CENTS
-#  page_id    :integer
-#  active     :boolean          default("false")
+#  type       :string           default("ActionsThermometer"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  ref        :string
+#  page_id    :integer
+#
+# Indexes
+#
+#  index_plugins_thermometers_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (page_id => pages.id)
 #
 
 class Plugins::DonationsThermometer < Plugins::Thermometer

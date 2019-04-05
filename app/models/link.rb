@@ -1,21 +1,30 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: links
 #
 #  id         :integer          not null, primary key
-#  url        :string
-#  title      :string
 #  date       :string
 #  source     :string
-#  page_id    :integer
+#  title      :string
+#  url        :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  page_id    :integer
+#
+# Indexes
+#
+#  index_links_on_page_id  (page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (page_id => pages.id)
 #
 
 class Link < ApplicationRecord
   belongs_to :page, touch: true
-  has_paper_trail on: [:update, :destroy]
+  has_paper_trail on: %i[update destroy]
 
   validates :url, :title, presence: true, allow_blank: false
   validate :url_has_protocol
@@ -26,9 +35,7 @@ class Link < ApplicationRecord
   private
 
   def url_has_protocol
-    unless %r{^(https?:)?\/\/}i.match?(url)
-      errors.add(:url, 'must have a protocol (like http://)')
-    end
+    errors.add(:url, 'must have a protocol (like http://)') unless %r{^(https?:)?\/\/}i.match?(url)
   end
 
   def prepend_protocol

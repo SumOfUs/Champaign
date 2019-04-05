@@ -15,6 +15,7 @@ class MigrateCallTargetFormat < ActiveRecord::Migration[4.2]
     Call.where.not(target_index: nil).each do |call|
       call_tool = Plugins::CallTool.find_by_page_id(call.page_id)
       next unless call_tool.present?
+
       target = call_tool.targets[call.target_index]
       call.update!(target: target)
     end

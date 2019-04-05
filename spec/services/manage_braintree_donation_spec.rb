@@ -30,7 +30,7 @@ describe ManageBraintreeDonation do
     VCR.use_cassette('manage braintree donation subscription') do
       Braintree::Subscription.create(
         price: '1.00',
-        payment_method_token:  transaction.transaction.credit_card_details.token,
+        payment_method_token: transaction.transaction.credit_card_details.token,
         merchant_account_id: 'EUR',
         plan_id: 'EUR'
       )
@@ -65,10 +65,10 @@ describe ManageBraintreeDonation do
 
     let(:expected_form_data) do
       {
-        name:    'Bob Murphy',
-        email:   'foo@example.com',
+        name: 'Bob Murphy',
+        email: 'foo@example.com',
         country: 'BO',
-        page_id:  page.id,
+        page_id: page.id,
         card_num: '1881',
         currency: /^\w{3}$/,
         transaction_id: /^[a-z0-9]*$/

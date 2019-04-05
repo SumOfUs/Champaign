@@ -108,7 +108,7 @@ describe LiquidRenderer do
     let(:page) do
       create(:page,
              follow_up_liquid_layout: create(:liquid_layout),
-             follow_up_page:          create(:page))
+             follow_up_page: create(:page))
     end
     let(:fake_images) do
       [instance_double(Image, content: nil, content_file_name: 'smile.jpg'),

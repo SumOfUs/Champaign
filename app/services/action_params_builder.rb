@@ -29,7 +29,7 @@ class ActionParamsBuilder
   end
 
   def base_params
-    %w(page_id form_id name source akid referring_akid email)
+    %w[page_id form_id name source akid referring_akid email]
   end
 
   def fields
