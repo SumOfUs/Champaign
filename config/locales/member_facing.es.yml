@@ -1,63 +1,63 @@
 es:
   double_opt_in:
     check_email:
-      body: "Please check your e-mail to confirm your e-mail address and validate your signature"
+      body: "Revisa tu casilla para confirmar tu dirección de correo electrónico y validar tu firma"
     email:
-      subject: 'Confirm your signature'
+      subject: 'Valida tu firma'
   footer:
     home_url: http://example.com
   page:
     more_info: Más información
-    no_script: "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action."
+    no_script: "¡Gracias por visitarnos para conocer más acerca de este campaña! Desafortunadamente, no podrás participar en ella mientras Javascript esté deshabilitado en tu navegador. Activa Javascript o vuelve a ingresar desde un navegador en el que esté habilitado para poder participar."
   basics:
     or: o
   branding:
-    description: "This is who we are." # override this with org-specific details in your own yml file.
+    description: "SumOfUs es un movimiento global de consumidores, inversores y trabajadores de todo el mundo, unidos para lograr que las corporaciones se responsabilicen por sus actos y así forjar un nuevo camino sostenible y justo para nuestra economía global. Esto no será fácil ni rápido, pero si suficientes personas se unen a nuestra causa, juntos podremos hacer una verdadera diferencia." # override this with org-specific details in your own yml file.
   recommend_pages:
-    recommend_pages_title: 'Here are other similar campaigns we need your support on!'
-    actions: '%{action_count} actions'
-    learn_more: 'learn more'
+    recommend_pages_title: 'Estas son otras campañas similares en las que necesitamos de tu apoyo, ¡únete ahora!'
+    actions: "%{action_count} acciones"
+    learn_more: 'más información'
   email_pension:
     form:
-      select_target: 'Select your Pension or Mutual Fund'
+      select_target: 'Selecciona tu caja de jubilaciones y pensiones o tu fondo mutual'
   email_tool:
-    selected_target: 'Your selected target(s)'
-    title: 'Compose your email'
-    suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
+    selected_target: "Tu/s objetivo/s de campaña seleccionado/s"
+    title: "Redacta tu correo electrónico"
+    suggest_fund: "Lo sentimos. Envía el nombre de tu caja de jubilaciones y pensiones a sumofus@ourpension.org y haremos todo lo posible para agregarlo a nuestra base de datos."
     section:
-      compose: "Compose Your Email"
+      compose: "Redacta tu correo electrónico"
     form:
       representative:
-        postal_code: 'Enter your postal code'
-        selected_targets: 'Representatives'
-        searching: 'Searching for your representative'
-        not_found: "Sorry, we couldn't find a target with this location."
-        search_pending: "Please enter your postal code above."
-      select_country: 'Select your Country'
-      select_target: 'Select a target'
-      subject: 'Subject line'
-      your_name: 'Your name'
-      your_email: 'Your email address'
-      send_email: 'Send email'
-      email_body: 'Body'
+        postal_code: "Ingresa tu código postal"
+        selected_targets: "Representantes"
+        searching: "Buscando a tu representante"
+        not_found: "Lo sentimos. No pudimos encontrar objetivo de campaña en esa ubicación."
+        search_pending: "Ingresa tu código postal arriba"
+      select_country: "Selecciona tu país"
+      select_target: 'Selecciona un objetivo de campaña'
+      subject: 'Asunto'
+      your_name: 'Tu nombre'
+      your_email: 'Tu dirección de correo electrónico'
+      send_email: 'Enviar correo electrónico'
+      email_body: 'Contenido'
       errors:
-        message: "Whoops! There are some errors with the form. Please check you've filled in the required fields."
-        country: 'Please select a country'
-        subject: 'Please add a subject line'
-        email: 'Please add your email address'
-        name: 'Please add you name'
-        fund: 'Please select a pension fund'
-        suggest_fund: Name of pension fund can't be blank
-        targets: 'Please enter your location to find your representative'
+        message: "¡Uy! Hay algunos errores en el formulario. Corrobora que hayas completado los campos obligatorios."
+        country: 'Selecciona un país'
+        subject: 'Escribe un asunto'
+        email: 'Agrega tu dirección de correo electrónico'
+        name: 'Agrega tu nombre'
+        fund: 'Selecciona una caja de jubilaciones y pensiones.'
+        suggest_fund: "El campo reservado al nombre de la caja de jubilaciones y pensiones no puede quedar en blanco"
+        targets: 'Ingresa tu ubicación para encontrar al representante correspondiente a tu área'
         target:
-          outdated: "It seems the targets information has recently changed. Please reload the page and try again."
+          outdated: "Parece que la información del objetivo de campaña ha sido modificada recientemente. Carga la página nuevamente para volver a intentarlo."
     template_defaults:
-      fund: '[Select fund from above]'
-      fund_contact: '[Select fund from above]'
-      fund_email: '[Select fund from above]'
-      name: '[Enter your name above]'
-      constituency_name: '[Select your representative above]'
-      target_full_name: '[Select your representative above]'
+      fund: '[Selecciona una caja de arriba]'
+      fund_contact: '[Selecciona una caja de arriba]'
+      fund_email: '[Selecciona una caja de arriba]'
+      name: '[Ingresa tu nombre arriba]'
+      constituency_name: '[Elige a tu representante arriba]'
+      target_full_name: '[Elige a tu representante arriba]'
 
   fundraiser:
     payment_methods:
@@ -69,15 +69,15 @@ es:
       ready_for_gocardless: "Haz click en 'Donar' para completar tu donación a través de GoCardless, nuestro proveedor de domiciliación bancaria."
       ready_for_paypal: "Al hacer clic en el botón de abajo, Paypal te guiará para completar tu donación."
       ready_for_google: "Al hacer clic en el botón de abajo, Google te guiará para completar tu donación.."
-    payment_type_prompt: Payment Method
-    amount: Cantidad
+    payment_type_prompt: Método de pago
+    amount: Monto
     details: Detalles
     payment: Pago
     donate: "Donar %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Donar %{amount} cada mes"
     month: mes
-    error_intro: We were unable to process your donation!
-    currency_in: "Cantidades en %{currency}"
+    error_intro: 'Lo sentimos. No hemos podido procesar tu donación.'
+    currency_in: "Valores expresados en %{currency}"
     switch_currency: Cambiar divisa
     proceed_to_details: Avanzar a detalles
     proceed_to_payment: Avanzar a pago
@@ -85,34 +85,34 @@ es:
     make_recurring: Hacer una donación mensual
     store_in_vault: Guardar mis datos de pago de forma segura
     thank_you: ¡Gracias por tu donación!
-    thank_you_with_amount: "<strong>Thank you for your donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
+    thank_you_with_amount: "<strong> Gracias por tu donación de %{amount}!</strong> Si tienes alguna duda o realizaste esta donación por error, contáctanos vía correo electrónico a donations@sumofus.org."
     recurring_thank_you_with_amount: "<strong>Thank you for your recurring donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
 
-    card_declined: Your card was declined by the payment processor. Please try a different payment method.
+    card_declined: 'Tu tarjeta ha sido rechazada por el procesador de pagos. Intenta utilizar un medio de pago distinto.'
     unknown_error: Nuestro equipo técnico ha sido notificado. Por favor revise su información o pruebe con un método de pago diferente.
     fine_print: "Donations are not tax deductable. For more information please email us." # override this with org-specific details in your own yml file.
-    confirmation: Donation received
-    donate_now: Donate now
-    loading: Loading secure <br> payment portal
+    confirmation: 'Donación recibida'
+    donate_now: 'Haz tu donación ahora mismo'
+    loading: Redireccionando a <br> sitio de pagos seguro
     oneclick:
-      select_payment: "Select a saved payment method"
-      credit_card_payment_method: "%{card_type} ending in %{last_four_digits}"
+      select_payment: "Selecciona un método de pago que ya hayas guardado"
+      credit_card_payment_method: "%{card_type} terminada en %{last_four_digits}"
       paypal_payment_method: "Paypal (%{email})"
-      new_payment_method: "Add payment method"
+      new_payment_method: "Agregar método de pago"
     debit:
-      recurring: "You are setting up a monthly donation of %{amount}"
-      one_time: "You are donating %{amount}"
+      recurring: "Estás estableciendo una donación mensual de %{amount}"
+      one_time: "Estás donando %{amount}"
       direct_debit: "Direct Debit"
     fields:
-      cvv: CVV
+      cvv: 'Código de seguridad de tu tarjeta'
       number: Número de tarjeta
       expiration: Fecha de caducidad
-      expiration_format: MM / YY
+      expiration_format: MM / AA
       postalCode: Código postal
     field_names: # these are used in sentence form, eg with errors.probably_invalid
-      cvv: CVV
-      number: Card number
-      expiration: Fecha de caducidad
+      cvv: "Código de seguridad de tu tarjeta"
+      number: "Número de tarjeta"
+      expiration: "Fecha de vencimiento"
     thermometer:
       raised: Recaudado
       goal: Objetivo
@@ -127,7 +127,7 @@ es:
     thanks_for_signing: 'Gracias por firmar "%{petition_title}"'
     next: "Siguiente"
   form:
-    switch_user: Desconexión
+    switch_user: Cerrar sesión
     processing: Procesando...
     submit: Enviar
     default:
@@ -137,34 +137,30 @@ es:
       postal: Código Postal
       phone_number: Número de teléfono
   thermometer:
-    signatures_until_goal: "%{remaining} firmas hasta %{goal}"
+    signatures_until_goal: "Faltan %{remaining} firmas para %{goal}"
     signatures: firmas
     million: millón
-  thermometer:
-    signatures_until_goal: "%{remaining} signatures until %{goal}"
-    signatures: signatures # as in '225 signatures'
-    million: million
   call_tool:
-    manual_target_selection: "Please select your target"
-    you_will_be_calling: "We will call you and connect you to"
-    instructions: "Just enter your phone number including the area code -- and we'll call shortly after."
-    member_phone_number_title: 'Enter your phone number'
-    text_to_speach_menu: "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again."
+    manual_target_selection: "Selecciona tu objetivo de campaña"
+    you_will_be_calling: "Nos pondremos en contacto contigo y te comunicaremos con"
+    instructions: "Simplemente ingresa tu número telefónico con el código de área y te llamaremos a la brevedad."
+    member_phone_number_title: 'Ingresa tu número telefónico'
+    text_to_speach_menu: "Cuando estés listo para que derivemos tu llamada, presiona uno. Para escuchar nuevamente el mensaje de la campaña, presiona dos."
     errors:
-      unknown: "Oops! Something went wrong, please try a different phone number or again in a few minutes."
+      unknown: "¡Uy! Algo salió mal. Inténtalo nuevamente en algunos minutos o prueba con otro número."
       target:
-        outdated: "It seems the number we're trying to connect you to is no longer available. Please reload the page and try again."
-        missing: "Something wasn't right about the number you're trying to call."
+        outdated: "Parece que el número al que estamos intentando comunicarte ya no está disponible. Refresca la página e inténtalo nuevamente."
+        missing: "Hubo un problema al intentar comunicarte con este número"
       phone_number:
-        too_short: "must have at least 6 digits"
-        cant_connect: "can't connect to this phone number, please check it's correct or try another one"
-        is_invalid: "is not a valid phone number"
-    fine_print: 'SumOfUs will protect <a href="https://sumofus.org/privacy" target="_blank">your privacy</a>, and keep you updated. If you provide your phone number we may also call or SMS you about campaigns.'
+        too_short: "debe tener al menos 6 dígitos"
+        cant_connect: "no podemos comunicarnos con este número telefónico. Corrobora que este sea correcto o inténtalo con otro número"
+        is_invalid: "este número telefónico es inválido"
+    fine_print: 'SumOfUs protegerá tu privacidad <a href="https://sumofus.org/privacy" target="_blank"> y te mantendrá informado. Si nos proporcionas tu número telefónico también podremos llamarte o enviarte mensajes de texto para mantenerte al tanto de nuestras campañas.'
     form:
-      phone_number: "My phone number"
-      phone_country_code: "Code"
-      country: "Country"
-      submit: "Call me"
+      phone_number: "Mi número telefónico"
+      phone_country_code: "Código de área"
+      country: "País"
+      submit: "Llámenme"
   share:
     cta: Share the campaign!
     send_email: Send Email
@@ -193,38 +189,38 @@ es:
   reset_passwords:
     new:
       title: 'Resetear su contraseña'
-      description: "Enter your email address and we will send you a link to reset your password."
+      description: "Ingresa tu dirección de correo electrónico y te enviaremos un enlace para restablecer tu contraseña."
       email: 'Correo electrónico'
-      button_label: 'Send password reset email'
+      button_label: 'Envíenme un correo electrónico para restablecer mi contraseña'
     create:
       not_found: "Lo sentimos, no pudimos encontrar esa dirección de correo electrónico"
     show:
-      title: 'Resetear su contraseña'
-      description: "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder."
+      title: 'Restablece tu contraseña'
+      description: "Revisa si te llegó por correo electrónico un enlace para restablecer tu contraseña. Si no aparece luego de algunos minutos, comprueba tu carpeta de correo no deseado."
     edit:
       password: 'Contraseña'
       password_confirmation: 'Confirmar contraseña'
       button_label: 'Cambiar contraseña'
-      title: 'Change password for'
-      description: 'Password must be at least 6 characters long.'
-      invalid_link: 'It looks like you clicked on an invalid password reset link. Please try again.'
+      title: 'Cambia tu contraseña por'
+      description: 'La contraseña debe tener al menos seis caracteres'
+      invalid_link: 'Parece que ingresaste a un enlace inválido de restablecimiento de contraseña. Inténtalo nuevamente.'
     success:
-      title: 'Your new password was successfully saved'
-      description: "Visit the <a href='%{url}'>Member Dashboard</a> to log-in."
+      title: 'Tu nueva contraseña se guardó correctamente'
+      description: "Para iniciar sesión, dirígete al <a href='%{url}'>Member Dashboard</a>"
   survey:
-    next: 'Next'
-    finish: 'Finish'
-    skip: 'Skip'
+    next: 'Siguiente'
+    finish: 'Finalizar'
+    skip: 'Omitir'
   reset_password_mailer:
     reset_password_email:
-      subject: 'Please reset your password'
+      subject: 'Restablece tu contraseña'
       html:
-        body: "Someone (probably you) has requested a password reset on your SumOfUs account.<br />You can use the following link within the next day to reset your password:<br /><br />%{url}<br /><br />If you didn't request a new password, you can safely ignore this email.<br /><br />Thanks,<br />SumOfUs"
+        body: "Alguien (probablemente tú) ha enviado una solicitud para restablecer la contraseña de tu cuenta de SumOfUs <br /> Si deseas hacerlo, accede al siguiente enlace dentro de las próximas 24 horas:<br /><br />%{url}<br /><br />En caso de que no hayas solicitado un cambio de contraseña, simplemente desestima este correo electrónico.<br /><br />Gracias,<br />SumOfUs"
       text:
-        body: "Someone (probably you) has requested a password reset on your SumOfUs account.\n\nYou can use the following link within the next day to reset your password:\n\n%{url}\n\nIf you didn't request a new password, you can safely ignore this email.\n\nThanks,\nSumOfUs"
+        body: "Alguien (probablemente tú) ha enviado una solicitud para restablecer la contraseña de tu cuenta de SumOfUs.\n\nSi deseas hacerlo, accede al siguiente enlace dentro de las próximas 24 horas:\n\n%{url}\n\nEn caso de que no hayas solicitado un cambio de contraseña, simplemente desestima este correo electrónico.\n\nGracias,\nSumOfUs"
   facebook_share:
-    caption: 'I just signed this petition on SumOfUs.org'
-    comment_field_label: "I'm signing because..."
+    caption: 'Acabo de firmar esta petición en SumOfUs.org'
+    comment_field_label: "He decidido firmar esta petición porque..."
   member_registration:
     title: "Member Registration"
     form:
@@ -251,19 +247,19 @@ es:
       success: 'You have successfully confirmed your account. Thanks!'
       member_management: "To manage your payment methods and details, you can visit the <a href='%{url}'>members dashboard</a> at any time."
   consent:
-    opt_in_reason: "<b>SumOfUs is a global community of people committed to fighting corporate power</b>. Would you like to hear about our latest campaigns, news, events and fundraising, and find out more about how you can get involved? <b>Choose 'yes' to opt in to email below:</b>"
+    opt_in_reason: "<b>SumOfUs es una comunidad de personas comprometidas a luchar en contra del poder corporativo</b>. ¿Quieres que te notifiquemos acerca de nuestras nuevas campañas, novedades, eventos, actividades para la recaudación de fondos y enterarte de qué otras maneras puedes colaborar? <b>Haz clic en «sí» a continuación para recibir estas notificaciones vía correo electrónico:</b>"
     opt_out_warn_title: "¿Estás seguro?"
-    opt_out_warn_message: "If you choose ‘Yes,’ we’ll keep you posted about SumOfUs campaigns so you can take action when the next big company steps out of line."
-    how_to_opt_out: 'You can opt out of receiving our messages at any time. Just go to our <a href="https://www.sumofus.org/unsubscribe" target="_blank">unsubscribe page</a>. By entering your details you confirm that you are 16 or older.'
-    accept: "Yes! Tell me if this campaign wins, and how I can help other relevant campaigns."
-    decline: "No. I do not want to hear about this campaign’s progress or other relevant campaigns."
-    accept_alt: "Yes, sign and receive emails"
-    decline_alt: "No, sign but don't receive emails"
-    select_an_option: "Please select an option"
+    opt_out_warn_message: "Si haces clic en «sí», te mantendremos informado acerca de campañas de SumOfUs para que puedas participar activamente tan pronto como alguna gran corporación se pase de la raya."
+    how_to_opt_out: 'Puedes decidir en qué momento dejar de recibir nuestros mensajes. Tan solo dirígete al siguiente enlace <a href="https://www.sumofus.org/unsubscribe" target="_blank">unsubscribe page</a>. Al completar este formulario con tus datos personales, confirmas que tienes 16 años o más.'
+    accept: "Quiero que me notifiquen si esta campaña es exitosa, y que me informen cómo puedo colaborar en otras campañas similares."
+    decline: "No quiero recibir notificaciones cada vez que se produzca un avance en esta campaña o en otras campañas similares."
+    accept_alt: "Quiero firmar esta petición y recibir correos electrónicos"
+    decline_alt: "Quiero firmar esta petición pero no quiero recibir correos electrónicos"
+    select_an_option: "Elije una opción"
     existing:
-      opt_in_reason: "<p>We’re asking SumOfUs members to confirm that they still want to receive emails from us about this and other urgent campaigns.</p><p><b>Would you like to confirm today?</b></p>"
+      opt_in_reason: "<p>Les pedimos a los miembros de SumOfUs que nos confirmen si aún desean recibir correos electrónicos relacionados con esta campaña y con otras campañas urgentes.</p><p><b>¿Quieres confirmarlo ahora?</b></p>"
       accept: "Yes"
-      decline: "Not right now"
+      decline: "No deseo hacerlo en este momento"
   cookie_consent:
     message: 'Las cookies son importantes para el funcionamiento de este sitio.'
     dismiss_button_text: 'Aceptar & Continuar'
