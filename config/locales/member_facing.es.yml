@@ -222,30 +222,30 @@ es:
     caption: 'Acabo de firmar esta petición en SumOfUs.org'
     comment_field_label: "He decidido firmar esta petición porque..."
   member_registration:
-    title: "Member Registration"
+    title: "Registro de miembros"
     form:
-      password: Password
-      confirm_password: Confirm Password
-      your_email: Your email
+      password: "Contraseña"
+      confirm_password: "Confirmar contraseña"
+      your_email: "Tu correo electrónico"
       register: Register
     thanks: 'Thanks! Just one more step:'
-    enter_password_message: "Just enter a password to get started"
-    create_account: "We're processing your donation."
-    create_account_description: "Now, create an account to securely manage your donations, and cancel a donation at any time."
-    check_email: "<strong>Thanks for registering.</strong> <span>Now, check your email and click the confirmation link</span>"
+    enter_password_message: "Cree una contraseña para comenzar"
+    create_account: "Estamos procesando su donación."
+    create_account_description: "ahora, cree una cuenta para gestionar sus donaciones de manera segura en cualquier momento."
+    check_email: "<strong>Gracias por registrarte.</strong> <span>Ahora, compruebe su correo electrónico y haga click en el enlace para confirmar.</span>"
   confirmation_mailer:
-    title: "Account Confirmation"
+    title: "Confirmación de cuenta"
     confirmation_email:
-      subject: "Confirm your account"
-      headline: "Thank you for registering an account"
-      body_html: "To confirm your account, please <a href='%{confirmation_url}'>follow this link.</a><br/><br/>Thanks!<br/>"
-      body_text: "To confirm your registration, please follow this link: %{confirmation_url}"
+      subject: "Confirme tu cuenta"
+      headline: "Gracias por registrar tu cuenta"
+      body_html: "Para confirmar su cuenta, por favor <a href='%{confirmation_url}'>siga este enlace.</a><br/><br/>¡Gracias!<br/>"
+      body_text: "Para confirmar su cuenta, por favor siga este enlace: %{confirmation_url}"
     follow_up_page:
-      account_not_found: 'Sorry, no account was found associated with this link.'
-      account_already_confirmed: 'Your account has already been confirmed!'
-      failure: 'Sorry, there was an issue confirming your account.'
-      success: 'You have successfully confirmed your account. Thanks!'
-      member_management: "To manage your payment methods and details, you can visit the <a href='%{url}'>members dashboard</a> at any time."
+      account_not_found: 'Lo sentimos, no encontramos ninguna cuenta asociada a este enlace.'
+      account_already_confirmed: '¡Su cuenta ya ha sido confirmada!'
+      failure: 'Lo sentimos, algo ha fallado en nuestro sistema.'
+      success: '¡Gracias! Acaba de confirmar su cuenta.'
+      member_management: "Para gestionar tus métodos de pago y tus detalles, puedes visitar el <a href='%{url}'>panel para miembros</a> en cualquier momento."
   consent:
     opt_in_reason: "<b>SumOfUs es una comunidad de personas comprometidas a luchar en contra del poder corporativo</b>. ¿Quieres que te notifiquemos acerca de nuestras nuevas campañas, novedades, eventos, actividades para la recaudación de fondos y enterarte de qué otras maneras puedes colaborar? <b>Haz clic en «sí» a continuación para recibir estas notificaciones vía correo electrónico:</b>"
     opt_out_warn_title: "¿Estás seguro?"
@@ -258,7 +258,7 @@ es:
     select_an_option: "Elije una opción"
     existing:
       opt_in_reason: "<p>Les pedimos a los miembros de SumOfUs que nos confirmen si aún desean recibir correos electrónicos relacionados con esta campaña y con otras campañas urgentes.</p><p><b>¿Quieres confirmarlo ahora?</b></p>"
-      accept: "Yes"
+      accept: "Sí"
       decline: "No deseo hacerlo en este momento"
   cookie_consent:
     message: 'Las cookies son importantes para el funcionamiento de este sitio.'
