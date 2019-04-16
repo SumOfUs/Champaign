@@ -79,11 +79,10 @@ class PageCloner
   end
 
   def update_form(plugin)
-    # plugins_with_forms = page.plugins.select { |p| p.try(:form).present? }
-    return unless plugin.respond_to?(:form=)
+    return unless plugin.try(:form).present?
 
     default_form = DefaultFormBuilder.find_or_create(locale: cloned_page.language.code)
-    plugin.form = FormDuplicator.duplicate(default_form)
+    plugin.form  = FormDuplicator.duplicate(default_form)
   end
 
   def images
