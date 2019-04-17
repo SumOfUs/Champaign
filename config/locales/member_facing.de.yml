@@ -98,6 +98,8 @@ de:
       credit_card_payment_method: "%{card_type} gültig bis %{last_four_digits}"
       paypal_payment_method: "Paypal (%{email})"
       new_payment_method: "Zahlungsmethode hinzufügen"
+      duplicate_donation: "Sie haben vor wenigen Minuten schon einmal gespendet. Sind Sie sicher, dass sie noch einmal spenden möchten? Dann klicken Sie bitte hier: %{link}. Wir möchten nur sicher gehen, dass Sie nicht versehentlich doppelt spenden.
+                          Vielen Dank für Ihre Unterstützung!"
     debit:
       recurring: "Sie machen eine monatliche Spende von %{amount} an SumOfUs"
       one_time: "Sie spenden %{amount} an SumOfUs"
