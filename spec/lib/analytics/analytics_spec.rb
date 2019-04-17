@@ -105,7 +105,7 @@ describe Analytics do
           '1999-12-31 21:00:00' => 3
         }
 
-        Timecop.freeze(start_date) do
+        Timecop.freeze(start_date).utc do
           expect(
             subject.total_actions_over_time(period: :hour)
           ).to include(sample_of_expected_data)
@@ -118,7 +118,7 @@ describe Analytics do
           '1999-12-31 23:00:00' => 3
         }
 
-        Timecop.freeze(start_date) do
+        Timecop.freeze(start_date).utc do
           expect(
             subject.total_new_members_over_time(period: :hour)
           ).to include(sample_of_expected_data)
