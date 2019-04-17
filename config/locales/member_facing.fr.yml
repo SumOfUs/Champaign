@@ -85,7 +85,7 @@ fr:
       credit_card_payment_method: "%{card_type} finissant par %{last_four_digits}"
       paypal_payment_method: "Paypal (%{email})"
       new_payment_method: "Ajouter un mode de paiement"
-      duplicate_donation: "Vous avez fait un don il y a quelques minutes. Êtes-vous sur de vouloir faire un nouveau don ? Si oui, veuillez cliquer ici : %{link}. Nous souhaitons simplement nous assurer que vous ne faites pas un double don par erreur.
+      duplicate_donation: "Vous avez fait un don il y a quelques minutes. Êtes-vous sur de vouloir faire un nouveau don ? Nous souhaitons simplement nous assurer que vous ne faites pas un double don par erreur.
                           Merci pour tout ce que vous faites !"
     debit:
       recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
