@@ -33,6 +33,8 @@ module PaymentProcessor::Braintree
     end
 
     def run
+      raise PaymentProcessor::Exceptions::CustomerNotFound unless @member.try(:customer)
+
       # TODO: On the second attempt (if the member consents to duplicate donation), post with the same parameters
       # but also params[:allow_duplicate] = true
       return duplicate_donation_error_response if duplicate_donation && !payment_options.params[:allow_duplicate]
