@@ -9,7 +9,7 @@ describe PaymentProcessor::GoCardless::Helper do
     context 'day has not passed' do
       it 'returns current month' do
         Timecop.freeze('5 May') do
-          expect(subject.next_available_date(6)).to eq(Date.parse('6 May'))
+          expect(subject.next_available_date(6).strftime('%d %B')).to eq '06 May'
         end
       end
     end
@@ -17,7 +17,7 @@ describe PaymentProcessor::GoCardless::Helper do
     context 'day is today' do
       it 'returns with following month' do
         Timecop.freeze('5 May') do
-          expect(subject.next_available_date(5)).to eq(Date.parse('5 June'))
+          expect(subject.next_available_date(5).strftime('%d %B')).to eq '05 June'
         end
       end
     end
@@ -25,7 +25,7 @@ describe PaymentProcessor::GoCardless::Helper do
     context 'day has passed' do
       it 'returns with following month' do
         Timecop.freeze('5 May') do
-          expect(subject.next_available_date(4)).to eq(Date.parse('4 June'))
+          expect(subject.next_available_date(4).strftime('%d %B')).to eq '04 June'
         end
       end
     end
