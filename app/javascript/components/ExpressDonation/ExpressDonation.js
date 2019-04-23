@@ -42,6 +42,7 @@ type State = {
   submitting: boolean,
   openPopup: boolean,
   opt_for_redonation: boolean,
+  failureReason: string,
 };
 
 export class ExpressDonation extends Component<Props, State> {
@@ -55,6 +56,7 @@ export class ExpressDonation extends Component<Props, State> {
       submitting: false,
       openPopup: false,
       opt_for_redonation: false,
+      failureReason: '',
     };
   }
 
@@ -94,6 +96,7 @@ export class ExpressDonation extends Component<Props, State> {
       openPopup: reason.responseJSON
         ? reason.responseJSON.immediate_redonation
         : false,
+      failureReason: reason.responseJSON.message,
     });
     this.props.setSubmitting(false);
     ee.emit('fundraiser:transaction_error', reason, this.props.formData);
@@ -223,7 +226,7 @@ export class ExpressDonation extends Component<Props, State> {
         >
           <div className="PaymentExpressDonationConflict">
             <div className="PaymentExpressDonationConflict--reason">
-              <FormattedHTMLMessage id="fundraiser.oneclick.duplicate_donation" />
+              {this.state.failureReason}
             </div>
             <Button
               className="PaymentExpressDonationConflict--accept"
