@@ -25,6 +25,7 @@ describe PageCloner do
       action_count: 12_345
     )
   end
+
   let!(:image) { create(:image, page: page, id: 123) }
   let!(:fb_share) do
     create(:share_facebook,
@@ -280,6 +281,26 @@ describe PageCloner do
           expect(cloned_form.form_elements.map(&:name)).not_to match_array(form.form_elements.map(&:name))
         end
       end
+    end
+  end
+
+  context 'page with formless plugin' do
+    let(:formless_page) { create(:page, :with_call_tool) }
+
+    subject(:cloned_formless_page) do
+      VCR.use_cassette('page_cloner_caller_layout') do
+        PageCloner.clone(formless_page, 'Cloned Caller Page')
+      end
+    end
+
+    it 'clones formless page' do
+      expect(cloned_formless_page.id).not_to eq(formless_page.id)
+    end
+
+    it 'has the plugins indicated by the caller layout before the clone' do
+      plugins_array = [Plugins::CallTool]
+      expect(formless_page.plugins.count).to eq 1
+      expect(formless_page.plugins.map(&:class)).to match_array(plugins_array)
     end
   end
 end
