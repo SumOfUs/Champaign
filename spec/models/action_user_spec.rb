@@ -59,7 +59,11 @@ describe Member do
 
     it 'finds first created when duplicate akids in db' do
       other_with_akid = create :member, actionkit_user_id: ak_user_id
-      expect(Member.find_from_request(akid: akid)).to eq user_with_akid
+
+      actionkit_user_id = AkidParser.parse(akid, Settings.action_kit.akid_secret)[:actionkit_user_id]
+      rec = Member.where(actionkit_user_id: actionkit_user_id).order('created_at ASC').first
+
+      expect(Member.find_from_request(akid: akid).id).to eq rec.id
     end
   end
 end
