@@ -17,7 +17,8 @@ fr:
     learn_more: "En savoir plus "
   email_pension:
     form:
-      select_taget: 'Veuillez sélectionner votre fonds commun d''investissement ou de pension. '
+      select_target: 'sélectionner votre fonds de pension ou caisse de retraite'
+      other_pension_fund_text: "vous ne trouvez pas votre fonds de pension ou caisse de retraite?"
   email_tool:
     title: 'Rédiger votre email'
     suggest_fund: "Désolé. Envoyez-nous le nom de votre fonds de pension à sumofus@ourpension.org et nous ferons de notre mieux pour l’ajouter à notre base de données."
@@ -31,6 +32,8 @@ fr:
       your_email: 'Votre adresse courriel'
       send_email: 'Envoyer le courriel'
       email_body: 'Corps'
+      name_of_your_pension_fund: 'Entrez le nom de votre fonds de pension ou caisse de retraite'
+      send_button_text: 'Envoyer'
       errors:
         message: "Oups ! Il y a des erreurs avec le formulaire. Avez-vous bien rempli tous les champs requis ?"
         country: 'Merci de sélectionner votre pays'
@@ -39,6 +42,7 @@ fr:
         name: 'Merci d’indiquer votre nom'
         fund: 'Merci de sélectionner votre fonds de pension'
         suggest_fund: Le nom du fonds de pension ne peut être nul
+        fund_not_found: "Nous sommes désolés que vous n'ayez pas pu trouver votre fonds de pension ou caisse de retraite. Envoyez-nous son nom et nous mettrons à jour nos données."
         target:
           outdated: "Il semble que les informations de la cible aient récemment changé. Veuillez actualiser la page et réessayer. "
     template_defaults:

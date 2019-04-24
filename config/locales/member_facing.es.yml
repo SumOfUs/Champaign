@@ -20,6 +20,7 @@ es:
   email_pension:
     form:
       select_target: 'Selecciona tu caja de jubilaciones y pensiones o tu fondo mutual'
+      other_pension_fund_text: "Can't find your pension fund?"
   email_tool:
     selected_target: "Tu/s objetivo/s de campaña seleccionado/s"
     title: "Redacta tu correo electrónico"
@@ -40,6 +41,8 @@ es:
       your_email: 'Tu dirección de correo electrónico'
       send_email: 'Enviar correo electrónico'
       email_body: 'Contenido'
+      name_of_your_pension_fund: 'Name of your pension fund'
+      send_button_text: 'Send'
       errors:
         message: "¡Uy! Hay algunos errores en el formulario. Corrobora que hayas completado los campos obligatorios."
         country: 'Selecciona un país'
@@ -48,6 +51,7 @@ es:
         name: 'Agrega tu nombre'
         fund: 'Selecciona una caja de jubilaciones y pensiones.'
         suggest_fund: "El campo reservado al nombre de la caja de jubilaciones y pensiones no puede quedar en blanco"
+        fund_not_found: "We're sorry you couldn't find your pension fund. Send us its name and we'll update our records."
         targets: 'Ingresa tu ubicación para encontrar al representante correspondiente a tu área'
         target:
           outdated: "Parece que la información del objetivo de campaña ha sido modificada recientemente. Carga la página nuevamente para volver a intentarlo."
