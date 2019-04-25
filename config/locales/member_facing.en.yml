@@ -20,6 +20,7 @@ en:
   email_pension:
     form:
       select_target: 'Select your Pension or Mutual Fund'
+      other_pension_fund_text: "Can't find your pension fund?"
   email_tool:
     selected_target: 'Your selected target(s)'
     title: 'Compose your email'
@@ -40,6 +41,8 @@ en:
       your_email: 'Your email address'
       send_email: 'Send email'
       email_body: 'Body'
+      name_of_your_pension_fund: 'Name of your pension fund'
+      send_button_text: 'Send'
       errors:
         message: "Whoops! There are some errors with the form. Please check you've filled in the required fields."
         country: 'Please select a country'
@@ -48,6 +51,7 @@ en:
         name: 'Please add you name'
         fund: 'Please select a pension fund'
         suggest_fund: Name of pension fund can't be blank
+        fund_not_found: "We're sorry you couldn't find your pension fund. Send us its name and we'll update our records."
         targets: 'Please enter your location to find your representative'
         target:
           outdated: "It seems the targets information has recently changed. Please reload the page and try again."

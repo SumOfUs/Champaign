@@ -81,15 +81,23 @@ export default class SuggestFund extends Component<*, State> {
       <div className="email-target-action">
         <div className="email__target-suggest-fund">
           <p>
-            <a onClick={this.toggle}>Can't find your pension fund?</a>
+            <a onClick={this.toggle}>
+              <FormattedMessage
+                id="email_pension.form.other_pension_fund_text"
+                defaultMessage="Can't find your pension fund?"
+              />
+            </a>
           </p>
         </div>
         {this.state.showForm && (
           <div className="email-target_box">
             <h3>
               <span>
-                We're sorry you couldn't find your pension fund. Send us its
-                name and we'll update our records.
+                <FormattedMessage
+                  id="email_tool.form.errors.fund_not_found"
+                  defaultMessage="We're sorry you couldn't find your pension fund. Send us its
+                name and we'll update our records."
+                />
               </span>
             </h3>
             <div className="form__group">
@@ -97,7 +105,7 @@ export default class SuggestFund extends Component<*, State> {
                 name="new_pension_fund"
                 label={
                   <FormattedMessage
-                    id="email_tool.form.new_pension_fund"
+                    id="email_tool.form.name_of_your_pension_fund"
                     defaultMessage="Name of your pension fund"
                   />
                 }
@@ -113,7 +121,10 @@ export default class SuggestFund extends Component<*, State> {
                 className="button action-form__submit-button"
                 onClick={this.submit}
               >
-                Send
+                <FormattedMessage
+                  id="email_tool.form.send_button_text"
+                  defaultMessage="Send"
+                />
               </Button>
             </div>
           </div>
