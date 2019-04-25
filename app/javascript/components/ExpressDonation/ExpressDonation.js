@@ -2,7 +2,7 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import ee from '../../shared/pub_sub';
 import Checkbox from '../Checkbox/Checkbox';
 import DonateButton from '../DonateButton';
@@ -41,7 +41,7 @@ type State = {
   currentPaymentMethod: ?PaymentMethod,
   submitting: boolean,
   openPopup: boolean,
-  opt_for_redonation: boolean,
+  optForRedonation: boolean,
   failureReason: string,
 };
 
@@ -55,7 +55,7 @@ export class ExpressDonation extends Component<Props, State> {
         : null,
       submitting: false,
       openPopup: false,
-      opt_for_redonation: false,
+      optForRedonation: false,
       failureReason: '',
     };
   }
@@ -77,7 +77,7 @@ export class ExpressDonation extends Component<Props, State> {
         // form will have the user's submitted values
         ...this.props.fundraiser.form,
       },
-      allow_duplicate: this.state.opt_for_redonation,
+      allowDuplicate: this.state.optForRedonation,
     };
   }
 
@@ -88,8 +88,9 @@ export class ExpressDonation extends Component<Props, State> {
 
   async onFailure(reason: any): any {
     reason.responseJSON && reason.responseJSON.immediate_redonation
-      ? (this.state.opt_for_redonation =
-          reason.responseJSON.immediate_redonation)
+      ? this.setState({
+          optForRedonation: reason.responseJSON.immediate_redonation,
+        })
       : null;
     this.setState({
       submitting: false,
@@ -107,7 +108,7 @@ export class ExpressDonation extends Component<Props, State> {
     const data = this.oneClickData();
 
     if (data) {
-      if (data.allow_duplicate == false) delete data.allow_duplicate;
+      if (data.allowDuplicate == false) delete data.allowDuplicate;
       ee.emit(
         'fundraiser:transaction_submitted',
         data.payment,
@@ -219,7 +220,7 @@ export class ExpressDonation extends Component<Props, State> {
           contentStyle={style}
           onClose={() => {
             this.setState({
-              opt_for_redonation: false,
+              optForRedonation: false,
               openPopup: false,
             });
           }}
@@ -241,7 +242,7 @@ export class ExpressDonation extends Component<Props, State> {
               className="PaymentExpressDonationConflict--decline"
               onClick={() => {
                 this.setState({
-                  opt_for_redonation: false,
+                  optForRedonation: false,
                   openPopup: false,
                 });
               }}
