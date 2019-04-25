@@ -18,7 +18,7 @@ de:
   email_pension:
     form:
       select_target: 'Wählen Sie Ihren Renten- oder Investement-Fonds.'
-      other_pension_fund_text: "Can't find your pension fund?"
+      other_pension_fund_text: "Ihre Rentenversicherung ist nicht dabei?"
   email_tool:
     title: 'Schreiben Sie Ihre E-Mail'
     suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
@@ -38,8 +38,8 @@ de:
       your_email: 'Ihre E-Mail-Adresse'
       send_email: 'E-Mail senden'
       email_body: 'E-Mail-Text'
-      name_of_your_pension_fund: 'Name of your pension fund'
-      send_button_text: 'Send'
+      name_of_your_pension_fund: 'Name der Rentenversicherung '
+      send_button_text: 'Senden'
       errors:
         message: "Ups! In einigen Feldern haben sich Fehler eingeschlichen. Bitte füllen Sie die benötigten Felder aus."
         country: 'Bitte wählen Sie ein Land'
@@ -48,7 +48,7 @@ de:
         name: 'Bitte fügen Sie Ihren Namen hinzu'
         fund: 'Bitte wählen Sie einen Rentenfonds'
         suggest_fund: Bitte geben Sie den Namen Ihres Rentenfonds ein
-        fund_not_found: "We're sorry you couldn't find your pension fund. Send us its name and we'll update our records."
+        fund_not_found: "Es tut uns leid, dass Ihre Rentenversicherung nicht gefunden wurde. Schicken Sie uns den Namen Ihrer Rentenversicherung und wir ergänzen sie."
         targets: "Bitte geben Sie Ihren Wohnort an, damit wir Ihre/n Abgeordnete/n finden können"
         target:
           outdated: "Offensichtlich haben sich gerade Informationen auf Empfänger-Seite verändert. Bitte laden Sie die Seite erneut und probieren es noch einmal. "
