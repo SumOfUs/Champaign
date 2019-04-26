@@ -150,7 +150,7 @@ fr:
   share:
     cta: Partagez la campagne avec vos ami-e-s afin de tripler votre impact !
     send_email: Envoyer un courriel
-    email: Email
+    share_on_email: Email
     share: Partager
     tweet: Tweeter
     share_on_whatsapp: Whatsapp
