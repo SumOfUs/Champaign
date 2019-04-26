@@ -1,0 +1,16 @@
+{% if plugins.email[ref].active %}
+  <div id="plugin-email-{{ref}}" class="plugin-container" data-plugin-name="email" data-plugin-ref="{{ref}}"></div>
+
+  <script>
+    var setup = ({
+      'ukparliament': function () {
+        window.champaign.modules.load('email-ukparliament', {
+          el: document.querySelector('#plugin-email-{{ref}}'),
+          config: window.champaign.config.plugins.email['{{ref}}'],
+        });
+      },
+    })['{{type}}'];
+
+    if (setup) setup();
+  </script>
+{% endif %}

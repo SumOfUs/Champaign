@@ -1,0 +1,7 @@
+.SearchError {
+  background: #fff;
+  color: orangered;
+  border: 2px solid crimson;
+  border-radius: 2px;
+  padding: 0.5em 1em;
+}

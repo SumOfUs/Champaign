@@ -1,0 +1,40 @@
+.row.plugin.email.collection-editor data-plugin-id=plugin.id
+  .col-md-7
+    - name = "plugins_email_#{plugin.id}"
+    = form_for plugin, url: '#', remote: true, as: name, html: { class: 'form-element one-form' }, data: {type: name }  do |f|
+      = render 'plugins/shared/plugin_metadata', f: f
+      .form-group
+        = label_with_tooltip(f, :title, t('plugins.email_tool.title'), t('plugins.email_tool.tooltips.title'))
+        = f.text_field :title, class: 'form-control'
+      .form-group
+        = label_with_tooltip(f, :registered_email_address_id, t('plugins.email_tool.from_address'), t('plugins.email_tool.tooltips.from_address'))
+        = f.select :registered_email_address_id,
+                   RegisteredEmailAddress.all.map { |e| [e.email, e.id] },
+                   { include_blank: true },
+                   class: 'form-control from-email-address'
+        .checkbox
+          label.spoof-member-email-checkbox.edit-page-checkbox
+            = f.check_box :spoof_member_email, class: 'use-member-email'
+            = t('plugins.email_tool.use_member_email')
+            | &nbsp;
+
+      .form-group.field_with_errors
+        = label_with_tooltip(f, :test_email_address, t('plugins.email_tool.email_address_for_testing'), t('plugins.email_tool.tooltips.email_address_for_testing'))
+        = f.text_field :test_email_address, class: 'form-control', autocomplete: 'email'
+        - if plugin.test_email_address
+          .has-error
+            strong = t('plugins.email_tool.test_email_warning')
+
+      = render 'plugins/emails/subject_editor', name: name, f: f, plugin: plugin
+
+      .email-template-section
+        .form-group
+          = label_with_tooltip f, :template, t('plugins.email_tool.email_template'), t('plugins.email_tool.tooltips.email_content')
+          = f.text_area :template, class: 'wysiwyg form-control height-short'
+
+javascript:
+  $(function () {
+    $('.email-template-section .wysiwyg').each(function (index, el) {
+      window.ee.emit("wysiwyg:setup", el.id);
+    });
+  });

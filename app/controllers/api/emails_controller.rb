@@ -13,6 +13,16 @@ class Api::EmailsController < ApplicationController
     end
   end
 
+  def create_unsafe
+    service = UnsafeEmailSender.new(params[:page_id], unsafe_email_params, recipient_params, tracking_params)
+    if service.run
+      write_member_cookie(service.action.member_id) if service.action.member_id
+      render json: { follow_up_page: PageFollower.new_from_page(page).follow_up_path }
+    else
+      render json: { errors: service.errors }, status: :unprocessable_entity
+    end
+  end
+
   def create_pension_email
     reg_endpoint = plugin.try(:registered_target_endpoint)
 
@@ -36,6 +46,16 @@ class Api::EmailsController < ApplicationController
   end
 
   private
+
+  def unsafe_email_params
+    params
+      .require(:email)
+      .permit(:body, :subject, :from_name, :from_email, :country, :consented)
+  end
+
+  def recipient_params
+    params.require(:recipient).permit(:name, :email)
+  end
 
   def email_params
     params
@@ -67,6 +87,21 @@ class Api::EmailsController < ApplicationController
 
     data[:recipients] = [{ name: params[:to_name], email: params[:to_email] }]
     data
+  end
+
+  def unsafe_action_params
+    {
+      page_id: params[:page_id],
+      recipient: "#{recipient_params[:name]}, <#{recipient_params[:email]}>",
+      name: params[:from_name],
+      email: params[:from_email],
+      country: params[:country],
+      akid: params[:akid],
+      referring_akid: params[:referring_akid],
+      referrer_id: params[:referrer_id],
+      rid: params[:rid],
+      source: params[:source]
+    }
   end
 
   def action_params

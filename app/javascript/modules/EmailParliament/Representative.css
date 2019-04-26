@@ -1,0 +1,20 @@
+.Representative {
+  display: flex;
+  padding: 5px 20px;
+  background: white;
+}
+
+.Representative-copy {
+  margin: auto 1em;
+  font-size: 1.3em;
+}
+.Representative-name {
+  font-weight: bold;
+}
+.Representative-party {
+  color: darkgrey;
+}
+
+.form--big .Representative {
+  border-radius: 3px;
+}

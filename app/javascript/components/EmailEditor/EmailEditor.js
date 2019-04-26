@@ -20,6 +20,10 @@ type Props = {
   header?: string,
   subject: string,
   templateVars: { [key: string]: any },
+  templateInterpolate?: (
+    tpl: string,
+    values: { [key: string]: string }
+  ) => string,
   errors: ErrorMap,
   onUpdate: (email: EmailProps) => void,
 };
@@ -34,18 +38,27 @@ type State = {
 export default class EmailEditor extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    const fn = this.props.templateInterpolate || interpolateVars;
 
     this.state = {
       subject: interpolateVars(props.subject, props.templateVars),
       editorState: EditorState.createWithContent(
-        stateFromHTML(interpolateVars(props.body, props.templateVars))
+        stateFromHTML(fn(props.body, props.templateVars))
       ),
     };
   }
 
   static getDerivedStateFromProps(props: Props, state?: State) {
+    const fn = props.templateInterpolate;
+    let body = props.body;
+
+    if (typeof fn == 'function') {
+      body = fn(props.body, props.templateVars);
+    }
+
     return {
       header: interpolateVars(props.header, props.templateVars),
+      body,
       footer: interpolateVars(props.footer, props.templateVars),
     };
   }
