@@ -77,7 +77,7 @@ export class ExpressDonation extends Component<Props, State> {
         // form will have the user's submitted values
         ...this.props.fundraiser.form,
       },
-      allowDuplicate: this.state.optForRedonation,
+      allow_duplicate: this.state.optForRedonation,
     };
   }
 
@@ -87,17 +87,16 @@ export class ExpressDonation extends Component<Props, State> {
   }
 
   async onFailure(reason: any): any {
-    reason.responseJSON && reason.responseJSON.immediate_redonation
-      ? this.setState({
-          optForRedonation: reason.responseJSON.immediate_redonation,
-        })
-      : null;
     this.setState({
       submitting: false,
       openPopup: reason.responseJSON
         ? reason.responseJSON.immediate_redonation
         : false,
       failureReason: reason.responseJSON.message,
+      optForRedonation:
+        reason.responseJSON && reason.responseJSON.immediate_redonation
+          ? reason.responseJSON.immediate_redonation
+          : false,
     });
     this.props.setSubmitting(false);
     ee.emit('fundraiser:transaction_error', reason, this.props.formData);
@@ -108,7 +107,7 @@ export class ExpressDonation extends Component<Props, State> {
     const data = this.oneClickData();
 
     if (data) {
-      if (data.allowDuplicate == false) delete data.allowDuplicate;
+      if (data.allow_duplicate == false) delete data.allow_duplicate;
       ee.emit(
         'fundraiser:transaction_submitted',
         data.payment,
