@@ -8,9 +8,10 @@
   .button--whatsapp a::before{
     content: "{{ 'share.share_on_whatsapp' | t }}";
   }
-  .share-buttons__simple-email-link.sp_em_small a::before, .share-buttons__simple-email-link.sp_em_large a::before {
+  .button--email a::before{
     content: "{{ 'share.send_email' | t }}";
   }
+
 </style>
 
 <div class="share-buttons">
@@ -28,8 +29,6 @@
   {% endunless %}
 
   {% unless shares['email'] == blank %}
-    <div class="share-buttons__alternative">
-      {{ 'basics.or' | t }} <div class="share-buttons__simple-email-link {{ shares['email'].css_class }}"></div>
-    </div>
+    <div class="share-buttons__button button--email {{ shares['email'].css_class }}"></div>
   {% endunless %}
 </div>
