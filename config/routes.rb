@@ -178,6 +178,7 @@ Rails.application.routes.draw do
       resources :survey_responses, only: [:create]
       resource :call, only: [:create]
       post 'emails', to: 'emails#create'
+      post 'action_emails', to: 'emails#create_unsafe'
       post 'pension_emails', to: 'emails#create_pension_email'
     end
 

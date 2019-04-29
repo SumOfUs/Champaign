@@ -16,7 +16,7 @@ describe 'Express Donation' do
     allow(FundingCounter).to receive(:update)
   end
 
-  describe 'making multiple transactions on the same page' do
+  describe 'making multiple transactions on the same page with after 10 mins' do
     subject do
       body = {
         payment: {
@@ -33,7 +33,9 @@ describe 'Express Donation' do
         page_id: page.id
       }
       post api_payment_braintree_one_click_path(page.id), params: body
-      post api_payment_braintree_one_click_path(page.id), params: body
+      Timecop.freeze(Time.now + 11.minutes) do
+        post api_payment_braintree_one_click_path(page.id), params: body
+      end
     end
 
     it 'creates an action and a transaction for each payment' do
@@ -43,6 +45,81 @@ describe 'Express Donation' do
         subject
         expect(Action.all.count).to eq 2
         expect(Payment::Braintree::Transaction.all.count).to eq 2
+      end
+    end
+  end
+
+  describe 'making multiple transactions on the same page and amount within 10 mins' do
+    subject do
+      body = {
+        payment: {
+          amount: 2.00,
+          payment_method_id: payment_method.id,
+          currency: 'GBP',
+          recurring: false
+        },
+        user: {
+          form_id: form.id,
+          email: 'test@example.com',
+          name: 'John Doe'
+        },
+        page_id: page.id
+      }
+      post api_payment_braintree_one_click_path(page.id), params: body
+      Timecop.freeze(Time.now + (1..9).to_a.sample.minutes) do
+        post api_payment_braintree_one_click_path(page.id), params: body
+      end
+    end
+
+    it 'should not allow duplicate donation' do
+      VCR.use_cassette('express_donation_multiple_transactions') do
+        expect(Action.all.count).to eq 0
+        expect(Payment::Braintree::Transaction.all.count).to eq 0
+        subject
+        expect(Action.all.count).to eq 1
+        expect(Payment::Braintree::Transaction.all.count).to eq 1
+
+        expect(response.status).to eq 422
+        expect(json_hash['message']).to include(
+          "You've just made a donation a few minutes ago. Are you sure, you want to donate again?"
+        )
+      end
+    end
+  end
+
+  describe 'making duplicate donation for same page within 10 mins and duplicate attribute' do
+    subject do
+      body = {
+        payment: {
+          amount: 2.00,
+          payment_method_id: payment_method.id,
+          currency: 'GBP',
+          recurring: false
+        },
+        user: {
+          form_id: form.id,
+          email: 'test@example.com',
+          name: 'John Doe'
+        },
+        page_id: page.id
+      }
+      post api_payment_braintree_one_click_path(page.id), params: body
+
+      Timecop.freeze(Time.now + (1..9).to_a.sample.minutes) do
+        body[:allow_duplicate] = true
+        post api_payment_braintree_one_click_path(page.id), params: body
+      end
+    end
+
+    it 'should allow duplicate donation' do
+      VCR.use_cassette('express_donation_multiple_transactions') do
+        expect(Action.all.count).to eq 0
+        expect(Payment::Braintree::Transaction.all.count).to eq 0
+        subject
+        expect(Action.all.count).to eq 2
+        expect(Payment::Braintree::Transaction.all.count).to eq 2
+
+        expect(response.status).to eq 200
       end
     end
   end

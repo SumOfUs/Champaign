@@ -9,6 +9,7 @@ module Plugins
        Plugins::Fundraiser,
        Plugins::Survey,
        Plugins::Text,
+       Plugins::Email,
        Plugins::CallTool,
        Plugins::EmailTool,
        Plugins::EmailPension]

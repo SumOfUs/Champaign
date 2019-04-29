@@ -13,8 +13,15 @@ import { setRecurring } from '../../state/fundraiser/actions';
 import type { Dispatch } from 'redux';
 import type { AppState, PaymentMethod, Fundraiser } from '../../state';
 import type { ChampaignPage } from '../../types';
+import Popup from 'reactjs-popup';
+import Button from '../../components/Button/Button';
 
 import './ExpressDonation.scss';
+
+const style = {
+  width: 'auto',
+  padding: 30,
+};
 
 type Props = {
   hidden: boolean,
@@ -33,6 +40,9 @@ type Props = {
 type State = {
   currentPaymentMethod: ?PaymentMethod,
   submitting: boolean,
+  openPopup: boolean,
+  optForRedonation: boolean,
+  failureReason: string,
 };
 
 export class ExpressDonation extends Component<Props, State> {
@@ -44,6 +54,9 @@ export class ExpressDonation extends Component<Props, State> {
         ? props.paymentMethods[0]
         : null,
       submitting: false,
+      openPopup: false,
+      optForRedonation: false,
+      failureReason: '',
     };
   }
 
@@ -64,6 +77,7 @@ export class ExpressDonation extends Component<Props, State> {
         // form will have the user's submitted values
         ...this.props.fundraiser.form,
       },
+      allow_duplicate: this.state.optForRedonation,
     };
   }
 
@@ -73,7 +87,17 @@ export class ExpressDonation extends Component<Props, State> {
   }
 
   async onFailure(reason: any): any {
-    this.setState({ submitting: false });
+    this.setState({
+      submitting: false,
+      openPopup: reason.responseJSON
+        ? reason.responseJSON.immediate_redonation
+        : false,
+      failureReason: reason.responseJSON.message,
+      optForRedonation:
+        reason.responseJSON && reason.responseJSON.immediate_redonation
+          ? reason.responseJSON.immediate_redonation
+          : false,
+    });
     this.props.setSubmitting(false);
     ee.emit('fundraiser:transaction_error', reason, this.props.formData);
     return reason;
@@ -81,7 +105,9 @@ export class ExpressDonation extends Component<Props, State> {
 
   submit() {
     const data = this.oneClickData();
+
     if (data) {
+      if (data.allow_duplicate == false) delete data.allow_duplicate;
       ee.emit(
         'fundraiser:transaction_submitted',
         data.payment,
@@ -187,6 +213,46 @@ export class ExpressDonation extends Component<Props, State> {
           disabled={!this.state.currentPaymentMethod || this.state.submitting}
           onClick={() => this.submit()}
         />
+        <Popup
+          open={this.state.openPopup}
+          closeOnDocumentClick
+          contentStyle={style}
+          onClose={() => {
+            this.setState({
+              optForRedonation: false,
+              openPopup: false,
+            });
+          }}
+        >
+          <div className="PaymentExpressDonationConflict">
+            <div className="PaymentExpressDonationConflict--reason">
+              {this.state.failureReason}
+            </div>
+            <Button
+              className="PaymentExpressDonationConflict--accept"
+              onClick={() => this.submit()}
+            >
+              <FormattedMessage
+                id="consent.existing.accept"
+                defaultMessage="Yes"
+              />
+            </Button>
+            <Button
+              className="PaymentExpressDonationConflict--decline"
+              onClick={() => {
+                this.setState({
+                  optForRedonation: false,
+                  openPopup: false,
+                });
+              }}
+            >
+              <FormattedMessage
+                id="consent.existing.decline"
+                defaultMessage="Not right now"
+              />
+            </Button>
+          </div>
+        </Popup>
       </div>
     );
   }

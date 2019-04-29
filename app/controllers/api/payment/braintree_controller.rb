@@ -16,14 +16,27 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def one_click
-    @result = client::OneClick.new(unsafe_params, cookies.signed[:payment_methods]).run
-    unless @result.success?
-      @errors = client::ErrorProcessing.new(@result, locale: locale).process
-      render status: :unprocessable_entity, errors: @errors
-    end
+    @result = client::OneClick.new(unsafe_params, cookies.signed[:payment_methods], member).run
+    render status: :unprocessable_entity, errors: oneclick_payment_errors unless @result.success?
   end
 
   private
+
+  def member
+    if params[:user][:email].present?
+      Member.find_by_email(params[:user][:email])
+    elsif unsafe_params[:akid].present?
+      Member.find_from_request(akid: unsafe_params[:akid], id: cookies.signed[:member_id])
+    end
+  end
+
+  def oneclick_payment_errors
+    if @result.class == Braintree::ErrorResult
+      client::ErrorProcessing.new(@result, locale: locale).process
+    else
+      @result.errors
+    end
+  end
 
   def payment_options
     {

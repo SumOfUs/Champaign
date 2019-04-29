@@ -105,6 +105,8 @@ en:
       credit_card_payment_method: "%{card_type} ending in %{last_four_digits}"
       paypal_payment_method: "Paypal (%{email})"
       new_payment_method: "Add payment method"
+      duplicate_donation: "You've just made a donation a few minutes ago. Are you sure, you want to donate again? We're doing this to make sure you don't accidentally donate twice.
+                          Thanks so much for everything you do!"
     debit:
       recurring: "You are setting up a monthly donation of %{amount}"
       one_time: "You are donating %{amount}"
@@ -167,6 +169,7 @@ en:
   share:
     cta: Share the campaign!
     send_email: Send Email
+    share_on_email: Email
     share: Share
     tweet: Tweet
     share_on_whatsapp: Whatsapp
