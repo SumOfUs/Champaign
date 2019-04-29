@@ -49,7 +49,7 @@ button.button {
 // shareprogress isn't super customization friendly, so we do
 // what we can.
 .button {
-  &--facebook, &--twitter, &--whatsapp {
+  &--facebook, &--twitter, &--whatsapp, &--email {
     margin-top: 10px;
     margin-left: 5px;
     margin-right: 5px;
@@ -106,6 +106,17 @@ button.button {
       font-size: 0;
     }
   }
+  &--email {
+    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
+      a {
+        @include button($email);
+        padding-top: 15px;
+        color: $email;
+        font-size: 1px;
+        font-size: 0;
+      }
+    }
+  }
   &--facebook a::before {
     content: "Share";
   }
@@ -117,5 +128,11 @@ button.button {
   }
   &--twitter a::after {
     content: '\f099';
+  }
+  &--email a::before {
+    content: "Email";
+  }
+  &--email a::after {
+    content: "\f0e0";
   }
 }
