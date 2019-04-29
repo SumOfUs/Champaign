@@ -5,7 +5,6 @@ const NoEmailsFound = () => <p>No emails were found</p>;
 
 const Email = props => {
   const body = () => ({ __html: props.Body });
-  console.log(props.Recipients);
   return (
     <div className="panel panel-default">
       <div className="panel-heading">

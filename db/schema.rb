@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_11_165617) do
+ActiveRecord::Schema.define(version: 2019_04_17_165312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -457,6 +457,21 @@ ActiveRecord::Schema.define(version: 2019_03_11_165617) do
     t.string "target_by_attributes", default: [], array: true
   end
 
+  create_table "plugins_email_by_lookups", force: :cascade do |t|
+    t.string "ref", default: "default"
+    t.bigint "page_id"
+    t.boolean "active", default: false
+    t.string "from"
+    t.string "subjects", default: [], array: true
+    t.text "body"
+    t.text "body_header"
+    t.text "body_footer"
+    t.string "test_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_plugins_email_by_lookups_on_page_id"
+  end
+
   create_table "plugins_email_pensions", id: :serial, force: :cascade do |t|
     t.string "ref"
     t.integer "page_id"
@@ -472,6 +487,24 @@ ActiveRecord::Schema.define(version: 2019_03_11_165617) do
     t.integer "from_email_address_id"
     t.integer "registered_target_endpoint_id"
     t.index ["page_id"], name: "index_plugins_email_pensions_on_page_id"
+  end
+
+  create_table "plugins_email_tool_with_apis", force: :cascade do |t|
+    t.boolean "active", default: false
+    t.boolean "spoof_member_email", default: false
+    t.string "from"
+    t.string "ref"
+    t.string "subjects", default: [], array: true
+    t.string "test_email_address"
+    t.string "title", default: ""
+    t.text "template"
+    t.text "instructions"
+    t.bigint "page_id"
+    t.bigint "registered_email_address_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_plugins_email_tool_with_apis_on_page_id"
+    t.index ["registered_email_address_id"], name: "plugins_email_tool_with_apis_registered_email"
   end
 
   create_table "plugins_email_tools", force: :cascade do |t|
@@ -491,6 +524,24 @@ ActiveRecord::Schema.define(version: 2019_03_11_165617) do
     t.integer "targeting_mode", default: 0
     t.string "title", default: ""
     t.index ["page_id"], name: "index_plugins_email_tools_on_page_id"
+  end
+
+  create_table "plugins_emails", force: :cascade do |t|
+    t.boolean "active", default: false
+    t.boolean "spoof_member_email", default: false
+    t.string "from"
+    t.string "ref"
+    t.string "subjects", default: [], array: true
+    t.string "test_email_address"
+    t.string "title", default: ""
+    t.text "template"
+    t.text "instructions"
+    t.bigint "page_id"
+    t.bigint "registered_email_address_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_plugins_emails_on_page_id"
+    t.index ["registered_email_address_id"], name: "index_plugins_emails_on_registered_email_address_id"
   end
 
   create_table "plugins_fundraisers", id: :serial, force: :cascade do |t|

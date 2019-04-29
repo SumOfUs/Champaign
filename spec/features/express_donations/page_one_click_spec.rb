@@ -41,8 +41,10 @@ feature 'One Click From Save Payment Methods from Page' do
     }
 
     VCR.use_cassette('feature_member_express_donation') do
-      path = api_payment_braintree_one_click_path(donation_page.id)
-      page.driver.post path, params
+      Timecop.freeze(Time.now + 15.minutes) do
+        path = api_payment_braintree_one_click_path(donation_page.id)
+        page.driver.post path, params
+      end
     end
 
     expect(Action.count).to eq(2)

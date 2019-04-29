@@ -53,3 +53,46 @@
 .Payment .gpay-button:focus {
   outline: none;
 }
+
+.PaymentExpressDonationConflict {
+  width: 600px;
+  text-align: center;
+}
+
+.PaymentExpressDonationConflict--reason {
+  font-size: 22px;
+  line-height: 1.3em;
+  margin-bottom: 1em;
+}
+
+.PaymentExpressDonationConflict--accept.Button-root,
+.PaymentExpressDonationConflict--decline.Button-root {
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.PaymentExpressDonationConflict--decline.Button-root {
+  background: transparent;
+  border: none;
+  color: #00c0cf;
+  text-transform: none;
+  height: auto;
+  width: auto;
+  font-weight: normal;
+}
+
+.PaymentExpressDonationConflict--decline.Button-root:hover {
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+}
+
+.PaymentExpressDonationConflict--decline.Button-root:active {
+  box-shadow: none;
+}
+
+@media(max-width: 700px) {
+  .PaymentExpressDonationConflict {
+    width: 100%;
+  }
+}

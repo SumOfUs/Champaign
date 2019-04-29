@@ -1,0 +1,21 @@
+
+.EmailComposer {
+  max-width: 800px;
+  margin: 20px auto;
+
+}
+
+.EmailComposer-title {
+  margin: 20px 0 10px 0;
+}
+
+.EmailComposer.form--big {
+  padding: 0;
+  margin: 0;
+}
+
+@media screen and (max-device-width: 800px) {
+  .EmailComposer {
+    margin: 20px 0;
+  }
+}

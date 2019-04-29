@@ -1,0 +1,8 @@
+.SearchByPostcode {
+  max-width: 450px;
+  margin: auto;
+}
+
+.SearchByPostcode .title {
+  margin: 1em 0;
+}
