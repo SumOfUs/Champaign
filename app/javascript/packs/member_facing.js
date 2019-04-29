@@ -72,3 +72,8 @@ I18n.flatTranslations = mapValues(I18n.translations, (value, key) =>
     ])
   )
 );
+
+// Styles (hack)
+// The following isn't loading when dynamically importing a module.
+// so I'm adding it directly to the root of the import
+import '../components/EmailEditor/EmailEditor.scss';

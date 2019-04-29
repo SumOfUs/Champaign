@@ -12,8 +12,6 @@ import Representative from './Representative';
 import { sendEmail } from './api';
 import type { Target } from './index';
 import './EmailComposer.css';
-// hack
-import '../../components/EmailEditor/EmailEditor.scss';
 
 type Props = {
   postcode: string,
