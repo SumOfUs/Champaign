@@ -24,11 +24,14 @@ type Props = {
   showConsentRequired: boolean,
   // changeConsent: dispatches the change consent action.
   changeConsent: (value: boolean) => void,
+  // consentChanged: callback to the parent component
+  consentChanged: (value: boolean) => void,
 };
 
 class ConsentComponent extends PureComponent<Props> {
   changeConsent = (consented: boolean) => {
     this.props.changeConsent(consented);
+    this.props.consentChanged(consented);
   };
 
   shortLabels() {
@@ -92,16 +95,13 @@ class ConsentComponent extends PureComponent<Props> {
 }
 
 const mapStateToProps = ({ member, consent }: AppState) => {
-  const {
-    consented,
-    variant,
-    isRequiredNew,
-    isRequiredExisting,
-    showConsentRequired,
-  } = consent;
+  const { consented, variant, isRequiredNew, isRequiredExisting } = consent;
   const active = (member && isRequiredExisting) || (!member && isRequiredNew);
   const hidden = !!member;
-
+  let showConsentRequired = false;
+  if (isRequiredNew && consented === null) {
+    showConsentRequired = true;
+  }
   return {
     active,
     hidden,

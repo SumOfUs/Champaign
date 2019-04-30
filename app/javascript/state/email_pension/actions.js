@@ -10,6 +10,7 @@ const initialState = {
   fundId: '',
   fund: '',
   country: '',
+  consented: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -51,6 +52,8 @@ export const reducer = (state = initialState, action) => {
     case 'email_target:initialize':
       const { email, name, emailSubject, country, fundId } = action.payload;
       return { ...state, email, name, emailSubject, country, fundId };
+    case 'email_target:change_consent':
+      return { ...state, consented: action.consented };
     default:
       return state;
   }
@@ -90,4 +93,8 @@ export const changePensionFunds = funds => {
 
 export const findMP = postcode => {
   return { type: 'email_target:find_mp', postcode };
+};
+
+export const changeConsented = consented => {
+  return { type: 'email_target:change_consent', consented };
 };

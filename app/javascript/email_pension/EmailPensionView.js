@@ -11,9 +11,9 @@ import EmailEditor from '../components/EmailEditor/EmailEditor';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import SelectPensionFund from './SelectPensionFund';
 import './EmailPensionView.scss';
+import ConsentComponent from '../consent/ConsentComponent';
 
 import {
-  changeCountry,
   changeBody,
   changeSubject,
   changeSubmitting,
@@ -21,9 +21,11 @@ import {
   changeEmail,
   changeName,
   changeFund,
+  changeConsented,
 } from '../state/email_pension/actions';
 
 import type { Dispatch } from 'redux';
+import { changeCountry } from '../state/consent/index';
 
 class EmailPensionView extends Component {
   constructor(props) {
@@ -50,6 +52,7 @@ class EmailPensionView extends Component {
       newPensionFundSuggested: false,
       errors: {},
     };
+    this.store = window.champaign.store;
   }
 
   validateForm() {
@@ -103,6 +106,16 @@ class EmailPensionView extends Component {
     }
   };
 
+  changeConsent = (consented: boolean) => {
+    this.props.changeConsent(consented);
+  };
+
+  changeAppStateCountry = country => {
+    if (this.store) {
+      this.store.dispatch(changeCountry(country));
+    }
+  };
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -118,6 +131,7 @@ class EmailPensionView extends Component {
       from_email: this.props.email,
       to_name: this.props.fundContact,
       to_email: this.props.fundEmail,
+      consented: this.props.consented ? 1 : 0,
     };
 
     merge(payload, this.props.formValues);
@@ -135,6 +149,7 @@ class EmailPensionView extends Component {
             <SelectPensionFund
               country={this.props.country}
               fund={this.props.fundId}
+              onChangeCountry={this.changeAppStateCountry}
               onChange={changeFund}
               errors={{
                 country: this.state.errors.country,
@@ -190,7 +205,7 @@ class EmailPensionView extends Component {
                 onUpdate={this.onEmailEditorUpdate}
               />
             </div>
-
+            <ConsentComponent consentChanged={this.changeConsent} />
             <div className="form__group">
               <Button
                 disabled={this.props.isSubmitting}
@@ -236,6 +251,7 @@ export const mapStateToProps = (state: OwnState) =>
     'fundEmail',
     'fund',
     'fundId',
+    'consented',
   ]);
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
@@ -245,8 +261,12 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
     dispatch(changeName(name));
   },
   changeEmail: (email: string) => dispatch(changeEmail(email)),
+  changeConsent: (consented: boolean) => dispatch(changeConsented(consented)),
 });
 
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(EmailPensionView)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(EmailPensionView)
 );

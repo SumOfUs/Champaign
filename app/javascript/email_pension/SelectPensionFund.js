@@ -63,6 +63,7 @@ class SelectPensionFund extends Component {
   onChangeCountry = country => {
     this.getPensionFunds(country);
     this.props.changeCountry(country);
+    this.props.onChangeCountry(country);
   };
 
   changeFund = _id => {
