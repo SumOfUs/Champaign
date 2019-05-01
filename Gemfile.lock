@@ -245,7 +245,7 @@ GEM
       activesupport (>= 4.1)
     hashdiff (0.3.8)
     hashie (3.6.0)
-    hiredis (0.6.1)
+    hiredis (0.6.3)
     httparty (0.16.4)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
