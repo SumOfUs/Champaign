@@ -124,12 +124,15 @@ label.checkbox-label {
 
 .radio-container {
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   &.has-error {
     border-right: 2px solid red;
     border-bottom: 2px solid red;
   }
   label {
-    margin: 12px 0 16px 10px;
+    margin: 6px 0 6px 10px;
     display: block;
   }
 }

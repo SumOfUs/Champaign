@@ -19,11 +19,6 @@
 	"name": "Xinting",
 	"fund": "Care Super"
 }, {
-	"_id": "988e88b24584409bc45c7ed80602edb6",
-	"email": "aweickart@cbusmail.com.au",
-	"name": "Anna",
-	"fund": "Cbus"
-}, {
 	"_id": "dd136915e409c677a0dffdde8e0f5769",
 	"email": "pmurphy@christiansuper.com.au",
 	"name": "Peter",
@@ -190,8 +185,8 @@
   "fund": "CBUS"
 }, {
   "_id": "77d14e13b1234bf9a4908663c70b252c",
-  "email": "talieh.williams@unisuper.com.au",
-  "name": "Talieh Williams",
+  "email": "simon.hudson@unisuper.com.au",
+  "name": "Simon Hudson",
   "fund": "UniSuper"
 }, {
   "_id": "a256f6f498df4cb19059ea1351500322",
@@ -204,11 +199,6 @@
   "name": "Angelos Siapkas",
   "fund": "REI Super"
 }, {
-  "_id": "2519e79f7a6248e085d01e05700bc54a",
-  "email": "askamp@amp.com.au",
-  "name": "AMP",
-  "fund": "AMP"
-}, {
   "_id": "f122b84d8c83422182ed9388868f6a2b",
   "email": "contactmlc@mlc.com.au",
   "name": "MLC",
@@ -218,9 +208,4 @@
   "email": "contact@rest.com.au",
   "name": "Retail Employees Superannuation Trust",
   "fund": "REST - Retail Employees Superannuation Trust"
-}, {
-  "_id": "314a43a700924a7b9f0c162b3e96cb7b",
-  "email": "memberservice@twusuper.com.au",
-  "name": "TWU Super",
-  "fund": "TWU Super"
 }]

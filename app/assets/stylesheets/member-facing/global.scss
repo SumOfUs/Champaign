@@ -1,0 +1,15 @@
+.container {
+  section {
+    padding: 2em 4%;
+    clear: both;
+
+    .one-column {
+      max-width: 1000px;
+      margin: auto;
+    }
+  }
+
+  .alternate-bg {
+    background-color: #ececec;
+  }
+}

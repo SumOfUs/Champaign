@@ -55,7 +55,6 @@ class EmailRepresentativeView extends Component {
     });
 
     this.setState({ errors: errors });
-    console.log(errors);
     return isEmpty(errors);
   }
 

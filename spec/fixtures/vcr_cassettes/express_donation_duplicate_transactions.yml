@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <payment-method-token>6vg2vw</payment-method-token>
+          <amount>2.0</amount>
+          <merchant-account-id>GBP</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+          </options>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.95.0
+      X-Apiversion:
+      - '5'
+      Content-Type:
+      - application/xml
+      Authorization:
+      - Basic dGVzdF9wdWJsaWNfa2V5OnRlc3RfcHJpdmF0ZV9rZXk=
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Tue, 16 Apr 2019 11:58:00 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Www-Authenticate:
+      - Basic realm="Braintree API"
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Runtime:
+      - '0.021127'
+      X-Request-Id:
+      - 02-1555415879.889-182.65.195.137-38799225
+      Content-Security-Policy:
+      - frame-ancestors 'self'
+      X-Broxyid:
+      - 02-1555415879.889-182.65.195.137-38799225
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAEjDtVwAA/IICQlQcEoszky2UnBMTk4tLlZISc3LTE3R4wIAAAD//wMAaO1LWhsAAAA=
+    http_version: 
+  recorded_at: Tue, 16 Apr 2019 11:58:00 GMT
+recorded_with: VCR 3.0.3
