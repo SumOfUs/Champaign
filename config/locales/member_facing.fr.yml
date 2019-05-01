@@ -241,6 +241,7 @@ fr:
     decline: "Non. Je ne veux pas être informé(e) si cette campagne ou une autre progresse."
     accept_alt: "Oui, je signe et je souhaite recevoir les courriels"
     decline_alt: "Non, je signe mais je m'engage moins"
+    select_an_option: "Please select an option"
     existing:
       opt_in_reason: "<p>Nous demandons aux membres SumOfUs de confirmer qu’ils/elles souhaitent toujours recevoir nos courriels à ce sujet et concernant d’autres campagnes urgentes.</p><p><b>Souhaitez-vous confirmer aujourd’hui?</b></p>"
       decline: "Pas maintenant"

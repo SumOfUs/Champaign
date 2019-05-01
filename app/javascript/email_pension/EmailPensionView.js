@@ -120,16 +120,14 @@ class EmailPensionView extends Component {
     const valid = this.validateForm();
     if (!valid) return;
     const payload = {
-      email: {
-        body: this.state.body,
-        subject: this.props.emailSubject,
-        target_name: this.props.fund,
-        country: this.props.country,
-        from_name: this.props.name,
-        from_email: this.props.email,
-        to_name: this.props.fundContact,
-        to_email: this.props.fundEmail,
-      },
+      body: this.state.body,
+      subject: this.props.emailSubject,
+      target_name: this.props.fund,
+      country: this.props.country,
+      from_name: this.props.name,
+      from_email: this.props.email,
+      to_name: this.props.fundContact,
+      to_email: this.props.fundEmail,
       consented: this.props.consented ? 1 : 0,
     };
 
