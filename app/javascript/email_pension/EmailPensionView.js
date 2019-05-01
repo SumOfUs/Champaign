@@ -67,7 +67,10 @@ class EmailPensionView extends Component {
         errors[field] = message;
       }
     });
-
+    // For GDPR countries alone this field should have value
+    if (this.props.isRequiredNew && this.props.consented === null) {
+      errors['consented'] = true;
+    }
     this.setState({ errors: errors });
     return isEmpty(errors);
   }
@@ -106,10 +109,6 @@ class EmailPensionView extends Component {
     }
   };
 
-  changeConsent = (consented: boolean) => {
-    this.props.changeConsent(consented);
-  };
-
   changeAppStateCountry = country => {
     if (this.store) {
       this.store.dispatch(changeCountry(country));
@@ -118,10 +117,8 @@ class EmailPensionView extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
     const valid = this.validateForm();
     if (!valid) return;
-
     const payload = {
       email: {
         body: this.state.body,
@@ -207,7 +204,7 @@ class EmailPensionView extends Component {
                 onUpdate={this.onEmailEditorUpdate}
               />
             </div>
-            <ConsentComponent consentChanged={this.changeConsent} />
+            <ConsentComponent />
             <div className="form__group">
               <Button
                 disabled={this.props.isSubmitting}
@@ -242,19 +239,33 @@ type OwnState = {
   emailTarget: EmailPensionType,
 };
 
-export const mapStateToProps = (state: OwnState) =>
-  pick(state.emailTarget, [
-    'email',
-    'name',
-    'country',
-    'emailSubject',
-    'isSubmitting',
-    'fundContact',
-    'fundEmail',
-    'fund',
-    'fundId',
-    'consented',
-  ]);
+export const mapStateToProps = ({ emailTarget, consent }: OwnState) => {
+  const {
+    email,
+    name,
+    country,
+    emailSubject,
+    isSubmitting,
+    fundContact,
+    fundEmail,
+    fund,
+    fundId,
+  } = emailTarget;
+  const { consented, isRequiredNew } = consent;
+  return {
+    email,
+    name,
+    country,
+    emailSubject,
+    isSubmitting,
+    fundContact,
+    fundEmail,
+    fund,
+    fundId,
+    consented,
+    isRequiredNew,
+  };
+};
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeSubmitting: (value: boolean) => dispatch(changeSubmitting(true)),
@@ -263,7 +274,6 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
     dispatch(changeName(name));
   },
   changeEmail: (email: string) => dispatch(changeEmail(email)),
-  changeConsent: (consented: boolean) => dispatch(changeConsented(consented)),
 });
 
 export default injectIntl(

@@ -24,14 +24,11 @@ type Props = {
   showConsentRequired: boolean,
   // changeConsent: dispatches the change consent action.
   changeConsent: (value: boolean) => void,
-  // consentChanged: callback to the parent component
-  consentChanged: (value: boolean) => void,
 };
 
 class ConsentComponent extends PureComponent<Props> {
   changeConsent = (consented: boolean) => {
     this.props.changeConsent(consented);
-    this.props.consentChanged(consented);
   };
 
   shortLabels() {
