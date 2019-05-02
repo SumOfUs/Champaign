@@ -25,7 +25,6 @@ import {
 } from '../state/email_pension/actions';
 
 import type { Dispatch } from 'redux';
-import { changeCountry } from '../state/consent/index';
 
 class EmailPensionView extends Component {
   constructor(props) {
@@ -109,12 +108,6 @@ class EmailPensionView extends Component {
     }
   };
 
-  changeAppStateCountry = country => {
-    if (this.store) {
-      this.store.dispatch(changeCountry(country));
-    }
-  };
-
   onSubmit = e => {
     e.preventDefault();
     const valid = this.validateForm();
@@ -146,7 +139,6 @@ class EmailPensionView extends Component {
             <SelectPensionFund
               country={this.props.country}
               fund={this.props.fundId}
-              onChangeCountry={this.changeAppStateCountry}
               onChange={changeFund}
               errors={{
                 country: this.state.errors.country,
