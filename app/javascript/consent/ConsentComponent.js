@@ -24,6 +24,10 @@ type Props = {
   showConsentRequired: boolean,
   // changeConsent: dispatches the change consent action.
   changeConsent: (value: boolean) => void,
+  // overrides `hidden`
+  alwaysShow?: boolean,
+  // overrides `active`
+  isRequired?: boolean,
 };
 
 class ConsentComponent extends PureComponent<Props> {
@@ -60,16 +64,18 @@ class ConsentComponent extends PureComponent<Props> {
 
   render() {
     const {
+      alwaysShow,
       consented,
       active,
       hidden,
+      isRequired,
       variant,
       showConsentRequired,
     } = this.props;
-    if (!active) return null;
+    if (!active && !isRequired) return null;
 
     const classNames = classnames('ConsentComponent', variant, {
-      'hidden-irrelevant': hidden,
+      'hidden-irrelevant': alwaysShow ? false : hidden,
     });
 
     return (
@@ -92,13 +98,15 @@ class ConsentComponent extends PureComponent<Props> {
 }
 
 const mapStateToProps = ({ member, consent }: AppState) => {
-  const { consented, variant, isRequiredNew, isRequiredExisting } = consent;
+  const {
+    consented,
+    variant,
+    isRequiredNew,
+    isRequiredExisting,
+    showConsentRequired,
+  } = consent;
   const active = (member && isRequiredExisting) || (!member && isRequiredNew);
   const hidden = !!member;
-  let showConsentRequired = false;
-  if (isRequiredNew && consented === null) {
-    showConsentRequired = true;
-  }
   return {
     active,
     hidden,

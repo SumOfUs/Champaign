@@ -194,7 +194,12 @@ class EmailPensionView extends Component {
                 onUpdate={this.onEmailEditorUpdate}
               />
             </div>
-            <ConsentComponent />
+            <ConsentComponent
+              alwaysShow={true}
+              isRequired={
+                this.props.isRequiredNew || this.props.isRequiredExisting
+              }
+            />
             <div className="form__group">
               <Button
                 disabled={this.props.isSubmitting}
@@ -241,7 +246,7 @@ export const mapStateToProps = ({ emailTarget, consent }: OwnState) => {
     fund,
     fundId,
   } = emailTarget;
-  const { consented, isRequiredNew } = consent;
+  const { consented, isRequiredNew, isRequiredExisting } = consent;
   return {
     email,
     name,
@@ -254,6 +259,7 @@ export const mapStateToProps = ({ emailTarget, consent }: OwnState) => {
     fundId,
     consented,
     isRequiredNew,
+    isRequiredExisting,
   };
 };
 
