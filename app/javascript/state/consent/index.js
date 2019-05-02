@@ -118,6 +118,7 @@ export function showConsentRequired(value: boolean): Action {
 function isRequired(state: ConsentState, filter?: (country: any) => boolean) {
   const { countryCode, consented, previouslyConsented } = state;
   // Affected countries: EEA members except Germany and Austria
+  if (!window.champaign) return false;
   const countries = window.champaign.countries
     .filter(c => c.eea_member)
     .filter(filter || (() => true))
