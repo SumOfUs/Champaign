@@ -10,6 +10,7 @@ const initialState = {
   fundId: '',
   fund: '',
   country: '',
+  consented: null,
 };
 
 export const reducer = (state = initialState, action) => {

@@ -11,9 +11,9 @@ import EmailEditor from '../components/EmailEditor/EmailEditor';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import SelectPensionFund from './SelectPensionFund';
 import './EmailPensionView.scss';
+import ConsentComponent from '../consent/ConsentComponent';
 
 import {
-  changeCountry,
   changeBody,
   changeSubject,
   changeSubmitting,
@@ -21,6 +21,7 @@ import {
   changeEmail,
   changeName,
   changeFund,
+  changeConsented,
 } from '../state/email_pension/actions';
 
 import type { Dispatch } from 'redux';
@@ -50,6 +51,7 @@ class EmailPensionView extends Component {
       newPensionFundSuggested: false,
       errors: {},
     };
+    this.store = window.champaign.store;
   }
 
   validateForm() {
@@ -64,7 +66,10 @@ class EmailPensionView extends Component {
         errors[field] = message;
       }
     });
-
+    // For GDPR countries alone this field should have value
+    if (this.props.isRequiredNew && this.props.consented === null) {
+      errors['consented'] = true;
+    }
     this.setState({ errors: errors });
     return isEmpty(errors);
   }
@@ -105,10 +110,8 @@ class EmailPensionView extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
     const valid = this.validateForm();
     if (!valid) return;
-
     const payload = {
       body: this.state.body,
       subject: this.props.emailSubject,
@@ -118,6 +121,7 @@ class EmailPensionView extends Component {
       from_email: this.props.email,
       to_name: this.props.fundContact,
       to_email: this.props.fundEmail,
+      consented: this.props.consented ? 1 : 0,
     };
 
     merge(payload, this.props.formValues);
@@ -190,7 +194,12 @@ class EmailPensionView extends Component {
                 onUpdate={this.onEmailEditorUpdate}
               />
             </div>
-
+            <ConsentComponent
+              alwaysShow={true}
+              isRequired={
+                this.props.isRequiredNew || this.props.isRequiredExisting
+              }
+            />
             <div className="form__group">
               <Button
                 disabled={this.props.isSubmitting}
@@ -225,18 +234,34 @@ type OwnState = {
   emailTarget: EmailPensionType,
 };
 
-export const mapStateToProps = (state: OwnState) =>
-  pick(state.emailTarget, [
-    'email',
-    'name',
-    'country',
-    'emailSubject',
-    'isSubmitting',
-    'fundContact',
-    'fundEmail',
-    'fund',
-    'fundId',
-  ]);
+export const mapStateToProps = ({ emailTarget, consent }: OwnState) => {
+  const {
+    email,
+    name,
+    country,
+    emailSubject,
+    isSubmitting,
+    fundContact,
+    fundEmail,
+    fund,
+    fundId,
+  } = emailTarget;
+  const { consented, isRequiredNew, isRequiredExisting } = consent;
+  return {
+    email,
+    name,
+    country,
+    emailSubject,
+    isSubmitting,
+    fundContact,
+    fundEmail,
+    fund,
+    fundId,
+    consented,
+    isRequiredNew,
+    isRequiredExisting,
+  };
+};
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeSubmitting: (value: boolean) => dispatch(changeSubmitting(true)),
@@ -248,5 +273,8 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 });
 
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(EmailPensionView)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(EmailPensionView)
 );
