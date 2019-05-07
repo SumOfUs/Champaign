@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
   def index
-    @pages = Page.published.order('updated_at DESC')
+    @pages = Page.published.order('created_at DESC')
   end
 end

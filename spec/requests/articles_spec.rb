@@ -9,7 +9,7 @@ describe 'articles' do
   end
 
   describe 'GET index' do
-    let(:page) { Page.published.order('id desc').first }
+    let(:page) { Page.published.order('created_at desc').first }
 
     before do
       get '/articles.rss'
@@ -35,7 +35,7 @@ describe 'articles' do
 
       expect(feed.title).to eql page.title
       expect(feed.summary).to match page.content
-      expect(feed.published.strftime('%Y-%m-%d %I:%M:%S')).to match page.updated_at.strftime('%Y-%m-%d %I:%M:%S')
+      expect(feed.published.strftime('%Y-%m-%d %I:%M:%S')).to match page.created_at.strftime('%Y-%m-%d %I:%M:%S')
       expect(feed.url).to match "/a/#{page.slug}"
       expect(feed.entry_id).to match "/a/#{page.slug}"
     end
