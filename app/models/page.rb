@@ -178,9 +178,6 @@ class Page < ApplicationRecord
     braintree_subscriptions.count + go_cardless_subscriptions.count
   end
 
-  def self.rss_list
-  end
-
   private
 
   def switch_plugins
