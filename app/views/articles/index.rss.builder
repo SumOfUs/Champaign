@@ -3,7 +3,7 @@ xml.rss version: "2.0", "xmlns:atom": "http://www.w3.org/2005/Atom" do
   xml.channel do
     xml.title "SumOfUs"
     xml.description "stopping big corporations from behaving badly."
-    xml.link pages_url
+    xml.link articles_url
 
     @pages.each do |article|
       xml.item do

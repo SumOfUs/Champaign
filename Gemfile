@@ -80,6 +80,7 @@ group :development, :test do
   gem 'rubocop', '~> 0.66', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
+  gem "feedjira"
 end
 
 group :development do
