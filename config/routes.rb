@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     get 'actions',   on: :member
     get 'preview',   on: :member
     get 'emails',    on: :member
+    get 'feeds',     on: :collection, defaults: { format: 'xss' }
 
     get 'follow-up', on: :member, action: 'follow_up'
     get 'confirmation', on: :member, action: 'double_opt_in_notice'
@@ -67,8 +68,6 @@ Rails.application.routes.draw do
 
     resource :archive, only: %i[create destroy], controller: 'page_archives'
   end
-
-  resources :articles, path: 'articles', only: [:index], defaults: { format: 'xss' }
 
   resources :pages, path: 'a', as: 'member_facing_page', only: %i[edit show] do
     get 'follow-up', on: :member, action: 'follow_up'
