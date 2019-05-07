@@ -68,7 +68,7 @@ Rails.application.routes.draw do
     resource :archive, only: %i[create destroy], controller: 'page_archives'
   end
 
-  resources :articles, path: 'articles'
+  resources :articles, path: 'articles', only: [:index]
 
   resources :pages, path: 'a', as: 'member_facing_page', only: %i[edit show] do
     get 'follow-up', on: :member, action: 'follow_up'
