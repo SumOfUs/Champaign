@@ -23,7 +23,7 @@ import {
   changeFund,
   changeConsented,
 } from '../state/email_pension/actions';
-
+import { showConsentRequired } from '../state/consent/index';
 import type { Dispatch } from 'redux';
 
 class EmailPensionView extends Component {
@@ -68,6 +68,7 @@ class EmailPensionView extends Component {
     });
     // For GDPR countries alone this field should have value
     if (this.props.isRequiredNew && this.props.consented === null) {
+      this.props.showConsentRequired(true);
       errors['consented'] = true;
     }
     this.setState({ errors: errors });
@@ -270,6 +271,8 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
     dispatch(changeName(name));
   },
   changeEmail: (email: string) => dispatch(changeEmail(email)),
+  showConsentRequired: (consentRequired: boolean) =>
+    dispatch(showConsentRequired(consentRequired)),
 });
 
 export default injectIntl(
