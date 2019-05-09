@@ -58,16 +58,11 @@ describe 'pages' do
   end
 
   describe 'GET feeds' do
-    before(:all) do
-      3.times { create(:page, publish_status: 'published', content: Faker::Lorem.paragraph(3)) }
-      2.times { create(:page, publish_status: 'unpublished') }
-    end
-    after(:all) do
-      Page.destroy_all
-    end
     let(:page) { Page.published.order('created_at desc').first }
 
     before do
+      3.times { create(:page, publish_status: 'published', content: Faker::Lorem.paragraph(3)) }
+      2.times { create(:page, publish_status: 'unpublished') }
       get '/pages/feeds.rss'
       @feed = Feedjira::Feed.parse(response.body)
     end
