@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: https://github.com/SumOfUs/share_progress
-  revision: b2b75d59afefa00034b477e6b6b9c3754e262196
-  tag: v0.1.3
+  revision: d0abddddc5f1f2a69534557d950153cb76c3012e
+  tag: v0.1.4
   specs:
     share_progress (0.2.0)
       httparty (>= 0.13)
