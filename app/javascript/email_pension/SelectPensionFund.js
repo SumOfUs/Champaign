@@ -16,6 +16,7 @@ import {
   changePensionFunds,
   changeFund,
 } from '../state/email_pension/actions';
+import { changeCountry as changeConsentCountry } from '../state/consent';
 
 const SUPPORTED_COUNTRIES = [
   'AU',
@@ -122,7 +123,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(disp) {
   return {
-    changeCountry: country => disp(changeCountry(country)),
+    changeCountry: country => {
+      // We could try to have only one place in the state
+      // with the country (how will that affect other reducers?)
+      // TODO: Investigate this
+      disp(changeCountry(country));
+      disp(changeConsentCountry(country));
+    },
     changePensionFunds: funds => disp(changePensionFunds(funds)),
     changeFund: fund => disp(changeFund(fund)),
   };

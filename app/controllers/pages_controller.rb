@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 require 'champaign_queue'
 require 'browser'
 
-class PagesController < ApplicationController
+class PagesController < ApplicationController # rubocop:disable Metrics/ClassLength
   newrelic_ignore_enduser only: %i[show follow_up double_opt_in_notice]
-  before_action :authenticate_user!, except: %i[show follow_up double_opt_in_notice]
+  before_action :authenticate_user!, except: %i[feeds show follow_up double_opt_in_notice]
   before_action :get_page, only: %i[edit update destroy follow_up double_opt_in_notice analytics actions preview emails]
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
@@ -15,6 +14,10 @@ class PagesController < ApplicationController
 
   def index
     @pages = Search::PageSearcher.search(search_params)
+  end
+
+  def feeds
+    @pages = Page.published.order('created_at DESC')
   end
 
   def analytics
@@ -139,6 +142,7 @@ class PagesController < ApplicationController
     # Currently the only use case is to parse query parameters for a whatsapp variant
     # to see if the member has come from a whatsapp share.
     return unless params[:source] == 'whatsapp'
+
     Share::Whatsapp.find(params[:variant_id]).increment!(:conversion_count)
   rescue ActiveRecord::RecordNotFound
     Rails.logger.error(

@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     get 'actions',   on: :member
     get 'preview',   on: :member
     get 'emails',    on: :member
+    get 'feeds',     on: :collection, defaults: { format: 'xss' }
 
     get 'follow-up', on: :member, action: 'follow_up'
     get 'confirmation', on: :member, action: 'double_opt_in_notice'

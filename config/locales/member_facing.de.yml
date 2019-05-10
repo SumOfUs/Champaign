@@ -252,6 +252,7 @@ de:
     decline: "Nein, ich möchte nicht wissen, wie diese Kampagne weitergeht und welche anderen wichtigen Kampagnen es gibt."
     accept_alt: "Ja - unterschreiben und E-Mails erhalten"
     decline_alt: "Nein - unterschreiben, aber in Zukunft über keine weiteren Aktionen informiert werden"
+    select_an_option: "Bitte wählen Sie eine Option"
     existing:
       opt_in_reason: "<p>Wir bitten alle SumOfUs-Mitglieder zu bestätigen, dass sie auch weiterhin E-mails zu dieser und anderen wichtigen Kampagnen erhalten möchten.</p><p><b>Möchten Sie jetzt bestätigen?</b></p>"
       accept: "Ja"
