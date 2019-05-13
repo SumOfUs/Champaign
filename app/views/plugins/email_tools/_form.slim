@@ -10,7 +10,7 @@
         = label_with_tooltip(f, :from_email_address_id, t('plugins.email_tool.from_address'), t('plugins.email_tool.tooltips.from_address'))
         = f.select :from_email_address_id,
                    RegisteredEmailAddress.all.map { |e| [e.email, e.id] },
-                   { include_blank: true },
+                   { include_blank: false },
                    class: 'form-control from-email-address'
         .checkbox
           label.use-member-email-checkbox.edit-page-checkbox
