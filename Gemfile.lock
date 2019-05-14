@@ -77,9 +77,10 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
-    airbrake (5.7.1)
-      airbrake-ruby (~> 1.7)
-    airbrake-ruby (1.7.1)
+    airbrake (9.2.2)
+      airbrake-ruby (~> 4.4)
+    airbrake-ruby (4.4.0)
+      rbtree3 (~> 0.5)
     annotate (2.7.4)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
@@ -430,6 +431,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    rbtree3 (0.5.0)
     readthis (2.0.2)
       connection_pool (~> 2.1)
       redis (~> 3.0)
@@ -571,8 +573,7 @@ DEPENDENCIES
   action_parameter
   actionkit_connector!
   activeadmin (~> 1.4.3)
-  airbrake (~> 5.7.1)
-  airbrake-ruby (= 1.7.1)
+  airbrake (~> 9.2.0)
   annotate
   aws-sdk-core (~> 3)
   aws-sdk-dynamodb (~> 1.21)
