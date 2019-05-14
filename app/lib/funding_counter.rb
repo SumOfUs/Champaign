@@ -11,15 +11,31 @@ class FundingCounter
     new(page, currency, amount).update
   end
 
+  def self.reduce(page:, currency:, amount:)
+    new(page, currency, amount).update
+  end
+
   def self.convert(currency:, amount:)
     new(nil, currency, amount).convert
+  end
+
+  def original_amount
+    Money.new(@page.total_donations, Settings.default_currency)
+  end
+
+  def converted_amount
+    Money.from_amount(@amount, @currency).exchange_to(Settings.default_currency)
+  end
+
+  def reduce
+    return if @page.blank?
+
+    @page.update_attributes(total_donations: (original_amount.cents - converted_amount.cents))
   end
 
   def update
     return if @page.blank?
 
-    original_amount =  Money.new(@page.total_donations, Settings.default_currency)
-    converted_amount = Money.from_amount(@amount, @currency).exchange_to(Settings.default_currency)
     @page.update_attributes(total_donations: (original_amount.cents + converted_amount.cents))
   end
 

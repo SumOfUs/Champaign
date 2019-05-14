@@ -38,6 +38,8 @@
 #
 
 class Payment::Braintree::Transaction < ApplicationRecord
+  attr_accessor :refund_synced
+
   belongs_to :page
   belongs_to :payment_method, class_name: 'Payment::Braintree::PaymentMethod'
   belongs_to :customer,       class_name: 'Payment::Braintree::Customer', primary_key: 'customer_id'
@@ -45,8 +47,11 @@ class Payment::Braintree::Transaction < ApplicationRecord
   enum status: %i[success failure]
 
   scope :one_off, -> { where(subscription_id: nil) }
+  scope :refunded, -> { where(refund: true) }
 
-  after_create :increment_funding_counter
+  before_update :set_refund_state
+  after_create  :increment_funding_counter
+  after_update  :decrement_funding_counter
 
   def publish_subscription_charge
     ChampaignQueue.push({
@@ -65,6 +70,17 @@ class Payment::Braintree::Transaction < ApplicationRecord
 
   def increment_funding_counter
     return unless status == 'success'
+
+    FundingCounter.update(page: page, currency: currency, amount: amount)
+  end
+
+  def set_refund_state
+    self.refund_synced = refund_was
+    true
+  end
+
+  def decrement_funding_counter
+    return true if refund_synced
 
     FundingCounter.update(page: page, currency: currency, amount: amount)
   end
