@@ -6,10 +6,13 @@
 #
 #  id                      :integer          not null, primary key
 #  amount                  :decimal(10, 2)
+#  amount_refunded         :decimal(8, 2)
 #  currency                :string
 #  payment_instrument_type :string
 #  payment_method_token    :string
 #  processor_response_code :string
+#  refund                  :boolean          default(FALSE)
+#  refunded_at             :datetime
 #  status                  :integer
 #  transaction_created_at  :datetime
 #  transaction_type        :string
@@ -19,6 +22,7 @@
 #  merchant_account_id     :string
 #  page_id                 :integer
 #  payment_method_id       :integer
+#  refund_transaction_id   :string
 #  subscription_id         :integer
 #  transaction_id          :string
 #
