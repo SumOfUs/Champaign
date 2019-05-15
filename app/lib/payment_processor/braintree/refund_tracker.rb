@@ -35,8 +35,6 @@ module PaymentProcessor
         (refund_ids - synced_ids)
       end
 
-      private
-
       def refund_ids
         @refund_ids ||= begin
          result = ::Braintree::Transaction.search do |search|
@@ -62,8 +60,8 @@ module PaymentProcessor
 
       def synced_ids
         @synced_ids ||= Payment::Braintree::Transaction
-          .where(refunded_transaction_id: refund_ids, refund: true)
-          .pluck(:refunded_transaction_id)
+          .where(refund_transaction_id: refund_ids, refund: true)
+          .pluck(:refund_transaction_id)
       end
     end
   end

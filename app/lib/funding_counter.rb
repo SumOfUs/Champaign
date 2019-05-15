@@ -12,7 +12,7 @@ class FundingCounter
   end
 
   def self.reduce(page:, currency:, amount:)
-    new(page, currency, amount).update
+    new(page, currency, amount).reduce
   end
 
   def self.convert(currency:, amount:)

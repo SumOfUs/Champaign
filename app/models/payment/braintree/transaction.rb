@@ -82,6 +82,6 @@ class Payment::Braintree::Transaction < ApplicationRecord
   def decrement_funding_counter
     return true if refund_synced
 
-    FundingCounter.update(page: page, currency: currency, amount: amount)
+    FundingCounter.reduce(page: page, currency: currency, amount: amount)
   end
 end
