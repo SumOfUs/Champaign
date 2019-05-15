@@ -185,6 +185,15 @@ jobs:
           name: Deploy feature branch
           command: .circleci/deploy_testing.sh
 
+  airbrake_register_deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Deploy feature branch
+          command: .circleci/airbrake_register_deploy.sh
 
 workflows:
   version: 2
@@ -282,3 +291,12 @@ workflows:
             branches:
               only:
                 - /^feature(?:\/|-|\.).+$/
+
+      - airbrake_register_deploy:
+          requires:
+            - deploy_production
+          context: champaign-production
+          filters:
+            branches:
+              only:
+                - master
