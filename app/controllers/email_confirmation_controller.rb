@@ -13,7 +13,7 @@ class EmailConfirmationController < ApplicationController
 
     @title = I18n.t('confirmation_mailer.title')
     @errors = EmailVerifierService.verify(params[:token], params[:email], cookies)
-    render 'email_confirmation/follow_up', layout: 'generic'
+    render 'email_confirmation/follow_up', layout: 'simple'
   end
 
   private
