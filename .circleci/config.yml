@@ -291,3 +291,12 @@ workflows:
             branches:
               only:
                 - /^feature(?:\/|-|\.).+$/
+
+      - airbrake_register_deploy:
+          requires:
+            - deploy_production
+          context: champaign-production
+          filters:
+            branches:
+              only:
+                - master
