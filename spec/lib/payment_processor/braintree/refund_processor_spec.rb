@@ -26,6 +26,12 @@ module PaymentProcessor
         it 'should increment the total_donations' do
           expect(page.reload.total_donations.to_f).to eql 75_000.0
         end
+
+        it 'should set default start date as 6 months from current date' do
+          @tracker = PaymentProcessor::Braintree::RefundTracker.new
+          date = 6.months.ago.strftime('%Y-%m-%d')
+          expect(@tracker.start_date).to eql date
+        end
       end
 
       describe 'post sync' do
@@ -90,6 +96,20 @@ module PaymentProcessor
         it 'should not have any transaction to update' do
           transaction_ids = @new_tracker.unsynced_transactions.collect { |x| x[:refunded_transaction_id] }
           expect(transaction_ids).to be_empty
+        end
+      end
+
+      describe 'filter based on date' do
+        before do
+          VCR.use_cassette('refund_tracker_braintree_refunded_transactions_with_date_range') do
+            date = Time.now.strftime('%Y-%m-%d')
+            @tracker = PaymentProcessor::Braintree::RefundTracker.new(date)
+            @tracker.sync
+          end
+        end
+
+        it 'should have empty refund_ids' do
+          expect(@tracker.refund_ids).to be_empty
         end
       end
     end

@@ -20,8 +20,16 @@ module PaymentProcessor
     end
 
     class RefundTracker
-      def initialize(start_date: '')
-        @start_date = start_date
+      def initialize(_startdate = '')
+        @start_date = begin
+                        Time.parse(start_date.to_s).strftime('%Y-%m-%d')
+                      rescue StandardError
+                        nil
+                      end
+      end
+
+      def start_date
+        (@start_date || 6.months.ago.strftime('%Y-%m-%d'))
       end
 
       def sync
@@ -40,6 +48,7 @@ module PaymentProcessor
          result = ::Braintree::Transaction.search do |search|
            search.type.is 'credit'
            search.refund.is true
+           search.created_at >= start_date
          end
          result.present? ? result.ids : []
        end
