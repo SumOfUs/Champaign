@@ -6,10 +6,13 @@
 #
 #  id                      :integer          not null, primary key
 #  amount                  :decimal(10, 2)
+#  amount_refunded         :decimal(8, 2)
 #  currency                :string
 #  payment_instrument_type :string
 #  payment_method_token    :string
 #  processor_response_code :string
+#  refund                  :boolean          default(FALSE)
+#  refunded_at             :datetime
 #  status                  :integer
 #  transaction_created_at  :datetime
 #  transaction_type        :string
@@ -19,6 +22,7 @@
 #  merchant_account_id     :string
 #  page_id                 :integer
 #  payment_method_id       :integer
+#  refund_transaction_id   :string
 #  subscription_id         :integer
 #  transaction_id          :string
 #
@@ -136,6 +140,29 @@ describe Payment::Braintree::Transaction do
         group_id: "braintree-subscription:#{subscription.id}"
       )
       transaction.publish_subscription_charge
+    end
+  end
+
+  describe 'total_donations' do
+    before do
+      @transaction = create :payment_braintree_transaction, amount: 12.41, status: 'success'
+    end
+
+    it 'should have total_donations as 12.41' do
+      expect(@transaction.page.total_donations.to_f).to eq 1241.0
+    end
+
+    it 'should not increase total_donations' do
+      @transaction.touch
+      expect(@transaction.page.total_donations.to_f).to eq 1241.0
+    end
+
+    it 'should reduce refund amount from total_donations' do
+      create :payment_braintree_transaction, page_id: @transaction.page_id, amount: 10.00, status: 'success'
+      expect(@transaction.page.reload.total_donations.to_f).to eql 2241.0
+
+      @transaction.update(refund: true, refund_transaction_id: 'abcdef')
+      expect(@transaction.page.reload.total_donations.to_f).to eq 1000.0
     end
   end
 end
