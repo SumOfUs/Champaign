@@ -28,14 +28,14 @@ describe 'FundingCounter' do
     end
   end
 
-  describe '.reduce' do
+  describe '.update' do
     before do
-      FundingCounter.new(page, 'USD', 30).reduce
+      FundingCounter.new(page, 'USD', 10, true).update
     end
 
-    it 'should decrement page donations by 30' do
+    it 'should reduce page donations by 10' do
       page.reload
-      expect(page.total_donations.to_f).to eql 7000.0
+      expect(page.total_donations.to_f).to eql 9_000.0
     end
   end
 end
