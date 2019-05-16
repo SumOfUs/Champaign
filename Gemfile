@@ -44,8 +44,7 @@ gem 'paperclip', '~> 6.0'
 gem 'rmagick' # rmagick for image processing
 ## AWS SDK for Rails - makes SES integration easy
 gem 'actionkit_connector', git: 'https://github.com/SumOfUs/actionkit_connector', branch: 'master'
-gem 'airbrake', '~> 5.7.1'
-gem 'airbrake-ruby', '1.7.1'
+gem 'airbrake', '~> 9.2.0'
 gem 'aws-sdk-rails'
 gem 'bootsnap', require: false
 gem 'bootstrap-sass', '~> 3.4.1'
