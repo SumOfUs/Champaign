@@ -60,8 +60,8 @@ describe 'pages' do
   describe 'GET feeds' do
     let(:page) { Page.published.order('created_at desc').first }
 
-    before do
-      3.times { create(:page, publish_status: 'published', content: Faker::Lorem.paragraph(3)) }
+    before(:all) do
+      20.times { create(:page, publish_status: 'published', content: Faker::Lorem.paragraph_by_chars(550)) }
       2.times { create(:page, publish_status: 'unpublished') }
       get '/pages/feeds.rss'
       @feed = Feedjira::Feed.parse(response.body)
@@ -78,14 +78,14 @@ describe 'pages' do
     end
 
     it 'should list published feeds alone' do
-      expect(@feed.entries.size).to eql 3
+      expect(@feed.entries.size).to eql 10
     end
 
     it 'should have proper feed data' do
       feed = @feed.entries.first
-
       expect(feed.title).to eql page.title
-      expect(feed.summary).to match page.content
+      # 500 chars + 7 chars for <p> opening and closing tag by feed
+      expect(feed.summary.strip.length).to match 507
       expect(feed.published.strftime('%Y-%m-%d %I:%M:%S')).to match page.updated_at.strftime('%Y-%m-%d %I:%M:%S')
       expect(feed.url).to match "/a/#{page.slug}"
       expect(feed.entry_id).to match "/a/#{page.slug}"

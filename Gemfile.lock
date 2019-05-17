@@ -254,6 +254,7 @@ GEM
     hashdiff (0.3.8)
     hashie (3.6.0)
     hiredis (0.6.3)
+    htmlentities (4.3.4)
     httparty (0.16.4)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
@@ -528,6 +529,9 @@ GEM
     tilt (2.0.9)
     timecop (0.9.1)
     tins (1.13.3)
+    truncato (0.7.11)
+      htmlentities (~> 4.3.1)
+      nokogiri (>= 1.7.0, <= 2.0)
     turnout (2.4.0)
       i18n (~> 0.7)
       rack (>= 1.3, < 3)
@@ -646,6 +650,7 @@ DEPENDENCIES
   sprockets-rails
   terminal-notifier-guard
   timecop
+  truncato
   turnout
   twilio-ruby
   uglifier

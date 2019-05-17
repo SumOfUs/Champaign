@@ -230,4 +230,8 @@ module PagesHelper
       }
     end
   end
+
+  def truncate_page_content(content, length = 500)
+    Truncato.truncate(content, max_length: length)
+  end
 end
