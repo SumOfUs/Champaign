@@ -17,7 +17,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   end
 
   def feeds
-    @pages = Page.published.order('created_at DESC')
+    @pages = Page.published.order('created_at DESC').limit(10)
   end
 
   def analytics
