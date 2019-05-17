@@ -60,7 +60,7 @@ describe 'pages' do
   describe 'GET feeds' do
     let(:page) { Page.published.order('created_at desc').first }
 
-    before(:all) do
+    before do
       20.times { create(:page, publish_status: 'published', content: Faker::Lorem.paragraph_by_chars(550)) }
       2.times { create(:page, publish_status: 'unpublished') }
       get '/pages/feeds.rss'
