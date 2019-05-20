@@ -22,7 +22,7 @@ module PaymentProcessor
     class RefundTracker
       def initialize(_startdate = '')
         @start_date = begin
-                        Time.parse(start_date.to_s).strftime('%Y-%m-%d')
+                        Time.parse(_start_date.to_s).strftime('%Y-%m-%d')
                       rescue StandardError
                         nil
                       end
@@ -35,7 +35,12 @@ module PaymentProcessor
       def sync
         unsynced_transactions.each do |t|
           transaction = Payment::Braintree::Transaction.find_by(transaction_id: t[:refunded_transaction_id])
-          transaction&.update_attributes(refund: true, refund_transaction_id: t[:id])
+          transaction&.update_attributes(
+            refund: true,
+            amount_refunded: t[:amount],
+            refund_transaction_id: t[:id],
+            refunded_at: t[:created_at]
+          )
         end
       end
 

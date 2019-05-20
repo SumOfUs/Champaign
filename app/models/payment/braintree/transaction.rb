@@ -77,10 +77,23 @@ class Payment::Braintree::Transaction < ApplicationRecord
     true
   end
 
-  def update_funding_counter
-    return true if newrecord && status != 'success'
-    return true if refund_synced
+  def amount_affected
+    refund? ? (amount_refunded * -1) : amount.to_f
+  end
 
-    FundingCounter.update(page: page, currency: currency, amount: amount, refund: refund)
+  def new_successful_transaction?
+    newrecord && status == 'success'
+  end
+
+  def successful_refund?
+    !new_record? && !refund_synced && amount_refunded.present?
+  end
+
+  def update_funding_counter
+    if new_successful_transaction? || successful_refund?
+      FundingCounter.update(page: page, currency: currency, amount: amount_affected)
+    else
+      true
+    end
   end
 end

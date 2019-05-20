@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
 class FundingCounter
-  def initialize(page, currency, amount = nil, refund = false)
+  def initialize(page, currency, amount = nil)
     @page     = page
     @currency = currency
     @amount   = amount
-    @refund   = refund
   end
 
-  def self.update(page:, currency:, amount:, refund: false)
-    new(page, currency, amount, refund).update
+  def self.update(page:, currency:, amount:)
+    new(page, currency, amount).update
   end
 
   def self.convert(currency:, amount:)
@@ -27,11 +26,7 @@ class FundingCounter
   def update
     return if @page.blank?
 
-    total_donations = if @refund
-                        (original_amount.cents - converted_amount.cents)
-                      else
-                        (original_amount.cents + converted_amount.cents)
-                      end
+    total_donations = (original_amount.cents + converted_amount.cents)
     @page.update_attributes(total_donations: total_donations)
   end
 
