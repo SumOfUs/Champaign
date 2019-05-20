@@ -63,6 +63,16 @@ module PaymentProcessor
           ids = @transaction_data.keys - ['17a8f6v1']
           expect(transaction_ids).to match_array(ids)
         end
+
+        it 'should update transaction record' do
+          # m7a8f6v1 - equivalent refund transaction id: peve3se6
+          transaction = Payment::Braintree::Transaction.find_by(transaction_id: 'm7a8f6v1')
+          expect(transaction.refund_transaction_id).to match 'peve3se6'
+          expect(transaction.amount.to_f).to eq 500.0
+          expect(transaction.amount_refunded.to_f).to eq 500.0
+          expect(transaction.refund).to be true
+          expect(transaction.refunded_at).not_to eql nil
+        end
       end
 
       describe 'post sync with previous synced refund records' do

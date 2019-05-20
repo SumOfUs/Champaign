@@ -30,7 +30,7 @@ describe 'FundingCounter' do
 
   describe '.update' do
     before do
-      FundingCounter.new(page, 'USD', 10, true).update
+      FundingCounter.new(page, 'USD', -10).update
     end
 
     it 'should reduce page donations by 10' do

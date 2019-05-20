@@ -143,6 +143,17 @@ describe Payment::Braintree::Transaction do
     end
   end
 
+  describe 'update' do
+    before do
+      @transaction = create :payment_braintree_transaction, amount: 12.41, status: 'success'
+    end
+
+    it 'should allow update if there is no refund' do
+      @transaction.customer_id = 1
+      expect(@transaction.save).to be true
+    end
+  end
+
   describe 'total_donations' do
     before do
       @transaction = create :payment_braintree_transaction, amount: 12.41, status: 'success'
@@ -161,8 +172,8 @@ describe Payment::Braintree::Transaction do
       create :payment_braintree_transaction, page_id: @transaction.page_id, amount: 10.00, status: 'success'
       expect(@transaction.page.reload.total_donations.to_f).to eql 2241.0
 
-      @transaction.update(refund: true, refund_transaction_id: 'abcdef')
-      expect(@transaction.page.reload.total_donations.to_f).to eq 1000.0
+      @transaction.update(refund: true, refund_transaction_id: 'abcdef', amount_refunded: 10.00)
+      expect(@transaction.page.reload.total_donations.to_f).to eq 1241.0
     end
   end
 end
