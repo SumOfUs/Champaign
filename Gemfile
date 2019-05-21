@@ -31,6 +31,7 @@ gem 'rails-i18n'
 gem 'readthis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
 gem 'slim-rails'
+gem 'truncato'
 
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
