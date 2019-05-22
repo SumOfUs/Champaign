@@ -6,10 +6,13 @@
 #
 #  id                      :integer          not null, primary key
 #  amount                  :decimal(10, 2)
+#  amount_refunded         :decimal(8, 2)
 #  currency                :string
 #  payment_instrument_type :string
 #  payment_method_token    :string
 #  processor_response_code :string
+#  refund                  :boolean          default(FALSE)
+#  refunded_at             :datetime
 #  status                  :integer
 #  transaction_created_at  :datetime
 #  transaction_type        :string
@@ -19,6 +22,7 @@
 #  merchant_account_id     :string
 #  page_id                 :integer
 #  payment_method_id       :integer
+#  refund_transaction_id   :string
 #  subscription_id         :integer
 #  transaction_id          :string
 #
@@ -34,15 +38,19 @@
 #
 
 class Payment::Braintree::Transaction < ApplicationRecord
+  attr_accessor :refund_synced, :newrecord
+
   belongs_to :page
   belongs_to :payment_method, class_name: 'Payment::Braintree::PaymentMethod'
   belongs_to :customer,       class_name: 'Payment::Braintree::Customer', primary_key: 'customer_id'
   belongs_to :subscription,   class_name: 'Payment::Braintree::Subscription'
   enum status: %i[success failure]
 
-  scope :one_off, -> { where(subscription_id: nil) }
+  scope :one_off,  -> { where(subscription_id: nil) }
+  scope :refunded, -> { where(refund: true) }
 
-  after_create :increment_funding_counter
+  before_save :set_refund_and_creation_state
+  after_save  :update_funding_counter
 
   def publish_subscription_charge
     ChampaignQueue.push({
@@ -59,9 +67,33 @@ class Payment::Braintree::Transaction < ApplicationRecord
                         { group_id: "braintree-subscription:#{subscription.id}" })
   end
 
-  def increment_funding_counter
-    return unless status == 'success'
+  # def increment_funding_counter
+  #   FundingCounter.update(page: page, currency: currency, amount: amount)
+  # end
 
-    FundingCounter.update(page: page, currency: currency, amount: amount)
+  def set_refund_and_creation_state
+    self.newrecord     = new_record?
+    self.refund_synced = refund_was
+    true
+  end
+
+  def amount_affected
+    refund? ? (amount_refunded * -1) : amount.to_f
+  end
+
+  def new_successful_transaction?
+    newrecord && status == 'success'
+  end
+
+  def successful_refund?
+    !new_record? && !refund_synced && amount_refunded.present?
+  end
+
+  def update_funding_counter
+    if new_successful_transaction? || successful_refund?
+      FundingCounter.update(page: page, currency: currency, amount: amount_affected)
+    else
+      true
+    end
   end
 end

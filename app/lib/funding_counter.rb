@@ -2,9 +2,9 @@
 
 class FundingCounter
   def initialize(page, currency, amount = nil)
-    @page = page
+    @page     = page
     @currency = currency
-    @amount = amount
+    @amount   = amount
   end
 
   def self.update(page:, currency:, amount:)
@@ -15,12 +15,19 @@ class FundingCounter
     new(nil, currency, amount).convert
   end
 
+  def original_amount
+    Money.new(@page.total_donations, Settings.default_currency)
+  end
+
+  def converted_amount
+    Money.from_amount(@amount, @currency).exchange_to(Settings.default_currency)
+  end
+
   def update
     return if @page.blank?
 
-    original_amount =  Money.new(@page.total_donations, Settings.default_currency)
-    converted_amount = Money.from_amount(@amount, @currency).exchange_to(Settings.default_currency)
-    @page.update_attributes(total_donations: (original_amount.cents + converted_amount.cents))
+    total_donations = (original_amount.cents + converted_amount.cents)
+    @page.update_attributes(total_donations: total_donations)
   end
 
   def convert
