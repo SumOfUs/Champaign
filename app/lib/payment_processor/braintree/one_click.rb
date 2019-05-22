@@ -1,28 +1,6 @@
 # frozen_string_literal: true
 
 module PaymentProcessor::Braintree
-  class DuplicateDonationError < StandardError
-    def message
-      I18n.t('fundraiser.oneclick.duplicate_donation')
-    end
-  end
-
-  class DuplicateDonationResponse
-    attr_accessor :errors, :message, :params
-    attr_reader   :immediate_redonation
-
-    def initialize(errors: [], message: '', params: {})
-      @errors   = errors
-      @message  = message
-      @params   = params
-      @immediate_redonation = true
-    end
-
-    def success?
-      @errors.empty?
-    end
-  end
-
   class OneClick
     attr_reader :params, :payment_options
 
@@ -67,7 +45,8 @@ module PaymentProcessor::Braintree
       if payment_options.recurring?
         return {
           is_subscription: true,
-          subscription_id: sale.subscription.id
+          subscription_id: sale.subscription.id,
+          transaction_id: sale.subscription.transactions.last.id
         }
       end
       { transaction_id: sale.transaction.id }
