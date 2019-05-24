@@ -36,6 +36,7 @@
 #
 
 class Payment::GoCardless::Transaction < ApplicationRecord
+  attr_accessor :refund_synced, :newrecord
   include AASM
 
   belongs_to :page
@@ -43,7 +44,8 @@ class Payment::GoCardless::Transaction < ApplicationRecord
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
   belongs_to :subscription, class_name:   'Payment::GoCardless::Subscription'
 
-  after_create :increment_funding_counter
+  before_save :set_refund_and_creation_state
+  after_save  :update_funding_counter
 
   validates :go_cardless_id, presence: true, allow_blank: false
 
@@ -108,7 +110,33 @@ class Payment::GoCardless::Transaction < ApplicationRecord
                         { group_id: "gocardless-subscription:#{id}" })
   end
 
-  def increment_funding_counter
-    FundingCounter.update(page: page, currency: currency, amount: amount)
+  # def increment_funding_counter
+  #   FundingCounter.update(page: page, currency: currency, amount: amount)
+  # end
+
+  def set_refund_and_creation_state
+    self.newrecord     = new_record?
+    self.refund_synced = refund_was
+    true
+  end
+
+  def amount_affected
+    refund? ? (amount_refunded * -1) : amount
+  end
+
+  def new_successful_transaction?
+    newrecord
+  end
+
+  def successful_refund?
+    !new_record? && !refund_synced && amount_refunded.present?
+  end
+
+  def update_funding_counter
+    if new_successful_transaction? || successful_refund?
+      FundingCounter.update(page: page, currency: currency, amount: amount_affected)
+    else
+      true
+    end
   end
 end
