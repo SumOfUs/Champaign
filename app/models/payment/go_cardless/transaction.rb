@@ -4,22 +4,25 @@
 #
 # Table name: payment_go_cardless_transactions
 #
-#  id                :integer          not null, primary key
-#  aasm_state        :string
-#  amount            :decimal(, )
-#  amount_refunded   :decimal(, )
-#  charge_date       :date
-#  currency          :string
-#  description       :string
-#  reference         :string
-#  status            :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  customer_id       :integer
-#  go_cardless_id    :string
-#  page_id           :integer
-#  payment_method_id :integer
-#  subscription_id   :integer
+#  id                    :integer          not null, primary key
+#  aasm_state            :string
+#  amount                :decimal(, )
+#  amount_refunded       :decimal(, )
+#  charge_date           :date
+#  currency              :string
+#  description           :string
+#  reference             :string
+#  refund                :boolean          default(FALSE)
+#  refunded_at           :datetime
+#  status                :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  customer_id           :integer
+#  go_cardless_id        :string
+#  page_id               :integer
+#  payment_method_id     :integer
+#  refund_transaction_id :string
+#  subscription_id       :integer
 #
 # Indexes
 #
@@ -57,10 +60,11 @@ class Payment::GoCardless::Transaction < ApplicationRecord
     cancelled: :cancel,
     failed: :fail,
     charged_back: :charge_back,
-    paid_out: :pay_out
+    paid_out: :pay_out,
+    refunded: :refunded
   }.freeze
 
-  aasm do
+  aasm do # rubocop:disable Metrics/BlockLength
     state :created, initial: true
     state :submitted
     state :confirmed
@@ -68,6 +72,7 @@ class Payment::GoCardless::Transaction < ApplicationRecord
     state :cancelled
     state :failed
     state :charged_back
+    state :refunded
 
     event :run_submit do
       transitions from: :created, to: :submitted
@@ -91,6 +96,10 @@ class Payment::GoCardless::Transaction < ApplicationRecord
 
     event :run_charge_back do
       transitions to: :charged_back
+    end
+
+    event :run_refund do
+      transitions to: :refunded
     end
   end
 
