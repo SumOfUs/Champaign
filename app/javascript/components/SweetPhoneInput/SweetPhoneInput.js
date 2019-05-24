@@ -111,7 +111,7 @@ class SweetPhoneInput extends Component<Props, State> {
       }),
       () => {
         if (this.state.selectingCountry) {
-          this.refs.select.refs.wrappedInstance.focus();
+          this.refs.select.props.onChange();
         }
       }
     );
