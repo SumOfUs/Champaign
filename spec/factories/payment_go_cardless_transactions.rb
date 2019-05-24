@@ -4,22 +4,25 @@
 #
 # Table name: payment_go_cardless_transactions
 #
-#  id                :integer          not null, primary key
-#  aasm_state        :string
-#  amount            :decimal(, )
-#  amount_refunded   :decimal(, )
-#  charge_date       :date
-#  currency          :string
-#  description       :string
-#  reference         :string
-#  status            :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  customer_id       :integer
-#  go_cardless_id    :string
-#  page_id           :integer
-#  payment_method_id :integer
-#  subscription_id   :integer
+#  id                    :integer          not null, primary key
+#  aasm_state            :string
+#  amount                :decimal(, )
+#  amount_refunded       :decimal(, )
+#  charge_date           :date
+#  currency              :string
+#  description           :string
+#  reference             :string
+#  refund                :boolean          default(FALSE)
+#  refunded_at           :datetime
+#  status                :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  customer_id           :integer
+#  go_cardless_id        :string
+#  page_id               :integer
+#  payment_method_id     :integer
+#  refund_transaction_id :string
+#  subscription_id       :integer
 #
 # Indexes
 #
