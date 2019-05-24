@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_17_165312) do
+ActiveRecord::Schema.define(version: 2019_05_13_131043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -325,6 +325,10 @@ ActiveRecord::Schema.define(version: 2019_04_17_165312) do
     t.string "processor_response_code"
     t.integer "payment_method_id"
     t.integer "subscription_id"
+    t.decimal "amount_refunded", precision: 8, scale: 2
+    t.datetime "refunded_at"
+    t.boolean "refund", default: false
+    t.string "refund_transaction_id"
     t.index ["page_id"], name: "index_payment_braintree_transactions_on_page_id"
     t.index ["payment_method_id"], name: "braintree_payment_method_index"
     t.index ["subscription_id"], name: "braintree_transaction_subscription"
@@ -457,21 +461,6 @@ ActiveRecord::Schema.define(version: 2019_04_17_165312) do
     t.string "target_by_attributes", default: [], array: true
   end
 
-  create_table "plugins_email_by_lookups", force: :cascade do |t|
-    t.string "ref", default: "default"
-    t.bigint "page_id"
-    t.boolean "active", default: false
-    t.string "from"
-    t.string "subjects", default: [], array: true
-    t.text "body"
-    t.text "body_header"
-    t.text "body_footer"
-    t.string "test_email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["page_id"], name: "index_plugins_email_by_lookups_on_page_id"
-  end
-
   create_table "plugins_email_pensions", id: :serial, force: :cascade do |t|
     t.string "ref"
     t.integer "page_id"
@@ -487,24 +476,6 @@ ActiveRecord::Schema.define(version: 2019_04_17_165312) do
     t.integer "from_email_address_id"
     t.integer "registered_target_endpoint_id"
     t.index ["page_id"], name: "index_plugins_email_pensions_on_page_id"
-  end
-
-  create_table "plugins_email_tool_with_apis", force: :cascade do |t|
-    t.boolean "active", default: false
-    t.boolean "spoof_member_email", default: false
-    t.string "from"
-    t.string "ref"
-    t.string "subjects", default: [], array: true
-    t.string "test_email_address"
-    t.string "title", default: ""
-    t.text "template"
-    t.text "instructions"
-    t.bigint "page_id"
-    t.bigint "registered_email_address_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["page_id"], name: "index_plugins_email_tool_with_apis_on_page_id"
-    t.index ["registered_email_address_id"], name: "plugins_email_tool_with_apis_registered_email"
   end
 
   create_table "plugins_email_tools", force: :cascade do |t|

@@ -90,6 +90,10 @@ $mobile-width: 700px;
     margin-top: 15px;
     float: left;
   }
+  &__submit-button:focus {
+    background: #f73415;
+    box-shadow: 2px 2px 6px 2px #b96f63;
+  }
 
   &__target {
     margin: 0 0 8px;

@@ -111,4 +111,10 @@
       padding-bottom: 5px;
     }
   }
+  .email-target-form {
+    .action-form__submit-button:focus {
+      background: #f73415;
+      box-shadow: 2px 2px 6px 2px #b96f63;
+    }
+  }
 }
