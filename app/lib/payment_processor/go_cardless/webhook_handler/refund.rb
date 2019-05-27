@@ -18,7 +18,7 @@ module PaymentProcessor
               refund: true,
               refunded_at: @resp.created_at,
               refund_transaction_id: @resp.id,
-              amount_refunded: (@resp.amount.to_i / 100)
+              amount_refunded: (@resp.amount.to_f / 100.0)
             )
             record.run_refund!
           else
