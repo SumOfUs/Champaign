@@ -65,7 +65,7 @@ fr:
     details: Détails
     payment: Paiement
     donate: "Donner %{amount}"
-    donate_monthly: "Donner  %{amount} tous les mois"
+    donate_monthly: "Donner  %{amount} par mois"
     month: mois
     error_intro: 'Votre don n’a pas pu être effectué '
     currency_in: "Monnaie en %{currency}"
