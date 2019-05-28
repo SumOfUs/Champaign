@@ -111,10 +111,6 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
-    namespace :background_services, defaults: { format: 'json' } do
-      get 'sync_braintree_refunds'
-    end
-
     scope :shares do
       post 'track', to: '/share/shares#track'
     end
@@ -153,6 +149,7 @@ Rails.application.routes.draw do
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
+        get 'refund'
         post 'pages/:page_id/transaction',  action: 'transaction',  as: 'transaction'
         post 'pages/:page_id/one_click',    action: 'one_click',    as: 'one_click'
         get  'pages/:page_id/link_payment', action: 'link_payment', as: 'link_payment'
