@@ -2,6 +2,7 @@
 
 class Api::Payment::BraintreeController < PaymentController
   skip_before_action :verify_authenticity_token, raise: false
+  before_action :check_api_key, only: [:refund]
 
   def token
     render json: { token: ::Braintree::ClientToken.generate }
@@ -13,6 +14,12 @@ class Api::Payment::BraintreeController < PaymentController
     else
       head :not_found
     end
+  end
+
+  def refund
+    @tracker = PaymentProcessor::Braintree::RefundTracker.new
+    @tracker.sync
+    render json: { refund_ids_synced: @tracker.unsynced_ids }, status: :ok
   end
 
   def one_click
@@ -61,5 +68,13 @@ class Api::Payment::BraintreeController < PaymentController
 
   def recurring?
     @recurring ||= ActiveRecord::Type::Boolean.new.cast(unsafe_params[:recurring])
+  end
+
+  def check_api_key
+    return head :forbidden unless valid_api_key?
+  end
+
+  def valid_api_key?
+    request.headers['X-Api-Key'] == Settings.api_key
   end
 end
