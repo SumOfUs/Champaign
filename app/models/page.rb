@@ -79,6 +79,7 @@ class Page < ApplicationRecord
   has_many :links,      dependent: :destroy
   has_many :share_buttons, class_name: 'Share::Button'
 
+  has_many :go_cardless_transactions, class_name: 'Payment::GoCardless::Transaction'
   has_many :go_cardless_subscriptions, class_name: 'Payment::GoCardless::Subscription'
   has_many :braintree_subscriptions, class_name: 'Payment::Braintree::Subscription'
 

@@ -1,4 +1,19 @@
 [{
+	"_id": "b4261f61c50f469488372dd4584af992",
+	"email": "mirza.baig@avivainvestors.com",
+	"name": "Mirza Baig",
+	"fund": "Aviva"
+}, {
+	"_id": "ec017e7b41224758b32b48167b4a1c2b",
+	"email": "abigail.herron@avivainvestors.com",
+	"name": "Abigail Herron",
+	"fund": "Aviva"
+}, {
+	"_id": "6523eb0257924627b7f14baf4ac9e4c1",
+	"email": "paul.lee@aberdeen-asset.com",
+	"name": "Paul Lee",
+	"fund": "Scottish Widows"
+}, {
 	"_id": "3c2e84389284abe59e91cfa16d1bbdd7",
 	"email": "ruth.wells@bankofengland.co.uk",
 	"name": "Ruth",

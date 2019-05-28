@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_13_131043) do
+ActiveRecord::Schema.define(version: 2019_05_23_193723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -398,6 +398,9 @@ ActiveRecord::Schema.define(version: 2019_05_13_131043) do
     t.datetime "updated_at", null: false
     t.string "aasm_state"
     t.integer "subscription_id"
+    t.datetime "refunded_at"
+    t.string "refund_transaction_id"
+    t.boolean "refund", default: false
     t.index ["customer_id"], name: "index_payment_go_cardless_transactions_on_customer_id"
     t.index ["page_id"], name: "index_payment_go_cardless_transactions_on_page_id"
     t.index ["payment_method_id"], name: "index_payment_go_cardless_transactions_on_payment_method_id"
