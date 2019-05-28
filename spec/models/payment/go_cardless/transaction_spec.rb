@@ -4,22 +4,25 @@
 #
 # Table name: payment_go_cardless_transactions
 #
-#  id                :integer          not null, primary key
-#  aasm_state        :string
-#  amount            :decimal(, )
-#  amount_refunded   :decimal(, )
-#  charge_date       :date
-#  currency          :string
-#  description       :string
-#  reference         :string
-#  status            :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  customer_id       :integer
-#  go_cardless_id    :string
-#  page_id           :integer
-#  payment_method_id :integer
-#  subscription_id   :integer
+#  id                    :integer          not null, primary key
+#  aasm_state            :string
+#  amount                :decimal(, )
+#  amount_refunded       :decimal(, )
+#  charge_date           :date
+#  currency              :string
+#  description           :string
+#  reference             :string
+#  refund                :boolean          default(FALSE)
+#  refunded_at           :datetime
+#  status                :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  customer_id           :integer
+#  go_cardless_id        :string
+#  page_id               :integer
+#  payment_method_id     :integer
+#  refund_transaction_id :string
+#  subscription_id       :integer
 #
 # Indexes
 #
@@ -207,6 +210,39 @@ describe Payment::GoCardless::Transaction do
 
     it 'returns transactions without a subscription' do
       expect(Payment::GoCardless::Transaction.one_off).to match_array([transaction_without_subscription])
+    end
+  end
+
+  describe 'update' do
+    before do
+      @transaction = create :payment_go_cardless_transaction, amount: 12.41
+    end
+
+    it 'should allow update if there is no refund' do
+      expect(@transaction.save).to be true
+    end
+  end
+
+  describe 'total_donations' do
+    before do
+      @transaction = create :payment_go_cardless_transaction, amount: 12.41
+    end
+
+    it 'should have total_donations as 12.41' do
+      expect(@transaction.page.total_donations.to_f).to eq 1241.0
+    end
+
+    it 'should not increase total_donations' do
+      @transaction.touch
+      expect(@transaction.page.total_donations.to_f).to eq 1241.0
+    end
+
+    it 'should reduce refund amount from total_donations' do
+      create :payment_go_cardless_transaction, page_id: @transaction.page_id, amount: 10.00
+      expect(@transaction.page.reload.total_donations.to_f).to eql 2241.0
+
+      @transaction.update(refund: true, refund_transaction_id: 'RF2342abcdef2', amount_refunded: 10.00)
+      expect(@transaction.page.reload.total_donations.to_f).to eq 1241.0
     end
   end
 end

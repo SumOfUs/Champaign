@@ -29,9 +29,11 @@ module PaymentProcessor::GoCardless
       end
 
       def process_event(event)
-        klass_name = event['resource_type'].classify
-        if ::PaymentProcessor::GoCardless::WebhookHandler.const_defined?(klass_name)
-          processor = ::PaymentProcessor::GoCardless::WebhookHandler.const_get(klass_name).new(event)
+        klass      = event['resource_type'].classify
+        klass_name = "::PaymentProcessor::GoCardless::WebhookHandler::#{klass}".safe_constantize
+
+        if klass_name
+          processor = klass_name.new(event)
           processor.process
           processor
         end
