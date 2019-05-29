@@ -2,6 +2,7 @@
 
 class Api::MembersController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
+  before_action :check_api_key, only: [:forget]
 
   def create
     I18n.locale = permitted_params[:locale] if permitted_params[:locale].present?
@@ -13,9 +14,18 @@ class Api::MembersController < ApplicationController
     end
   end
 
+  def forget
+    ForgetMember.forget(member) if member
+    head :no_content
+  end
+
   private
 
   def permitted_params
     params.permit(:name, :email, :country, :postal, :locale)
+  end
+
+  def member
+    @member ||= Member.find_by(email: permitted_params[:email])
   end
 end

@@ -49,4 +49,20 @@ describe 'api/members' do
       expect(json).to eq(errors: { name: ['is required'], email: ['is not a valid email address'], country: ['is required'] })
     end
   end
+
+  describe 'POST api/members/forget' do
+    let!(:existing_member) { create :member, email: 'oldie@test.org', name: 'Oldie Goldie', country: 'SWE', postal: 12_880 }
+
+    it 'requires an API key' do
+      post '/api/members/forget', params: { email: 'oldie@test.org' }
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'forgets a member' do
+      expect(Member.find_by_email('oldie@test.org')).to have_attributes(email: 'oldie@test.org')
+      post '/api/members/forget', params: { email: 'oldie@test.org' }, headers: { 'X-Api-Key': Settings.api_key }
+      expect(response).to have_http_status(:no_content)
+      expect(Member.find_by_email('oldie@test.org')).to eq(nil)
+    end
+  end
 end

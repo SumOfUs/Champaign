@@ -216,6 +216,8 @@ Rails.application.routes.draw do
 
     resources :members
 
+    post 'members/forget', to: 'members#forget'
+
     # Respond to CORS Preflight requests (OPTIONS) with a
     # 204 No Content
     match '*path', via: :options, to: lambda { |_|
