@@ -8,6 +8,7 @@ describe Api::PagesController do
 
   before do
     allow(Page).to receive(:find) { page }
+    allow(page_updater).to receive(:ak_resource_empty?) { true }
   end
 
   describe 'GET index' do
