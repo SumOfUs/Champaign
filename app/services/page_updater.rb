@@ -58,7 +58,7 @@
 #
 
 class PageUpdater
-  attr_reader :errors
+  attr_reader :errors, :page
 
   def initialize(page, page_url = nil)
     @page = page
@@ -77,6 +77,12 @@ class PageUpdater
 
   def refresh?
     @refresh || false
+  end
+
+  def ak_resource_empty?
+    (page.ak_petition_resource_uri.blank? ||
+    page.ak_donation_resource_uri.blank?) &&
+      page.created_at < (DateTime.now - 2.minutes)
   end
 
   private

@@ -122,8 +122,16 @@ let PageEditBar = Backbone.View.extend({
     if (data.refresh) {
       location.reload();
     }
+
+    if (data.ak_resource_warning) {
+      $('#ak-warning-msg').removeClass('hidden-irrelevant');
+    } else {
+      $('#ak-warning-msg').addClass('hidden-irrelevant');
+    }
+
     this.enableSubmit();
     ee.emit('page:saved', data);
+
     $('.page-edit-bar__save-box').removeClass(
       'page-edit-bar__save-box--has-error'
     );
