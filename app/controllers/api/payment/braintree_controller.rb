@@ -69,12 +69,4 @@ class Api::Payment::BraintreeController < PaymentController
   def recurring?
     @recurring ||= ActiveRecord::Type::Boolean.new.cast(unsafe_params[:recurring])
   end
-
-  def check_api_key
-    return head :forbidden unless valid_api_key?
-  end
-
-  def valid_api_key?
-    request.headers['X-Api-Key'] == Settings.api_key
-  end
 end
