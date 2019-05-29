@@ -33,15 +33,7 @@ class Api::PendingActionNotificationsController < ApplicationController
 
   private
 
-  def check_api_key
-    return head :forbidden unless valid_api_key?
-  end
-
   def pending_action
     @pending_action ||= PendingAction.find params[:id]
-  end
-
-  def valid_api_key?
-    request.headers['X-Api-Key'] == Settings.api_key
   end
 end
