@@ -112,6 +112,8 @@ class ShareVariantBuilder
     else
       add_sp_errors_to_variant(sp_button, @variant)
     end
+  rescue ShareProgress::RecordNotFound
+    @variant.add_errors(['Share Record does not exist !!!'])
   end
 
   def add_sp_errors_to_variant(sp_button, variant)
