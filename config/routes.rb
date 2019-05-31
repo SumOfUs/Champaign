@@ -225,10 +225,11 @@ Rails.application.routes.draw do
     }
 
     namespace :member_services do
-      delete '/recurring_donations/:provider/:id', action: 'cancel_recurring_donation'
-      put '/members/', action: 'update_member'
       get '/gocardless/customers', action: :gocardless_customers
-      get '/subject_access_request/', action: 'subject_access_request'
+      get '/subject_access_request/', action: :subject_access_request
+      put '/members/', action: :update_member
+      post '/members/forget', action: :forget_member
+      delete '/recurring_donations/:provider/:id', action: :cancel_recurring_donation
     end
   end
 

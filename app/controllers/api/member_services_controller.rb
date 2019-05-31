@@ -47,6 +47,13 @@ class Api::MemberServicesController < ApplicationController
     end
   end
 
+  def forget_member
+    email = params.require(:email)
+    member = Member.find_by(email: email)
+    ForgetMember.forget(member) if member
+    head :no_content
+  end
+
   private
 
   def authenticate_member_services

@@ -100,6 +100,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_api_key
+    Rails.logger.info(request.headers['X-Api-Key'])
     head :forbidden unless request.headers['X-Api-Key'] == Settings.api_key
   end
 end
