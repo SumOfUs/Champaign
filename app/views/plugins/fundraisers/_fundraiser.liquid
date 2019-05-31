@@ -63,6 +63,12 @@
         if (typeof window.ga === 'function') {
           window.ga('send', 'event', 'fa_fundraising', action, label);
         }
+        if (window.mixpanel) {
+          mixpanel.track(action, {
+            'event_label': label,
+            'event_source': 'fa_fundraising'
+          });
+        }
       },
       attachEventListeners: function() {
         this.changeStepEvent();
