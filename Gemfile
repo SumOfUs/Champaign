@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.6.2'
 
 gem 'aasm'
-gem 'activeadmin', '~> 1.4.3'
+gem 'activeadmin', '~> 2.0.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'braintree', '~> 2'
 gem 'countries', require: 'countries/global'
