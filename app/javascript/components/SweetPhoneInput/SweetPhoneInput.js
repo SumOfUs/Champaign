@@ -11,7 +11,7 @@ import SelectCountry from '../SelectCountry/SelectCountry';
 
 import './SweetPhoneInput.scss';
 
-import type { Errors } from '../../call_tool/CallToolView';
+import type { Errors } from '../../plugins/call_tool/CallToolView';
 
 type Props = {
   value: string,

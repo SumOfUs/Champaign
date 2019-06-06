@@ -1,3 +1,4 @@
+// @flow
 // Copied over from previous file in
 // assets/javascripts/application.js manifest
 // A lot of this might be unnecessary (and it will do well
@@ -7,27 +8,27 @@
 require('d3');
 import '../shared/pub_sub';
 import '../shared/show_errors';
-import '../campaigner_facing/syntax_highlighting';
-import '../campaigner_facing/dropzone_image_upload';
-import '../campaigner_facing/selectize_config';
-import '../campaigner_facing/search';
-import '../campaigner_facing/configure_wysiwyg';
-import '../campaigner_facing/form_preview';
-import '../campaigner_facing/ajax';
-import '../campaigner_facing/page';
-import '../campaigner_facing/plugins_toggle';
-import '../campaigner_facing/sidebar';
-import '../campaigner_facing/tooltips';
-import '../campaigner_facing/collection_editor';
-import '../campaigner_facing/shares_editor';
-import '../campaigner_facing/actions_editor';
-import '../campaigner_facing/layout_picker';
+import '../legacy/campaigner_facing/syntax_highlighting';
+import '../legacy/campaigner_facing/dropzone_image_upload';
+import '../legacy/campaigner_facing/selectize_config';
+import '../legacy/campaigner_facing/search';
+import '../legacy/campaigner_facing/configure_wysiwyg';
+import '../legacy/campaigner_facing/form_preview';
+import '../legacy/campaigner_facing/ajax';
+import '../legacy/campaigner_facing/page';
+import '../legacy/campaigner_facing/plugins_toggle';
+import '../legacy/campaigner_facing/sidebar';
+import '../legacy/campaigner_facing/tooltips';
+import '../legacy/campaigner_facing/collection_editor';
+import '../legacy/campaigner_facing/shares_editor';
+import '../legacy/campaigner_facing/actions_editor';
+import '../legacy/campaigner_facing/layout_picker';
 
-import PageEditBar from '../campaigner_facing/page_edit_bar';
-import Analytics from '../campaigner_facing/analytics';
-import SurveyEditor from '../campaigner_facing/survey_editor';
-import FormElementCreator from '../campaigner_facing/form_element_creator';
-import ListEditor from '../campaigner_facing/list_editor';
+import PageEditBar from '../legacy/campaigner_facing/page_edit_bar';
+import Analytics from '../legacy/campaigner_facing/analytics';
+import SurveyEditor from '../legacy/campaigner_facing/survey_editor';
+import FormElementCreator from '../legacy/campaigner_facing/form_element_creator';
+import ListEditor from '../legacy/campaigner_facing/list_editor';
 import Twitter from 'twitter-text';
 
 // Styles
