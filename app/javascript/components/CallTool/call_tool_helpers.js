@@ -1,15 +1,17 @@
 // @flow
 import { compact, get, isMatchWith, pick, uniq, without } from 'lodash';
-import type { Target } from '../../call_tool/CallToolView';
+import type { Target } from '../../plugins/call_tool/CallToolView';
 
 export type TargetWithFields = { [string]: any };
 export type Filters = { [string]: string };
 
 export function targetsWithFields(targets: Target[]): TargetWithFields[] {
-  return targets.map((t: Target): TargetWithFields => ({
-    ...pick(t, without(Object.keys(t), 'fields')),
-    ...get(t, 'fields', {}),
-  }));
+  return targets.map(
+    (t: Target): TargetWithFields => ({
+      ...pick(t, without(Object.keys(t), 'fields')),
+      ...get(t, 'fields', {}),
+    })
+  );
 }
 
 const caseInsensitiveComp = (objValue, srcValue) => {

@@ -3,8 +3,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { camelizeKeys } from '../util/util';
 import ComponentWrapper from '../components/ComponentWrapper';
-import EmailPensionView from '../email_pension/EmailPensionView';
-import EmailRepresentativeView from '../email_pension/EmailRepresentativeView';
+import EmailPensionView from '../plugins/email_pension/EmailPensionView';
+import EmailRepresentativeView from '../plugins/email_pension/EmailRepresentativeView';
 import type { AppState } from '../state';
 import type { Store } from 'redux';
 
