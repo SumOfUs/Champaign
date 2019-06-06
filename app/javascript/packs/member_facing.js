@@ -1,21 +1,21 @@
 import I18n from 'champaign-i18n';
 import 'whatwg-fetch';
 import '../shared/show_errors';
-import '../member-facing/registration';
-import '../member-facing/track_shares';
-import '../recommend_pages/recommend_pages';
+import '../legacy/member-facing/registration';
+import '../legacy/member-facing/track_shares';
+import '../plugins/recommend-pages';
 import '../util/event_tracking';
 
 import { mapValues, pick } from 'lodash';
 import flatten from 'flat';
 import URI from 'urijs';
 import configureStore from '../state';
-import redirectors from '../member-facing/redirectors';
+import redirectors from '../legacy/member-facing/redirectors';
 import { FeaturesHelper } from '../state/features';
 import DonationsThermometer from '../plugins/donations-thermometer';
 import ProgressTracker from '../plugins/progress-tracker';
 import asyncModules from '../async/';
-import * as legacy from '../member-facing/';
+import * as legacy from '../legacy/member-facing/';
 window.URI = URI;
 
 if (process.env.EXTERNAL_ASSETS_JS_PATH) {

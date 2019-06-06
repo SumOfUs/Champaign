@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import queryString from 'query-string';
 import ComponentWrapper from '../components/ComponentWrapper';
-import FundraiserView from '../fundraiser/FundraiserView';
+import FundraiserView from '../plugins/fundraiser/FundraiserView';
 import configureStore from '../state';
 
 import type { Store } from 'redux';
@@ -104,8 +104,12 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   mount(root, options, FundraiserView);
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept('../fundraiser/FundraiserView', () => {
-      mount(root, options, require('../fundraiser/FundraiserView').default);
+    module.hot.accept('../plugins/fundraiser/FundraiserView', () => {
+      mount(
+        root,
+        options,
+        require('../plugins/fundraiser/FundraiserView').default
+      );
     });
   }
 };
