@@ -1,0 +1,38 @@
+= render 'shared/sidebar', action: :index, resource: :pension_funds
+
+.edit-block
+  h1.edit-block__title= t('pension_funds.index.title')
+  = form_with url: pension_funds_path, method: 'get' do |form|
+    .row
+      .col-md-3
+        = form.select :country_code, options_for_select(sorted_countries_list, params[:country_code]), {include_blank: 'All Countries'}, class: 'form-control'
+      .col-md-5
+        = form.text_field :search_text, {value: params[:search_text], class: 'form-control', placeholder: 'Enter name or email or fund'}
+      .col-md-2
+        = form.submit 'Search', class: 'btn btn-primary'
+    br
+  .row
+    .col-md-12
+
+      table.table-bordered.table-striped.table
+        thead
+          tr
+            th #
+            th = t('pension_funds.fields.country')
+            th = t('pension_funds.fields.fund')
+            th = t('pension_funds.fields.name')
+            th = t('pension_funds.fields.email')
+            th = t('pension_funds.fields.active')
+            th
+        tbody
+          - @pension_funds.each_with_index do |record, index|
+            tr
+              td = (index += 1)
+              td = country_name(record.country_code)
+              td = highlight record.fund, params[:search_text]
+              td = highlight record.name, params[:search_text]
+              td = highlight record.email, params[:search_text]
+              td = record.active
+              td = link_to t('common.edit'), edit_pension_fund_path(record, {country_code: params[:country_code]})
+
+      = link_to t('pension_funds.index.new'), new_pension_fund_path, class: 'btn btn-primary btn-sm'

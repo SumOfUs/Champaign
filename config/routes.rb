@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   resources :uris, except: %i[new edit]
   resources :campaigns
   resources :donation_bands, except: %i[show destroy]
+  resources :pension_funds, except: %i[show destroy]
 
   resources :clone_pages
 

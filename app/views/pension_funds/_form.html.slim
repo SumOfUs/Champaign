@@ -1,0 +1,24 @@
+.row
+  .col-md-7.col-sm-12
+    = form_for(@pension_fund) do |f|
+      = hidden_field_tag :country_code, params[:country_code]
+
+      .form-group
+        = f.label :fund, t('pension_funds.fields.country')
+        = f.select :country_code, sorted_countries_list, { include_blank: true }, class: 'form-control'
+      .form-group
+        = f.label :fund, t('pension_funds.fields.fund')
+        = f.text_field :fund, class: 'form-control', placeholder: t('pension_funds.fields.fund')
+      .form-group
+        = f.label :name, t('pension_funds.fields.name')
+        = f.text_field :name, class: 'form-control', placeholder: t('pension_funds.fields.name')
+      .form-group
+        = f.label :email, t('pension_funds.fields.email')
+        = f.text_field :email, class: 'form-control', placeholder: t('pension_funds.fields.email')
+
+      .form-check.form-check-inline
+        = f.check_box :active, class: 'form-check-input'
+        = f.label :active, class: 'form-check-label'
+
+      .form-group
+        = f.submit t('common.save'), class: 'btn btn-sm btn-primary col-md-6'

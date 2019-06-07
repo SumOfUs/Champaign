@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_23_193723) do
+ActiveRecord::Schema.define(version: 2019_06_04_133749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -435,6 +435,19 @@ ActiveRecord::Schema.define(version: 2019_05_23_193723) do
     t.string "clicked", default: [], array: true
     t.boolean "consented"
     t.index ["page_id"], name: "index_pending_actions_on_page_id"
+  end
+
+  create_table "pension_funds", force: :cascade do |t|
+    t.string "country_code", null: false
+    t.string "uuid", null: false
+    t.string "fund", null: false
+    t.string "name", null: false
+    t.string "email"
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_code"], name: "index_pension_funds_on_country_code"
+    t.index ["uuid"], name: "index_pension_funds_on_uuid", unique: true
   end
 
   create_table "phone_numbers", id: :serial, force: :cascade do |t|

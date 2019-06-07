@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Uuid:
+  = @pension_fund.uuid
+p
+  strong Fund:
+  = @pension_fund.fund
+p
+  strong Name:
+  = @pension_fund.name
+p
+  strong Email:
+  = @pension_fund.email
+
+= link_to 'Edit', edit_pension_fund_path(@pension_fund)
+'  |
+= link_to 'Back', pension_funds_path
