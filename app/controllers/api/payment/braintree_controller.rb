@@ -2,6 +2,7 @@
 
 class Api::Payment::BraintreeController < PaymentController
   skip_before_action :verify_authenticity_token, raise: false
+  before_action :check_api_key, only: [:refund]
 
   def token
     render json: { token: ::Braintree::ClientToken.generate }
@@ -13,6 +14,12 @@ class Api::Payment::BraintreeController < PaymentController
     else
       head :not_found
     end
+  end
+
+  def refund
+    @tracker = PaymentProcessor::Braintree::RefundTracker.new
+    @tracker.sync
+    render json: { refund_ids_synced: @tracker.unsynced_ids }, status: :ok
   end
 
   def one_click

@@ -149,6 +149,7 @@ Rails.application.routes.draw do
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
+        get 'refund'
         post 'pages/:page_id/transaction',  action: 'transaction',  as: 'transaction'
         post 'pages/:page_id/one_click',    action: 'one_click',    as: 'one_click'
         get  'pages/:page_id/link_payment', action: 'link_payment', as: 'link_payment'
@@ -215,6 +216,8 @@ Rails.application.routes.draw do
 
     resources :members
 
+    post 'members/forget', to: 'members#forget'
+
     # Respond to CORS Preflight requests (OPTIONS) with a
     # 204 No Content
     match '*path', via: :options, to: lambda { |_|
@@ -222,10 +225,11 @@ Rails.application.routes.draw do
     }
 
     namespace :member_services do
-      delete '/recurring_donations/:provider/:id', action: 'cancel_recurring_donation'
-      put '/members/', action: 'update_member'
       get '/gocardless/customers', action: :gocardless_customers
-      get '/subject_access_request/', action: 'subject_access_request'
+      get '/subject_access_request/', action: :subject_access_request
+      put '/members/', action: :update_member
+      post '/members/forget', action: :forget_member
+      delete '/recurring_donations/:provider/:id', action: :cancel_recurring_donation
     end
   end
 

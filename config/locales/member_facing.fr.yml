@@ -52,7 +52,7 @@ fr:
       name: '[Enter your name above]'
   fundraiser:
     payment_methods:
-      gocardless: "Prélèvement SEPA"
+      gocardless: "Prélèvement bancaire"
       paypal: "PayPal"
       card: 'Carte bancaire'
       google: 'Google Pay'
@@ -94,7 +94,7 @@ fr:
     debit:
       recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
       one_time: "Vous souhaitez donner %{amount} à SumOfUs."
-      direct_debit: "Prélèvement SEPA"
+      direct_debit: "Prélèvement bancaire"
     fields:
       cvv: CVV
       number: Numéro de votre carte

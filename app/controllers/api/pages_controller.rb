@@ -11,9 +11,15 @@ class Api::PagesController < ApplicationController
     updater = PageUpdater.new(@page, page_url(@page))
 
     if updater.update(all_params)
-      render json: { refresh: updater.refresh?, id: @page.id }, status: :ok
+      render json: {
+        refresh: updater.refresh?, id: @page.id,
+        ak_resource_warning: updater.ak_resource_empty?
+      }, status: :ok
     else
-      render json: { errors: shallow_errors(updater.errors) }, status: 422
+      render json: {
+        errors: shallow_errors(updater.errors),
+        ak_resource_warning: updater.ak_resource_empty?
+      }, status: 422
     end
   end
 

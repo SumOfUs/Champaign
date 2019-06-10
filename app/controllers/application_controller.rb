@@ -98,4 +98,9 @@ class ApplicationController < ActionController::Base
     Raven.user_context(id: recognized_member&.id)
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
+
+  def check_api_key
+    Rails.logger.info(request.headers['X-Api-Key'])
+    head :forbidden unless request.headers['X-Api-Key'] == Settings.api_key
+  end
 end

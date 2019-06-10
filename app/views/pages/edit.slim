@@ -5,8 +5,11 @@
 
 section.page-edit-step#basics data-icon='paragraph'
   h1.page-edit-step__title = t('.content')
-  = render 'form', page: @page
+  - if (@page.ak_petition_resource_uri.blank? || @page.ak_donation_resource_uri.blank?) && @page.created_at < (DateTime.now - 2.minutes)
+    .alert.alert-warning.ak-resource-pending role="alert" style="margin-top:-25px" id="ak-warning-msg"
+      p = t('pages.edit.ak_resource_missing')
 
+  = render 'form', page: @page
 section.page-edit-step#layout data-icon='cog'
   h1.page-edit-step__title = t('.settings')
   = render 'settings_form', page: @page
