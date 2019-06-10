@@ -15,7 +15,7 @@ class EmailTool::TargetsFinder
   private
 
   def targets_endpoint
-    URI.join("#{@endpoint}/", @postcode.strip).to_s
+    URI.join(@endpoint.to_s, @postcode.strip).to_s
   end
 
   def format_targets(targets)
