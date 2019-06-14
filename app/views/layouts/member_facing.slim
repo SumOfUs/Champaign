@@ -41,5 +41,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = yield
 
     = javascript_pack_tag "cookie_consent"
+    = javascript_pack_tag "plugins"
     = render partial: "shared/google_analytics_snippet"
     = render partial: "shared/shareprogress_snippet"

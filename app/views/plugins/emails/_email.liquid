@@ -6,7 +6,7 @@
       'ukparliament': function () {
         window.champaign.modules.load('email-ukparliament', {
           el: document.querySelector('#plugin-email-{{ref}}'),
-          config: window.champaign.config.plugins.email['{{ref}}'],
+          config: window.champaign.plugins.email['{{ref}}']['config'],
         });
       },
     })['{{type}}'];
