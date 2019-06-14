@@ -217,20 +217,6 @@ module PagesHelper
     base.merge(layouts_and_plugins)
   end
 
-  def countries
-    ISO3166::Country.all.map do |c|
-      {
-        name: c.name,
-        alpha2: c.alpha2,
-        alpha3: c.alpha3,
-        country_code: c.country_code,
-        currency_code: c.currency_code,
-        eu_member: c.in_eu?,
-        eea_member: c.in_eea?
-      }
-    end
-  end
-
   def truncate_page_content(content, length = 500)
     Truncato.truncate(content, max_length: length)
   end
