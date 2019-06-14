@@ -2,6 +2,7 @@
 import 'cookieconsent';
 import $ from 'jquery';
 import I18n from 'champaign-i18n';
+import EEA_LIST from '../shared/eea-list';
 
 $(() => {
   if (isEEA()) {
@@ -18,10 +19,5 @@ $(() => {
   }
 });
 
-const isEEA = () => {
-  let countryCode = window.champaign.personalization.location.country;
-  let countries = window.champaign.countries;
-  const country = countries.find(c => c.alpha2 === countryCode);
-  if (!country) return false;
-  return country.eea_member;
-};
+const isEEA = () =>
+  EEA_LIST.includes(window.champaign.personalization.location.country);

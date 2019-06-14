@@ -1,5 +1,6 @@
 // @flow
 import { includes } from 'lodash';
+import EEA_LIST from '../../shared/eea-list';
 import type { InitialAction } from '../reducers';
 
 export type ConsentState = {
@@ -117,12 +118,6 @@ export function showConsentRequired(value: boolean): Action {
 // * user has not selected to consent or not (`consented` is still null)
 function isRequired(state: ConsentState, filter?: (country: any) => boolean) {
   const { countryCode, consented, previouslyConsented } = state;
-  // Affected countries: EEA members except Germany and Austria
-  if (!window.champaign) return false;
-  const countries = window.champaign.countries
-    .filter(c => c.eea_member)
-    .filter(filter || (() => true))
-    .map(c => c.alpha2);
-  const inAffectedCountry = includes(countries, countryCode);
+  const inAffectedCountry = includes(EEA_LIST, countryCode);
   return inAffectedCountry && !previouslyConsented && consented === null;
 }
