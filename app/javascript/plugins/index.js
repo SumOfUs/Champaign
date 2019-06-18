@@ -19,7 +19,6 @@ export class Plugin extends EventEmitter {
   el: HTMLElement | void;
   namespace: string;
   config: any;
-  render: ?() => void;
 
   constructor(options?: PluginOptions = {}) {
     super();
@@ -33,10 +32,6 @@ export class Plugin extends EventEmitter {
     if (options.el) this.el = options.el;
     if (options.config) extend(this.config, options.config);
     this.emit(eventName('update', this.namespace));
-
-    if (this.render) {
-      this.render();
-    }
   }
 }
 
@@ -46,8 +41,10 @@ function eventName(eventName: string, namespace: string) {
 
 export const load = async (name: string, ref: string, config?: any) => {
   const loader = SUPPORTED_PLUGINS[name];
+  if (!loader) return;
+
   const el = document.getElementById(`plugin-${name}-${ref}`);
-  if (!el || !loader) return;
-  const plugin = await loader();
-  return plugin.setup({ el, config });
+  if (!el) return;
+
+  return (await loader()).init({ el, config: { ...config, ref } });
 };

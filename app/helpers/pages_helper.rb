@@ -220,4 +220,22 @@ module PagesHelper
   def truncate_page_content(content, length = 500)
     Truncato.truncate(content, max_length: length)
   end
+
+  def plugin_supplemental_data(member, url_params)
+    # TODO
+  end
+
+  def plugins_config(page)
+    page.plugins.each_with_object({}) do |plugin, hsh|
+      return hsh unless plugin.present?
+
+      ref = plugin.ref.present? ? plugin.ref : 'default'
+      hsh[plugin.name.underscore.to_sym] = {
+        "#{ref}": {
+          config: plugin.liquid_data
+        }
+      }.symbolize_keys
+      hsh
+    end
+  end
 end
