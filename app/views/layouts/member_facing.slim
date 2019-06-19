@@ -36,7 +36,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
 
     = javascript_pack_tag "member_facing"
-    / = render "pages/packs", plugins: @page.plugins
+    = render "pages/packs", plugins: @page.plugins
 
     = yield
 
