@@ -40,7 +40,10 @@ export class Petition extends Plugin {
     this.render();
   }
 
-  resetMember = () => this.store.dispatch(resetMember());
+  resetMember = () => {
+    this.store.dispatch(resetMember());
+    this.emit('resetMember');
+  };
 
   submit = () => {
     console.info('Petition#submit not implemented');
@@ -51,7 +54,11 @@ export class Petition extends Plugin {
     if (el) {
       render(
         <ComponentWrapper locale={I18n.locale} store={champaign.store}>
-          <PetitionComponent config={this.config} />
+          <PetitionComponent
+            config={this.config}
+            resetMember={this.resetMember}
+            onSubmit={this.submit}
+          />
         </ComponentWrapper>,
         el
       );
