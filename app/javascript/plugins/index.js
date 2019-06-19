@@ -46,5 +46,9 @@ export const load = async (name: string, ref: string, config?: any) => {
   const el = document.getElementById(`plugin-${name}-${ref}`);
   if (!el) return;
 
-  return (await loader()).init({ el, config: { ...config, ref } });
+  return (await loader()).init({
+    el,
+    config: { ...config, ref },
+    store: window.champaign.store,
+  });
 };
