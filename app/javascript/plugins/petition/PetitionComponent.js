@@ -1,27 +1,27 @@
 // @flow
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from '../../components/Button/Button';
 import WelcomeMember from '../../components/WelcomeMember/WelcomeMember';
+import { resetMember } from '../../state/member/reducer';
+
 import type { Member } from '../../state';
 
 type Props = {
-  member: Member,
-  onResetMember: () => void,
-  onSubmit: () => void,
   config: any,
+  resetMember: () => void,
+  onSubmit: () => void,
 };
+
 export function PetitionComponent(props: Props) {
-  const { member, config } = props;
+  const dispatch = useDispatch();
+  const { member } = useSelector(state => state);
+
   return (
     <div className="PetitionComponent">
-      {props.member && (
-        <WelcomeMember
-          member={props.member}
-          resetMember={props.onResetMember}
-        />
-      )}
-      {!props.member && <p>Form goes here</p>}
-      <Button>Sign Petition</Button>
+      <WelcomeMember member={member} resetMember={props.resetMember} />
+      {!member && <p>Form goes here</p>}
+      <Button onClick={props.onSubmit}>Sign Petition</Button>
     </div>
   );
 }

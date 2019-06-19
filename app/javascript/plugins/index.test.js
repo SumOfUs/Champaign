@@ -1,28 +1,33 @@
 // @flow
 import { SUPPORTED_PLUGINS, Plugin, load } from './index';
+import EventEmitter from 'eventemitter3';
 import { each } from 'lodash';
 
 describe('Plugin (interface)', function() {
-  test('is an EventEmitter', () => {
+  test('creates an EventEmitter', () => {
     const plugin = new Plugin();
-    plugin.on('test-event', jest.fn());
-    expect(plugin.eventNames()).toEqual(expect.arrayContaining(['test-event']));
-    expect(plugin.listeners('test-event')).toHaveLength(1);
+    expect(plugin.events).toBeInstanceOf(EventEmitter);
   });
 
   test(`prepends event names with the plugin's namespace`, () => {
     const plugin = new Plugin({ namespace: 'petition' });
-    jest.spyOn(plugin, 'emit');
+    jest.spyOn(plugin.events, 'emit');
 
     plugin.update({ namespace: 'petition' });
-    expect(plugin.emit).toHaveBeenCalledWith('petition:update');
+    expect(plugin.events.emit).toHaveBeenCalledWith(
+      'petition:updated',
+      undefined
+    );
 
     plugin.update({ namespace: 'petition2' });
-    expect(plugin.emit).toHaveBeenCalledWith('petition2:update');
+    expect(plugin.events.emit).toHaveBeenCalledWith(
+      'petition2:updated',
+      undefined
+    );
   });
 
   test(`keeps a reference to the dom element it's referencing`, () => {
-    const plugin = new Plugin({ el: document.createElement('div') });
+    const plugin = new Plugin({ el: {} });
     expect(plugin.el).toBeTruthy();
   });
 });
