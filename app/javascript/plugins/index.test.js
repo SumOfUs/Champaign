@@ -27,7 +27,7 @@ describe('Plugin (interface)', function() {
   });
 
   test(`keeps a reference to the dom element it's referencing`, () => {
-    const plugin = new Plugin({ el: {} });
+    const plugin = new Plugin({ el: document.createElement('div') });
     expect(plugin.el).toBeTruthy();
   });
 });

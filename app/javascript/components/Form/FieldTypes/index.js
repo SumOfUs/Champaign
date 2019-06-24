@@ -29,10 +29,10 @@ const ErrorMessage = (props: Props) => {
 };
 
 export const Input = (props: Props) => {
-  const [value, setValue] = useState(props.default_value);
   const onChange = (v: string) => {
-    setValue(v);
-    if (props.onChange) props.onChange(v);
+    if (props.onChange) {
+      props.onChange(v);
+    }
   };
   return (
     <SweetInput
@@ -40,7 +40,7 @@ export const Input = (props: Props) => {
       onChange={onChange}
       required={props.required}
       type={props.type || 'text'}
-      value={value}
+      value={props.default_value}
     />
   );
 };
