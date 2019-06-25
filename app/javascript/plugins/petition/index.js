@@ -58,6 +58,7 @@ export class Petition extends Plugin {
             config={this.config}
             resetMember={this.resetMember}
             onSubmit={this.submit}
+            eventEmitter={this.events}
           />
         </ComponentWrapper>,
         el
