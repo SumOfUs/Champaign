@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import Select from 'react-select';
 import type { SelectOption } from 'react-select';
-// import 'react-select/dist/react-select.css';
+import 'react-select/dist/react-select.css';
 import './SweetSelect.scss';
 
 // TODO: deduplicate this (also seen in SweetInput)
@@ -77,8 +77,6 @@ export default class SweetSelect extends Component<Props, State> {
           {this.props.label}
         </label>
         <Select
-          className="Select"
-          classNamePrefix="Select"
           {...this.props}
           ref="select"
           placeholder=""
