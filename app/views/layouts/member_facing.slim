@@ -14,7 +14,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = metamagic
 
     = javascript_pack_tag "sentry"
-    = javascript_pack_tag "globals"
+
+    = javascript_packs_with_chunks_tag "globals"
+    = stylesheet_packs_with_chunks_tag "globals"
 
     = render partial: "shared/browser_polyfills"
     = render partial: "layouts/mixpanel" if Settings.mixpanel_token
@@ -23,7 +25,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render "pages/personalization", data: @data
     = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
 
-    = stylesheet_pack_tag "globals"
+    / = stylesheet_pack_tag "globals"
     = stylesheet_link_tag "member-facing"
     = stylesheet_pack_tag "member_facing"
   body
@@ -35,12 +37,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
 
-    = javascript_pack_tag "member_facing"
     = render "pages/packs", plugins: @page.plugins
 
     = yield
 
-    = javascript_pack_tag "cookie_consent"
-    = javascript_pack_tag "plugins"
     = render partial: "shared/google_analytics_snippet"
     = render partial: "shared/shareprogress_snippet"

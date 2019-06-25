@@ -11,23 +11,23 @@ module.exports = {
      * along with any plugins we've attached to the global jquery.
      * See app/javascript/packs/globals.js to see what we're doing with this.
      */
-    function(context, request, callback) {
-      const isJqueryRequest = /^jquery$/.test(request);
-      const isVendorContext = /javascript\/vendor$/.test(context);
-      if (isJqueryRequest) {
-        return isVendorContext ? callback() : callback(null, 'var window.$');
-      }
-      callback();
-    },
-    // Same as above but for lodash
-    function(context, request, callback) {
-      const isLodash = /^lodash$/.test(request);
-      const isVendorContext = /javascript\/vendor$/.test(context);
-      if (isLodash) {
-        return isVendorContext ? callback() : callback(null, 'var window._');
-      }
-      callback();
-    },
+    // function(context, request, callback) {
+    //   const isJqueryRequest = /^jquery$/.test(request);
+    //   const isVendorContext = /javascript\/vendor$/.test(context);
+    //   if (isJqueryRequest) {
+    //     return isVendorContext ? callback() : callback(null, 'var window.$');
+    //   }
+    //   callback();
+    // },
+    // // Same as above but for lodash
+    // function(context, request, callback) {
+    //   const isLodash = /^lodash$/.test(request);
+    //   const isVendorContext = /javascript\/vendor$/.test(context);
+    //   if (isLodash) {
+    //     return isVendorContext ? callback() : callback(null, 'var window._');
+    //   }
+    //   callback();
+    // },
     {
       'champaign-i18n': 'window.I18n',
     },

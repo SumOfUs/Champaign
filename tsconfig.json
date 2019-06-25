@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "lib": ["es7", "dom"],
+    "module": "esNext",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+        "*": ["node_modules/*", "app/javascript/*"]
+    },
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "target": "es6"
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "node_modules",
+    "vendor",
+    "public"
+  ],
+  "compileOnSave": false
+}

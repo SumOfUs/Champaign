@@ -1,18 +1,20 @@
 // @flow
-import React, { useState } from 'react';
+import * as React from 'react';
+import { SyntheticEvent } from 'react';
+import { useState } from 'react';
 import { map, pick } from 'lodash';
 import SweetInput from '../../SweetInput/SweetInput';
 import SelectCountry from '../../SelectCountry/SelectCountry';
 import SweetSelect from '../../SweetSelect/SweetSelect';
-import type { Field } from '../FormField';
+import SweetCheckbox from '../../Checkbox/Checkbox';
+import { Field } from '../FormField';
 
-export type Props = {
-  ...$Exact<Field>,
-  className?: string,
-  errorMessage?: any,
-  hasError?: boolean,
-  onChange?: (value: string) => void,
-  type: string,
+export type Props = Field & {
+  className?: string;
+  errorMessage?: any;
+  hasError?: boolean;
+  onChange?: (value: string) => void;
+  type: string;
 };
 
 const basicProps = (props: Props) => ({
@@ -40,7 +42,7 @@ export const Input = (props: Props) => {
       onChange={onChange}
       required={props.required}
       type={props.type || 'text'}
-      value={props.default_value}
+      value={props.default_value || ''}
     />
   );
 };
@@ -84,7 +86,7 @@ export const Choice = (props: Props) => {
 };
 
 export const Country = (props: Props) => {
-  const [value, setValue] = useState(props.default_value);
+  const [value, setValue] = useState(props.default_value || '');
   const onChange = (v: string) => {
     setValue(v);
     if (props.onChange) props.onChange(v);
@@ -95,29 +97,32 @@ export const Country = (props: Props) => {
   );
 };
 
-const Select = (props: Props) => {
-  const [value, setValue] = useState(props.default_value);
-  const onChange = (v: string) => {
-    setValue(v);
-    if (props.onChange) props.onChange(v);
+export const Select = (props: Props) => {
+  const [value, setValue] = useState(props.default_value || '');
+  const onChange = (value: string) => {
+    if (props.onChange) props.onChange(value);
+    setValue(value);
   };
   const options = map(props.choices, choice => pick(choice, 'value', 'label'));
+  const v = options.find(o => o.value === value);
 
   return (
     <SweetSelect
       {...basicProps(props)}
-      value={value}
+      value={v}
       onChange={onChange}
       options={options}
     />
   );
 };
 
-const Hidden = (props: Props) => {
-  return <input type="hidden" name={props.name} value={props.default_value} />;
+export const Hidden = (props: Props) => {
+  return (
+    <input type="hidden" name={props.name} value={props.default_value || ''} />
+  );
 };
 
-const Instruction = (props: Props) => {
+export const Instruction = (props: Props) => {
   return (
     <div className="FormField--instruction form__instruction">
       {props.label}
@@ -125,7 +130,7 @@ const Instruction = (props: Props) => {
   );
 };
 
-const Paragraph = (props: Props) => {
+export const Paragraph = (props: Props) => {
   const [value, setValue] = useState(props.default_value);
   const onChange = (v: string) => {
     setValue(v);
@@ -135,20 +140,25 @@ const Paragraph = (props: Props) => {
     <div>
       <textarea
         name={props.name}
-        value={value}
+        value={value || ''}
         placeholder={props.label}
         onChange={(e: SyntheticEvent<HTMLTextAreaElement>) =>
           onChange(e.currentTarget.value)
         }
         className={props.errorMessage ? 'has-error' : ''}
-        maxLength="9999"
+        maxLength={9999}
       />
       <ErrorMessage {...props} />
     </div>
   );
 };
 
+export const Checkbox = (props: Props) => (
+  <SweetCheckbox {...props}>{props.label}</SweetCheckbox>
+);
+
 export default {
+  checkbox: Checkbox,
   choice: Choice,
   email: Email,
   numeric: Tel,

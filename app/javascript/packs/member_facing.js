@@ -1,10 +1,9 @@
-import I18n from 'champaign-i18n';
-import 'whatwg-fetch';
-import '../shared/show_errors';
-import '../legacy/member-facing/registration';
-import '../legacy/member-facing/track_shares';
-import '../plugins/recommend-pages';
-import '../util/event_tracking';
+// import I18n from 'champaign-i18n';
+require('whatwg-fetch');
+require('../legacy/member-facing/registration');
+require('../legacy/member-facing/track_shares');
+// require('../plugins/recommend-pages');
+require('../util/event_tracking');
 
 import { mapValues, pick } from 'lodash';
 import flatten from 'flat';
@@ -12,11 +11,15 @@ import URI from 'urijs';
 import configureStore from '../state';
 import redirectors from '../legacy/member-facing/redirectors';
 import { FeaturesHelper } from '../state/features';
-import DonationsThermometer from '../plugins/donations-thermometer';
+import DonationsThermometer from '../plugins/donations_thermometer';
 import ProgressTracker from '../plugins/progress-tracker';
 import asyncModules from '../async/';
+import cookieConsent from '../modules/cookie-consent';
 import * as legacy from '../legacy/member-facing/';
+
 window.URI = URI;
+
+const store = configureStore(window.champaign);
 
 if (process.env.EXTERNAL_ASSETS_JS_PATH) {
   // $FlowIgnore
@@ -31,8 +34,6 @@ legacy.setup(window.champaign);
 // Async modules (module splitting)
 asyncModules.setup(window.champaign);
 
-const store = configureStore(window.champaign);
-
 Object.assign(window.champaign, {
   DonationsThermometer,
   ProgressTracker,
@@ -41,39 +42,6 @@ Object.assign(window.champaign, {
   features: new FeaturesHelper(store),
 });
 
-I18n.flatTranslations = mapValues(I18n.translations, (value, key) =>
-  flatten(
-    pick(value, [
-      'double_opt_in',
-      'footer',
-      'page',
-      'basics',
-      'branding',
-      'recommend_pages',
-      'email_pension',
-      'email_tool',
-      'fundraiser',
-      'petition',
-      'form',
-      'thermometer',
-      'call_tool',
-      'share',
-      'errors',
-      'validation',
-      'time',
-      'reset_passwords',
-      'survey',
-      'reset_password_mailer',
-      'facebook_share',
-      'member_registration',
-      'confirmation_mailer',
-      'consent',
-      'cookie_consent',
-    ])
-  )
-);
-
-// Styles (hack)
-// The following isn't loading when dynamically importing a module.
-// so I'm adding it directly to the root of the import
-import '../components/EmailEditor/EmailEditor.scss';
+document.addEventListener('DOMContentLoaded', function() {
+  cookieConsent.init(window.champaign.personalization.location.country);
+});

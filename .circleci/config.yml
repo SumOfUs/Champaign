@@ -41,15 +41,15 @@ jobs:
             - node_modules
             - .bundle
             - tmp/external_assets_source
-  flow:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/circleci-champaign
-      - run:
-          name: Flow check
-          command: yarn run flow check
+  # flow:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: ~/circleci-champaign
+  #     - run:
+  #         name: Flow check
+  #         command: yarn run flow check
   jest:
     <<: *defaults
     steps:
@@ -201,9 +201,9 @@ workflows:
     jobs:
       - install_dependencies
 
-      - flow:
-          requires:
-            - install_dependencies
+      # - flow:
+      #     requires:
+      #       - install_dependencies
 
       - jest:
           requires:
@@ -257,7 +257,7 @@ workflows:
             - build_production_docker_image
             - rspec
             - jest
-            - flow
+            # - flow
           context: champaign-production
           filters:
             branches:
@@ -269,7 +269,7 @@ workflows:
             - build_docker_image
             - rspec
             - jest
-            - flow
+            # - flow
           context: champaign-staging
           filters:
             branches:
@@ -281,7 +281,7 @@ workflows:
             - build_docker_image
             - rspec
             - jest
-            - flow
+            # - flow
           context: champaign-testing
           # match any branches that begin with feature- or feature/
           #   feature-my-feature

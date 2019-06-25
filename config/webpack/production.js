@@ -1,15 +1,5 @@
-const environment = require('./environment');
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-environment.plugins.delete('UglifyJs');
-environment.plugins.append(
-  'UglifyJs',
-  new UglifyJSPlugin({
-    sourceMap: false,
-    uglifyOptions: {
-      ecma: 5,
-    },
-  })
-);
+const environment = require('./environment');
 
 module.exports = environment.toWebpackConfig();

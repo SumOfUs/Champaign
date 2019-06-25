@@ -1,10 +1,9 @@
 // @flow
-import $ from 'jquery';
 import ee from '../../shared/pub_sub';
 
 const initializeTooltips = () => {
   // $FlowIgnore
-  $('[data-toggle="tooltip"]').tooltip();
+  window.$('[data-toggle="tooltip"]').tooltip();
 };
 
 ee.on('pages:new', initializeTooltips);

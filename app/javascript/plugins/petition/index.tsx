@@ -1,16 +1,18 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { render } from 'react-dom';
 import { Plugin } from '../index';
 import { PetitionComponent } from './PetitionComponent';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { resetMember } from '../../state/member/reducer';
-import type { Store } from 'redux';
-import type { AppState } from '../../state';
+import { Store } from 'redux';
+import { AppState } from '../../state/types';
 
 import './petition.css';
 
 export const init = (options: any) => {
+  if (!options.el) throw new Error('Petition plugin DOM element not found');
+
   return new Petition({
     el: options.el,
     namespace: 'petition',
@@ -20,13 +22,14 @@ export const init = (options: any) => {
 };
 
 type PetitionOptions = {
-  el: HTMLElement,
-  config: any, // todo
-  store: Store<AppState, *>,
+  el: HTMLElement;
+  namespace: string;
+  config: any; // todo
+  store: Store<AppState>;
 };
 
 export class Petition extends Plugin {
-  store: Store<AppState, *>;
+  store: Store<AppState>;
 
   constructor(options: PetitionOptions) {
     super(options);
@@ -53,11 +56,16 @@ export class Petition extends Plugin {
     const el = this.el;
     if (el) {
       render(
-        <ComponentWrapper locale={I18n.locale} store={champaign.store}>
+        /* Todo: fix the references to window */
+        <ComponentWrapper
+          locale={(window as any).I18n.locale}
+          store={(window as any).champaign.store}
+        >
           <PetitionComponent
             config={this.config}
             resetMember={this.resetMember}
             onSubmit={this.submit}
+            eventEmitter={this.events}
           />
         </ComponentWrapper>,
         el
