@@ -67,7 +67,7 @@ gem 'sprockets-rails'
 gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier'
-gem 'webpacker', '~> 3.5'
+gem 'webpacker', '~> 4'
 
 group :development, :test do
   gem 'byebug'

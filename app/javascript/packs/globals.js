@@ -1,5 +1,6 @@
 // @flow
-import 'babel-polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import 'intl';
 import 'intl/locale-data/jsonp/en.js';
 import 'intl/locale-data/jsonp/de.js';

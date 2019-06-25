@@ -1,13 +1,15 @@
 // @flow
-import React, { useState } from 'react';
+import * as React from 'react';
+import { SyntheticEvent } from 'react';
+import { useState } from 'react';
 import { map, pick } from 'lodash';
 import SweetInput from '../../SweetInput/SweetInput';
 import SelectCountry from '../../SelectCountry/SelectCountry';
 import SweetSelect from '../../SweetSelect/SweetSelect';
-import type { Field } from '../FormField';
+import SweetCheckbox from '../../Checkbox/Checkbox';
+import { Field } from '../FormField';
 
-export type Props = {
-  ...$Exact<Field>,
+export type Props = Field & {
   className?: string,
   errorMessage?: any,
   hasError?: boolean,
@@ -40,7 +42,7 @@ export const Input = (props: Props) => {
       onChange={onChange}
       required={props.required}
       type={props.type || 'text'}
-      value={props.default_value}
+      value={props.default_value || ''}
     />
   );
 };
@@ -114,7 +116,9 @@ const Select = (props: Props) => {
 };
 
 const Hidden = (props: Props) => {
-  return <input type="hidden" name={props.name} value={props.default_value} />;
+  return (
+    <input type="hidden" name={props.name} value={props.default_value || ''} />
+  );
 };
 
 const Instruction = (props: Props) => {
@@ -135,20 +139,25 @@ const Paragraph = (props: Props) => {
     <div>
       <textarea
         name={props.name}
-        value={value}
+        value={value || ''}
         placeholder={props.label}
         onChange={(e: SyntheticEvent<HTMLTextAreaElement>) =>
           onChange(e.currentTarget.value)
         }
         className={props.errorMessage ? 'has-error' : ''}
-        maxLength="9999"
+        maxLength={9999}
       />
       <ErrorMessage {...props} />
     </div>
   );
 };
 
+const Checkbox = (props: Props) => (
+  <SweetCheckbox {...props}>{props.label}</SweetCheckbox>
+);
+
 export default {
+  checkbox: Checkbox,
   choice: Choice,
   email: Email,
   numeric: Tel,
