@@ -5,11 +5,13 @@ import { each } from 'lodash';
 
 describe('Plugin (interface)', function() {
   test('creates an EventEmitter', () => {
-    const plugin = new Plugin();
+    const plugin = new Plugin({ namespace: 'petition' });
     expect(plugin.events).toBeInstanceOf(EventEmitter);
   });
 
   test(`prepends event names with the plugin's namespace`, () => {
+    console.log('testing ........ the bug \r\n');
+
     const plugin = new Plugin({ namespace: 'petition' });
     jest.spyOn(plugin.events, 'emit');
 
