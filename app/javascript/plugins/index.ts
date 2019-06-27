@@ -1,6 +1,6 @@
-// @flow
-import EventEmitter from 'eventemitter3';
+import * as EventEmitter from 'eventemitter3';
 import { extend } from 'lodash';
+import { ChampaignGlobalObject } from '../interfaces';
 
 export const SUPPORTED_PLUGINS = {
   petition: () => import('./petition'),
@@ -29,12 +29,12 @@ export class Plugin implements PluginOptions {
     this.events = options.eventEmitter || new EventEmitter();
   }
 
-  emit(eventName: string, data: any) {
+  emit(eventName: string, data?: any) {
     const prefix = this.namespace ? `${this.namespace}:` : '';
     this.events.emit(`${prefix}${eventName}`, data);
   }
 
-  update(options: $Shape<PluginOptions>) {
+  update(options: Partial<PluginOptions>) {
     if (options.namespace) this.namespace = options.namespace;
     if (options.el) this.el = options.el;
     if (options.config) extend(this.config, options.config);
@@ -43,15 +43,15 @@ export class Plugin implements PluginOptions {
 }
 
 export const load = async (name: string, ref: string, config?: any) => {
-  const loader = SUPPORTED_PLUGINS[name];
-  if (!loader) return;
+  if (!SUPPORTED_PLUGINS[name]) return;
 
+  const champaign: ChampaignGlobalObject = window['champaign'];
   const el = document.getElementById(`plugin-${name}-${ref}`);
   if (!el) return;
 
-  return (await loader()).init({
+  return (await SUPPORTED_PLUGINS[name]()).init({
     el,
     config: { ...config, ref },
-    store: window.champaign.store,
+    store: champaign.store,
   });
 };

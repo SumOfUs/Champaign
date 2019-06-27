@@ -4,8 +4,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "jsx": "react",
-    "lib": ["es6", "dom"],
-    "module": "es6",
+    "lib": ["es7", "dom"],
+    "module": "esNext",
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
@@ -13,8 +13,8 @@
     },
     "sourceMap": true,
     "strictNullChecks": true,
-    "noImplicitAny": true,
-    "target": "es5"
+    "noImplicitAny": false,
+    "target": "es6"
   },
   "exclude": [
     "**/*.spec.ts",
