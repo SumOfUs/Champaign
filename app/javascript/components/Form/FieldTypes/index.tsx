@@ -86,7 +86,7 @@ export const Choice = (props: Props) => {
 };
 
 export const Country = (props: Props) => {
-  const [value, setValue] = useState(props.default_value);
+  const [value, setValue] = useState(props.default_value || '');
   const onChange = (v: string) => {
     setValue(v);
     if (props.onChange) props.onChange(v);
@@ -98,17 +98,18 @@ export const Country = (props: Props) => {
 };
 
 const Select = (props: Props) => {
-  const [value, setValue] = useState(props.default_value);
-  const onChange = (v: string) => {
-    setValue(v);
-    if (props.onChange) props.onChange(v);
+  const [value, setValue] = useState(props.default_value || '');
+  const onChange = (value: string) => {
+    if (props.onChange) props.onChange(value);
+    setValue(value);
   };
   const options = map(props.choices, choice => pick(choice, 'value', 'label'));
+  const v = options.find(o => o.value === value);
 
   return (
     <SweetSelect
       {...basicProps(props)}
-      value={value}
+      value={v}
       onChange={onChange}
       options={options}
     />

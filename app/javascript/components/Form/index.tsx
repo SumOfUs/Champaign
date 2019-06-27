@@ -21,8 +21,7 @@ export default function Form(props: Props) {
   const className = classnames('Form', props.className);
 
   const updateField = (name, value) => {
-    values[name] = value;
-    setValues(values);
+    setValues({ ...values, [name]: value });
   };
   const submit = () => {
     console.info('submit not implemented');
@@ -37,7 +36,7 @@ export default function Form(props: Props) {
             key={field.name}
             {...field}
             onChange={value => updateField(field.name, value)}
-            default_value={values[field.name] || ''}
+            default_value={values[field.name] || field.default_value || ''}
           />
         ))}
     </div>

@@ -5,8 +5,8 @@ import { Plugin } from '../index';
 import { PetitionComponent } from './PetitionComponent';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { resetMember } from '../../state/member/reducer';
-import type { Store } from 'redux';
-import type { AppState } from '../../state';
+import { Store } from 'redux';
+import { AppState } from '../../state/index';
 
 import './petition.css';
 
@@ -21,12 +21,13 @@ export const init = (options: any) => {
 
 type PetitionOptions = {
   el: HTMLElement,
+  namespace: string,
   config: any, // todo
-  store: Store<AppState, *>,
+  store: Store<AppState>,
 };
 
 export class Petition extends Plugin {
-  store: Store<AppState, *>;
+  store: Store<AppState>;
 
   constructor(options: PetitionOptions) {
     super(options);
