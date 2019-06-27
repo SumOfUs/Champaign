@@ -3,10 +3,10 @@ import * as React from 'react';
 import { useState } from 'react';
 import classnames from 'classnames';
 import FormField, { Field } from './FormField';
-import { className } from 'postcss-selector-parser';
 
 export type Props = {
   id: number,
+  pageId: number,
   fields: Field[],
   outstandingFields: string[],
   values: { [key: string]: string },
@@ -23,6 +23,7 @@ export default function Form(props: Props) {
   const updateField = (name, value) => {
     setValues({ ...values, [name]: value });
   };
+
   const submit = () => {
     console.info('submit not implemented');
   };
