@@ -9,9 +9,12 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-        "*": ["node_modules/*", "app/javascript/*"]
+        "*": ["node_modules/*", "app/javascript/*"],
+        "myapp": ["app/javascript/*"]
     },
     "sourceMap": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
     "target": "es5"
   },
   "exclude": [
