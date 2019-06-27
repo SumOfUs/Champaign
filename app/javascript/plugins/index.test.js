@@ -10,8 +10,6 @@ describe('Plugin (interface)', function() {
   });
 
   test(`prepends event names with the plugin's namespace`, () => {
-    console.log('testing ........ the bug \r\n');
-
     const plugin = new Plugin({ namespace: 'petition' });
     jest.spyOn(plugin.events, 'emit');
 
