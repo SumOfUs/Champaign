@@ -1,5 +1,6 @@
 const { environment } = require('@rails/webpacker');
 const webpack = require('webpack');
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 const dotenv = require('dotenv');
 const typescript = require('./loaders/typescript');
 const custom = require('./custom.js');
@@ -21,5 +22,6 @@ environment.plugins.prepend(
   'Environment',
   new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env)))
 );
+environment.splitChunks();
 
 module.exports = environment;
