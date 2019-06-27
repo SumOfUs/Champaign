@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { omit } from 'lodash';
 import FormGroup from './FormGroup';
-import FieldShape from '../FieldShape/FieldShape';
-import SweetInput from '../SweetInput/SweetInput';
-import SelectCountry from '../SelectCountry/SelectCountry';
-import SweetSelect from '../SweetSelect/SweetSelect';
 import FieldTypes from './FieldTypes';
 
 export type Choice = {
@@ -14,7 +10,7 @@ export type Choice = {
 };
 
 export type Field = {
-  id: string, // it comes from Champaign but we omit it here
+  id: string, // it comes from Champaign but we omit it when passing it down
   choices: Choice[],
   data_type: string,
   default_value: string | void,
