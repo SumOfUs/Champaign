@@ -38,7 +38,7 @@ export class Plugin implements PluginOptions {
     if (options.namespace) this.namespace = options.namespace;
     if (options.el) this.el = options.el;
     if (options.config) extend(this.config, options.config);
-    this.emit(this.namespace + ':updated');
+    this.emit('updated');
   }
 }
 

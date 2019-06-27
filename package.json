@@ -74,6 +74,20 @@
     "webpack-dev-server": "^3.7.2",
     "yamljs": "^0.3.0"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/spec/jest/FileStub.js",
+      "^.+\\.s?css$": "<rootDir>/spec/jest/CSSStub.js",
+      "^champaign-i18n$": "<rootDir>/spec/jest/champaign-i18n-stub.js"
+    },
+    "roots": [
+      "<rootDir>/app/javascript"
+    ],
+    "testURL": "http://example.com",
+    "setupFiles": [
+      "<rootDir>/spec/jest/setupJest"
+    ]
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
