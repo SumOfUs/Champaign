@@ -3,7 +3,14 @@ import { AppState } from './state';
 
 export type ChampaignGlobalObject = {
   personalization: ChampaignPersonalizationData;
-  plugins: { [name: string]: { [ref: string]: PluginSettings } };
+  plugins: {
+    [name: string]: {
+      [ref: string]: {
+        config: PluginSettings;
+        instance?: any;
+      };
+    };
+  };
   page: ChampaignPage;
   store?: Store<AppState>;
 };

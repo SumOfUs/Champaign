@@ -12,38 +12,38 @@ import ee from '../../shared/pub_sub';
 import * as Backbone from 'backbone';
 
 type PetitionPluginConfig = {
-  active: boolean,
-  cta: string,
-  description: string,
-  fields: Field[],
-  form_id: number,
-  id: number,
-  outstanding_fields: string[],
-  page_id: number,
-  target: string,
+  active: boolean;
+  cta: string;
+  description: string;
+  fields: Field[];
+  form_id: number;
+  id: number;
+  outstanding_fields: string[];
+  page_id: number;
+  target: string;
 };
 type Props = {
-  config: PetitionPluginConfig,
-  resetMember: () => void,
-  onSubmit: () => void,
-  eventEmitter?: EventEmitter,
+  config: PetitionPluginConfig;
+  resetMember: () => void;
+  onSubmit: () => void;
+  eventEmitter?: EventEmitter;
 };
 
 type Member = {
-  id: number,
-  email: string,
-  country?: string,
-  consented: boolean,
-  consentedUpdatedAt: boolean,
-  name?: string,
-  firstName?: string,
-  lastName?: string,
-  fullName?: string,
-  welcomeName?: string,
-  postal?: string,
-  donorStatus: 'donor' | 'non_donor' | 'recurring_donor',
-  registered: boolean,
-  actionKitUserId?: string,
+  id: number;
+  email: string;
+  country?: string;
+  consented: boolean;
+  consentedUpdatedAt: boolean;
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  fullName?: string;
+  welcomeName?: string;
+  postal?: string;
+  donorStatus: 'donor' | 'non_donor' | 'recurring_donor';
+  registered: boolean;
+  actionKitUserId?: string;
 } | null;
 export function PetitionComponent(props: Props) {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ export function PetitionComponent(props: Props) {
 
   // after rendering, signal that the sidebar height may change
   useEffect(() => {
-    props.eventEmitter.emit('sidebar:height_change');
+    if (props.eventEmitter) props.eventEmitter.emit('sidebar:height_change');
   });
 
   return (
@@ -60,6 +60,7 @@ export function PetitionComponent(props: Props) {
       <WelcomeMember member={member} resetMember={props.resetMember} />
       <Form
         className="form--big action-form"
+        pageId={(window as any).champaign.page.id}
         id={fields[0].form_id}
         fields={fields}
         outstandingFields={props.config.outstanding_fields}

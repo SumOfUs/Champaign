@@ -13,8 +13,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = favicon_link_tag "images/org-favicon.ico"
     = metamagic
 
-    = javascript_pack_tag "sentry"
-    = javascript_pack_tag "globals"
+    = javascript_packs_with_chunks_tag "sentry", "globals"
 
     = render partial: "shared/browser_polyfills"
     = render partial: "layouts/mixpanel" if Settings.mixpanel_token
@@ -35,12 +34,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
 
-    = javascript_pack_tag "member_facing"
     = render "pages/packs", plugins: @page.plugins
 
     = yield
 
-    = javascript_pack_tag "cookie_consent"
-    = javascript_pack_tag "plugins"
     = render partial: "shared/google_analytics_snippet"
     = render partial: "shared/shareprogress_snippet"

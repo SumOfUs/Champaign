@@ -1,6 +1,6 @@
 // @flow
 import { SUPPORTED_PLUGINS, Plugin, load } from './index';
-import EventEmitter from 'eventemitter3';
+import * as EventEmitter from 'eventemitter3';
 import { each } from 'lodash';
 
 describe('Plugin (interface)', function() {
