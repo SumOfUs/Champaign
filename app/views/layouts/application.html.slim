@@ -6,14 +6,13 @@ html
     = csrf_meta_tags
     = favicon_link_tag "champaign/favicon.ico"
 
-    = javascript_pack_tag "sentry"
-    = javascript_pack_tag "globals"
+    = javascript_packs_with_chunks_tag "sentry", "globals"
 
     = render partial: "shared/browser_polyfills"
     = render partial: "shared/js_locale"
 
     = stylesheet_link_tag "application", media: "all"
-    = stylesheet_pack_tag "globals", media: "all"
+    / = stylesheet_packs_with_chunks_tag "globals", media: "all"
   body.page-edit-body
     = render partial: "cdn/campaigner_facing"
     .navbar--fixed__spacer
