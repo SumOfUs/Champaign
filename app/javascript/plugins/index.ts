@@ -1,4 +1,5 @@
 import * as EventEmitter from 'eventemitter3';
+import { EventEmitterStatic } from 'eventemitter3';
 import { extend } from 'lodash';
 import { ChampaignGlobalObject } from '../interfaces';
 
@@ -10,7 +11,7 @@ interface PluginOptions {
   el: HTMLElement;
   config: any;
   namespace?: string;
-  eventEmitter?: EventEmitter;
+  eventEmitter?: EventEmitter<any>;
 }
 
 // Plugin is the base class from which other
@@ -20,7 +21,7 @@ export class Plugin implements PluginOptions {
   el: HTMLElement;
   namespace: string;
   config: any;
-  events: EventEmitter;
+  events: EventEmitter<any>;
 
   constructor(options: PluginOptions) {
     this.el = options.el;
