@@ -2,16 +2,17 @@
 import * as React from 'react';
 import { useState } from 'react';
 import classnames from 'classnames';
+import Button from '../Button/Button';
 import FormField, { Field } from './FormField';
 
 export type Props = {
-  id: number,
-  pageId: number,
-  fields: Field[],
-  outstandingFields: string[],
-  values: { [key: string]: string },
-  className?: string,
-  onSuccess?: () => void,
+  id: number;
+  pageId: number;
+  fields: Field[];
+  outstandingFields: string[];
+  values: { [key: string]: string };
+  className?: string;
+  onSuccess?: () => void;
 };
 
 export default function Form(props: Props) {
@@ -24,15 +25,15 @@ export default function Form(props: Props) {
     setValues({ ...values, [name]: value });
   };
 
-  const submit = () => {
+  const submit = e => {
     console.info('submit not implemented');
+    e.preventDefault();
   };
 
   return (
     <div className={className} id={`form-${props.id}`}>
-      {sortedFields
-        // filter(f => !props.values[f.name] !== 'undefined')
-        .map(field => (
+      <form onSubmit={submit}>
+        {sortedFields.map(field => (
           <FormField
             key={field.name}
             {...field}
@@ -40,6 +41,8 @@ export default function Form(props: Props) {
             default_value={values[field.name] || field.default_value || ''}
           />
         ))}
+        <Button type="submit">Sign Petition</Button>
+      </form>
     </div>
   );
 }

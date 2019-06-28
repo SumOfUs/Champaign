@@ -67,7 +67,6 @@ export function PetitionComponent(props: Props) {
         values={{}}
         onSuccess={() => console.log('successfully submitted action')}
       />
-      <Button onClick={props.onSubmit}>Sign Petition</Button>
     </div>
   );
 }

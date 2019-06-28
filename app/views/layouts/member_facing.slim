@@ -22,7 +22,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render "pages/personalization", data: @data
     = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
 
-    = stylesheet_pack_tag "globals"
+    / = stylesheet_pack_tag "globals"
     = stylesheet_link_tag "member-facing"
     = stylesheet_pack_tag "member_facing"
   body
