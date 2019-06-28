@@ -26,6 +26,7 @@ module.exports = function(api) {
           },
         },
       ],
+      isTestEnv && [require('@babel/preset-typescript').default],
       (isProductionEnv || isDevelopmentEnv) && [
         require('@babel/preset-env').default,
         {
