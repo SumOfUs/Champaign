@@ -1,2 +1,2 @@
-= javascript_packs_with_chunks_tag *["member_facing", "cookie_consent", "plugins"].concat(plugins.map{|p| p.name.underscore}).select{|p| pack_exists?(p, :javascript)}
+= javascript_packs_with_chunks_tag *["globals", "member_facing", "cookie_consent", "plugins"].concat(plugins.map{|p| p.name.underscore}).select{|p| pack_exists?(p, :javascript)}
 = stylesheet_packs_with_chunks_tag *["member_facing", "plugins"].concat(plugins.map{|p| p.name.underscore}).select{|p| pack_exists?(p, :stylesheet)}

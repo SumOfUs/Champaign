@@ -120,3 +120,7 @@ export default class DonationsThermometer {
     if (this.store) return this.renderWithStore();
   }
 }
+
+export function init() {
+  console.log('donations_thermometer initializing...');
+}

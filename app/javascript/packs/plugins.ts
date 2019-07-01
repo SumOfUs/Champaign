@@ -6,8 +6,8 @@ const champaign: ChampaignGlobalObject = (<any>window)['champaign'];
 document.addEventListener('DOMContentLoaded', function() {
   const plugins = champaign.plugins || {};
 
-  for (let name in SUPPORTED_PLUGINS) {
-    if (!plugins[name]) {
+  Object.keys(plugins).forEach(name => {
+    if (!SUPPORTED_PLUGINS[name]) {
       console.log(`plugin: ${name} is not supported`);
       return;
     }
@@ -20,5 +20,5 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!p) return;
       p.instance = await load(name, ref, p.config);
     });
-  }
+  });
 });

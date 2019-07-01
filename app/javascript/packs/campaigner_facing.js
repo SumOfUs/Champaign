@@ -29,7 +29,7 @@ import Analytics from '../legacy/campaigner_facing/analytics';
 import SurveyEditor from '../legacy/campaigner_facing/survey_editor';
 import FormElementCreator from '../legacy/campaigner_facing/form_element_creator';
 import ListEditor from '../legacy/campaigner_facing/list_editor';
-import Twitter from 'twitter-text';
+import TwitterText from 'twitter-text';
 
 // Styles
 import 'c3/c3.css';
@@ -45,5 +45,5 @@ Object.assign(window, {
   SurveyEditor,
   FormElementCreator,
   ListEditor,
-  Twitter,
+  Twitter: TwitterText,
 });

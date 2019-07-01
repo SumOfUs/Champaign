@@ -29,7 +29,7 @@
     "jquery": "^3.4.1",
     "jquery-sticky": "^1.0.4",
     "jquery-typeahead": "^2.10.6",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
     "jquery-ujs": "^1.2.2",
     "js-cookie": "^2.2.0",
     "libphonenumber-js": "^1.7.20",
