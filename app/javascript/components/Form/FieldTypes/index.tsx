@@ -10,11 +10,11 @@ import SweetCheckbox from '../../Checkbox/Checkbox';
 import { Field } from '../FormField';
 
 export type Props = Field & {
-  className?: string,
-  errorMessage?: any,
-  hasError?: boolean,
-  onChange?: (value: string) => void,
-  type: string,
+  className?: string;
+  errorMessage?: any;
+  hasError?: boolean;
+  onChange?: (value: string) => void;
+  type: string;
 };
 
 const basicProps = (props: Props) => ({
@@ -97,7 +97,7 @@ export const Country = (props: Props) => {
   );
 };
 
-const Select = (props: Props) => {
+export const Select = (props: Props) => {
   const [value, setValue] = useState(props.default_value || '');
   const onChange = (value: string) => {
     if (props.onChange) props.onChange(value);
@@ -116,13 +116,13 @@ const Select = (props: Props) => {
   );
 };
 
-const Hidden = (props: Props) => {
+export const Hidden = (props: Props) => {
   return (
     <input type="hidden" name={props.name} value={props.default_value || ''} />
   );
 };
 
-const Instruction = (props: Props) => {
+export const Instruction = (props: Props) => {
   return (
     <div className="FormField--instruction form__instruction">
       {props.label}
@@ -130,7 +130,7 @@ const Instruction = (props: Props) => {
   );
 };
 
-const Paragraph = (props: Props) => {
+export const Paragraph = (props: Props) => {
   const [value, setValue] = useState(props.default_value);
   const onChange = (v: string) => {
     setValue(v);
@@ -153,7 +153,7 @@ const Paragraph = (props: Props) => {
   );
 };
 
-const Checkbox = (props: Props) => (
+export const Checkbox = (props: Props) => (
   <SweetCheckbox {...props}>{props.label}</SweetCheckbox>
 );
 
