@@ -77,7 +77,7 @@ group :development, :test do
   gem 'faker'
   gem 'magic_lamp'
   gem 'rspec-rails', '~> 3.8'
-  gem 'rubocop', '~> 0.66', require: false
+  gem 'rubocop', '~> 0.72', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
   gem "feedjira"
