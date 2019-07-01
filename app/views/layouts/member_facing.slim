@@ -13,7 +13,10 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = favicon_link_tag "images/org-favicon.ico"
     = metamagic
 
-    = javascript_packs_with_chunks_tag "sentry", "globals"
+    = javascript_pack_tag "sentry"
+
+    = javascript_packs_with_chunks_tag "globals"
+    = stylesheet_packs_with_chunks_tag "globals"
 
     = render partial: "shared/browser_polyfills"
     = render partial: "layouts/mixpanel" if Settings.mixpanel_token

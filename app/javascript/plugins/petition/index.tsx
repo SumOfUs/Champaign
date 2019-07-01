@@ -11,6 +11,8 @@ import { AppState } from '../../state/types';
 import './petition.css';
 
 export const init = (options: any) => {
+  if (!options.el) throw new Error('Petition plugin DOM element not found');
+
   return new Petition({
     el: options.el,
     namespace: 'petition',

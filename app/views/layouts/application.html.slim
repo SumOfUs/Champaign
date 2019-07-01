@@ -6,7 +6,8 @@ html
     = csrf_meta_tags
     = favicon_link_tag "champaign/favicon.ico"
 
-    = javascript_packs_with_chunks_tag "sentry", "globals"
+    = javascript_packs_with_chunks_tag "sentry", "globals", "campaigner_facing"
+    = stylesheet_packs_with_chunks_tag "globals", "campaigner_facing"
 
     = render partial: "shared/browser_polyfills"
     = render partial: "shared/js_locale"
@@ -29,7 +30,4 @@ html
     = render partial: "shared/flash"
 
     = javascript_include_tag "application"
-    = javascript_pack_tag "campaigner_facing"
-    = javascript_pack_tag "call_tool_analytics"
     = yield
-    = javascript_pack_tag "campaigner_facing_react"

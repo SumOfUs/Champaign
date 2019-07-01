@@ -1,5 +1,3 @@
-import $ from 'jquery';
-import I18n from 'champaign-i18n';
 import Backbone from 'backbone';
 import _ from 'lodash';
 import ee from '../../shared/pub_sub';
@@ -137,7 +135,7 @@ let PageEditBar = Backbone.View.extend({
     );
     $('.page-edit-bar__error-message').text('');
     $('.page-edit-bar__last-saved').text(
-      I18n.t('pages.edit.last_saved_at', { time: this.currentTime() })
+      window.I18n.t('pages.edit.last_saved_at', { time: this.currentTime() })
     );
     this.policeHeights();
   },
@@ -157,11 +155,13 @@ let PageEditBar = Backbone.View.extend({
     );
     if (data.status == 422) {
       ErrorDisplay.show(e, data);
-      $('.page-edit-bar__error-message').text(I18n.t('pages.edit.user_error'));
+      $('.page-edit-bar__error-message').text(
+        window.I18n.t('pages.edit.user_error')
+      );
       ee.emit('page:errors');
     } else {
       $('.page-edit-bar__error-message').text(
-        I18n.t('pages.edit.unknown_error')
+        window.I18n.t('pages.edit.unknown_error')
       );
     }
     this.policeHeights();
@@ -207,13 +207,13 @@ let PageEditBar = Backbone.View.extend({
 
   disableSubmit: function() {
     this.outstandingSaveRequest = true;
-    this.$saveBtn.text(I18n.t('pages.edit.saving'));
+    this.$saveBtn.text(window.I18n.t('pages.edit.saving'));
     this.$saveBtn.addClass('disabled');
   },
 
   enableSubmit: function() {
     this.outstandingSaveRequest = false;
-    this.$saveBtn.text(I18n.t('pages.edit.save_work'));
+    this.$saveBtn.text(window.I18n.t('pages.edit.save_work'));
     this.$saveBtn.removeClass('disabled');
   },
 
@@ -244,7 +244,7 @@ let PageEditBar = Backbone.View.extend({
     if (unsavedDataExists) {
       if (noNotice) {
         $lastSaved.append(
-          `<div class="page-edit-bar__unsaved-notice">${I18n.t(
+          `<div class="page-edit-bar__unsaved-notice">${window.I18n.t(
             'pages.edit.unsaved_changes'
           )}</div>`
         );

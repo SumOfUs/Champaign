@@ -22,6 +22,10 @@ environment.plugins.prepend(
   'Environment',
   new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env)))
 );
+environment.plugins.append(
+  'WebpackAssetsManifest',
+  new WebpackAssetsManifest()
+);
 environment.splitChunks();
 
 module.exports = environment;

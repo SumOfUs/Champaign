@@ -8,10 +8,7 @@ type callToolAnalyticsProps = {
   pageId: string | number,
 };
 
-window.mountCallToolAnalytics = (
-  root: string,
-  props: callToolAnalyticsProps
-) => {
+function mountCallToolAnalytics(root: string, props: callToolAnalyticsProps) {
   const el = document.getElementById(root);
   if (!el) return;
   render(
@@ -20,4 +17,6 @@ window.mountCallToolAnalytics = (
     </ComponentWrapper>,
     el
   );
-};
+}
+
+window.mountCallToolAnalytics = mountCallToolAnalytics;
