@@ -49,13 +49,6 @@ describe('Input Field', function() {
       expect(wrapper.find('SweetInput').prop('type')).toEqual(type);
     });
   });
-
-  test(`check the props for <Input .../>`, () => {
-    const wrapper = shallow(<Input {...config} />);
-    Object.keys(config).forEach(key => {
-      expect(wrapper.find('SweetInput').prop(key)).toEqual(config[key]);
-    });
-  });
 });
 
 describe('Choice Field', function() {
