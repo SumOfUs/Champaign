@@ -14,7 +14,7 @@ export type Props = Field & {
   errorMessage?: any;
   hasError?: boolean;
   onChange?: (value: string) => void;
-  type: string;
+  type?: string;
 };
 
 const basicProps = (props: Props) => ({
