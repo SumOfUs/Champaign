@@ -36,7 +36,7 @@ import 'c3/c3.css';
 
 require('backbone');
 require('lodash');
-require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui-dist/jquery-ui');
 require('jquery-typeahead');
 
 Object.assign(window, {
