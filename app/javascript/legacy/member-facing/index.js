@@ -1,4 +1,3 @@
-// @flow
 import Petition from './backbone/petition';
 import PetitionAndScrollToConsent from './backbone/petition_and_scroll_to_consent';
 import DoubleOptIn from './double_opt_in';
@@ -11,7 +10,7 @@ import Notification from './backbone/notification';
 import SweetPlaceholder from './backbone/sweet_placeholder';
 import CampaignerOverlay from './backbone/campaigner_overlay';
 
-export const setup = (champaign: any) => {
+export const setup = champaign => {
   Object.assign(champaign, {
     ActionForm,
     CampaignerOverlay,

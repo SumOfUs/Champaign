@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { SelectCountry } from './SelectCountry';
 import { IntlProvider } from 'react-intl';
-import type { Country } from './SelectCountry';
 
 const mockFn = jest.fn();
 const intl = new IntlProvider({ locale: 'en' });

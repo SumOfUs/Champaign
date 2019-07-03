@@ -1,4 +1,3 @@
-// @flow
 import { isDirectDebitSupported } from './directDebitDecider';
 
 describe('isDirectDebitSupported', () => {

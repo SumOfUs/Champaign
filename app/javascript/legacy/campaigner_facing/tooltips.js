@@ -1,8 +1,6 @@
-// @flow
 import ee from '../../shared/pub_sub';
 
 const initializeTooltips = () => {
-  // $FlowIgnore
   window.$('[data-toggle="tooltip"]').tooltip();
 };
 

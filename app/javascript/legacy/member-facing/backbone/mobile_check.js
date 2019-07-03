@@ -1,4 +1,3 @@
-// @flow
 import $ from 'jquery';
 
 const MobileCheck = {

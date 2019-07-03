@@ -1,22 +1,7 @@
-// @flow
 import $ from 'jquery';
 import { parseResponse } from './Base';
-import type { OperationResponse } from './Base';
 
-type SendEmailParams = {
-  page_id: string,
-  email: {
-    body: string,
-    subject: string,
-    from_name: string,
-    from_email: string,
-    target_id: string,
-    country: string,
-  },
-  tracking_params: { [key: string]: string },
-};
-
-export function sendEmail(params: SendEmailParams): Promise<OperationResponse> {
+export function sendEmail(params) {
   const { page_id, ...payload } = params;
 
   return new Promise((resolve, reject) => {

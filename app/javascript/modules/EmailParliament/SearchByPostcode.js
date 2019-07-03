@@ -1,5 +1,3 @@
-// @flow
-// $FlowIgnore
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import Button from '../../components/Button/Button';
@@ -7,16 +5,10 @@ import SweetInput from '../../components/SweetInput/SweetInput';
 import FormGroup from '../../components/Form/FormGroup';
 import SearchError from './SearchError';
 import { search } from './api';
-import type { Target } from './index';
 
 import './SearchByPostcode.css';
 
-type Props = {
-  className: string,
-  onChange: (target: ?Target) => void,
-};
-
-const SearchByPostcode = (props: Props) => {
+const SearchByPostcode = props => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [postcode, setPostcode] = useState(null);
@@ -24,29 +16,26 @@ const SearchByPostcode = (props: Props) => {
 
   const className = classnames('SearchByPostcode', props.className);
 
-  useEffect(
-    () => {
-      (async () => {
-        if (!postcode) return;
+  useEffect(() => {
+    (async () => {
+      if (!postcode) return;
 
-        setLoading(true);
-        setError(false);
-        props.onChange(null);
+      setLoading(true);
+      setError(false);
+      props.onChange(null);
 
-        try {
-          const target = await search(postcode);
-          props.onChange(target);
-        } catch (e) {
-          setError(true);
-        } finally {
-          setLoading(false);
-        }
-      })();
-    },
-    [postcode]
-  );
+      try {
+        const target = await search(postcode);
+        props.onChange(target);
+      } catch (e) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [postcode]);
 
-  const submit = (e: SyntheticEvent<HTMLFormElement>) => {
+  const submit = e => {
     e.preventDefault();
     setPostcode(input);
   };

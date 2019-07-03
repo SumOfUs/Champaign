@@ -1,16 +1,9 @@
-// @flow
 import React from 'react';
 import { render } from 'react-dom';
 import { EmailPluginConfig } from './interfaces';
 import EmailParliament from '../modules/EmailParliament';
 
-type Options = {
-  el: HTMLElement,
-  config: EmailPluginConfig,
-  [key: string]: any,
-};
-
-export const init = (options: Options) => {
+export const init = options => {
   if (!options.config.active) return;
   if (options.el) {
     render(

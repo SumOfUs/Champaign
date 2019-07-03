@@ -1,37 +1,10 @@
-// @flow
 import React from 'react';
 import { render } from 'react-dom';
 import { camelizeKeys } from '../util/util';
 import ComponentWrapper from '../components/ComponentWrapper';
 import EmailToolView from '../plugins/email_tool/EmailToolView';
-import type { EmailTarget } from '../plugins/email_tool/EmailToolView';
 
-type Props = {
-  country?: string,
-  emailSubject: string,
-  emailBody: string,
-  emailHeader: string,
-  emailFooter: string,
-  emailFrom: string,
-  email?: string,
-  isSubmitting: boolean,
-  locale: string,
-  name?: string,
-  postal?: string,
-  page: string,
-  pageId: number,
-  targets: EmailTarget[],
-  title: string,
-  useMemberEmail: boolean,
-  manualTargeting: boolean,
-  onSuccess: (target: EmailTarget) => void,
-};
-
-function mount(
-  root: string,
-  props: Props,
-  Component: typeof EmailToolView = EmailToolView
-) {
+function mount(root, props, Component = EmailToolView) {
   const { locale, ...emailProps } = props;
   const el = document.getElementById(root);
   if (!el) return;
@@ -43,7 +16,7 @@ function mount(
   );
 }
 
-window.mountEmailTool = (root: string, props: Props) => {
+window.mountEmailTool = (root, props) => {
   mount(root, props, EmailToolView);
   if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept('../plugins/email_tool/EmailToolView', () => {

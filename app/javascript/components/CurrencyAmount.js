@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { FormattedNumber } from 'react-intl';
 
@@ -8,12 +7,7 @@ const CONFIG = {
   maximumFractionDigits: 0,
 };
 
-type OwnProps = {
-  amount: number,
-  currency: string,
-};
-
-export default function CurrencyAmount(props: OwnProps) {
+export default function CurrencyAmount(props) {
   const { currency, amount } = props;
 
   switch (currency) {

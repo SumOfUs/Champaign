@@ -1,14 +1,5 @@
-// @flow
-
-type PluginErrorOptions = {
-  name?: string,
-  message: string,
-};
-
 export class PluginError {
-  name: string;
-  message: string;
-  constructor(options: PluginErrorOptions) {
+  constructor(options) {
     this.name = options.name || 'PluginError';
     this.message = options.message;
   }
@@ -23,10 +14,10 @@ export const MODULES = {
 };
 
 // Lists supported async modules
-export const list = (): string[] => Object.keys(MODULES);
+export const list = () => Object.keys(MODULES);
 
 // Loads an async module.
-export const load = async (name: string, options: any) => {
+export const load = async (name, options) => {
   const loader = MODULES[name];
   if (!loader) {
     throw new PluginError({
@@ -40,7 +31,7 @@ export const load = async (name: string, options: any) => {
 export const modules = {
   // Attaches the async feature to the champaign global
   // object.
-  setup(champaign: any) {
+  setup(champaign) {
     Object.assign(champaign, {
       modules: {
         load,

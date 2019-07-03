@@ -5,11 +5,6 @@ import FundraiserView from './FundraiserView';
 import { changeStep } from '../../state/fundraiser/actions';
 import { mountWithIntl } from '../../../../spec/jest/intl-enzyme-test-helpers';
 
-import type {
-  FundraiserAction,
-  FundraiserInitializationOptions,
-} from '../../state/fundraiser/types';
-
 global.fbq = () => null;
 
 const suite = {};

@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { render } from 'react-dom';
 import {
@@ -8,24 +7,8 @@ import {
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { update } from '../../state/thermometer';
 
-import type { Props } from '../../components/Thermometer';
-import type { Store } from 'redux';
-import type { AppState } from '../../state';
-import type { State } from '../../state/thermometer';
-
-type Config = {
-  el: HTMLElement,
-  props?: Props,
-  store?: Store<AppState, *>,
-};
-
 export default class DonationsThermometer {
-  el: HTMLElement;
-  store: Store<AppState, *>;
-  props: Props;
-  instance: any;
-
-  constructor(config: Config) {
+  constructor(config) {
     if (!config.el) {
       throw new Error(
         'Donations Thermometer must be initialised with an element and a store.'
@@ -50,7 +33,7 @@ export default class DonationsThermometer {
     return this.store.getState().donationsThermometer;
   }
 
-  set state(attrs: State) {
+  set state(attrs) {
     if (!this.store)
       throw new Error(
         `Can't set state on this thermometer. Check that you initialised it with a (redux) store`
@@ -62,7 +45,7 @@ export default class DonationsThermometer {
    * Updates the thermometer's props when not connected to a store.
    * @param  {Props} props
    */
-  updateProps(props: Props) {
+  updateProps(props) {
     if (!this.props) {
       throw new Error(
         `Can't set props on this thermometer. Check that you correctly initialised it with props.`
@@ -81,7 +64,7 @@ export default class DonationsThermometer {
    * Updates the redux store state associated with the donations thermometer.
    * @param {State} attrs
    */
-  updateStore(attrs: State) {
+  updateStore(attrs) {
     if (!this.store) {
       throw new Error(
         `Can't update the store on this thermometer. Check that you initialised it with a (redux) store`

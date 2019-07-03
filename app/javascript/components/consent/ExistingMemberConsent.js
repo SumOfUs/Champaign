@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import Backbone from 'backbone';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
@@ -8,27 +7,15 @@ import Button from '../Button/Button';
 import { changeConsent, toggleModal } from '../../state/consent';
 import './ExistingMemberConsent.css';
 
-import type { Dispatch } from 'redux';
-import type { Member } from '../../state/member/reducer';
-import type { AppState } from '../../state';
-
 const style = {
   width: 'auto',
   padding: 30,
 };
 
-type Props = {
-  open: boolean,
-  isRequiredExisting: boolean,
-  member: Member,
-  toggleModal: boolean => void,
-  changeConsent: boolean => void,
-};
-
-class ExistingMemberConsent extends Component<Props> {
+class ExistingMemberConsent extends Component {
   closeModal = () => this.props.toggleModal(false);
 
-  submit = (value?: boolean) => {
+  submit = value => {
     if (value) this.props.changeConsent(value);
     Backbone.trigger('form:submit_action_form');
     this.closeModal();
@@ -74,15 +61,15 @@ class ExistingMemberConsent extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = state => ({
   open: state.consent.modalOpen,
   isRequiredExisting: state.consent.isRequiredExisting,
   member: state.member,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  toggleModal: (value: boolean) => dispatch(toggleModal(value)),
-  changeConsent: (value: boolean) => dispatch(changeConsent(value)),
+const mapDispatchToProps = dispatch => ({
+  toggleModal: value => dispatch(toggleModal(value)),
+  changeConsent: value => dispatch(changeConsent(value)),
 });
 
 export default connect(

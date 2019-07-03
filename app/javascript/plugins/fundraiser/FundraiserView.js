@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -17,15 +16,7 @@ import {
   setSubmitting,
 } from '../../state/fundraiser/actions';
 
-import type { Dispatch } from 'redux';
-import type { AppState } from '../../state';
-import type { Member, Fundraiser } from '../../state';
-import type { ChampaignPage } from '../../types';
-
-type Props = $Call<typeof mapStateToProps, AppState> &
-  $Call<typeof mapDispatchToProps, *>;
-
-export class FundraiserView extends Component<Props> {
+export class FundraiserView extends Component {
   componentDidMount() {
     const { donationAmount } = this.props.fundraiser;
 
@@ -35,7 +26,7 @@ export class FundraiserView extends Component<Props> {
     }
   }
 
-  selectAmount(amount: ?number) {
+  selectAmount(amount) {
     this.props.selectAmount(amount);
 
     if (typeof window.fbq === 'function') {
@@ -167,7 +158,7 @@ export class FundraiserView extends Component<Props> {
   }
 }
 
-export const mapStateToProps = (state: AppState) => ({
+export const mapStateToProps = state => ({
   paymentMethods: state.paymentMethods,
   features: state.features,
   fundraiser: state.fundraiser,
@@ -180,11 +171,11 @@ export const mapStateToProps = (state: AppState) => ({
     !state.fundraiser.disableSavedPayments,
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  changeStep: (step: number) => dispatch(changeStep(step)),
-  selectAmount: (amount: ?number) => dispatch(changeAmount(amount)),
-  selectCurrency: (currency: string) => dispatch(changeCurrency(currency)),
-  setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
+export const mapDispatchToProps = dispatch => ({
+  changeStep: step => dispatch(changeStep(step)),
+  selectAmount: amount => dispatch(changeAmount(amount)),
+  selectCurrency: currency => dispatch(changeCurrency(currency)),
+  setSubmitting: submitting => dispatch(setSubmitting(submitting)),
 });
 
 export default connect(

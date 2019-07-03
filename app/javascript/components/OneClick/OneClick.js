@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -15,34 +13,8 @@ import {
   oneClickFailed,
 } from '../../state/fundraiser/actions';
 
-import type { AppState } from '../../state/reducers';
-import type { ChampaignPage } from '../../types';
-import type { Dispatch } from 'redux';
-
-type Props = {
-  donationBands: any,
-  currency: string,
-  donationAmount: number,
-  selectAmount: (amount: ?number) => void | Promise<*>,
-  paymentMethods: any[],
-  formId: number,
-  formValues: Object,
-  form: Object,
-  title: string,
-  submitting: boolean,
-  setSubmitting: boolean => void,
-  oneClickFailed: () => void,
-  donationFeaturedAmount?: number,
-  page: ChampaignPage,
-};
-
-type State = {
-  amountConfirmationRequired: boolean,
-  submitting: boolean,
-};
-
-class OneClick extends Component<Props, State> {
-  constructor(props: Props) {
+class OneClick extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       amountConfirmationRequired: false,
@@ -50,12 +22,12 @@ class OneClick extends Component<Props, State> {
     };
   }
 
-  async onSelectCustomAmount(amount: ?number) {
+  async onSelectCustomAmount(amount) {
     await this.props.selectAmount(amount);
     this.setState({ amountConfirmationRequired: true });
   }
 
-  async selectAmount(amount: ?number) {
+  async selectAmount(amount) {
     this.props.selectAmount(amount);
     this.submit();
   }
@@ -91,7 +63,7 @@ class OneClick extends Component<Props, State> {
     }
   };
 
-  async onFailure(reason: any): any {
+  async onFailure(reason) {
     this.setState({ submitting: false });
     this.props.setSubmitting(false);
     this.props.oneClickFailed();
@@ -100,7 +72,7 @@ class OneClick extends Component<Props, State> {
     return reason;
   }
 
-  async onSuccess(data: any): any {
+  async onSuccess(data) {
     ee.emit('fundraiser:transaction_success', data, this.oneClickData());
     return data;
   }
@@ -179,7 +151,7 @@ class OneClick extends Component<Props, State> {
   }
 }
 
-const mapState = (state: AppState) => ({
+const mapState = state => ({
   currency: state.fundraiser.currency,
   donationAmount: state.fundraiser.donationAmount,
   donationBands: state.fundraiser.donationBands,
@@ -194,9 +166,9 @@ const mapState = (state: AppState) => ({
   donationFeaturedAmount: state.fundraiser.donationFeaturedAmount,
 });
 
-const mapDispatch = (dispatch: Dispatch<*>) => ({
-  selectAmount: (amount: number) => dispatch(changeAmount(amount)),
-  setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
+const mapDispatch = dispatch => ({
+  selectAmount: amount => dispatch(changeAmount(amount)),
+  setSubmitting: submitting => dispatch(setSubmitting(submitting)),
   oneClickFailed: () => dispatch(oneClickFailed()),
 });
 

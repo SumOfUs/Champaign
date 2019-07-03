@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { findKey, sample, compact } from 'lodash';
@@ -11,31 +10,9 @@ import { countries } from '../SelectCountry/SelectCountry';
 import SweetPhoneInput from '../SweetPhoneInput/SweetPhoneInput';
 
 import { targetsWithFields, filterTargets } from './call_tool_helpers';
-import type { Filters, TargetWithFields } from './call_tool_helpers';
 
-import type { Target, Errors } from '../../plugins/call_tool/CallToolView';
-
-type Props = {
-  targets: Target[],
-  selectedTarget: ?Target,
-  restrictedCountryCode?: string,
-  targetByAttributes: string[],
-  errors: Errors,
-  onTargetSelected: (id: ?string) => void,
-  onMemberPhoneNumberChange: string => void,
-  onSubmit: any => void,
-  loading: boolean,
-  filters?: Filters,
-};
-
-type State = {
-  targetsWithFields: TargetWithFields[],
-  memberPhoneNumber: string,
-  countryCode?: string,
-};
-
-class Form extends Component<Props, State> {
-  constructor(props: Props) {
+class Form extends Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -45,14 +22,14 @@ class Form extends Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    this.setState((prevState: State) => ({
+  componentWillReceiveProps(nextProps) {
+    this.setState(prevState => ({
       ...prevState,
       targetsWithFields: targetsWithFields(nextProps.targets),
     }));
   }
 
-  attemptCountryCodeUpdate(countryName: string = '') {
+  attemptCountryCodeUpdate(countryName = '') {
     const countryCode = findKey(
       countries,
       c => c.toLowerCase() === countryName.toLowerCase()
@@ -61,7 +38,7 @@ class Form extends Component<Props, State> {
     this.setState(state => ({ ...state, countryCode }));
   }
 
-  selectTarget(target: ?TargetWithFields) {
+  selectTarget(target) {
     if (target && target.id) {
       this.props.onTargetSelected(target.id);
       this.attemptCountryCodeUpdate(target['countryName'] || target['country']);
@@ -71,7 +48,7 @@ class Form extends Component<Props, State> {
     }
   }
 
-  updatePhoneNumber(memberPhoneNumber: string) {
+  updatePhoneNumber(memberPhoneNumber) {
     this.props.onMemberPhoneNumberChange(memberPhoneNumber);
     this.setState(prevState => ({
       ...prevState,
@@ -102,7 +79,7 @@ class Form extends Component<Props, State> {
           defaultCountryCode={
             this.props.restrictedCountryCode || this.state.countryCode
           }
-          onChange={(number: string) => this.updatePhoneNumber(number)}
+          onChange={number => this.updatePhoneNumber(number)}
           restrictedCountryCode={this.props.restrictedCountryCode}
           errors={this.props.errors}
         />

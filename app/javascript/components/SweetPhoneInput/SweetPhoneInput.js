@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import { AsYouType, format, getPhoneCode } from 'libphonenumber-js';
@@ -11,28 +10,8 @@ import SelectCountry from '../SelectCountry/SelectCountry';
 
 import './SweetPhoneInput.scss';
 
-import type { Errors } from '../../plugins/call_tool/CallToolView';
-
-type Props = {
-  value: string,
-  onChange: (number: string) => void,
-  title?: any,
-  className?: string,
-  errors: Errors,
-  defaultCountryCode?: string,
-  restrictedCountryCode?: string,
-};
-
-type State = {
-  countryCode?: string,
-  phoneNumber: string,
-  selectingCountry: boolean,
-};
-
-class SweetPhoneInput extends Component<Props, State> {
-  selectCountry: any;
-
-  constructor(props: Props) {
+class SweetPhoneInput extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       countryCode: undefined,
@@ -53,11 +32,11 @@ class SweetPhoneInput extends Component<Props, State> {
     );
   }
 
-  defaultCountry(): string {
+  defaultCountry() {
     return get(window, 'champaign.personalization.location.country', 'US');
   }
 
-  handleClickOutside(e: SyntheticEvent<*>) {
+  handleClickOutside(e) {
     this.setState(state => ({ ...state, selectingCountry: false }));
   }
 
@@ -70,7 +49,7 @@ class SweetPhoneInput extends Component<Props, State> {
     );
   }
 
-  onPhoneNumberChange = (value: string = '') => {
+  onPhoneNumberChange = (value = '') => {
     this.setState(prevState => {
       const diff = value.replace(prevState.phoneNumber, '');
       const newPhoneNumber = new AsYouType(this.getCountryCode()).input(value);
@@ -84,7 +63,7 @@ class SweetPhoneInput extends Component<Props, State> {
     this.props.onChange(format(value, this.getCountryCode(), 'International'));
   };
 
-  onCountryCodeChange = (countryCode: string) => {
+  onCountryCodeChange = countryCode => {
     if (!countryCode) return;
 
     this.setState(

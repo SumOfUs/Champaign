@@ -1,19 +1,10 @@
-// @flow
 import I18n from 'champaign-i18n';
 
 const style = imageUrl => ({
   backgroundImage: `url(${imageUrl})`,
 });
 
-type Props = {
-  title: string,
-  url: string,
-  query: string,
-  image: string,
-  campaign_action_count: string,
-};
-
-const CampaignTile = (props: Props) => {
+const CampaignTile = props => {
   const url = `${props.url}?${props.query}`;
   return (
     <a className="campaign-tile campaign-tile--compact" href={url}>

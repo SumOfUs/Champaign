@@ -1,4 +1,3 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
@@ -6,32 +5,10 @@ import classnames from 'classnames';
 import { ConsentControls } from './ConsentControls';
 import ee from '../../shared/pub_sub';
 import { changeConsent } from '../../state/consent';
-import type { AppState } from '../../state';
-import type { Dispatch } from 'redux';
 import './ConsentComponent.css';
 
-type Props = {
-  // active: if true, the component will be rendered.
-  active: boolean,
-  // hidden: indicates that the component, if rendered, needs to be hidden. it
-  //   uses the `hidden-irrelevant` class to hide the component.
-  hidden: boolean,
-  // consented: the selected value for this form.
-  consented: ?boolean,
-  // variant: applied as a css class, used to style the input elements
-  variant: string,
-  // showConsentRequired: displays a message prompting the user to select an option
-  showConsentRequired: boolean,
-  // changeConsent: dispatches the change consent action.
-  changeConsent: (value: boolean) => void,
-  // overrides `hidden`
-  alwaysShow?: boolean,
-  // overrides `active`
-  isRequired?: boolean,
-};
-
-class ConsentComponent extends PureComponent<Props> {
-  changeConsent = (consented: boolean) => {
+class ConsentComponent extends PureComponent {
+  changeConsent = consented => {
     this.props.changeConsent(consented);
   };
 
@@ -97,7 +74,7 @@ class ConsentComponent extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = ({ member, consent }: AppState) => {
+const mapStateToProps = ({ member, consent }) => {
   const {
     consented,
     variant,
@@ -116,8 +93,8 @@ const mapStateToProps = ({ member, consent }: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  changeConsent: (value: boolean) => dispatch(changeConsent(value)),
+const mapDispatchToProps = dispatch => ({
+  changeConsent: value => dispatch(changeConsent(value)),
 });
 
 export default connect(

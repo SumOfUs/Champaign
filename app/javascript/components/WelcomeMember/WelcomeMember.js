@@ -1,4 +1,4 @@
-/* @flow
+/*
  * Description
  * ===========
  * This small widget displays the member's name and a link to reset the member
@@ -17,16 +17,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import type { Member } from '../../state';
-
 import './WelcomeMember.css';
 
-type OwnProps = {
-  member: Member,
-  resetMember: () => void,
-};
-
-export default function WelcomeMember(props: OwnProps) {
+export default function WelcomeMember(props) {
   if (!props.member || (!props.member.name && !props.member.email)) return null;
 
   return (

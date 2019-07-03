@@ -1,12 +1,8 @@
-//@flow
+//
 import React, { Component } from 'react';
 import c3 from 'c3';
 
-type OwnProps = {
-  data: any,
-};
-
-class TargetsChart extends Component<OwnProps> {
+class TargetsChart extends Component {
   componentDidMount() {
     this.createChart();
   }

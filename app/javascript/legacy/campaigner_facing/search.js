@@ -1,11 +1,9 @@
-// @flow
 import $ from 'jquery';
 import ee from '../../shared/pub_sub';
 
 const searchConfig = function() {
   $('.page-filter__reset').click(function() {
     $('select.selectize-container').map(function(index, item) {
-      // $FlowIgnore
       item.selectize.clear();
     });
     $(this)
@@ -16,7 +14,6 @@ const searchConfig = function() {
       });
   });
 
-  // $FlowIgnore
   $('#pages-table').DataTable({
     /* Disable initial sort */
     aaSorting: [],

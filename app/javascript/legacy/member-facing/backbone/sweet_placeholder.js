@@ -1,4 +1,3 @@
-// @flow
 import Backbone from 'backbone';
 const SweetPlaceholder = Backbone.View.extend({
   el: '.sweet-placeholder',

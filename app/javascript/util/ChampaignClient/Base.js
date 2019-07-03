@@ -1,18 +1,8 @@
-// @flow
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { camelizeKeys } from '../util';
 
-export type ErrorMap = {
-  [key: string]: any[],
-};
-
-export type OperationResponse = {
-  success: boolean,
-  errors: ErrorMap,
-};
-
-export const parseResponse = (response: any): OperationResponse => {
+export const parseResponse = response => {
   switch (response.status) {
     case 200:
     case 201:

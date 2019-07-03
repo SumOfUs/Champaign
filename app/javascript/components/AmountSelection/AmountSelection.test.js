@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { Provider } from 'react-redux';
 import {
@@ -7,9 +6,8 @@ import {
 } from '../../../../spec/jest/intl-enzyme-test-helpers';
 import { store } from '../../../../spec/jest/mockReduxStore';
 import AmountSelection from './AmountSelection';
-import type { Props } from './AmountSelection';
 
-const defaultProps: Props = {
+const defaultProps = {
   donationAmount: undefined,
   donationBands: {
     USD: [1, 2, 3, 4, 5],

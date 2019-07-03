@@ -1,32 +1,18 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { without } from 'lodash';
 import PaymentMethodWrapper from '../ExpressDonation/PaymentMethodWrapper';
-import type { AppState } from '../../state';
-import type { PaymentType } from '../../state/fundraiser/types';
-import type { Dispatch } from 'redux';
 
-type Props = {
-  currentPaymentType?: PaymentType,
-  directDebitOnly: boolean,
-  disabled?: boolean,
-  features: $PropertyType<AppState, 'features'>,
-  onChange: (paymentType: PaymentType) => void,
-  paymentTypes: PaymentType[],
-  recurring: boolean,
-  showDirectDebit: boolean,
-};
-export class PaymentTypeSelection extends PureComponent<Props> {
+export class PaymentTypeSelection extends PureComponent {
   showCardAndPaypal() {
     if (this.props.directDebitOnly && !this.props.showDirectDebit) return true;
     if (this.props.directDebitOnly) return false;
     return true;
   }
 
-  paymentTypes(): PaymentType[] {
+  paymentTypes() {
     if (!this.props.features.googlepay) {
       return without(this.props.paymentTypes, 'google');
     }
@@ -73,7 +59,7 @@ export class PaymentTypeSelection extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = state => ({
   directDebitOnly: state.fundraiser.directDebitOnly,
   features: state.features,
   paymentTypes: state.fundraiser.paymentTypes,
@@ -84,7 +70,7 @@ const mapStateToProps = (state: AppState) => ({
     : state.fundraiser.currentPaymentType,
 });
 
-const mapDispatch = (dispatch: Dispatch<*>) => ({});
+const mapDispatch = dispatch => ({});
 
 export default connect(
   mapStateToProps,

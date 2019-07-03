@@ -1,4 +1,4 @@
-// @flow weak
+//  weak
 import $ from 'jquery';
 import Backbone from 'backbone';
 

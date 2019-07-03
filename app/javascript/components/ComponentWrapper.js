@@ -1,4 +1,4 @@
-/* @flow */
+/*  */
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { IntlProvider, addLocaleData } from 'react-intl';
@@ -8,9 +8,6 @@ import frLocaleData from 'react-intl/locale-data/fr';
 import esLocaleData from 'react-intl/locale-data/es';
 import loadTranslations from '../util/TranslationsLoader';
 
-import type { Store } from 'redux';
-import type { AppState } from '../state';
-
 function WrapInStore(options) {
   if (options.store) {
     return <Provider store={options.store}>{options.children}</Provider>;
@@ -18,15 +15,7 @@ function WrapInStore(options) {
   return options.children;
 }
 
-type Props = {
-  store?: Store<AppState, *>,
-  children?: any,
-  locale: string,
-  messages?: { [key: string]: string },
-  optimizelyHook?: void => void,
-};
-
-export default class ComponentWrapper extends Component<Props> {
+export default class ComponentWrapper extends Component {
   componentDidMount() {
     this.optimizelyHook();
   }

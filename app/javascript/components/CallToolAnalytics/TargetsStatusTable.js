@@ -1,34 +1,30 @@
-//@flow
+//
 import React from 'react';
 
-type OwnProps = {
-  data: any
-}
-
-function TargetsStatusTable(props:OwnProps) {
+function TargetsStatusTable(props) {
   const data = props.data;
-  return(
+  return (
     <table className="table totals">
       <tbody>
         <tr>
           <th> Failed </th>
-          <td> { data.failed } </td>
+          <td> {data.failed} </td>
         </tr>
         <tr>
           <th> No Answer </th>
-          <td> { data['no-answer']} </td>
+          <td> {data['no-answer']} </td>
         </tr>
         <tr>
           <th> Busy </th>
-          <td> { data.busy } </td>
+          <td> {data.busy} </td>
         </tr>
         <tr>
           <th> Completed </th>
-          <td> { data.completed }</td>
+          <td> {data.completed}</td>
         </tr>
         <tr>
           <th> Total </th>
-          <td> { data.total } </td>
+          <td> {data.total} </td>
         </tr>
       </tbody>
     </table>

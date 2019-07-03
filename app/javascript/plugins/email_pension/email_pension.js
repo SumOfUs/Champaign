@@ -1,33 +1,13 @@
-// @flow
 import React from 'react';
 import { render } from 'react-dom';
 import { camelizeKeys } from '../util/util';
 import ComponentWrapper from '../components/ComponentWrapper';
 import EmailPensionView from '../plugins/email_pension/EmailPensionView';
 import EmailRepresentativeView from '../plugins/email_pension/EmailRepresentativeView';
-import type { AppState } from '../state';
-import type { Store } from 'redux';
 
-type emailPensionInitialState = {
-  locale: string,
-  emailSubject?: string,
-  country?: string,
-  emailBody?: string,
-  emailHeader?: string,
-  emailFooter?: string,
-  email?: string,
-  name?: string,
-  pageId: string | number,
-  isSubmitting: boolean,
-};
+const store = window.champaign.store;
 
-const store: Store<AppState, *> = window.champaign.store;
-
-window.mountEmailPension = (
-  root: string,
-  props: emailPensionInitialState,
-  targetEndpoint: string
-) => {
+window.mountEmailPension = (root, props, targetEndpoint) => {
   const el = document.getElementById(root);
   if (!el) return;
 

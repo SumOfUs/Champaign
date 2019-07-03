@@ -1,4 +1,3 @@
-// @flow
 // Copied over from previous file in
 // assets/javascripts/application.js manifest
 // A lot of this might be unnecessary (and it will do well

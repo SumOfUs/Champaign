@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { mountWithIntl } from '../../../../spec/jest/intl-enzyme-test-helpers';
 import toJson from 'enzyme-to-json';

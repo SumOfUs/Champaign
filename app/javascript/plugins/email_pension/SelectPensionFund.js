@@ -1,10 +1,10 @@
+//
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { find, sortBy } from 'lodash';
 import Select from '../../components/SweetSelect/SweetSelect';
-import type { SelectOption } from '../../components/SweetSelect/SweetSelect';
 import Input from '../../components/SweetInput/SweetInput';
 import Button from '../../components/Button/Button';
 import FormGroup from '../../components/Form/FormGroup';
@@ -51,7 +51,6 @@ class SelectPensionFund extends Component {
 
     $.getJSON(url)
       .then(data => {
-        // $FlowIgnore
         return data.map(f => ({
           ...f,
           value: f._id,

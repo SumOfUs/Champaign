@@ -1,4 +1,3 @@
-// @flow
 import $ from 'jquery';
 import ee from '../../shared/pub_sub';
 
@@ -43,13 +42,13 @@ export default class ProgressTracker {
       .prependTo('.Stepper.fundraiser-bar__top');
   }
 
-  tick(section: string) {
+  tick(section) {
     $(`.progress-tracker__circle--${section}`)
       .removeClass('progress-tracker__circle--cross')
       .addClass('progress-tracker__circle--tick');
   }
 
-  cross(section: string) {
+  cross(section) {
     $(`.progress-tracker__circle--${section}`)
       .removeClass('progress-tracker__circle--tick')
       .addClass('progress-tracker__circle--cross');

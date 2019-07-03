@@ -1,4 +1,3 @@
-// @flow
 import {
   compact,
   includes,
@@ -10,17 +9,8 @@ import {
 } from 'lodash';
 
 import { isDirectDebitSupported } from '../../util/directDebitDecider';
-import type {
-  Fundraiser as State,
-  FundraiserAction as Action,
-  EnumRecurringDefault,
-  FeaturedAmountState,
-  PaymentType,
-  RecurringState,
-  DonationBands,
-} from './types';
 
-export const initialState: State = {
+export const initialState = {
   currency: 'USD',
   currentPaymentType: 'card',
   currentStep: 0,
@@ -55,7 +45,7 @@ export const initialState: State = {
   title: '',
 };
 
-export default (state: State = initialState, action: Action): State => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case 'initialize_fundraiser':
       const initialData = pick(
@@ -143,10 +133,8 @@ export default (state: State = initialState, action: Action): State => {
       };
     }
     case 'set_donation_bands':
-      const payload: DonationBands = action.payload;
-      const donationBands: DonationBands = isEmpty(payload)
-        ? state.donationBands
-        : payload;
+      const payload = action.payload;
+      const donationBands = isEmpty(payload) ? state.donationBands : payload;
       const currency = supportedCurrency(state.currency, keys(donationBands));
       const preselectAmount = state.preselectAmount;
       return {
@@ -253,24 +241,20 @@ export default (state: State = initialState, action: Action): State => {
   }
 };
 
-export const RECURRING_DEFAULTS: EnumRecurringDefault[] = [
-  'one_off',
-  'recurring',
-  'only_recurring',
-];
+export const RECURRING_DEFAULTS = ['one_off', 'recurring', 'only_recurring'];
 
 // `supportedCurrency` gets a currency string and compares it against our list of supported currencies.
 // If our currency is not in the list of supported currencies, it will return the default currency (which,
 // by default, is the first currency in our supoortedCurrencies list)
 export function supportedCurrency(
-  currency?: string,
-  currencies: string[] = Object.keys(initialState.donationBands)
-): string {
+  currency,
+  currencies = Object.keys(initialState.donationBands)
+) {
   return currencies.find(c => c === currency) || currencies[0];
 }
 
-export function recurringState(recurringValue: string = ''): RecurringState {
-  const recurringDefault: EnumRecurringDefault =
+export function recurringState(recurringValue = '') {
+  const recurringDefault =
     RECURRING_DEFAULTS.find(i => i === recurringValue.toLowerCase()) ||
     'one_off';
   return {
@@ -279,18 +263,12 @@ export function recurringState(recurringValue: string = ''): RecurringState {
   };
 }
 
-export function pickMedianAmount(
-  bands: DonationBands,
-  currency: string
-): number {
+export function pickMedianAmount(bands, currency) {
   const amounts = bands[currency];
   return amounts[Math.floor(amounts.length / 2)] || 0;
 }
 
-export function featuredAmountState(
-  preselectAmount: boolean,
-  state?: { donationBands: DonationBands, currency: string }
-): FeaturedAmountState {
+export function featuredAmountState(preselectAmount, state) {
   if (preselectAmount && state) {
     return {
       preselectAmount,
@@ -307,20 +285,19 @@ export function featuredAmountState(
 }
 
 const searchStringHandlers = {
-  hide_spm: function hideSavedPayments(state: State, value: string): State {
+  hide_spm: function hideSavedPayments(state, value) {
     if (value === '1') return { ...state, disableSavedPayments: true };
     else return state;
   },
 };
 
 // Overrides state values based on url query/search string (highest priority)
-type Search = { [key: string]: string };
-export function searchStringOverrides(state: State, search: Search): State {
+export function searchStringOverrides(state, search) {
   const handlers = pick(searchStringHandlers, keys(search));
   return reduce(handlers, (res, handler, k) => handler(res, search[k]), state);
 }
 
-function supportedPaymentTypes(data: any) {
+function supportedPaymentTypes(data) {
   const list = [];
   if (data.showDirectDebit) list.push('gocardless');
   if (!data.directDebitOnly) list.push('paypal', 'card');
@@ -328,6 +305,6 @@ function supportedPaymentTypes(data: any) {
   return list;
 }
 
-function safePaymentType(pt: PaymentType, pts: PaymentType[]): PaymentType {
+function safePaymentType(pt, pts) {
   return pts.includes(pt) ? pt : pts[0];
 }

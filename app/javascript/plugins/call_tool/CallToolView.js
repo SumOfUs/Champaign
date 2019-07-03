@@ -1,56 +1,11 @@
-// @flow
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { camelCase, isEmpty, filter, find, sample } from 'lodash';
 import { CallsClient } from '../../util/ChampaignClient';
 import Form from '../../components/CallTool/Form';
 
-import type { OperationResponse } from '../../util/ChampaignClient';
-import type { IntlShape } from 'react-intl';
-
-export type Target = {
-  id: string,
-  title: string,
-  name: string,
-  countryCode?: string,
-  countryName?: string,
-  fields?: { [string]: string },
-};
-
-export type Errors = {
-  memberPhoneNumber?: any,
-  base?: any[],
-};
-
-type State = {
-  memberPhoneNumber: string,
-  errors: Errors,
-  loading: boolean,
-  selectedTarget: ?Target,
-};
-
-type Props = {
-  allowManualTargetSelection: boolean,
-  restrictedCountryCode?: string,
-  targetByAttributes: string[],
-  memberPhoneNumber?: string,
-  countryCode?: string,
-  title?: string,
-  pageId: string | number,
-  targets: Target[],
-  onSuccess?: (target: any) => void,
-  targetTitle?: string,
-  targetName?: string,
-  targetPhoneNumber?: string,
-  targetPhoneExtension?: string,
-  checksum?: string,
-  intl: IntlShape,
-  trackingParams: any,
-  filters?: any,
-};
-
-class CallToolView extends Component<Props, State> {
-  constructor(props: Props) {
+class CallToolView extends Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -61,11 +16,11 @@ class CallToolView extends Component<Props, State> {
     };
   }
 
-  hasPrefilledTarget(): boolean {
+  hasPrefilledTarget() {
     return !!this.props.targetPhoneNumber && !!this.props.checksum;
   }
 
-  prefilledTargetForDisplay(): ?Target {
+  prefilledTargetForDisplay() {
     return {
       name: this.props.targetName || '',
       title: this.props.targetTitle || '',
@@ -73,7 +28,7 @@ class CallToolView extends Component<Props, State> {
     };
   }
 
-  memberPhoneNumberChanged(memberPhoneNumber: string) {
+  memberPhoneNumberChanged(memberPhoneNumber) {
     this.setState(prevState => {
       return {
         ...prevState,
@@ -87,7 +42,7 @@ class CallToolView extends Component<Props, State> {
     return sample(this.props.targets);
   }
 
-  selectTarget(id: ?string) {
+  selectTarget(id) {
     const target = find(this.props.targets, { id });
     this.setState(prevState => ({
       ...prevState,
@@ -95,7 +50,7 @@ class CallToolView extends Component<Props, State> {
     }));
   }
 
-  submit(event: any) {
+  submit(event) {
     event.preventDefault();
     if (!this.validateForm()) return;
     this.setState({ errors: {}, loading: true });
@@ -107,7 +62,7 @@ class CallToolView extends Component<Props, State> {
     }).then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 
-  targetObject(): any {
+  targetObject() {
     if (this.hasPrefilledTarget()) {
       return {
         targetTitle: this.props.targetTitle,
@@ -118,7 +73,6 @@ class CallToolView extends Component<Props, State> {
       };
     } else {
       return {
-        // $FlowIgnore
         targetId: this.state.selectedTarget.id,
       };
     }
@@ -138,12 +92,12 @@ class CallToolView extends Component<Props, State> {
     return isEmpty(newErrors);
   }
 
-  submitSuccessful(response: OperationResponse) {
+  submitSuccessful(response) {
     this.setState({ errors: {}, loading: false });
     this.props.onSuccess && this.props.onSuccess(this.state.selectedTarget);
   }
 
-  submitFailed(response: OperationResponse) {
+  submitFailed(response) {
     const newErrors = {};
 
     if (!isEmpty(response.errors.memberPhoneNumber)) {
@@ -158,7 +112,7 @@ class CallToolView extends Component<Props, State> {
     this.setState({ loading: false });
   }
 
-  updateErrors(newErrors: any) {
+  updateErrors(newErrors) {
     this.setState((prevState, props) => {
       return { errors: { ...prevState.errors, ...newErrors } };
     });

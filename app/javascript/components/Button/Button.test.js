@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { shallow } from 'enzyme';
 import Button from './Button';
@@ -12,7 +11,7 @@ it(`accepts an onClick event handler`, () => {
 });
 
 it(`accepts a className`, () => {
-  const wrapper = shallow(<Button className="test"/>);
+  const wrapper = shallow(<Button className="test" />);
   expect(wrapper.hasClass('test')).toBeTruthy();
 });
 

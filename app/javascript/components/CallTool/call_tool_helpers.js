@@ -1,17 +1,10 @@
-// @flow
 import { compact, get, isMatchWith, pick, uniq, without } from 'lodash';
-import type { Target } from '../../plugins/call_tool/CallToolView';
 
-export type TargetWithFields = { [string]: any };
-export type Filters = { [string]: string };
-
-export function targetsWithFields(targets: Target[]): TargetWithFields[] {
-  return targets.map(
-    (t: Target): TargetWithFields => ({
-      ...pick(t, without(Object.keys(t), 'fields')),
-      ...get(t, 'fields', {}),
-    })
-  );
+export function targetsWithFields(targets) {
+  return targets.map(t => ({
+    ...pick(t, without(Object.keys(t), 'fields')),
+    ...get(t, 'fields', {}),
+  }));
 }
 
 const caseInsensitiveComp = (objValue, srcValue) => {
@@ -22,20 +15,12 @@ const caseInsensitiveComp = (objValue, srcValue) => {
   }
 };
 
-export function filterTargets(
-  targets: TargetWithFields[],
-  filters: Filters
-): TargetWithFields[] {
+export function filterTargets(targets, filters) {
   if (!Object.keys(filters).length) return targets;
   return targets.filter(t => isMatchWith(t, filters, caseInsensitiveComp));
 }
 
-export function valuesForFilter(
-  targets: TargetWithFields[],
-  attrs: string[],
-  filters: { [string]: string },
-  filter: string
-): string[] {
+export function valuesForFilter(targets, attrs, filters, filter) {
   const activeFilters = pick(filters, attrs.slice(0, attrs.indexOf(filter)));
   return compact(
     uniq(filterTargets(targets, activeFilters).map(t => t[filter]))

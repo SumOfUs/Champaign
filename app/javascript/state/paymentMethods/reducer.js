@@ -1,19 +1,6 @@
-// @flow
-export type PaymentMethod = {
-  id: number,
-  token: string,
-  instrument_type: string,
-  card_type?: string,
-  email?: string,
-  last_4?: string,
-};
+const initialState = [];
 
-const initialState: PaymentMethod[] = [];
-
-export default (
-  state: PaymentMethod[] = initialState,
-  action: any
-): PaymentMethod[] => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case '@@chmp:initialize':
       return action.payload.personalization.paymentMethods;

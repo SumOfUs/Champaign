@@ -1,4 +1,4 @@
-// @flow weak
+//  weak
 import React, { Component } from 'react';
 import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
@@ -6,7 +6,6 @@ import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
 import { compact, debounce, template, isEqual } from 'lodash';
 import classnames from 'classnames';
-import type { ErrorMap } from '../../util/ChampaignClient/Base';
 import { Editor, EditorState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
@@ -14,29 +13,8 @@ import './EmailEditor.scss';
 
 const MAX_SUBJECT_LENGTH = 64;
 
-type Props = {
-  body: string,
-  footer?: string,
-  header?: string,
-  subject: string,
-  templateVars: { [key: string]: any },
-  templateInterpolate?: (
-    tpl: string,
-    values: { [key: string]: string }
-  ) => string,
-  errors: ErrorMap,
-  onUpdate: (email: EmailProps) => void,
-};
-
-type State = {
-  subject: string,
-  editorState: EditorState,
-  header?: string,
-  footer?: string,
-};
-
-export default class EmailEditor extends Component<Props, State> {
-  constructor(props: Props) {
+export default class EmailEditor extends Component {
+  constructor(props) {
     super(props);
     const fn = this.props.templateInterpolate || interpolateVars;
 
@@ -48,7 +26,7 @@ export default class EmailEditor extends Component<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps(props: Props, state?: State) {
+  static getDerivedStateFromProps(props, state) {
     const fn = props.templateInterpolate;
     let body = props.body;
 
@@ -63,7 +41,7 @@ export default class EmailEditor extends Component<Props, State> {
     };
   }
 
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
+  shouldComponentUpdate(nextProps, nextState) {
     return (
       !isEqual(nextProps.templateVars, this.props.templateVars) ||
       this.state.subject !== nextState.subject ||
@@ -96,12 +74,12 @@ export default class EmailEditor extends Component<Props, State> {
     ]).join('');
   }
 
-  updateSubject = (subject: string) => {
+  updateSubject = subject => {
     if (subject.length > MAX_SUBJECT_LENGTH) return;
     this.setState({ subject }, this.update);
   };
 
-  onEditorChange = (editorState: EditorState) => {
+  onEditorChange = editorState => {
     this.setState({ editorState }, () => {
       if (!editorState.getLastChangeType()) return;
       this.update();
@@ -170,9 +148,7 @@ export default class EmailEditor extends Component<Props, State> {
   }
 }
 
-function interpolateVars(templateString: ?string, templateVars: any): string {
+function interpolateVars(templateString, templateVars) {
   if (!templateString) return '';
   return template(templateString)(templateVars);
 }
-
-export type EmailProps = { subject: string, body: string };
