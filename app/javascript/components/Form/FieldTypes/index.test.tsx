@@ -1,6 +1,5 @@
-// // @flow
 import React from 'react';
-import Enzyme, { shallow, render, mount } from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
 import {
   Input,
   Choice,
@@ -11,7 +10,6 @@ import {
   Country,
   Instruction,
 } from './index';
-// import SweetInput from '../../SweetInput/SweetInput';
 
 describe('Input Field', function() {
   const config = {
