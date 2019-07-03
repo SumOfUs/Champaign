@@ -1,5 +1,6 @@
 // @flow
-import $ from 'jquery';
+require('selectize/dist/js/standalone/selectize.js');
+require('jquery-sticky');
 import _ from 'lodash';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -11,16 +12,7 @@ import ee from '../shared/pub_sub';
 import flatten from 'flat';
 require('selectize/dist/css/selectize.css');
 
-window.$ = window.jQuery = $;
 window._ = _;
-
-if (!window.$) window.$ = window.jQuery = $;
-
-// jQuery plugins
-require('jquery-ui-dist/jquery-ui');
-require('jquery-ujs');
-require('selectize/dist/js/standalone/selectize.js');
-require('jquery-sticky');
 
 function $subscribe(eventName: string, callback: (...args: mixed) => any) {
   // to maintain backwards compatibility, jQuery events always
