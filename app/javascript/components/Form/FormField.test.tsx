@@ -144,13 +144,16 @@ describe('Form Field', function() {
 
 describe('Form Field Error Messages', function() {
   const config = {
+    id: '1',
+    display_mode: 'all_members',
+    form_id: 1,
     choices: [],
-    default_value: null,
+    default_value: undefined,
     label: 'Field One',
     name: 'field1',
     required: true,
     position: 0,
-    visible: null,
+    visible: true,
     errorMessage: 'Invalid data',
     hasError: true,
   };

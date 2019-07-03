@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import {
   Input,
@@ -11,8 +11,23 @@ import {
   Instruction,
 } from './index';
 
+const defaultConfig = {
+  id: '1',
+  data_type: 'input',
+  display_mode: 'all_members',
+  form_id: 1,
+  choices: [],
+  default_value: undefined,
+  label: 'Label',
+  name: 'fieldName',
+  required: true,
+  position: 0,
+  visible: true,
+};
+
 describe('Input Field', function() {
   const config = {
+    ...defaultConfig,
     name: 'field1',
     required: true,
     className: 'field1',
@@ -49,6 +64,7 @@ describe('Choice Field', function() {
     { id: 'b1', value: 'b2', label: 'b3' },
   ];
   const config = {
+    ...defaultConfig,
     choices: choices,
     name: 'field2',
     className: 'field2',
@@ -88,6 +104,7 @@ describe('Choice Field', function() {
 
 describe('Checkbox Field', function() {
   const config = {
+    ...defaultConfig,
     name: 'field1',
     label: 'Sample Field',
     className: 'field1',
@@ -103,6 +120,7 @@ describe('Checkbox Field', function() {
 
 describe('Paragraph', function() {
   const config = {
+    ...defaultConfig,
     name: 'field1',
     label: 'field1',
     required: true,
@@ -118,7 +136,7 @@ describe('Paragraph', function() {
 });
 
 describe('Hidden Field', function() {
-  const config = { name: 'field4', type: 'hidden' };
+  const config = { ...defaultConfig, name: 'field4', data_type: 'hidden' };
   test(`hidden => <input type="hidden" .../>`, () => {
     const wrapper = shallow(<Hidden {...config} />);
     expect(wrapper.find('input').prop('type')).toEqual('hidden');
@@ -126,8 +144,12 @@ describe('Hidden Field', function() {
 });
 
 describe('Dropdown Field', function() {
-  const choices = [{ label: 'One', value: '1' }, { label: 'Two', value: '2' }];
+  const choices = [
+    { id: '1', label: 'One', value: '1' },
+    { id: '2', label: 'Two', value: '2' },
+  ];
   const config = {
+    ...defaultConfig,
     name: 'field2',
     label: 'field1',
     choices: choices,
@@ -143,7 +165,7 @@ describe('Dropdown Field', function() {
 });
 
 describe('Country Field', function() {
-  const config = { name: 'field5' };
+  const config = { ...defaultConfig, name: 'field5' };
 
   test(`country => <SelectCountry .../>`, () => {
     const wrapper = shallow(<Country {...config} />);
@@ -152,7 +174,11 @@ describe('Country Field', function() {
 });
 
 describe('Instruction Field', function() {
-  const config = { name: 'field6', label: 'Instruction message goes here..' };
+  const config = {
+    ...defaultConfig,
+    name: 'field6',
+    label: 'Instruction message goes here..',
+  };
 
   test(`instruction => <div .../>`, () => {
     const wrapper = shallow(<Instruction {...config} />);
