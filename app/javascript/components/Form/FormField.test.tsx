@@ -5,12 +5,16 @@ import SelectCountry from '../SelectCountry/SelectCountry';
 
 describe('Form Field', function() {
   const config = {
-    default_value: null,
+    id: '1',
+    display_mode: 'all_members',
+    form_id: 1,
+    choices: [],
+    default_value: undefined,
     label: 'Field One',
     name: 'field1',
     required: true,
     position: 0,
-    visible: null,
+    visible: true,
   };
 
   test(`data_type: file => <FormField .../>`, () => {
