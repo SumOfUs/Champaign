@@ -1,4 +1,3 @@
-// @flow
 import ee from '../../shared/pub_sub';
 
 const TALL_EDITORS = ['page_body'];
@@ -9,7 +8,6 @@ function configureWysiwyg(id, editorOptions = []) {
     return;
   }
 
-  // $FlowIgnore
   $editor.summernote({
     toolbar: editorOptions.length
       ? editorOptions
@@ -32,9 +30,9 @@ function configureWysiwyg(id, editorOptions = []) {
     },
   });
   const $contentField = $('#' + id + '_content');
-  // $FlowIgnore
+
   $editor.summernote('fontSize', '16'); // default
-  // $FlowIgnore
+
   $editor.summernote('code', $contentField.val());
 
   // In order to make an iframe size down with the containing column
@@ -58,7 +56,6 @@ function configureWysiwyg(id, editorOptions = []) {
   };
 
   const updateContentBeforeSave = function() {
-    // $FlowIgnore
     const content = encapsulateIframes($editor.summernote('code'));
     $contentField.val(content);
   };

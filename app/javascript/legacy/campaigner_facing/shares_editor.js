@@ -1,4 +1,3 @@
-// @flow
 import $ from 'jquery';
 import Backbone from 'backbone';
 import _, { forEach, capitalize } from 'lodash';
@@ -168,7 +167,7 @@ ee.on('shares:edit', function() {
 $(function() {
   new Clipboard('.share-copy-url');
 
-  $('.share-copy-url').on('click', (e: JQueryEventObject) => {
+  $('.share-copy-url').on('click', e => {
     e.preventDefault();
   });
 });

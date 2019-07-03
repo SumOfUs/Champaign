@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { render } from 'react-dom';
 import { camelizeKeys } from '../util/util';
@@ -16,7 +15,7 @@ function mount(root, props, Component = CallToolView) {
   );
 }
 
-window.mountCallTool = (root: string, props: any) => {
+window.mountCallTool = (root, props) => {
   props = camelizeKeys(props);
 
   mount(root, props);

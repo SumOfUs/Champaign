@@ -1,17 +1,9 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
 import './ConsentControls.css';
 
-type Props = {
-  onChange: (consented: boolean) => void,
-  consented: ?boolean,
-  shortLabels?: boolean,
-  showConsentRequired?: boolean,
-};
-
-export class ConsentControls extends PureComponent<Props> {
+export class ConsentControls extends PureComponent {
   render() {
     const { shortLabels, consented, showConsentRequired } = this.props;
     const wrapperClass = classnames('ConsentControls', {

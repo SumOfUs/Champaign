@@ -1,3 +1,4 @@
+//
 import React, { Component } from 'react';
 import { isEmpty, find, template, merge, each, pick } from 'lodash';
 
@@ -24,7 +25,6 @@ import {
   changeConsented,
 } from '../../state/email_pension/actions';
 import { showConsentRequired } from '../../state/consent/index';
-import type { Dispatch } from 'redux';
 
 class EmailPensionView extends Component {
   constructor(props) {
@@ -220,22 +220,7 @@ class EmailPensionView extends Component {
   }
 }
 
-type EmailPensionType = {
-  email: string,
-  name: string,
-  isSubmitting: boolean,
-  fundContact: string,
-  fundEmail: string,
-  fund: string,
-  fundId: string,
-  country: string,
-};
-
-type OwnState = {
-  emailTarget: EmailPensionType,
-};
-
-export const mapStateToProps = ({ emailTarget, consent }: OwnState) => {
+export const mapStateToProps = ({ emailTarget, consent }) => {
   const {
     email,
     name,
@@ -264,14 +249,14 @@ export const mapStateToProps = ({ emailTarget, consent }: OwnState) => {
   };
 };
 
-export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  changeSubmitting: (value: boolean) => dispatch(changeSubmitting(true)),
-  changeSubject: (subject: string) => dispatch(changeSubject(subject)),
-  changeName: (name: string) => {
+export const mapDispatchToProps = dispatch => ({
+  changeSubmitting: value => dispatch(changeSubmitting(true)),
+  changeSubject: subject => dispatch(changeSubject(subject)),
+  changeName: name => {
     dispatch(changeName(name));
   },
-  changeEmail: (email: string) => dispatch(changeEmail(email)),
-  showConsentRequired: (consentRequired: boolean) =>
+  changeEmail: email => dispatch(changeEmail(email)),
+  showConsentRequired: consentRequired =>
     dispatch(showConsentRequired(consentRequired)),
 });
 

@@ -1,22 +1,15 @@
-/* @flow */
+/*  */
 import React, { Component } from 'react';
 import Step from './Step';
 
-type Props = {
-  steps: string[],
-  currentStep: number,
-  title: string,
-  changeStep: (step: number) => void,
-};
-
-export default class Stepper extends Component<Props> {
-  changeStep(index: number) {
+export default class Stepper extends Component {
+  changeStep(index) {
     if (this.props.currentStep > index) {
       this.props.changeStep(index);
     }
   }
 
-  renderStep(step: string, index: number) {
+  renderStep(step, index) {
     const { currentStep } = this.props;
     return (
       <Step

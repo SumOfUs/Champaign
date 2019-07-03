@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import {
   compact,
@@ -16,22 +15,9 @@ import {
   valuesForFilter,
 } from './call_tool_helpers';
 import SweetSelect from '../../components/SweetSelect/SweetSelect';
-import type { TargetWithFields } from './call_tool_helpers';
 
-type Filters = { [string]: string };
-type Props = {
-  targetByAttributes: string[],
-  targets: TargetWithFields[],
-  onUpdate: (target: ?TargetWithFields) => void,
-  filters?: Filters,
-};
-
-type State = {
-  filters: Filters,
-  targets: TargetWithFields[],
-};
-export default class CallToolDrillDown extends Component<Props, State> {
-  constructor(props: Props) {
+export default class CallToolDrillDown extends Component {
+  constructor(props) {
     super(props);
 
     // omit filters with empty values
@@ -46,11 +32,11 @@ export default class CallToolDrillDown extends Component<Props, State> {
     this.updateSelection();
   }
 
-  sampleTarget(targets: TargetWithFields[]): TargetWithFields {
+  sampleTarget(targets) {
     return sample(targets);
   }
 
-  valuesForSelect(key: string): any[] {
+  valuesForSelect(key) {
     const values = valuesForFilter(
       this.props.targets,
       this.props.targetByAttributes,
@@ -64,9 +50,9 @@ export default class CallToolDrillDown extends Component<Props, State> {
     }));
   }
 
-  updateFilters(filters: Filters) {
+  updateFilters(filters) {
     this.setState(
-      (prevState: State) => ({
+      prevState => ({
         ...prevState,
         filters,
         targets: filterTargets(this.props.targets, filters),
@@ -86,7 +72,7 @@ export default class CallToolDrillDown extends Component<Props, State> {
     }
   }
 
-  renderFilter = (key: string, index: number) => {
+  renderFilter = (key, index) => {
     const keys = this.props.targetByAttributes;
     let previousFiltersAreFull = true;
     for (let ii = index - 1; ii >= 0; ii--) {
@@ -103,10 +89,9 @@ export default class CallToolDrillDown extends Component<Props, State> {
             options={this.valuesForSelect(key)}
             label={startCase(key)}
             clearable={index > 0}
-            onChange={(value: string) => {
+            onChange={value => {
               const updatedFilters = { ...this.state.filters, [key]: value };
-              const discardFn = (v: string, k: string) =>
-                !v || keys.indexOf(k) > index;
+              const discardFn = (v, k) => !v || keys.indexOf(k) > index;
               this.updateFilters(omitBy(updatedFilters, discardFn));
             }}
           />
@@ -118,7 +103,7 @@ export default class CallToolDrillDown extends Component<Props, State> {
     return null;
   };
 
-  valueForSelect(key: string) {
+  valueForSelect(key) {
     if (this.state.filters[key] && this.state.targets.length) {
       return this.state.targets[0][key];
     }

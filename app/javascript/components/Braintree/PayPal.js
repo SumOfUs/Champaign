@@ -1,29 +1,8 @@
-// @flow
 import { Component } from 'react';
 import paypal from 'braintree-web/paypal';
-import type { Client } from 'braintree-web';
-import type {
-  PayPal as PayPalInstance,
-  PayPalTokenizeOptions,
-  PayPalTokenizePayload,
-} from 'braintree-web/paypal';
 
-type Props = {
-  currency: string,
-  amount?: number,
-  client: Client,
-  vault: boolean,
-  onInit?: () => void,
-  onFailure?: (data: any) => void,
-};
-
-type State = {
-  paypalInstance: ?PayPalInstance,
-  disabled: boolean,
-};
-
-export default class PayPal extends Component<Props, State> {
-  constructor(props: Props) {
+export default class PayPal extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       paypalInstance: null,
@@ -35,17 +14,17 @@ export default class PayPal extends Component<Props, State> {
     this.createPayPalInstance(this.props.client);
   }
 
-  componentWillReceiveProps(newProps: Props) {
+  componentWillReceiveProps(newProps) {
     if (newProps.client !== this.props.client) {
       this.createPayPalInstance(newProps.client);
     }
   }
 
-  createPayPalInstance(client: any) {
+  createPayPalInstance(client) {
     paypal.create({ client }, this.onPayPalCreate.bind(this));
   }
 
-  onPayPalCreate(error: any, paypalInstance: any) {
+  onPayPalCreate(error, paypalInstance) {
     if (error) return;
 
     this.setState({ paypalInstance, disabled: false }, () => {
@@ -55,12 +34,12 @@ export default class PayPal extends Component<Props, State> {
     });
   }
 
-  flow(): $PropertyType<PayPalTokenizeOptions, 'flow'> {
+  flow() {
     if (this.props.vault) return 'vault';
     return 'checkout';
   }
 
-  tokenizeOptions(): PayPalTokenizeOptions {
+  tokenizeOptions() {
     const { amount, currency, vault } = this.props;
     if (vault) {
       return { flow: 'vault' };
@@ -68,18 +47,15 @@ export default class PayPal extends Component<Props, State> {
     return { flow: 'checkout', amount, currency };
   }
 
-  submit(): Promise<any> {
+  submit() {
     const paypalInstance = this.state.paypalInstance;
     return new Promise((resolve, reject) => {
       if (!paypalInstance) return reject();
 
-      paypalInstance.tokenize(
-        this.tokenizeOptions(),
-        (error: ?BraintreeError, payload: PayPalTokenizePayload) => {
-          if (error) return reject(error);
-          resolve(payload);
-        }
-      );
+      paypalInstance.tokenize(this.tokenizeOptions(), (error, payload) => {
+        if (error) return reject(error);
+        resolve(payload);
+      });
     });
   }
 

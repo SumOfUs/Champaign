@@ -1,20 +1,7 @@
-// @flow
 import { includes } from 'lodash';
 import EEA_LIST from '../../shared/eea-list';
-import type { InitialAction } from '../reducers';
 
-export type ConsentState = {
-  previouslyConsented: boolean,
-  isRequiredExisting: boolean,
-  isRequiredNew: boolean,
-  consented: ?boolean,
-  countryCode: string,
-  variant: string,
-  modalOpen: boolean,
-  showConsentRequired: boolean,
-};
-
-const defaultState: ConsentState = {
+const defaultState = {
   previouslyConsented: false,
   isRequiredNew: false,
   isRequiredExisting: false,
@@ -25,20 +12,7 @@ const defaultState: ConsentState = {
   showConsentRequired: false,
 };
 
-type Action =
-  | InitialAction
-  | { type: '@@chmp:consent:change_consent', consented: ?boolean }
-  | { type: '@@chmp:consent:change_country', countryCode: string }
-  | { type: '@@chmp:consent:reset_state' }
-  | { type: '@@chmp:consent:change_variant', variant: string }
-  | { type: '@@chmp:consent:show_consent_required', value: boolean }
-  | { type: '@@chmp:consent:must_consent', value: boolean }
-  | { type: '@@chmp:consent:toggle_modal', modalOpen: boolean };
-
-export default function reducer(
-  state: ConsentState = defaultState,
-  action: Action
-) {
+export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case '@@chmp:initialize':
       const {
@@ -88,27 +62,27 @@ export default function reducer(
   }
 }
 
-export function changeConsent(consented: ?boolean = false): Action {
+export function changeConsent(consented = false) {
   return { type: '@@chmp:consent:change_consent', consented };
 }
 
-export function changeCountry(countryCode: string = ''): Action {
+export function changeCountry(countryCode = '') {
   return { type: '@@chmp:consent:change_country', countryCode };
 }
 
-export function changeVariant(variant: string = 'simple'): Action {
+export function changeVariant(variant = 'simple') {
   return { type: '@@chmp:consent:change_variant', variant };
 }
 
-export function resetState(): Action {
+export function resetState() {
   return { type: '@@chmp:consent:reset_state' };
 }
 
-export function toggleModal(value: boolean): Action {
+export function toggleModal(value) {
   return { type: '@@chmp:consent:toggle_modal', modalOpen: value };
 }
 
-export function showConsentRequired(value: boolean): Action {
+export function showConsentRequired(value) {
   return { type: '@@chmp:consent:show_consent_required', value };
 }
 
@@ -116,7 +90,7 @@ export function showConsentRequired(value: boolean): Action {
 // * selected country is in an affected country
 // * user has not previously given consent
 // * user has not selected to consent or not (`consented` is still null)
-function isRequired(state: ConsentState, filter?: (country: any) => boolean) {
+function isRequired(state, filter) {
   const { countryCode, consented, previouslyConsented } = state;
   const inAffectedCountry = includes(EEA_LIST, countryCode);
   return inAffectedCountry && !previouslyConsented && consented === null;

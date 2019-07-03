@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { SyntheticEvent } from 'react';
 import { useState } from 'react';

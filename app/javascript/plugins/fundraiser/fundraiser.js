@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { render } from 'react-dom';
 import queryString from 'query-string';
@@ -6,33 +5,9 @@ import ComponentWrapper from '../components/ComponentWrapper';
 import FundraiserView from '../plugins/fundraiser/FundraiserView';
 import configureStore from '../state';
 
-import type { Store } from 'redux';
-import type { ChampaignPersonalizationData } from '../types';
-import type { AppState } from '../state';
-import type { DonationBands } from '../state/fundraiser/types.js';
-import type { InitialAction } from '../state/reducers';
-import type {
-  FundraiserAction,
-  FundraiserInitializationOptions,
-} from '../state/fundraiser/types';
+const store = window.champaign.store;
 
-type SearchParams = {
-  amount?: string,
-  currency?: string,
-  dd_only?: string,
-  recurring_default?: string,
-  preselect?: string,
-  hide_spm?: string, // hide saved payment methods
-};
-
-type Action = FundraiserAction | InitialAction;
-const store: Store<AppState, FundraiserAction> = window.champaign.store;
-
-type MountFundraiserOptions = ChampaignPersonalizationData & {
-  fundraiser: FundraiserInitializationOptions,
-};
-
-function mount(root: string, options: any, Component?: any = FundraiserView) {
+function mount(root, options, Component = FundraiserView) {
   const el = document.getElementById(root);
   if (el) {
     render(
@@ -48,8 +23,8 @@ function mount(root: string, options: any, Component?: any = FundraiserView) {
   }
 }
 
-window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
-  const search: SearchParams = queryString.parse(location.search, {
+window.mountFundraiser = function(root, data) {
+  const search = queryString.parse(location.search, {
     arrayFormat: 'bracket',
   });
   const { personalization, page } = window.champaign;

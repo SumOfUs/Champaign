@@ -1,4 +1,3 @@
-// @flow
 import { transform, replaceInterpolations } from './helpers';
 
 describe('replaceInterpolations', () => {

@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
@@ -8,25 +7,8 @@ import Thermometer from '../Thermometer';
 
 import CurrencyAmount from '../../components/CurrencyAmount';
 
-export type Props = {
-  donationAmount?: number,
-  donationBands: { [id: string]: number[] },
-  donationFeaturedAmount?: number,
-  currency: string,
-  nextStepTitle?: React.Element<any>,
-  selectAmount: (amount: ?number) => void,
-  selectCustomAmount?: (amount: ?number) => void,
-  changeCurrency: (currency: string) => void,
-  proceed: () => void,
-};
-
-export type State = {
-  customAmount: ?number,
-  currencyDropdVisible: boolean,
-};
-
-export default class AmountSelection extends React.Component<Props, State> {
-  static title(amount: ?number, currency: string): any {
+export default class AmountSelection extends React.Component {
+  static title(amount, currency) {
     if (amount == null) {
       return (
         <FormattedMessage id="fundraiser.amount" defaultMessage="AMOUNT" />
@@ -35,7 +17,7 @@ export default class AmountSelection extends React.Component<Props, State> {
     return <CurrencyAmount amount={amount} currency={currency} />;
   }
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -54,7 +36,7 @@ export default class AmountSelection extends React.Component<Props, State> {
     });
   }
 
-  onSelectCurrency(currency: string): void {
+  onSelectCurrency(currency) {
     this.props.changeCurrency(currency);
   }
 
@@ -107,9 +89,7 @@ export default class AmountSelection extends React.Component<Props, State> {
           <select
             value={this.props.currency}
             className="AmountSelection__currency-selector"
-            onChange={(e: SyntheticEvent<HTMLSelectElement>) =>
-              this.onSelectCurrency(e.currentTarget.value)
-            }
+            onChange={e => this.onSelectCurrency(e.currentTarget.value)}
           >
             {Object.keys(this.props.donationBands).map(currency => {
               return (

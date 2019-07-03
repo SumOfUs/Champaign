@@ -1,4 +1,3 @@
-// @flow
 require('selectize/dist/js/standalone/selectize.js');
 require('jquery-sticky');
 import _ from 'lodash';
@@ -14,7 +13,7 @@ require('selectize/dist/css/selectize.css');
 
 window._ = _;
 
-function $subscribe(eventName: string, callback: (...args: mixed) => any) {
+function $subscribe(eventName, callback) {
   // to maintain backwards compatibility, jQuery events always
   // pass the event object as the first parameter. We don't have it
   const compatibleCallback = function(...args) {
@@ -23,7 +22,7 @@ function $subscribe(eventName: string, callback: (...args: mixed) => any) {
   ee.on(eventName, compatibleCallback);
 }
 
-function $publish(eventName: string, ...args: any) {
+function $publish(eventName, ...args) {
   ee.emit(eventName, ...args);
 }
 

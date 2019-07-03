@@ -1,4 +1,3 @@
-// @flow
 import Backbone from 'backbone';
 
 const CampaignerOverlay = Backbone.View.extend({

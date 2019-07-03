@@ -1,4 +1,3 @@
-// @flow
 import Backbone from 'backbone';
 
 const Notification = Backbone.View.extend({

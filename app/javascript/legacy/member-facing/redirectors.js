@@ -1,8 +1,7 @@
-// @flow
 import uri from 'urijs';
 
 const RegisterMemberRedirector = {
-  attemptRedirect(followUpUrl: string, member: any) {
+  attemptRedirect(followUpUrl, member) {
     if (typeof member !== 'object') {
       member = window.champaign.personalization.member;
     }
@@ -31,7 +30,7 @@ const RegisterMemberRedirector = {
 };
 
 const AfterDonationRedirector = {
-  attemptRedirect(followUpUrl: string, donationFormData: any) {
+  attemptRedirect(followUpUrl, donationFormData) {
     if (
       !(
         donationFormData.storeInVault &&

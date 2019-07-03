@@ -1,17 +1,9 @@
-/* @flow */
+/*  */
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import './Step.scss';
 
-export type Props = {
-  onClick?: () => void,
-  active: boolean,
-  complete: boolean,
-  index: number,
-  label: string,
-};
-
-export default class Step extends Component<Props> {
+export default class Step extends Component {
   render() {
     const { active, complete, index, label } = this.props;
     const rootClasses = classnames({

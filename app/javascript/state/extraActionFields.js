@@ -1,18 +1,7 @@
-// @flow
 import { omit } from 'lodash';
 import ee from '../shared/pub_sub';
 
-type ActionValue = string | number | boolean;
-export type State = { [fieldName: string]: ActionValue };
-type Action =
-  | { type: '@@chmp:extra_action_fields:add', fields: State }
-  | { type: '@@chmp:extra_action_fields:remove', fieldNames: string[] }
-  | { type: '@@chmp:extra_action_fields:clear' };
-
-export default function extraActionFieldsReducer(
-  state: State = {},
-  action: Action
-): State {
+export default function extraActionFieldsReducer(state = {}, action) {
   switch (action.type) {
     case '@@chmp:extra_action_fields:add':
       return { ...state, ...action.fields };
@@ -25,11 +14,11 @@ export default function extraActionFieldsReducer(
   }
 }
 
-export function addExtraActionFields(fields: State): Action {
+export function addExtraActionFields(fields) {
   return { type: '@@chmp:extra_action_fields:add', fields };
 }
 if (!ee.listeners('@@chmp:extra_action_fields:add').length) {
-  ee.on('@@chmp:extra_action_fields:add', function(fields: State) {
+  ee.on('@@chmp:extra_action_fields:add', function(fields) {
     const store = window.champaign.store;
     if (store) {
       store.dispatch(addExtraActionFields(fields));
@@ -37,17 +26,17 @@ if (!ee.listeners('@@chmp:extra_action_fields:add').length) {
   });
 }
 
-export function removeExtraActionFields(...fieldNames: string[]): Action {
+export function removeExtraActionFields(...fieldNames) {
   return { type: '@@chmp:extra_action_fields:remove', fieldNames };
 }
 if (!ee.listeners('@@chmp:extra_action_fields:remove').length) {
-  ee.on('@@chmp:extra_action_fields:remove', function(...fields: string[]) {
+  ee.on('@@chmp:extra_action_fields:remove', function(...fields) {
     const store = window.champaign.store;
     if (store) store.dispatch(removeExtraActionFields(...fields));
   });
 }
 
-export function clearExtraActionFields(): Action {
+export function clearExtraActionFields() {
   return { type: '@@chmp:extra_action_fields:clear' };
 }
 if (!ee.listeners('@@chmp:extra_action_fields:clear').length) {

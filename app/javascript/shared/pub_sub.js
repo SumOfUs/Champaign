@@ -1,5 +1,3 @@
-// @flow
-
 import EventEmitter from 'eventemitter3';
 
 let ee = window.ee;

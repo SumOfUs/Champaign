@@ -1,18 +1,10 @@
-// @flow
 import React, { Component } from 'react';
 import CurrencyAmount from '../CurrencyAmount';
 import classnames from 'classnames';
 import Button from '../Button/Button';
 import './DonationBandButton.css';
 
-type OwnProps = {
-  featuredAmount?: number,
-  amount: number,
-  currency: string,
-  onClick: () => void,
-};
-
-export default function DonationBandButton(props: OwnProps): any {
+export default function DonationBandButton(props) {
   const className = classnames({
     DonationBandButton: true,
     'DonationBandButton--highlight': props.featuredAmount === props.amount,

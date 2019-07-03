@@ -1,10 +1,4 @@
-// @flow
 import $ from 'jquery';
-
-type Response = {
-  double_opt_in: boolean,
-  follow_up: string,
-};
 
 let version = 1;
 
@@ -21,7 +15,7 @@ const showNotice = () => {
 };
 
 const DoubleOptIn = {
-  handleActionSuccess(resp: Response) {
+  handleActionSuccess(resp) {
     if (!resp || !resp.double_opt_in) return;
 
     showNotice();

@@ -1,13 +1,8 @@
-//@flow
+//
 import React, { Component } from 'react';
 import c3 from 'c3';
 
-type OwnProps = {
-  data: any,
-  xLabel?: string,
-};
-
-class LastWeekChart extends Component<OwnProps> {
+class LastWeekChart extends Component {
   componentDidMount() {
     this.createChart();
   }

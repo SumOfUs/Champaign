@@ -22,7 +22,6 @@ window.URI = URI;
 const store = configureStore(window.champaign);
 
 if (process.env.EXTERNAL_ASSETS_JS_PATH) {
-  // $FlowIgnore
   require(process.env.EXTERNAL_ASSETS_JS_PATH);
 }
 

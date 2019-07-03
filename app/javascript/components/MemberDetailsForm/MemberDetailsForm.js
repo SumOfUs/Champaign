@@ -1,4 +1,4 @@
-// @flow weak
+//  weak
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -8,28 +8,7 @@ import { updateForm } from '../../state/fundraiser/actions';
 import FieldShape from '../FieldShape/FieldShape';
 import ee from '../../shared/pub_sub';
 
-import type { Element } from 'react';
-import type { Dispatch } from 'redux';
-import type { AppState } from '../../state';
-
-type OwnProps = {
-  buttonText?: Element<any> | string,
-  proceed?: () => void,
-  fields: Object,
-  formValues: Object,
-  outstandingFields: any[],
-  pageId: number,
-  formId: number,
-  form: Object,
-  formId: number,
-  updateForm: (form: Object) => void,
-} & $Shape<mapStateToProps>;
-
-type State = {
-  errors: any,
-  loading: boolean,
-};
-export class MemberDetailsForm extends Component<OwnProps, State> {
+export class MemberDetailsForm extends Component {
   static title = <FormattedMessage id="details" defaultMessage="details" />;
 
   HIDDEN_FIELDS = [
@@ -41,7 +20,7 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
     'referring_akid',
   ];
 
-  constructor(props: OwnProps) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -70,7 +49,7 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
     this.props.updateForm({ ...this.props.form, ...data });
   }
 
-  getFieldError(field: string) {
+  getFieldError(field) {
     const error = this.state.errors[field];
     if (!error) return null;
     return <FormattedMessage {...error} />;
@@ -97,7 +76,7 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
     });
   }
 
-  handleFailure(response: any) {
+  handleFailure(response) {
     ee.emit('fundraiser:form:error', response);
     const errors = _.mapValues(response.errors, ([message]) => {
       return {
@@ -118,7 +97,7 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
     });
   }
 
-  submit(e: SyntheticEvent<HTMLFormElement>) {
+  submit(e) {
     this.setState({ loading: true });
     e.preventDefault();
     // TODO
@@ -155,9 +134,7 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
           return !this.recognizedMemberPresent();
         default:
           console.log(
-            `Unknown display_mode "${field.display_mode}" for field "${
-              field.name
-            }"`
+            `Unknown display_mode "${field.display_mode}" for field "${field.name}"`
           );
           return false;
       }
@@ -200,13 +177,13 @@ export class MemberDetailsForm extends Component<OwnProps, State> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = state => ({
   formId: state.fundraiser.formId,
   form: state.fundraiser.form,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  updateForm: (form: Object) => dispatch(updateForm(form)),
+const mapDispatchToProps = dispatch => ({
+  updateForm: form => dispatch(updateForm(form)),
 });
 
 export default connect(

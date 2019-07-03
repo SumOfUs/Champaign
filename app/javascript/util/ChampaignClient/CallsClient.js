@@ -1,14 +1,7 @@
+//
 import { parseResponse } from './Base';
-import type { OperationResponse } from './Base';
 
-type CreateCallParams = {
-  pageId: string | number,
-  memberPhoneNumber?: string,
-  targetId: string,
-  trackingParams: any,
-};
-
-const create = function(params: CreateCallParams): Promise<OperationResponse> {
+const create = function(params) {
   const inner = {};
   inner.member_phone_number = params.memberPhoneNumber;
   if (!!params.targetPhoneExtension)

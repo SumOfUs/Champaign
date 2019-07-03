@@ -1,4 +1,3 @@
-// @flow
 import $ from 'jquery';
 import ee from '../shared/pub_sub';
 import { logEvent } from './log_event';

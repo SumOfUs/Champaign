@@ -1,18 +1,10 @@
-// @flow
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Input from '../../components/SweetInput/SweetInput';
 import Button from '../../components/Button/Button';
 
-type State = {
-  showForm: boolean,
-  isSubmittingNewPensionFundName: boolean,
-  newPensionFundName: string,
-  newPensionFundNameError: boolean,
-};
-
-export default class SuggestFund extends Component<*, State> {
+export default class SuggestFund extends Component {
   constructor() {
     super();
     this.state = {
@@ -23,7 +15,7 @@ export default class SuggestFund extends Component<*, State> {
     };
   }
 
-  postSuggestedFund(fund: string) {
+  postSuggestedFund(fund) {
     const url = '/api/pension_funds/suggest_fund';
 
     this.setState({ isSubmittingNewPensionFundName: true });
@@ -51,14 +43,14 @@ export default class SuggestFund extends Component<*, State> {
     }));
   };
 
-  onChange = (newPensionFundName: string) => {
+  onChange = newPensionFundName => {
     this.setState(state => ({
       ...state,
       newPensionFundName,
     }));
   };
 
-  submit = (e: SyntheticEvent<HTMLElement>) => {
+  submit = e => {
     e.preventDefault();
     if (this.state.newPensionFundName.trim() === '') {
       this.setState({ newPensionFundNameError: true });

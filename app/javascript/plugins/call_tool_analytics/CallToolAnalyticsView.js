@@ -1,4 +1,4 @@
-//@flow
+//
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import { fetchJson } from './helper';
@@ -7,28 +7,8 @@ import MembersStatusTable from '../../components/CallToolAnalytics/MembersStatus
 import TargetsChart from '../../components/CallToolAnalytics/TargetsChart';
 import TargetsStatusTable from '../../components/CallToolAnalytics/TargetsStatusTable';
 
-type Filter = 'all_time' | 'last_week';
-
-type Props = {
-  pageId: string | number,
-};
-
-type State = {
-  data?: {
-    last_week: {
-      member_calls: any,
-      target_calls: any,
-    },
-    all_time: {
-      member_calls: any,
-      target_calls: any,
-    },
-  },
-  filter: Filter,
-};
-
-class CallToolViewAnalytics extends Component<Props, State> {
-  constructor(props: Props) {
+class CallToolViewAnalytics extends Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -52,7 +32,7 @@ class CallToolViewAnalytics extends Component<Props, State> {
       });
   }
 
-  updateFilter(filter: Filter) {
+  updateFilter(filter) {
     this.setState({ filter });
   }
 

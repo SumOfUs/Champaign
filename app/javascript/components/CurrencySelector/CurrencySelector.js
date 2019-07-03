@@ -1,18 +1,11 @@
+//
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { changeCurrency } from '../../state/fundraiser/actions';
 
-import type { AppState } from '../../state/reducers';
-
-type Props = {};
-
-type State = {
-  currencyDropdVisible: boolean,
-};
-
-class CurrencySelector extends Component<Props> {
-  constructor(props: Props) {
+class CurrencySelector extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       currencyDropdVisible: false,
@@ -25,7 +18,7 @@ class CurrencySelector extends Component<Props> {
     });
   }
 
-  onSelectCurrency(currency: string): void {
+  onSelectCurrency(currency) {
     this.props.changeCurrency(currency);
   }
 
@@ -35,9 +28,7 @@ class CurrencySelector extends Component<Props> {
         <select
           value={this.props.currency}
           className="AmountSelection__currency-selector"
-          onChange={(e: SyntheticEvent<HTMLSelectElement>) =>
-            this.onSelectCurrency(e.currentTarget.value)
-          }
+          onChange={e => this.onSelectCurrency(e.currentTarget.value)}
         >
           {Object.keys(this.props.donationBands).map(currency => {
             return (
@@ -75,13 +66,13 @@ class CurrencySelector extends Component<Props> {
   }
 }
 
-const mapState = (state: AppState) => ({
+const mapState = state => ({
   currency: state.fundraiser.currency,
   donationBands: state.fundraiser.donationBands,
 });
 
-const mapDispatch = (dispatch: Dispatch<*>) => ({
-  changeCurrency: (currency: string) => dispatch(changeCurrency(currency)),
+const mapDispatch = dispatch => ({
+  changeCurrency: currency => dispatch(changeCurrency(currency)),
 });
 
 export default connect(

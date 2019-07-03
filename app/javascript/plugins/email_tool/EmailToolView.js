@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { compact, get, join, sample, template } from 'lodash';
 import Select from '../../components/SweetSelect/SweetSelect';
@@ -11,62 +10,17 @@ import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../../util/ChampaignClient';
 
-import type { EmailProps } from '../../components/EmailEditor/EmailEditor';
-import type { ErrorMap } from '../../util/ChampaignClient/Base';
-import type { SelectOption } from 'react-select';
-
 import './EmailToolView';
 
-type ChampaignEmailPayload = any;
-
-export interface EmailTarget {
-  id: string;
-  title?: string;
-  name: string;
-  email: string;
-}
-
-type Props = {
-  emailBody: string,
-  emailHeader: string,
-  emailFooter: string,
-  emailFrom: string,
-  emailSubject: string,
-  country: string,
-  email: string,
-  name: string,
-  postal: string,
-  isSubmitting: boolean,
-  page: string,
-  pageId: number,
-  targets: EmailTarget[],
-  title: string,
-  useMemberEmail: boolean,
-  manualTargeting: boolean,
-  onSuccess?: (target: EmailTarget) => void,
-  trackingParams?: { [key: string]: string },
-};
-
-type State = {
-  name: string,
-  email: string,
-  subject: string,
-  body: string,
-  target: ?EmailTarget,
-  targetsForSelection: SelectOption[],
-  errors: ErrorMap,
-  isSubmitting: boolean,
-};
-
-function emailTargetAsSelectOption(target: EmailTarget): SelectOption {
+function emailTargetAsSelectOption(target) {
   return {
     label: join(compact([target.name, target.title]), ', '),
     value: target.id,
   };
 }
 
-export default class EmailToolView extends Component<Props, State> {
-  constructor(props: Props) {
+export default class EmailToolView extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       name: this.props.name,
@@ -80,13 +34,13 @@ export default class EmailToolView extends Component<Props, State> {
     };
   }
 
-  targetId(): ?string {
+  targetId() {
     if (this.props.manualTargeting) {
       return get(this.state.target, 'id', undefined);
     }
   }
 
-  payload(): ChampaignEmailPayload {
+  payload() {
     return {
       page_id: this.props.pageId,
       email: {
@@ -109,7 +63,7 @@ export default class EmailToolView extends Component<Props, State> {
   // Attempt to send the email on submit. If successful, we call the
   // onSuccess prop with the selected target. On failure, we update
   // the state with the errors we receive from the backend.
-  onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+  onSubmit = e => {
     e.preventDefault();
     this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
@@ -128,17 +82,17 @@ export default class EmailToolView extends Component<Props, State> {
   // onTargetChange
   // Update the selected target. We use the target.id to find the
   // target. If no id is passed, we clear the target property.
-  onTargetChange = (id: ?string) => {
+  onTargetChange = id => {
     this.setState({ target: this.props.targets.find(t => t.id === id) });
   };
 
-  onNameChange = (name: string) => this.setState({ name });
+  onNameChange = name => this.setState({ name });
 
-  onEmailChange = (email: string) => this.setState({ email });
+  onEmailChange = email => this.setState({ email });
 
   // onEmailEditorChange
   // The EmailEditor component returns a structure
-  onEmailEditorUpdate = (emailProps: EmailProps) => {
+  onEmailEditorUpdate = emailProps => {
     this.setState({ ...emailProps });
   };
 

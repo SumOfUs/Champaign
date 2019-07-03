@@ -1,28 +1,7 @@
-// @flow
 import React, { Component } from 'react';
 import googlePayment from 'braintree-web/google-payment';
 import { connect } from 'react-redux';
 import { setSubmitting } from '../state/fundraiser/actions';
-
-import type { AppState, PaymentMethod } from '../state';
-import type { PaymentType } from '../state/fundraiser/types';
-import type { Dispatch } from 'redux';
-
-type Props = {
-  client: ?any,
-  currentPaymentType: PaymentType,
-  currency: string,
-  amount: number,
-  onSubmit: (result: Object) => void,
-  onError: (error: any) => void,
-  setSubmitting: (submitting: boolean) => void,
-};
-
-type State = {
-  paymentsClient?: Object,
-  googlePaymentInstance?: Object,
-  ready: boolean,
-};
 
 // TODO:
 // Do with this as you please...
@@ -42,11 +21,10 @@ const isAndroid = navigator.userAgent.toLowerCase().indexOf('android') >= 0;
 // could try to couple them but it would require communicating both components via
 // the global state, or refactor the fundraising component to contain that state at
 // the parent, or to "register" itself once it's "ready" (with a callback to the parent).
-export class GooglePayButton extends Component<Props, State> {
-  buttonRef: any;
-  constructor(props: Props) {
+export class GooglePayButton extends Component {
+  constructor(props) {
     super(props);
-    // $FlowIgnore
+
     this.buttonRef = React.createRef();
     this.state = {
       paymentsClient: undefined,
@@ -114,7 +92,7 @@ export class GooglePayButton extends Component<Props, State> {
     this.setupGooglePay();
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(prevProps, prevState) {
     if (
       prevProps.client !== this.props.client ||
       prevState.paymentsClient !== this.state.paymentsClient
@@ -123,7 +101,7 @@ export class GooglePayButton extends Component<Props, State> {
     }
   }
 
-  onClick = (e: any) => {
+  onClick = e => {
     e.preventDefault();
     this.props.setSubmitting(true);
     const { ready, googlePaymentInstance, paymentsClient } = this.state;
@@ -163,15 +141,15 @@ export class GooglePayButton extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = state => ({
   currentPaymentType: state.fundraiser.currentPaymentType,
   fundraiser: state.fundraiser,
   currency: state.fundraiser.currency,
   amount: state.fundraiser.donationAmount,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
+const mapDispatchToProps = dispatch => ({
+  setSubmitting: submitting => dispatch(setSubmitting(submitting)),
 });
 
 export default connect(

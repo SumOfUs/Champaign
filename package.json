@@ -56,7 +56,6 @@
     "urijs": "^1.19.1"
   },
   "devDependencies": {
-    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.15",
     "@types/jquery": "^3.3.30",

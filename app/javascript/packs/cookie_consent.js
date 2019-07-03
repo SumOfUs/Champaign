@@ -1,4 +1,3 @@
-// @flow
 import 'cookieconsent';
 import $ from 'jquery';
 import I18n from 'champaign-i18n';

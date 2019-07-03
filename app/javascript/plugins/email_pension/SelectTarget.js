@@ -1,31 +1,10 @@
-// @flow
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Input from '../../components/SweetInput/SweetInput';
 import FormGroup from '../../components/Form/FormGroup';
 
-type Props = {
-  handler: (target: any) => void,
-  endpoint: string,
-  error: any,
-};
-
-type Target = {
-  id: string,
-  first_name: string,
-  last_name: string,
-  title: string,
-};
-
-type State = {
-  searching: boolean,
-  not_found: boolean,
-  postcode: string,
-  targets: any,
-};
-
-class SelectTarget extends Component<Props, State> {
-  constructor(props: Props) {
+class SelectTarget extends Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -36,7 +15,7 @@ class SelectTarget extends Component<Props, State> {
     };
   }
 
-  getTarget = (postcode: string) => {
+  getTarget = postcode => {
     this.setState({ postcode: postcode });
 
     if (!postcode) return;
@@ -61,7 +40,7 @@ class SelectTarget extends Component<Props, State> {
       });
   };
 
-  renderTarget({ id, title, first_name, last_name }: Target) {
+  renderTarget({ id, title, first_name, last_name }) {
     return (
       <p key={id}>
         {title} {first_name} {last_name}
