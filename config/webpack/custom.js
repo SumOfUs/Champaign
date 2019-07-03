@@ -30,6 +30,7 @@ module.exports = {
     // },
     {
       'champaign-i18n': 'window.I18n',
+      jquery: 'window.jQuery',
     },
   ],
   resolve: {

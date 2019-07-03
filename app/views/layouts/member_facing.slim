@@ -13,6 +13,11 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = favicon_link_tag "images/org-favicon.ico"
     = metamagic
 
+    = javascript_include_tag 'https://unpkg.com/jquery@^3/dist/jquery.min.js'
+    = javascript_include_tag 'https://unpkg.com/jquery-ujs@^1/src/rails.js'
+    = javascript_include_tag 'https://unpkg.com/jquery-ui-dist@^1/jquery-ui.min.js'
+    = javascript_include_tag 'https://unpkg.com/selectize@^0.12/dist/js/standalone/selectize.min.js'
+
     = javascript_pack_tag "sentry"
 
     = javascript_packs_with_chunks_tag "globals"
