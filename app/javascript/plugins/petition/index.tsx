@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { render } from 'react-dom';
-import { Plugin } from '../index';
+import Plugin from '../plugin';
 import { PetitionComponent } from './PetitionComponent';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { resetMember } from '../../state/member/reducer';
