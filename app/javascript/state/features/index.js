@@ -4,7 +4,6 @@
 // and then use FeaturesHelper to enable or disable it.
 
 const defaults = {
-  googlepay: false,
   thermometer: false,
 };
 

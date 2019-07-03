@@ -14,7 +14,6 @@ import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
-import GooglePayButton from '../GooglePayButton';
 import { resetMember } from '../../state/member/reducer';
 import {
   changeStep,
@@ -421,12 +420,6 @@ export class Payment extends Component {
               />
             </div>
           )}
-
-          <GooglePayButton
-            client={this.state.client}
-            onSubmit={this.submit}
-            onError={this.onBraintreeError}
-          />
         </ShowIf>
 
         <div className="Payment__fine-print">

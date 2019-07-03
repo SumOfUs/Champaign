@@ -12,14 +12,6 @@ export class PaymentTypeSelection extends PureComponent {
     return true;
   }
 
-  paymentTypes() {
-    if (!this.props.features.googlepay) {
-      return without(this.props.paymentTypes, 'google');
-    }
-
-    return this.props.paymentTypes;
-  }
-
   render() {
     const { disabled, currentPaymentType, onChange } = this.props;
 
@@ -33,14 +25,12 @@ export class PaymentTypeSelection extends PureComponent {
             />
           </span>
 
-          {this.paymentTypes().map((paymentType, i) => {
-            const currentDisabled =
-              paymentType === 'google' && this.props.recurring;
+          {this.props.paymentTypes.map((paymentType, i) => {
             return (
               <div className={classnames('PaymentMethod', paymentType)} key={i}>
                 <label>
                   <input
-                    disabled={disabled || currentDisabled}
+                    disabled={disabled || this.props.recurring}
                     type="radio"
                     checked={currentPaymentType === paymentType}
                     onChange={e => onChange(paymentType)}
@@ -61,7 +51,6 @@ export class PaymentTypeSelection extends PureComponent {
 
 const mapStateToProps = state => ({
   directDebitOnly: state.fundraiser.directDebitOnly,
-  features: state.features,
   paymentTypes: state.fundraiser.paymentTypes,
   recurring: state.fundraiser.recurring,
   showDirectDebit: state.fundraiser.showDirectDebit,
