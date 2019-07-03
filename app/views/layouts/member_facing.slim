@@ -18,9 +18,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_include_tag 'https://unpkg.com/jquery-ui-dist@^1/jquery-ui.min.js'
     = javascript_include_tag 'https://unpkg.com/selectize@^0.12/dist/js/standalone/selectize.min.js'
 
-    = javascript_pack_tag "sentry"
-
-    = javascript_packs_with_chunks_tag "globals"
+    = javascript_packs_with_chunks_tag "sentry", "globals"
     = stylesheet_packs_with_chunks_tag "globals"
 
     = render partial: "shared/browser_polyfills"
