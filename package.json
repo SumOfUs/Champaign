@@ -90,7 +90,12 @@
     ]
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "*.{ts,tsx}": [
+      "tslint -c tslint.json --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,jsx,css,scss}": [
       "prettier --write",
       "git add"
     ],
