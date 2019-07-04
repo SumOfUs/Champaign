@@ -72,6 +72,7 @@
     "lint-staged": "^8.2.1",
     "prettier": "^1.18.2",
     "tslint": "^5.18.0",
+    "tslint-react": "^4.0.0",
     "webpack-dev-server": "^3.7.2",
     "yamljs": "^0.3.0"
   },
