@@ -52,7 +52,8 @@
     "ts-loader": "^6.0.4",
     "twitter-text": "^3.0.0",
     "typescript": "^3.5.2",
-    "urijs": "^1.19.1"
+    "urijs": "^1.19.1",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",
