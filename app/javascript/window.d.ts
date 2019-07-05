@@ -1,3 +1,4 @@
+import * as I18n from 'i18n-js';
 import { Store } from 'redux';
 import { Petition } from './plugins/petition';
 import { IPluginConfig } from './plugins/plugin';
@@ -7,6 +8,7 @@ declare global {
   // tslint:disable-next-line:interface-name
   interface Window {
     champaign: IChampaignGlobalObject;
+    I18n: II18n & typeof I18n;
   }
 }
 
@@ -95,4 +97,8 @@ export interface IChampaignPage {
   ak_petition_resource_uri?: string;
   campaign_id?: number;
   follow_up_liquid_layout_id?: number;
+}
+
+interface II18n {
+  lookup(key: string): string;
 }

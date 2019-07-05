@@ -1,14 +1,13 @@
-import * as React from 'react';
-import { SyntheticEvent } from 'react';
-import { useState } from 'react';
 import { map, pick } from 'lodash';
-import SweetInput from '../../SweetInput/SweetInput';
-import SelectCountry from '../../SelectCountry/SelectCountry';
-import SweetSelect from '../../SweetSelect/SweetSelect';
+import * as React from 'react';
+import { SyntheticEvent, useState } from 'react';
+import { IFormField } from '../../../types';
 import SweetCheckbox from '../../Checkbox/Checkbox';
-import { Field } from '../FormField';
+import SelectCountry from '../../SelectCountry/SelectCountry';
+import SweetInput from '../../SweetInput/SweetInput';
+import SweetSelect from '../../SweetSelect/SweetSelect';
 
-export type Props = Field & {
+export type Props = IFormField & {
   className?: string;
   errorMessage?: any;
   hasError?: boolean;
@@ -25,7 +24,9 @@ const basicProps = (props: Props) => ({
 });
 
 const ErrorMessage = (props: Props) => {
-  if (!props.errorMessage) return null;
+  if (!props.errorMessage) {
+    return null;
+  }
   return <span className="error-msg">{props.errorMessage}</span>;
 };
 
@@ -56,9 +57,11 @@ export const Tel = (props: Props) => {
 
 export const Choice = (props: Props) => {
   const [value, setValue] = useState(props.default_value);
-  const onChange = (v: string) => {
-    setValue(v);
-    if (props.onChange) props.onChange(v);
+  const onChange = (event: SyntheticEvent<HTMLInputElement>) => {
+    setValue(event.currentTarget.value);
+    if (props.onChange) {
+      props.onChange(event.currentTarget.value);
+    }
   };
   return (
     <div className="radio-container">
@@ -72,9 +75,7 @@ export const Choice = (props: Props) => {
               type="radio"
               value={choice.value}
               checked={choice.value === value}
-              onChange={(event: SyntheticEvent<HTMLInputElement>) =>
-                onChange(event.currentTarget.value)
-              }
+              onChange={onChange}
             />
             {choice.label}
           </label>
@@ -88,7 +89,9 @@ export const Country = (props: Props) => {
   const [value, setValue] = useState(props.default_value || '');
   const onChange = (v: string) => {
     setValue(v);
-    if (props.onChange) props.onChange(v);
+    if (props.onChange) {
+      props.onChange(v);
+    }
   };
 
   return (
@@ -98,17 +101,19 @@ export const Country = (props: Props) => {
 
 export const Select = (props: Props) => {
   const [value, setValue] = useState(props.default_value || '');
-  const onChange = (value: string) => {
-    if (props.onChange) props.onChange(value);
-    setValue(value);
+  const onChange = (data: string) => {
+    if (props.onChange) {
+      props.onChange(data);
+    }
+    setValue(data);
   };
   const options = map(props.choices, choice => pick(choice, 'value', 'label'));
-  const v = options.find(o => o.value === value);
+  const val = options.find(o => o.value === value);
 
   return (
     <SweetSelect
       {...basicProps(props)}
-      value={v}
+      value={val}
       onChange={onChange}
       options={options}
     />
@@ -131,9 +136,11 @@ export const Instruction = (props: Props) => {
 
 export const Paragraph = (props: Props) => {
   const [value, setValue] = useState(props.default_value);
-  const onChange = (v: string) => {
-    setValue(v);
-    if (props.onChange) props.onChange(v);
+  const onChange = (e: SyntheticEvent<HTMLTextAreaElement>) => {
+    setValue(e.currentTarget.value);
+    if (props.onChange) {
+      props.onChange(e.currentTarget.value);
+    }
   };
   return (
     <div>
@@ -141,9 +148,7 @@ export const Paragraph = (props: Props) => {
         name={props.name}
         value={value || ''}
         placeholder={props.label}
-        onChange={(e: SyntheticEvent<HTMLTextAreaElement>) =>
-          onChange(e.currentTarget.value)
-        }
+        onChange={onChange}
         className={props.errorMessage ? 'has-error' : ''}
         maxLength={9999}
       />

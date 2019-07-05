@@ -1,8 +1,6 @@
-// import I18n from 'champaign-i18n';
 require('whatwg-fetch');
 require('../legacy/member-facing/registration');
 require('../legacy/member-facing/track_shares');
-// require('../plugins/recommend-pages');
 require('../util/event_tracking');
 
 import { mapValues, pick } from 'lodash';

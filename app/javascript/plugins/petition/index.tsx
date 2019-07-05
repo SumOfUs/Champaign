@@ -1,17 +1,19 @@
 // @flow
 import * as React from 'react';
 import { render } from 'react-dom';
-import Plugin from '../plugin';
-import { PetitionComponent } from './PetitionComponent';
+import { Store } from 'redux';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { resetMember } from '../../state/member/reducer';
-import { Store } from 'redux';
-import { AppState } from '../../state/types';
+import { IAppState } from '../../types';
+import Plugin from '../plugin';
+import { PetitionComponent } from './PetitionComponent';
 
 import './petition.css';
 
 export const init = (options: any) => {
-  if (!options.el) throw new Error('Petition plugin DOM element not found');
+  if (!options.el) {
+    throw new Error('Petition plugin DOM element not found');
+  }
 
   return new Petition({
     el: options.el,
@@ -21,38 +23,39 @@ export const init = (options: any) => {
   });
 };
 
-type PetitionOptions = {
+interface IPetitionOptions {
   el: HTMLElement;
   namespace: string;
   config: any; // todo
-  store: Store<AppState>;
-};
+  store: Store<IAppState>;
+}
 
 export class Petition extends Plugin {
-  store: Store<AppState>;
+  public store: Store<IAppState>;
 
-  constructor(options: PetitionOptions) {
+  constructor(options: IPetitionOptions) {
     super(options);
     this.store = options.store;
     this.render();
   }
 
-  updateForm(fieldName: string, value: string) {
+  public updateForm(fieldName: string, value: string) {
+    // tslint:disable-next-line: no-console
     console.info('Petition#updateForm not implemented');
-
     this.render();
   }
 
-  resetMember = () => {
+  public resetMember = () => {
     this.store.dispatch(resetMember());
     this.emit('resetMember');
   };
 
-  submit = () => {
+  public submit = () => {
+    // tslint:disable-next-line: no-console
     console.info('Petition#submit not implemented');
   };
 
-  render() {
+  public render() {
     const el = this.el;
     if (el) {
       render(
