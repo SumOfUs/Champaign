@@ -1,10 +1,12 @@
 import * as EventEmitter from 'eventemitter3';
 
 export interface IPluginConfig {
+  id: number;
   active: boolean;
   page_id: number;
   created_at: string;
   updated_at: string;
+  ref: string;
 }
 
 export interface IPluginOptions {

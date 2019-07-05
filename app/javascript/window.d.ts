@@ -1,7 +1,8 @@
 import * as I18n from 'i18n-js';
 import { Store } from 'redux';
+import { Fundraiser } from './plugins/fundraiser';
 import { Petition } from './plugins/petition';
-import { IPluginConfig } from './plugins/plugin';
+import Plugin, { IPluginConfig } from './plugins/plugin';
 import { IAppState, IFormField } from './types';
 
 declare global {
@@ -16,37 +17,53 @@ interface IChampaignGlobalObject {
   page: IChampaignPage;
   personalization: {
     location: IChampaignLocation;
-    member: IChampaignMember;
+    member: IChampaignMember | {};
   };
   plugins: IChampaignPagePlugins;
   store?: Store<IAppState>;
 }
 
 interface IChampaignPagePlugins {
-  petition?: IChampaignPluginData<IChampaignPetitionPluginData>;
+  actions_thermometer?: IChampaignPluginData<IPluginConfig, Plugin>;
+  call_tool?: IChampaignPluginData<IPluginConfig, Plugin>;
+  donations_thermometer?: IChampaignPluginData<IPluginConfig, Plugin>;
+  email_pension?: IChampaignPluginData<IPluginConfig, Plugin>;
+  email_tool?: IChampaignPluginData<IPluginConfig, Plugin>;
+  email?: IChampaignPluginData<IPluginConfig, Plugin>;
+  fundraiser?: IChampaignPluginData<IFundraiserPluginConfig, Fundraiser>;
+  petition?: IChampaignPluginData<IPetitionPluginConfig, Petition>;
+  survey?: IChampaignPluginData<IPluginConfig, Plugin>;
+  text?: IChampaignPluginData<IPluginConfig, Plugin>;
 }
 
-interface IChampaignPluginData<T> {
-  [ref: string]: T;
-}
-
-interface IChampaignPetitionPluginData {
-  config: IPetitionPluginConfig;
-  interface?: Petition;
+interface IChampaignPluginData<T, M> {
+  [ref: string]: {
+    config: T;
+    interface?: M;
+  };
 }
 
 interface IPetitionPluginConfig extends IPluginConfig {
   cta: string;
   description: string;
-  ref: string;
   form_id: number;
-  id: number;
   outstanding_fields: string[];
   target: string;
   fields: IFormField[];
 }
 
-type MemberDonorStatus = 'donor' | 'non_donor' | 'recurring_donor';
+interface IFundraiserPluginConfig extends IPluginConfig {
+  description: string;
+  donation_band_id: number | null | undefined;
+  donation_bands: { [currency: string]: number[] };
+  fields: IFormField[];
+  form_id: number;
+  outstanding_fields: string[];
+  preselect_amount: boolean;
+  recurring_default: string;
+  title: string;
+}
+
 interface IChampaignMember {
   id: number;
   email: string;
@@ -60,43 +77,43 @@ interface IChampaignMember {
   welcome_name: string;
   postal: string;
   actionkit_user_id: string | null | undefined;
-  donor_status: MemberDonorStatus;
+  donor_status: string;
   registered: boolean;
   created_at: string;
   updated_at: string;
 }
 
 export interface IChampaignLocation {
-  country?: string;
-  country_code?: string;
-  country_name?: string;
-  currency?: string;
-  ip?: string;
-  latitude?: string;
-  longitude?: string;
+  readonly country?: string;
+  readonly country_code?: string;
+  readonly country_name?: string;
+  readonly currency?: string;
+  readonly ip?: string;
+  readonly latitude?: string;
+  readonly longitude?: string;
 }
 
 export interface IChampaignPage {
-  action_count: number;
-  allow_duplicate_actions: boolean;
-  canonical_url: string;
-  created_at: string;
-  featured: boolean;
-  follow_up_page_id: number;
-  follow_up_plan: 'with_liquid' | 'with_page';
-  id: number;
-  language_id: number;
-  optimizely_status: 'optimizely_disabled' | 'optimizely_enabled';
-  primary_image_id: number;
-  publish_status: string;
-  slug: string;
-  status: string;
-  title: string;
-  updated_at: string;
-  ak_donation_resource_uri?: string;
-  ak_petition_resource_uri?: string;
-  campaign_id?: number;
-  follow_up_liquid_layout_id?: number;
+  readonly action_count: number;
+  readonly allow_duplicate_actions: boolean;
+  readonly canonical_url: string;
+  readonly created_at: string;
+  readonly featured: boolean;
+  readonly follow_up_page_id: number;
+  readonly follow_up_plan: 'with_liquid' | 'with_page';
+  readonly id: number;
+  readonly language_id: number;
+  readonly optimizely_status: 'optimizely_disabled' | 'optimizely_enabled';
+  readonly primary_image_id: number;
+  readonly publish_status: string;
+  readonly slug: string;
+  readonly status: string;
+  readonly title: string;
+  readonly updated_at: string;
+  readonly ak_donation_resource_uri?: string;
+  readonly ak_petition_resource_uri?: string;
+  readonly campaign_id?: number;
+  readonly follow_up_liquid_layout_id?: number;
 }
 
 interface II18n {
