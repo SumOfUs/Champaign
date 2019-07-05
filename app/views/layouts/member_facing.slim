@@ -18,7 +18,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_include_tag 'https://unpkg.com/jquery-ui-dist@^1/jquery-ui.min.js'
     = javascript_include_tag 'https://unpkg.com/selectize@^0.12/dist/js/standalone/selectize.min.js'
 
-    = javascript_packs_with_chunks_tag "sentry", "globals"
+    = javascript_packs_with_chunks_tag "sentry"
     = stylesheet_packs_with_chunks_tag "globals"
 
     = render partial: "shared/browser_polyfills"
@@ -40,7 +40,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
 
-    = render "pages/packs", plugins: @page.plugins
+    = javascript_packs_with_chunks_tag "globals", "member_facing"
+    = javascript_packs_with_chunks_tag "plugins"
+    = stylesheet_packs_with_chunks_tag "member_facing", "plugins"
 
     = yield
 

@@ -1,13 +1,14 @@
-import { SUPPORTED_PLUGINS, load } from '../plugins';
-import { ChampaignGlobalObject } from 'interfaces';
+import { load, SUPPORTED_PLUGINS } from '../plugins';
+import '../plugins/index.css';
 
-const champaign: ChampaignGlobalObject = (<any>window)['champaign'];
+const champaign = window.champaign;
 
 document.addEventListener('DOMContentLoaded', function() {
   const plugins = champaign.plugins || {};
 
   Object.keys(plugins).forEach(name => {
     if (!SUPPORTED_PLUGINS[name]) {
+      // tslint:disable-next-line: no-console
       console.log(`plugin: ${name} is not supported`);
       return;
     }
@@ -17,7 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     refs.forEach(async ref => {
       const p = data[ref];
-      if (!p) return;
+      if (!p) {
+        return;
+      }
       p.instance = await load(name, ref, p.config);
     });
   });

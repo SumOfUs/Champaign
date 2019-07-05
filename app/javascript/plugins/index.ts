@@ -1,6 +1,5 @@
 import * as EventEmitter from 'eventemitter3';
 import { extend } from 'lodash';
-import { ChampaignGlobalObject } from '../interfaces';
 
 export const SUPPORTED_PLUGINS = {
   actions_thermometer: () => import('./actions_thermometer'),
@@ -14,11 +13,14 @@ export const SUPPORTED_PLUGINS = {
 
 export const load = async (name: string, ref: string, config?: any) => {
   const loadPluginAsync = SUPPORTED_PLUGINS[name];
-  const champaign: ChampaignGlobalObject = window['champaign'];
+  const champaign = window.champaign;
   const el = document.getElementById(`plugin-${name}-${ref}`);
 
-  if (!loadPluginAsync) return;
+  if (!loadPluginAsync) {
+    return;
+  }
   if (!config.active) {
+    // tslint:disable-next-line: no-console
     console.log(`plugin ${name}::${ref} was found but is not active. Pass.`);
     return;
   }

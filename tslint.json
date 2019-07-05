@@ -23,7 +23,8 @@
       "only-arrow-functions": false,
       "object-literal-sort-keys": false,
       "no-string-literal": false,
-      "jsx-wrap-multiline": false
+      "jsx-wrap-multiline": false,
+      "jsx-no-multiline-js": false
     },
     "rulesDirectory": []
 }

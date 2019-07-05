@@ -1,37 +1,37 @@
-import * as React from 'react';
 import Enzyme, { shallow } from 'enzyme';
+import * as React from 'react';
 import {
-  Input,
-  Choice,
   Checkbox,
-  Paragraph,
-  Hidden,
-  Select,
+  Choice,
   Country,
+  Hidden,
+  Input,
   Instruction,
+  Paragraph,
+  Select,
 } from './index';
 
 const defaultConfig = {
-  id: '1',
+  choices: [],
   data_type: 'input',
+  default_value: undefined,
   display_mode: 'all_members',
   form_id: 1,
-  choices: [],
-  default_value: undefined,
+  id: '1',
   label: 'Label',
   name: 'fieldName',
-  required: true,
   position: 0,
+  required: true,
   visible: true,
 };
 
 describe('Input Field', function() {
   const config = {
     ...defaultConfig,
-    name: 'field1',
-    required: true,
     className: 'field1',
     errorMessage: 'Invalid Value',
+    name: 'field1',
+    required: true,
   };
 
   test(`default type => <Input .../>`, () => {
@@ -42,7 +42,7 @@ describe('Input Field', function() {
 
   ['text', 'email', 'tel', 'numeric'].forEach(type => {
     test(`text => <Input type="${type}" .../>`, () => {
-      const cnf = { ...config, type: type };
+      const cnf = { ...config, type };
       const wrapper = shallow(<Input {...cnf} />);
 
       expect(wrapper.text()).toEqual('<SweetInput />');
@@ -58,7 +58,7 @@ describe('Choice Field', function() {
   ];
   const config = {
     ...defaultConfig,
-    choices: choices,
+    choices,
     name: 'field2',
     className: 'field2',
     default_value: 'b2',
@@ -145,7 +145,7 @@ describe('Dropdown Field', function() {
     ...defaultConfig,
     name: 'field2',
     label: 'field1',
-    choices: choices,
+    choices,
     className: 'field2',
     default_value: '1',
   };
