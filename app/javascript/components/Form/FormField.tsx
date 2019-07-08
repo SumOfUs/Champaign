@@ -1,13 +1,9 @@
 import { omit } from 'lodash';
 import * as React from 'react';
-import { IFormField } from '../../types';
-import FieldTypes from './FieldTypes';
+import FieldTypes, { FieldTypeProps } from './FieldTypes';
 import FormGroup from './FormGroup';
 
-type Props = IFormField & {
-  onChange?: (value: string | number | string[]) => void;
-};
-export default function FormField(props: Props) {
+export default function FormField(props: FieldTypeProps) {
   const FieldType = FieldTypes[props.data_type];
 
   if (!FieldType) {

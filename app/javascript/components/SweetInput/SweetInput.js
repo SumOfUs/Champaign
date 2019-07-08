@@ -49,12 +49,6 @@ export default class SweetInput extends Component {
       'has-error': this.hasError(),
     });
 
-    if (process.env.NODE_ENV === 'development' && this.props.errorMessage) {
-      console.warn(
-        "SweetInput's `errorMessage` prop will be deprecated. Please use `hasError` (boolean)."
-      );
-    }
-
     return (
       <div className={className}>
         <label className={labelClassName} onClick={this.onFocus}>

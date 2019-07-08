@@ -1,4 +1,3 @@
-/*  */
 import { combineReducers } from 'redux';
 import member from './member/reducer';
 import fundraiser from './fundraiser/reducer';
@@ -21,9 +20,6 @@ const reducers = {
   paymentMethods,
   donationsThermometer,
 };
-
-// type ReturnTypes = <V>((...args: any[]) => V) => V;
-// export type AppState = $ObjMap<typeof reducers, ReturnTypes>;
 
 export default combineReducers(reducers);
 
