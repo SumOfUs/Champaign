@@ -4105,6 +4105,13 @@ fbjs@^0.8.15:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
+fetch-ponyfill@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/fetch-ponyfill/-/fetch-ponyfill-6.1.0.tgz#d56cd1e6fc4e50aff8cd4b7701dc42a0cc26f476"
+  integrity sha512-bLc7JCjpJZZUXVxbgwUhd72Q19MAokrCXOg/Akq+wl0uFLFLklFdBkZo5OpQ3kLI0oGqrKdx6t5Zo3QwXBRmbQ==
+  dependencies:
+    node-fetch "~2.6.0"
+
 figgy-pudding@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.5.1.tgz#862470112901c727a0e495a80744bd5baa1d6790"
@@ -6834,6 +6841,11 @@ node-fetch@^1.0.1:
   dependencies:
     encoding "^0.1.11"
     is-stream "^1.0.1"
+
+node-fetch@~2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
+  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
 node-forge@0.7.5:
   version "0.7.5"
@@ -10714,6 +10726,11 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+
+wretch@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/wretch/-/wretch-1.5.2.tgz#e9ca28a041cf5cbeb68e0fc4598dac85057e91de"
+  integrity sha512-yHFHZVK3aiwtW4dMW4LpN7hJJepCbbYJTFutOfWZLfBSTsjLJa8cobPmSh6AgTEIMwryHeiJcHG+lP1IZHG2vg==
 
 write-file-atomic@2.4.1:
   version "2.4.1"

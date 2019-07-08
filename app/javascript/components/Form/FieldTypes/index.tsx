@@ -7,15 +7,15 @@ import SelectCountry from '../../SelectCountry/SelectCountry';
 import SweetInput from '../../SweetInput/SweetInput';
 import SweetSelect from '../../SweetSelect/SweetSelect';
 
-export type Props = IFormField & {
+export interface IFieldTypeProps extends IFormField {
   className?: string;
   errorMessage?: any;
   hasError?: boolean;
-  onChange?: (value: string) => void;
+  onChange?: (value: string | number | string[]) => void;
   type?: string;
-};
+}
 
-const basicProps = (props: Props) => ({
+const basicProps = (props: IFieldTypeProps) => ({
   className: props.className,
   name: props.name,
   label: props.label,
@@ -23,14 +23,14 @@ const basicProps = (props: Props) => ({
   hasError: props.hasError,
 });
 
-const ErrorMessage = (props: Props) => {
+const ErrorMessage = (props: IFieldTypeProps) => {
   if (!props.errorMessage) {
     return null;
   }
   return <span className="error-msg">{props.errorMessage}</span>;
 };
 
-export const Input = (props: Props) => {
+export const Input = (props: IFieldTypeProps) => {
   const onChange = (v: string) => {
     if (props.onChange) {
       props.onChange(v);
@@ -47,15 +47,15 @@ export const Input = (props: Props) => {
   );
 };
 
-export const Email = (props: Props) => {
+export const Email = (props: IFieldTypeProps) => {
   return <Input {...props} type="email" />;
 };
 
-export const Tel = (props: Props) => {
+export const Tel = (props: IFieldTypeProps) => {
   return <Input {...props} type="tel" />;
 };
 
-export const Choice = (props: Props) => {
+export const Choice = (props: IFieldTypeProps) => {
   const [value, setValue] = useState(props.default_value);
   const onChange = (event: SyntheticEvent<HTMLInputElement>) => {
     setValue(event.currentTarget.value);
@@ -85,7 +85,7 @@ export const Choice = (props: Props) => {
   );
 };
 
-export const Country = (props: Props) => {
+export const Country = (props: IFieldTypeProps) => {
   const [value, setValue] = useState(props.default_value || '');
   const onChange = (v: string) => {
     setValue(v);
@@ -99,7 +99,7 @@ export const Country = (props: Props) => {
   );
 };
 
-export const Select = (props: Props) => {
+export const Select = (props: IFieldTypeProps) => {
   const [value, setValue] = useState(props.default_value || '');
   const onChange = (data: string) => {
     if (props.onChange) {
@@ -120,13 +120,13 @@ export const Select = (props: Props) => {
   );
 };
 
-export const Hidden = (props: Props) => {
+export const Hidden = (props: IFieldTypeProps) => {
   return (
     <input type="hidden" name={props.name} value={props.default_value || ''} />
   );
 };
 
-export const Instruction = (props: Props) => {
+export const Instruction = (props: IFieldTypeProps) => {
   return (
     <div className="FormField--instruction form__instruction">
       {props.label}
@@ -134,7 +134,7 @@ export const Instruction = (props: Props) => {
   );
 };
 
-export const Paragraph = (props: Props) => {
+export const Paragraph = (props: IFieldTypeProps) => {
   const [value, setValue] = useState(props.default_value);
   const onChange = (e: SyntheticEvent<HTMLTextAreaElement>) => {
     setValue(e.currentTarget.value);
@@ -157,7 +157,7 @@ export const Paragraph = (props: Props) => {
   );
 };
 
-export const Checkbox = (props: Props) => (
+export const Checkbox = (props: IFieldTypeProps) => (
   <SweetCheckbox {...props}>{props.label}</SweetCheckbox>
 );
 
