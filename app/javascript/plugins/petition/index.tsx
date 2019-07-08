@@ -1,3 +1,4 @@
+import * as EventEmitter from 'eventemitter3';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Store } from 'redux';
@@ -19,6 +20,7 @@ export const init = (options: any) => {
     namespace: 'petition',
     config: options.config,
     store: options.store,
+    eventEmitter: options.eventEmitter,
   });
 };
 
@@ -27,6 +29,7 @@ interface IPetitionOptions {
   namespace: string;
   config: any; // todo
   store: Store<IAppState>;
+  eventEmitter?: EventEmitter;
 }
 
 export class Petition extends Plugin {
@@ -52,6 +55,19 @@ export class Petition extends Plugin {
   public submit = () => {
     // tslint:disable-next-line: no-console
     console.info('Petition#submit not implemented');
+  };
+
+  public onComplete = () => {
+    const listeners = [
+      ...this.listeners('complete:before'),
+      ...this.events.listeners(this.namespace + ':complete:before'),
+    ];
+
+    return Promise.all(listeners.map(l => l(this)))
+      .then(() => {
+        this.events.emit('complete', { petition: this });
+      })
+      .then(() => this);
   };
 
   public render() {

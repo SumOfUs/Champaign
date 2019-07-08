@@ -1,3 +1,4 @@
+import * as EventEmitter from 'eventemitter3';
 import * as I18n from 'i18n-js';
 import { Store } from 'redux';
 import { Fundraiser } from './plugins/fundraiser';
@@ -10,6 +11,8 @@ declare global {
   interface Window {
     champaign: IChampaignGlobalObject;
     I18n: II18n & typeof I18n;
+    store: Store<any>;
+    ee: EventEmitter;
   }
 }
 
