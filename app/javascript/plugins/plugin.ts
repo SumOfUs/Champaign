@@ -34,7 +34,15 @@ export default class Plugin implements IPluginOptions {
 
   public emit(eventName: string, data?: any) {
     const prefix = this.namespace ? `${this.namespace}:` : '';
-    this.events.emit(`${prefix}${eventName}`, data);
+    this.events.emit(this.privateEventName(eventName), data);
+  }
+
+  public on(eventName: string, listener: EventEmitter.ListenerFn, ctx: any) {
+    return this.events.on(this.privateEventName(eventName), listener, ctx);
+  }
+
+  public listeners(eventName: string) {
+    return this.events.listeners(this.privateEventName(eventName));
   }
 
   public update(options: Partial<IPluginOptions>) {
@@ -48,5 +56,9 @@ export default class Plugin implements IPluginOptions {
       Object.assign(this.config, options.config);
     }
     this.emit('updated');
+  }
+
+  private privateEventName(eventName: string) {
+    return `${this.namespace}:${this.config.ref}:${eventName}`;
   }
 }

@@ -1,9 +1,9 @@
 import { omit } from 'lodash';
 import * as React from 'react';
-import FieldTypes, { FieldTypeProps } from './FieldTypes';
+import FieldTypes, { IFieldTypeProps } from './FieldTypes';
 import FormGroup from './FormGroup';
 
-export default function FormField(props: FieldTypeProps) {
+export default function FormField(props: IFieldTypeProps) {
   const FieldType = FieldTypes[props.data_type];
 
   if (!FieldType) {

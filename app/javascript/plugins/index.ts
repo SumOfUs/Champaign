@@ -30,5 +30,6 @@ export const load = async (name: string, ref: string, config?: any) => {
     el,
     config: { ...config, ref },
     store: champaign.store,
+    eventEmitter: window.ee,
   });
 };
