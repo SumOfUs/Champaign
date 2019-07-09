@@ -25,7 +25,7 @@ export function init(options: any) {
   });
 }
 
-export class Fundraiser extends Plugin {
+export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
   public store: Store<IAppState>;
 
   constructor(options: IFundraiserOptions) {

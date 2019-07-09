@@ -1,9 +1,10 @@
-import Plugin from './plugin';
 import * as EventEmitter from 'eventemitter3';
+import Plugin from './plugin';
+
+const config = { id: 1, page_id: 1, active: true, ref: 'default' };
 
 describe('Plugin (interface)', function() {
   const el = document.createElement('div');
-  const config = { active: true };
   test('creates an EventEmitter', () => {
     const plugin = new Plugin({ el, config, namespace: 'petition' });
     const listener = jest.fn();
@@ -18,13 +19,13 @@ describe('Plugin (interface)', function() {
 
     plugin.update({ namespace: 'petition' });
     expect(plugin.events.emit).toHaveBeenCalledWith(
-      'petition:updated',
+      'petition:default:updated',
       undefined
     );
 
     plugin.update({ namespace: 'petition2' });
     expect(plugin.events.emit).toHaveBeenCalledWith(
-      'petition2:updated',
+      'petition2:default:updated',
       undefined
     );
   });

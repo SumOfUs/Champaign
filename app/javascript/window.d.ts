@@ -27,16 +27,16 @@ interface IChampaignGlobalObject {
 }
 
 interface IChampaignPagePlugins {
-  actions_thermometer?: IChampaignPluginData<IPluginConfig, Plugin>;
-  call_tool?: IChampaignPluginData<IPluginConfig, Plugin>;
-  donations_thermometer?: IChampaignPluginData<IPluginConfig, Plugin>;
-  email_pension?: IChampaignPluginData<IPluginConfig, Plugin>;
-  email_tool?: IChampaignPluginData<IPluginConfig, Plugin>;
-  email?: IChampaignPluginData<IPluginConfig, Plugin>;
+  actions_thermometer?: IChampaignPluginData<IPluginConfig, Plugin<any>>;
+  call_tool?: IChampaignPluginData<IPluginConfig, Plugin<any>>;
+  donations_thermometer?: IChampaignPluginData<IPluginConfig, Plugin<any>>;
+  email_pension?: IChampaignPluginData<IPluginConfig, Plugin<any>>;
+  email_tool?: IChampaignPluginData<IPluginConfig, Plugin<any>>;
+  email?: IChampaignPluginData<IPluginConfig, Plugin<any>>;
   fundraiser?: IChampaignPluginData<IFundraiserPluginConfig, Fundraiser>;
   petition?: IChampaignPluginData<IPetitionPluginConfig, Petition>;
-  survey?: IChampaignPluginData<IPluginConfig, Plugin>;
-  text?: IChampaignPluginData<IPluginConfig, Plugin>;
+  survey?: IChampaignPluginData<IPluginConfig, Plugin<any>>;
+  text?: IChampaignPluginData<IPluginConfig, Plugin<any>>;
 }
 
 interface IChampaignPluginData<T, M> {
@@ -53,6 +53,7 @@ interface IPetitionPluginConfig extends IPluginConfig {
   outstanding_fields: string[];
   target: string;
   fields: IFormField[];
+  ref: string;
 }
 
 interface IFundraiserPluginConfig extends IPluginConfig {
@@ -65,6 +66,7 @@ interface IFundraiserPluginConfig extends IPluginConfig {
   preselect_amount: boolean;
   recurring_default: string;
   title: string;
+  ref: string;
 }
 
 interface IChampaignMember {

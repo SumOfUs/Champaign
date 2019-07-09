@@ -22,17 +22,18 @@ const api = {
         .error(422, err => JSON.parse(err.text || '{}'))
         .json(json => json);
     },
+
     createAction(pageId: number | string, payload: any) {
       return client.post(`/api/pages/${pageId}/actions`, payload);
     },
   },
 
   helpers: {
-    formErrorFields(fieldName, errors) {
-      if (errors[fieldName] && errors[fieldName].length) {
+    formErrorFields(errors: string[]) {
+      if (errors && errors.length) {
         return {
           hasError: true,
-          errorMessage: errors[fieldName].join(', '),
+          errorMessage: errors.join(', '),
         };
       }
     },

@@ -10,8 +10,12 @@ import './PetitionComponent.css';
 
 interface IProps {
   config: IPetitionPluginConfig;
+  values: { [key: string]: any };
+  errors: { [key: string]: string[] };
   resetMember: () => void;
+  onFormChange: (data: any) => void;
   onSubmit: () => void;
+  onValidate: () => void;
   eventEmitter?: EventEmitter;
 }
 
@@ -37,12 +41,15 @@ export function PetitionComponent(props: IProps) {
       <WelcomeMember member={member} resetMember={props.resetMember} />
       <Form
         className="form--big action-form"
-        pageId={(window as any).champaign.page.id}
-        id={fields[0].form_id}
+        id={props.config.form_id}
         fields={fields}
         outstandingFields={props.config.outstanding_fields}
-        values={{}} // todo
-        askForConsent={true}
+        values={props.values}
+        errors={props.errors}
+        enableConsent={true}
+        onChange={props.onFormChange}
+        onValidate={props.onValidate}
+        onSubmit={props.onSubmit}
         onSuccess={onSuccess}
       />
     </div>
