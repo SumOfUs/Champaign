@@ -86,8 +86,9 @@ export function showConsentRequired(value) {
   return { type: '@@chmp:consent:show_consent_required', value };
 }
 
-export function handleFormFieldUpdate(name, value) {
-  if (name === 'country') return changeCountry(value);
+export function dispatchFieldUpdate(name, value, dispatch = null) {
+  if (!dispatch) return;
+  if (name === 'country') return dispatch(changeCountry(value));
 }
 
 // Conditions:

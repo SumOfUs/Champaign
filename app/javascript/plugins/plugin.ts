@@ -4,14 +4,14 @@ export interface IPluginConfig {
   id: number;
   active: boolean;
   page_id: number;
-  created_at: string;
-  updated_at: string;
   ref: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export interface IPluginOptions {
+export interface IPluginOptions<T> {
   el: HTMLElement;
-  config: any;
+  config: T;
   namespace?: string;
   eventEmitter?: any;
 }
@@ -19,13 +19,14 @@ export interface IPluginOptions {
 // Plugin is the base class from which other
 // plugins inherit. It implements an EventEmitter
 // with some basic lifecycle methods;
-export default class Plugin implements IPluginOptions {
+export default class Plugin<T extends IPluginConfig>
+  implements IPluginOptions<T> {
   public el: HTMLElement;
   public namespace: string;
-  public config: any;
+  public config: T;
   public events: EventEmitter;
 
-  constructor(options: IPluginOptions) {
+  constructor(options: IPluginOptions<T>) {
     this.el = options.el;
     this.config = options.config;
     this.namespace = options.namespace || '';
@@ -45,7 +46,7 @@ export default class Plugin implements IPluginOptions {
     return this.events.listeners(this.privateEventName(eventName));
   }
 
-  public update(options: Partial<IPluginOptions>) {
+  public update(options: Partial<IPluginOptions<T>>) {
     if (options.namespace) {
       this.namespace = options.namespace;
     }
