@@ -1,7 +1,11 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import api from '../../api/api';
+import ConsentComponent from '../../components/consent/ConsentComponent';
+import ExistingMemberConsent from '../../components/consent/ExistingMemberConsent';
+import { handleFormFieldUpdate } from '../../state/consent/';
 import { IFormField } from '../../types';
 import Button from '../Button/Button';
 import FormField from './FormField';
@@ -12,6 +16,7 @@ export interface IProps {
   fields: IFormField[];
   outstandingFields: string[];
   values: { [key: string]: string };
+  askForConsent?: boolean;
   className?: string;
   onSuccess?: () => void;
 }
@@ -19,6 +24,7 @@ export interface IProps {
 export default function Form(props: IProps, second?: any) {
   const [formValues, setFormValues] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const dispatch = useDispatch();
 
   const className = classnames('Form', props.className);
   const sortedFields = props.fields.sort(f => f.position);
@@ -36,6 +42,7 @@ export default function Form(props: IProps, second?: any) {
   const updateField = name => {
     return value => {
       setFormValues({ ...formValues, [name]: value });
+      dispatch(handleFormFieldUpdate(name, value));
     };
   };
 
@@ -60,10 +67,18 @@ export default function Form(props: IProps, second?: any) {
     />
   );
 
+  const consentFields = () => (
+    <div className="consent-container">
+      <ConsentComponent />
+      <ExistingMemberConsent />
+    </div>
+  );
+
   return (
     <div className={className} id={`form-${props.id}`}>
       <form onSubmit={submit}>
         {sortedFields.map(field => renderFormField(field))}
+        {props.askForConsent && consentFields()}
         <Button type="submit">Sign Petition</Button>
       </form>
     </div>

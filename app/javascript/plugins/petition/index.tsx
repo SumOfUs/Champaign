@@ -64,9 +64,7 @@ export class Petition extends Plugin {
     ];
 
     return Promise.all(listeners.map(l => l(this)))
-      .then(() => {
-        this.events.emit('complete', { petition: this });
-      })
+      .then(() => this.events.emit('complete', { petition: this }))
       .then(() => this);
   };
 
