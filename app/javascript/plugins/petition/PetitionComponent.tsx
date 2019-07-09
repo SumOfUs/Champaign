@@ -41,7 +41,8 @@ export function PetitionComponent(props: IProps) {
         id={fields[0].form_id}
         fields={fields}
         outstandingFields={props.config.outstanding_fields}
-        values={{}}
+        values={{}} // todo
+        askForConsent={true}
         onSuccess={onSuccess}
       />
     </div>

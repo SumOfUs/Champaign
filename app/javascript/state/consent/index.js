@@ -86,6 +86,10 @@ export function showConsentRequired(value) {
   return { type: '@@chmp:consent:show_consent_required', value };
 }
 
+export function handleFormFieldUpdate(name, value) {
+  if (name === 'country') return changeCountry(value);
+}
+
 // Conditions:
 // * selected country is in an affected country
 // * user has not previously given consent
