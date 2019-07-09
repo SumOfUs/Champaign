@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { Store } from 'redux';
 import api from '../../api/api';
 import ComponentWrapper from '../../components/ComponentWrapper';
+import { dispatchFieldUpdate } from '../../state/consent/';
 import { resetMember } from '../../state/member/reducer';
 import { IAppState } from '../../types';
 import { IPetitionPluginConfig } from '../../window';
@@ -56,7 +57,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
   }
 
   public get formValues() {
-    return this.data.values;
+    return { ...this.data.values, form_id: this.config.form_id };
   }
 
   public updateForm(data: { [key: string]: any }) {
@@ -75,7 +76,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
       .then(this.handleErrors);
   };
 
-  public submit = () => {
+  public submit = (form: any) => {
     api.pages
       .createAction(this.config.page_id, this.formValues)
       .then(this.handleErrors)
@@ -122,6 +123,9 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
   }
 
   private handleFormChange = data => {
+    Object.keys(data).forEach(key =>
+      dispatchFieldUpdate(key, data[key], this.store.dispatch)
+    );
     this.data.values = { ...this.data.values, ...data };
   };
 

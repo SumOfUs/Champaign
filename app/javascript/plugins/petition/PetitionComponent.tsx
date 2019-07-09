@@ -14,8 +14,8 @@ interface IProps {
   errors: { [key: string]: string[] };
   resetMember: () => void;
   onFormChange: (data: any) => void;
-  onSubmit: () => void;
-  onValidate: () => void;
+  onSubmit: (data?: any) => void;
+  onValidate: (data?: any) => void;
   eventEmitter?: EventEmitter;
 }
 

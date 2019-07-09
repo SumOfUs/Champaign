@@ -24,7 +24,11 @@ const api = {
     },
 
     createAction(pageId: number | string, payload: any) {
-      return client.post(`/api/pages/${pageId}/actions`, payload);
+      return client
+        .url(`/api/pages/${pageId}/actions`)
+        .post(payload)
+        .error(422, err => JSON.parse(err.text || '{}'))
+        .json(json => json);
     },
   },
 
