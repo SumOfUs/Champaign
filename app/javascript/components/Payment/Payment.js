@@ -296,7 +296,28 @@ export class Payment extends Component<OwnProps, OwnState> {
           : 'not_recurring',
       });
     }
-    ee.emit('fundraiser:transaction_success', data, this.props.formData);
+
+    const emitTransactionSuccess = () => {
+      ee.emit('fundraiser:transaction_success', data, this.props.formData);
+    };
+
+    if (
+      typeof window.mixpanel !== 'undefined' &&
+      window.TRACK_USER_ACTIONS &&
+      this.props.fundraiser.storeInVault
+    ) {
+      window.mixpanel.track(
+        'donation-made',
+        {
+          event_label: 'saved-payment-info',
+          event_source: 'fa_fundraising',
+        },
+        emitTransactionSuccess
+      );
+    } else {
+      emitTransactionSuccess();
+    }
+
     this.setState({ errors: [] });
   };
 
