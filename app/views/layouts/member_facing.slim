@@ -19,7 +19,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_include_tag 'https://unpkg.com/selectize@^0.12/dist/js/standalone/selectize.min.js'
 
     = javascript_packs_with_chunks_tag "sentry"
-    = stylesheet_packs_with_chunks_tag "globals"
+    = stylesheet_packs_with_chunks_tag "globals", "member_facing"
 
     = render partial: "shared/browser_polyfills"
     = render partial: "layouts/mixpanel" if Settings.mixpanel_token
@@ -30,7 +30,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     / = stylesheet_pack_tag "globals"
     = stylesheet_link_tag "member-facing"
-    = stylesheet_pack_tag "member_facing"
   body
     = render partial: "layouts/double_opt_in_notification"
     = render partial: "layouts/notification"

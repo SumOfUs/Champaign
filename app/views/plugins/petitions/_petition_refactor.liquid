@@ -1,3 +1,6 @@
 {% if plugins.petition[ref].active %}
-  <div id="plugin-petition-{{ref}}"></div>
+  <div id="plugin-petition-{{ref}}"
+    {% if transition %}data-transition="{{transition}}"{% endif %}
+    {% if action %}data-action="{{action}}"{% endif %}
+  ></div>
 {% endif %}

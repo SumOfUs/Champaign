@@ -28,6 +28,8 @@ export default (state = initialState, action) => {
         initialState
       );
     case 'reset_member':
+      // also reset global object:
+      window.champaign.personalization.member = {};
       return initialState;
     case 'set_member':
       return { ...state, ...action.payload };

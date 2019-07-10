@@ -39,16 +39,25 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
     this.onSubmitSuccessCallback = options.onSubmitSuccess;
 
     GlobalEvents.bindEvents(this);
+    this.attachEventEmitterHandlers();
   },
 
   state() {
     return this.store.getState();
   },
 
+  attachEventEmitterHandlers() {
+    $(() => {
+      window.ee.on('petition:validated', this.onValidateSuccess.bind(this));
+      window.ee.on('petition:submitted', this.onSubmitSuccess.bind(this));
+    });
+  },
+
   onValidateSuccess() {
     const { member, consent } = this.state();
 
     if (consent.isRequiredNew && !member) {
+      console.log('alo');
       this.petitionSidebar.fadeOut();
       this.petitionOverlayButton.fadeOut();
       this.displayAndScrollToConsentQuestion();

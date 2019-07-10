@@ -34,8 +34,8 @@ export default class Plugin<T extends IPluginConfig>
   }
 
   public emit(eventName: string, data?: any) {
-    const prefix = this.namespace ? `${this.namespace}:` : '';
     this.events.emit(this.privateEventName(eventName), data);
+    this.events.emit(`${this.namespace}:${eventName}`, data);
   }
 
   public on(eventName: string, listener: EventEmitter.ListenerFn, ctx: any) {

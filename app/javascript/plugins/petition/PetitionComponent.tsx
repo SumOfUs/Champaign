@@ -13,7 +13,6 @@ interface IProps {
   values: { [key: string]: any };
   errors: { [key: string]: string[] };
   resetMember: () => void;
-  onFormChange: (data: any) => void;
   onSubmit: (data?: any) => void;
   onValidate: (data?: any) => void;
   eventEmitter?: EventEmitter;
@@ -47,7 +46,6 @@ export function PetitionComponent(props: IProps) {
         values={props.values}
         errors={props.errors}
         enableConsent={true}
-        onChange={props.onFormChange}
         onValidate={props.onValidate}
         onSubmit={props.onSubmit}
         onSuccess={onSuccess}

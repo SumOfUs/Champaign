@@ -42,7 +42,7 @@ interface IChampaignPagePlugins {
 interface IChampaignPluginData<T, M> {
   [ref: string]: {
     config: T;
-    interface?: M;
+    instance?: M;
   };
 }
 

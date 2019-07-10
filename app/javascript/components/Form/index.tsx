@@ -1,10 +1,14 @@
 import classnames from 'classnames';
 import * as React from 'react';
-import { useState } from 'react';
-import api from '../../api/api';
+import { FormattedMessage } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import api from '../../api';
 import ConsentComponent from '../../components/consent/ConsentComponent';
 import ExistingMemberConsent from '../../components/consent/ExistingMemberConsent';
-import { IFormField } from '../../types';
+import ProcessingThen from '../../components/ProcessingThen.js';
+import { changeCountry } from '../../state/consent/';
+import { updateForm } from '../../state/forms/';
+import { IAppState, IFormField } from '../../types';
 import Button from '../Button/Button';
 import FormField from './FormField';
 
@@ -16,23 +20,24 @@ export interface IProps {
   errors: { [key: string]: string[] };
   enableConsent?: boolean;
   className?: string;
-  onChange: (data: any) => void;
   onValidate: (data?: any) => any;
   onSubmit: (data?: any) => any;
   onSuccess: () => void;
 }
 
 export default function Form(props: IProps, second?: any) {
-  const [formValues, setFormValues] = useState(props.values || {});
-
+  const dispatch = useDispatch();
+  const values = useSelector((state: IAppState) => state.forms[props.id]);
+  const submitting = values['submitting'] || false;
   const className = classnames('Form', props.className);
   const sortedFields = props.fields.sort(f => f.position);
 
   const onChange = name => {
     return value => {
-      const values = { ...formValues, [name]: value };
-      setFormValues(values);
-      props.onChange(values);
+      dispatch(updateForm(props.id, { ...values, [name]: value }));
+      if (name === 'country') {
+        dispatch(changeCountry(value));
+      }
     };
   };
 
@@ -48,7 +53,7 @@ export default function Form(props: IProps, second?: any) {
       {...field}
       {...api.helpers.formErrorFields(props.errors[field.name])}
       onChange={onChange(field.name)}
-      default_value={formValues[field.name] || field.default_value || ''}
+      default_value={values[field.name] || field.default_value || ''}
     />
   );
 
@@ -63,7 +68,14 @@ export default function Form(props: IProps, second?: any) {
     <form onSubmit={submit} className={className} id={`form-${props.id}`}>
       {sortedFields.map(field => renderFormField(field))}
       {props.enableConsent && consentFields()}
-      <Button type="submit">Sign Petition</Button>
+      <Button type="submit" disabled={submitting}>
+        <ProcessingThen processing={submitting}>
+          <FormattedMessage
+            id="petition.sign_it"
+            defaultMessage="Sign the petition"
+          />
+        </ProcessingThen>
+      </Button>
     </form>
   );
 }

@@ -1,10 +1,13 @@
 import * as EventEmitter from 'eventemitter3';
+import { omit } from 'lodash';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Store } from 'redux';
-import api from '../../api/api';
+import api from '../../api';
 import ComponentWrapper from '../../components/ComponentWrapper';
-import { dispatchFieldUpdate } from '../../state/consent/';
+import { formValues } from '../../modules/form_values';
+import { transitionFromTo } from '../../modules/transition';
+import { setSubmitting, updateForm } from '../../state/forms';
 import { resetMember } from '../../state/member/reducer';
 import { IAppState } from '../../types';
 import { IPetitionPluginConfig } from '../../window';
@@ -37,18 +40,12 @@ interface IPetitionOptions {
 
 export class Petition extends Plugin<IPetitionPluginConfig> {
   public store: Store<IAppState>;
-  private data: {
-    values: { [key: string]: any };
-    errors: { [key: string]: string[] };
-  };
+  private errors: { [key: string]: string[] };
 
   constructor(options: IPetitionOptions) {
     super(options);
     this.store = options.store;
-    this.data = {
-      values: {}, // todo: get default values on mount
-      errors: {},
-    };
+    this.initState();
     this.render();
   }
 
@@ -57,34 +54,65 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
   }
 
   public get formValues() {
-    return { ...this.data.values, form_id: this.config.form_id };
+    const fieldValues = omit(
+      this.store.getState().forms[this.config.form_id] || {},
+      'submitting'
+    );
+    return {
+      form_id: this.config.form_id,
+      ...fieldValues,
+    };
   }
 
   public updateForm(data: { [key: string]: any }) {
-    this.data.values = { ...this.data.values, ...data };
-    this.render();
+    this.store.dispatch(
+      updateForm(this.config.form_id, { ...this.formValues, ...data })
+    );
   }
 
   public resetMember = () => {
     this.store.dispatch(resetMember());
+    this.initState();
+    this.render();
     this.emit('resetMember');
   };
 
   public validate = () => {
+    this.setSubmitting(true);
     return api.pages
       .validateForm(this.config.page_id, this.formValues)
-      .then(this.handleErrors);
+      .then(this.handleErrors.bind(this))
+      .then(response => {
+        if (!response.errors) {
+          this.emit('validated', this);
+        }
+        throw response;
+      });
   };
 
-  public submit = (form: any) => {
-    api.pages
+  public submit = () => {
+    this.setSubmitting(true);
+    return api.pages
       .createAction(this.config.page_id, this.formValues)
-      .then(this.handleErrors)
+      .then(this.handleErrors.bind(this))
       .then(r => {
         if (!r.errors) {
           this.onComplete();
         }
       });
+  };
+
+  public submitOrValidate = () => {
+    // Check if this form was a validate-only form.
+    // The template can set a data-form-action="validate"
+    if (this.el.dataset.action === 'validate') {
+      return this.validate()
+        .then(() => this.onCompleteTransition())
+        .then(() => this);
+    }
+    return this.submit()
+      .then(() => this.onCompleteTransition())
+      .then(() => this);
   };
 
   public onComplete = () => {
@@ -95,6 +123,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
 
     return Promise.all(listeners.map(l => l(this)))
       .then(() => this.events.emit('complete', { petition: this }))
+      .then(() => this.onCompleteTransition())
       .then(() => this);
   };
 
@@ -108,12 +137,11 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
         >
           <PetitionComponent
             config={this.config}
-            values={this.data.values}
-            errors={this.data.errors}
+            values={this.formValues}
+            errors={this.errors}
             resetMember={this.resetMember}
-            onFormChange={this.handleFormChange}
             onValidate={this.validate}
-            onSubmit={this.submit}
+            onSubmit={this.submitOrValidate}
             eventEmitter={this.events}
           />
         </ComponentWrapper>,
@@ -122,18 +150,30 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     }
   }
 
-  private handleFormChange = data => {
-    Object.keys(data).forEach(key =>
-      dispatchFieldUpdate(key, data[key], this.store.dispatch)
-    );
-    this.data.values = { ...this.data.values, ...data };
-  };
+  private setSubmitting(submitting: boolean) {
+    this.store.dispatch(setSubmitting(this.config.form_id, submitting));
+  }
 
-  private handleErrors = response => {
+  private handleErrors(response) {
     if (response.errors) {
-      this.data.errors = response.errors;
+      this.errors = response.errors;
     }
+    this.setSubmitting(false);
     this.render();
     return response;
-  };
+  }
+
+  private initState() {
+    this.store.dispatch(
+      updateForm(this.config.form_id, formValues(this.config.fields))
+    );
+    this.errors = {};
+  }
+
+  private onCompleteTransition() {
+    if (!this.el.dataset.transition) {
+      return;
+    }
+    transitionFromTo(this.el.dataset.transition);
+  }
 }

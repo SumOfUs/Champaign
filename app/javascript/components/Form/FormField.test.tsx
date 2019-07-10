@@ -1,7 +1,7 @@
+import Enzyme, { render, shallow } from 'enzyme';
 import * as React from 'react';
-import Enzyme, { shallow, render } from 'enzyme';
-import FormField from './FormField';
 import SelectCountry from '../SelectCountry/SelectCountry';
+import FormField from './FormField';
 
 describe('Form Field', function() {
   const config = {

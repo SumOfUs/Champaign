@@ -4,6 +4,7 @@ import fundraiser from './fundraiser/reducer';
 import paymentMethods from './paymentMethods/reducer';
 import page from './page/reducer';
 import consent from './consent';
+import forms from './forms';
 import features from './features';
 import donationsThermometer from './thermometer';
 import extraActionFields from './extraActionFields';
@@ -15,6 +16,7 @@ const reducers = {
   extraActionFields,
   features,
   fundraiser,
+  forms,
   member,
   page,
   paymentMethods,

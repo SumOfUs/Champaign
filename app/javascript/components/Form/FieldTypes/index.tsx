@@ -1,6 +1,6 @@
 import { map, pick } from 'lodash';
 import * as React from 'react';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent } from 'react';
 import { IFormField } from '../../../types';
 import SweetCheckbox from '../../Checkbox/Checkbox';
 import SelectCountry from '../../SelectCountry/SelectCountry';
@@ -56,9 +56,7 @@ export const Tel = (props: IFieldTypeProps) => {
 };
 
 export const Choice = (props: IFieldTypeProps) => {
-  const [value, setValue] = useState(props.default_value);
   const onChange = (event: SyntheticEvent<HTMLInputElement>) => {
-    setValue(event.currentTarget.value);
     if (props.onChange) {
       props.onChange(event.currentTarget.value);
     }
@@ -74,7 +72,7 @@ export const Choice = (props: IFieldTypeProps) => {
               name={props.name}
               type="radio"
               value={choice.value}
-              checked={choice.value === value}
+              checked={choice.value === props.default_value}
               onChange={onChange}
             />
             {choice.label}
@@ -85,36 +83,23 @@ export const Choice = (props: IFieldTypeProps) => {
   );
 };
 
-export const Country = (props: IFieldTypeProps) => {
-  const [value, setValue] = useState(props.default_value || '');
-  const onChange = (v: string) => {
-    setValue(v);
-    if (props.onChange) {
-      props.onChange(v);
-    }
-  };
-
-  return (
-    <SelectCountry {...basicProps(props)} value={value} onChange={onChange} />
-  );
-};
+export const Country = (props: IFieldTypeProps) => (
+  <SelectCountry
+    {...basicProps(props)}
+    value={props.default_value}
+    onChange={props.onChange}
+  />
+);
 
 export const Select = (props: IFieldTypeProps) => {
-  const [value, setValue] = useState(props.default_value || '');
-  const onChange = (data: string) => {
-    if (props.onChange) {
-      props.onChange(data);
-    }
-    setValue(data);
-  };
   const options = map(props.choices, choice => pick(choice, 'value', 'label'));
-  const val = options.find(o => o.value === value);
+  const val = options.find(o => o.value === props.default_value);
 
   return (
     <SweetSelect
       {...basicProps(props)}
       value={val}
-      onChange={onChange}
+      onChange={props.onChange}
       options={options}
     />
   );
@@ -135,9 +120,7 @@ export const Instruction = (props: IFieldTypeProps) => {
 };
 
 export const Paragraph = (props: IFieldTypeProps) => {
-  const [value, setValue] = useState(props.default_value);
   const onChange = (e: SyntheticEvent<HTMLTextAreaElement>) => {
-    setValue(e.currentTarget.value);
     if (props.onChange) {
       props.onChange(e.currentTarget.value);
     }
@@ -146,7 +129,7 @@ export const Paragraph = (props: IFieldTypeProps) => {
     <div>
       <textarea
         name={props.name}
-        value={value || ''}
+        value={props.default_value || ''}
         placeholder={props.label}
         onChange={onChange}
         className={props.errorMessage ? 'has-error' : ''}

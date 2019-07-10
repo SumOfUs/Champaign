@@ -1,8 +1,10 @@
 import { Store } from 'redux';
+import { IFormStore } from './state/forms';
 
 export interface IAppState {
   readonly consent: any;
   readonly member: Member;
+  readonly forms: IFormStore;
   readonly page: any;
 }
 
@@ -21,7 +23,7 @@ export interface IFormField {
   id: string; // it comes from Champaign but we omit it when passing it down
   choices: IFormChoice[];
   data_type: string;
-  default_value: string | void;
+  default_value: string | number | undefined | null;
   display_mode: FormFieldDisplayMode;
   form_id: number;
   label: string;
