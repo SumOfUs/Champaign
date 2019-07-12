@@ -396,12 +396,12 @@ describe 'Braintree API' do
           last_name: 'Sanders',
           phone: '2135551234',
           akid: '1234.5678.9910',
-          source: 'fb',
+          source: "post-action-#{page.id}-fb",
           user_en: 1,
           user_express_cookie: user_express_cookie
         ),
         action: {
-          source: 'fb',
+          source: "post-action-#{page.id}-fb",
           fields: hash_including(
             action_registered_voter: '1',
             action_mobile: 'desktop',
@@ -529,7 +529,7 @@ describe 'Braintree API' do
               },
               order: hash_including(amount: '2.0', trans_id: '6c9xdhg9'),
               action: {
-                source: 'fb',
+                source: "post-action-#{page.id}-fb",
                 fields: {
                   action_registered_voter: '1',
                   action_mobile: 'desktop',
@@ -1075,13 +1075,13 @@ describe 'Braintree API' do
               last_name: 'Sanders',
               phone: '2135551234',
               akid: '1234.5678.9910',
-              source: 'fb',
+              source: "post-action-#{page.id}-fb",
               user_en: 1,
               user_express_cookie: user_express_cookie,
               user_express_account: 0
             },
             action: {
-              source: 'fb',
+              source: "post-action-#{page.id}-fb",
               fields: {
                 action_registered_voter: '1',
                 action_mobile: 'desktop',
