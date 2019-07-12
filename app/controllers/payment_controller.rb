@@ -74,6 +74,12 @@ class PaymentController < ApplicationController
                  end
   end
 
+  def ak_source
+    return nil unless params.dig(:user, :source).present?
+
+    'post-action-' + unsafe_params[:page_id] + '-' + params.dig(:user, :source)
+  end
+
   private
 
   def recurring?

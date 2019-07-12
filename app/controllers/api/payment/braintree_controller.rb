@@ -46,6 +46,11 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def payment_options
+    if params.dig(:user, :source).present?
+      params[:extra_action_fields] ||= {}
+      params[:extra_action_fields][:source] = ak_source
+    end
+
     {
       nonce: unsafe_params[:payment_method_nonce],
       amount: unsafe_params[:amount].to_f,
