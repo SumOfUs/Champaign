@@ -60,10 +60,10 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     return { ...this.data.values, form_id: this.config.form_id };
   }
 
-  public updateForm(data: { [key: string]: any }) {
+  public updateForm = (data: { [key: string]: any }) => {
     this.data.values = { ...this.data.values, ...data };
-    this.render();
-  }
+    // this.render();
+  };
 
   public resetMember = () => {
     this.store.dispatch(resetMember());
@@ -115,6 +115,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
             onValidate={this.validate}
             onSubmit={this.submit}
             eventEmitter={this.events}
+            prefillValues={this.updateForm}
           />
         </ComponentWrapper>,
         el

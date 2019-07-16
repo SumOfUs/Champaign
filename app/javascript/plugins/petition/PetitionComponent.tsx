@@ -16,6 +16,7 @@ interface IProps {
   onFormChange: (data: any) => void;
   onSubmit: (data?: any) => void;
   onValidate: (data?: any) => void;
+  prefillValues: (data: any) => void;
   eventEmitter?: EventEmitter;
 }
 
@@ -23,7 +24,11 @@ export function PetitionComponent(props: IProps) {
   const dispatch = useDispatch();
   const member: IChampaignMember = useSelector((state: any) => state.member);
   const fields = filterNonEmptyFields(props.config.fields, member);
-
+  let data = {};
+  data = assignValuestoKnownField(props.config.fields, member, data);
+  if (member) {
+    props.prefillValues(data);
+  }
   // after rendering, signal that the sidebar height may change
   useEffect(() => {
     setTimeout(() => {
@@ -67,4 +72,19 @@ const filterNonEmptyFields = (
   // filter out any fields that we already know from the member
   const nonEmptyFields = Object.keys(member).filter(f => member[f]);
   return fields.filter(field => !nonEmptyFields.includes(field.name));
+};
+
+const assignValuestoKnownField = (
+  fields: IFormField[],
+  member: IChampaignMember,
+  data: any
+) => {
+  if (member) {
+    fields.filter(field => {
+      if (member[field.name]) {
+        data[field.name] = member[field.name];
+      }
+    });
+  }
+  return data;
 };
