@@ -17,13 +17,13 @@ Style/FrozenStringLiteralComment:
 Layout/IndentationConsistency:
   EnforcedStyle: normal
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   EnforcedStyle: consistent
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   EnforcedStyle: consistent
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   EnforcedStyle: consistent
 
 Layout/MultilineMethodCallIndentation:
