@@ -44,10 +44,25 @@ export class StandaloneConsentPrompt {
     return document.querySelector(`[data-transition-id="${transitionId}"]`);
   }
 
+  private isConsentRequired() {
+    if (!this.petition) {
+      return false;
+    }
+    const { member, consent } = this.petition.store.getState();
+    if (member && member.consented) {
+      return false;
+    }
+    return consent.isRequiredNew;
+  }
+
   private onValidated(petition: Petition) {
     this.petition = petition;
-    this.hidePetition();
-    this.show();
+    if (this.isConsentRequired()) {
+      this.hidePetition();
+      this.show();
+    } else {
+      petition.submit();
+    }
   }
 
   private attachEventListeners() {

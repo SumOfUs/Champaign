@@ -11,7 +11,7 @@ export interface IFieldTypeProps extends IFormField {
   className?: string;
   errorMessage?: any;
   hasError?: boolean;
-  onChange?: (value: string | number | string[]) => void;
+  onChange?: (value: string | number | boolean | string[]) => void;
   type?: string;
 }
 
@@ -140,9 +140,18 @@ export const Paragraph = (props: IFieldTypeProps) => {
   );
 };
 
-export const Checkbox = (props: IFieldTypeProps) => (
-  <SweetCheckbox {...props}>{props.label}</SweetCheckbox>
-);
+export const Checkbox = (props: IFieldTypeProps) => {
+  const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    if (props.onChange) {
+      props.onChange(e.currentTarget.checked);
+    }
+  };
+  return (
+    <SweetCheckbox {...props} onChange={onChange}>
+      {props.label}
+    </SweetCheckbox>
+  );
+};
 
 export default {
   checkbox: Checkbox,

@@ -21,6 +21,10 @@ interface IChampaignGlobalObject {
   personalization: {
     location: IChampaignLocation;
     member: IChampaignMember | {};
+    paymentMethods: any[];
+    outstandingFields: any[];
+    formValues?: { [key: string]: string };
+    donationBands?: { [currency: string]: number[] };
   };
   plugins: IChampaignPagePlugins;
   store?: Store<IAppState>;

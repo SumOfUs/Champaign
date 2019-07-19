@@ -1,9 +1,12 @@
+import * as React from 'react';
+import { render } from 'react-dom';
 import { Store } from 'redux';
 import ComponentWrapper from '../../components/ComponentWrapper';
-import { resetMember } from '../../state/member/reducer';
 import { IAppState } from '../../types';
 import { IFundraiserPluginConfig } from '../../window';
 import Plugin from '../plugin';
+import FundraiserView from './FundraiserView';
+import { configureStore, fundraiserData } from './utils';
 
 interface IFundraiserOptions {
   el: HTMLElement;
@@ -14,8 +17,10 @@ interface IFundraiserOptions {
 
 export function init(options: any) {
   if (!options.el) {
-    throw new Error('Fundraiser plugin DOM element not found');
+    options.el = document.getElementById('fundraiser-component');
   }
+
+  configureStore(fundraiserData(options.config), options.store.dispatch);
 
   return new Fundraiser({
     el: options.el,
@@ -63,6 +68,11 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
   }
 
   public render() {
-    return null;
+    return render(
+      <ComponentWrapper store={this.store} locale={window.I18n.locale}>
+        <FundraiserView />
+      </ComponentWrapper>,
+      this.el
+    );
   }
 }

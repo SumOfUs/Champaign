@@ -85,6 +85,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
       .then(response => {
         if (!response.errors) {
           this.emit('validated', this);
+          return this;
         }
         throw response;
       });
@@ -95,10 +96,12 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     return api.pages
       .createAction(this.config.page_id, this.formValues)
       .then(this.handleErrors.bind(this))
-      .then(r => {
-        if (!r.errors) {
+      .then(response => {
+        if (!response.errors) {
           this.onComplete();
+          return this;
         }
+        throw response;
       });
   };
 
@@ -123,6 +126,9 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
 
     return Promise.all(listeners.map(l => l(this)))
       .then(() => this.events.emit('complete', { petition: this }))
+      .then(() =>
+        this.events.emit('action:submitted_success', { petition: this })
+      )
       .then(() => this.onCompleteTransition())
       .then(() => this);
   };

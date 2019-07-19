@@ -1,8 +1,8 @@
-import { Store } from 'redux';
+import { IConsent } from './state/consent/consent';
 import { IFormStore } from './state/forms';
 
 export interface IAppState {
-  readonly consent: any;
+  readonly consent: IConsent;
   readonly member: Member;
   readonly forms: IFormStore;
   readonly page: any;
