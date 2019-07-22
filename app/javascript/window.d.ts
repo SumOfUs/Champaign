@@ -47,6 +47,7 @@ interface IChampaignPluginData<T, M> {
   [ref: string]: {
     config: T;
     instance?: M;
+    customRenderer?: (instance: M) => void;
   };
 }
 

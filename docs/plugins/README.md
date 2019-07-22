@@ -9,6 +9,7 @@ interface IChampaignPluginData<T, M> {
   [ref: string]: {
     config: T;
     instance?: M;
+    customRenderer?: (instance: M) => void,
   };
 }
 ```
@@ -48,3 +49,5 @@ A quick summary of what goes on behind the scenes:
   - a reference to the redux store
   - a reference to the global event emitter
 
+#### Custom renderers
+If you want to bypass the existing plugin and render your own, you can do so by specifying a custom renderer.

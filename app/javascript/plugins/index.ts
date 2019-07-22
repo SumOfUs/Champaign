@@ -20,6 +20,7 @@ export const load = async (name: string, ref: string, config?: any) => {
       config: { ...config, ref },
       store: champaign.store,
       eventEmitter: window.ee,
+      customRenderer: window.champaign.plugins[name]['customRenderer'],
     });
   }
 };

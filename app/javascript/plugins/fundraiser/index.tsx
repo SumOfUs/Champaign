@@ -32,6 +32,7 @@ export function init(options: any) {
 
 export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
   public store: Store<IAppState>;
+  public customRenderer: (instance: Fundraiser) => any | undefined;
 
   constructor(options: IFundraiserOptions) {
     super(options);
@@ -68,6 +69,10 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
   }
 
   public render() {
+    if (this.customRenderer) {
+      return this.customRenderer(this);
+    }
+
     return render(
       <ComponentWrapper store={this.store} locale={window.I18n.locale}>
         <FundraiserView />

@@ -23,7 +23,9 @@ export const client = {
     return w
       .url(url)
       .post(payload)
-      .error(422, err => JSON.parse(err.text || '{}'))
+      .error(422, err => {
+        throw JSON.parse(err.text || '{}');
+      })
       .json(json => json);
   },
 };

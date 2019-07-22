@@ -27,6 +27,7 @@ export const init = (options: any) => {
     config: options.config,
     store: options.store,
     eventEmitter: options.eventEmitter,
+    customRenderer: options.customRenderer,
   });
 };
 
@@ -36,10 +37,12 @@ interface IPetitionOptions {
   config: IPetitionPluginConfig;
   store: Store<IAppState>;
   eventEmitter?: EventEmitter;
+  customRenderer?: (instance: Petition) => any;
 }
 
 export class Petition extends Plugin<IPetitionPluginConfig> {
   public store: Store<IAppState>;
+  public customRenderer: (instance: Petition) => any | undefined;
   private errors: { [key: string]: string[] };
 
   constructor(options: IPetitionOptions) {
@@ -79,30 +82,30 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
 
   public validate = () => {
     this.setSubmitting(true);
-    return api.pages
-      .validateForm(this.config.page_id, this.formValues)
-      .then(this.handleErrors.bind(this))
-      .then(response => {
-        if (!response.errors) {
-          this.emit('validated', this);
-          return this;
-        }
-        throw response;
-      });
+    return api.pages.validateForm(this.config.page_id, this.formValues).then(
+      success => {
+        this.emit('validated', this);
+        return this;
+      },
+      failure => {
+        this.handleErrors(failure);
+        throw failure;
+      }
+    );
   };
 
   public submit = () => {
     this.setSubmitting(true);
-    return api.pages
-      .createAction(this.config.page_id, this.formValues)
-      .then(this.handleErrors.bind(this))
-      .then(response => {
-        if (!response.errors) {
-          this.onComplete();
-          return this;
-        }
-        throw response;
-      });
+    return api.pages.createAction(this.config.page_id, this.formValues).then(
+      success => {
+        this.onComplete();
+        return this;
+      },
+      failure => {
+        this.handleErrors(failure);
+        throw failure;
+      }
+    );
   };
 
   public submitOrValidate = () => {
@@ -134,6 +137,10 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
   };
 
   public render() {
+    if (this.customRenderer) {
+      return this.customRenderer(this);
+    }
+
     const el = this.el;
     if (el) {
       render(

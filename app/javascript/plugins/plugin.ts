@@ -14,6 +14,7 @@ export interface IPluginOptions<T> {
   config: T;
   namespace?: string;
   eventEmitter?: any;
+  customRenderer?: (instance: any) => any | undefined;
 }
 
 // Plugin is the base class from which other
@@ -25,12 +26,16 @@ export default class Plugin<T extends IPluginConfig>
   public namespace: string;
   public config: T;
   public events: EventEmitter;
+  public customRenderer: (instance: any) => any | undefined;
 
   constructor(options: IPluginOptions<T>) {
     this.el = options.el;
     this.config = options.config;
     this.namespace = options.namespace || '';
     this.events = options.eventEmitter || new EventEmitter.EventEmitter();
+    if (options.customRenderer) {
+      this.customRenderer = options.customRenderer;
+    }
   }
 
   public emit(eventName: string, data?: any) {
