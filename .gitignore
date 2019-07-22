@@ -40,3 +40,4 @@ yarn-debug.log*
 yarn-error.log
 yarn-error.log*
 zeus.json
+public/assets

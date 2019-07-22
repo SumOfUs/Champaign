@@ -15,6 +15,7 @@ const MODULES = {
   StandaloneConsentPrompt: () => import('./StandaloneConsentPrompt'),
   'email-ukparliament': () => import('./EmailParliament'),
   'braintree-web': () => import('./braintree-web'),
+  api: () => import('./api'),
 };
 
 const modules = {
