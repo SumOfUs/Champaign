@@ -4,7 +4,7 @@ import _, { forEach, capitalize } from 'lodash';
 import setupOnce from './setup_once';
 import ee from '../../shared/pub_sub';
 import GlobalEvents from '../../shared/global_events';
-import Clipboard from 'clipboard';
+import copy from 'copy-text-to-clipboard';
 
 const SharesEditor = Backbone.View.extend({
   events: {
@@ -164,10 +164,9 @@ ee.on('shares:edit', function() {
   setupOnce('.shares-editor', SharesEditor);
 });
 
-$(function() {
-  new Clipboard('.share-copy-url');
-
+window.addEventListener('DOMContentLoaded', () => {
   $('.share-copy-url').on('click', e => {
+    copy(e.currentTarget.dataset.clipboardText);
     e.preventDefault();
   });
 });
