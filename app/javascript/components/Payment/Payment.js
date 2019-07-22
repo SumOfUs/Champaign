@@ -386,7 +386,7 @@ export class Payment extends Component {
             </div>
           )}
 
-          {!hideRecurring && this.props.currentPaymentType !== 'google' && (
+          {!hideRecurring && (
             <Checkbox
               className="Payment__config"
               disabled={hideRecurring}
@@ -400,20 +400,16 @@ export class Payment extends Component {
             </Checkbox>
           )}
 
-          {this.props.currentPaymentType !== 'google' && (
-            <Checkbox
-              className="Payment__config"
-              checked={storeInVault}
-              onChange={e =>
-                this.props.setStoreInVault(e.currentTarget.checked)
-              }
-            >
-              <FormattedMessage
-                id="fundraiser.store_in_vault"
-                defaultMessage="Securely store my payment information"
-              />
-            </Checkbox>
-          )}
+          <Checkbox
+            className="Payment__config"
+            checked={storeInVault}
+            onChange={e => this.props.setStoreInVault(e.currentTarget.checked)}
+          >
+            <FormattedMessage
+              id="fundraiser.store_in_vault"
+              defaultMessage="Securely store my payment information"
+            />
+          </Checkbox>
 
           {currentPaymentType === 'paypal' && (
             <div className="PaymentMethod__guidance">
@@ -423,24 +419,14 @@ export class Payment extends Component {
             </div>
           )}
 
-          {this.props.currentPaymentType !== 'google' && (
-            <DonateButton
-              currency={currency}
-              amount={donationAmount || 0}
-              submitting={this.state.submitting}
-              recurring={recurring}
-              disabled={this.disableSubmit()}
-              onClick={this.makePayment}
-            />
-          )}
-
-          {currentPaymentType === 'google' && (
-            <div className="PaymentMethod__guidance">
-              <FormattedMessage
-                id={'fundraiser.payment_methods.ready_for_google'}
-              />
-            </div>
-          )}
+          <DonateButton
+            currency={currency}
+            amount={donationAmount || 0}
+            submitting={this.state.submitting}
+            recurring={recurring}
+            disabled={this.disableSubmit()}
+            onClick={this.makePayment}
+          />
         </ShowIf>
 
         <div className="Payment__fine-print">

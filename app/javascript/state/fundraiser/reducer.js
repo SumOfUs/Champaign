@@ -301,7 +301,6 @@ function supportedPaymentTypes(data) {
   const list = [];
   if (data.showDirectDebit) list.push('gocardless');
   if (!data.directDebitOnly) list.push('paypal', 'card');
-  if (!(data.directDebitOnly || data.recurring)) list.push('google');
   return list;
 }
 
