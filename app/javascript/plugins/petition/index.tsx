@@ -112,9 +112,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     // Check if this form was a validate-only form.
     // The template can set a data-form-action="validate"
     if (this.el.dataset.action === 'validate') {
-      return this.validate()
-        .then(() => this.onCompleteTransition())
-        .then(() => this);
+      return this.validate();
     }
     return this.submit()
       .then(() => this.onCompleteTransition())
