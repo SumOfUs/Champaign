@@ -70,3 +70,22 @@ window.champaign.plugins.petition.default.customRenderer = customRenderer;
 // or, alternatively, after the DOM has loaded
 // window.champaign.plugins.petition.default.instance.renderer = customRenderer;
 ```
+
+### Public properties and methods
+
+* `config`: A reference to the plugin's configuration. This is only read on initialisation.
+* `emit`: See [Events](#Events)
+* `on`: See [Events](#Events)
+* `events`: See [Events](#Events)
+* `listeners`: See [Events](#Events)
+* `update(data: Partial<IPluginOptions<T>>)`: Allows you to update the plugin options (namespace, config, dom element, etc). This does not trigger a re-render, so you will have to do that manually. The `data` argument can contain one or more options to be updated.
+* `renderer` (Getter / Setter): Allows you to set get or set the [custom renderer](#Custom\ renderers).
+
+#### Events
+All plugins have two handy methods for local events: `emit` and `on`:
+* `emit(eventName: string, data: any)`: This will emit two identical events, one prefixed with the plugin's namespace and reference, and another prefixed with only the namespace. For instance, for a `petition` plugin with a `default` reference, the calling `window.plugins.petition.default.instance.emit('analytics-event', { ... })` will emit two events: `petition:default:analytics-event`, and `petition:analytics-event`.
+* `on(eventName: string, data: any)`: This will set up an event listener *only* on the instance prefixed event. For instance, ``window.plugins.petition.default.instance.on('analytics-event', function (data) { ... })` will listen to `petition:default:analytics-event` but not listen to `petition:analytics-event`. For the second event, you can use the global event emitter explained below.
+* `listeners`: Lists the event listeners.
+
+##### Global event emitter
+A reference to the global event emitter is held in the `events` property. `instance.events.emit('eventName')` will emit the event as-is on `window.ee` (by default) without prefixing the event. The global event emitter is an instance of [eventemitter3](https://github.com/primus/eventemitter3). See that for more documentation.

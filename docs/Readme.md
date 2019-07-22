@@ -2,10 +2,10 @@
 
 _Work in progress._
 
-
 ### Plugins
 
 Plugins are (generally) interactive UI elements that provide some functionality, for instance, signing petitions or making donations.
+
 [Documentation](./plugins/README.md)
 
 ### Modules
