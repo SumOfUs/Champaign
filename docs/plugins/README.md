@@ -48,6 +48,25 @@ A quick summary of what goes on behind the scenes:
   - a reference to the DOM element it will be mounted on
   - a reference to the redux store
   - a reference to the global event emitter
+* The plugin initialiser returns a reference to the _instance_ that was just initialised, and this instance is saved in `window.champaign.plugins.PLUGIN_NAME.PLUGIN_REF.instance`.
 
-#### Custom renderers
-If you want to bypass the existing plugin and render your own, you can do so by specifying a custom renderer.
+### Custom renderers
+You can implement your own renderer and bypass the default implementation. To do so, you have two options:
+1. Specify a `customRenderer` property in the `window.champaign.plugins.PLUGIN_NAME.PLUGIN_REF` object.
+2. Set the custom renderer on the interface, by setting `instance.renderer = yourCustomRenderer`
+
+A `customRenderer` must be a function that accepts at least one argument: the plugin instance.
+
+Here's an example "Hello world" custom renderer:
+
+```ts
+function customRenderer(instance: Petition) {
+  const content = '<span id="hello-world-example">Hello world</span>'
+  $(instance.el).html(content);
+  $("#hello-world-example").on('click', () => console.log('click detected'));
+}
+
+window.champaign.plugins.petition.default.customRenderer = customRenderer;
+// or, alternatively, after the DOM has loaded
+// window.champaign.plugins.petition.default.instance.renderer = customRenderer;
+```

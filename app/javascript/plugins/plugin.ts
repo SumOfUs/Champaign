@@ -1,4 +1,5 @@
 import * as EventEmitter from 'eventemitter3';
+import { unmountComponentAtNode } from 'react-dom';
 
 export interface IPluginConfig {
   id: number;
@@ -62,6 +63,19 @@ export default class Plugin<T extends IPluginConfig>
       Object.assign(this.config, options.config);
     }
     this.emit('updated');
+  }
+
+  get renderer() {
+    return this.customRenderer;
+  }
+
+  set renderer(customRenderer: (instance: any) => any) {
+    this.customRenderer = customRenderer;
+
+    if (this['render']) {
+      unmountComponentAtNode(this.el);
+      this['render']();
+    }
   }
 
   private privateEventName(eventName: string) {
