@@ -105,5 +105,5 @@ export default class DonationsThermometer {
 }
 
 export function init() {
-  console.log('donations_thermometer initializing...');
+  return;
 }

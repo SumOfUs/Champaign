@@ -22,7 +22,6 @@ export interface IProps {
   className?: string;
   onValidate: (data?: any) => any;
   onSubmit: (data?: any) => any;
-  onSuccess: () => void;
 }
 
 export default function Form(props: IProps, second?: any) {

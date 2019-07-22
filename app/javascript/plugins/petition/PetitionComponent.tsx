@@ -32,9 +32,6 @@ export function PetitionComponent(props: IProps) {
     }, 1000);
   });
 
-  // tslint:disable-next-line: no-console
-  const onSuccess = () => console.log('successfully submitted action');
-
   return (
     <div className="PetitionComponent">
       <WelcomeMember member={member} resetMember={props.resetMember} />
@@ -48,7 +45,6 @@ export function PetitionComponent(props: IProps) {
         enableConsent={true}
         onValidate={props.onValidate}
         onSubmit={props.onSubmit}
-        onSuccess={onSuccess}
       />
     </div>
   );

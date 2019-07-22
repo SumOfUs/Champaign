@@ -1,6 +1,3 @@
-import * as EventEmitter from 'eventemitter3';
-import { extend } from 'lodash';
-
 export const SUPPORTED_PLUGINS = {
   actions_thermometer: () => import('./actions_thermometer'),
   call_tool: () => import('./call_tool'),
@@ -12,24 +9,17 @@ export const SUPPORTED_PLUGINS = {
 };
 
 export const load = async (name: string, ref: string, config?: any) => {
-  const loadPluginAsync = SUPPORTED_PLUGINS[name];
+  const loader = SUPPORTED_PLUGINS[name];
   const champaign = window.champaign;
   const el = document.getElementById(`plugin-${name}-${ref}`);
 
-  if (!loadPluginAsync) {
-    return;
+  if (loader && config.active) {
+    const plugin = await loader();
+    return plugin.init({
+      el,
+      config: { ...config, ref },
+      store: champaign.store,
+      eventEmitter: window.ee,
+    });
   }
-  if (!config.active) {
-    // tslint:disable-next-line: no-console
-    console.log(`plugin ${name}::${ref} was found but is not active. Pass.`);
-    return;
-  }
-
-  const plugin = await loadPluginAsync();
-  return plugin.init({
-    el,
-    config: { ...config, ref },
-    store: champaign.store,
-    eventEmitter: window.ee,
-  });
 };
