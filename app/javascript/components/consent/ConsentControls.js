@@ -5,7 +5,7 @@ import './ConsentControls.css';
 
 export class ConsentControls extends PureComponent {
   render() {
-    const { shortLabels, consented, showConsentRequired } = this.props;
+    const { consented, showConsentRequired } = this.props;
     const wrapperClass = classnames('ConsentControls', {
       warning: showConsentRequired,
     });

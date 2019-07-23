@@ -12,7 +12,7 @@
  */
 
 const MODULES = {
-  StandaloneConsentPrompt: () => import('./StandaloneConsentPrompt'),
+  StandaloneConsentPrompt: () => import('./consent/StandaloneConsentPrompt'),
   'email-ukparliament': () => import('./EmailParliament'),
   'braintree-web': () => import('./braintree-web'),
   api: () => import('./api'),

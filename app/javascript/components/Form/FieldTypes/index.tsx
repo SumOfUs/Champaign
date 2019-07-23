@@ -107,7 +107,11 @@ export const Select = (props: IFieldTypeProps) => {
 
 export const Hidden = (props: IFieldTypeProps) => {
   return (
-    <input type="hidden" name={props.name} value={props.default_value || ''} />
+    <input
+      type="hidden"
+      name={props.name}
+      value={(props.default_value as string) || ''}
+    />
   );
 };
 
@@ -129,7 +133,7 @@ export const Paragraph = (props: IFieldTypeProps) => {
     <div>
       <textarea
         name={props.name}
-        value={props.default_value || ''}
+        value={(props.default_value as string) || ''}
         placeholder={props.label}
         onChange={onChange}
         className={props.errorMessage ? 'has-error' : ''}

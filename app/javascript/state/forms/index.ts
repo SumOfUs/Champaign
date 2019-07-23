@@ -2,7 +2,7 @@ import { INITIAL_ACTION } from '../reducers';
 
 export interface IFormStore {
   [formId: number]: {
-    [key: string]: string | number | undefined | null;
+    [key: string]: string | number | boolean | undefined | null;
   };
 }
 

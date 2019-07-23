@@ -2,14 +2,14 @@ import classnames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import ConsentComponent from '../../components/consent/ConsentComponent';
-import ExistingMemberConsent from '../../components/consent/ExistingMemberConsent';
+import InlineConsentRadioButtons from '../../components/consent/InlineConsentRadioButtons';
 import ProcessingThen from '../../components/ProcessingThen.js';
 import api from '../../modules/api';
-import { changeCountry } from '../../state/consent/';
+import consent from '../../modules/consent/consent';
 import { updateForm } from '../../state/forms/';
 import { IAppState, IFormField } from '../../types';
 import Button from '../Button/Button';
+import PopupMemberConsent from '../consent/PopupMemberConsent';
 import FormField from './FormField';
 
 export interface IProps {
@@ -27,46 +27,84 @@ export interface IProps {
 export default function Form(props: IProps, second?: any) {
   const dispatch = useDispatch();
   const values = useSelector((state: IAppState) => state.forms[props.id]);
+  const member = useSelector((state: IAppState) => state.member);
+  const [highlightConsent, setHighlightConsent] = React.useState(false);
+  const [popupOpen, setPopupOpen] = React.useState(false);
   const submitting = values['submitting'] || false;
   const className = classnames('Form', props.className);
-  const sortedFields = props.fields.sort(f => f.position);
+  const country = values['country'] as string;
 
   const onChange = name => {
     return value => {
       dispatch(updateForm(props.id, { ...values, [name]: value }));
-      if (name === 'country') {
-        dispatch(changeCountry(value));
+    };
+  };
+
+  const withConsentCheck = callback => {
+    if (!consent.isRequired(country, member)) {
+      return callback;
+    }
+
+    return (e: React.SyntheticEvent<HTMLFormElement>) => {
+      const required =
+        consent.isRequired(country, member) && values['consent'] == null;
+      e.preventDefault();
+      if (required) {
+        setHighlightConsent(required);
+        setPopupOpen(required);
+      } else {
+        return callback(e);
       }
     };
   };
 
+  const onChangeConsent = value => {
+    const cb = onChange('consent');
+    setHighlightConsent(value === undefined);
+    cb(value);
+  };
   const submit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    // check if consent is necessary and/or checked
+    props.onSubmit(e.currentTarget);
     e.preventDefault();
-    const form = e.currentTarget;
-    props.onSubmit(form);
   };
 
-  const renderFormField = (field: IFormField) => (
-    <FormField
-      key={field.name}
-      {...field}
-      {...api.helpers.formErrorFields(props.errors[field.name])}
-      onChange={onChange(field.name)}
-      default_value={values[field.name] || field.default_value || ''}
-    />
-  );
+  const popupSubmit = (consented: boolean) => {
+    onChange('consent')(consented);
+    props.onSubmit();
+  };
 
-  const consentFields = () => (
-    <div className="consent-container">
-      <ConsentComponent />
-      <ExistingMemberConsent />
-    </div>
-  );
+  const renderFields = (fields: IFormField[]) =>
+    fields.map(field => (
+      <FormField
+        key={field.name}
+        {...field}
+        {...api.helpers.formErrorFields(props.errors[field.name])}
+        onChange={onChange(field.name)}
+        default_value={values[field.name] || field.default_value || ''}
+      />
+    ));
 
   return (
-    <form onSubmit={submit} className={className} id={`form-${props.id}`}>
-      {sortedFields.map(field => renderFormField(field))}
-      {props.enableConsent && consentFields()}
+    <form
+      onSubmit={withConsentCheck(submit)}
+      className={className}
+      id={`form-${props.id}`}
+    >
+      {renderFields(sort(filter(props.fields)))}
+      {consent.isRequired(country, member) && (
+        <InlineConsentRadioButtons
+          consent={values['consent'] as boolean}
+          onChange={onChangeConsent}
+          highlight={highlightConsent}
+        />
+      )}
+      <PopupMemberConsent
+        open={popupOpen}
+        countryCode={values['country'] as string}
+        toggleModal={setPopupOpen}
+        onSubmit={popupSubmit}
+      />
       <Button type="submit" disabled={submitting}>
         <ProcessingThen processing={submitting}>
           <FormattedMessage
@@ -78,3 +116,6 @@ export default function Form(props: IProps, second?: any) {
     </form>
   );
 }
+
+const sort = arr => arr.sort(f => f.position);
+const filter = arr => arr.filter(() => true);

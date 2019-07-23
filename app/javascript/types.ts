@@ -23,7 +23,7 @@ export interface IFormField {
   id: string; // it comes from Champaign but we omit it when passing it down
   choices: IFormChoice[];
   data_type: string;
-  default_value: string | number | undefined | null;
+  default_value: boolean | string | number | undefined | null;
   display_mode: FormFieldDisplayMode;
   form_id: number;
   label: string;
