@@ -1,10 +1,11 @@
 import { IConsent } from './state/consent/consent';
 import { IFormStore } from './state/forms';
-
+import { IFundraiserState } from './state/fundraiser';
 export interface IAppState {
   readonly consent: IConsent;
-  readonly member: Member;
   readonly forms: IFormStore;
+  readonly fundraiser: IFundraiserState;
+  readonly member: Member;
   readonly page: any;
 }
 

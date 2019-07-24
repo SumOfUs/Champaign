@@ -82,6 +82,11 @@ export class Payment extends Component {
       .fail(failure => {
         console.warn('could not fetch Braintree token');
       });
+    this.bindGlobalEvents();
+  }
+
+  bindGlobalEvents() {
+    ee.on('fundraiser:actions:make_payment', this.makePayment);
   }
 
   componentDidUpdate() {

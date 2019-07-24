@@ -31,6 +31,11 @@ export class MemberDetailsForm extends Component {
 
   componentDidMount() {
     this.prefill();
+    this.bindGlobalEvents();
+  }
+
+  bindGlobalEvents() {
+    ee.on('fundraiser:actions:validate_form', this.validate);
   }
 
   prefill() {
@@ -97,9 +102,8 @@ export class MemberDetailsForm extends Component {
     });
   }
 
-  submit(e) {
+  validate = () => {
     this.setState({ loading: true });
-    e.preventDefault();
     // TODO
     // Use a proper xhr lib if we want to make our lives easy.
     fetch(`/api/pages/${this.props.pageId}/actions/validate`, {
@@ -121,7 +125,7 @@ export class MemberDetailsForm extends Component {
         this.setState({ loading: false });
       }
     );
-  }
+  };
 
   fieldsToDisplay() {
     return this.props.fields.filter(field => {
@@ -145,15 +149,17 @@ export class MemberDetailsForm extends Component {
     return !!this.props.formValues.email;
   }
 
+  onSubmit = e => {
+    e.preventDefault();
+    this.validate();
+  };
+
   render() {
     const { loading } = this.state;
 
     return (
       <div className="MemberDetailsForm-root">
-        <form
-          onSubmit={this.submit.bind(this)}
-          className="form--big action-form"
-        >
+        <form onSubmit={this.onSubmit} className="form--big action-form">
           {this.fieldsToDisplay().map(field => (
             <FieldShape
               key={field.name}
