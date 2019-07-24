@@ -7,7 +7,7 @@ import ComponentWrapper from '../../components/ComponentWrapper';
 import { redirect } from '../../util/redirector';
 
 export const init = options => {
-  if (!options.config.active) return;
+  if (!options.config || !options.config.active) return;
   if (options.el) {
     render(
       <EmailParliament config={options.config} onSend={options.onSend} />,

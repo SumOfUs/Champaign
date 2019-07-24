@@ -13,7 +13,7 @@ export const load = async (name: string, ref: string, config?: any) => {
   const champaign = window.champaign;
   const el = document.getElementById(`plugin-${name}-${ref}`);
 
-  if (loader && config.active) {
+  if (loader && config && config.active) {
     const plugin = await loader();
     return plugin.init({
       el,
