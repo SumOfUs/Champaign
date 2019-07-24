@@ -44,7 +44,6 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
 
   constructor(options: IFundraiserOptions) {
     super(options);
-    this.store = options.store;
     this.render();
   }
 

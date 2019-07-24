@@ -25,6 +25,7 @@ interface IChampaignGlobalObject {
     outstandingFields: any[];
     formValues?: { [key: string]: string };
     donationBands?: { [currency: string]: number[] };
+    urlParams: { [key: string]: string };
   };
   plugins: IChampaignPagePlugins;
   store?: Store<IAppState>;

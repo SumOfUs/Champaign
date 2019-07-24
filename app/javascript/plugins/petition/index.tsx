@@ -47,7 +47,6 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
 
   constructor(options: IPetitionOptions) {
     super(options);
-    this.store = options.store;
     this.initState();
     this.render();
   }

@@ -34,10 +34,11 @@ export default class Plugin<T extends IPluginConfig>
   public store?: Store<IAppState>;
 
   constructor(options: IPluginOptions<T>) {
-    this.el = options.el;
     this.config = options.config;
-    this.namespace = options.namespace || '';
+    this.el = options.el;
     this.events = options.eventEmitter || new EventEmitter.EventEmitter();
+    this.namespace = options.namespace || '';
+    this.store = options.store;
     if (options.customRenderer) {
       this.customRenderer = options.customRenderer;
     }
