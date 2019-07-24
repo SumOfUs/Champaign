@@ -20,7 +20,7 @@ interface IChampaignGlobalObject {
   page: IChampaignPage;
   personalization: {
     location: IChampaignLocation;
-    member: IChampaignMember | {};
+    member: Partial<IChampaignMember>;
     paymentMethods: any[];
     outstandingFields: any[];
     formValues?: { [key: string]: string };

@@ -1,26 +1,7 @@
 
 {% if plugins.email_pension[ref].active %}
   <div id='email-pension-component'></div>
-
-  <script>
-    $(document).ready(function() {
-      var member = window.champaign.personalization.member;
-      var data = _.clone(window.champaign.personalization.emailPension['{{ref}}']);
-      _.merge(data, {
-        name: member.full_name,
-        email: member.email,
-        country: member.country,
-        postal: member.postal,
-        formValues: window.champaign.personalization.formValues
-      });
-
-      mountEmailPension('email-pension-component', data, '{{plugins.email_pension[ref].target_endpoint}}');
-    });
-  </script>
-
   <div class="body-text text-bottom">
-    {% if plugins.email_pension[ref].active %}
-      {{ plugins.email_pension[ref].body }}
-    {% endif %}
+    {{ plugins.email_pension[ref].body }}
   </div>
 {% endif %}
