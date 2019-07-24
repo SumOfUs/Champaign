@@ -1,43 +1,63 @@
-import React from 'react';
+import * as React from 'react';
 import { render } from 'react-dom';
+import ComponentWrapper from '../../components/ComponentWrapper';
 import {
   default as ConnectedThermometer,
   Thermometer,
 } from '../../components/Thermometer';
-import ComponentWrapper from '../../components/ComponentWrapper';
 import { update } from '../../state/thermometer';
+import { IDonationsThermometerPluginConfig } from '../../window';
+import Plugin, { IPluginOptions } from '../plugin';
 
-export default class DonationsThermometer {
-  constructor(config) {
-    if (!config.el) {
+interface IDonationsThermometerOptions
+  extends IPluginOptions<IDonationsThermometerPluginConfig> {
+  props?: any;
+}
+
+export default class DonationsThermometer extends Plugin<
+  IDonationsThermometerPluginConfig
+> {
+  public props?: any;
+  public customRenderer: (instance: DonationsThermometer) => any;
+
+  constructor(options: IDonationsThermometerOptions) {
+    super(options);
+    if (!options.el) {
       throw new Error(
         'Donations Thermometer must be initialised with an element and a store.'
       );
     }
 
-    if (!config.store && !config.props) {
+    if (!options.store && !options.props) {
       throw new Error(
         'Donations Thermometer must be initialised with either a redux store, or props'
       );
     }
 
-    this.el = config.el;
-    if (config.props) this.props = config.props;
-    if (config.store) this.store = config.store;
+    this.el = options.el;
+    if (options.props) {
+      this.props = options.props;
+    }
+    if (options.store) {
+      this.store = options.store;
+    }
 
-    this.instance = this.render();
+    this.render();
   }
 
   get state() {
-    if (!this.store) return null;
+    if (!this.store) {
+      return null;
+    }
     return this.store.getState().donationsThermometer;
   }
 
   set state(attrs) {
-    if (!this.store)
+    if (!this.store) {
       throw new Error(
         `Can't set state on this thermometer. Check that you initialised it with a (redux) store`
       );
+    }
     this.store.dispatch(update(attrs));
   }
 
@@ -45,7 +65,7 @@ export default class DonationsThermometer {
    * Updates the thermometer's props when not connected to a store.
    * @param  {Props} props
    */
-  updateProps(props) {
+  public updateProps(props) {
     if (!this.props) {
       throw new Error(
         `Can't set props on this thermometer. Check that you correctly initialised it with props.`
@@ -64,7 +84,7 @@ export default class DonationsThermometer {
    * Updates the redux store state associated with the donations thermometer.
    * @param {State} attrs
    */
-  updateStore(attrs) {
+  public updateStore(attrs) {
     if (!this.store) {
       throw new Error(
         `Can't update the store on this thermometer. Check that you initialised it with a (redux) store`
@@ -78,7 +98,7 @@ export default class DonationsThermometer {
     this.store.dispatch(update(attrs));
   }
 
-  renderWithProps() {
+  public renderWithProps() {
     return render(
       <ComponentWrapper store={this.store} locale={window.I18n.locale}>
         <Thermometer {...this.props} />
@@ -87,7 +107,7 @@ export default class DonationsThermometer {
     );
   }
 
-  renderWithStore() {
+  public renderWithStore() {
     return render(
       <ComponentWrapper store={this.store} locale={window.I18n.locale}>
         <ConnectedThermometer />
@@ -98,12 +118,31 @@ export default class DonationsThermometer {
 
   // Renders a component with props or with the redux store.
   // Props will always take precedence if present.
-  render() {
-    if (this.props) return this.renderWithProps();
-    if (this.store) return this.renderWithStore();
+  public render() {
+    if (this.props) {
+      return this.renderWithProps();
+    }
+    if (this.store) {
+      return this.renderWithStore();
+    }
   }
 }
 
-export function init() {
-  return;
-}
+export const init = options => {
+  options.el =
+    options.el ||
+    document.getElementById(`chmp-inline-thermometer__${options.config.ref}`);
+
+  if (!options.el) {
+    return;
+  }
+
+  return new DonationsThermometer({
+    config: options.config,
+    customRenderer: options.customRenderer,
+    el: options.el,
+    eventEmitter: options.eventEmitter,
+    namespace: 'donationsthermometer',
+    store: options.store,
+  });
+};

@@ -1,5 +1,7 @@
 import * as EventEmitter from 'eventemitter3';
 import { unmountComponentAtNode } from 'react-dom';
+import { Store } from 'redux';
+import { IAppState } from '../types';
 
 export interface IPluginConfig {
   id: number;
@@ -11,11 +13,12 @@ export interface IPluginConfig {
 }
 
 export interface IPluginOptions<T> {
-  el: HTMLElement;
   config: T;
-  namespace?: string;
-  eventEmitter?: any;
   customRenderer?: (instance: any) => any | undefined;
+  el: HTMLElement;
+  eventEmitter?: any;
+  namespace?: string;
+  store?: Store<IAppState>;
 }
 
 // Plugin is the base class from which other
@@ -28,6 +31,7 @@ export default class Plugin<T extends IPluginConfig>
   public config: T;
   public events: EventEmitter;
   public customRenderer: (instance: any) => any | undefined;
+  public store?: Store<IAppState>;
 
   constructor(options: IPluginOptions<T>) {
     this.el = options.el;

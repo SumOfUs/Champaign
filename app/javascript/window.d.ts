@@ -58,7 +58,6 @@ interface IPetitionPluginConfig extends IPluginConfig {
   outstanding_fields: string[];
   target: string;
   fields: IFormField[];
-  ref: string;
 }
 
 interface IFundraiserPluginConfig extends IPluginConfig {
@@ -71,7 +70,14 @@ interface IFundraiserPluginConfig extends IPluginConfig {
   preselect_amount: boolean;
   recurring_default: string;
   title: string;
-  ref: string;
+}
+
+interface IDonationsThermometerPluginConfig extends IPluginConfig {
+  offset: number;
+  title: string;
+  percentage: number;
+  total_donations: number;
+  goals: { [k: string]: number };
 }
 
 interface IChampaignMember {

@@ -7,6 +7,7 @@ export interface IAppState {
   readonly fundraiser: IFundraiserState;
   readonly member: Member;
   readonly page: any;
+  readonly donationsThermometer: any;
 }
 
 export interface IFormChoice {
