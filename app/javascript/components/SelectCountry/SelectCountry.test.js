@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { SelectCountry } from './SelectCountry';
 import { IntlProvider } from 'react-intl';
-import type { Country } from './SelectCountry';
 
 const mockFn = jest.fn();
 const intl = new IntlProvider({ locale: 'en' });
@@ -17,7 +16,7 @@ const component = shallow(
 
 it('renders a list of countries by default', () => {
   const select = component.find('SweetSelect');
-  const countries: Country[] = select.props().options;
+  const countries = select.props().options;
   expect(countries.length).toBeGreaterThan(100);
 });
 
@@ -35,7 +34,7 @@ it('accepts a custom list of countries', () => {
       onChange={mockFn}
     />
   );
-  const countries: Country[] = wrapper.find('SweetSelect').props().options;
+  const countries = wrapper.find('SweetSelect').props().options;
 
   expect(countries.length).toEqual(2);
 });
@@ -57,7 +56,7 @@ describe('localisation', () => {
     const select = shallow(<SelectCountry intl={intl.props} />).find(
       'SweetSelect'
     );
-    const countries: Country[] = select.props().options;
+    const countries = select.props().options;
     expect(countries[0].label).toEqual('Afghanistan');
     expect(countries[2].label).toEqual('Åland');
     expect(countries[countries.length - 1].label).toEqual('Zypern');

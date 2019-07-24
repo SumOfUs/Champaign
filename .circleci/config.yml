@@ -41,15 +41,15 @@ jobs:
             - node_modules
             - .bundle
             - tmp/external_assets_source
-  flow:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/circleci-champaign
-      - run:
-          name: Flow check
-          command: yarn run flow check
+  # flow:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: ~/circleci-champaign
+  #     - run:
+  #         name: Flow check
+  #         command: yarn run flow check
   jest:
     <<: *defaults
     steps:
@@ -128,6 +128,9 @@ jobs:
           name: Migrations and seeding
           command: bundle exec rake db:create db:migrate db:seed champaign:seed_liquid
       - run:
+          name: Precompile assets
+          command: RAILS_ENV=test bundle exec rails webpacker:compile
+      - run:
           name: Run specs
           command: bundle exec rspec spec
 
@@ -201,9 +204,9 @@ workflows:
     jobs:
       - install_dependencies
 
-      - flow:
-          requires:
-            - install_dependencies
+      # - flow:
+      #     requires:
+      #       - install_dependencies
 
       - jest:
           requires:
@@ -257,7 +260,7 @@ workflows:
             - build_production_docker_image
             - rspec
             - jest
-            - flow
+            # - flow
           context: champaign-production
           filters:
             branches:
@@ -269,7 +272,7 @@ workflows:
             - build_docker_image
             - rspec
             - jest
-            - flow
+            # - flow
           context: champaign-staging
           filters:
             branches:
@@ -281,7 +284,7 @@ workflows:
             - build_docker_image
             - rspec
             - jest
-            - flow
+            # - flow
           context: champaign-testing
           # match any branches that begin with feature- or feature/
           #   feature-my-feature

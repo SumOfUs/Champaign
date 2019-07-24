@@ -4,20 +4,20 @@ class PensionEmailSender
   end
 
   def initialize(page_id, params)
-    @plugin ||= Plugins::EmailPension.find_by(page_id: page_id)
+    @plugin = Plugins::EmailPension.find_by(page_id: page_id)
     @page = Page.find(page_id)
     @params = params
   end
 
   def run
     opts = {
-      id:         @page.slug,
-      subject:    @params[:subject],
-      body:       @params[:body],
+      id: @page.slug,
+      subject: @params[:subject],
+      body: @params[:body],
       recipients: to_emails,
-      from_name:  @params[:from_name],
+      from_name: @params[:from_name],
       from_email: from_email,
-      reply_to:   reply_to_emails
+      reply_to: reply_to_emails
     }
 
     EmailSender.run(opts)

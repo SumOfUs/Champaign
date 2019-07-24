@@ -53,6 +53,9 @@ Lint/HandleExceptions:
 Naming/AccessorMethodName:
   Enabled: false
 
+Style/AccessModifierDeclarations:
+  Enabled: false
+
 Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*'

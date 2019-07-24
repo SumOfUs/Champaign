@@ -6,14 +6,20 @@ html
     = csrf_meta_tags
     = favicon_link_tag "champaign/favicon.ico"
 
-    = javascript_pack_tag "sentry"
-    = javascript_pack_tag "globals"
+    = javascript_include_tag 'https://unpkg.com/jquery@^3/dist/jquery.min.js'
+    = javascript_include_tag 'https://unpkg.com/jquery-ujs@^1/src/rails.js'
+    = javascript_include_tag 'https://unpkg.com/jquery-ui-dist@^1/jquery-ui.min.js'
+    = javascript_include_tag 'https://unpkg.com/selectize@^0.12/dist/js/standalone/selectize.min.js'
+    = javascript_include_tag 'https://unpkg.com/clipboard@2.0.4/dist/clipboard.min.js'
+
+    = javascript_packs_with_chunks_tag "sentry", "globals", "campaigner_facing"
+    = stylesheet_packs_with_chunks_tag "globals", "campaigner_facing"
 
     = render partial: "shared/browser_polyfills"
     = render partial: "shared/js_locale"
 
     = stylesheet_link_tag "application", media: "all"
-    = stylesheet_pack_tag "globals", media: "all"
+    / = stylesheet_packs_with_chunks_tag "globals", media: "all"
   body.page-edit-body
     = render partial: "cdn/campaigner_facing"
     .navbar--fixed__spacer
@@ -30,7 +36,4 @@ html
     = render partial: "shared/flash"
 
     = javascript_include_tag "application"
-    = javascript_pack_tag "campaigner_facing"
-    = javascript_pack_tag "call_tool_analytics"
     = yield
-    = javascript_pack_tag "campaigner_facing_react"

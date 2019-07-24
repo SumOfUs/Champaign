@@ -1,4 +1,0 @@
-- plugins.each do |plugin|
-  - name = plugin.name.underscore
-  = stylesheet_pack_tag(name) if pack_exists?(name, :stylesheet)
-  = javascript_pack_tag(name) if pack_exists?(name, :javascript)

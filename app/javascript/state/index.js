@@ -1,18 +1,9 @@
-// @flow
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 import passToLogTracker from './pass_to_log_tracker';
-import type { AppState } from './reducers';
-import type { ChampaignGlobalObject } from '../types';
-// flow types
 
-export type { AppState } from './reducers';
-export type { Fundraiser } from './fundraiser/types';
-export type { Member } from './member/reducer';
-export type { PaymentMethod } from './paymentMethods/reducer';
-
-export default (data?: ChampaignGlobalObject): AppState => {
+export default data => {
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const enhancers = composeEnhancers(applyMiddleware(thunk, passToLogTracker));

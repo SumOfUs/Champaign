@@ -1,34 +1,24 @@
-// @flow
 import React, { Component, Children, cloneElement } from 'react';
 import Stepper from './Stepper';
 import ShowIf from '../ShowIf';
 import _ from 'lodash';
 import './Stepper.scss';
 
-type Props = {
-  changeStep: (step: number) => void,
-  currentStep: number,
-  submitting: boolean,
-  title: string,
-  children?: any,
-};
-type State = { steps: string[] };
-
-export default class StepWrapper extends Component<Props, State> {
-  constructor(props: Props) {
+export default class StepWrapper extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       steps: [],
     };
   }
 
-  getTitles(): string[] {
+  getTitles() {
     const { children } = this.props;
     if (!children) return [];
     return Children.map(_.compact(children), child => child.props.title);
   }
 
-  childrenWithExtraProps(children: any) {
+  childrenWithExtraProps(children) {
     return Children.map(_.compact(children), (child, index) =>
       cloneElement(child, { visible: index === this.props.currentStep })
     );

@@ -1,14 +1,8 @@
-// @flow
 import React from 'react';
 import { isArray } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
-type Props = {
-  name?: any,
-  errors?: any[],
-};
-
-export default function ErrorMessages(props: Props) {
+export default function ErrorMessages(props) {
   if (!props.errors) return null;
   const { errors } = props;
   const name = props.name || (

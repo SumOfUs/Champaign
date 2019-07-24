@@ -1,30 +1,26 @@
-//@flow
+//
 import React from 'react';
 
-type OwnProps = {
-  data: any
-}
-
-function MembersStatusTable(props:OwnProps) {
+function MembersStatusTable(props) {
   const data = props.data;
-  return(
+  return (
     <table className="table totals">
       <tbody>
         <tr>
           <th> Unstarted </th>
-          <td> { data.unstarted } </td>
+          <td> {data.unstarted} </td>
         </tr>
         <tr>
           <th> Started </th>
-          <td> { data.started } </td>
+          <td> {data.started} </td>
         </tr>
         <tr>
           <th> Connected </th>
-          <td> { data.connected }</td>
+          <td> {data.connected}</td>
         </tr>
         <tr>
           <th> Total </th>
-          <td> { data.total } </td>
+          <td> {data.total} </td>
         </tr>
       </tbody>
     </table>

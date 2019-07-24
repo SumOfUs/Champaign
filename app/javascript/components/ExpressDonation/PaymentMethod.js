@@ -1,33 +1,26 @@
-// @flow
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import type { PaymentMethod } from '../../state';
 
-type OwnProps = {
-  paymentMethod: PaymentMethod;
-  checked?: boolean;
-  onChange?: (paymentMethod: PaymentMethod) => void;
-};
-export default ({ paymentMethod, checked, onChange }: OwnProps) => (
+export default ({ paymentMethod, checked, onChange }) => (
   <div id={`PaymentMethod-${paymentMethod.id}`} className="PaymentMethod">
     <label>
-      { onChange &&
+      {onChange && (
         <input
           type="radio"
           checked={checked}
-          onChange={(e) => {
+          onChange={e => {
             if (e.target.checked && typeof onChange === 'function') {
               onChange(paymentMethod);
             }
           }}
         />
-      }
+      )}
       <FormattedMessage {...messageDescriptor(paymentMethod)} />
     </label>
   </div>
 );
 
-function messageDescriptor(paymentMethod: PaymentMethod) {
+function messageDescriptor(paymentMethod) {
   const type = paymentMethod.instrument_type;
   if (type === 'credit_card') {
     return {
@@ -50,6 +43,6 @@ function messageDescriptor(paymentMethod: PaymentMethod) {
 
   return {
     id: 'fundraiser.oneclick.payment_method',
-    defaultMessage: 'Payment method'
+    defaultMessage: 'Payment method',
   };
 }

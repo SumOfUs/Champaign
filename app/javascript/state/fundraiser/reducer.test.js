@@ -1,4 +1,3 @@
-// @flow
 import { isFunction } from 'lodash';
 import reducer, { initialState } from './reducer';
 

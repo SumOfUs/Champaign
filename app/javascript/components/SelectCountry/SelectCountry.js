@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { map, indexOf } from 'lodash';
 import SweetSelect from '../SweetSelect/SweetSelect';
@@ -7,27 +6,8 @@ import countriesDe from './countries/de.json';
 import countriesEs from './countries/es.json';
 import countriesFr from './countries/fr.json';
 import { injectIntl, intlShape } from 'react-intl';
-import type { Element } from 'react';
-import type { IntlShape } from 'react-intl';
-import type { SelectOption } from 'react-select';
 
 export const countries = countriesEn;
-
-type FilterCountry = string;
-
-type Props = {
-  name?: string,
-  value?: string,
-  onChange?: (value: any) => void,
-  options?: SelectOption[],
-  label?: string,
-  disabled?: boolean,
-  multiple?: boolean,
-  intl: IntlShape,
-  className?: string,
-  clearable?: boolean,
-  filter?: FilterCountry[],
-};
 
 const countriesByLocale = {
   en: countriesEn,
@@ -36,7 +16,7 @@ const countriesByLocale = {
   fr: countriesFr,
 };
 
-export class SelectCountry extends Component<Props> {
+export class SelectCountry extends Component {
   focus() {
     if (!this.refs.select) return;
     this.refs.select.focus();

@@ -1,7 +1,6 @@
-// @flow
 const uuid = require('uuid/v1');
 
-export const logEvent = (eventName: string, ...payload: any) => {
+export const logEvent = (eventName, ...payload) => {
   if (typeof window.mixpanel === 'undefined') return;
   if (typeof window.champaign === 'undefined') return;
 
@@ -19,7 +18,7 @@ export const logEvent = (eventName: string, ...payload: any) => {
   if (window.ga) logToGa(eventName, ...payload);
 };
 
-const getEventData = (eventName: string, ...data: any) => {
+const getEventData = (eventName, ...data) => {
   switch (eventName) {
     case 'action:submitted_success':
       return ['action', 'submitted_success'];
@@ -67,7 +66,7 @@ const getEventData = (eventName: string, ...data: any) => {
   }
 };
 
-const logToGa = (eventName: string, data: any) => {
+const logToGa = (eventName, data) => {
   const eventData = getEventData(eventName, data);
 
   if (eventData) {

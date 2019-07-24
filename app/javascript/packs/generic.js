@@ -1,4 +1,4 @@
-import Notification from '../member-facing/backbone/notification';
+import Notification from '../legacy/member-facing/backbone/notification';
 
 window.champaign = window.champaign || {};
 

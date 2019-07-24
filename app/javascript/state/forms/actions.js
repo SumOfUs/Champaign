@@ -1,5 +1,3 @@
-import type { FormAction } from './reducer';
-
-export function updateForm(id: string, data: any): FormAction {
+export function updateForm(id, data) {
   return { type: 'update_form', payload: { id, data } };
 }

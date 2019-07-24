@@ -1,1 +1,2 @@
-import '../campaigner_facing/emails';
+//
+import '../legacy/campaigner_facing/emails';

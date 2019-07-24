@@ -217,21 +217,25 @@ module PagesHelper
     base.merge(layouts_and_plugins)
   end
 
-  def countries
-    ISO3166::Country.all.map do |c|
-      {
-        name: c.name,
-        alpha2: c.alpha2,
-        alpha3: c.alpha3,
-        country_code: c.country_code,
-        currency_code: c.currency_code,
-        eu_member: c.in_eu?,
-        eea_member: c.in_eea?
-      }
-    end
-  end
-
   def truncate_page_content(content, length = 500)
     Truncato.truncate(content, max_length: length)
+  end
+
+  def plugin_supplemental_data(member, url_params)
+    # TODO
+  end
+
+  def plugins_config(page)
+    page.plugins.each_with_object({}) do |plugin, hsh|
+      return hsh unless plugin.present?
+
+      ref = plugin.ref.present? ? plugin.ref : 'default'
+      hsh[plugin.name.underscore.to_sym] = {
+        "#{ref}": {
+          config: plugin.liquid_data
+        }
+      }.symbolize_keys
+      hsh
+    end
   end
 end

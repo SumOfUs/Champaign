@@ -10,7 +10,7 @@ module Api
 
       before_action :set_raven_context
 
-      protect_from_forgery with: :null_session
+      protect_from_forgery prepend: true, with: :null_session
 
       protected
 

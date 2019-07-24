@@ -1,28 +1,8 @@
-// @flow
-import type { ChampaignGlobalObject } from '../../types';
 import { isEmpty, mapValues } from 'lodash';
 
-export type Action =
-  | { type: '@@chmp:initialize', payload: ChampaignGlobalObject }
-  | { type: '@@chmp:thermometer:update', attrs: State };
+const defaults = {};
 
-export type State =
-  | {}
-  | {
-      active: boolean,
-      goals: { [currency: string]: number },
-      offset: number,
-      remainingAmounts: { [currency: string]: number },
-      title: ?string,
-      totalDonations?: { [currency: string]: number },
-    };
-
-const defaults: State = {};
-
-export default function reducer(
-  state?: State = defaults,
-  action: Action
-): State {
+export default function reducer(state = defaults, action) {
   switch (action.type) {
     case '@@chmp:initialize':
       return getStateFromChampaign(action.payload);
@@ -33,11 +13,11 @@ export default function reducer(
   }
 }
 
-export function update(attrs: State): Action {
+export function update(attrs) {
   return { type: '@@chmp:thermometer:update', attrs };
 }
 
-function getStateFromChampaign(chmp: ChampaignGlobalObject): State {
+function getStateFromChampaign(chmp) {
   const data = chmp.personalization.donationsThermometer;
   if (isEmpty(data)) return {};
   return {

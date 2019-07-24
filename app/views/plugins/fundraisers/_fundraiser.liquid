@@ -44,7 +44,8 @@
       {% endunless %}
       }, 100);
 
-      mountFundraiser('fundraiser-component', data);
+      // mountFundraiser('fundraiser-component', data);
+      window.champaign.plugins.fundraiser['{{ref}}'].config = data;
     });
 
     var fundraiserEvents = {
