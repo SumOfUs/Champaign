@@ -19,7 +19,7 @@ import { configureStore, fundraiserData } from './utils';
 interface IFundraiserOptions {
   el: HTMLElement;
   namespace: string;
-  config: IFundraiserPluginConfig; // todo
+  config: IFundraiserPluginConfig;
   store: Store<IAppState>;
 }
 
