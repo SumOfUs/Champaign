@@ -2,6 +2,7 @@ import { omit, pick } from 'lodash';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Store } from 'redux';
+import URI from 'urijs';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { IAppState } from '../../types';
 import { camelizeKeys } from '../../util/util';
@@ -14,19 +15,50 @@ interface ICallToolOptions {
   config: any; // todo
   store: Store<IAppState>;
 }
+
+const parseFilters = function(params) {
+  if (!!params.filters) {
+    return params.filters;
+  }
+  const filters = {};
+  for (const key in params) {
+    if (key.indexOf('filters_') === 0 || key.indexOf('filter_') === 0) {
+      const shortKey = key.replace(/filters?_/i, '');
+      filters[shortKey] = params[key];
+    }
+  }
+  return filters;
+};
+
 export const init = options => {
   if (!options.el) {
     options.el = document.getElementById('call-tool-component');
   }
-  const { el, config, store } = options;
-  const member = window.champaign.personalization.member;
-  const memberData = pick(member, 'name', 'email', 'country', 'postal');
-  const formValues = window.champaign.personalization.formValues;
+  const { el, store } = options;
+  const countryCode = window.champaign.personalization.member.country;
+  const filters = parseFilters(window.champaign.personalization.urlParams);
+  const trackingParams = pick(
+    window.champaign.personalization.urlParams,
+    'source',
+    'akid',
+    'referring_akid',
+    'referrer_id',
+    'rid'
+  );
   return new CallTool({
     config: {
-      ...config,
-      ...memberData,
-      ...formValues,
+      ...options.config,
+      countryCode,
+      ...filters,
+      ...trackingParams,
+      onSuccess(target) {
+        window.location.href = URI('{{ follow_up_url }}')
+          .addQuery({
+            'target[name]': target.name,
+            'target[title]': target.title,
+          })
+          .toString();
+      },
     },
     el,
     namespace: 'calltool',
@@ -49,7 +81,6 @@ class CallTool extends Plugin<any> {
     if (this.customRenderer) {
       return this.customRenderer(this);
     }
-
     const props = omit(camelizeKeys(this.config), 'id', 'ref');
 
     return render(
