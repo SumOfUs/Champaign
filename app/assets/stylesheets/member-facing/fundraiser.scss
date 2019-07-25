@@ -1,4 +1,4 @@
-@import "compass/css3/filter";
+@import 'compass/css3/filter';
 
 .fundraiser-bar {
   text-align: left;
@@ -138,7 +138,8 @@
       color: $slate-gray;
     }
   }
-  &__step-numbers, &__step-names {
+  &__step-numbers,
+  &__step-names {
     float: left;
     width: 100%;
     position: relative;
@@ -236,7 +237,8 @@
     max-width: 400px;
     min-height: 320px;
 
-    .fundraiser-bar__top, .fundraiser-bar__main {
+    .fundraiser-bar__top,
+    .fundraiser-bar__main {
       background-color: transparent;
       position: relative;
     }
@@ -261,7 +263,8 @@
     .SweetSelect .Select > .Select-control {
       border-color: $slate-gray;
       border-width: 2px;
-      &.braintree-hosted-fields-focused, &:focus {
+      &.braintree-hosted-fields-focused,
+      &:focus {
         border-color: $teal;
       }
       &.has-error {
@@ -301,37 +304,37 @@
         line-height: 12px;
       }
     }
-  }
-  // React component specific
-  &--freestanding.FundraiserView-container {
-    margin: auto;
-    .StepContent {
-      max-width: 340px;
-    }
-    .BraintreeCardFields__hosted-field {
-      border: #b2b5ba 2px solid;
-    }
-    .Stepper__steps, .StepContent {
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .AmountSelection-container {
-      font-size: 14px;
-    }
-    input {
-      font-size: 18px;
-    }
-    .selectize-input {
-      border: #b2b5ba;
-    }
-    .Checkbox {
-      line-height: 16px;
-      margin: 0;
-    }
-    label.Checkbox__label {
-      font-size: 16px;
+    .FundraiserView-container {
+      margin: auto;
+      .StepContent {
+        max-width: 340px;
+      }
+      .BraintreeCardFields__hosted-field {
+        border: #b2b5ba 2px solid;
+      }
+      .Stepper__steps,
+      .StepContent {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .AmountSelection-container {
+        font-size: 14px;
+      }
       input {
-        position: relative;
+        font-size: 18px;
+      }
+      .selectize-input {
+        border: #b2b5ba;
+      }
+      .Checkbox {
+        line-height: 16px;
+        margin: 0;
+      }
+      label.Checkbox__label {
+        font-size: 16px;
+        input {
+          position: relative;
+        }
       }
     }
   }
@@ -430,7 +433,8 @@
     #braintree-paypal-button img,
     .hosted-fields__direct-debit {
       @include filter(grayscale(100%));
-      &:hover, &:hover img {
+      &:hover,
+      &:hover img {
         @include filter(grayscale(0%));
       }
     }
@@ -449,10 +453,12 @@
   &__header {
     font-size: 24px;
   }
-  p, ul {
+  p,
+  ul {
     margin-top: 16px;
   }
-  ul, ol {
+  ul,
+  ol {
     margin-left: 30px;
   }
   li {
