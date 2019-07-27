@@ -82,7 +82,6 @@ export class FundraiserView extends Component {
     const classNames = classnames({
       'FundraiserView-container': true,
       'form--big': true,
-      'fundraiser-bar--freestanding': this.props.fundraiser.freestanding,
     });
 
     const oneClickErrorMessage = oneClickError ? (

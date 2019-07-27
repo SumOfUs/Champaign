@@ -31,7 +31,6 @@ export const initialState = {
   form: {},
   formId: '',
   formValues: {},
-  freestanding: false,
   oneClick: false,
   outstandingFields: [],
   paymentMethods: [],
@@ -57,7 +56,6 @@ export default (state = initialState, action) => {
         'outstandingFields',
         'title',
         'fields',
-        'freestanding',
         'oneClick',
         'donationAmount'
       );
