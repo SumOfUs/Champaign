@@ -1,3 +1,4 @@
+import { isBoolean } from 'lodash';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Store } from 'redux';
@@ -32,7 +33,7 @@ export function init(options: any) {
 
   return new Fundraiser({
     el: options.el,
-    namespace: 'petition',
+    namespace: 'fundraiser',
     config: options.config,
     store: options.store,
   });
@@ -55,12 +56,30 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
     return this.state.form;
   }
 
-  public changeAmount(amount: number) {
-    this.store.dispatch(changeAmount(amount));
+  get amount() {
+    return this.state.donationAmount;
+  }
+
+  set amount(amount: any) {
+    this.setAmount(amount);
+  }
+
+  public setAmount(amount: any) {
+    if (Number.isInteger(amount) && amount > 0) {
+      this.store.dispatch(changeAmount(amount));
+    }
     return this;
   }
 
-  public changeCurrency(currency: string) {
+  get currency() {
+    return this.state.currency;
+  }
+
+  set currency(currency: any) {
+    this.setCurrency(currency);
+  }
+
+  public setCurrency(currency: any) {
     this.store.dispatch(changeCurrency(currency));
     return this;
   }
@@ -95,19 +114,39 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
     return this;
   }
 
-  public changeRecurring(value: boolean) {
-    this.store.dispatch(setRecurring(value));
+  get recurring() {
+    return this.state.recurring;
+  }
+
+  set recurring(recurring: any) {
+    this.setRecurring(recurring);
+  }
+
+  public setRecurring(value: any) {
+    if (isBoolean(value)) {
+      this.store.dispatch(setRecurring(value));
+    }
     return this;
   }
 
-  public changeStoreInVault(value: boolean) {
-    this.store.dispatch(setStoreInVault(value));
+  get storeInVault() {
+    return this.state.storeInVault;
+  }
+
+  set storeInVault(value: any) {
+    this.setStoreInVault(value);
+  }
+
+  public setStoreInVault(value: any) {
+    if (isBoolean(value)) {
+      this.store.dispatch(setStoreInVault(value));
+    }
     return this;
   }
 
   // Sets the payment type (gocardless, paypal, card, etc). If the given payment
   // type is not supported, it will be set to the default payment type.
-  public changePaymentType(paymentType: string) {
+  public setPaymentType(paymentType: string) {
     this.store.dispatch(setPaymentType(paymentType));
     return this;
   }
