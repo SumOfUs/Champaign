@@ -16,6 +16,7 @@ const acceptedProps = [
   'donorStatus',
   'registered',
   'actionKitUserId',
+  'more',
 ];
 
 export default (state = initialState, action) => {

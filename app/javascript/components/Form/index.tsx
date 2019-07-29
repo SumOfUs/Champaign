@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +8,7 @@ import ProcessingThen from '../../components/ProcessingThen.js';
 import api from '../../modules/api';
 import consent from '../../modules/consent/consent';
 import { updateForm } from '../../state/forms/';
+import { Member } from '../../state/member';
 import { IAppState, IFormField } from '../../types';
 import Button from '../Button/Button';
 import PopupMemberConsent from '../consent/PopupMemberConsent';
@@ -47,7 +49,7 @@ export default function Form(props: IProps, second?: any) {
 
     return (e: React.SyntheticEvent<HTMLFormElement>) => {
       const required =
-        consent.isRequired(country, member) && values['consent'] == null;
+        consent.isRequired(country, member) && values['consented'] == null;
       e.preventDefault();
       if (required) {
         setHighlightConsent(required);
@@ -59,7 +61,7 @@ export default function Form(props: IProps, second?: any) {
   };
 
   const onChangeConsent = value => {
-    const cb = onChange('consent');
+    const cb = onChange('consented');
     setHighlightConsent(value === undefined);
     cb(value);
   };
@@ -70,8 +72,13 @@ export default function Form(props: IProps, second?: any) {
   };
 
   const popupSubmit = (consented: boolean) => {
-    onChange('consent')(consented);
+    onChange('consented')(consented);
     props.onSubmit();
+  };
+
+  const filterFields = (fields: IFormField[]) => {
+    const fieldsByDisplayMode = filterByDisplayMode(fields, member);
+    return filterByValue(fieldsByDisplayMode, member);
   };
 
   const renderFields = (fields: IFormField[]) =>
@@ -91,10 +98,10 @@ export default function Form(props: IProps, second?: any) {
       className={className}
       id={`form-${props.id}`}
     >
-      {renderFields(sort(filter(props.fields)))}
+      {renderFields(sortByPosition(filterFields(props.fields)))}
       {consent.isRequired(country, member) && (
         <InlineConsentRadioButtons
-          consent={values['consent'] as boolean}
+          consent={values['consented'] as boolean}
           onChange={onChangeConsent}
           highlight={highlightConsent}
         />
@@ -117,5 +124,28 @@ export default function Form(props: IProps, second?: any) {
   );
 }
 
-const sort = arr => arr.sort(f => f.position);
-const filter = arr => arr.filter(() => true);
+const sortByPosition = arr => sortBy(arr, ['position']);
+
+// Filter out any fields for which we already have a value
+const filterByValue = (fields: IFormField[], member: Member) => {
+  if (!member) {
+    return fields;
+  }
+  return fields.filter(field => member.more[field.name] === undefined);
+};
+
+// Filter by "FormFieldDisplayMode"
+const filterByDisplayMode = (fields: IFormField[], member: Member) => {
+  return fields.filter(field => {
+    switch (field.display_mode) {
+      case 'all_members':
+        return true;
+      case 'new_members_only':
+        return !member;
+      case 'recognized_members_only':
+        return !!member;
+      default:
+        return true;
+    }
+  });
+};
