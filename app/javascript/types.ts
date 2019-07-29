@@ -1,6 +1,7 @@
 import { IConsent } from './state/consent/consent';
 import { IFormStore } from './state/forms';
 import { IFundraiserState } from './state/fundraiser';
+import { Member } from './state/member';
 export interface IAppState {
   readonly consent: IConsent;
   readonly forms: IFormStore;
@@ -34,20 +35,3 @@ export interface IFormField {
   required: boolean;
   visible: boolean | undefined | null;
 }
-
-export type Member = {
-  id: number;
-  email: string;
-  country?: string;
-  consented: boolean;
-  consentedUpdatedAt: boolean;
-  name?: string;
-  firstName?: string;
-  lastName?: string;
-  fullName?: string;
-  welcomeName?: string;
-  postal?: string;
-  donorStatus: 'donor' | 'non_donor' | 'recurring_donor';
-  registered: boolean;
-  actionKitUserId?: string;
-} | null;

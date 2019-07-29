@@ -13,4 +13,5 @@ export type Member = {
   postal?: string;
   registered: boolean;
   welcomeName?: string;
+  more: { [key: string]: string | number };
 } | null;
