@@ -8,6 +8,7 @@ import api from '../../modules/api';
 import { formValues } from '../../modules/form_values';
 import { transitionFromTo } from '../../modules/transition';
 import { setSubmitting, updateForm } from '../../state/forms';
+import { actionFormUpdated } from '../../state/fundraiser/actions';
 import { resetMember } from '../../state/member/reducer';
 import { IAppState } from '../../types';
 import { IPetitionPluginConfig } from '../../window';
@@ -126,6 +127,9 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
 
     return Promise.all(listeners.map(l => l(this)))
       .then(() => this.events.emit('complete', { petition: this }))
+      .then(() => {
+        this.store.dispatch(actionFormUpdated(this.formValues));
+      })
       .then(() =>
         this.events.emit('action:submitted_success', { petition: this })
       )
