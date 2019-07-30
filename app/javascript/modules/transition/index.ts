@@ -1,6 +1,6 @@
 import * as $ from 'jquery';
 
-function makeTransition(transition) {
+export const transitionFromTo = (transition: string) => {
   const [tfrom, tto] = transition.split(':');
   const $from = document.querySelector(`[data-transition-id="${tfrom}"]`);
   const $to = document.querySelector(`[data-transition-id="${tto}"]`);
@@ -15,15 +15,5 @@ function makeTransition(transition) {
       block: 'center',
       inline: 'nearest',
     });
-    $($from).fadeOut();
-  }
-}
-
-export const transitionFromTo = (transitionString: string) => {
-  if (transitionString.includes('__')) {
-    const transitions = transitionString.split('__');
-    transitions.map(transition => makeTransition(transition));
-  } else {
-    makeTransition(transitionString);
   }
 };
