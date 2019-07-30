@@ -180,7 +180,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   end
 
   def process_one_click
-    @process_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
+    @process_one_click ||= ::PaymentProcessor::Braintree::OneClickFromUri.new(
       params.to_unsafe_hash,
       page: @page,
       member: recognized_member,
