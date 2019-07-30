@@ -130,6 +130,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
         this.events.emit('action:submitted_success', { petition: this })
       )
       .then(() => this.onCompleteTransition())
+      .then(() => this.events.emit('petition:sign_success'))
       .then(() => this);
   };
 
