@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import { Store } from 'redux';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import api from '../../modules/api';
+import { DoubleOptIn } from '../../modules/double-opt-in';
 import { formValues } from '../../modules/form_values';
 import { transitionFromTo } from '../../modules/transition';
 import { setSubmitting, updateForm } from '../../state/forms';
@@ -98,6 +99,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     this.setSubmitting(true);
     return api.pages.createAction(this.config.page_id, this.formValues).then(
       success => {
+        DoubleOptIn.handleActionSuccess(success);
         this.onComplete();
         return this;
       },
