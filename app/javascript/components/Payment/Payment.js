@@ -265,7 +265,6 @@ export class Payment extends Component {
 
     if (
       typeof window.mixpanel !== 'undefined' &&
-      window.TRACK_USER_ACTIONS &&
       this.props.fundraiser.storeInVault
     ) {
       window.mixpanel.track(
