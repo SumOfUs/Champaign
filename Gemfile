@@ -49,7 +49,7 @@ gem 'airbrake', '~> 9.2.0'
 gem 'aws-sdk-rails'
 gem 'bootsnap', require: false
 gem 'bootstrap-sass', '~> 3.4.1'
-gem 'browser', '~> 2.5'
+gem 'browser', '~> 2.6'
 gem 'compass-rails' # was using git master branch before
 gem 'config'
 gem 'envyable', require: 'envyable/rails-now'

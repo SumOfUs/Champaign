@@ -133,7 +133,7 @@ GEM
       sassc (>= 2.0.0)
     braintree (2.95.0)
       builder (>= 2.0.0)
-    browser (2.5.3)
+    browser (2.6.1)
     builder (3.2.3)
     byebug (9.0.6)
     capybara (2.14.0)
@@ -588,7 +588,7 @@ DEPENDENCIES
   bootsnap
   bootstrap-sass (~> 3.4.1)
   braintree (~> 2)
-  browser (~> 2.5)
+  browser (~> 2.6)
   byebug
   capybara
   compass-rails
