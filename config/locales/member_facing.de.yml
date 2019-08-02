@@ -117,6 +117,8 @@ de:
     thermometer:
       raised: Aktueller Spendenstand
       goal: Ziel
+    make_monthly_donation: "%{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet."
+    continue_with_one_donation: "Or, continue with a one-off donation:"
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN

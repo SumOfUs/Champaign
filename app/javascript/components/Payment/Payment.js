@@ -313,10 +313,21 @@ export class Payment extends Component {
     return this.state.expressHidden || this.props.disableSavedPayments;
   }
 
+  getFirstName(member, formValues) {
+    if (member) {
+      return `${member.fullName}:`;
+    } else if (formValues && formValues.member) {
+      return `${formValues.member.name}:`;
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const {
       member,
       hideRecurring,
+      formData,
       fundraiser: {
         currency,
         donationAmount,
@@ -325,7 +336,6 @@ export class Payment extends Component {
         storeInVault,
       },
     } = this.props;
-
     return (
       <div className="Payment section">
         <ShowIf condition={!isEmpty(this.state.errors)}>
@@ -391,7 +401,7 @@ export class Payment extends Component {
             </div>
           )}
 
-          {!hideRecurring && (
+          {/* {!hideRecurring && (
             <Checkbox
               className="Payment__config"
               disabled={hideRecurring}
@@ -403,7 +413,7 @@ export class Payment extends Component {
                 defaultMessage="Make my donation monthly"
               />
             </Checkbox>
-          )}
+          )} */}
 
           <Checkbox
             className="Payment__config"
@@ -424,11 +434,35 @@ export class Payment extends Component {
             </div>
           )}
 
+          <div className="PaymentMethod__monthly">
+            <FormattedMessage
+              id={'fundraiser.make_monthly_donation'}
+              defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
+              values={{ name: this.getFirstName(member, formData) }}
+            />
+          </div>
+
           <DonateButton
             currency={currency}
             amount={donationAmount || 0}
             submitting={this.state.submitting}
-            recurring={recurring}
+            recurring={true}
+            disabled={this.disableSubmit()}
+            onClick={this.makePayment}
+          />
+
+          <div className="PaymentMethod__guidance">
+            <FormattedMessage
+              id={'fundraiser.continue_with_one_donation'}
+              defaultMessage={`Or, continue with a one-off donation:`}
+            />
+          </div>
+
+          <DonateButton
+            currency={currency}
+            amount={donationAmount || 0}
+            submitting={this.state.submitting}
+            recurring={false}
             disabled={this.disableSubmit()}
             onClick={this.makePayment}
           />

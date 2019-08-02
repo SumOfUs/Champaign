@@ -16,7 +16,9 @@ export default props => (
       &nbsp;
       <FormattedMessage
         id={props.recurring ? 'fundraiser.donate_monthly' : 'fundraiser.donate'}
-        defaultMessage="Donate {amount}"
+        defaultMessage={
+          props.recurring ? 'Donate {amount} / month' : 'Donate {amount}'
+        }
         values={{
           amount: (
             <CurrencyAmount

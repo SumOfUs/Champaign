@@ -2,6 +2,18 @@
   margin-bottom: 10px;
 }
 
+.Payment__config label {
+  font-weight: 400;
+}
+
+.PaymentMethod__monthly {
+  font-weight: 700;
+  width: 100%;
+  font-size: 14px;
+  line-height: 17px;
+  margin: 20px 0 5px;
+}
+
 .Payment__form-group-label {
   position: relative;
   padding-left: 20px;
@@ -91,7 +103,7 @@
   box-shadow: none;
 }
 
-@media(max-width: 700px) {
+@media (max-width: 700px) {
   .PaymentExpressDonationConflict {
     width: 100%;
   }
