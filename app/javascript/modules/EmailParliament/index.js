@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { render } from 'react-dom';
 import classnames from 'classnames';
 import { search } from './api';
 import SearchByPostcode from './SearchByPostcode';
