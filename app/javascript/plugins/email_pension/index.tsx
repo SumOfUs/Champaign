@@ -39,10 +39,16 @@ class EmailPension extends Plugin<any> {
   public store: Store<IAppState>;
   public customRenderer: (instance: EmailPension) => any | undefined;
   public wrappedReactComponent?: React.Component;
+  public props: { [key: string]: any };
 
   constructor(options: IEmailPensionOptions) {
     super(options);
     this.store = options.store;
+    this.props = omit(camelizeKeys(this.config), 'id', 'ref');
+    this.store.dispatch({
+      type: 'email_target:initialize',
+      payload: omit(camelizeKeys(this.config), 'id', 'ref'),
+    });
     this.render();
   }
 
@@ -51,12 +57,12 @@ class EmailPension extends Plugin<any> {
       return this.customRenderer(this);
     }
 
-    const props = omit(camelizeKeys(this.config), 'id', 'ref');
-
     return render(
       <ComponentWrapper store={this.store} locale={window.I18n.locale}>
-        {props.targetEndpoint && <EmailRepresentativeView {...props} />}
-        {!props.targetEndpoint && <EmailPensionView {...props} />}
+        {this.props.targetEndpoint && (
+          <EmailRepresentativeView {...this.props} />
+        )}
+        {!this.props.targetEndpoint && <EmailPensionView {...this.props} />}
       </ComponentWrapper>,
       this.el
     );
