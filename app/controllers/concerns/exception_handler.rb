@@ -19,6 +19,9 @@ module ExceptionHandler
     rescue_from Api::Exceptions::UnauthorizedError,  with: :unauthorized
 
     rescue_from ActionController::ParameterMissing, with: :invalid_parameters
+
+    # Braintree errors
+    rescue_from Braintree::ValidationsFailed, with: :braintree_error
   end
 
   private
@@ -42,8 +45,13 @@ module ExceptionHandler
   end
 
   def invalid_parameters(exception)
-    logger.debug exception
+    Rails.logger.debug exception
     render json: { error: { message: 'Invalid parameters' } },
+           status: :bad_request
+  end
+
+  def braintree_error(exception)
+    render json: { error: { message: exception.error_result } },
            status: :bad_request
   end
 end

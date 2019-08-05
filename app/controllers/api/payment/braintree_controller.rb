@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::Payment::BraintreeController < PaymentController
+  include ExceptionHandler
+
   skip_before_action :verify_authenticity_token, raise: false
   before_action :check_api_key, only: [:refund]
 
@@ -47,13 +49,13 @@ class Api::Payment::BraintreeController < PaymentController
 
   def payment_options
     {
-      nonce: unsafe_params[:payment_method_nonce],
-      amount: unsafe_params[:amount].to_f,
-      user: unsafe_params[:user].merge(mobile_value),
-      currency: unsafe_params[:currency],
-      page_id: unsafe_params[:page_id],
+      nonce: params.require(:payment_method_nonce),
+      amount: params.require(:amount).to_f,
+      user: user_params,
+      currency: params.require(:currency),
+      page_id: params.require(:page_id),
       store_in_vault: store_in_vault?
-    }.tap do |options|
+    }.to_hash.tap do |options|
       options[:extra_params] = unsafe_params[:extra_action_fields] if unsafe_params[:extra_action_fields].present?
     end
   end
@@ -63,10 +65,18 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def page
-    @page ||= Page.find(unsafe_params[:page_id])
+    @page ||= Page.find(params.require(:page_id))
   end
 
   def recurring?
     @recurring ||= ActiveRecord::Type::Boolean.new.cast(unsafe_params[:recurring])
+  end
+
+  def user_params
+    params
+      .require(:user).permit!
+      .merge(mobile_value)
+      .to_hash
+      .symbolize_keys
   end
 end
