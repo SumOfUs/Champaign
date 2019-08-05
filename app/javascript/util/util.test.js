@@ -1,8 +1,7 @@
-// @flow
 import { camelizeKeys } from './util';
 import { mapValues, mapKeys } from 'lodash';
 
-const fixture: Object = {
+const fixture = {
   camelCaseKey: 'lorem',
   null_value: null,
   snake_case_key: 'ipsum',

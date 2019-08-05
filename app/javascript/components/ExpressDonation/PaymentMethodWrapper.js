@@ -1,12 +1,6 @@
-// @flow
-
 import React from 'react';
-import type { Element } from 'react';
 
-type OwnProps = {
-  children?: any,
-};
-export default function PaymentMethodWrapper(props: OwnProps) {
+export default function PaymentMethodWrapper(props) {
   return (
     <div className="PaymentMethodWrapper">
       <i className="PaymentMethodWrapper__icon fa fa-credit-card" />

@@ -1,31 +1,13 @@
-// @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import Select from 'react-select';
-import type { SelectOption } from 'react-select';
 import 'react-select/dist/react-select.css';
 import './SweetSelect.scss';
 
 // TODO: deduplicate this (also seen in SweetInput)
-export type ValidationState = 'success' | 'warning' | 'error' | null;
 
-type Props = {
-  name: string,
-  value?: string | number,
-  onChange: (value: any) => void,
-  options: SelectOption[],
-  label?: any,
-  clearable?: boolean,
-  disabled?: boolean,
-  multiple?: boolean,
-  errorMessage?: any,
-  validationState?: ValidationState,
-  className?: string,
-};
-
-type State = { filled: boolean, focused: boolean };
-export default class SweetSelect extends Component<Props, State> {
-  constructor(props: Props) {
+export default class SweetSelect extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       filled: false,
@@ -33,7 +15,7 @@ export default class SweetSelect extends Component<Props, State> {
     };
   }
 
-  onChange(item: Object) {
+  onChange(item) {
     if (this.props.onChange) {
       const value = item ? item.value : '';
       this.props.onChange(value);
@@ -52,7 +34,7 @@ export default class SweetSelect extends Component<Props, State> {
     if (!this.refs.select) return;
     this.refs.select.focus();
   }
-  toggleFocus(focused: boolean) {
+  toggleFocus(focused) {
     if (focused) this.refs.select.focus();
     this.setState({ focused });
   }

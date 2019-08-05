@@ -1,22 +1,9 @@
-// @flow weak
+//  weak
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
-type Props = {
-  name: string,
-  label: any,
-  value: string,
-  type?: string,
-  required?: boolean,
-  errorMessage?: any,
-  hasError?: boolean,
-  onChange?: (value: string) => void,
-  className?: string,
-};
-type State = { focused: boolean };
-
-export default class SweetInput extends Component<Props, State> {
-  constructor(props: Props) {
+export default class SweetInput extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       focused: false,
@@ -36,7 +23,7 @@ export default class SweetInput extends Component<Props, State> {
     return this.props.hasError || !!this.props.errorMessage;
   }
 
-  onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+  onChange = e => {
     if (this.props.onChange) {
       this.props.onChange(e.currentTarget.value);
     }
@@ -61,12 +48,6 @@ export default class SweetInput extends Component<Props, State> {
     const inputClassName = classnames('sweet-placeholder__field', {
       'has-error': this.hasError(),
     });
-
-    if (process.env.NODE_ENV === 'development' && this.props.errorMessage) {
-      console.warn(
-        "SweetInput's `errorMessage` prop will be deprecated. Please use `hasError` (boolean)."
-      );
-    }
 
     return (
       <div className={className}>

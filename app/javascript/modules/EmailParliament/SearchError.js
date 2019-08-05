@@ -1,12 +1,7 @@
-// @flow
 import React from 'react';
 import './SearchError.css';
 
-type Props = {
-  error: boolean,
-};
-
-export default ({ error }: Props) => {
+export default ({ error }) => {
   if (!error) return null;
   return (
     <div className="SearchError has-error">

@@ -1,25 +1,11 @@
-// @flow
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { isEmpty, min } from 'lodash';
 import CurrencyAmount from './CurrencyAmount';
-import type { AppState } from '../state/reducers';
 import './Thermometer.scss';
 
-export type Props =
-  | {}
-  | {
-      active: boolean,
-      currency: string,
-      donations: number,
-      goal: number,
-      offset: number,
-      remaining: number,
-      title: ?string,
-    };
-
-export function Thermometer(props: Props) {
+export function Thermometer(props) {
   // Only render if active
   if (isEmpty(props) || !props.active) return null;
 
@@ -66,7 +52,7 @@ export function Thermometer(props: Props) {
   );
 }
 
-const mapStateToProps = (state: AppState): Props => {
+const mapStateToProps = state => {
   const data = state.donationsThermometer;
   const currency = state.fundraiser.currency;
   if (isEmpty(data)) return {};

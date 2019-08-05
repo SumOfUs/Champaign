@@ -1,19 +1,19 @@
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+!.env.template
 !/log/.keep
 .#*
+.ackrc
 .byebug_history
 .DS_Store
 .elasticbeanstalk/*
 .env
 .env.*
-!.env.template
 .idea/*
 .ruby-gemset
 .ruby-version
 .vscode/*
 .yarn-integrity
-.ackrc
 /.bundle
 /log/*
 /node_modules
@@ -40,3 +40,4 @@ yarn-debug.log*
 yarn-error.log
 yarn-error.log*
 zeus.json
+public/assets

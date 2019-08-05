@@ -1,29 +1,4 @@
-// @flow
-import type { InitialAction } from '../reducers';
 import { camelCase, pick, isEmpty, mapKeys } from 'lodash';
-
-export type Member = {
-  id: number,
-  email: string,
-  country?: string,
-  consented: boolean,
-  consentedUpdatedAt: boolean,
-  name?: string,
-  firstName?: string,
-  lastName?: string,
-  fullName?: string,
-  welcomeName?: string,
-  postal?: string,
-  donorStatus: 'donor' | 'non_donor' | 'recurring_donor',
-  registered: boolean,
-  actionKitUserId?: string,
-} | null;
-
-export type MemberAction =
-  | InitialAction
-  | { type: 'reset_member' }
-  | { type: 'update_member', payload: Member }
-  | { type: 'set_member', payload: Member };
 
 const initialState = null;
 const acceptedProps = [
@@ -41,9 +16,10 @@ const acceptedProps = [
   'donorStatus',
   'registered',
   'actionKitUserId',
+  'more',
 ];
 
-export default (state: Member = initialState, action: MemberAction): Member => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case '@@chmp:initialize':
       const { member } = action.payload.personalization;
@@ -53,6 +29,8 @@ export default (state: Member = initialState, action: MemberAction): Member => {
         initialState
       );
     case 'reset_member':
+      // also reset global object:
+      window.champaign.personalization.member = {};
       return initialState;
     case 'set_member':
       return { ...state, ...action.payload };
@@ -63,10 +41,10 @@ export default (state: Member = initialState, action: MemberAction): Member => {
   }
 };
 
-export function resetMember(): MemberAction {
+export function resetMember() {
   return { type: 'reset_member' };
 }
 
-export function setMember(payload: Member): MemberAction {
+export function setMember(payload) {
   return { type: 'set_member', payload };
 }

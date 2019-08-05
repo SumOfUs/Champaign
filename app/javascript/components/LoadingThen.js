@@ -1,11 +1,10 @@
-// @flow
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-export default (props: {loading: boolean, children: any}) => {
+export default props => {
   if (props.loading) {
     return <FormattedMessage id="loading" defaultMessage="Loading..." />;
   }
 
-  return <span>{ props.children }</span>;
+  return <span>{props.children}</span>;
 };

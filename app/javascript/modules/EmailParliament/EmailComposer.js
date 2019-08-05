@@ -1,5 +1,3 @@
-// @flow
-// $FlowIgnore
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { pick } from 'lodash';
@@ -10,20 +8,9 @@ import ErrorMessages from '../../components/ErrorMessages';
 import Editor from '../../components/EmailEditor/EmailEditor';
 import Representative from './Representative';
 import { sendEmail } from './api';
-import type { Target } from './index';
 import './EmailComposer.css';
 
-type Props = {
-  postcode: string,
-  title: string,
-  subject: string,
-  template: string,
-  target?: Target,
-  body?: string,
-  onSend: (data: any) => void,
-};
-
-export default (props: Props) => {
+export default props => {
   const member = window.champaign.personalization.member;
   const [name, setName] = useState(member.name || '');
   const [email, setEmail] = useState(member.email || '');
@@ -135,7 +122,7 @@ export default (props: Props) => {
 
 import { compact, debounce, template, isEqual } from 'lodash';
 
-function templateInterpolate(tpl: string, values: any) {
+function templateInterpolate(tpl, values) {
   const options = {
     interpolate: /{{([\s\S]+?)}}/g,
   };

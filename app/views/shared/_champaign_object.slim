@@ -1,8 +1,5 @@
 javascript:
   window.champaign = {
     page: #{page_object(@page).to_json.html_safe},
-    countries: #{countries.to_json.html_safe},
-    config: {
-      plugins: #{Plugins.data_for_view(@page)[:plugins].to_json.html_safe},
-    }
+    plugins: #{plugins_config(@page).to_json.html_safe},
   };

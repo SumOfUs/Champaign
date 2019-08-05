@@ -1,4 +1,3 @@
-// @flow
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -10,9 +9,6 @@ import PaymentMethodWrapper from './PaymentMethodWrapper';
 import PaymentMethodItem from './PaymentMethod';
 import { setRecurring } from '../../state/fundraiser/actions';
 
-import type { Dispatch } from 'redux';
-import type { AppState, PaymentMethod, Fundraiser } from '../../state';
-import type { ChampaignPage } from '../../types';
 import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
 
@@ -23,30 +19,8 @@ const style = {
   padding: 30,
 };
 
-type Props = {
-  hidden: boolean,
-  onHide: () => void,
-  setSubmitting: boolean => void,
-  paymentMethods: PaymentMethod[],
-  fundraiser: Fundraiser,
-  page: ChampaignPage,
-  formData: {
-    storeInVault: boolean,
-    member: any,
-  },
-  setRecurring: boolean => void,
-};
-
-type State = {
-  currentPaymentMethod: ?PaymentMethod,
-  submitting: boolean,
-  openPopup: boolean,
-  optForRedonation: boolean,
-  failureReason: string,
-};
-
-export class ExpressDonation extends Component<Props, State> {
-  constructor(props: Props) {
+export class ExpressDonation extends Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -81,12 +55,12 @@ export class ExpressDonation extends Component<Props, State> {
     };
   }
 
-  async onSuccess(data: any): any {
+  async onSuccess(data) {
     ee.emit('fundraiser:transaction_success', data, this.props.formData);
     return data;
   }
 
-  async onFailure(reason: any): any {
+  async onFailure(reason) {
     this.setState({
       submitting: false,
       openPopup: reason.responseJSON
@@ -122,11 +96,11 @@ export class ExpressDonation extends Component<Props, State> {
     }
   }
 
-  selectPaymentMethod(paymentMethod: PaymentMethod) {
+  selectPaymentMethod(paymentMethod) {
     this.setState({ currentPaymentMethod: paymentMethod });
   }
 
-  renderPaymentMethodRadio(paymentMethod: PaymentMethod) {
+  renderPaymentMethodRadio(paymentMethod) {
     return (
       <div className="ExpressDonation__payment-method-radio">
         <input
@@ -258,7 +232,7 @@ export class ExpressDonation extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = state => ({
   paymentMethods: state.paymentMethods,
   fundraiser: state.fundraiser,
   page: state.page,
@@ -271,8 +245,8 @@ const mapStateToProps = (state: AppState) => ({
   },
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  setRecurring: (value: boolean) => dispatch(setRecurring(value)),
+const mapDispatchToProps = dispatch => ({
+  setRecurring: value => dispatch(setRecurring(value)),
 });
 
 export default connect(

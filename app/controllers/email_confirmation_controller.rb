@@ -2,7 +2,7 @@
 
 class EmailConfirmationController < ApplicationController
   before_action :find_member
-  before_action :find_payment_methods
+  before_action :set_payment_methods
 
   def verify
     begin
@@ -21,10 +21,11 @@ class EmailConfirmationController < ApplicationController
   def find_member
     raise ActiveRecord::RecordNotFound if params[:email].blank?
 
-    @member = Member.find_by_email!(params[:email])
+    Member.find_by_email!(params[:email])
+    @member = nil
   end
 
-  def find_payment_methods
-    @payment_methods = payment_methods
+  def set_payment_methods
+    @payment_methods = []
   end
 end

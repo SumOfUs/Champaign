@@ -3,9 +3,7 @@
 //   format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
 // The name field is for if the form element names are prefixed, eg 'link[title]'
 
-import ErrorDisplay from './show_errors';
-
-export default {
+const ErrorDisplay = {
   show(e, data) {
     if (
       !e ||
@@ -34,7 +32,10 @@ export default {
 
   showError(field_name, msgs, $form, response) {
     let $field = ErrorDisplay.findField(field_name, $form, response);
-    $field.addClass('has-error').parent().addClass('has-error');
+    $field
+      .addClass('has-error')
+      .parent()
+      .addClass('has-error');
     $field.parent().append(ErrorDisplay.errorMsg(field_name, msgs));
     $field.on('change', e => {
       ErrorDisplay.hideError(e);
@@ -48,9 +49,16 @@ export default {
   },
 
   hideError(e) {
-    $(e.target).removeClass('has-error').parent().removeClass('has-error');
-    $(e.target).siblings('.error-msg').remove();
-    $(e.target).parent('.error-msg').remove();
+    $(e.target)
+      .removeClass('has-error')
+      .parent()
+      .removeClass('has-error');
+    $(e.target)
+      .siblings('.error-msg')
+      .remove();
+    $(e.target)
+      .parent('.error-msg')
+      .remove();
   },
 
   findField(field_name, $form, response) {
@@ -69,3 +77,5 @@ export default {
     return $field;
   },
 };
+
+export default ErrorDisplay;

@@ -1,31 +1,23 @@
-// @flow
-// $FlowIgnore
 import React, { useState } from 'react';
+import { render } from 'react-dom';
 import classnames from 'classnames';
 import { search } from './api';
 import SearchByPostcode from './SearchByPostcode';
 import EmailComposer from './EmailComposer';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { redirect } from '../../util/redirector';
-import type { EmailPluginConfig } from '../../async/interfaces';
 
-export type Target = {
-  displayAs: string,
-  email: string,
-  gender: string,
-  id: string,
-  listAs: string,
-  name: string,
-  party: string,
-  picture: string,
+export const init = options => {
+  if (!options.config || !options.config.active) return;
+  if (options.el) {
+    render(
+      <EmailParliament config={options.config} onSend={options.onSend} />,
+      options.el
+    );
+  }
 };
 
-type Props = {
-  config: EmailPluginConfig,
-  onSend: void | ((data: any) => void),
-};
-
-const EmailParliament = (props: Props) => {
+const EmailParliament = props => {
   const [target, setTarget] = useState(null);
   const searchClassname = classnames({
     'hidden-irrelevant': target !== null,

@@ -1,50 +1,17 @@
-// @flow
 import React, { Component } from 'react';
 import { map, pick } from 'lodash';
 import SweetInput from '../SweetInput/SweetInput';
 import SelectCountry from '../SelectCountry/SelectCountry';
 import SweetSelect from '../SweetSelect/SweetSelect';
 import Checkbox from '../Checkbox/Checkbox';
-import type { Element } from 'react';
-import type { FormattedMessage } from 'react-intl';
-import type { SelectOption } from 'react-select';
 
-export type Choice = SelectOption & { id?: string };
-
-export type Field = {
-  data_type: string,
-  name: string,
-  label: mixed,
-  default_value: string | null,
-  required?: boolean,
-  disabled?: boolean,
-  choices?: Choice[],
-};
-
-type FieldProps = {
-  name: string,
-  label: any,
-  disabled?: boolean,
-  required?: boolean,
-  value?: any,
-  errorMessage?: React$Element<*>,
-  onChange?: (v: string) => void,
-};
-
-type Props = {
-  field: Field,
-  value?: any,
-  errorMessage?: any,
-  onChange?: (v: string) => void,
-  className?: string,
-};
-export default class FieldShape extends Component<Props> {
-  checkboxToggle(event: SyntheticEvent<HTMLInputElement>) {
+export default class FieldShape extends Component {
+  checkboxToggle(event) {
     const checked = event.currentTarget.checked;
     this.props.onChange && this.props.onChange(checked ? '1' : '0');
   }
 
-  fieldProps(): FieldProps {
+  fieldProps() {
     const { field, value } = this.props;
     return {
       name: field.name,
@@ -57,19 +24,19 @@ export default class FieldShape extends Component<Props> {
     };
   }
 
-  errorMessage(fieldProps: FieldProps) {
+  errorMessage(fieldProps) {
     if (fieldProps.errorMessage)
       return <span className="error-msg">{fieldProps.errorMessage}</span>;
   }
 
-  renderParagraph(fieldProps: FieldProps) {
+  renderParagraph(fieldProps) {
     return (
       <div>
         <textarea
           name={fieldProps.name}
           value={fieldProps.value}
           placeholder={fieldProps.label}
-          onChange={(e: SyntheticEvent<HTMLTextAreaElement>) =>
+          onChange={e =>
             fieldProps.onChange && fieldProps.onChange(e.currentTarget.value)
           }
           className={fieldProps.errorMessage ? 'has-error' : ''}
@@ -80,7 +47,7 @@ export default class FieldShape extends Component<Props> {
     );
   }
 
-  renderCheckbox(fieldProps: FieldProps) {
+  renderCheckbox(fieldProps) {
     fieldProps.value = (fieldProps.value || '0').toString();
     const checked =
       fieldProps.value === '1' ||
@@ -96,7 +63,7 @@ export default class FieldShape extends Component<Props> {
     );
   }
 
-  renderChoice(fieldProps: FieldProps) {
+  renderChoice(fieldProps) {
     const { field } = this.props;
     return (
       <div className="radio-container">
@@ -110,7 +77,7 @@ export default class FieldShape extends Component<Props> {
                 type="radio"
                 value={choice.value}
                 checked={choice.value === fieldProps.value}
-                onChange={(event: SyntheticEvent<HTMLInputElement>) =>
+                onChange={event =>
                   this.props.onChange &&
                   this.props.onChange(event.currentTarget.value)
                 }
@@ -123,7 +90,7 @@ export default class FieldShape extends Component<Props> {
     );
   }
 
-  renderField(type: string): Element<any> {
+  renderField(type) {
     const fieldProps = this.fieldProps();
     const {
       field: { default_value, name, choices },

@@ -1,33 +1,11 @@
-// @flow
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
 import hostedFields from 'braintree-web/hosted-fields';
-import type { Client } from 'braintree-web';
-import type {
-  HostedFields,
-  HostedFieldsTokenizePayload,
-} from 'braintree-web/hosted-fields';
-import type { IntlShape } from 'react-intl';
 import './Braintree.scss';
 
-type Props = {
-  client: ?Client,
-  isActive: boolean,
-  recurring: boolean,
-  intl: IntlShape,
-  onInit?: () => void,
-  onSuccess?: (data: any) => void,
-  onFailure?: (data: any) => void,
-};
-
-type State = {
-  hostedFields: ?HostedFields,
-  cardType?: string,
-  errors: { [key: string]: boolean },
-};
-class BraintreeCardFields extends Component<Props, State> {
-  constructor(props: Props) {
+class BraintreeCardFields extends Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -46,7 +24,7 @@ class BraintreeCardFields extends Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(newProps: Props) {
+  componentWillReceiveProps(newProps) {
     if (newProps.client !== this.props.client && newProps.client) {
       this.createHostedFields(newProps.client);
     }
@@ -58,7 +36,7 @@ class BraintreeCardFields extends Component<Props, State> {
     }
   }
 
-  createHostedFields(client: Client) {
+  createHostedFields(client) {
     const formatMessage = this.props.intl.formatMessage;
     hostedFields.create(
       {
@@ -131,7 +109,7 @@ class BraintreeCardFields extends Component<Props, State> {
     );
   }
 
-  submit(event: SyntheticEvent<HTMLFormElement>) {
+  submit(event) {
     if (event) event.preventDefault();
     this.resetErrors();
 
@@ -142,7 +120,7 @@ class BraintreeCardFields extends Component<Props, State> {
         {
           vault: this.props.recurring,
         },
-        (error: ?BraintreeError, data: HostedFieldsTokenizePayload) => {
+        (error, data) => {
           if (error) {
             this.processTokenizeErrors(error);
             return reject(error);
@@ -172,7 +150,7 @@ class BraintreeCardFields extends Component<Props, State> {
     }
   }
 
-  currentCardClass(cardType?: string = 'hidden-irrelevant') {
+  currentCardClass(cardType = 'hidden-irrelevant') {
     const icons = {
       'diners-club': 'fa-cc-diners-club',
       jcb: 'fa-cc-jcb',
@@ -237,7 +215,7 @@ class BraintreeCardFields extends Component<Props, State> {
     );
   }
 
-  renderError(field: string, className = '') {
+  renderError(field, className = '') {
     return (
       <div className={`BraintreeCardFields__error-msg error-msg ${className}`}>
         <FormattedMessage
