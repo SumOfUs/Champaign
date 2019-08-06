@@ -23,13 +23,13 @@ class PensionFund < ApplicationRecord
 
   validates :country_code, presence: true
 
-  validates :email,        format: {
+  validates :email, format: {
     with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i,
     allow_blank: true
   }
 
-  validates :fund,         presence: true
-  validates :name,         presence: true
+  validates :fund, presence: true
+  validates :name, presence: true
 
   scope :sorted,               -> { order('country_code, created_at') }
   scope :sorted_by_created_at, -> { order('created_at') }
@@ -52,9 +52,15 @@ class PensionFund < ApplicationRecord
     arel
   end
 
+  def self.filter_by_country_code(country_code)
+    PensionFund.select('uuid, fund, name, email, country_code').where(country_code: country_code.to_s.strip)
+  end
+
   private
 
   def set_uuid
+    return uuid if uuid.present?
+
     self.uuid = SecureRandom.uuid.delete('-')
   end
 end

@@ -430,8 +430,15 @@ en:
       notice: "Pension fund has been created."
     update:
       notice: "Pension fund has been updated."
+    upload:
+      notice: "Pension fund has been imported successfully."
+      error: "Error occurred while importing Pension Funds"
     new:
       title: "Create new pension fund"
+    upload:
+      title: "Upload pension fund"
+      error_message: 'Error Message'
+      notice: 'Pension funds data imported successfully'
     index:
       title: "Pension Funds"
       new: "Create new pension fund"

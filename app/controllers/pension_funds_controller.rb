@@ -20,6 +20,30 @@ class PensionFundsController < ApplicationController
     end
   end
 
+  def export
+    if params[:country_code].present?
+      data = PensionFund.filter_by_country_code(params['country_code']).to_json(except: 'id')
+      send_data data, type: 'application/json; header=present',
+                      disposition: "attachment; filename=pension-funds-#{params[:country_code]}.json"
+    else
+      redirect_to pension_funds_url
+    end
+  end
+
+  def upload
+    @pension_funds = []
+    render('upload') && return unless request.post?
+
+    uploaded_file = params[:json_file]
+    @json_importer = PensionFundsJsonImporter.new(uploaded_file, params[:country_code])
+
+    if @json_importer.import
+      redirect_to pension_funds_url, notice: t('pension_funds.upload.notice')
+    else
+      render :upload
+    end
+  end
+
   def edit
     # Intentionally left blank.
   end

@@ -5,13 +5,17 @@
   = form_with url: pension_funds_path, method: 'get' do |form|
     .row
       .col-md-3
-        = form.select :country_code, options_for_select(sorted_countries_list, params[:country_code]), {include_blank: 'All Countries'}, class: 'form-control'
+        = form.select :country_code, options_for_select(sorted_countries_list, params[:country_code]), {include_blank: 'All Countries'}, class: 'form-control', id: 'pf-country-code'
       .col-md-5
         = form.text_field :search_text, {value: params[:search_text], class: 'form-control', placeholder: 'Enter name or email or fund'}
-      .col-md-2
+      .col-md-1
         = form.submit 'Search', class: 'btn btn-primary'
+      .col-md-1
+        = link_to 'Import', upload_pension_funds_path, class: 'btn btn-info'
+      .col-md-1
+        = link_to 'Export', '#', class: 'btn btn-info pf-export-btn'
     br
-  .row
+    .row
     .col-md-12
 
       table.table-bordered.table-striped.table
