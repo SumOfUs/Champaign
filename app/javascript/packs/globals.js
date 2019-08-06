@@ -1,5 +1,3 @@
-require('selectize/dist/js/standalone/selectize.js');
-require('jquery-sticky');
 import _ from 'lodash';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -9,6 +7,7 @@ import 'intl/locale-data/jsonp/de.js';
 import 'intl/locale-data/jsonp/fr.js';
 import ee from '../shared/pub_sub';
 import flatten from 'flat';
+require('jquery-sticky');
 require('selectize/dist/css/selectize.css');
 
 window._ = _;

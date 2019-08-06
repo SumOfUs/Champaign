@@ -10,18 +10,20 @@ import Notification from './backbone/notification';
 import SweetPlaceholder from './backbone/sweet_placeholder';
 import CampaignerOverlay from './backbone/campaigner_overlay';
 
-export const setup = champaign => {
-  Object.assign(champaign, {
-    ActionForm,
-    CampaignerOverlay,
-    DoubleOptIn,
-    Notification,
-    OverlayToggle,
-    Petition,
-    PetitionAndScrollToConsent,
-    Sidebar,
-    Survey,
-    SweetPlaceholder,
-    Thermometer,
-  });
-};
+import './registration';
+import './track_shares';
+import './champaign';
+
+Object.assign(window.champaign, {
+  ActionForm,
+  CampaignerOverlay,
+  DoubleOptIn,
+  Notification,
+  OverlayToggle,
+  Petition,
+  PetitionAndScrollToConsent,
+  Sidebar,
+  Survey,
+  SweetPlaceholder,
+  Thermometer,
+});
