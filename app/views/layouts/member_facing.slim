@@ -18,8 +18,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_include_tag 'https://code.jquery.com/jquery-2.2.4.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
-    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/microplugin/0.0.3/microplugin.min.js'
-    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/selectize.min.js'
+    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js'
 
     = javascript_packs_with_chunks_tag "sentry"
 
@@ -38,7 +37,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     .mobile-indicator
 
-    = render partial: "shared/facebook_pixel" if Rails.env.production?
+    = render partial: "shared/facebook_pixel" unless Rails.env.testing?
 
     = javascript_packs_with_chunks_tag "globals", "member_facing", "plugins"
 
