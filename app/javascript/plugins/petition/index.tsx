@@ -20,7 +20,7 @@ import './petition.css';
 
 export const init = (options: any) => {
   if (!options.el) {
-    throw new Error('Petition plugin DOM element not found');
+    return;
   }
 
   return new Petition({
