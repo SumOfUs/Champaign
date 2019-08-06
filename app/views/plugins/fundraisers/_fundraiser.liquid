@@ -14,7 +14,6 @@
     $(function() {
       var global = window.champaign.personalization;
       var data = {
-        el: 'fundraiser-component',
         paymentMethods: global.paymentMethods,
         member: global.member,
         locale: '{{locale}}',
@@ -44,8 +43,7 @@
       {% endunless %}
       }, 100);
 
-      // mountFundraiser('fundraiser-component', data);
-      window.champaign.plugins.fundraiser['{{ref}}'].config = data;
+      Object.assign(window.champaign.plugins.fundraiser['{{ref}}'].config, data);
     });
 
     var fundraiserEvents = {
