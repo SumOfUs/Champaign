@@ -2,9 +2,11 @@ doctype html
 html lang="#{@page.language.try(:code).try(:downcase)}"
   head
     title  = @page.title
+    meta http-equiv="X-UA-Compatible" content="IE=edge;"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     meta name="description" content="#{page_description(@page)}"
     link rel="canonical" href="#{page_canonical_url(@page)}"
+
 
     - if Settings.facebook_app_id.present?
       meta property="fb:app_id" content="#{Settings.facebook_app_id}"
@@ -13,24 +15,22 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = favicon_link_tag "images/org-favicon.ico"
     = metamagic
 
-    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'
+    = javascript_include_tag 'https://code.jquery.com/jquery-2.2.4.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/microplugin/0.0.3/microplugin.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/selectize.min.js'
 
     = javascript_packs_with_chunks_tag "sentry"
-    = stylesheet_packs_with_chunks_tag "globals", "member_facing"
 
-    = render partial: "shared/browser_polyfills"
     = render partial: "layouts/mixpanel" if Settings.mixpanel_token
     = render partial: "shared/js_locale"
     = render partial: "shared/champaign_object"
     = render "pages/personalization", data: @data
     = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
 
-    / = stylesheet_pack_tag "globals"
     = stylesheet_link_tag "member-facing"
+    = stylesheet_packs_with_chunks_tag "globals", "plugins"
   body
     = render partial: "layouts/double_opt_in_notification"
     = render partial: "layouts/notification"
@@ -38,11 +38,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     .mobile-indicator
 
-    = render partial: "shared/facebook_pixel" unless Rails.env.test?
+    = render partial: "shared/facebook_pixel" if Rails.env.production?
 
-    = javascript_packs_with_chunks_tag "globals", "member_facing"
-    = javascript_packs_with_chunks_tag "plugins"
-    = stylesheet_packs_with_chunks_tag "member_facing", "plugins"
+    = javascript_packs_with_chunks_tag "globals", "member_facing", "plugins"
 
     = yield
 
