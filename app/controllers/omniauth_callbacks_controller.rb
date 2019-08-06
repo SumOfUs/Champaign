@@ -8,7 +8,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     sign_in_and_redirect @user, event: :authentication
   rescue Champaign::NotWhitelisted
     redirect_to new_user_session_path, flash: { error: t('oauth.not_authorised') }
-
+  rescue StandardError => e
+    Rails.logger.info(e.message)
     # TODO: Handle registration, when new user is authenticating.
     # session["devise.google_data"] = request.env["omniauth.auth"]
     # redirect_to new_user_registration_url
