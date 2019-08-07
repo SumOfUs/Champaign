@@ -29,7 +29,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
 
     = stylesheet_link_tag "member-facing"
-    = stylesheet_packs_with_chunks_tag "globals", "plugins"
+    = stylesheet_packs_with_chunks_tag "globals", "member_facing", "plugins"
   body
     = render partial: "layouts/double_opt_in_notification"
     = render partial: "layouts/notification"

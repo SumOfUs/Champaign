@@ -9,7 +9,7 @@ import { camelizeKeys } from '../../util/util';
 import Plugin from '../plugin';
 import EmailToolView from './EmailToolView';
 
-interface IEmailPensionOptions {
+interface IEmailToolOptions {
   el: HTMLElement;
   namespace: string;
   config: any; // todo
@@ -20,8 +20,14 @@ export const init = options => {
     options.el = document.getElementById('email-tool-component');
   }
   const { el, store } = options;
-  const member = window.champaign.personalization.member;
-  const memberData = pick(member, 'name', 'email', 'country', 'postal');
+  const personalization = window.champaign.personalization;
+  const memberData = pick(
+    personalization.member,
+    'name',
+    'email',
+    'country',
+    'postal'
+  );
   const trackingParams = pick(
     window.champaign.personalization.urlParams,
     'source',
@@ -34,8 +40,9 @@ export const init = options => {
     ...options.config,
     ...memberData,
     ...trackingParams,
+    country: memberData.country || personalization.location.country,
     onSuccess(target) {
-      window.location.href = URI('{{ follow_up_url }}')
+      window.location.href = URI(`${window.location.pathname}/follow-up`)
         .addSearch({
           'target[name]': target.name,
           'target[title]': target.title,
@@ -44,20 +51,20 @@ export const init = options => {
     },
   };
 
-  return new EmailPension({
+  return new EmailTool({
     config,
     el,
-    namespace: 'emailpension',
+    namespace: 'emailtool',
     store,
   });
 };
 
-class EmailPension extends Plugin<any> {
+class EmailTool extends Plugin<any> {
   public store: Store<IAppState>;
-  public customRenderer: (instance: EmailPension) => any | undefined;
+  public customRenderer: (instance: EmailTool) => any | undefined;
   public wrappedReactComponent?: React.Component;
 
-  constructor(options: IEmailPensionOptions) {
+  constructor(options: IEmailToolOptions) {
     super(options);
     this.render();
   }

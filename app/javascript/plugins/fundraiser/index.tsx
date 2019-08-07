@@ -13,16 +13,9 @@ import {
 } from '../../state/fundraiser/actions';
 import { IAppState } from '../../types';
 import { IFundraiserPluginConfig } from '../../window';
-import Plugin from '../plugin';
+import Plugin, { IPluginOptions } from '../plugin';
 import FundraiserView from './FundraiserView';
 import { configureStore, fundraiserData } from './utils';
-
-interface IFundraiserOptions {
-  el: HTMLElement;
-  namespace: string;
-  config: IFundraiserPluginConfig;
-  store: Store<IAppState>;
-}
 
 export function init(options: any) {
   if (!options.el) {
@@ -32,10 +25,8 @@ export function init(options: any) {
   configureStore(fundraiserData(options.config), options.store.dispatch);
 
   return new Fundraiser({
-    el: options.el,
+    ...options,
     namespace: 'fundraiser',
-    config: options.config,
-    store: options.store,
   });
 }
 
@@ -43,7 +34,7 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
   public store: Store<IAppState>;
   public customRenderer: (instance: Fundraiser) => any | undefined;
 
-  constructor(options: IFundraiserOptions) {
+  constructor(options: IPluginOptions<IFundraiserPluginConfig>) {
     super(options);
     this.render();
   }
@@ -109,9 +100,20 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
   // or perhaps in a braintree service, but not in the react component.
   // The <Payment/> react component has become quite complex and practically
   // unmaintainable
-  public makePayment() {
-    this.events.emit('fundraiser:actions:make_payment');
-    return this;
+  public makePayment(callback: (data: any, formData: any) => void) {
+    return new Promise((resolve, reject) => {
+      this.events.once('fundraiser:transaction_success', resolve);
+      this.events.once('fundraiser:transaction_error', reject);
+      this.events.emit('fundraiser:actions:make_payment');
+    });
+  }
+
+  public configureHostedFields(config: any) {
+    return new Promise((resolve, reject) => {
+      this.events.once('fundraiser:configure:hosted_fields:success', resolve);
+      this.events.once('fundraiser:configure:hosted_fields:error', reject);
+      this.events.emit('fundraiser:configure:hosted_fields', config);
+    });
   }
 
   get recurring() {

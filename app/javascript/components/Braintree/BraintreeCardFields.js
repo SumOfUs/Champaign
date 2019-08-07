@@ -3,11 +3,11 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
 import hostedFields from 'braintree-web/hosted-fields';
 import './Braintree.scss';
+import ee from '../../shared/pub_sub';
 
 class BraintreeCardFields extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       hostedFields: null,
       errors: {
@@ -15,13 +15,66 @@ class BraintreeCardFields extends Component {
         expirationDate: false,
         cvv: false,
       },
+      styles: {
+        input: {
+          color: '#333',
+          'font-size': '16px',
+        },
+        ':focus': { color: '#333' },
+        '.valid': { color: '#333' },
+      },
+      fields: {
+        number: Object.freeze({
+          selector: '#braintree-card-number',
+          placeholder: this.props.intl.formatMessage({
+            id: 'fundraiser.fields.number',
+            defaultMessage: 'Card number',
+          }),
+        }),
+        cvv: Object.freeze({
+          selector: '#braintree-cvv',
+          placeholder: this.props.intl.formatMessage({
+            id: 'fundraiser.fields.cvv',
+            defaultMessage: 'CVV',
+          }),
+        }),
+        expirationDate: Object.freeze({
+          selector: '#braintree-expiration-date',
+          placeholder: this.props.intl.formatMessage({
+            id: 'fundraiser.fields.expiration_format',
+            defaultMessage: 'MM/YY',
+          }),
+        }),
+      },
     };
   }
+
+  bindGlobalEvents() {
+    ee.on('fundraiser:configure:hosted_fields', this.configureHostedFields);
+  }
+
+  configureHostedFields = (config = {}) => {
+    this.setState(
+      {
+        styles: config.styles || this.state.styles,
+        fields: config.fields || this.state.fields,
+      },
+      () => {
+        console.log(this.state.fields);
+        if (this.state.hostedFields) {
+          this.teardown();
+        } else {
+          this.createHostedFields(this.props.client);
+        }
+      }
+    );
+  };
 
   componentDidMount() {
     if (this.props.client) {
       this.createHostedFields(this.props.client);
     }
+    this.bindGlobalEvents();
   }
 
   componentWillReceiveProps(newProps) {
@@ -41,40 +94,21 @@ class BraintreeCardFields extends Component {
     hostedFields.create(
       {
         client,
-        styles: {
-          input: {
-            color: '#333',
-            'font-size': '16px',
-          },
-          ':focus': { color: '#333' },
-          '.valid': { color: '#333' },
-        },
-        fields: {
-          number: Object.freeze({
-            selector: '#braintree-card-number',
-            placeholder: formatMessage({
-              id: 'fundraiser.fields.number',
-              defaultMessage: 'Card number',
-            }),
-          }),
-          cvv: Object.freeze({
-            selector: '#braintree-cvv',
-            placeholder: formatMessage({
-              id: 'fundraiser.fields.cvv',
-              defaultMessage: 'CVV',
-            }),
-          }),
-          expirationDate: Object.freeze({
-            selector: '#braintree-expiration-date',
-            placeholder: formatMessage({
-              id: 'fundraiser.fields.expiration_format',
-              defaultMessage: 'MM/YY',
-            }),
-          }),
-        },
+        styles: this.state.styles,
+        fields: this.state.fields,
       },
       (err, hostedFieldsInstance) => {
-        if (err && window.Raven) return window.Raven.captureException(err);
+        if (err) {
+          if (window.Sentry) {
+            window.Sentry.captureException(err);
+          }
+          ee.emit('fundraiser:configure:hosted_fields:error', err);
+          return;
+        }
+        ee.emit(
+          'fundraiser:configure:hosted_fields:success',
+          hostedFieldsInstance
+        );
 
         this.setState({ hostedFields: hostedFieldsInstance }, () => {
           if (this.props.onInit) {
