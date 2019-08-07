@@ -315,7 +315,7 @@ export class Payment extends Component {
     return this.state.expressHidden || this.props.disableSavedPayments;
   }
 
-  getFirstName(member, formValues) {
+  getMemberName(member, formValues) {
     if (member) {
       return `${member.fullName}:`;
     } else if (formValues && formValues.member) {
@@ -440,7 +440,7 @@ export class Payment extends Component {
             <FormattedMessage
               id={'fundraiser.make_monthly_donation'}
               defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
-              values={{ name: this.getFirstName(member, formData) }}
+              values={{ name: this.getMemberName(member, formData) }}
             />
           </div>
 

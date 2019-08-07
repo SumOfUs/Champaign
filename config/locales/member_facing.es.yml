@@ -122,8 +122,11 @@ es:
     thermometer:
       raised: Recaudado
       goal: Objetivo
-    make_monthly_donation: "%{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet."
-    continue_with_one_donation: "Or, continue with a one-off donation:"
+    make_monthly_donation: "%{name} una donación mensual respaldará nuestro movimiento para planificar con anticipación, de modo que podamos enfrentar de manera más efectiva a las corporaciones más grandes que amenazan a las personas y al planeta."
+    complete_donation: "Complete su donación de %{amount}"
+    donate_amount: "Done %{amount}:"
+    donate_once: "sólo una vez"
+    donate_every_month: "cada mes"
   petition:
     sign_it: Firma la petición
     target_prefix: PARA
