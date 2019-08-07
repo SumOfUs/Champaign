@@ -9,7 +9,7 @@ import { camelizeKeys } from '../../util/util';
 import Plugin from '../plugin';
 import EmailToolView from './EmailToolView';
 
-interface IEmailPensionOptions {
+interface IEmailToolOptions {
   el: HTMLElement;
   namespace: string;
   config: any; // todo
@@ -35,7 +35,7 @@ export const init = options => {
     ...memberData,
     ...trackingParams,
     onSuccess(target) {
-      window.location.href = URI('{{ follow_up_url }}')
+      window.location.href = URI(`${window.location.pathname}/follow-up`)
         .addSearch({
           'target[name]': target.name,
           'target[title]': target.title,
@@ -44,20 +44,20 @@ export const init = options => {
     },
   };
 
-  return new EmailPension({
+  return new EmailTool({
     config,
     el,
-    namespace: 'emailpension',
+    namespace: 'emailtool',
     store,
   });
 };
 
-class EmailPension extends Plugin<any> {
+class EmailTool extends Plugin<any> {
   public store: Store<IAppState>;
-  public customRenderer: (instance: EmailPension) => any | undefined;
+  public customRenderer: (instance: EmailTool) => any | undefined;
   public wrappedReactComponent?: React.Component;
 
-  constructor(options: IEmailPensionOptions) {
+  constructor(options: IEmailToolOptions) {
     super(options);
     this.render();
   }
