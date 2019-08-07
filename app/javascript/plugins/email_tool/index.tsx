@@ -20,8 +20,14 @@ export const init = options => {
     options.el = document.getElementById('email-tool-component');
   }
   const { el, store } = options;
-  const member = window.champaign.personalization.member;
-  const memberData = pick(member, 'name', 'email', 'country', 'postal');
+  const personalization = window.champaign.personalization;
+  const memberData = pick(
+    personalization.member,
+    'name',
+    'email',
+    'country',
+    'postal'
+  );
   const trackingParams = pick(
     window.champaign.personalization.urlParams,
     'source',
@@ -34,6 +40,7 @@ export const init = options => {
     ...options.config,
     ...memberData,
     ...trackingParams,
+    country: memberData.country || personalization.location.country,
     onSuccess(target) {
       window.location.href = URI(`${window.location.pathname}/follow-up`)
         .addSearch({
