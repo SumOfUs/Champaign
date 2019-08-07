@@ -30,7 +30,7 @@ export class PaymentTypeSelection extends PureComponent {
               <div className={classnames('PaymentMethod', paymentType)} key={i}>
                 <label>
                   <input
-                    disabled={disabled || this.props.recurring}
+                    disabled={disabled}
                     type="radio"
                     checked={currentPaymentType === paymentType}
                     onChange={e => onChange(paymentType)}
