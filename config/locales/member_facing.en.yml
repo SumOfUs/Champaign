@@ -125,7 +125,10 @@ en:
       raised: Raised
       goal: Goal
     make_monthly_donation: "%{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet."
-    continue_with_one_donation: "Or, continue with a one-off donation:"
+    complete_donation: "Complete your %{amount} donation"
+    donate_amount: "Donate %{amount}:"
+    donate_once: "Just once"
+    donate_every_month: "Monthly"
   petition:
     sign_it: Sign the petition
     target_prefix: TO

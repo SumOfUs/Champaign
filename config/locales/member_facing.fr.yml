@@ -108,8 +108,11 @@ fr:
     thermometer:
       raised: Collectés
       goal: Objectif
-    make_monthly_donation: "%{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet."
-    continue_with_one_donation: "Or, continue with a one-off donation:"
+    make_monthly_donation: "%{name} un don mensuel permettra à notre mouvement de planifier à l'avance, afin que nous puissions nous attaquer plus efficacement aux plus grandes entreprises qui menacent les gens et la planète."
+    complete_donation: "Validez votre don de %{amount}"
+    donate_amount: "Donnez %{amount}:"
+    donate_once: "Une fois"
+    donate_every_month: "Par mois"
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à

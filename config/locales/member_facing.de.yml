@@ -117,8 +117,11 @@ de:
     thermometer:
       raised: Aktueller Spendenstand
       goal: Ziel
-    make_monthly_donation: "%{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet."
-    continue_with_one_donation: "Or, continue with a one-off donation:"
+    make_monthly_donation: "%{name} Mit einer monatlichen Spende helfen Sie uns dabei, langfristig zu planen - damit wir es auch mit den größten Konzernen aufnehmen können, die uns und unseren Planeten bedrohen."
+    complete_donation: "Bestätigen Sie jetzt ihre Spende über %{amount}"
+    donate_amount: "%{amount} spenden:"
+    donate_once: "einmalig"
+    donate_every_month: "monatlich"
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN

@@ -22,6 +22,7 @@ import {
   setPaymentType,
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
+import CurrencyAmount from '../CurrencyAmount';
 
 // Styles
 import './Payment.css';
@@ -215,7 +216,8 @@ export class Payment extends Component {
     );
   }
 
-  makePayment = () => {
+  makePayment = paymentRecurring => {
+    this.props.setRecurring(paymentRecurring);
     if (this.props.currentPaymentType === 'gocardless') {
       this.submitGoCardless();
       return;
@@ -442,30 +444,56 @@ export class Payment extends Component {
             />
           </div>
 
-          <DonateButton
-            currency={currency}
-            amount={donationAmount || 0}
-            submitting={this.state.submitting}
-            recurring={true}
-            disabled={this.disableSubmit()}
-            onClick={this.makePayment}
-          />
-
-          <div className="PaymentMethod__guidance">
+          <div className="PaymentMethod__complete-donation">
             <FormattedMessage
-              id={'fundraiser.continue_with_one_donation'}
-              defaultMessage={`Or, continue with a one-off donation:`}
+              id={'fundraiser.complete_donation'}
+              defaultMessage={`Complete your {amount} donation`}
+              values={{
+                amount: (
+                  <CurrencyAmount
+                    amount={donationAmount || 0}
+                    currency={currency}
+                  />
+                ),
+              }}
             />
           </div>
 
-          <DonateButton
-            currency={currency}
-            amount={donationAmount || 0}
-            submitting={this.state.submitting}
-            recurring={false}
-            disabled={this.disableSubmit()}
-            onClick={this.makePayment}
-          />
+          <div className="PaymentMethod__complete-donation donate">
+            <FormattedMessage
+              id={'fundraiser.donate_amount'}
+              defaultMessage={`Donate {amount}:`}
+              values={{
+                amount: (
+                  <CurrencyAmount
+                    amount={donationAmount || 0}
+                    currency={currency}
+                  />
+                ),
+              }}
+            />
+          </div>
+          <div className="PaymentMethod__align-buttons">
+            <DonateButton
+              currency={currency}
+              amount={donationAmount || 0}
+              submitting={this.state.submitting}
+              recurring={true}
+              disabled={this.disableSubmit()}
+              onClick={() => this.makePayment(true)}
+            />
+
+            {!hideRecurring && (
+              <DonateButton
+                currency={currency}
+                amount={donationAmount || 0}
+                submitting={this.state.submitting}
+                recurring={false}
+                disabled={this.disableSubmit()}
+                onClick={() => this.makePayment(false)}
+              />
+            )}
+          </div>
         </ShowIf>
 
         <div className="Payment__fine-print">

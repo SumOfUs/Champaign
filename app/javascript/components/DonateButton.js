@@ -15,18 +15,20 @@ export default props => (
       <span className="fa fa-lock" />
       &nbsp;
       <FormattedMessage
-        id={props.recurring ? 'fundraiser.donate_monthly' : 'fundraiser.donate'}
-        defaultMessage={
-          props.recurring ? 'Donate {amount} / month' : 'Donate {amount}'
+        id={
+          props.recurring
+            ? 'fundraiser.donate_every_month'
+            : 'fundraiser.donate_once'
         }
-        values={{
-          amount: (
-            <CurrencyAmount
-              amount={props.amount || 0}
-              currency={props.currency}
-            />
-          ),
-        }}
+        defaultMessage={props.recurring ? 'Monthly' : 'Just once'}
+        // values={{
+        //   amount: (
+        //     <CurrencyAmount
+        //       amount={props.amount || 0}
+        //       currency={props.currency}
+        //     />
+        //   ),
+        // }}
       />
     </ProcessingThen>
   </Button>

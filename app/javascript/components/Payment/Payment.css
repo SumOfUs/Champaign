@@ -13,6 +13,27 @@
   line-height: 17px;
   margin: 20px 0 5px;
 }
+.PaymentMethod__complete-donation {
+  font-weight: 700;
+  width: 100%;
+  font-size: 14px;
+  line-height: 17px;
+  margin: 20px 0 5px;
+  text-align: center;
+}
+.PaymentMethod__complete-donation.donate {
+  font-size: 22px;
+}
+
+.PaymentMethod__align-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.PaymentMethod__align-buttons .Button-root {
+  margin: 15px 4px 0px 4px;
+}
 
 .Payment__form-group-label {
   position: relative;
