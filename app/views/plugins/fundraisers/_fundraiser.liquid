@@ -43,7 +43,8 @@
       {% endunless %}
       }, 100);
 
-      Object.assign(window.champaign.plugins.fundraiser['{{ref}}'].config, data);
+      var ref = _.first(_.keys(window.champaign.plugins.fundraiser));
+      Object.assign(window.champaign.plugins.fundraiser[ref].config, data);
     });
 
     var fundraiserEvents = {
