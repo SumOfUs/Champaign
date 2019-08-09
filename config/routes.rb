@@ -40,6 +40,14 @@ Rails.application.routes.draw do
   resources :campaigns
   resources :donation_bands, except: %i[show destroy]
 
+  resources :pension_funds, except: %i[show destroy] do
+    collection do
+      get :export
+      get :upload
+      post :upload
+    end
+  end
+
   resources :clone_pages
 
   resources :featured_pages, except: %i[show new edit]

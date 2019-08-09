@@ -1,0 +1,6 @@
+= render 'shared/sidebar', action: :edit, id: @pension_fund.id, resource: :pension_funds
+
+.edit-block
+  h1.edit-block__title= @pension_fund.fund
+
+  = render 'form'

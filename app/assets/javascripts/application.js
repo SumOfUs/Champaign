@@ -4,3 +4,4 @@
 
 //= require bootstrap-sprockets
 //= require ./translations
+//= require ./pension_funds

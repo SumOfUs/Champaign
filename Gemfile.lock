@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: https://github.com/SumOfUs/share_progress
-  revision: d0abddddc5f1f2a69534557d950153cb76c3012e
-  tag: v0.1.4
+  revision: 4bd844e01998c02d3c9d3b40ecf7523ff8dede1f
+  tag: v0.1.5
   specs:
     share_progress (0.2.0)
       httparty (>= 0.13)
@@ -487,6 +487,8 @@ GEM
     sentry-raven (2.9.0)
       faraday (>= 0.7.6, < 1.0)
     shellany (0.0.1)
+    shoulda-matchers (4.0.1)
+      activesupport (>= 4.2.0)
     simplecov (0.14.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -644,6 +646,7 @@ DEPENDENCIES
   sass-rails
   sentry-raven
   share_progress!
+  shoulda-matchers
   slim-rails
   spring-commands-rspec
   sprockets-rails

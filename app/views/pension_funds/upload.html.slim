@@ -1,0 +1,26 @@
+= render 'shared/sidebar', action: :index, resource: :pension_funds
+
+.edit-block
+  h1.edit-block__title= t('pension_funds.upload.title')
+  = form_with url: upload_pension_funds_path, method: 'post' do |form|
+    .row
+      .col-md-3
+        = form.select :country_code, options_for_select(sorted_countries_list, params[:country_code]), {include_blank: '-- Select Country --'}, class: 'form-control'
+      .col-md-5
+        = form.file_field :json_file, class: 'form-control'
+      .col-md-1
+         = form.button 'Upload', class: 'btn btn-info'
+
+    br
+    .row
+      .col-md-12
+        table.table-bordered.table-striped.table
+          thead
+            tr
+              th #
+              th = t('pension_funds.upload.error_message')
+            ody
+            - @json_importer.try(:errors).to_a.each_with_index do |error, index|
+              tr
+                td = (index += 1)
+                td = error
