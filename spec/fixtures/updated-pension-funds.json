@@ -1,0 +1,71 @@
+[
+   {
+      "country_code":"AU",
+      "uuid":"1be3fff55b0f4534a4e25145117acb0b",
+      "fund":"New Fund name2",
+      "name":"New user2",
+      "email":"newuser2@example.com"
+   },
+   {
+      "country_code":"AU",
+      "uuid":"aabbadb539c945b89760b3584e4b6c1d",
+      "fund":"New Fund name",
+      "name":"New user",
+      "email":"newuser@example.com"
+   },
+   {
+      "country_code":"AU",
+      "uuid":"86d505bb81fb4b5bb957656a0f5e0525",
+      "fund":"Test Fund",
+      "name":"Test user One",
+      "email":"test@example.com"
+   },
+   {
+      "country_code":"AU",
+      "uuid":"519717276b524297b50d7975b5353bf4",
+      "fund":"Energy Industries Superannuation Scheme Pty Ltd.",
+      "name":"Alexander",
+      "email":"alex.hutchison@eisuper.com.au"
+   },
+   {
+      "country_code":"AU",
+      "uuid":"0a8d57637517485dac8e6d7ac72946f2",
+      "fund":"Christian Super Pty. Limited",
+      "name":"Peter",
+      "email":"pmurphy@christiansuper.com.au"
+   },
+   {
+      "country_code":"AU",
+      "uuid":"bc77a2784f1546ffad3aba26a02434fa",
+      "fund":"Care Super",
+      "name":"Xinting",
+      "email":"xjia@caresuper.com.au"
+   },
+   {
+      "country_code":"AU",
+      "uuid":"e3a0ef44156d4e7f80747e1e484efb6d",
+      "fund":"BUSS (Queensland) Proprietary Limited",
+      "name":"Bob",
+      "email":"blette@bussq.com.au"
+   },
+   {
+      "country_code":"AU",
+      "uuid":"fcc44635784343ae93fbbd34111b3b22",
+      "fund":"BOC Gases Superannuation Fund",
+      "name":"Kathy",
+      "email":"kathy.hocker@boc.com"
+   },
+   {
+      "country_code":"AU",
+      "uuid":"45959225972945aa8e3c7901b2150881",
+      "fund":"Sample Fund",
+      "name":"Watson",
+      "email":"watson@example.com"
+   },
+   {
+      "country_code":"AU",
+      "fund":"Example fund",
+      "name":"Sample One",
+      "email":"watson100@example.com"
+   }
+]

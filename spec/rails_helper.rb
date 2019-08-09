@@ -62,6 +62,10 @@ RSpec.configure do |config|
   # uncommitted transaction data setup over the spec's database connection.
   config.use_transactional_fixtures = false
 
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = %i[expect should]
+  end
+
   config.before(:suite) do
     Warden.test_mode!
     DatabaseCleaner.clean_with(:truncation)

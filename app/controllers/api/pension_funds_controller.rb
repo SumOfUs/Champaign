@@ -4,8 +4,7 @@ class Api::PensionFundsController < ApplicationController
   rescue_from Errno::ENOENT, with: :funds_not_found
 
   def index
-    funds = File.read("spec/fixtures/pension_funds/#{params[:country]}.json")
-    render json: funds
+    @pension_funds = PensionFund.list(params).active.sorted_by_created_at
   end
 
   def suggest_fund

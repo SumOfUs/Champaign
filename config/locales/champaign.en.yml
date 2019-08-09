@@ -60,6 +60,7 @@ en:
     sign_up: 'Sign up'
     sign_google: 'Sign in with Google'
     donation_bands: 'Donation Bands'
+    pension_funds: 'Pension Funds'
     clone: 'Clone'
     statistics: 'Statistics'
 
@@ -417,6 +418,33 @@ en:
       new: "Create new donation band"
     name: 'Name:'
     amounts: 'Amounts:'
+
+  pension_funds:
+    fields:
+      name: 'Name'
+      email: 'Email'
+      fund: 'Fund'
+      country: 'Country'
+      active: 'Active'
+    create:
+      notice: "Pension fund has been created."
+    update:
+      notice: "Pension fund has been updated."
+    upload:
+      notice: "Pension fund has been imported successfully."
+      error: "Error occurred while importing Pension Funds"
+    new:
+      title: "Create new pension fund"
+    upload:
+      title: "Upload pension fund"
+      error_message: 'Error Message'
+      notice: 'Pension funds data imported successfully'
+    index:
+      title: "Pension Funds"
+      new: "Create new pension fund"
+      name: 'Name'
+      email: 'Email'
+      fund: 'Fund'
 
   uris:
     index:
