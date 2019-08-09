@@ -27,7 +27,7 @@ export default function reducer(state = defaultState, action) {
         previouslyConsented: member.consented || false,
         isRequiredNew: isRequired(
           { ...state, countryCode },
-          c => !includes(['DE', 'AT'], c.alpha2)
+          c => !includes(['DE', 'AT'], c)
         ),
         isRequiredExisting: isRequired({
           ...state,
@@ -40,7 +40,7 @@ export default function reducer(state = defaultState, action) {
         countryCode: action.countryCode,
         isRequiredNew: isRequired(
           { ...state, countryCode: action.countryCode },
-          c => !includes(['DE', 'AT'], c.alpha2)
+          c => !includes(['DE', 'AT'], c)
         ),
         isRequiredExisting: isRequired({
           ...state,
@@ -97,6 +97,7 @@ export function dispatchFieldUpdate(name, value, dispatch = null) {
 // * user has not selected to consent or not (`consented` is still null)
 function isRequired(state, filter) {
   const { countryCode, consented, previouslyConsented } = state;
-  const inAffectedCountry = includes(EEA_LIST, countryCode);
+  const countries = EEA_LIST.filter(filter || (() => true));
+  const inAffectedCountry = includes(countries, countryCode);
   return inAffectedCountry && !previouslyConsented && consented === null;
 }
