@@ -62,7 +62,7 @@ gem 'newrelic_rpm'
 gem 'puma', '~> 3.12.0'
 gem 'sass-rails'
 gem 'sentry-raven'
-gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', tag: 'v0.1.4', require: false
+gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', tag: 'v0.1.5', require: false
 gem 'sprockets-rails'
 gem 'turnout'
 gem 'twilio-ruby'
