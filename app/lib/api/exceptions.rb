@@ -7,5 +7,6 @@ module Api
     class UnauthorizedError < AuthenticationError; end
     class InvalidTokenError < AuthenticationError; end
     class ExpiredTokenError < AuthenticationError; end
+    class InvalidParameters < StandardError; end
   end
 end

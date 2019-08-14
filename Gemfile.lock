@@ -382,6 +382,8 @@ GEM
     rack (2.0.7)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-attack (6.1.0)
+      rack (>= 1.0, < 3)
     rack-cors (0.4.1)
     rack-proxy (0.6.5)
       rack
@@ -631,6 +633,7 @@ DEPENDENCIES
   phony_rails
   poltergeist
   puma (~> 3.12.0)
+  rack-attack
   rack-cors
   rails (~> 5.2)
   rails-controller-testing
