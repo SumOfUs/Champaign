@@ -54,6 +54,7 @@ Rails.application.configure do
 
   # get some more information out
   config.log_level = :debug
+  config.log_tags = [:remote_ip, ->(_req) { Time.now }]
 
   config.logger = Logger.new(STDOUT) if Settings.instantiate_stdout_logger
 
