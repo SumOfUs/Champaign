@@ -62,9 +62,11 @@ class BraintreeCardFields extends Component {
       () => {
         console.log(this.state.fields);
         if (this.state.hostedFields) {
-          this.teardown();
-        } else {
-          this.createHostedFields(this.props.client);
+          return this.teardown();
+        }
+
+        if (this.props.client) {
+          return this.createHostedFields(this.props.client);
         }
       }
     );
