@@ -17,6 +17,7 @@ module ExceptionHandler
     rescue_from Api::Exceptions::InvalidTokenError,  with: :invalid_token
     rescue_from Api::Exceptions::ExpiredTokenError,  with: :expired_token
     rescue_from Api::Exceptions::UnauthorizedError,  with: :unauthorized
+    rescue_from Api::Exceptions::InvalidParameters,  with: :invalid_parameters
 
     rescue_from ActionController::ParameterMissing, with: :invalid_parameters
 
