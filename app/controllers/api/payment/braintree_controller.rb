@@ -73,10 +73,19 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def user_params
-    params
+    user_data = params
       .require(:user).permit!
       .merge(mobile_value)
       .to_hash
       .symbolize_keys
+      .compact
+
+    raise Api::Exceptions::InvalidParameters unless valid_user?(user_data)
+
+    user_data
+  end
+
+  def valid_user?(user)
+    user.slice(:email, :name, :country).all? { |_, value| value.present? }
   end
 end
