@@ -30,6 +30,8 @@ module Champaign
 
     config.i18n.available_locales = %i[en fr de es]
     config.i18n.enforce_available_locales = true
+
+    config.middleware.use Rack::Attack
   end
 end
 
