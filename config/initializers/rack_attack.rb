@@ -6,26 +6,23 @@ class Rack::Attack
   throttle('tx/ip/10m', limit: 15, period: 10.minutes) { |req| transaction_rule(req) }
   throttle('tx/ip/1h', limit: 21, period: 1.hour) { |req| transaction_rule(req) }
   throttle('tx/ip/5h', limit: 41, period: 5.hours) { |req| transaction_rule(req) }
-  throttle('tx/ip/5h', limit: 61, period: 24.hours) { |req| transaction_rule(req) }
+  throttle('tx/ip/1d', limit: 61, period: 24.hours) { |req| transaction_rule(req) }
 
   # Exponential throttling on all API endpoints:
-  # (1..5).each do |level|
-  #   throttle("req/ip/#{level}", limit: (20 * level), period: (8**level).seconds) do |req|
-  #     api_rule(req)
-  #   end
-  # end
+  (1..5).each do |level|
+    throttle("req/ip/#{level}", limit: (20 * level), period: (8**level).seconds) do |req|
+      api_rule(req)
+    end
+  end
 end
 
 # Instrumentation and Logging
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |name, _start, _finish, _request_id, payload|
   req = payload[:request]
   ip = req.location.ip
-  matched = req.env['rack.attack.matched']
   match_data = req.env['rack.attack.match_data']
-  period = match_data[:period]
-  # Log IPs throttled for over 1 hour
-  if match_data[:count] >= match_data[:limit] # && matched =~ %r{tx/ip/\dh}
-    Rails.logger.info "[#{name}] #{ip} matched #{matched} and has been throttled for #{period} seconds."
+  if match_data[:count] == match_data[:limit] && matched == 'tx/ip/1d'
+    Rails.logger.info "[#{name}] #{ip} matched tx/ip/1d and has been throttled for 24 hours"
   end
 end
 
