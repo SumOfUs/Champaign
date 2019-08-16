@@ -62,7 +62,7 @@ Rails.application.configure do
     log_hash
   end
   # Prepend all log lines with the following tags.
-  config.log_tags = [->(req) { req.location.ip }, ->(_req) { Time.now }]
+  config.log_tags = [->(req) { req.location.ip }]
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
