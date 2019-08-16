@@ -26,6 +26,7 @@ ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |name, _start,
   # if match_data[:count] == (match_data[:limit] + 1) && matched =~ %r{tx/ip/\dh}
   #   Rails.logger.info "[#{name}] #{ip} matched #{matched} and has been throttled for #{match_data[:period]} seconds"
   # end
+  Rails.logger.info "[#{name}] #{ip} POST #{req.path}"
   Rails.logger.info "[#{name}] #{ip} matched #{matched} and has been throttled for #{match_data[:period]} seconds"
 end
 
@@ -36,7 +37,7 @@ def api_rule(req)
 end
 
 def transaction_rule(req)
-  if req.path =~ %r{^/api/payment/} && req.post?
+  if req.path =~ %r{^/api/payment/braintree/pages/\d+/transaction} && req.post?
     req.location.ip unless req.env['warden'].user
   end
 end
