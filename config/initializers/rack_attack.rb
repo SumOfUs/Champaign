@@ -23,9 +23,10 @@ ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |name, _start,
   matched = req.env['rack.attack.matched']
   match_data = req.env['rack.attack.match_data']
 
-  if match_data[:count] == (match_data[:limit] + 1) && matched =~ %r{tx/ip/\dh}
-    Rails.logger.info "[#{name}] #{ip} matched #{matched} and has been throttled for #{match_data[:period]} seconds"
-  end
+  # if match_data[:count] == (match_data[:limit] + 1) && matched =~ %r{tx/ip/\dh}
+  #   Rails.logger.info "[#{name}] #{ip} matched #{matched} and has been throttled for #{match_data[:period]} seconds"
+  # end
+  Rails.logger.info "[#{name}] #{ip} matched #{matched} and has been throttled for #{match_data[:period]} seconds"
 end
 
 def api_rule(req)
