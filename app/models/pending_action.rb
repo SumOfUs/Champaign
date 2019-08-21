@@ -41,7 +41,7 @@ class PendingAction < ApplicationRecord
       .only_emailed_once
       .not_emailed_last_24
       .not_older_than_20_days
-      .joins(:member)
+      .left_outer_joins(:member)
       .where('members.consented is null')
   end
 end
