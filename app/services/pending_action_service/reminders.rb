@@ -4,7 +4,7 @@ class PendingActionService
   class Reminders
     class << self
       def send
-        actions = PendingAction.still_unconfirmed
+        actions = PendingAction.still_unconfirmed.limit(10)
 
         actions.each do |action|
           assigns = {
