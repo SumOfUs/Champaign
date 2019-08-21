@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception, prepend: true
+
   include AuthToken
 
   before_action :set_default_locale
   before_action :set_raven_context
-
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception, prepend: true
 
   # Devise hooks into this method to determine where to redirect after a user signs in.
   # Because we redirect the root path to sumofus.org (which is not handled by this app),
