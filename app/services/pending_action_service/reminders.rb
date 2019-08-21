@@ -4,15 +4,9 @@ class PendingActionService
   class Reminders
     class << self
       def send
-        actions = PendingAction
-          .limit(10)
-          .not_confirmed
-          .only_emailed_once
-          .not_emailed_last_24
+        actions = PendingAction.still_unconfirmed.limit(10)
 
         actions.each do |action|
-          next if Member.where(consented: true, email: action.email).any?
-
           assigns = {
             token: action.token,
             email: action.email,

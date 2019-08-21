@@ -30,6 +30,18 @@ class PendingAction < ApplicationRecord
   scope :not_confirmed, -> { where(confirmed_at: nil) }
   scope :only_emailed_once, -> { where(email_count: 1) }
   scope :not_emailed_last_24, -> { where('emailed_at < ?', 24.hours.ago) }
+  scope :not_older_than_20_days, -> { where(arel_table[:created_at].gt(20.days.ago)) }
 
   belongs_to :page
+  belongs_to :member, foreign_key: :email, primary_key: :email
+
+  def self.still_unconfirmed
+    PendingAction
+      .not_confirmed
+      .only_emailed_once
+      .not_emailed_last_24
+      .not_older_than_20_days
+      .left_outer_joins(:member)
+      .where('members.consented is null')
+  end
 end
