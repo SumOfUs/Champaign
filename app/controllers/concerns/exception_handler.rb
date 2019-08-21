@@ -10,15 +10,16 @@ module ExceptionHandler
     # Handle JWT exceptions responding with a relevant http status code
     rescue_from JWT::VerificationError,         with: :invalid_token
     rescue_from JWT::ExpiredSignature,          with: :expired_token
-    rescue_from JWT::DecodeError,               with: :bad_request
+    rescue_from JWT::DecodeError,               with: -> { head(:bad_request) }
 
     # We can also raise our own exceptions (see lib/exceptions.rb)
     # Here we describe how we respond when these exceptions are raised
     rescue_from Api::Exceptions::InvalidTokenError,  with: :invalid_token
     rescue_from Api::Exceptions::ExpiredTokenError,  with: :expired_token
-    rescue_from Api::Exceptions::UnauthorizedError,  with: :unauthorized
+    rescue_from Api::Exceptions::UnauthorizedError,  with: -> { head(:unauthorized) }
     rescue_from Api::Exceptions::InvalidParameters,  with: :invalid_parameters
 
+    rescue_from ActionController::InvalidAuthenticityToken, with: -> { head(:forbidden) }
     rescue_from ActionController::ParameterMissing, with: :invalid_parameters
 
     # Braintree errors
@@ -26,14 +27,6 @@ module ExceptionHandler
   end
 
   private
-
-  def bad_request
-    head(:bad_request)
-  end
-
-  def unauthorized
-    head(:unauthorized)
-  end
 
   def invalid_token
     render json: { error: { message: 'Invalid Token' } },
