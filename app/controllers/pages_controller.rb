@@ -5,6 +5,7 @@ require 'browser'
 
 class PagesController < ApplicationController # rubocop:disable Metrics/ClassLength
   newrelic_ignore_enduser only: %i[show follow_up double_opt_in_notice]
+  skip_before_action :verify_authenticity_token, raise: false, only: %i[create update destroy]
   before_action :authenticate_user!, except: %i[feeds show follow_up double_opt_in_notice]
   before_action :get_page, only: %i[edit update destroy follow_up double_opt_in_notice analytics actions preview emails]
   before_action :get_page_or_homepage, only: [:show]
