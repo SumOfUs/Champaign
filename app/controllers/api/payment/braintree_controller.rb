@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 class Api::Payment::BraintreeController < PaymentController
-  protect_from_forgery with: :exception, prepend: true
-
   include ExceptionHandler
-
+  protect_from_forgery with: :exception, prepend: true
   skip_before_action :verify_authenticity_token, raise: false, except: [:transaction]
   before_action :check_api_key, only: [:refund]
 
