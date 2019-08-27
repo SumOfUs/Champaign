@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_04_133749) do
+ActiveRecord::Schema.define(version: 2019_08_26_145236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -604,6 +604,19 @@ ActiveRecord::Schema.define(version: 2019_06_04_133749) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "session_blocked_lists", force: :cascade do |t|
+    t.string "devise_session"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sessions_blacklists", force: :cascade do |t|
+    t.string "sessionid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sessionid"], name: "index_sessions_blacklists_on_sessionid"
   end
 
   create_table "share_buttons", id: :serial, force: :cascade do |t|

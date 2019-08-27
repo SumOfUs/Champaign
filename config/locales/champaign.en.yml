@@ -61,6 +61,7 @@ en:
     sign_google: 'Sign in with Google'
     donation_bands: 'Donation Bands'
     pension_funds: 'Pension Funds'
+    sessions_blacklists: 'Sessions Blacklists'
     clone: 'Clone'
     statistics: 'Statistics'
 
@@ -445,6 +446,28 @@ en:
       name: 'Name'
       email: 'Email'
       fund: 'Fund'
+
+  sessions_blacklists:
+    fields:
+      sessionid: 'Session Id'
+
+    create:
+      notice: "Session Id is blacklisted successfully."
+    update:
+      notice: "Session Id blacklist updated successfully."
+    new:
+      sessionid: "Add session Id to Blacklists"
+    edit:
+      sessionid: "Update session Id"
+    destroy:
+      notice: "Session Id removed from blacklist successfully."
+    index:
+      title: "Sessions Blacklists"
+      new: "New session blacklist"
+      sessionid: 'Session Id'
+      email: 'Email'
+      updated_at: 'Updated At'
+      confirm: 'Are you sure?'
 
   uris:
     index:

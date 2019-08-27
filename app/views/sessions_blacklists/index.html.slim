@@ -1,0 +1,32 @@
+= render 'shared/sidebar', action: :index, resource: :sessions_blacklists
+
+.edit-block
+  h1.edit-block__title= t('sessions_blacklists.index.title')
+  = form_with url: sessions_blacklists_path, method: 'get' do |form|
+    .row
+      .col-md-5
+        = form.text_field :search_text, {value: params[:search_text], class: 'form-control', placeholder: 'Enter session id'}
+      .col-md-1
+        = form.submit 'Search', class: 'btn btn-primary'
+    br
+    .row
+    .col-md-12
+
+      table.table-bordered.table-striped.table
+        thead
+          tr
+            th #
+            th = t('sessions_blacklists.index.sessionid')
+            th = t('sessions_blacklists.index.updated_at')
+            th
+            th
+        tbody
+          - @sessions_blacklists.each_with_index do |record, index|
+            tr
+              td = (index += 1)
+              td = highlight record.sessionid, params[:search_text]
+              td = record.updated_at.try(:strftime, "%m/%d/%Y")
+              td = link_to t('common.edit'), edit_sessions_blacklist_path(record)
+              td = link_to 'Remove',  { action: :destroy, id: record.id }, method: :delete, data: { confirm: t('sessions_blacklists.index.confirm') }
+
+      = link_to t('sessions_blacklists.index.new'), new_sessions_blacklist_path, class: 'btn btn-primary btn-sm'

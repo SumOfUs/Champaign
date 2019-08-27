@@ -2,6 +2,9 @@
 
 class Api::Payment::BraintreeController < PaymentController
   include ExceptionHandler
+
+  before_action :verify_sessions_blacklist, only: [:transaction]
+
   protect_from_forgery with: :exception, prepend: true
   skip_before_action :verify_authenticity_token, raise: false, except: [:transaction]
   before_action :check_api_key, only: [:refund]
@@ -87,5 +90,11 @@ class Api::Payment::BraintreeController < PaymentController
 
   def valid_user?(user)
     user.slice(:email, :name, :country).all? { |_, value| value.present? }
+  end
+
+  def verify_sessions_blacklist
+    sessionid = params.dig(:device_data, :device_session_id)
+    head(:unauthorized, content_type: 'text/html') && (return false) if SessionsBlacklist.blacklisted?(sessionid)
+    true
   end
 end

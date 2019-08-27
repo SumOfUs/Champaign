@@ -1,0 +1,8 @@
+.row
+  .col-md-7.col-sm-12
+    = form_for(@sessions_blacklist) do |f|
+      .form-group
+        = f.label :sessionid, t('sessions_blacklists.fields.sessionid')
+        = f.text_field :sessionid, class: 'form-control', placeholder: t('sessions_blacklists.fields.sessionid')
+      .form-group
+        = f.submit t('common.save'), class: 'btn btn-sm btn-primary col-md-6'

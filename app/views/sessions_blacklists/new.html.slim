@@ -1,0 +1,5 @@
+= render 'shared/sidebar', action: :new, resource: :sessions_blacklists
+
+.edit-block
+  h1.edit-block__title= t('sessions_blacklists.new.sessionid')
+  = render 'form'
