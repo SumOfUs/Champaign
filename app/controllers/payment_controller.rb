@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PaymentController < ApplicationController
+  before_action :verify_bot, only: [:transaction]
+
   skip_before_action :verify_authenticity_token, raise: false
   before_action :localize_from_page_id, only: :transaction
   before_action :authenticate_user!, only: :generate_cookie
@@ -107,6 +109,17 @@ class PaymentController < ApplicationController
       { subscription_id: builder.subscription_id }
     else
       { transaction_id: builder.transaction_id }
+    end
+  end
+
+  def verify_bot
+    action   = 'donate/' + params[:page_id]
+    @captcha = Recaptcha3.new(token: params[:recaptacha_token], action: action)
+
+    unless @captcha.human?
+      msg = @captcha.errors.present? ? @captcha.errors : 'Invalid request'
+      render json: { success: false, message: msg }, status: :unprocessible_entity
+      return false
     end
   end
 end
