@@ -22,10 +22,12 @@ import {
   setPaymentType,
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
+import { loadReCaptcha, ReCaptcha } from 'react-recaptcha-v3';
 
 // Styles
 import './Payment.css';
 
+const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY;
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
@@ -47,6 +49,7 @@ export class Payment extends Component {
       },
       errors: [],
       waitingForGoCardless: false,
+      recaptacha_token: null,
     };
   }
 
@@ -83,6 +86,7 @@ export class Payment extends Component {
         console.warn('could not fetch Braintree token');
       });
     this.bindGlobalEvents();
+    loadReCaptcha(RECAPTCHA_SITE_KEY);
   }
 
   bindGlobalEvents() {
@@ -236,6 +240,8 @@ export class Payment extends Component {
       ...this.donationData(),
       payment_method_nonce: data.nonce,
       device_data: this.state.deviceData,
+      recaptacha_token: this.state.recaptacha_token,
+      recaptacha_action: `donate/${this.props.page.id}`,
     };
 
     this.emitTransactionSubmitted();
@@ -311,6 +317,10 @@ export class Payment extends Component {
   isExpressHidden() {
     return this.state.expressHidden || this.props.disableSavedPayments;
   }
+
+  verifyCallback = recaptchaToken => {
+    this.setState({ recaptacha_token: recaptchaToken });
+  };
 
   render() {
     const {
@@ -422,7 +432,11 @@ export class Payment extends Component {
               />
             </div>
           )}
-
+          <ReCaptcha
+            sitekey={RECAPTCHA_SITE_KEY}
+            action={`donate/${this.props.page.id}`}
+            verifyCallback={this.verifyCallback}
+          />
           <DonateButton
             currency={currency}
             amount={donationAmount || 0}

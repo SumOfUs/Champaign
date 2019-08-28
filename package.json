@@ -44,6 +44,7 @@
     "react-dom": "^16.8.6",
     "react-intl": "^2.9.0",
     "react-onclickoutside": "^6.8.0",
+    "react-recaptcha-v3": "^1.1.0",
     "react-redux": "^7.1.0",
     "react-select": "^1.2.1",
     "reactjs-popup": "^1.4.1",
