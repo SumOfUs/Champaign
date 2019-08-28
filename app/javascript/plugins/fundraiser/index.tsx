@@ -91,8 +91,11 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
   }
 
   public validateForm() {
-    this.events.emit('fundraiser:actions:validate_form');
-    return this;
+    return new Promise((resolve, reject) => {
+      this.events.once('fundraiser:form:success', resolve);
+      this.events.once('fundraiser:form:error', reject);
+      this.events.emit('fundraiser:actions:validate_form');
+    });
   }
 
   // TODO: Move the logic behind this event (check Payment.js)
