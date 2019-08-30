@@ -6,6 +6,7 @@ import ComponentWrapper from '../../components/ComponentWrapper';
 import {
   changeAmount,
   changeCurrency,
+  resetMember,
   setPaymentType,
   setRecurring,
   setStoreInVault,
@@ -79,6 +80,11 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
     this.store.dispatch(
       updateForm({ ...this.formValues, ...{ [fieldName]: value } })
     );
+    return this;
+  }
+
+  public resetMember() {
+    this.store.dispatch(resetMember());
     return this;
   }
 
