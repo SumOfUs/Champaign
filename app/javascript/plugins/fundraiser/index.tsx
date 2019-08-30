@@ -6,12 +6,12 @@ import ComponentWrapper from '../../components/ComponentWrapper';
 import {
   changeAmount,
   changeCurrency,
-  resetMember,
   setPaymentType,
   setRecurring,
   setStoreInVault,
   updateForm,
 } from '../../state/fundraiser/actions';
+import { resetMember } from '../../state/member/reducer';
 import { IAppState } from '../../types';
 import { IFundraiserPluginConfig } from '../../window';
 import Plugin, { IPluginOptions } from '../plugin';
