@@ -43,7 +43,3 @@ export function setPaymentType(payload) {
 export function actionFormUpdated(data) {
   return { type: '@@chmp:action_form:updated', payload: data };
 }
-
-export function resetMember() {
-  return { type: 'reset_member' };
-}

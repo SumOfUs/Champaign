@@ -6,7 +6,6 @@ import ComponentWrapper from '../../components/ComponentWrapper';
 import {
   changeAmount,
   changeCurrency,
-  resetMember,
   setPaymentType,
   setRecurring,
   setStoreInVault,
