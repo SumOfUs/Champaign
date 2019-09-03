@@ -14,6 +14,7 @@ describe 'Express Donation' do
   before do
     allow(ChampaignQueue).to receive(:push)
     allow(FundingCounter).to receive(:update)
+    Recaptcha3.any_instance.stub(:human?).and_return(true)
   end
 
   describe 'making multiple transactions on the same page with after 10 mins' do
@@ -418,6 +419,7 @@ describe 'Braintree API' do
     allow(Analytics::Page).to receive(:increment)
     allow(MobileDetector).to receive(:detect).and_return(action_mobile: 'desktop')
     allow(FundingCounter).to receive(:update)
+    Recaptcha3.any_instance.stub(:human?).and_return(true)
   end
 
   describe 'making a transaction' do
