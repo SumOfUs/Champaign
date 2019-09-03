@@ -6,6 +6,7 @@ describe Api::Payment::BraintreeController do
   before do
     allow(Page).to receive(:find) { page }
     allow(MobileDetector).to receive(:detect).and_return(action_mobile: 'mobile')
+    Recaptcha3.any_instance.stub(:human?).and_return(true)
   end
 
   let(:page) do
