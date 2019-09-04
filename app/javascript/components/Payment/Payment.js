@@ -22,7 +22,6 @@ import {
   setPaymentType,
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
-import { loadReCaptcha, ReCaptcha } from 'react-recaptcha-v3';
 
 // Styles
 import './Payment.css';
@@ -86,9 +85,18 @@ export class Payment extends Component {
         console.warn('could not fetch Braintree token');
       });
     this.bindGlobalEvents();
-    loadReCaptcha(RECAPTCHA_SITE_KEY);
+    this.loadReCaptcha();
   }
 
+  loadReCaptcha() {
+    grecaptcha
+      .execute(RECAPTCHA_SITE_KEY, { action: `donate/${this.props.page.id}` })
+      .then(token =>
+        this.setState({
+          recaptacha_token: token,
+        })
+      );
+  }
   bindGlobalEvents() {
     ee.on('fundraiser:actions:make_payment', this.makePayment);
   }
@@ -318,10 +326,6 @@ export class Payment extends Component {
     return this.state.expressHidden || this.props.disableSavedPayments;
   }
 
-  verifyCallback = recaptchaToken => {
-    this.setState({ recaptacha_token: recaptchaToken });
-  };
-
   render() {
     const {
       member,
@@ -432,11 +436,6 @@ export class Payment extends Component {
               />
             </div>
           )}
-          <ReCaptcha
-            sitekey={RECAPTCHA_SITE_KEY}
-            action={`donate/${this.props.page.id}`}
-            verifyCallback={this.verifyCallback}
-          />
           <DonateButton
             currency={currency}
             amount={donationAmount || 0}
