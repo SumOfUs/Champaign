@@ -32,6 +32,7 @@ describe 'Braintree API' do
   before :each do
     allow(ChampaignQueue).to receive(:push)
     allow(Analytics::Page).to receive(:increment)
+    Recaptcha3.any_instance.stub(:human?).and_return(true)
   end
 
   shared_examples 'has no unintended consequences' do
