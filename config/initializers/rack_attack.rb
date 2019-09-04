@@ -1,13 +1,21 @@
 class Rack::Attack
   # Braintree transactions
-  throttle('tx/ip/24h', limit: 60, period: 24.hours) { |req| transaction_rule(req) }
-  throttle('tx/ip/5h', limit: 40, period: 5.hours) { |req| transaction_rule(req) }
-  throttle('tx/ip/1h', limit: 20, period: 1.hour) { |req| transaction_rule(req) }
-  throttle('tx/ip/10m', limit: 15, period: 10.minutes) { |req| transaction_rule(req) }
-  throttle('tx/ip/1m', limit: 8, period: 60.seconds) { |req| transaction_rule(req) }
-  throttle('tx/ip/20s', limit: 5, period: 20.seconds) { |req| transaction_rule(req) }
-  throttle('tx/ip/1s', limit: 3, period: 5.seconds) { |req| transaction_rule(req) }
+  %w[
+    3.5.seconds
+    5.20.seconds
+    8.60.seconds
+    15.10.minutes
+    20.1.hour
+    40.5.hours
+    60.24.hours
+  ].each do |criteria|
+    limit, period, unit = criteria.split('.')
+    ip_key = "tx/ip/#{period}#{unit}"
+    device_key = "tx/device/#{period}#{unit}"
 
+    throttle(ip_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| transaction_rule(req) }
+    throttle(device_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| device_rule(req) }
+  end
   # Exponential throttling on actions endpoint:
   (1..5).reverse_each do |level|
     throttle("req/ip/#{level}", limit: (20 * level), period: (8**level).seconds) do |req|
@@ -33,6 +41,15 @@ end
 def api_rule(req)
   if req.path =~ %r{^/api/pages/} && req.post?
     req.location.ip unless req.env['warden'].user
+  end
+end
+
+def device_rule(req)
+  if req.path =~ %r{^/api/payment/braintree/pages/\d+/transaction} && req.post?
+    unless req.env['warden'].user
+      params = Rack::Utils.parse_nested_query req.env['rack.input'].string
+      params.dig('device_data', 'device_session_id')
+    end
   end
 end
 
