@@ -85,16 +85,18 @@ export class Payment extends Component {
         console.warn('could not fetch Braintree token');
       });
     this.bindGlobalEvents();
-    this.loadReCaptcha();
+    if (RECAPTCHA_SITE_KEY) this.loadReCaptcha();
   }
 
   loadReCaptcha() {
     grecaptcha
       .execute(RECAPTCHA_SITE_KEY, { action: `donate/${this.props.page.id}` })
-      .then(token =>
-        this.setState({
-          recaptacha_token: token,
-        })
+      .then(
+        token =>
+          this.setState({
+            recaptacha_token: token,
+          }),
+        error => console.warn('recaptcha error ', error)
       );
   }
   bindGlobalEvents() {
