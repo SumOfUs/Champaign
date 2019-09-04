@@ -1,0 +1,7 @@
+javascript:
+ grecaptcha.ready(function() {
+    grecaptcha.execute("#{Settings.recaptcha3.site_key}", {action: "#{request.path}"}).
+      then(function(token) {
+          console.log(token); // put token somewhere to be later sent down the wire
+    });
+  });

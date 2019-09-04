@@ -19,6 +19,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js'
+    = javascript_include_tag "https://www.google.com/recaptcha/api.js?render=#{Settings.recaptcha3.site_key}"
 
     = javascript_packs_with_chunks_tag "sentry"
 
@@ -45,3 +46,4 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     = render partial: "shared/google_analytics_snippet"
     = render partial: "shared/shareprogress_snippet"
+    = render partial: "shared/recaptcha_snippet" unless Rails.env.testing?
