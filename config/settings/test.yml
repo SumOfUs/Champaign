@@ -132,3 +132,8 @@ member_services_secret: 'hotpotato!'
 oxr_app_id: '1234' # get app id from https://openexchangerates.org
 api_key: '1234'
 mailer_topic_arn: 'mailer_topic_arn'
+
+recaptcha3:
+  site_key: <%= ENV['RECAPTCHA_SITE_KEY'] %>
+  secret_key: <%= ENV['RECAPTCHA_SECRET_KEY'] %>
+  min_score: <%= ENV['RECAPTCHA_MIN_SCORE'] %>
