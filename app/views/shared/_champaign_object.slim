@@ -1,5 +1,6 @@
 javascript:
   window.champaign = {
+    configuration: #{global_config.to_json.html_safe},
     page: #{page_object(@page).to_json.html_safe},
     plugins: #{plugins_config(@page).to_json.html_safe},
   };
