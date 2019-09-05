@@ -26,7 +26,7 @@ import ExpressDonation from '../ExpressDonation/ExpressDonation';
 // Styles
 import './Payment.css';
 
-const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY;
+const RECAPTCHA_SITE_KEY = window.champaign.configuration.recaptcha3.siteKey;
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
