@@ -89,15 +89,22 @@ export class Payment extends Component {
   }
 
   loadReCaptcha() {
-    grecaptcha
-      .execute(RECAPTCHA_SITE_KEY, { action: `donate/${this.props.page.id}` })
-      .then(
-        token =>
-          this.setState({
-            recaptacha_token: token,
-          }),
-        error => console.warn('recaptcha error ', error)
-      );
+    try {
+      grecaptcha
+        .execute(RECAPTCHA_SITE_KEY, { action: `donate/${this.props.page.id}` })
+        .then(
+          token => {
+            this.setState({
+              recaptacha_token: token,
+            });
+          },
+          error => {
+            console.warn('Error fetching recaptcha token ', error);
+          }
+        );
+    } catch (error) {
+      console.warn('Error trying to execute grecaptcha.', error);
+    }
   }
   bindGlobalEvents() {
     ee.on('fundraiser:actions:make_payment', this.makePayment);
