@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.google.com/recaptcha/api/siteverify?response=03AOLTBLTx8PMg5ysKEN5nLmhzDad2lIHsf7rSVaDogDrChLL6hprN3nLFMjpvtr0FWewUDezV_SgV-YfUSU2yOyClXx6xaI4OxRsELoi4626iU31B4pdx3pCtcpNNBA8u1yB7IJxtpLM-E7_vdy7IfvS0YEB1758VVpxiJEbGTLmLb111SjTkFBWuhZ3XyrHFca-22uLzKpawc8RQ1-j57ZR3SMel4DCkNzveSWjYYH381z_MAY7Ev5Q7tK6_iEqrqUsgSt1wF-xtht5fLmjKXYkknPN3SB1_32mRl9BBuMzfIl6wO-GUnWhKbzEpsSlSqbEhljS_38GxViA3gC1eu5cOQWhKde56-EKYOG1JaTb8QiyamDoKKetITV8yWy8ZlmcspgD0Gv9B&secret=6LdHTrUUAAAAAEllJvtuB8z0WjMO_kYkY2QfV4B4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 04 Sep 2019 12:07:40 GMT
+      Expires:
+      - Wed, 04 Sep 2019 12:07:40 GMT
+      Cache-Control:
+      - private, max-age=0
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alt-Svc:
+      - quic=":443"; ma=2592000; v="46,43,39"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "success": true,
+          "challenge_ts": "2019-09-04T12:05:52Z",
+          "hostname": "lvh.me",
+          "score": 0.3,
+          "action": "donate/83"
+        }
+    http_version:
+  recorded_at: Wed, 04 Sep 2019 12:07:40 GMT
+recorded_with: VCR 3.0.3
