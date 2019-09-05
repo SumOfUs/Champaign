@@ -91,7 +91,6 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def verify_bot
-    params[:recaptacha_token] = nil
     action   = 'donate/' + params[:page_id]
     @captcha = Recaptcha3.new(token: params[:recaptacha_token], action: action)
 
