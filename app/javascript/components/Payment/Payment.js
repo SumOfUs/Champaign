@@ -327,6 +327,7 @@ export class Payment extends Component {
     } else {
       errors = [<FormattedMessage id="fundraiser.unknown_error" />];
     }
+    if (RECAPTCHA_SITE_KEY) this.loadReCaptcha();
     this.setState({ errors: errors });
     this.onError(response);
   };
