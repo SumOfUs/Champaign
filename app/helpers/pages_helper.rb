@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module PagesHelper
+  include ConfigHelper
+
   def page_nav_item(text, path, strict = true)
     selected = current_page?(path) || (!strict && request.path.include?(path))
     klass = selected ? 'active' : nil

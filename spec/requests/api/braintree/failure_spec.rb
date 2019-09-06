@@ -68,6 +68,7 @@ describe 'Braintree API' do
 
   before :each do
     allow(ChampaignQueue).to receive(:push)
+    Recaptcha3.any_instance.stub(:human?).and_return(true)
   end
 
   describe 'unsuccessfuly' do

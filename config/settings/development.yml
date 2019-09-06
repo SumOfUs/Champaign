@@ -111,3 +111,8 @@ oxr_app_id: '' # get app id from https://openexchangerates.org
 
 mailer_topic_arn:
 api_key: ''
+
+recaptcha3:
+  site_key: ''
+  secret_key: ''
+  min_score: 0.5

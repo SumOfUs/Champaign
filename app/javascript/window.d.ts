@@ -17,6 +17,11 @@ declare global {
 }
 
 interface IChampaignGlobalObject {
+  configuration: {
+    environment: string;
+    defaultCurrency: string;
+    [key: string]: any;
+  };
   page: IChampaignPage;
   personalization: {
     location: IChampaignLocation;

@@ -11,6 +11,7 @@ import {
   setStoreInVault,
   updateForm,
 } from '../../state/fundraiser/actions';
+import { resetMember } from '../../state/member/reducer';
 import { IAppState } from '../../types';
 import { IFundraiserPluginConfig } from '../../window';
 import Plugin, { IPluginOptions } from '../plugin';
@@ -79,6 +80,11 @@ export class Fundraiser extends Plugin<IFundraiserPluginConfig> {
     this.store.dispatch(
       updateForm({ ...this.formValues, ...{ [fieldName]: value } })
     );
+    return this;
+  }
+
+  public resetMember() {
+    this.store.dispatch(resetMember());
     return this;
   }
 
