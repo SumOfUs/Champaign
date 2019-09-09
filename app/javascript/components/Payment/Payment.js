@@ -240,8 +240,8 @@ export class Payment extends Component {
       ...this.donationData(),
       payment_method_nonce: data.nonce,
       device_data: this.state.deviceData,
-      recaptacha_token,
-      recaptacha_action,
+      recaptcha_token,
+      recaptcha_action,
     };
 
     this.emitTransactionSubmitted();
