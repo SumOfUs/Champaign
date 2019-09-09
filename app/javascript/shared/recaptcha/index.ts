@@ -1,3 +1,5 @@
+import './recaptcha.css';
+
 const MAX_RETRIES = 4;
 export interface IReCaptchaInstance {
   ready: (cb: () => any) => void;
