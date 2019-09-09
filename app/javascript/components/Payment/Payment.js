@@ -15,6 +15,7 @@ import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
+import ReCaptchaBranding from '../ReCaptchaBranding';
 import { resetMember } from '../../state/member/reducer';
 import {
   changeStep,
@@ -455,6 +456,8 @@ export class Payment extends Component {
             <img src={require('./dd_logo_landscape.png')} alt="DIRECT Debit" />
           </div>
         )}
+
+        <ReCaptchaBranding />
       </div>
     );
   }
