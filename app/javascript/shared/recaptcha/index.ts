@@ -30,9 +30,11 @@ export const load = (): Promise<IReCaptchaInstance> => {
     let retries = 0;
     const id = setTimeout(() => {
       if (window.grecaptcha) {
-        resolve(window.grecaptcha);
+        clearTimeout(id);
+        return resolve(window.grecaptcha);
       } else if (retries >= MAX_RETRIES) {
-        reject(new Error('Could not load reCAPTCHA'));
+        clearTimeout(id);
+        return reject(new Error('Could not load reCAPTCHA'));
       } else {
         retries = retries + 1;
       }
