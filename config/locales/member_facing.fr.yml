@@ -248,9 +248,8 @@ fr:
       opt_in_reason: "<p>Nous demandons aux membres SumOfUs de confirmer qu’ils/elles souhaitent toujours recevoir nos courriels à ce sujet et concernant d’autres campagnes urgentes.</p><p><b>Souhaitez-vous confirmer aujourd’hui?</b></p>"
       decline: "Pas maintenant"
       accept: "Oui"
-
   cookie_consent:
     message: 'Les cookies sont importants pour le bon fonctionnement de notre site.'
     dismiss_button_text: 'Accepter et continuer'
     privacy_policy_link_text: 'Mentions Légales'
-  recaptcha_branding_html: 'Ce site est protégé par reCAPTCHA. Les <a href="https://policies.google.com/privacy?hl=fr">règles de confidentialité</a> et les <a href="https://policies.google.com/terms?hl=fr">conditions d'utilisation</a> de Google s'appliquent.'
+  recaptcha_branding_html: "Ce site est protégé par reCAPTCHA. Les <a href='https://policies.google.com/privacy?hl=fr'>règles de confidentialité</a> et les <a href='https://policies.google.com/terms?hl=fr'>conditions d'utilisation</a> de Google s'appliquent."
