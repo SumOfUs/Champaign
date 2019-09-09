@@ -4,22 +4,26 @@ import { Store } from 'redux';
 import { Fundraiser } from './plugins/fundraiser';
 import { Petition } from './plugins/petition';
 import Plugin, { IPluginConfig } from './plugins/plugin';
+import { IReCaptchaInstance } from './shared/recaptcha';
 import { IAppState, IFormField } from './types';
 
 declare global {
   // tslint:disable-next-line:interface-name
   interface Window {
+    grecaptcha?: IReCaptchaInstance;
     champaign: IChampaignGlobalObject;
     I18n: II18n & typeof I18n;
     store: Store<any>;
     ee: EventEmitter;
   }
 }
-
 interface IChampaignGlobalObject {
   configuration: {
     environment: string;
     defaultCurrency: string;
+    recaptcha3: {
+      siteKey: string;
+    };
     [key: string]: any;
   };
   page: IChampaignPage;

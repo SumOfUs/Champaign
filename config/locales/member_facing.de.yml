@@ -262,3 +262,4 @@ de:
     message: 'Cookies erleichtern die Nutzung unserer Webseite.'
     dismiss_button_text: 'Einverstanden, weiter'
     privacy_policy_link_text: 'Datenschutz'
+  recaptcha_branding_html: 'Diese Website ist durch reCAPTCHA geschützt und es gelten die <a href="https://policies.google.com/privacy?hl=de">Datenschutzbestimmungen</a> and <a href="https://policies.google.com/terms?hl=de">Nutzungsbedingungen</a> von Google.'
