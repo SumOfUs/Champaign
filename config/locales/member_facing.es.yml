@@ -270,3 +270,4 @@ es:
     message: 'Las cookies son importantes para el funcionamiento de este sitio.'
     dismiss_button_text: 'Aceptar & Continuar'
     privacy_policy_link_text: 'Política de privacidad'
+  recaptcha_branding_html: 'Este sitio está protegido por reCAPTCHA y se aplican la <a href="https://policies.google.com/privacy?hl=es">Política de Privacidad</a> y los <a href="https://policies.google.com/terms?hl=es">Términos de Servicio</a> de Google.'

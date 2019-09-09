@@ -449,6 +449,7 @@ export class Payment extends Component {
               For further information, please contact info@sumofus.org.
             `}
           />
+          <ReCaptchaBranding />
         </div>
 
         {this.props.showDirectDebit && (
@@ -456,8 +457,6 @@ export class Payment extends Component {
             <img src={require('./dd_logo_landscape.png')} alt="DIRECT Debit" />
           </div>
         )}
-
-        <ReCaptchaBranding />
       </div>
     );
   }
