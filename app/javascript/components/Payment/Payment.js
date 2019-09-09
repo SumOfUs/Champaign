@@ -6,6 +6,7 @@ import braintreeClient from 'braintree-web/client';
 import dataCollector from 'braintree-web/data-collector';
 import { isEmpty } from 'lodash';
 import ee from '../../shared/pub_sub';
+import captcha from '../../shared/recaptcha';
 
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
@@ -26,7 +27,6 @@ import ExpressDonation from '../ExpressDonation/ExpressDonation';
 // Styles
 import './Payment.css';
 
-const RECAPTCHA_SITE_KEY = window.champaign.configuration.recaptcha3.siteKey;
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
@@ -48,7 +48,6 @@ export class Payment extends Component {
       },
       errors: [],
       waitingForGoCardless: false,
-      recaptacha_token: null,
     };
   }
 
@@ -85,27 +84,8 @@ export class Payment extends Component {
         console.warn('could not fetch Braintree token');
       });
     this.bindGlobalEvents();
-    if (RECAPTCHA_SITE_KEY) this.loadReCaptcha();
   }
 
-  loadReCaptcha() {
-    try {
-      grecaptcha
-        .execute(RECAPTCHA_SITE_KEY, { action: `donate/${this.props.page.id}` })
-        .then(
-          token => {
-            this.setState({
-              recaptacha_token: token,
-            });
-          },
-          error => {
-            console.warn('Error fetching recaptcha token ', error);
-          }
-        );
-    } catch (error) {
-      console.warn('Error trying to execute grecaptcha.', error);
-    }
-  }
   bindGlobalEvents() {
     ee.on('fundraiser:actions:make_payment', this.makePayment);
   }
@@ -252,13 +232,16 @@ export class Payment extends Component {
     }
   };
 
-  submit = data => {
+  submit = async data => {
+    const recaptcha_action = `donate/${this.props.page.id}`;
+    const recaptcha_token = await captcha.execute({ action: recaptcha_action });
+
     const payload = {
       ...this.donationData(),
       payment_method_nonce: data.nonce,
       device_data: this.state.deviceData,
-      recaptacha_token: this.state.recaptacha_token,
-      recaptacha_action: `donate/${this.props.page.id}`,
+      recaptacha_token,
+      recaptacha_action,
     };
 
     this.emitTransactionSubmitted();
@@ -327,7 +310,6 @@ export class Payment extends Component {
     } else {
       errors = [<FormattedMessage id="fundraiser.unknown_error" />];
     }
-    if (RECAPTCHA_SITE_KEY) this.loadReCaptcha();
     this.setState({ errors: errors });
     this.onError(response);
   };
