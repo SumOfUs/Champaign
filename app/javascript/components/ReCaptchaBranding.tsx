@@ -5,15 +5,7 @@ const ReCaptchaBranding = () => (
   <p className="ReCaptchaBranding">
     <FormattedHTMLMessage
       id="recaptcha_branding_html"
-      defaultMessage={
-        <p>
-          {'This site is protected by reCAPTCHA and the Google '}
-          <a href="https://policies.google.com/privacy">Privacy Policy </a>
-          {' and '}
-          <a href="https://policies.google.com/terms">Terms of Service</a>
-          {' apply.'}
-        </p>
-      }
+      defaultMessage="This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply."
     />
   </p>
 );
