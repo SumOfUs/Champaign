@@ -5,7 +5,7 @@ class Api::Payment::BraintreeController < PaymentController
   protect_from_forgery with: :exception, prepend: true
   skip_before_action :verify_authenticity_token, raise: false, except: [:transaction]
   before_action :check_api_key, only: [:refund]
-  before_action :verify_bot, only: [:transaction]
+  before_action :verify_bot, only: [:transaction], unless: -> { member_matches_payload }
 
   def token
     render json: { token: ::Braintree::ClientToken.generate }
@@ -99,5 +99,11 @@ class Api::Payment::BraintreeController < PaymentController
       render json: { success: false, message: msg }, status: :unprocessible_entity
       return false
     end
+  end
+
+  def member_matches_payload
+    return false unless recognized_member.present?
+
+    recognized_member.email == user_params[:email]
   end
 end
