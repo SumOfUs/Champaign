@@ -19,7 +19,8 @@ const create = async function(params) {
   const payload = {
     call: inner,
     ...params.trackingParams,
-    recaptcha_token,
+    'g-recaptcha-response': recaptcha_token,
+    recaptcha_action,
   };
 
   return new Promise((resolve, reject) => {
