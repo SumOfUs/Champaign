@@ -3,6 +3,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { camelCase, isEmpty, filter, find, sample } from 'lodash';
 import { CallsClient } from '../../util/ChampaignClient';
 import Form from '../../components/CallTool/Form';
+import ReCaptchaBranding from '../../components/ReCaptchaBranding';
 
 class CallToolView extends Component {
   constructor(props) {
@@ -163,6 +164,7 @@ class CallToolView extends Component {
             }),
           }}
         />
+        <ReCaptchaBranding className="fine-print" />
       </div>
     );
   }
