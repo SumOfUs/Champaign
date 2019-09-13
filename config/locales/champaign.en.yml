@@ -134,6 +134,7 @@ en:
       labels:
         title: "Edit Page Title"
         override_forms: Replace page's forms with the default in the selected language
+        exclude_shares: Ignore cloning share variants
         submit: "Clone!"
   pages:
     index:

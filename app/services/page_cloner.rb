@@ -5,17 +5,18 @@ class ClonePageError < StandardError; end
 class PageCloner
   include Rails.application.routes.url_helpers
 
-  attr_reader :page, :cloned_page, :title
+  attr_reader :page, :cloned_page, :title, :exclude_shares
 
-  def self.clone(page, title = nil, language_id = nil, override_forms = false)
-    new(page, title, language_id, override_forms).clone
+  def self.clone(page, title = nil, language_id = nil, override_forms = false, exclude_shares = false)
+    new(page, title, language_id, override_forms, exclude_shares).clone
   end
 
-  def initialize(page, title = nil, language_id = nil, override_forms = false)
+  def initialize(page, title = nil, language_id = nil, override_forms = false, exclude_shares = false)
     @page = page
     @title = title
     @language_id = language_id&.to_i
     @override_forms = override_forms
+    @exclude_shares = exclude_shares
   end
 
   def clone
@@ -25,7 +26,7 @@ class PageCloner
       plugins # needs to go after language
       tags
       images
-      shares # needs to go after images
+      shares unless exclude_shares # needs to go after images
     end
   end
 
