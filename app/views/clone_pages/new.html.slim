@@ -20,8 +20,12 @@
           = t('.labels.override_forms')
 
       .form-group
+        label.edit-page-checkbox
+          = check_box_tag :exclude_shares
+          = t('.labels.exclude_shares')
+
+      .form-group
         p
           = f.submit t('.labels.submit'), class: 'btn btn-sm btn-primary submit-new-page'
           = link_to t('common.cancel'), :back, class: 'btn btn-sm'
         = hidden_field_tag :id, @page.id
-

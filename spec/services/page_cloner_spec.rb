@@ -59,8 +59,9 @@ describe PageCloner do
     @title ||= nil
     @language_id ||= nil
     @override_forms ||= nil
+    @exclude_shares ||= nil
     VCR.use_cassette('page_cloner_share_success') do
-      PageCloner.clone(page, @title, @language_id, @override_forms).reload
+      PageCloner.clone(page, @title, @language_id, @override_forms, @exclude_shares).reload
     end
   end
 
@@ -301,6 +302,25 @@ describe PageCloner do
       plugins_array = [Plugins::CallTool]
       expect(formless_page.plugins.count).to eq 1
       expect(formless_page.plugins.map(&:class)).to match_array(plugins_array)
+    end
+  end
+
+  context 'excluding shares from clone' do
+    subject(:cloned_page) do
+      @exclude_shares = true
+      VCR.use_cassette('page_cloner_excluding_share') do
+        PageCloner.clone(page, 'The English Patient', nil, false, true)
+      end
+    end
+
+    it 'assigns new title' do
+      expect(cloned_page.title).to eq('The English Patient')
+      expect(cloned_page.slug).to  eq('the-english-patient')
+    end
+
+    it 'should not clones shares' do
+      expect(page.shares.size).to eql 4
+      expect(cloned_page.shares.size).to eql 0
     end
   end
 end
