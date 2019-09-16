@@ -306,21 +306,19 @@ describe PageCloner do
   end
 
   context 'excluding shares from clone' do
-    subject(:cloned_page) do
+    before do
       @exclude_shares = true
-      VCR.use_cassette('page_cloner_excluding_share') do
-        PageCloner.clone(page, 'The English Patient', nil, false, true)
-      end
+      @cloned_page = PageCloner.clone(page, 'The English Patient', nil, false, true)
     end
 
     it 'assigns new title' do
-      expect(cloned_page.title).to eq('The English Patient')
-      expect(cloned_page.slug).to  eq('the-english-patient')
+      expect(@cloned_page.title).to eq('The English Patient')
+      expect(@cloned_page.slug).to  eq('the-english-patient')
     end
 
     it 'should not clones shares' do
       expect(page.shares.size).to eql 4
-      expect(cloned_page.shares.size).to eql 0
+      expect(@cloned_page.shares.size).to eql 0
     end
   end
 end
