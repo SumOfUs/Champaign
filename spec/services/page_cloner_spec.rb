@@ -307,7 +307,6 @@ describe PageCloner do
 
   context 'excluding shares from clone' do
     before do
-      @exclude_shares = true
       @cloned_page = PageCloner.clone(page, 'The English Patient', nil, false, true)
     end
 
