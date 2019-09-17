@@ -33,4 +33,4 @@ javascript:
 
   = render partial: 'plugins/call_tools/targets', locals: { plugin: plugin }
   - if plugin.targets.present?
-    = link_to "Export", "/plugins/call_tools/35/export_targets",  id: 'targets-export-btn', class: 'btn btn-default'
+    = link_to "Export", export_targets_plugins_call_tool_path(plugin),  id: 'targets-export-btn', class: 'btn btn-default'
