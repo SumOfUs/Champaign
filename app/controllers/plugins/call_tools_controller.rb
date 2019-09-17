@@ -15,6 +15,11 @@ module Plugins
              layout: false
     end
 
+    def export_targets
+      @call_tool = Plugins::CallTool.find(params[:id])
+      send_data @call_tool.targets_to_csv, filename: "calltool-targets-#{@call_tool.id}-#{Time.now.to_i}.csv"
+    end
+
     def update_sound_clip
       @call_tool = Plugins::CallTool.find(params[:id])
       updater = ::CallTool::PluginUpdater.new(@call_tool, sound_clip_params)

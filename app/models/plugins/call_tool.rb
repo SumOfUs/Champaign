@@ -56,6 +56,17 @@ class Plugins::CallTool < ApplicationRecord
     write_attribute(:restricted_country_code, new_value)
   end
 
+  def targets_to_csv
+    attributes = %w[name phone_number]
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      targets.each do |target|
+        csv << attributes.map { |attr| target.send(attr) }
+      end
+    end
+  end
+
   private
 
   def restricted_country_code_is_valid

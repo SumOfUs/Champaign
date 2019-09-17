@@ -95,4 +95,18 @@ describe Plugins::CallTool do
       expect(call_tool.target_by_attributes.size).to be(1)
     end
   end
+
+  describe '#targets_to_csv' do
+    let(:call_tool) { create :call_tool }
+    let(:targets) { call_tool.targets }
+
+    subject { call_tool.targets_to_csv }
+
+    it 'should generate csv records' do
+      targets.each do |t|
+        expect(subject).to include t.name
+        expect(subject).to include t.phone_number
+      end
+    end
+  end
 end
