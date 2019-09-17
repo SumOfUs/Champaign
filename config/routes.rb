@@ -97,6 +97,7 @@ Rails.application.routes.draw do
       delete :sound_clip, on: :member, action: :delete_sound_clip
       post :sound_clip, on: :member, action: :update_sound_clip
       post :targets, on: :member, action: :update_targets
+      get :export_targets, on: :member
     end
     resources :email_tools do
       post :targets, on: :member, action: :update_targets
