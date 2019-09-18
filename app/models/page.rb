@@ -201,6 +201,10 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
     plugins.first.is_a?(Plugins::Fundraiser)
   end
 
+  def donation_followup?
+    follow_up_liquid_layout.try(:title).to_s.include?('donate')
+  end
+
   private
 
   def switch_plugins
