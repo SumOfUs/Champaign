@@ -358,6 +358,7 @@ describe LiquidRenderer do
         url_params.merge!(hiddens)
         renderer = LiquidRenderer.new(page, member: member, url_params: url_params)
         expected = { country: 'NI', email: 'sup@dude.com' }.merge(hiddens)
+        expected[:source] = "post-action-#{page.id}-c"
         expect(renderer.personalization_data['form_values']).to eq(expected.stringify_keys)
       end
     end

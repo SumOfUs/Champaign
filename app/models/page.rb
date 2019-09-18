@@ -55,7 +55,7 @@
 #  fk_rails_...  (primary_image_id => images.id)
 #
 
-class Page < ApplicationRecord
+class Page < ApplicationRecord # rubocop:disable ClassLength
   extend FriendlyId
   has_paper_trail
 
@@ -177,6 +177,10 @@ class Page < ApplicationRecord
 
   def subscriptions_count
     braintree_subscriptions.count + go_cardless_subscriptions.count
+  end
+
+  def donation_followup?
+    follow_up_liquid_layout.try(:title).to_s.include?('donate')
   end
 
   private

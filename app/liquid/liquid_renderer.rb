@@ -1,19 +1,26 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
-
-class LiquidRenderer
+class LiquidRenderer # rubocop:disable Metrics/ClassLength
   include Rails.application.routes.url_helpers
 
   HIDDEN_FIELDS = %w[source bucket referrer_id rid akid referring_akid].freeze
 
   def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [])
-    @page = page
-    @location = location
-    @member = member
-    @url_params = url_params
+    @page            = page
+    @location        = location
+    @member          = member
     @payment_methods = payment_methods
+    @url_params      = url_params
+
+    # if @url_params.dig(:source)
+    #   @url_params.merge!(source: formatted_source, original_source: url_params[:source])
+    # end
   end
+
+  # def formatted_source
+  #   # @page.ak_donation_resource_uri
+  #   # "post-action-#{@page.try(:id)}-#{@url_params[:source]}" : nil)
+  # end
 
   def render
     render_layout(@page.liquid_layout)
@@ -37,8 +44,8 @@ class LiquidRenderer
   def personalization_data
     {
       url_params: @url_params,
-      member:     member_data,
-      location:   location,
+      member: member_data,
+      location: location,
       form_values: form_values,
       outstanding_fields: outstanding_fields,
       donation_bands: donation_bands,
@@ -66,11 +73,11 @@ class LiquidRenderer
   # are not used when rendering markup
   def markup_data
     {
-      images:        images,
-      named_images:  named_images,
+      images: images,
+      named_images: named_images,
       primary_image: image_urls(@page.image_to_display),
-      shares:        Shares.get_all(@page),
-      locale:        @page.language&.code || 'en',
+      shares: Shares.get_all(@page),
+      locale: @page.language&.code || 'en',
       follow_up_url: follow_up_url
     }
       .merge(@page.liquid_data)
@@ -148,6 +155,7 @@ class LiquidRenderer
 
   def location
     return @location if @location.blank?
+
     country_code = if @member.try(:country) && @member.country.length == 2
                      @member.country
                    else
@@ -155,12 +163,14 @@ class LiquidRenderer
                    end
     return @location.data if country_code.blank?
     return { country: 'US' } if country_code == 'RD'
+
     currency = Donations::Utils.currency_from_country_code(country_code)
     @location.data.merge(currency: currency, country: country_code)
   end
 
   def image_urls(img)
     return { urls: { large: '', small: '', original: '' } } if img.blank? || img.content.blank?
+
     { urls: { large: img.content.url(:large), small: img.content.url(:thumb), original: img.content.url(:original) } }
   end
 
