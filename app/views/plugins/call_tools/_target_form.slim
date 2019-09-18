@@ -32,3 +32,5 @@ javascript:
     = button_tag "Choose file", id: 'targets-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
 
   = render partial: 'plugins/call_tools/targets', locals: { plugin: plugin }
+  - if plugin.targets.present?
+    = link_to "Export", export_targets_plugins_call_tool_path(plugin),  id: 'targets-export-btn', class: 'btn btn-default'

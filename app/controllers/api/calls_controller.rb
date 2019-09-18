@@ -4,12 +4,23 @@ class Api::CallsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
-    service = CallCreator.new(call_params, tracking_params)
+    success = verify_recaptcha(action: params[:recaptcha_action], minimum_score: 0.5)
 
-    if service.run
-      head :no_content
+    if success
+      service = CallCreator.new(call_params, tracking_params)
+
+      if service.run
+        head :no_content
+      else
+        render json: { errors: service.errors, name: 'call' }, status: :unprocessable_entity
+      end
     else
-      render json: { errors: service.errors, name: 'call' }, status: :unprocessable_entity
+      error = [
+        {
+          recaptcha: I18n.t('call_tool.errors.recaptcha_fail')
+        }
+      ]
+      render json: { errors: error, name: 'call' }, status: :unprocessable_entity
     end
   end
 

@@ -61,6 +61,7 @@ gem 'metamagic'
 gem 'money-oxr', '~> 0.4.1'
 gem 'newrelic_rpm'
 gem 'puma', '~> 3.12.0'
+gem 'recaptcha'
 gem 'sass-rails'
 gem 'sentry-raven'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', tag: 'v0.1.5', require: false

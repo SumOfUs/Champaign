@@ -1,7 +1,7 @@
-//
 import { parseResponse } from './Base';
+import captcha from '../../shared/recaptcha';
 
-const create = function(params) {
+const create = async function(params) {
   const inner = {};
   inner.member_phone_number = params.memberPhoneNumber;
   if (!!params.targetPhoneExtension)
@@ -13,9 +13,14 @@ const create = function(params) {
   if (!!params.checksum) inner.checksum = params.checksum;
   if (!!params.targetId) inner.target_id = params.targetId;
 
+  const recaptcha_action = `call/${params.pageId}`;
+  const recaptcha_token = await captcha.execute({ action: recaptcha_action });
+
   const payload = {
     call: inner,
     ...params.trackingParams,
+    'g-recaptcha-response': recaptcha_token,
+    recaptcha_action,
   };
 
   return new Promise((resolve, reject) => {
