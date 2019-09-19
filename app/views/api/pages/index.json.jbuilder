@@ -27,11 +27,13 @@ json.array! @pages do |page|
     json.active thermometer.active
 
     if thermometer.type == 'ActionsThermometer'
+      json.type 'Action'
       json.remaining data.dig(:remaining)
       json.signatures data.dig(:signatures)
       json.goals data.dig(:goal_k)
 
     elsif thermometer.type == 'DonationsThermometer'
+      json.type 'Donation'
       json.percentage data.dig(:percentage)
       json.total_donations data.dig(:total_donations)
       json.goals data.dig(:goals)
