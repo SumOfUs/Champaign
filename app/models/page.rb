@@ -55,7 +55,7 @@
 #  fk_rails_...  (primary_image_id => images.id)
 #
 
-class Page < ApplicationRecord
+class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   extend FriendlyId
   has_paper_trail
 
@@ -135,6 +135,12 @@ class Page < ApplicationRecord
     primary_image || images.first
   end
 
+  def plugin_thermometers
+    plugins.collect do |x|
+      x if ['Plugins::ActionsThermometer', 'Plugins::DonationsThermometer'].include?(x.class.to_s)
+    end.compact
+  end
+
   def dup
     clone = super
 
@@ -177,6 +183,10 @@ class Page < ApplicationRecord
 
   def subscriptions_count
     braintree_subscriptions.count + go_cardless_subscriptions.count
+  end
+
+  def donation_page?
+    liquid_layout.try(:title).to_s.include?('donat')
   end
 
   private
