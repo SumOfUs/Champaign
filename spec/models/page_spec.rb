@@ -581,4 +581,61 @@ describe Page do
       expect(page.total_donations.to_s).to eq '1200.0'
     end
   end
+
+  describe '#donation_page?' do
+    before  do
+      @page = create :page # , liquid_layout: donation
+    end
+
+    it 'should return false' do
+      [create(:plugins_petition, page: @page),
+       create(:plugins_fundraiser, page: @page)]
+      expect(@page.donation_page?).to be_falsey
+    end
+
+    it 'should return true' do
+      [create(:plugins_donations_thermometer, page: @page),
+       create(:plugins_fundraiser, page: @page)]
+      expect(@page.donation_page?).to be_truthy
+    end
+
+    it 'should return false' do
+      [create(:call_tool, page: @page)]
+      expect(@page.donation_page?).to be_falsey
+    end
+  end
+
+  describe '#plugin_thermometers' do
+    before  do
+      @page = create :page
+      [create(:plugins_petition, page: @page),
+       create(:plugins_fundraiser, page: @page),
+       create(:call_tool, page: @page),
+       create(:plugins_donations_thermometer, page: @page),
+       create(:plugins_actions_thermometer, page: @page)]
+    end
+
+    it 'should return donations and actions thermometer alone' do
+      expect(@page.plugin_thermometers.size).to eql 3
+      expect(@page.plugin_thermometers.map(&:type)).to include('DonationsThermometer', 'ActionsThermometer')
+    end
+  end
+
+  describe '#plugin_thermometer_data', focus: true do
+    before do
+      @page = create :page
+      [create(:plugins_fundraiser, page: @page),
+       create(:plugins_donations_thermometer, page: @page)]
+    end
+
+    it 'should return donations thermometer' do
+      expect(@page.plugin_thermometer_data.dig('type')).to include('DonationsThermometer')
+    end
+
+    it 'should return actions thermometer' do
+      [create(:plugins_petition, page: @page),
+       create(:plugins_actions_thermometer, page: @page)]
+      expect(@page.plugin_thermometer_data.dig('type')).to include('ActionsThermometer')
+    end
+  end
 end
