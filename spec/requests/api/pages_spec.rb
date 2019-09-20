@@ -22,6 +22,9 @@ describe 'api/pages' do
       featured
       image
       url
+      donation_page
+      plugin_names
+      percentage_completed
     ]
   end
 
