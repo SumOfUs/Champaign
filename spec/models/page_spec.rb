@@ -621,7 +621,7 @@ describe Page do
     end
   end
 
-  describe '#plugin_thermometer_data', focus: true do
+  describe '#plugin_thermometer_data' do
     before do
       @page = create :page
       [create(:plugins_fundraiser, page: @page),
