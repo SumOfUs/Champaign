@@ -19,24 +19,5 @@ json.array! @pages do |page|
   json.image image_url(page)
   json.url member_facing_page_url(page)
   json.donation_page page.donation_page?
-
-  json.plugins_info page.plugin_thermometers do |thermometer|
-    data = thermometer.liquid_data || {}
-    json.id thermometer.id
-    json.offset thermometer.offset
-    json.active thermometer.active
-
-    if thermometer.type == 'ActionsThermometer'
-      json.type 'Action'
-      json.remaining data.dig(:remaining)
-      json.signatures data.dig(:signatures)
-      json.goals data.dig(:goal_k)
-
-    elsif thermometer.type == 'DonationsThermometer'
-      json.type 'Donation'
-      json.percentage data.dig(:percentage)
-      json.total_donations data.dig(:total_donations)
-      json.goals data.dig(:goals)
-    end
-  end
+  json.percentage_completed page.plugin_thermometer_data.dig(:percentage)
 end

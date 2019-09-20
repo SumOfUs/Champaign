@@ -141,6 +141,11 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end.compact
   end
 
+  def plugin_thermometer_data
+    thermometer = donation_page? ? 'DonationsThermometer' : 'ActionsThermometer'
+    plugin_thermometers.select { |x| x.type == thermometer }.first.try(:liquid_data) || {}
+  end
+
   def dup
     clone = super
 
