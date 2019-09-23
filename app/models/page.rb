@@ -137,13 +137,13 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def plugin_thermometers
     plugins.collect do |x|
-      x if ['Plugins::ActionsThermometer', 'Plugins::DonationsThermometer'].include?(x.class.to_s)
+      x if [Plugins::ActionsThermometer, Plugins::DonationsThermometer].member?(x.class)
     end.compact
   end
 
   def plugin_thermometer_data
-    thermometer = donation_page? ? 'DonationsThermometer' : 'ActionsThermometer'
-    plugin_thermometers.select { |x| x.type == thermometer }.first.try(:liquid_data) || {}
+    thermometer = donation_page? ? Plugins::DonationsThermometer : Plugins::ActionsThermometer
+    plugin_thermometers.select { |x| x.is_a?(thermometer) }.first.try(:liquid_data) || {}
   end
 
   def dup
@@ -194,7 +194,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # So for page which has petition and followup as donation
   # the page is considered as petition page.
   def donation_page?
-    plugin_names.include?('fundraiser') && !plugin_names.include?('petition')
+    plugins.first.is_a?(Plugins::Fundraiser)
   end
 
   private
