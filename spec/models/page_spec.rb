@@ -583,59 +583,87 @@ describe Page do
   end
 
   describe '#donation_page?' do
-    before  do
-      @page = create :page # , liquid_layout: donation
+    let(:page) { create :page }
+
+    context 'petition' do
+      before do
+        create(:plugins_petition, page: page)
+        create(:plugins_fundraiser, page: page)
+        create(:plugins_actions_thermometer, page: page)
+        create(:plugins_donations_thermometer, page: page)
+      end
+
+      it 'should return false' do
+        expect(page.donation_page?).to be false
+      end
     end
 
-    it 'should return false' do
-      [create(:plugins_petition, page: @page),
-       create(:plugins_fundraiser, page: @page)]
-      expect(@page.donation_page?).to be_falsey
+    context 'donation' do
+      before do
+        create(:plugins_fundraiser, page: page)
+        create(:plugins_donations_thermometer, page: page)
+      end
+
+      it 'should return true' do
+        expect(page.donation_page?).to be true
+      end
     end
 
-    it 'should return true' do
-      [create(:plugins_donations_thermometer, page: @page),
-       create(:plugins_fundraiser, page: @page)]
-      expect(@page.donation_page?).to be_truthy
-    end
+    context 'calltool' do
+      before do
+        create(:call_tool, page: page)
+      end
 
-    it 'should return false' do
-      [create(:call_tool, page: @page)]
-      expect(@page.donation_page?).to be_falsey
+      it 'should return false' do
+        expect(page.donation_page?).to be false
+      end
     end
   end
 
   describe '#plugin_thermometers' do
-    before  do
-      @page = create :page
-      [create(:plugins_petition, page: @page),
-       create(:plugins_fundraiser, page: @page),
-       create(:call_tool, page: @page),
-       create(:plugins_donations_thermometer, page: @page),
-       create(:plugins_actions_thermometer, page: @page)]
+    let(:page) { create :page }
+
+    before do
+      create(:plugins_petition, page: page)
+      create(:plugins_fundraiser, page: page)
+      create(:call_tool, page: page)
+      create(:plugins_donations_thermometer, page: page)
+      create(:plugins_actions_thermometer, page: page)
     end
 
     it 'should return donations and actions thermometer alone' do
-      expect(@page.plugin_thermometers.size).to eql 3
-      expect(@page.plugin_thermometers.map(&:type)).to include('DonationsThermometer', 'ActionsThermometer')
+      expect(page.plugin_thermometers.size).to eql 3
+      expect(page.plugin_thermometers.map(&:type)).to include('DonationsThermometer', 'ActionsThermometer')
     end
   end
 
   describe '#plugin_thermometer_data' do
-    before do
-      @page = create :page
-      [create(:plugins_fundraiser, page: @page),
-       create(:plugins_donations_thermometer, page: @page)]
+    let(:page) { create :page }
+
+    context 'donation thermometer' do
+      before do
+        create(:plugins_fundraiser, page: page)
+        create(:plugins_donations_thermometer, page: page)
+      end
+
+      it 'should return donations thermometer' do
+        expect(page.plugin_thermometer_data.dig('type')).to include('DonationsThermometer')
+      end
     end
 
-    it 'should return donations thermometer' do
-      expect(@page.plugin_thermometer_data.dig('type')).to include('DonationsThermometer')
-    end
+    context 'action thermometer' do
+      before do
+        # Petition plugin are created first generally.
+        # so the sequence is maintained here as it is
+        create(:plugins_petition, page: page)
+        create(:plugins_actions_thermometer, page: page)
+        create(:plugins_fundraiser, page: page)
+        create(:plugins_donations_thermometer, page: page)
+      end
 
-    it 'should return actions thermometer' do
-      [create(:plugins_petition, page: @page),
-       create(:plugins_actions_thermometer, page: @page)]
-      expect(@page.plugin_thermometer_data.dig('type')).to include('ActionsThermometer')
+      it 'should return actions thermometer' do
+        expect(page.plugin_thermometer_data.dig('type')).to include('ActionsThermometer')
+      end
     end
   end
 end
