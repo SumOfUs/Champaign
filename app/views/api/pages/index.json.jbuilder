@@ -12,9 +12,12 @@ json.array! @pages do |page|
     :publish_status,
     :featured,
     :action_count,
-    :campaign_action_count
+    :campaign_action_count,
+    :plugin_names
   )
   json.language page.language.code
   json.image image_url(page)
   json.url member_facing_page_url(page)
+  json.donation_page page.donation_page?
+  json.percentage_completed page.plugin_thermometer_data.dig(:percentage).to_f
 end
