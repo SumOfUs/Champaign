@@ -56,8 +56,11 @@ class Api::GoCardlessController < PaymentController
       session_token: session[:go_cardless_session_id]
     }.tap do |options|
       options[:extra_params] = unsafe_params[:extra_action_fields] if unsafe_params[:extra_action_fields].present?
-      options[:extra_params] ||= {}
-      options[:extra_params][:source] = params[:source] if params[:source].present?
+
+      if params[:source].present?
+        options[:extra_params] ||= {}
+        options[:extra_params][:source] = params[:source]
+      end
     end
   end
 
