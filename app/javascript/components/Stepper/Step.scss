@@ -2,7 +2,7 @@
   z-index: 1;
   align-self: vertical-align;
   text-align: center;
-
+  flex: 0 0 33%;
   &.complete {
     cursor: pointer;
   }
@@ -15,7 +15,6 @@
   margin-top: 6px;
   color: #b2b5ba;
 }
-
 
 .Step__circle {
   border-radius: 22px;

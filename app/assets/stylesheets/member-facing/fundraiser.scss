@@ -1,8 +1,6 @@
 @import 'compass/css3/filter';
 
 .fundraiser-bar {
-  text-align: left;
-
   &__steps {
     position: relative;
     width: 100%;
@@ -468,4 +466,18 @@
 
 .action-form__one-click {
   clear: both;
+}
+
+.fundraiser-bar.stuck-right {
+  .fundraiser-bar__main {
+    text-align: center;
+    background: white;
+    border: 0.4px solid #dfdfdf;
+    border-top: transparent;
+    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+    height: 70vh !important;
+    border-top: 0px transparent;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
 }
