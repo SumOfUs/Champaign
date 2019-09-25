@@ -11,7 +11,7 @@
   color: black;
   min-height: 68px;
   overflow: visible;
-  border: solid 0.4px #dfdfdf;
+  border: solid 0.6px #dfdfdf;
   border-bottom: 0px transparent;
   border-top-right-radius: 2px;
   border-top-left-radius: 2px;
@@ -71,22 +71,27 @@
 // }
 
 .submission-interstitial {
-  box-sizing: border-box;
-  @include viewport-unit(height, 100vh);
+  @include viewport-unit(height, 70vh);
 
   width: 100%;
-  background: #ececec;
-  position: absolute;
+  background: #fff;
   z-index: 100;
   padding: 30px;
   text-align: center;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   &__title {
     font-size: 30px;
-    margin-top: 80px;
+    font-weight: 600;
     .fa {
-      margin-right: 10px;
+      margin-right: 15px;
     }
+  }
+  h4 {
+    font-weight: 400;
+    padding: 20px 0;
   }
 }
 
