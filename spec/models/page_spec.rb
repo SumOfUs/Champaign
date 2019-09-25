@@ -581,4 +581,89 @@ describe Page do
       expect(page.total_donations.to_s).to eq '1200.0'
     end
   end
+
+  describe '#donation_page?' do
+    let(:page) { create :page }
+
+    context 'petition' do
+      before do
+        create(:plugins_petition, page: page)
+        create(:plugins_fundraiser, page: page)
+        create(:plugins_actions_thermometer, page: page)
+        create(:plugins_donations_thermometer, page: page)
+      end
+
+      it 'should return false' do
+        expect(page.donation_page?).to be false
+      end
+    end
+
+    context 'donation' do
+      before do
+        create(:plugins_fundraiser, page: page)
+        create(:plugins_donations_thermometer, page: page)
+      end
+
+      it 'should return true' do
+        expect(page.donation_page?).to be true
+      end
+    end
+
+    context 'calltool' do
+      before do
+        create(:call_tool, page: page)
+      end
+
+      it 'should return false' do
+        expect(page.donation_page?).to be false
+      end
+    end
+  end
+
+  describe '#plugin_thermometers' do
+    let(:page) { create :page }
+
+    before do
+      create(:plugins_petition, page: page)
+      create(:plugins_fundraiser, page: page)
+      create(:call_tool, page: page)
+      create(:plugins_donations_thermometer, page: page)
+      create(:plugins_actions_thermometer, page: page)
+    end
+
+    it 'should return donations and actions thermometer alone' do
+      expect(page.plugin_thermometers.size).to eql 3
+      expect(page.plugin_thermometers.map(&:type)).to include('DonationsThermometer', 'ActionsThermometer')
+    end
+  end
+
+  describe '#plugin_thermometer_data' do
+    let(:page) { create :page }
+
+    context 'donation thermometer' do
+      before do
+        create(:plugins_fundraiser, page: page)
+        create(:plugins_donations_thermometer, page: page)
+      end
+
+      it 'should return donations thermometer' do
+        expect(page.plugin_thermometer_data.dig('type')).to include('DonationsThermometer')
+      end
+    end
+
+    context 'action thermometer' do
+      before do
+        # Petition plugin are created first generally.
+        # so the sequence is maintained here as it is
+        create(:plugins_petition, page: page)
+        create(:plugins_actions_thermometer, page: page)
+        create(:plugins_fundraiser, page: page)
+        create(:plugins_donations_thermometer, page: page)
+      end
+
+      it 'should return actions thermometer' do
+        expect(page.plugin_thermometer_data.dig('type')).to include('ActionsThermometer')
+      end
+    end
+  end
 end

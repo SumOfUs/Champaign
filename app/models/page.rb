@@ -55,7 +55,7 @@
 #  fk_rails_...  (primary_image_id => images.id)
 #
 
-class Page < ApplicationRecord
+class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   extend FriendlyId
   has_paper_trail
 
@@ -135,6 +135,17 @@ class Page < ApplicationRecord
     primary_image || images.first
   end
 
+  def plugin_thermometers
+    plugins.collect do |x|
+      x if [Plugins::ActionsThermometer, Plugins::DonationsThermometer].member?(x.class)
+    end.compact
+  end
+
+  def plugin_thermometer_data
+    thermometer = donation_page? ? Plugins::DonationsThermometer : Plugins::ActionsThermometer
+    plugin_thermometers.select { |x| x.is_a?(thermometer) }.first.try(:liquid_data) || {}
+  end
+
   def dup
     clone = super
 
@@ -177,6 +188,13 @@ class Page < ApplicationRecord
 
   def subscriptions_count
     braintree_subscriptions.count + go_cardless_subscriptions.count
+  end
+
+  # Mostly donations comes as followup action
+  # So for page which has petition and followup as donation
+  # the page is considered as petition page.
+  def donation_page?
+    plugins.first.is_a?(Plugins::Fundraiser)
   end
 
   private

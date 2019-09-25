@@ -1,13 +1,14 @@
 $mobile-width: 700px;
 
-.petition-bar, .fundraiser-bar, .action-form {
-
+.petition-bar,
+.fundraiser-bar,
+.action-form {
   color: $navy;
 
   $padding: 26px;
   position: relative;
   z-index: 600;
-  @media(max-width: $mobile-width) {
+  @media (max-width: $mobile-width) {
     max-width: none;
   }
 
@@ -15,8 +16,10 @@ $mobile-width: 700px;
     margin-top: 17px;
   }
   &.stuck-right {
-    .petition-bar__main, .fundraiser-bar__main {
+    .petition-bar__main,
+    .fundraiser-bar__main {
       @include viewport-unit(height, 100vh);
+      height: 70vh !important;
     }
     .petition-bar__title-bar {
       clip-path: none;
@@ -27,7 +30,11 @@ $mobile-width: 700px;
       }
     }
     .petition-bar__title {
+      background: white;
+      color: black;
       height: 67px;
+      box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+      border: solid 0.4px #dfdfdf;
       @include box-sizing(border-box);
       padding: 21px;
       width: 100%;
@@ -40,6 +47,8 @@ $mobile-width: 700px;
     overflow: visible;
     position: relative;
     min-height: 68px;
+    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+    border: solid 0.4px #dfdfdf;
     &.fundraiser-bar__top {
       @include box-sizing(border-box);
     }
@@ -47,7 +56,8 @@ $mobile-width: 700px;
   &__main {
     background: $chalk-gray;
     padding: $padding;
-
+    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+    border: solid 0.4px #dfdfdf;
     position: absolute;
     overflow: visible;
 
@@ -68,7 +78,7 @@ $mobile-width: 700px;
       right: 0;
       top: 0;
       background: $dark-teal;
-      content: "";
+      content: '';
     }
   }
   &__title {
@@ -153,11 +163,9 @@ $mobile-width: 700px;
   }
 }
 
-
 .overlay-toggle {
   &__mobile-ui {
-
-    @media(min-width: $mobile-width + 1) {
+    @media (min-width: $mobile-width + 1) {
       display: none;
     }
 
@@ -173,7 +181,7 @@ $mobile-width: 700px;
 
       text-align: center;
       background-color: $overcast-gray;
-      @include transition(bottom 0.20s ease-in-out);
+      @include transition(bottom 0.2s ease-in-out);
     }
   }
 
@@ -187,7 +195,7 @@ $mobile-width: 700px;
   }
 }
 
-@media(max-width: $mobile-width) {
+@media (max-width: $mobile-width) {
   .overlay-toggle__mobile-view {
     position: absolute;
     width: 100vw;
@@ -201,7 +209,7 @@ $mobile-width: 700px;
     padding: 0 4%;
     margin: 0;
     background: $chalk-gray;
-    @include transition(top 0.40s ease-in-out);
+    @include transition(top 0.4s ease-in-out);
 
     &--closed {
       top: 2000px;
@@ -215,7 +223,8 @@ $mobile-width: 700px;
     }
   }
 
-  .petition-bar__content, .fundraiser-bar__content {
+  .petition-bar__content,
+  .fundraiser-bar__content {
     height: 100%;
     width: 100%;
     overflow-y: scroll;

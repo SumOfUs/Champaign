@@ -48,7 +48,7 @@
       line-height: 18px;
       @include box-sizing(border-box);
       border: 2px solid white;
-      background: white;
+      background: #f9f9f9;
       border-radius: 3px;
       padding: 18px;
       width: 100%;
@@ -65,6 +65,10 @@
         &.dropdown-active {
           border-bottom: none;
         }
+      }
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.4);
+        font-family: Montserrat;
       }
     }
     input[type='radio'] {
@@ -85,11 +89,18 @@
         -webkit-appearance: none;
       }
     }
-
+    .form__radio {
+      margin: 10px 0 4px;
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.4);
+    }
     label.checkbox-label,
     .form__instruction {
-      margin: 10px 0 4px;
-      font-size: 16px;
+      margin-bottom: 5px;
+      padding: 20px;
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.4);
+      background: #f9f9f9;
     }
 
     textarea {
@@ -135,16 +146,17 @@ label.checkbox-label {
 }
 
 .radio-container {
-  margin-top: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background: #f9f9f9;
   &.has-error {
     border-right: 2px solid red;
     border-bottom: 2px solid red;
   }
   label {
-    margin: 6px 0 6px 10px;
+    margin-top: 15px;
     display: block;
   }
 }
@@ -155,7 +167,7 @@ label.checkbox-label {
   background-color: transparent;
   width: 100%;
   float: left;
-
+  background: #f9f9f9;
   &__label {
     position: absolute;
     top: 16px;
@@ -194,6 +206,7 @@ label.checkbox-label {
   input.sweet-placeholder__field,
   .selectize-control .selectize-input,
   textarea.sweet-placeholder__field {
+    background-color: #f9f9f9;
     padding: 24px 18px 12px;
     font-size: 18px;
     line-height: 21px;
