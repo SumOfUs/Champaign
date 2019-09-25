@@ -1,5 +1,7 @@
-.form__group, .sweet-placeholder {
-  input, textarea {
+.form__group,
+.sweet-placeholder {
+  input,
+  textarea {
     &.has-error {
       border-color: $orange;
     }
@@ -37,7 +39,11 @@
     }
   }
   &--big {
-    input, select, textarea, .selectize-control.single .selectize-input, .hosted-fields__host {
+    input,
+    select,
+    textarea,
+    .selectize-control.single .selectize-input,
+    .hosted-fields__host {
       font-size: 18px;
       line-height: 18px;
       @include box-sizing(border-box);
@@ -53,14 +59,15 @@
         padding: 0 16px;
       }
 
-      &:focus, &.focus {
+      &:focus,
+      &.focus {
         border-color: $teal;
         &.dropdown-active {
           border-bottom: none;
         }
       }
     }
-    input[type="radio"] {
+    input[type='radio'] {
       margin-top: 0;
       margin-right: 6px;
       width: auto;
@@ -68,14 +75,19 @@
     }
     select {
       height: 58px;
+      border-radius: 4px;
+      border: solid 1px #c7c7c7;
+      background-color: #f9f9f9;
+      font-weight: 200;
     }
-    @media(max-width: 420px) {
-      input:not([type=checkbox]):not([type=radio]) {
+    @media (max-width: 420px) {
+      input:not([type='checkbox']):not([type='radio']) {
         -webkit-appearance: none;
       }
     }
 
-    label.checkbox-label, .form__instruction {
+    label.checkbox-label,
+    .form__instruction {
       margin: 10px 0 4px;
       font-size: 16px;
     }
@@ -113,7 +125,7 @@ label.checkbox-label {
     width: 14px;
     height: 14px;
     padding: 0;
-    margin:0;
+    margin: 0;
     top: 0;
     left: 0;
     position: absolute;
@@ -142,7 +154,7 @@ label.checkbox-label {
   position: relative;
   background-color: transparent;
   width: 100%;
-  float: left;  
+  float: left;
 
   &__label {
     position: absolute;
@@ -171,8 +183,11 @@ label.checkbox-label {
     &--full {
       color: rgba(black, 0.6);
     }
-    &--active, &--full {
-      @include transform(perspective(1px) scale(0.6) translate3d(0px, -15px, 0px));
+    &--active,
+    &--full {
+      @include transform(
+        perspective(1px) scale(0.6) translate3d(0px, -15px, 0px)
+      );
       max-width: 170%;
     }
   }

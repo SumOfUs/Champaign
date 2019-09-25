@@ -24,15 +24,13 @@ export default function WelcomeMember(props) {
 
   return (
     <div className="WelcomeMember">
-      <i className="WelcomeMember__icon fa fa-check-square-o" />
-      <div>
-        <span className="WelcomeMember__name">
-          {props.member.name || props.member.email}
-        </span>
-        <a className="WelcomeMember__link" onClick={props.resetMember}>
-          <FormattedMessage id="form.switch_user" />
-        </a>
+      <div className="WelcomeMember__name">
+        <i className="WelcomeMember__icon fa fa-check-circle" />
+        <span>{props.member.name || props.member.email}</span>
       </div>
+      <a className="WelcomeMember__link" onClick={props.resetMember}>
+        <FormattedMessage id="form.switch_user" />
+      </a>
     </div>
   );
 }
