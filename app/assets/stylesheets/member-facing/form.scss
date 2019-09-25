@@ -1,5 +1,7 @@
-.form__group, .sweet-placeholder {
-  input, textarea {
+.form__group,
+.sweet-placeholder {
+  input,
+  textarea {
     &.has-error {
       border-color: $orange;
     }
@@ -37,12 +39,16 @@
     }
   }
   &--big {
-    input, select, textarea, .selectize-control.single .selectize-input, .hosted-fields__host {
+    input,
+    select,
+    textarea,
+    .selectize-control.single .selectize-input,
+    .hosted-fields__host {
       font-size: 18px;
       line-height: 18px;
       @include box-sizing(border-box);
       border: 2px solid white;
-      background: white;
+      background: #f9f9f9;
       border-radius: 3px;
       padding: 18px;
       width: 100%;
@@ -53,14 +59,19 @@
         padding: 0 16px;
       }
 
-      &:focus, &.focus {
+      &:focus,
+      &.focus {
         border-color: $teal;
         &.dropdown-active {
           border-bottom: none;
         }
       }
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.4);
+        font-family: Montserrat;
+      }
     }
-    input[type="radio"] {
+    input[type='radio'] {
       margin-top: 0;
       margin-right: 6px;
       width: auto;
@@ -69,15 +80,23 @@
     select {
       height: 58px;
     }
-    @media(max-width: 420px) {
-      input:not([type=checkbox]):not([type=radio]) {
+    @media (max-width: 420px) {
+      input:not([type='checkbox']):not([type='radio']) {
         -webkit-appearance: none;
       }
     }
-
-    label.checkbox-label, .form__instruction {
+    .form__radio {
       margin: 10px 0 4px;
-      font-size: 16px;
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.4);
+    }
+    label.checkbox-label,
+    .form__instruction {
+      margin-bottom: 5px;
+      padding: 20px;
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.4);
+      background: #f9f9f9;
     }
 
     textarea {
@@ -113,7 +132,7 @@ label.checkbox-label {
     width: 14px;
     height: 14px;
     padding: 0;
-    margin:0;
+    margin: 0;
     top: 0;
     left: 0;
     position: absolute;
@@ -123,16 +142,17 @@ label.checkbox-label {
 }
 
 .radio-container {
-  margin-top: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background: #f9f9f9;
   &.has-error {
     border-right: 2px solid red;
     border-bottom: 2px solid red;
   }
   label {
-    margin: 6px 0 6px 10px;
+    margin-top: 15px;
     display: block;
   }
 }
@@ -142,8 +162,8 @@ label.checkbox-label {
   position: relative;
   background-color: transparent;
   width: 100%;
-  float: left;  
-
+  float: left;
+  background: #f9f9f9;
   &__label {
     position: absolute;
     top: 16px;
@@ -171,14 +191,18 @@ label.checkbox-label {
     &--full {
       color: rgba(black, 0.6);
     }
-    &--active, &--full {
-      @include transform(perspective(1px) scale(0.6) translate3d(0px, -15px, 0px));
+    &--active,
+    &--full {
+      @include transform(
+        perspective(1px) scale(0.6) translate3d(0px, -15px, 0px)
+      );
       max-width: 170%;
     }
   }
   input.sweet-placeholder__field,
   .selectize-control .selectize-input,
   textarea.sweet-placeholder__field {
+    background-color: #f9f9f9;
     padding: 24px 18px 12px;
     font-size: 18px;
     line-height: 21px;

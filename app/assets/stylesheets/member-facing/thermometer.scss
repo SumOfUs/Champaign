@@ -1,12 +1,11 @@
 .thermometer {
-
   $graphic-height: 12px;
   $graphic-border-radius: 4px;
   &__bg {
     width: 100%;
     height: $graphic-height;
     border-radius: $graphic-border-radius;
-    background-color: white;
+    background-color: #e2dbdb;
     margin: 5px 0 25px;
     float: left;
   }
