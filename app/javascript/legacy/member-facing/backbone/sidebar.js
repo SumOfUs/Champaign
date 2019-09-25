@@ -37,7 +37,7 @@ const Sidebar = Backbone.View.extend({
 
   checkOverflow() {
     // if the page is too short for the form, make it scroll overflow
-    let maxHeight = window.innerHeight - this.topHeight;
+    let maxHeight = window.innerHeight - this.topHeight - 100;
     const $title = this.$(`.${this.baseClass}__title-bar`);
     if (this.$el.hasClass('stuck-right') && $title.length) {
       maxHeight -= $title.outerHeight();
