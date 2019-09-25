@@ -79,13 +79,19 @@
     }
     select {
       height: 58px;
+      border-radius: 4px;
+      border: solid 1px #c7c7c7;
+      background-color: #f9f9f9;
+      font-weight: 200;
     }
     @media (max-width: 420px) {
       input:not([type='checkbox']):not([type='radio']) {
         -webkit-appearance: none;
       }
     }
-    .form__radio {
+
+    label.checkbox-label,
+    .form__instruction {
       margin: 10px 0 4px;
       font-size: 18px;
       color: rgba(0, 0, 0, 0.4);
@@ -163,7 +169,6 @@ label.checkbox-label {
   background-color: transparent;
   width: 100%;
   float: left;
-  background: #f9f9f9;
   &__label {
     position: absolute;
     top: 16px;
