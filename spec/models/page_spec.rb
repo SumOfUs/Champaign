@@ -639,6 +639,9 @@ describe Page do
 
   describe '#plugin_thermometer_data' do
     let(:page) { create :page }
+    before do
+      allow_any_instance_of(Money).to receive(:exchange_to)
+    end
 
     context 'donation thermometer' do
       before do
