@@ -191,7 +191,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def donation_followup?
-    follow_up_liquid_layout.try(:title).to_s.include?('donate')
+    follow_up_liquid_layout.try(:title).to_s.include?('donat')
   end
 
   # Mostly donations comes as followup action

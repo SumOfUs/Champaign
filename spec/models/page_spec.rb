@@ -600,7 +600,7 @@ describe Page do
 
     context 'donation' do
       before do
-        create(:plugins_fundraiser, page: page)
+        Timecop.travel(1.hour.ago) { create(:plugins_fundraiser, page: page) }
         create(:plugins_donations_thermometer, page: page)
       end
 
@@ -624,7 +624,7 @@ describe Page do
     let(:page) { create :page }
 
     before do
-      create(:plugins_petition, page: page)
+      Timecop.travel(1.hour.ago) { create(:plugins_petition, page: page) }
       create(:plugins_fundraiser, page: page)
       create(:call_tool, page: page)
       create(:plugins_donations_thermometer, page: page)
@@ -642,7 +642,7 @@ describe Page do
 
     context 'donation thermometer' do
       before do
-        create(:plugins_fundraiser, page: page)
+        Timecop.travel(1.hour.ago) { create(:plugins_fundraiser, page: page) }
         create(:plugins_donations_thermometer, page: page)
       end
 
@@ -655,7 +655,7 @@ describe Page do
       before do
         # Petition plugin are created first generally.
         # so the sequence is maintained here as it is
-        create(:plugins_petition, page: page)
+        Timecop.travel(1.hour.ago) { create(:plugins_petition, page: page) }
         create(:plugins_actions_thermometer, page: page)
         create(:plugins_fundraiser, page: page)
         create(:plugins_donations_thermometer, page: page)
@@ -663,6 +663,32 @@ describe Page do
 
       it 'should return actions thermometer' do
         expect(page.plugin_thermometer_data.dig('type')).to include('ActionsThermometer')
+      end
+    end
+  end
+
+  describe '#donation_followup?' do
+    context 'with donation followup layout' do
+      let(:page) { create :page, follow_up_liquid_layout: create(:liquid_layout, title: 'donation') }
+
+      it 'should return true' do
+        expect(page.donation_followup?).to be true
+      end
+    end
+
+    context 'without followup layout' do
+      let(:page) { create :page }
+
+      it 'should return false' do
+        expect(page.donation_followup?).to be false
+      end
+    end
+
+    context 'with share followup layout' do
+      let(:page) { create :page, follow_up_liquid_layout: create(:liquid_layout, title: 'share') }
+
+      it 'should return false' do
+        expect(page.donation_followup?).to be false
       end
     end
   end
