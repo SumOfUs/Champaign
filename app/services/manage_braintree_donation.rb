@@ -36,7 +36,9 @@ class ManageBraintreeDonation
         action_express_donation: 0,
         store_in_vault: @store_in_vault
       }.tap do |params|
-        params[:recurrence_number] = 0 if @is_subscription
+        params[:recurrence_number] = 0   if @is_subscription
+
+        params[:source] = request_source if @page.try(:akit_donation_page_id)
       end
     )
 
@@ -44,6 +46,23 @@ class ManageBraintreeDonation
   end
 
   private
+
+  def page
+    @page ||= Page.find(@params[:page_id])
+  end
+
+  def akit_donation_page_id
+    @page.ak_donation_resource_uri.to_s.split('/').last
+  end
+
+  def request_source
+    page.donation_followup? ? "post-action-#{akit_donation_page_id}-#{original_source}" : nil
+  end
+
+  def original_source
+    # By default AK takes website if source parameter is empty
+    @params.fetch(:source, 'website')
+  end
 
   def transaction
     @transaction ||= @braintree_result.transaction || @braintree_result.subscription.transactions.try(:last)

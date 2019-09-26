@@ -170,6 +170,7 @@ export class Payment extends Component {
       ...this.donationData(),
       device_data: this.state.deviceData,
       provider: 'GC',
+      source: window.champaign.personalization.urlParams.source,
     };
     const url = `/api/go_cardless/pages/${
       this.props.page.id
@@ -241,6 +242,7 @@ export class Payment extends Component {
       ...this.donationData(),
       payment_method_nonce: data.nonce,
       device_data: this.state.deviceData,
+      source: window.champaign.personalization.urlParams.source,
       recaptcha_token,
       recaptcha_action,
     };
