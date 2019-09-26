@@ -72,8 +72,6 @@
 
 .submission-interstitial {
   @include viewport-unit(height, 70vh);
-  border: 0.4px solid #efefef;
-  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
   background: #fff;
   z-index: 100;
   padding: 30px;
@@ -96,6 +94,7 @@
 }
 
 #fundraiser-component.fundraiser-bar--freestanding {
+  z-index: 1;
   clear: both;
   overflow: hidden;
 }
