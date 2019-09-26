@@ -7,7 +7,7 @@
   margin-top: 100px;
   &__intro {
     padding-top: 60px;
-    @media(min-width: $font-size-breakpoint) {
+    @media (min-width: $font-size-breakpoint) {
       font-size: 18px;
     }
   }
@@ -17,7 +17,7 @@
   &__form {
     margin: 80px 0;
     @include legacy-pie-clearfix();
-    @media(min-width: $font-size-breakpoint) {
+    @media (min-width: $font-size-breakpoint) {
       font-size: 18px;
     }
   }
@@ -26,14 +26,15 @@
   }
   &__button.button {
     margin-top: 15px;
-    @media(min-width: 400px) {
+    @media (min-width: 400px) {
       width: 48%;
       margin-right: 2%;
     }
   }
-  &__instruction, &__question {
+  &__instruction,
+  &__question {
     font-size: 20px;
-    @media(min-width: $font-size-breakpoint) {
+    @media (min-width: $font-size-breakpoint) {
       font-size: 24px;
     }
     font-weight: lighter;
@@ -44,11 +45,11 @@
   .form--big textarea,
   .form--big .selectize-control.single .selectize-input,
   .form--big .hosted-fields__host {
-    border-color: $overcast-gray;
     &.has-error {
       border-color: $orange;
     }
-    &:focus, &.focus {
+    &:focus,
+    &.focus {
       border-color: $teal;
     }
   }
@@ -57,7 +58,7 @@
     margin: 0 0 0 12px;
     position: relative;
     top: -10px;
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       top: 1px;
     }
   }

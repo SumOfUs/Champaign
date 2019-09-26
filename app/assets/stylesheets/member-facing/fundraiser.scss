@@ -237,6 +237,8 @@
 
     .fundraiser-bar__top,
     .fundraiser-bar__main {
+      border: none;
+      box-shadow: none;
       background-color: transparent;
       position: relative;
     }
@@ -259,8 +261,6 @@
     .selectize-input,
     div.BraintreeCardFields__hosted-field,
     .SweetSelect .Select > .Select-control {
-      border-color: $slate-gray;
-      border-width: 2px;
       &.braintree-hosted-fields-focused,
       &:focus {
         border-color: $teal;
@@ -308,7 +308,7 @@
         max-width: 340px;
       }
       .BraintreeCardFields__hosted-field {
-        border: #b2b5ba 2px solid;
+        border: none;
       }
       .Stepper__steps,
       .StepContent {
