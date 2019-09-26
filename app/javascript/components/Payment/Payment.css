@@ -2,6 +2,11 @@
   margin-bottom: 10px;
 }
 
+.Payment__config.Checkbox {
+  margin: 15px 0;
+  text-align: left;
+}
+
 .Payment__form-group-label {
   position: relative;
   padding-left: 20px;

@@ -470,19 +470,22 @@
 
 .fundraiser-bar.stuck-right {
   .fundraiser-bar__main {
+    // @media only screen and (min-width: 610px) and (max-width: 1100px) {
+    //   height: 50vh !important;
+    // }
+    // @media (max-width: 610px) {
+    //   height: 75vh !important;
+    // }
     text-align: center;
     background: white;
     border: 0.6px solid #dfdfdf;
     border-top: transparent;
     box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
-    height: 70vh !important;
+    height: 70vh;
     border-top: 0px transparent;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
     overflow: scroll !important;
-    @media only screen and (min-width: 500px) and (max-width: 1100px) {
-      height: 50vh !important;
-    }
   }
 }
 .donate-page-with-centered-layout {
