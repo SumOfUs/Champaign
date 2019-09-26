@@ -6,11 +6,10 @@ class ManageDonation
     akit_donation_page_id = page.ak_donation_resource_uri.to_s.gsub(%r{/$}, '').split('/').last
     source = params[:source] || 'website'
 
-    if page.donation_followup? && page.ak_donation_resource_uri.present?
+    if page.donation_followup? && akit_donation_page_id.present?
       source = "post-action-#{akit_donation_page_id}-#{source}"
       params[:source] = source
     end
-
     ManageAction.create(params, extra_params: { donation: true }.merge(extra_params.clone))
   end
 end
