@@ -37,11 +37,9 @@ class ManageBraintreeDonation
         store_in_vault: @store_in_vault
       }.tap do |params|
         params[:recurrence_number] = 0   if @is_subscription
-
-        params[:source] = request_source if @page.try(:akit_donation_page_id)
+        params[:source] = request_source if request_source.present?
       end
     )
-
     ManageAction.create(@params, extra_params: { donation: true }.merge(@extra_params))
   end
 
@@ -52,10 +50,12 @@ class ManageBraintreeDonation
   end
 
   def akit_donation_page_id
-    @page.ak_donation_resource_uri.to_s.split('/').last
+    page.ak_donation_resource_uri.to_s.gsub(%r{/$}, '').split('/').last
   end
 
   def request_source
+    return nil unless akit_donation_page_id.present?
+
     page.donation_followup? ? "post-action-#{akit_donation_page_id}-#{original_source}" : nil
   end
 
