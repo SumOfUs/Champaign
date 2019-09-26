@@ -4,10 +4,9 @@
   height: 60px;
   border: none;
   color: white;
-  text-transform: uppercase;
   font-size: 16px;
-  font-weight: bold;
-  border-radius: 3px;
+  font-weight: 500;
+  border-radius: 1.6px;
   cursor: pointer;
   outline: none;
   display: block;
@@ -18,7 +17,8 @@
   // main color scheme
   background-color: $color;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: darken($color, 5%);
     text-decoration: none;
   }
@@ -34,7 +34,8 @@
   &--disabled {
     @include button($slate-gray);
     cursor: auto;
-    &:hover, &:active {
+    &:hover,
+    &:active {
       box-shadow: none;
       background-color: $slate-gray;
     }
@@ -45,11 +46,12 @@ button.button {
   padding-top: 0;
 }
 
-
 // shareprogress isn't super customization friendly, so we do
 // what we can.
 .button {
-  &--facebook, &--twitter, &--whatsapp {
+  &--facebook,
+  &--twitter,
+  &--whatsapp {
     margin-top: 10px;
     margin-left: 5px;
     margin-right: 5px;
@@ -76,7 +78,12 @@ button.button {
     }
   }
   &--facebook {
-    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
+    &.sp_em_small,
+    &.sp_em_large,
+    &.sp_tw_small,
+    &.sp_tw_large,
+    &.sp_fb_small,
+    &.sp_fb_large {
       a {
         @include button($facebook);
         padding-top: 15px;
@@ -87,7 +94,12 @@ button.button {
     }
   }
   &--twitter {
-    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
+    &.sp_em_small,
+    &.sp_em_large,
+    &.sp_tw_small,
+    &.sp_tw_large,
+    &.sp_fb_small,
+    &.sp_fb_large {
       a {
         @include button($twitter);
         padding-top: 15px;
@@ -106,11 +118,14 @@ button.button {
       font-size: 0;
     }
   }
+  // &--whatsapp a::after{
+  //   content: "\f232";
+  // }
   &--facebook a::before {
-    content: "Share";
+    content: 'Share';
   }
   &--facebook a::after {
-    content: "\f09a";
+    content: '\f09a';
   }
   &--twitter a::before {
     content: 'Tweet';
