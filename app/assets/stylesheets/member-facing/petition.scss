@@ -24,7 +24,7 @@ $mobile-width: 700px;
     .petition-bar__title-bar {
       clip-path: none;
       -webkit-clip-path: none;
-      top: -67px;
+      top: 0;
       &::after {
         display: none;
       }
@@ -116,41 +116,45 @@ $mobile-width: 700px;
     font-size: 16px;
     line-height: 20px;
   }
-
+  &__welcome-text-container {
+    float: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   &__welcome-text {
+    display: flex;
+    align-items: center;
     font-size: 14px;
-    margin-bottom: 15px;
-    display: block;
+    display: flex;
     max-width: 500px;
     width: 100%;
     float: left;
     overflow: hidden;
-    padding: 16px;
-    border-top: 1px solid $dingy-gray;
-    border-bottom: 1px solid $dingy-gray;
+    padding: 0;
+    padding-bottom: 16px;
     @include box-sizing(border-box);
     position: relative;
   }
   &__user-icon {
+    color: #00c0cf;
     font-size: 26px;
-    position: absolute;
-    top: 20px;
     &--small.fa {
       font-size: 22px;
     }
   }
 
   &__welcome-name {
-    margin-left: 36px;
-    font-weight: bold;
-    display: inline-block;
+    padding-left: 10px;
+    font-weight: 600;
   }
 
   &__clear-form {
-    margin-top: 6px;
-    display: block;
-    margin-left: 36px;
     font-size: 12px;
+    width: 100%;
+    text-align: end;
+    color: #f8482c;
   }
 
   &__fine-print {

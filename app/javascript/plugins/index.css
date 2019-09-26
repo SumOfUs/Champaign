@@ -1,7 +1,7 @@
 .petition-bar.stuck-right .petition-bar__main {
-  height: calc(100vh - 188px);
   overflow: scroll;
   background: white;
+  max-height: 60vh;
 }
 
 .plugins {
