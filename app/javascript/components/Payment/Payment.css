@@ -1,5 +1,6 @@
-.Payment__config {
-  padding: 12px 0;
+.Payment__config.Checkbox {
+  margin: 15px 0;
+  text-align: left;
 }
 
 .Payment__form-group-label {
