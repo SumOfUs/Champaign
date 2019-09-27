@@ -115,18 +115,21 @@ $mobile-width: 700px;
     font-size: 16px;
     line-height: 20px;
   }
-
+  &__welcome-text-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+  }
   &__welcome-text {
     font-size: 14px;
     margin-bottom: 15px;
     display: block;
     max-width: 500px;
-    width: 100%;
     float: left;
     overflow: hidden;
-    padding: 16px;
-    border-top: 1px solid $dingy-gray;
-    border-bottom: 1px solid $dingy-gray;
+    padding: 0;
     @include box-sizing(border-box);
     position: relative;
   }
@@ -150,6 +153,8 @@ $mobile-width: 700px;
     display: block;
     margin-left: 36px;
     font-size: 12px;
+    text-align: end;
+    color: #f8482c;
   }
 
   &__fine-print {
