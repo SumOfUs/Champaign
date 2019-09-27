@@ -18,8 +18,7 @@ $mobile-width: 700px;
   &.stuck-right {
     .petition-bar__main,
     .fundraiser-bar__main {
-      @include viewport-unit(height, 100vh);
-      height: 70vh !important;
+      height: auto !important;
     }
     .petition-bar__title-bar {
       clip-path: none;
