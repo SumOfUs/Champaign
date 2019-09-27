@@ -116,11 +116,11 @@ $mobile-width: 700px;
     line-height: 20px;
   }
   &__welcome-text-container {
-    float: left;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-bottom: 16px;
   }
   &__welcome-text {
     display: flex;
@@ -128,11 +128,9 @@ $mobile-width: 700px;
     font-size: 14px;
     display: flex;
     max-width: 500px;
-    width: 100%;
     float: left;
     overflow: hidden;
     padding: 0;
-    padding-bottom: 16px;
     @include box-sizing(border-box);
     position: relative;
   }
@@ -151,7 +149,6 @@ $mobile-width: 700px;
 
   &__clear-form {
     font-size: 12px;
-    width: 100%;
     text-align: end;
     color: #f8482c;
   }
