@@ -190,6 +190,10 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
     braintree_subscriptions.count + go_cardless_subscriptions.count
   end
 
+  def donation_followup?
+    follow_up_liquid_layout.try(:title).to_s.downcase.include?('donat')
+  end
+
   # Mostly donations comes as followup action
   # So for page which has petition and followup as donation
   # the page is considered as petition page.
