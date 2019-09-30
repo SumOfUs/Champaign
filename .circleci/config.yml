@@ -235,7 +235,8 @@ workflows:
             branches:
               only:
                 - development
-                - /^feature(?:\/|-|\.).+$/
+                - feature.redesign
+                # - /^feature(?:\/|-|\.).+$/
 
       - build_docker_image:
           requires:
@@ -245,7 +246,8 @@ workflows:
               only:
                 - master
                 - development
-                - /^feature(?:\/|-|\.).+$/
+                - feature.redesign
+                # - /^feature(?:\/|-|\.).+$/
 
       - build_production_docker_image:
           requires:
@@ -293,7 +295,8 @@ workflows:
           filters:
             branches:
               only:
-                - /^feature(?:\/|-|\.).+$/
+                # - /^feature(?:\/|-|\.).+$/
+                - feature.redesign
 
       - airbrake_register_deploy:
           requires:
