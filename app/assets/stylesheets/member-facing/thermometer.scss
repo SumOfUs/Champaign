@@ -34,4 +34,7 @@
     font-weight: bold;
     text-transform: uppercase;
   }
+  @media (max-width: 700px) {
+    padding: 0 15px;
+  }
 }
