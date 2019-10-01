@@ -600,7 +600,7 @@ describe Page do
 
     context 'donation' do
       before do
-        Timecop.travel(1.hour.ago) { create(:plugins_fundraiser, page: page) }
+        create(:plugins_fundraiser, page: page)
         create(:plugins_donations_thermometer, page: page)
       end
 
@@ -639,13 +639,10 @@ describe Page do
 
   describe '#plugin_thermometer_data' do
     let(:page) { create :page }
-    before do
-      allow_any_instance_of(Money).to receive(:exchange_to)
-    end
 
     context 'donation thermometer' do
       before do
-        Timecop.travel(1.minute.ago) { create(:plugins_fundraiser, page: page) }
+        create(:plugins_fundraiser, page: page)
         create(:plugins_donations_thermometer, page: page)
       end
 

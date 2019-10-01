@@ -80,7 +80,6 @@
     select {
       height: 58px;
       border-radius: 4px;
-      border: solid 1px #c7c7c7;
       background-color: #f9f9f9;
       font-weight: 200;
     }
@@ -89,9 +88,7 @@
         -webkit-appearance: none;
       }
     }
-
-    label.checkbox-label,
-    .form__instruction {
+    .form__radio {
       margin: 10px 0 4px;
       font-size: 18px;
       color: rgba(0, 0, 0, 0.4);
@@ -104,7 +101,12 @@
       color: rgba(0, 0, 0, 0.4);
       background: #f9f9f9;
     }
-
+    label.checkbox-label {
+      background: transparent;
+      padding: 0;
+      padding-left: 25px;
+      margin: 20px 0;
+    }
     textarea {
       line-height: 1.4em;
       height: 120px;
