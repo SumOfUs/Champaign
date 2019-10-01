@@ -493,7 +493,8 @@
   .fundraiser-bar.overlay-toggle.stuck-right {
     height: 55vh;
     .fundraiser-bar__main {
-      height: 55vh !important;
+      height: auto !important;
+      max-height: 600px !important;
       width: 55%;
       overflow: scroll !important;
       max-width: 500px;
@@ -516,6 +517,9 @@
     @media (max-width: 420px) {
       top: 0 !important;
     }
+  }
+  .simple-footer {
+    position: relative;
   }
 }
 
