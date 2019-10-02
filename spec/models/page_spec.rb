@@ -644,6 +644,7 @@ describe Page do
       before do
         create(:plugins_fundraiser, page: page)
         create(:plugins_donations_thermometer, page: page)
+        allow_any_instance_of(Money).to receive(:exchange_to)
       end
 
       it 'should return donations thermometer' do
