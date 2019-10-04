@@ -73,12 +73,12 @@
     }
     input[type='radio'] {
       margin-top: 0;
-      margin-right: 6px;
+      margin-right: 14px;
       width: auto;
       float: left;
     }
     select {
-      height: 58px;
+      min-height: 58px;
       border-radius: 4px;
       background-color: #f9f9f9;
       font-weight: 200;
@@ -156,8 +156,7 @@ label.checkbox-label {
   align-items: flex-start;
   background: #f9f9f9;
   &.has-error {
-    border-right: 2px solid red;
-    border-bottom: 2px solid red;
+    border: 2px solid red;
   }
   label {
     margin-top: 15px;
