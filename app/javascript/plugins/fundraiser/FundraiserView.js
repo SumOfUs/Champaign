@@ -9,6 +9,8 @@ import AmountSelection from '../../components/AmountSelection/AmountSelection';
 import MemberDetailsForm from '../../components/MemberDetailsForm/MemberDetailsForm';
 import Payment from '../../components/Payment/Payment';
 import OneClick from '../../components/OneClick/OneClick';
+import Cookie from 'js-cookie';
+
 import {
   changeAmount,
   changeCurrency,
@@ -28,14 +30,18 @@ export class FundraiserView extends Component {
 
   selectAmount(amount) {
     this.props.selectAmount(amount);
+    const userId =
+      window.champaign.personalization.member.id || Cookie.get('_facebook_uid');
 
     if (typeof window.fbq === 'function') {
       window.fbq('track', 'InitiateCheckout', {
-        value: this.props.fundraiser.donationAmount,
+        value: amount,
         currency: this.props.fundraiser.currency,
         content_name: this.props.page.title,
         content_ids: [this.props.page.id],
         content_type: 'product',
+        user_id: userId,
+        page_id: this.props.page.id,
       });
     }
   }

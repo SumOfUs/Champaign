@@ -17,6 +17,8 @@ import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
 import ReCaptchaBranding from '../ReCaptchaBranding';
 import { resetMember } from '../../state/member/reducer';
+import Cookie from 'js-cookie';
+
 import {
   changeStep,
   setRecurring,
@@ -36,9 +38,12 @@ export class Payment extends Component {
 
   constructor(props) {
     super(props);
+    const user_id =
+      window.champaign.personalization.member.id || Cookie.get('_facebook_uid');
     this.state = {
       client: null,
       deviceData: {},
+      userId: user_id,
       loading: true,
       submitting: false,
       expressHidden: false,
@@ -201,6 +206,8 @@ export class Payment extends Component {
 
   emitTransactionSubmitted() {
     const eventPayload = {
+      user_id: this.state.userId,
+      page_id: this.props.page.id,
       value: this.props.fundraiser.donationAmount,
       currency: this.props.fundraiser.currency,
       content_category: this.props.currentPaymentType,
@@ -258,11 +265,14 @@ export class Payment extends Component {
   onSuccess = data => {
     if (typeof window.fbq === 'function') {
       window.fbq('track', 'Purchase', {
+        user_id: this.state.userId,
+        page_id: this.props.page.id,
         value: this.props.fundraiser.donationAmount,
         currency: this.props.fundraiser.currency,
         content_name: this.props.page.title,
         content_ids: [this.props.page.id],
-        content_type: this.props.fundraiser.recurring
+        content_type: 'product',
+        donation_type: this.props.fundraiser.recurring
           ? 'recurring'
           : 'not_recurring',
       });

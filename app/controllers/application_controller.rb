@@ -22,6 +22,8 @@ class ApplicationController < ActionController::Base
     MobileDetector.detect(browser)
   end
 
+  helper_method :recognized_member
+
   private
 
   def set_default_locale

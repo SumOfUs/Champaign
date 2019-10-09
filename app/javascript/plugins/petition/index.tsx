@@ -1,4 +1,5 @@
 import * as EventEmitter from 'eventemitter3';
+import Cookie from 'js-cookie';
 import { omit } from 'lodash';
 import * as React from 'react';
 import { render } from 'react-dom';
@@ -99,6 +100,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     this.setSubmitting(true);
     return api.pages.createAction(this.config.page_id, this.formValues).then(
       success => {
+        this.triggerCompleteRegistrationEvent(success);
         DoubleOptIn.handleActionSuccess(success);
         this.onComplete();
         return this;
@@ -132,9 +134,9 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
       .then(() => {
         this.store.dispatch(actionFormUpdated(this.formValues));
       })
-      .then(() =>
-        this.events.emit('action:submitted_success', { petition: this })
-      )
+      .then(() => {
+        this.events.emit('action:submitted_success', { petition: this });
+      })
       .then(() => this.onCompleteTransition())
       .then(() => this.emit('complete', this))
       .then(() => this);
@@ -193,4 +195,19 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     }
     transitionFromTo(this.el.dataset.transition);
   }
+
+  // TODO: Set the member once the user registered
+  private triggerCompleteRegistrationEvent = response => {
+    const member = window.champaign.personalization.member;
+    const tracking = response.tracking;
+
+    if (tracking) {
+      Cookie.set('_facebook_uid', tracking.user_id);
+
+      const fbq = (window as any).fbq;
+      if (fbq && tracking.user_id && !member.id) {
+        fbq('track', 'CompleteRegistration', tracking);
+      }
+    }
+  };
 }
