@@ -23,7 +23,7 @@ $mobile-width: 700px;
     .petition-bar__title-bar {
       clip-path: none;
       -webkit-clip-path: none;
-      top: 0;
+      top: 0 !important;
       &::after {
         display: none;
       }
@@ -65,19 +65,13 @@ $mobile-width: 700px;
   }
   &__title-bar {
     position: absolute;
-    top: -60px;
+    top: 0 !important;
     left: 0;
 
     width: 100%;
     overflow: hidden;
     &::after {
-      width: 15%;
-      height: 100%;
-      position: absolute;
-      right: 0;
-      top: 0;
-      background: $dark-teal;
-      content: '';
+      display: none;
     }
   }
   &__title {
@@ -87,7 +81,7 @@ $mobile-width: 700px;
     background: $teal;
     color: white;
     &.petition-bar__title {
-      width: 85%;
+      width: 100%;
     }
   }
 
