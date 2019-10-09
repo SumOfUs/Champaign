@@ -5,9 +5,9 @@ require 'rails_helper'
 describe Api::ActionsController do
   describe 'POST create' do
     let(:form) { instance_double('Form', form_elements: [double(name: 'foo')]) }
-    let(:page) { instance_double('Page', id: 2) }
-    let(:member) { instance_double('Member', id: 12) }
-    let(:action) { instance_double('Action', member_id: member.id, member: member) }
+    let(:page) { instance_double('Page', id: 2, slug: 'new-page') }
+    let(:member) { instance_double('Member', id: 12, country: 'US') }
+    let(:action) { instance_double('Action', member_id: member.id, member: member, member_created: true) }
     let(:follower) { instance_double('PageFollower', follow_up_path: '/asdf?member_id=12345') }
 
     before :each do
@@ -46,7 +46,11 @@ describe Api::ActionsController do
       end
 
       it 'responds with an empty hash' do
-        expect(response.body).to eq({ follow_up_url: '/asdf?member_id=12345' }.to_json)
+        expect(response.body).to eq({
+          follow_up_url: '/asdf?member_id=12345',
+          tracking: { content_name: 'new-page', status: true, user_id: 12, page_id: 2,
+                      value: 12, currency: 'USD' }
+        }.to_json)
       end
 
       it 'sets the cookie' do

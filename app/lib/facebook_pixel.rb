@@ -8,10 +8,11 @@ class FacebookPixel
   def initialize(page, action)
     @page = page
     @action = action
-    @member = action.member
+    @member = action.try(:member)
   end
 
   def completed_registration_data
+    return {} if action.nil? || page.nil?
     return {} unless action.member_created
 
     { content_name: page.slug,
