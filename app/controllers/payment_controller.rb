@@ -13,6 +13,8 @@ class PaymentController < ApplicationController
     unless @customer.nil?
       payment_method = @customer.payment_methods.last
 
+      set_facebook_pixel_user_id(@customer.member.id)
+
       cookies.signed[:member_id] = {
         value: @customer.member.id,
         expires: 1.day.from_now
@@ -51,7 +53,12 @@ class PaymentController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to follow_up_page_path(page) }
-      format.json { render json: { success: true }.merge(follow_up).merge(id_for_response) }
+      format.json do
+        render json: {
+          success: true,
+          tracking: FacebookPixel.completed_registration_hash(page: page, action: builder.action)
+        }.merge(follow_up).merge(id_for_response)
+      end
     end
   end
 
