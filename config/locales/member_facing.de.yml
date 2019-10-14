@@ -91,7 +91,7 @@ de:
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "Donations are not tax deductable. For more information please email us."
     confirmation: Spende erhalten
-    donate_now: Spenden Sie jetzt!
+    donate_now: "Unterstützen Sie uns mit einer kleinen monatlichen Spende, damit wir weiter gegen die Übermacht von Großkonzernen kämpfen können?"
     loading: Unser sicheres Spenden formular wird geladen
     oneclick:
       select_payment: "Wählen Sie eine der hinterlegten Zahlungsmethoden"
