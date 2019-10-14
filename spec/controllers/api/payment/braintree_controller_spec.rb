@@ -11,12 +11,18 @@ describe Api::Payment::BraintreeController do
 
   let(:page) do
     instance_double('Page',
+                    id: 101,
                     follow_up_plan: :with_liquid,
                     follow_up_liquid_layout_id: 4,
                     slug: 'asd-f',
                     follow_up_page: nil)
   end
-  let(:action) { instance_double('Action', member_id: 79) }
+
+  let(:member) do
+    create(:member, id: 79, country: 'US')
+  end
+
+  let(:action) { instance_double('Action', page_id: page.id, member_id: member.id, member_created: true) }
 
   describe 'GET token' do
     before do
@@ -78,13 +84,10 @@ describe Api::Payment::BraintreeController do
         it 'has status 200' do
           expect(response.status).to eq 200
         end
-
+        # TODO: Add scenario to handle newly created user
         it 'responds with subscription_id in JSON' do
-          expect(response.body).to eq({
-            success: true,
-            follow_up_url: '/a/asd-f/follow-up?member_id=79',
-            subscription_id: 's1234'
-          }.to_json)
+          data = { success: true, tracking: {}, follow_up_url: '/a/asd-f/follow-up?member_id=79', subscription_id: 's1234' }
+          expect(response.body).to eq(data.to_json)
         end
 
         it 'sets the member cookie' do
@@ -110,11 +113,8 @@ describe Api::Payment::BraintreeController do
         end
 
         it 'responds with transaction_id in JSON' do
-          expect(response.body).to eq({
-            success: true,
-            follow_up_url: '/a/asd-f/follow-up?member_id=79',
-            transaction_id: 't1234'
-          }.to_json)
+          data = { success: true, tracking: {}, follow_up_url: '/a/asd-f/follow-up?member_id=79', transaction_id: 't1234' }
+          expect(response.body).to eq(data.to_json)
         end
 
         it 'sets the member cookie' do

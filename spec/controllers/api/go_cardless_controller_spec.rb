@@ -11,7 +11,7 @@ describe Api::GoCardlessController do
            follow_up_liquid_layout_id: 4,
            follow_up_page: nil)
   end
-  let(:action) { instance_double('Action', member_id: 79) }
+  let(:action) { instance_double('Action', member_id: 79, member_created: true) }
 
   before do
     allow(Page).to receive(:find) { page }

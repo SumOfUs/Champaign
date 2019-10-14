@@ -32,9 +32,17 @@ class Action < ApplicationRecord
   belongs_to :page, counter_cache: :action_count
   belongs_to :member
 
+  attr_reader :member_created
+
   enum publish_status: %i[default published hidden]
 
   has_paper_trail on: %i[update destroy]
   scope :donation, -> { where(donation: true) }
   scope :not_donation, -> { where.not(donation: true) }
+
+  after_create :set_member_created
+
+  def set_member_created
+    @member_created = member_id.present?
+  end
 end

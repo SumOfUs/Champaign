@@ -17,6 +17,8 @@ import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
 import ReCaptchaBranding from '../ReCaptchaBranding';
 import { resetMember } from '../../state/member/reducer';
+import Cookie from 'js-cookie';
+
 import {
   changeStep,
   setRecurring,
@@ -200,13 +202,15 @@ export class Payment extends Component {
   }
 
   emitTransactionSubmitted() {
+    const userId = Cookie.get('__bpmx');
     const eventPayload = {
+      user_id: userId,
+      page_id: this.props.page.id,
       value: this.props.fundraiser.donationAmount,
       currency: this.props.fundraiser.currency,
       content_category: this.props.currentPaymentType,
       recurring: this.props.fundraiser.recurring,
     };
-
     if (typeof window.fbq === 'function') {
       window.fbq('track', 'AddPaymentInfo', eventPayload);
     }
@@ -257,12 +261,16 @@ export class Payment extends Component {
 
   onSuccess = data => {
     if (typeof window.fbq === 'function') {
+      const userId = Cookie.get('__bpmx');
       window.fbq('track', 'Purchase', {
+        user_id: userId,
+        page_id: this.props.page.id,
         value: this.props.fundraiser.donationAmount,
         currency: this.props.fundraiser.currency,
         content_name: this.props.page.title,
         content_ids: [this.props.page.id],
-        content_type: this.props.fundraiser.recurring
+        content_type: 'product',
+        donation_type: this.props.fundraiser.recurring
           ? 'recurring'
           : 'not_recurring',
       });
