@@ -87,8 +87,22 @@ export class Payment extends Component {
     this.bindGlobalEvents();
   }
 
+  // set default payment as DirectDebit / paypal when the
+  // user follows external link like email
+  setDefaultPaymentType = () => {
+    const urlInfo = window.champaign.personalization.urlParams;
+    if (urlInfo.source == 'fwd') {
+      if (this.props.showDirectDebit) {
+        this.selectPaymentType('gocardless');
+      } else {
+        this.selectPaymentType('paypal');
+      }
+    }
+  };
+
   bindGlobalEvents() {
     ee.on('fundraiser:actions:make_payment', this.makePayment);
+    ee.on('fundraiser:form:success', this.setDefaultPaymentType);
   }
 
   componentDidUpdate() {
@@ -333,7 +347,6 @@ export class Payment extends Component {
         storeInVault,
       },
     } = this.props;
-
     return (
       <div className="Payment section">
         <ShowIf condition={!isEmpty(this.state.errors)}>
