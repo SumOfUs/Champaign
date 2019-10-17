@@ -340,7 +340,6 @@
 
 .sticky-wrapper {
   position: relative;
-  top: 70px !important;
 }
 
 .hosted-fields {
@@ -525,6 +524,9 @@
   .center-content__big-column {
     width: 60%;
     .body-text {
+      width: 100%;
+    }
+    @media (max-width: 700px) {
       width: 100%;
     }
   }
