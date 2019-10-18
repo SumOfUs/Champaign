@@ -304,6 +304,7 @@
     }
     .FundraiserView-container {
       margin: auto;
+      background: whitesmoke;
       .StepContent {
         max-width: 340px;
       }
@@ -546,7 +547,6 @@
       width: auto;
       @media (max-width: 480px) {
         width: 100%;
-        max-width: 350px;
         text-align: left;
       }
       @media only screen and (min-width: 500px) and (max-width: 1100px) {

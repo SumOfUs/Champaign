@@ -32,11 +32,13 @@
   margin-top: 6px;
   display: block;
   margin-bottom: 8px;
+  text-align: left;
 }
 
 .PaymentMethod {
   margin: 10px 0;
   font-size: 14px;
+  text-align: left;
   label,
   input[type='radio'] {
     cursor: pointer;
