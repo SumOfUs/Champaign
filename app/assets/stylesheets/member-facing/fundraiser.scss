@@ -340,6 +340,7 @@
 
 .sticky-wrapper {
   position: relative;
+  z-index: 999;
 }
 
 .hosted-fields {
@@ -551,6 +552,9 @@
       @media only screen and (min-width: 500px) and (max-width: 1100px) {
         min-height: 40vh;
       }
+    }
+    @media (max-width: 700px) {
+      width: 100%;
     }
   }
   .fundraiser-bar.sidebar.stuck-right {
