@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title= content_for?(:title) ? content_for(:title) : "Champaign"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = csrf_meta_tags
+    = favicon_link_tag "champaign/favicon.ico"
+
+    = render partial: "shared/js_locale"
+
+    = stylesheet_link_tag "application", media: "all"
+
+    / = stylesheet_packs_with_chunks_tag "globals", media: "all"
+  body
+    .centered-overlay
+      h1.centered-overlay__title SumOfUs
+      section.col-xs-12
+        = flash[:notice] || flash[:alert]
+        br
+        br
+
+        = link_to 'Back to Home', 'https://sumofus.org'
