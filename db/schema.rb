@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_17_024125) do
+ActiveRecord::Schema.define(version: 2019_10_21_161824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -208,7 +208,6 @@ ActiveRecord::Schema.define(version: 2019_10_17_024125) do
     t.index ["actionkit_user_id"], name: "index_members_on_actionkit_user_id"
     t.index ["email", "id"], name: "index_members_on_email_and_id"
     t.index ["email"], name: "index_members_on_email"
-    t.index ["opt_out_eoy_donation"], name: "index_members_on_opt_out_eoy_donation"
   end
 
   create_table "pages", id: :serial, force: :cascade do |t|
