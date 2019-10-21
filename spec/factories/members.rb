@@ -16,6 +16,7 @@
 #  first_name           :string
 #  last_name            :string
 #  more                 :jsonb
+#  opt_out_eoy_donation :integer          default(0)
 #  postal               :string
 #  title                :string
 #  created_at           :datetime         not null
@@ -24,9 +25,10 @@
 #
 # Indexes
 #
-#  index_members_on_actionkit_user_id  (actionkit_user_id)
-#  index_members_on_email              (email)
-#  index_members_on_email_and_id       (email,id)
+#  index_members_on_actionkit_user_id     (actionkit_user_id)
+#  index_members_on_email                 (email)
+#  index_members_on_email_and_id          (email,id)
+#  index_members_on_opt_out_eoy_donation  (opt_out_eoy_donation)
 #
 
 FactoryBot.define do
