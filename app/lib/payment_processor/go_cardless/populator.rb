@@ -61,8 +61,16 @@ module PaymentProcessor
         case mandate.scheme.downcase
         when 'becs'
           'AUD'
+        when 'sepa_core'
+          'EUR'
+        when 'betalingsservice'
+          'DKK'
+        when 'pad'
+          'CAD'
         when 'bacs'
           'GBP'
+        when 'ach'
+          'USD'
         when 'autogiro'
           'SEK'
         else
