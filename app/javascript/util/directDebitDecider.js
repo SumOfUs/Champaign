@@ -5,14 +5,12 @@ const SUPPORTED_COUNTRIES = [
   { country: 'NL' },
   { country: 'FR' },
   { country: 'DE' },
-  { country: 'DK' },
   { country: 'AT' },
   { country: 'ES' },
   { country: 'AU' },
   { country: 'BE' },
   { country: 'CY' },
   { country: 'EE' },
-  { country: 'SE' },
   { country: 'IE' },
   { country: 'IT' },
   { country: 'LV' },
@@ -21,8 +19,6 @@ const SUPPORTED_COUNTRIES = [
   { country: 'PT' },
   { country: 'SM' },
   { country: 'SI' },
-  { country: 'CA' },
-  { country: 'US' },
 ];
 
 // countries not added in the list

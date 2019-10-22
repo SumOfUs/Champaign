@@ -63,16 +63,8 @@ module PaymentProcessor
           'AUD'
         when 'sepa_core'
           'EUR'
-        when 'betalingsservice'
-          'DKK'
-        when 'pad'
-          'CAD'
         when 'bacs'
           'GBP'
-        when 'ach'
-          'USD'
-        when 'autogiro'
-          'SEK'
         else
           'EUR'
         end
