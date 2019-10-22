@@ -92,6 +92,8 @@ export class Payment extends Component {
       });
     this.setRecurringCheckedForGermanPage();
     this.bindGlobalEvents();
+    // set default payment type for existing user
+    this.setDefaultPaymentType();
   }
 
   // set default payment as DirectDebit / paypal when the
@@ -109,6 +111,7 @@ export class Payment extends Component {
 
   bindGlobalEvents() {
     ee.on('fundraiser:actions:make_payment', this.makePayment);
+    // set default payment type for new user
     ee.on('fundraiser:form:success', this.setDefaultPaymentType);
   }
 
