@@ -19,8 +19,6 @@ const SUPPORTED_COUNTRIES = [
   { code: 'PT', name: 'Portugal' },
   { code: 'SM', name: 'San Marino' },
   { code: 'SI', name: 'Slovenia' },
-  { code: 'CA', name: 'Canada' },
-  { code: 'US', name: 'United States' },
 ];
 
 describe('isDirectDebitSupported', () => {
