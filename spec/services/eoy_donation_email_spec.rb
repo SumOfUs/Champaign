@@ -3,52 +3,57 @@
 require 'rails_helper'
 
 describe EoyDonationEmail do
+  let(:ak_raw_id) { "#{Settings.action_kit.akid_secret}.2678.323423423999" }
+  let(:ak_hash) { Base64.urlsafe_encode64(Digest::SHA256.digest(ak_raw_id))[0..5] }
+  let(:akid) { "2678.323423423999.#{ak_hash}" }
+
   describe '.opt_out' do
     context 'nil value' do
       subject { EoyDonationEmail.new(nil) }
 
       it 'should return error' do
         subject.opt_out
-        expect(subject.errors.full_messages.first).to include("Member can't be blank")
+        errors = subject.errors.full_messages
+        expect(errors).to match_array(["Akid can't be blank", "Actionkit user can't be blank"])
       end
     end
 
-    context 'new member object' do
-      subject { EoyDonationEmail.new(Member.new) }
+    context 'member without local actionkit id' do
+      let(:member) { create :member, actionkit_user_id: nil }
+      subject { EoyDonationEmail.new(akid) }
 
-      it 'should return error' do
-        subject.opt_out
-        expect(subject.errors.full_messages.first).to include('member does not have actionkit id')
+      it 'should return true when opt_out' do
+        stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
+        expect(subject.opt_out).to eql true
+        expect(subject.member).to eql nil
       end
     end
 
-    context 'valid member with action kit id' do
-      let(:member) { create(:member) }
-      subject { EoyDonationEmail.new(member) }
-
+    context 'member with local actionkit id' do
       before do
-        EoyDonationEmail.any_instance.stub(:sync_with_action_kit).and_return(true)
+        create :member, actionkit_user_id: '323423423999'
+        stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
       end
+
+      subject { EoyDonationEmail.new(akid) }
 
       it 'should return true' do
         expect(subject.opt_out).to eql true
-        expect(subject.errors).to be_empty
         expect(subject.member.opt_out_eoy_donation).to eql 1
       end
     end
 
-    context 'action kit sync failed' do
-      let(:member) { create(:member, opt_out_eoy_donation: 0) }
-      subject { EoyDonationEmail.new(member) }
-
+    context 'actionkit update failed' do
       before do
-        subject.stub(:sync_with_action_kit).and_return(false)
+        create :member, actionkit_user_id: '323423423999'
+        stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [404, 'Not Found'])
       end
+
+      subject { EoyDonationEmail.new(akid) }
 
       it 'should return false' do
         expect(subject.opt_out).to eql false
-        expect(subject.errors).to be_empty
-        subject.member.reload
+        expect(subject.errors.full_messages).to include('Error updating actionkit')
         expect(subject.member.opt_out_eoy_donation).to eql 0
       end
     end
@@ -60,45 +65,47 @@ describe EoyDonationEmail do
 
       it 'should return error' do
         subject.opt_in
-        expect(subject.errors.full_messages.first).to include("Member can't be blank")
+        errors = subject.errors.full_messages
+        expect(errors).to match_array(["Akid can't be blank", "Actionkit user can't be blank"])
       end
     end
 
-    context 'new member object' do
-      subject { EoyDonationEmail.new(Member.new) }
+    context 'member without local actionkit id' do
+      let(:member) { create :member, actionkit_user_id: nil }
+      subject { EoyDonationEmail.new(akid) }
 
-      it 'should return error' do
-        subject.opt_in
-        expect(subject.errors.full_messages.first).to include('member does not have actionkit id')
+      it 'should return true when opt_out' do
+        stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
+        expect(subject.opt_in).to eql true
+        expect(subject.member).to eql nil
       end
     end
 
-    context 'valid member with action kit id' do
-      let(:member) { create(:member, opt_out_eoy_donation: 1) }
-      subject { EoyDonationEmail.new(member) }
-
+    context 'member with local actionkit id' do
       before do
-        EoyDonationEmail.any_instance.stub(:sync_with_action_kit).and_return(true)
+        create :member, actionkit_user_id: '323423423999', opt_out_eoy_donation: 1
+        stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
       end
+
+      subject { EoyDonationEmail.new(akid) }
 
       it 'should return true' do
         expect(subject.opt_in).to eql true
-        expect(subject.errors).to be_empty
         expect(subject.member.opt_out_eoy_donation).to eql 0
       end
     end
 
-    context 'action kit sync failed' do
-      let(:member) { create(:member, opt_out_eoy_donation: 1) }
-      subject { EoyDonationEmail.new(member) }
-
+    context 'actionkit update failed' do
       before do
-        EoyDonationEmail.any_instance.stub(:sync_with_action_kit).and_return(false)
+        create :member, actionkit_user_id: '323423423999', opt_out_eoy_donation: 1
+        stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [404, 'Not Found'])
       end
 
+      subject { EoyDonationEmail.new(akid) }
+
       it 'should return false' do
-        expect(subject.opt_out).to eql false
-        expect(subject.errors).to be_empty
+        expect(subject.opt_in).to eql false
+        expect(subject.errors.full_messages).to include('Error updating actionkit')
         expect(subject.member.opt_out_eoy_donation).to eql 1
       end
     end

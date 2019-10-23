@@ -271,3 +271,11 @@ en:
     dismiss_button_text: 'Agree & Proceed'
     privacy_policy_link_text: 'Privacy Policy'
   recaptcha_branding_html: 'This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.'
+  eoy_donation_email:
+    back_to_home: 'Back to Home'
+    opt_out:
+      notice: 'You have successfully opted out EOY donation email'
+      alert: 'Error occured while opting out EOY donation email'
+    opt_in:
+      notice: 'You have successfully opted in EOY donation email'
+      alert: 'Error occured while opting in EOY donation email'
