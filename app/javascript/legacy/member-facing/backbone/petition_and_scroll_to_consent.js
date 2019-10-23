@@ -26,7 +26,7 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
   //    the doing the redirect.
   initialize(options = {}) {
     this.user_id =
-      window.champaign.personalization.member.id || Cookie.get('_facebook_uid');
+      window.champaign.personalization.member.id || Cookie.get('__bpmx');
     this.store = window.champaign.store;
     this.followUpUrl = options.followUpUrl;
     this.petitionSidebar = $('.center-content__fixed-right');
