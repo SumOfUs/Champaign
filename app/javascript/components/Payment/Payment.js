@@ -26,6 +26,7 @@ import {
   setPaymentType,
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
+import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 // Styles
 import './Payment.css';
@@ -102,8 +103,7 @@ export class Payment extends Component {
   // user follows external link like email
   setDefaultPaymentType = () => {
     const urlInfo = window.champaign.personalization.urlParams;
-    // TODO: get the country name from store.
-    const country = document.getElementsByName('country')[0].value;
+    const country = this.props.fundraiser.form.country;
     const showDirectDebit = isDirectDebitSupported({ country: country });
 
     if (urlInfo.source == 'fwd') {
