@@ -24,6 +24,7 @@ import {
   setPaymentType,
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
+import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 // Styles
 import './Payment.css';
@@ -100,8 +101,11 @@ export class Payment extends Component {
   // user follows external link like email
   setDefaultPaymentType = () => {
     const urlInfo = window.champaign.personalization.urlParams;
+    const country = this.props.fundraiser.form.country;
+    const showDirectDebit = isDirectDebitSupported({ country: country });
+
     if (urlInfo.source == 'fwd') {
-      if (this.props.showDirectDebit) {
+      if (showDirectDebit) {
         this.selectPaymentType('gocardless');
       } else {
         this.selectPaymentType('paypal');
