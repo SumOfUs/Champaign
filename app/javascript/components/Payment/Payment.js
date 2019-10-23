@@ -17,6 +17,8 @@ import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
 import ReCaptchaBranding from '../ReCaptchaBranding';
 import { resetMember } from '../../state/member/reducer';
+import { isDirectDebitSupported } from '../../util/directDebitDecider';
+
 import {
   changeStep,
   setRecurring,
@@ -100,8 +102,12 @@ export class Payment extends Component {
   // user follows external link like email
   setDefaultPaymentType = () => {
     const urlInfo = window.champaign.personalization.urlParams;
+    // TODO: get the country name from store.
+    const country = document.getElementsByName('country')[0].value;
+    const showDirectDebit = isDirectDebitSupported({ country: country });
+
     if (urlInfo.source == 'fwd') {
-      if (this.props.showDirectDebit) {
+      if (showDirectDebit) {
         this.selectPaymentType('gocardless');
       } else {
         this.selectPaymentType('paypal');
