@@ -17,7 +17,6 @@ import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
 import ReCaptchaBranding from '../ReCaptchaBranding';
 import { resetMember } from '../../state/member/reducer';
-import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 import {
   changeStep,
