@@ -263,3 +263,11 @@ de:
     dismiss_button_text: 'Einverstanden, weiter'
     privacy_policy_link_text: 'Datenschutz'
   recaptcha_branding_html: 'Diese Website ist durch reCAPTCHA geschützt und es gelten die <a href="https://policies.google.com/privacy?hl=de">Datenschutzbestimmungen</a> and <a href="https://policies.google.com/terms?hl=de">Nutzungsbedingungen</a> von Google.'
+  eoy_donation_email:
+    back_to_home: 'Back to Home'
+    opt_out:
+      notice: 'You have successfully opted out EOY donation email'
+      alert: 'Error occured while opting out EOY donation email'
+    opt_in:
+      notice: 'You have successfully opted in EOY donation email'
+      alert: 'Error occured while opting in EOY donation email'

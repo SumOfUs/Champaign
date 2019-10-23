@@ -26,8 +26,8 @@ Rails.application.routes.draw do
   # Express donations email confirmation path
   get '/email_confirmation/', to: 'email_confirmation#verify'
 
-  get 'eoy_donations/:member_id/opt_out', to: 'eoy_donations#opt_out'
-  get 'eoy_donations/:member_id/opt_in', to: 'eoy_donations#opt_in'
+  get 'eoy_donations/opt_out', to: 'eoy_donations#opt_out'
+  get 'eoy_donations/opt_in', to: 'eoy_donations#opt_in'
 
   resources :ak_logs
 
