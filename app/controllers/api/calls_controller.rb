@@ -9,6 +9,14 @@ class Api::CallsController < ApplicationController
       render(json: { errors: verified_member[:errors], name: 'call' }, status: :unprocessable_entity) && return
     end
 
+    if call_spammer(verified_member[:member], Page.find(params[:page_id]))
+      error = [
+        { akid: 'Thank you for making a difference! Unfortunately, to prevent fraud, we only allow five calls '\
+        'per member on the same page.' }
+      ]
+      render(json: { errors: error, name: 'call' }, status: 403) && return
+    end
+
     unless verify_recaptcha(action: params[:recaptcha_action], minimum_score: 0.5)
       error = [
         {
@@ -29,8 +37,14 @@ class Api::CallsController < ApplicationController
 
   private
 
+  def call_spammer(member, page)
+    # checks whether the member has more than five successful call actions on the page
+    Call.where(member_id: member.id, page_id: page.id).not_failed.count >= 5
+  end
+
   def verify_member
-    if params[:akid].blank? || Member.find_by_akid(params[:akid]).blank?
+    member = Member.find_by_akid(params[:akid])
+    if params[:akid].blank? || member.blank?
       return { success?: false, errors: [
         {
           akid: 'Sorry, but for safety reasons, the calling tool is limited to recognized '\
@@ -38,7 +52,7 @@ class Api::CallsController < ApplicationController
         }
       ] }
     end
-    { success?: true, errors: [] }
+    { success?: true, errors: [], member: member }
   end
 
   def call_params
