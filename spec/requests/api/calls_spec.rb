@@ -24,6 +24,8 @@ describe 'API::Calls' do
           }
         end
 
+        let!(:member) { create(:member, actionkit_user_id: '5678') }
+
         it 'returns successfully' do
           post "/api/pages/#{page.id}/call", params: params
           expect(response).to have_http_status(:no_content)
@@ -52,8 +54,6 @@ describe 'API::Calls' do
           post "/api/pages/#{page.id}/call", params: params
         end
 
-        let!(:member) { create(:member, actionkit_user_id: '5678') }
-
         it 'returns successfully' do
           post "/api/pages/#{page.id}/call", params: params
           expect(response).to have_http_status(:no_content)
@@ -64,6 +64,16 @@ describe 'API::Calls' do
           call = Call.last
           expect(call.member).to eq(member)
           expect(call.action.member).to eq(member)
+        end
+        context 'with too many calls' do
+          let!(:calls) {
+            FactoryBot.create_list(:call, 5, page_id: page.id, member_id: member.id)
+          }
+          it 'sends back a message stating that the member has reached the max number of calls' do
+            post "/api/pages/#{page.id}/call", params: params
+            expect(response).to have_http_status(403)
+            expect(response_json['errors'].to_s).to include('we only allow five calls per member')
+          end
         end
       end
     end
