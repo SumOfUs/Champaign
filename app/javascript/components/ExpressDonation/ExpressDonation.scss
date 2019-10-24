@@ -69,3 +69,10 @@
   line-height: 17px;
   margin: 20px 0;
 }
+
+.PaymentExpressDonationConflict {
+  &--accept,
+  &--decline {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  }
+}
