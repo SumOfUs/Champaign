@@ -1,23 +1,40 @@
 @import '../../../assets/stylesheets/member-facing/_mixins.scss';
 
 .Stepper {
-  display: block;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   padding: 26px;
   box-sizing: border-box;
-  background: #dbdbdb;
+  background: white;
   color: black;
   min-height: 68px;
   overflow: visible;
+  border: solid 0.6px #dfdfdf;
+  border-bottom: 0px transparent;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+  &__header {
+    font-weight: 600;
+  }
+}
+.Step__wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .Stepper__steps .Step {
-  &:first-of-type {
-    margin-right: auto;
-  }
-  &:last-of-type {
-    margin-left: auto;
-  }
+  // &:first-of-type {
+  //   margin-right: auto;
+  // }
+  // &:last-of-type {
+  //   margin-left: auto;
+  // }
 }
 
 .Stepper__steps {
@@ -27,14 +44,15 @@
   user-select: none;
   cursor: default;
   margin-top: 21px;
+  width: 100%;
 }
 
 .Stepper__line {
   z-index: 0;
-  width: calc(100% - 15%);
+  width: calc(100% - 30%);
   height: 2px;
   top: 22px;
-  left: 5%;
+  left: 15%;
   margin: 0;
   position: absolute;
   background: #b2b5ba;
@@ -45,36 +63,43 @@
   display: none;
 }
 
-@media (min-width: 700px) {
-  .StepContent,
-  .Stepper__steps {
-    max-width: 290px;
-  }
-}
+// @media (min-width: 700px) {
+//   .StepContent,
+//   .Stepper__steps {
+//     max-width: 290px;
+//   }
+// }
 
 .submission-interstitial {
-  box-sizing: border-box;
-  @include viewport-unit(height, 100vh);
-
-  width: 100%;
-  background: #ececec;
-  position: absolute;
+  @include viewport-unit(height, 70vh);
+  background: #fff;
   z-index: 100;
   padding: 30px;
   text-align: center;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 0.4px solid #efefef;
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
   &__title {
     font-size: 30px;
-    margin-top: 80px;
+    font-weight: 600;
     .fa {
-      margin-right: 10px;
+      margin-right: 15px;
     }
+  }
+  h4 {
+    font-weight: 400;
+    padding: 20px 0;
   }
 }
 
 #fundraiser-component.fundraiser-bar--freestanding {
+  z-index: 1;
   clear: both;
   overflow: hidden;
+  margin-bottom: 160px;
 }
 
 @media (max-width: 700px) {

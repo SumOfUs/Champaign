@@ -63,7 +63,7 @@ export const Choice = (props: IFieldTypeProps) => {
   };
   return (
     <div className="radio-container">
-      <div className="form__instruction">{props.label}</div>
+      <div className="form__radio">{props.label}</div>
       {props.choices &&
         props.choices.map(choice => (
           <label key={choice.id} htmlFor={choice.id}>

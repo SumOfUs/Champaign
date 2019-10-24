@@ -1,9 +1,13 @@
 <form action='/api/pages/{{id}}/actions{{form_url_postscript}}' data-remote='true' method='post' class='form--big action-form'>
+ <div class="action-form__welcome-text-container" >
   <div class="action-form__welcome-text hidden-irrelevant">
-    <i class="fa fa-check-square-o fundraiser-bar__user-icon"></i>
-    <span class="action-form__welcome-name"></span> <br />
+    <div class="action-form__welcome-user">
+      <i class="fa fa-check-circle fundraiser-bar__user-icon"></i>
+      <span class="action-form__welcome-name"></span>
+    </div>
     <a href="javascript:;" class=" action-form__clear-form">{{ 'form.switch_user' | t }}</a>
   </div>
+</div>
   <input type='hidden' name='form_id' value='{{ form_id }}' />
     {% for field in fields %}
       <div class="form__group action-form__field-container">

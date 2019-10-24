@@ -1,13 +1,13 @@
 // Member-facing survey styles
 .survey {
   $font-size-breakpoint: 600px;
-  @include centered-to-full(500px, 2%);
+  width: 90%;
   @include legacy-pie-clearfix();
   min-height: calc(100vh - 300px);
-  margin-top: 100px;
+  margin: 100px auto;
   &__intro {
     padding-top: 60px;
-    @media(min-width: $font-size-breakpoint) {
+    @media (min-width: $font-size-breakpoint) {
       font-size: 18px;
     }
   }
@@ -15,10 +15,18 @@
     float: left;
   }
   &__form {
+    background: white;
+    padding: 40px;
+    box-shadow: 8px 1px 40px 0 rgba(0, 0, 0, 0.07);
     margin: 80px 0;
     @include legacy-pie-clearfix();
-    @media(min-width: $font-size-breakpoint) {
+    z-index: 0 !important;
+    @media (min-width: $font-size-breakpoint) {
       font-size: 18px;
+    }
+    @media (max-width: 700px) {
+      margin: 40px 0;
+      padding: 15px;
     }
   }
   &__skip-button {
@@ -26,14 +34,15 @@
   }
   &__button.button {
     margin-top: 15px;
-    @media(min-width: 400px) {
-      width: 48%;
+    @media (min-width: 400px) {
+      width: 142px;
       margin-right: 2%;
     }
   }
-  &__instruction, &__question {
+  &__instruction,
+  &__question {
     font-size: 20px;
-    @media(min-width: $font-size-breakpoint) {
+    @media (min-width: $font-size-breakpoint) {
       font-size: 24px;
     }
     font-weight: lighter;
@@ -44,20 +53,18 @@
   .form--big textarea,
   .form--big .selectize-control.single .selectize-input,
   .form--big .hosted-fields__host {
-    border-color: $overcast-gray;
     &.has-error {
       border-color: $orange;
     }
-    &:focus, &.focus {
+    &:focus,
+    &.focus {
       border-color: $teal;
     }
   }
   .form--big label.checkbox-label {
     font-size: inherit;
-    margin: 0 0 0 12px;
     position: relative;
-    top: -10px;
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       top: 1px;
     }
   }

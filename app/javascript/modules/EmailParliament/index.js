@@ -6,7 +6,7 @@ import SearchByPostcode from './SearchByPostcode';
 import EmailComposer from './EmailComposer';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { redirect } from '../../util/redirector';
-
+import './EmailParliment.scss';
 export const init = options => {
   if (!options.config || !options.config.active) return;
   if (options.el) {

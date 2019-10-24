@@ -1,4 +1,5 @@
 .SweetSelect {
+  text-align: left;
   .Select.has-error .Select-control {
     border-color: #f8492e;
   }
@@ -32,13 +33,16 @@
     border-width: 0 2px 2px 2px;
   }
 
-  .Select > .Select-control .Select-value, .Select > .Select-control {
-    border-color: white;
+  .Select > .Select-control .Select-value,
+  .Select > .Select-control {
+    background-color: #f9f9f9;
     padding: 24px 18px 12px;
     border-width: 2px;
+    border-color: transparent;
   }
 
-  .Select-input, .Select-value .Select-value-label {
+  .Select-input,
+  .Select-value .Select-value-label {
     height: 21px;
     line-height: 21px;
     padding-left: 0;
