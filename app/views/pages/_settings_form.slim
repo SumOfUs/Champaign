@@ -64,7 +64,7 @@
     .additional-settings.collapse
       .form-group
         = label_with_tooltip(f, :campaign, t('pages.edit.campaign'), t('tooltips.campaign'))
-        = f.select :campaign_id, options_from_collection_for_select(Campaign.all.order(name: :asc), 'id', 'name', page.campaign_id), {include_blank: true}, class: 'form-control'
+        = f.select :campaign_id, options_from_collection_for_select(Campaign.all.order(name: :asc), 'id', 'name', page.campaign_id), {include_blank: '-- None --'}, class: 'form-control'
 
       .form-group
         = label_with_tooltip(f, :publish_actions, t('pages.edit.publish_actions'), t('tooltips.publish_actions'))
