@@ -93,6 +93,9 @@
     font-weight: 400;
     padding: 20px 0;
   }
+  @media (max-width: 600px) {
+    height: 100vh;
+  }
 }
 
 #fundraiser-component.fundraiser-bar--freestanding {
