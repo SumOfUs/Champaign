@@ -150,6 +150,7 @@ en:
     you_will_be_calling: "We will call you and connect you to"
     instructions: "Just enter your phone number including the area code -- and we'll call shortly after."
     member_phone_number_title: 'Enter your phone number'
+    termination_message: "You haven't chosen a menu option, so the call will be terminated. Please try calling again if this wasn't intentional."
     text_to_speach_menu: "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again."
     errors:
       recaptcha_fail: "Sorry, but we're unable to make the call for you at this time."
