@@ -136,6 +136,8 @@ fr:
     text_to_speach_menu: "Merci de presser la touche 1 lorsque vous serez prêt-e pour être mis en relation. Pressez la touche 2 pour entendre de nouveau le message du chargé de campagne"
     errors:
       unknown: "Oups ! Quelque chose n’a pas fonctionné, veuillez réessayer dans quelques minutes ou utiliser un autre numéro de téléphone."
+      akid: ""
+      too_many_calls: "Merci pour votre action ! Malheureusement, pour des raisons de sécurité, le nombre d'appels téléphoniques que les membres peuvent faire pour une campagne donnée est limité à cinq."
       target:
         outdated: "Il semble que le numéro auquel nous essayons de vous connecter n’existe plus. Veuillez recharger la page et essayer à nouveau."
         missing: "Il y a un problème avec le numéro que vous essayez d’appeler."
