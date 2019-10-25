@@ -90,6 +90,8 @@ describe 'API::Calls' do
           }
         end
 
+        let!(:member) { create(:member, actionkit_user_id: '5678') }
+
         it 'returns 422 Unprocessable Entity' do
           post "/api/pages/#{page.id}/call", params: params
           expect(response).to have_http_status(:unprocessable_entity)

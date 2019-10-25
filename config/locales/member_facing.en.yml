@@ -154,6 +154,8 @@ en:
     errors:
       recaptcha_fail: "Sorry, but we're unable to make the call for you at this time."
       unknown: "Oops! Something went wrong, please try a different phone number or again in a few minutes."
+      akid: "Sorry, but for safety reasons, the calling tool is limited to recognized members who enter the website through a campaign email."
+      too_many_calls: "Thank you for making a difference! Unfortunately, to prevent fraud, we only allow five calls per member on the same page."
       target:
         outdated: "It seems the number we're trying to connect you to is no longer available. Please reload the page and try again."
         missing: "Something wasn't right about the number you're trying to call."

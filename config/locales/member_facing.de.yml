@@ -146,6 +146,8 @@ de:
     text_to_speach_menu: "Bitte drücken Sie die 1, wenn Sie bereit sind -- wir verbinden Sie dann. Drücken Sie die 2, um die Nachricht des/der Kampagnenleiter/in noch einmal zu hören."
     errors:
       unknown: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
+      akid: ""
+      too_many_calls: "Vielen Dank für Ihr Engagement! Aus Sicherheitsgründen ist die Anzahl von Anrufen, die ein Mitglied für die Kampagne mit unserem Anruf-Tool durchführen kann, auf 5 beschränkt."
       target:
         outdated: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
         missing: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
