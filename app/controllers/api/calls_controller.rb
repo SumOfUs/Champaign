@@ -6,23 +6,18 @@ class Api::CallsController < ApplicationController
   def create
     member = Member.find_by_akid(params[:akid])
     if member.blank?
-      error = [{ akid: I18n.t('call_tool.errors.akid') }]
+      error = { base: [I18n.t('call_tool.errors.akid')] }
       render(json: { errors: error, name: 'call' }, status: 403) && return
     end
 
     if call_spammer(member, Page.find(params[:page_id]))
-      error = [
-        { akid: I18n.t('call_tool.errors.too_many_calls') }
-      ]
+      error = { base: [I18n.t('call_tool.errors.too_many_calls')] }
       render(json: { errors: error, name: 'call' }, status: 403) && return
     end
 
-    unless verify_recaptcha(action: params[:recaptcha_action], minimum_score: 0.5)
-      error = [
-        {
-          recaptcha: I18n.t('call_tool.errors.recaptcha_fail')
-        }
-      ]
+    recaptcha_resp = verify_recaptcha(action: params[:recaptcha_action], minimum_score: 0.5)
+    unless recaptcha_resp
+      error = { base: [I18n.t('call_tool.errors.recaptcha_fail')] }
       render(json: { errors: error, name: 'call' }, status: :unprocessable_entity) && return
     end
 
