@@ -3,7 +3,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { camelCase, isEmpty, filter, find, sample } from 'lodash';
 import { CallsClient } from '../../util/ChampaignClient';
 import Form from '../../components/CallTool/Form';
-import ReCaptchaBranding from '../../components/ReCaptchaBranding';
+import './CallToolView.css';
 
 class CallToolView extends Component {
   constructor(props) {
@@ -39,6 +39,10 @@ class CallToolView extends Component {
     });
   }
 
+  onRecaptchaCheckClicked(token) {
+    this.setState({ recaptchaToken: token });
+  }
+
   selectNewTarget() {
     return sample(this.props.targets);
   }
@@ -60,6 +64,7 @@ class CallToolView extends Component {
       pageId: this.props.pageId,
       memberPhoneNumber: this.state.memberPhoneNumber,
       trackingParams: this.props.trackingParams,
+      recaptchaToken: this.state.recaptchaToken,
     }).then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 
@@ -150,12 +155,14 @@ class CallToolView extends Component {
           }
           errors={this.state.errors}
           onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
+          onRecaptchaCheck={this.onRecaptchaCheckClicked.bind(this)}
           onTargetSelected={id => this.selectTarget(id)}
           onSubmit={this.submit.bind(this)}
           loading={this.state.loading}
           targetByAttributes={this.props.targetByAttributes.map(camelCase)}
           filters={this.props.filters}
         />
+
         <p
           className="fine-print"
           dangerouslySetInnerHTML={{
@@ -164,7 +171,6 @@ class CallToolView extends Component {
             }),
           }}
         />
-        <ReCaptchaBranding className="fine-print" />
       </div>
     );
   }

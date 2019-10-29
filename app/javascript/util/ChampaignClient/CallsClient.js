@@ -13,14 +13,10 @@ const create = async function(params) {
   if (!!params.checksum) inner.checksum = params.checksum;
   if (!!params.targetId) inner.target_id = params.targetId;
 
-  const recaptcha_action = `call/${params.pageId}`;
-  const recaptcha_token = await captcha.execute({ action: recaptcha_action });
-
   const payload = {
     call: inner,
     ...params.trackingParams,
-    'g-recaptcha-response': recaptcha_token,
-    recaptcha_action,
+    'g-recaptcha-response': params.recaptchaToken,
   };
 
   return new Promise((resolve, reject) => {

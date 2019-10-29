@@ -4,6 +4,13 @@ class Api::CallsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
+    recaptcha_resp = verify_recaptcha(secret_key: Settings.recaptcha2.secret_key)
+
+    unless recaptcha_resp
+      error = { base: [I18n.t('call_tool.errors.recaptcha_fail')] }
+      render(json: { errors: error, name: 'call' }, status: 401) && return
+    end
+
     if recognized_member.blank?
       error = { base: [I18n.t('call_tool.errors.akid')] }
       render(json: { errors: error, name: 'call' }, status: 403) && return
@@ -12,12 +19,6 @@ class Api::CallsController < ApplicationController
     if call_spammer(recognized_member, Page.find(params[:page_id]))
       error = { base: [I18n.t('call_tool.errors.too_many_calls')] }
       render(json: { errors: error, name: 'call' }, status: 403) && return
-    end
-
-    recaptcha_resp = verify_recaptcha(action: params[:recaptcha_action], minimum_score: 0.5)
-    unless recaptcha_resp
-      error = { base: [I18n.t('call_tool.errors.recaptcha_fail')] }
-      render(json: { errors: error, name: 'call' }, status: :unprocessable_entity) && return
     end
 
     service = CallCreator.new(call_params, tracking_params)
