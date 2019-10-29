@@ -4,13 +4,12 @@ class Api::CallsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
-    member = Member.find_by_akid(params[:akid])
-    if member.blank?
+    if recognized_member.blank?
       error = { base: [I18n.t('call_tool.errors.akid')] }
       render(json: { errors: error, name: 'call' }, status: 403) && return
     end
 
-    if call_spammer(member, Page.find(params[:page_id]))
+    if call_spammer(recognized_member, Page.find(params[:page_id]))
       error = { base: [I18n.t('call_tool.errors.too_many_calls')] }
       render(json: { errors: error, name: 'call' }, status: 403) && return
     end

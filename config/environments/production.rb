@@ -115,6 +115,8 @@ Rails.application.configure do
              port: Settings.cache.port, drive: :hiredis }
   }
 
+  config.middleware.use Rack::Attack
+
   # In production, we only accept CORS request from sumofus.org or its subdomains.
   config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
