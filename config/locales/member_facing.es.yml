@@ -152,8 +152,11 @@ es:
     instructions: "Simplemente ingresa tu número telefónico con el código de área y te llamaremos a la brevedad."
     member_phone_number_title: 'Ingresa tu número telefónico'
     text_to_speach_menu: "Cuando estés listo para que derivemos tu llamada, presiona uno. Para escuchar nuevamente el mensaje de la campaña, presiona dos."
+    termination_message: ""
     errors:
       unknown: "¡Uy! Algo salió mal. Inténtalo nuevamente en algunos minutos o prueba con otro número."
+      akid: ""
+      too_many_calls: ""
       target:
         outdated: "Parece que el número al que estamos intentando comunicarte ya no está disponible. Refresca la página e inténtalo nuevamente."
         missing: "Hubo un problema al intentar comunicarte con este número"

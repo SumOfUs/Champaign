@@ -147,7 +147,7 @@ de:
     termination_message: "Sie haben keine Menü-Option gewählt - der Anruf wird daher beendet. Wenn Sie möchten, können Sie einen neuen Anruf starten."
     errors:
       unknown: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
-      akid: ""
+      akid: "Leider ist die Nutzung unseres Anruf-Tools nur für Mitglieder möglich, die diese Seite über eine unserer Kampagnen-Emails besuchen."
       too_many_calls: "Vielen Dank für Ihr Engagement! Aus Sicherheitsgründen ist die Anzahl von Anrufen, die ein Mitglied für die Kampagne mit unserem Anruf-Tool durchführen kann, auf 5 beschränkt."
       target:
         outdated: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "

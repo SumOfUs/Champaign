@@ -40,7 +40,7 @@ module Twilio
     private
 
     def menu_params
-      params.slice('Digits')
+      params.slice('Digits', 'iterator')
     end
   end
 end

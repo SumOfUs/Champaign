@@ -20,7 +20,7 @@ module CallTool::TwimlGenerator
     end
 
     def render_menu(iterator)
-      # if iterator is 3 or more, terminate the call
+      # terminate the call if the menu has been played too many times
       iteration = iterator.blank? ? 0 : iterator
       return terminate_call if iteration >= 3
 
