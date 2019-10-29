@@ -153,7 +153,7 @@ en:
     termination_message: "You haven't chosen a menu option, so the call will be terminated. Please try calling again if this wasn't intentional."
     text_to_speach_menu: "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again."
     errors:
-      recaptcha_fail: "Sorry, but we're unable to make the call for you at this time."
+      recaptcha_fail: "The reCAPTCHA test failed. Please try again by clicking on the checkbox."
       unknown: "Oops! Something went wrong, please try a different phone number or again in a few minutes."
       akid: "Sorry, but for safety reasons, the calling tool is limited to recognized members who enter the website through a campaign email."
       too_many_calls: "Thank you for making a difference! Unfortunately, to prevent fraud, we only allow five calls per member on the same page."
