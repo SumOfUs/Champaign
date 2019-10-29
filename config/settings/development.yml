@@ -116,3 +116,7 @@ recaptcha3:
   site_key: ''
   secret_key: ''
   min_score: 0.5
+
+recaptcha2:
+  site_key: ''
+  secret_key: ''
