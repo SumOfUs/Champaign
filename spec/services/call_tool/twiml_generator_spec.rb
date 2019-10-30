@@ -70,6 +70,17 @@ describe CallTool::TwimlGenerator do
         expect(subject).to match(%r{<Redirect>.*/twilio/calls/#{call.id}/start})
       end
     end
+
+    context 'when no digits have been pressed and the menu has been played three times' do
+      let(:params) { { 'iterator' => '3' } }
+      it 'plays a termination message and hangs up' do
+        expect(subject).to include(
+          '<Response>',
+          'You haven\'t chosen a menu option, so the call will be terminated',
+          '<Hangup/>'
+        )
+      end
+    end
   end
 
   describe 'Connect' do
