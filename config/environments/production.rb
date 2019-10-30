@@ -127,7 +127,7 @@ Rails.application.configure do
                max_age: 86_400
     end
   end
-  config.middleware.use Rack::Attack
+
   config.action_mailer.delivery_method = :aws_sdk
 
   config.action_mailer.smtp_settings = {
