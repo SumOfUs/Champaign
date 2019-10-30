@@ -1,5 +1,5 @@
 .petition-bar.stuck-right .petition-bar__main {
-  overflow: scroll;
+  overflow: hidden !important;
   background: white;
   max-height: 60vh;
 }
