@@ -140,8 +140,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/circleci-champaign
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - run:
           name: Docker build
           command: .circleci/build.sh
@@ -152,8 +151,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/circleci-champaign
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - run:
           name: Docker build
           command: .circleci/build.sh

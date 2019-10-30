@@ -24,6 +24,9 @@ interface IChampaignGlobalObject {
     recaptcha3: {
       siteKey: string;
     };
+    recaptcha2: {
+      siteKey: string;
+    };
     [key: string]: any;
   };
   page: IChampaignPage;

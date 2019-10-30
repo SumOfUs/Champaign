@@ -101,7 +101,7 @@ class Api::Payment::BraintreeController < PaymentController
 
     unless @captcha.human?
       msg = @captcha.errors.present? ? @captcha.errors : 'Invalid request'
-      render json: { success: false, message: msg }, status: :unprocessible_entity
+      render json: { success: false, message: msg }, status: :unprocessable_entity
       return false
     end
   end

@@ -17,6 +17,7 @@ import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
 import ReCaptchaBranding from '../ReCaptchaBranding';
 import { resetMember } from '../../state/member/reducer';
+
 import {
   changeStep,
   setRecurring,
@@ -24,6 +25,7 @@ import {
   setPaymentType,
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
+import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 // Styles
 import './Payment.css';
@@ -50,6 +52,12 @@ export class Payment extends Component {
       errors: [],
       waitingForGoCardless: false,
     };
+  }
+
+  setRecurringCheckedForGermanPage() {
+    if (window.champaign.page.language_code == 'de') {
+      this.props.setRecurring(true);
+    }
   }
 
   componentDidMount() {
@@ -84,11 +92,32 @@ export class Payment extends Component {
       .fail(failure => {
         console.warn('could not fetch Braintree token');
       });
+    this.setRecurringCheckedForGermanPage();
     this.bindGlobalEvents();
+    // set default payment type for existing user
+    this.setDefaultPaymentType();
   }
+
+  // set default payment as DirectDebit / paypal when the
+  // user follows external link like email
+  setDefaultPaymentType = () => {
+    const urlInfo = window.champaign.personalization.urlParams;
+    const country = this.props.fundraiser.form.country;
+    const showDirectDebit = isDirectDebitSupported({ country: country });
+
+    if (urlInfo.source == 'fwd') {
+      if (showDirectDebit) {
+        this.selectPaymentType('gocardless');
+      } else {
+        this.selectPaymentType('paypal');
+      }
+    }
+  };
 
   bindGlobalEvents() {
     ee.on('fundraiser:actions:make_payment', this.makePayment);
+    // set default payment type for new user
+    ee.on('fundraiser:form:success', this.setDefaultPaymentType);
   }
 
   componentDidUpdate() {
@@ -333,7 +362,6 @@ export class Payment extends Component {
         storeInVault,
       },
     } = this.props;
-
     return (
       <div className="Payment section">
         <ShowIf condition={!isEmpty(this.state.errors)}>

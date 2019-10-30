@@ -147,3 +147,8 @@ recaptcha3:
   site_key: <%= ENV['RECAPTCHA_SITE_KEY'] %>
   secret_key: <%= ENV['RECAPTCHA_SECRET_KEY'] %>
   min_score: <%= ENV['RECAPTCHA_MIN_SCORE'] %>
+
+recaptcha2:
+  site_key: <%= ENV['RECAP2SIK'] %>
+  secret_key: <%= ENV['RECAP2SEK'] %>
+

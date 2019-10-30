@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_04_133749) do
+ActiveRecord::Schema.define(version: 2019_10_21_161824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -204,6 +204,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_133749) do
     t.jsonb "more"
     t.datetime "consented_updated_at"
     t.boolean "consented"
+    t.integer "opt_out_eoy_donation", default: 0
     t.index ["actionkit_user_id"], name: "index_members_on_actionkit_user_id"
     t.index ["email", "id"], name: "index_members_on_email_and_id"
     t.index ["email"], name: "index_members_on_email"
