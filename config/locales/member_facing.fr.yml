@@ -136,6 +136,7 @@ fr:
     text_to_speach_menu: "Merci de presser la touche 1 lorsque vous serez prêt-e pour être mis en relation. Pressez la touche 2 pour entendre de nouveau le message du chargé de campagne"
     termination_message: "Vous n'avez pas choisi d'option de menu, l'appel sera donc terminé. Essayez de rappeler."
     errors:
+      recaptcha_fail: "Le test reCAPTCHA a échoué. Veuillez réessayer en cliquant sur la case à cocher."
       unknown: "Oups ! Quelque chose n’a pas fonctionné, veuillez réessayer dans quelques minutes ou utiliser un autre numéro de téléphone."
       akid: "Nous sommes désolés, mais pour des raisons de sécurité, cet outil d'appels téléphoniques est limité aux membres qui ont eu accès à cette page web par le biais d'un courriel de campagne de SumOfUs."
       too_many_calls: "Merci pour votre action ! Malheureusement, pour des raisons de sécurité, le nombre d'appels téléphoniques que les membres peuvent faire pour une campagne donnée est limité à cinq."
