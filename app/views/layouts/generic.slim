@@ -20,7 +20,6 @@ html lang= I18n.locale
     = render partial: "shared/js_locale"
     = render partial: "shared/champaign_object"
     = render "pages/personalization", data: @data
-    = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
 
     = stylesheet_link_tag "member-facing"
     = stylesheet_packs_with_chunks_tag "globals", "member_facing", "plugins"

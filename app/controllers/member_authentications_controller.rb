@@ -8,7 +8,6 @@ class MemberAuthenticationsController < ApplicationController
     session[:follow_up_url] = params[:follow_up_url]
     @title = I18n.t('member_registration.title')
     @email = params[:email]
-    @page = Page.find_by_slug(params[:follow_up_url].split('/')[2])
     render 'member_authentications/registration', layout: 'generic'
   end
 
