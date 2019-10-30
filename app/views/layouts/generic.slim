@@ -9,15 +9,22 @@ html lang= I18n.locale
     = favicon_link_tag "images/org-favicon.ico"
     = metamagic
 
+    = javascript_include_tag 'https://code.jquery.com/jquery-2.2.4.min.js'
+    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.min.js'
+    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
+    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js'
 
-    = javascript_packs_with_chunks_tag 'sentry', 'globals', 'generic'
+    = javascript_packs_with_chunks_tag "sentry"
 
-    = render partial: "shared/facebook_pixel" unless Rails.env.test?
+    = render partial: "layouts/mixpanel" if Settings.mixpanel_token
     = render partial: "shared/js_locale"
+    = render partial: "shared/champaign_object"
+    = render "pages/personalization", data: @data
+    = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
 
-    = render partial: "shared/optimizely_snippet"
-    = stylesheet_packs_with_chunks_tag "globals"
     = stylesheet_link_tag "member-facing"
+    = stylesheet_packs_with_chunks_tag "globals", "member_facing", "plugins"
+
   body
     = render partial: "layouts/notification"
 
