@@ -57,7 +57,6 @@ $mobile-width: 700px;
     border: solid 0.4px #dfdfdf;
     position: absolute;
     overflow: visible;
-
     width: 100%;
     @include box-sizing(border-box);
   }
@@ -65,7 +64,6 @@ $mobile-width: 700px;
     position: absolute;
     top: 0 !important;
     left: 0;
-
     width: 100%;
     overflow: hidden;
     &::after {
