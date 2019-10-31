@@ -29,11 +29,9 @@ $mobile-width: 700px;
       }
     }
     .petition-bar__title {
-      background: white;
-      color: black;
       height: 67px;
       box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
-      border: solid 0.4px #dfdfdf;
+      border: solid 0.4px #00c0cf;
       @include box-sizing(border-box);
       padding: 21px;
       width: 100%;
