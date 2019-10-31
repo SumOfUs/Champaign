@@ -4,6 +4,9 @@
   label {
     cursor: pointer;
   }
+  &__recurring-checkbox {
+    text-align: left;
+  }
 }
 
 .ExpressDonation__prompt,
@@ -32,6 +35,7 @@
   margin-top: 6px;
   display: block;
   margin-bottom: 8px;
+  text-align: left;
 }
 
 .PaymentMethod {
