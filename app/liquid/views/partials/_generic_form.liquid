@@ -5,7 +5,7 @@
     <a href="javascript:;" class=" action-form__clear-form">{{ 'form.switch_user' | t }}</a>
   </div>
   <input type='hidden' name='form_id' value='{{ form_id }}' />
-  <div style="overflow-y: scroll; max-height: 300px; float: left;">
+  {% comment %} <div style="overflow-y: scroll; max-height: 300px; float: left;"> {% endcomment %}
     {% for field in fields %}
       <div class="form__group action-form__field-container">
         {% case field.data_type %}
@@ -66,6 +66,6 @@
         {% endcase %}
       </div>
     {% endfor %}
-  </div>
+  {% comment %} </div> {% endcomment %}
   <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
 </form>
