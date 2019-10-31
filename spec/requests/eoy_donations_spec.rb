@@ -7,47 +7,134 @@ describe 'eoy donation emails' do
   let(:ak_raw_id) { "#{Settings.action_kit.akid_secret}.2678.323423423999" }
   let(:ak_hash) { Base64.urlsafe_encode64(Digest::SHA256.digest(ak_raw_id))[0..5] }
   let(:akid) { "2678.323423423999.#{ak_hash}" }
+  let(:valid_resp) {
+    { body: '{"email": "' + member.email + '"}',
+      status: 200, headers: { 'Content-Type' => 'application/json' } }
+  }
 
-  context 'opt_out ' do
-    before do
-      stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
-      get "/eoy_donations/opt_out?akid=#{akid}"
+  describe 'opt_out' do
+    context 'valid data' do
+      before do
+        stub_request(:get, %r{#{Settings.ak_api_url}/user}).to_return(valid_resp)
+        stub_request(:put, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
+        post '/eoy_donations/opt_out.json', params: { akid: akid, email: member.email }
+      end
+
+      it 'should opt out from eoy donation email' do
+        expect(json_hash).to include_json(
+          success: true,
+          msg: 'You have successfully opted out EOY donation email'
+        )
+      end
     end
 
-    it 'should opt out from eoy donation email' do
-      expect(flash[:notice]).to include('You have successfully opted out EOY donation email')
+    context 'non matching email' do
+      before do
+        stub_request(:get, %r{#{Settings.ak_api_url}/user}).to_return(valid_resp)
+        post '/eoy_donations/opt_out.json', params: { akid: akid, email: 'a@example.com' }
+      end
+
+      it 'should not opt out from eoy donation email' do
+        expect(json_hash).to include_json(
+          success: false,
+          msg: 'Email does not match'
+        )
+      end
+    end
+
+    context 'invalid actionkit id' do
+      before do
+        stub_request(:get, %r{#{Settings.ak_api_url}/user}).to_return(status: [404, 'Not Found'])
+        stub_request(:put, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
+
+        post '/eoy_donations/opt_out.json', params: { akid: '223.2342342.2423423', email: member.email }
+      end
+
+      it 'should not opt out from eoy donation email' do
+        expect(json_hash).to include_json(
+          success: false,
+          msg: 'Email does not match'
+        )
+      end
+    end
+
+    context 'actionkit update error' do
+      before do
+        stub_request(:get, %r{#{Settings.ak_api_url}/user}).to_return(valid_resp)
+        stub_request(:put, /#{Settings.ak_api_url}/).to_return(status: [500, 'Internal Server error'])
+        post '/eoy_donations/opt_out.json', params: { akid: akid, email: member.email }
+      end
+
+      it 'should not opt out from eoy donation email' do
+        expect(json_hash).to include_json(
+          success: false,
+          msg: 'Error occured while opting out EOY donation email'
+        )
+      end
     end
   end
 
-  context 'opt_in' do
-    before do
-      stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
-      get "/eoy_donations/opt_in?akid=#{akid}"
+  describe 'opt_in' do
+    context 'valid data' do
+      before do
+        stub_request(:get, %r{#{Settings.ak_api_url}/user}).to_return(valid_resp)
+        stub_request(:put, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
+        post '/eoy_donations/opt_in.json', params: { akid: akid, email: member.email }
+      end
+
+      it 'should opt out from eoy donation email' do
+        expect(json_hash).to include_json(
+          success: true,
+          msg: 'You have successfully opted in EOY donation email'
+        )
+      end
     end
 
-    it 'should opt in eoy donation email' do
-      expect(flash[:notice]).to include('You have successfully opted in EOY donation email')
-    end
-  end
+    context 'non matching email' do
+      before do
+        stub_request(:get, %r{#{Settings.ak_api_url}/user}).to_return(valid_resp)
+        post '/eoy_donations/opt_in.json', params: { akid: akid, email: 'a@example.com' }
+      end
 
-  context 'error' do
-    before do
-      get '/eoy_donations/opt_in?akid=2233.32423.23424'
-    end
-
-    it 'should raise error' do
-      expect(flash[:alert]).to include('Error occured while opting in EOY donation email')
-    end
-  end
-
-  context 'error updating action kit' do
-    before do
-      stub_request(:any, /#{Settings.ak_api_url}/).to_return(status: [404, 'Not Found'])
-      get "/eoy_donations/opt_in?akid=#{akid}"
+      it 'should not opt out from eoy donation email' do
+        expect(json_hash).to include_json(
+          success: false,
+          msg: 'Email does not match'
+        )
+      end
     end
 
-    it 'should raise error' do
-      expect(flash[:alert]).to include('Error occured while opting in EOY donation email')
+    context 'invalid actionkit id' do
+      before do
+        stub_request(:get, %r{#{Settings.ak_api_url}/user}).to_return(status: [404, 'Not Found'])
+        stub_request(:put, /#{Settings.ak_api_url}/).to_return(status: [204, 'No Content'])
+
+        post '/eoy_donations/opt_in.json', params: { akid: '223.2342342.2423423', email: member.email }
+      end
+
+      it 'should not opt in from eoy donation email' do
+        expect(json_hash).to include_json(
+          success: false,
+          msg: 'Email does not match'
+        )
+      end
+    end
+
+    context 'actionkit update error' do
+      before do
+        stub_request(:get, %r{#{Settings.ak_api_url}/user}).to_return(valid_resp)
+        stub_request(:put, /#{Settings.ak_api_url}/).to_return(
+          status: [500, 'Internal Server error']
+        )
+        post '/eoy_donations/opt_in.json', params: { akid: akid, email: member.email }
+      end
+
+      it 'should not opt in from eoy donation email' do
+        expect(json_hash).to include_json(
+          success: false,
+          msg: 'Error occured while opting in EOY donation email'
+        )
+      end
     end
   end
 end
