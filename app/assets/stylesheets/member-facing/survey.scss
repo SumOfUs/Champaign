@@ -111,4 +111,9 @@
       font-weight: bold;
     }
   }
+  .body-text.post-call__intro,
+  .body-text.post-call__talking-points {
+    min-height: unset;
+    margin-bottom: unset;
+  }
 }
