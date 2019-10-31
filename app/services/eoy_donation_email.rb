@@ -28,6 +28,13 @@ class EoyDonationEmail
     @member ||= Member.find_by(actionkit_user_id: actionkit_user_id)
   end
 
+  def confirmation_email_matched?(email)
+    info = fetch_user_info
+    return false unless info.present?
+
+    info['email'].to_s.downcase == email.to_s.downcase
+  end
+
   private
 
   def set_actionkit_user_id
@@ -42,6 +49,20 @@ class EoyDonationEmail
     updated_actionkit
   end
 
+  def fetch_user_info
+    return {} unless actionkit_user_id.present?
+
+    begin
+      resp = ActionKit::Client.get("user/#{actionkit_user_id}", params: {})
+      return {} unless resp.code == 200
+
+      return resp.parsed_response
+    rescue StandardError => e
+      Rails.logger.info "Error occurred while fetching actionkit user details. #{e.inspect}"
+      return {}
+    end
+  end
+
   def update_action_kit(option)
     begin
       data = { fields: { opt_out_eoy_donation: option } }
@@ -52,6 +73,6 @@ class EoyDonationEmail
       status = false
     end
     errors.add(:base, 'Error updating actionkit') && (return false) unless status
-    true
+    status
   end
 end

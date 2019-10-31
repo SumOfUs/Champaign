@@ -275,7 +275,7 @@ es:
     privacy_policy_link_text: 'Política de privacidad'
   recaptcha_branding_html: 'Este sitio está protegido por reCAPTCHA y se aplican la <a href="https://policies.google.com/privacy?hl=es">Política de Privacidad</a> y los <a href="https://policies.google.com/terms?hl=es">Términos de Servicio</a> de Google.'
   eoy_donation_email:
-    back_to_home: 'Back to Home'
+    confirmation_error: 'Email does not match'
     opt_out:
       notice: 'You have successfully opted out EOY donation email'
       alert: 'Error occured while opting out EOY donation email'
