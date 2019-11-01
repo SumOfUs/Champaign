@@ -1,16 +1,27 @@
-
 .EmailComposer {
-  max-width: 800px;
   margin: 20px auto;
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 2px;
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+  border: solid 0.4px #dfdfdf;
+  background-color: #ffffff;
+}
 
+.EmailEditor-body {
+  background-color: #f9f9f9;
+  border: solid 0.5px #e6e6e6;
+  border-radius: 2px;
 }
 
 .EmailComposer-title {
-  margin: 20px 0 10px 0;
+  margin: 20px 0;
+  font-size: 18px;
 }
 
 .EmailComposer.form--big {
-  padding: 0;
+  padding: 20px;
   margin: 0;
 }
 

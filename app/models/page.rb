@@ -197,6 +197,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Mostly donations comes as followup action
   # So for page which has petition and followup as donation
   # the page is considered as petition page.
+  # FIXME: This method is *not* reliable and intermittently tests
   def donation_page?
     plugins.first.is_a?(Plugins::Fundraiser)
   end

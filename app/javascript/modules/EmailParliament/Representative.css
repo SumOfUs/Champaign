@@ -1,7 +1,14 @@
 .Representative {
-  display: flex;
   padding: 5px 20px;
-  background: white;
+  background: #f9f9f9;
+  border: solid 0.5px #e6e6e6;
+  display: flex;
+  align-items: center;
+}
+
+.Representative .ProfilePicture {
+  min-height: 50px;
+  min-width: 50px;
 }
 
 .Representative-copy {
@@ -9,10 +16,14 @@
   font-size: 1.3em;
 }
 .Representative-name {
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 10px;
 }
 .Representative-party {
-  color: darkgrey;
+  font-size: 18px;
+  font-weight: 300;
+  color: black;
 }
 
 .form--big .Representative {

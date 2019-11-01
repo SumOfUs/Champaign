@@ -1,8 +1,47 @@
 .EmailToolView {
   padding: 0 20px;
   line-height: 1.2em;
+  display: flex;
+  border-radius: 2px;
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+  border: solid 0.4px #dfdfdf;
+  background-color: #ffffff;
 }
 
+.email-tool {
+  .body-text {
+    width: 70%;
+    margin: 0;
+    margin-left: 7%;
+    padding: 2em 0;
+    min-height: unset;
+    @media (max-width: 580px) {
+      width: 90%;
+      text-align: left;
+      max-width: unset;
+      margin: 0 auto;
+    }
+  }
+}
+
+#email-tool-component {
+  width: 70%;
+  margin: 0;
+  margin-left: 7%;
+  margin-bottom: 150px;
+  @media (max-width: 580px) {
+    width: 90%;
+    margin: 0 auto;
+  }
+  form__group {
+    margin-bottom: 15px;
+  }
+}
 .EmailToolView-title {
-  margin-bottom: 10px;
+  margin: 25px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+.EmailEditor-body {
+  background: #f9f9f9;
 }

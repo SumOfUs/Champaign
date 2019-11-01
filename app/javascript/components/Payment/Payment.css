@@ -1,5 +1,6 @@
-.Payment__config {
-  margin-bottom: 10px;
+.Payment__config.Checkbox {
+  margin: 15px 0;
+  text-align: left;
 }
 
 .Payment__form-group-label {
@@ -41,13 +42,17 @@
   font-size: 12px;
   line-height: 16px;
   width: 100%;
-  float: left;
-  margin-top: 10px;
-  padding-bottom: 15px;
+  margin: 20px 0;
+  text-align: left;
 }
 
 .Payment__fine-print .ReCaptchaBranding {
   margin-top: 5px;
+}
+
+.Payment__direct-debit-logo {
+  display: flex;
+  justify-content: center;
 }
 
 .Payment .gpay-button {

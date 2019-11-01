@@ -13,7 +13,7 @@ body.page-edit-body {
     text-align: right;
 
     a.disabled {
-      color: #AAA;
+      color: #aaa;
       &:hover {
         text-decoration: none;
         cursor: default;
@@ -27,7 +27,7 @@ body.page-edit-body {
   ol,
   ul,
   p {
-    margin-bottom: .7em;
+    margin-bottom: 0.7em;
     margin-top: 0;
   }
 }
@@ -56,7 +56,7 @@ body.page-edit-body {
 
   &__group {
     overflow: hidden;
-    @include transition (height 0.2s ease-out);
+    @include transition(height 0.2s ease-out);
     &--open {
       height: 228px;
     }
@@ -87,7 +87,6 @@ body.page-edit-body {
         white-space: nowrap;
         overflow: hidden;
         cursor: pointer;
-
         &:hover,
         &.active {
           background-color: $save-box-color;
@@ -402,7 +401,7 @@ textarea#page_meta_description {
   }
 }
 
-[data-toggle="collapse"] {
+[data-toggle='collapse'] {
   cursor: pointer;
   .fa {
     margin-right: 5px;
@@ -530,7 +529,7 @@ textarea#page_meta_description {
   background: white;
 }
 
-.checkbox input[type="checkbox"].layout-type-checkbox {
+.checkbox input[type='checkbox'].layout-type-checkbox {
   margin-left: 0px;
 }
 .form-sort-handle {
@@ -554,10 +553,10 @@ textarea#page_meta_description {
       margin-top: 10px;
       overflow: scroll;
     }
-    input[type="submit"] {
+    input[type='submit'] {
       margin-left: 10px;
     }
-    label[for="targets_csv_file"] {
+    label[for='targets_csv_file'] {
       width: 170px;
     }
 
@@ -579,7 +578,7 @@ textarea#page_meta_description {
   // ---------------------------
 
   .sound-clip-section {
-    input[type="submit"] {
+    input[type='submit'] {
       margin-top: 10px;
     }
 
@@ -617,7 +616,7 @@ textarea#page_meta_description {
 
   // --- Dropzone customizations
   form.dropzone {
-    background-color:transparent;
+    background-color: transparent;
     border: none;
     padding: 0;
     min-height: 0;
@@ -627,7 +626,7 @@ textarea#page_meta_description {
     display: none;
   }
 
-  label[for="targets_csv_file"] {
+  label[for='targets_csv_file'] {
     width: 170px;
   }
   // ---

@@ -1,6 +1,17 @@
 .SearchByPostcode {
-  max-width: 450px;
-  margin: auto;
+  width: 50%;
+  padding: 20px;
+  background: white;
+  border-radius: 2px;
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+  border: solid 0.4px #dfdfdf;
+  background-color: #ffffff;
+}
+
+@media (max-width: 580px) {
+  .SearchByPostcode {
+    width: 100%;
+  }
 }
 
 .SearchByPostcode .title {

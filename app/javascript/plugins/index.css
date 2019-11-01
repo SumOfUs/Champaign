@@ -1,6 +1,8 @@
 .petition-bar.stuck-right .petition-bar__main {
-  height: calc(100vh - 188px);
   overflow: scroll;
+  /* overflow: hidden !important;  // CTA button fixed change */
+  background: white;
+  max-height: 60vh;
 }
 
 .plugins {
