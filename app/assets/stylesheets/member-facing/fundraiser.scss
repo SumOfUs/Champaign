@@ -544,14 +544,17 @@
     .body-text {
       min-height: 50vh;
       width: auto;
-      @media (max-width: 480px) {
-        width: 100%;
-        max-width: 350px;
-        text-align: left;
-      }
       @media only screen and (min-width: 500px) and (max-width: 1100px) {
         min-height: 40vh;
       }
+    }
+    @media (max-width: 480px) {
+      width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+      padding: 0;
+      text-align: left;
+      padding-bottom: 120px;
     }
     @media (max-width: 700px) {
       width: 100%;
@@ -561,17 +564,6 @@
     z-index: 600 !important;
     @media only screen and (min-width: 500px) and (max-width: 1100px) {
       top: 70px !important;
-    }
-  }
-}
-
-.fundraiser-with-small-image {
-  .body-text {
-    @media (max-width: 480px) {
-      width: 100%;
-      text-align: justify;
-      margin: 0 auto;
-      padding-bottom: 120px;
     }
   }
 }
