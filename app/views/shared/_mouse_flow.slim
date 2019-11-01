@@ -1,9 +1,9 @@
- - if Settings.mouseflow_code
-        script
-        |   window._mfq = window._mfq || [];
-            (function() {
-                var mf = document.createElement("script");
-                mf.type = "text/javascript"; mf.async = true;
-                mf.src = "//cdn.mouseflow.com/projects/#{Settings.mouseflow_code}.js";
-                document.getElementsByTagName("head")[0].appendChild(mf);
-            })();
+- if Settings.mouseflow_code
+  javascript:
+    window._mfq = window._mfq || [];
+    (function() {
+        var mf = document.createElement("script");
+        mf.type = "text/javascript"; mf.async = true;
+        mf.src = "//cdn.mouseflow.com/projects/#{Settings.mouseflow_code}.js";
+        document.getElementsByTagName("head")[0].appendChild(mf);
+    })();
