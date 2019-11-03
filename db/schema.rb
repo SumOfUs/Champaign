@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_21_161824) do
+ActiveRecord::Schema.define(version: 2019_11_03_083722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -235,7 +235,7 @@ ActiveRecord::Schema.define(version: 2019_10_21_161824) do
     t.integer "optimizely_status", default: 0, null: false
     t.string "canonical_url"
     t.boolean "allow_duplicate_actions", default: false
-    t.boolean "enforce_styles", default: false, null: false
+    t.boolean "enforce_styles", default: true, null: false
     t.text "notes"
     t.integer "publish_actions", default: 0, null: false
     t.string "meta_tags"

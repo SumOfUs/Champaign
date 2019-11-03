@@ -12,7 +12,7 @@ const champaign = {
     follow_up_page_id: 1,
     publish_status: 'published',
     allow_duplicate_actions: false,
-    enforce_styles: false,
+    enforce_styles: true,
     publish_actions: 'secure',
     total_donations: '0.0',
     fundraising_goal: '100000.0',

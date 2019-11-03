@@ -12,7 +12,7 @@
 #  canonical_url              :string
 #  compiled_html              :text
 #  content                    :text             default("")
-#  enforce_styles             :boolean          default(FALSE), not null
+#  enforce_styles             :boolean          default(TRUE), not null
 #  featured                   :boolean          default(FALSE)
 #  follow_up_plan             :integer          default("with_liquid"), not null
 #  fundraising_goal           :decimal(10, 2)   default(0.0)
