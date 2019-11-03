@@ -29,7 +29,8 @@
 
   {% unless shares['email'] == blank %}
     <div class="share-buttons__alternative">
-      {{ 'basics.or' | t }} <div class="share-buttons__simple-email-link {{ shares['email'].css_class }}"></div>
+      <div class="or-text">{{ 'basics.or' | t }}</div> 
+      <div class="share-buttons__simple-email-link {{ shares['email'].css_class }}"></div>
     </div>
   {% endunless %}
 </div>

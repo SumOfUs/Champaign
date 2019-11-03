@@ -23,7 +23,7 @@
   }
 }
 
-.braintree-hosted-fields-invalid + .BraintreeCardFields__card-type{
+.braintree-hosted-fields-invalid + .BraintreeCardFields__card-type {
   display: none;
 }
 .braintree-hosted-fields-focused + .BraintreeCardFields__card-type {
@@ -44,10 +44,10 @@
   font-size: 18px;
   border-radius: 3px;
   line-height: 20px;
-  background: #fff;
   margin-bottom: 2px;
   // transition: all 120ms ease-in-out;
-  border: 2px solid white;
+  border: solid 0.5px #e6e6e6;
+  background-color: #f9f9f9;
 }
 
 .BraintreeCardFields__row {
@@ -74,17 +74,20 @@
   margin-top: 0;
   margin-bottom: 8px;
 
-  &--col-left, &--col-right {
+  &--col-left,
+  &--col-right {
     float: left;
     width: 48%;
-    margin-right:2%;
+    margin-right: 2%;
   }
 
-  &--col-left { float: left; }
-  &--col-right { float: right; }
-
+  &--col-left {
+    float: left;
+  }
+  &--col-right {
+    float: right;
+  }
 }
-
 
 .braintree-hosted-fields-focused {
   border-color: #00c0cf;

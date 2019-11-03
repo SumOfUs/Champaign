@@ -1,8 +1,6 @@
 @import 'compass/css3/filter';
 
 .fundraiser-bar {
-  text-align: left;
-
   &__steps {
     position: relative;
     width: 100%;
@@ -172,26 +170,26 @@
     }
   }
   &__errors {
-    background: #fdd7d1;
+    background: #f8492d33;
     width: 100%;
-    padding: 18px 26px;
-    margin: -26px -26px 20px;
-    border-top: 2px solid #f8492e;
-    border-bottom: 2px solid #f8492e;
+    margin: 5px 0;
+    border: 2px solid #f8492d;
     font-size: 14px;
     line-height: 16px;
   }
   &__error-intro {
-    padding-left: 40px;
-    padding-bottom: 10px;
+    padding: 10px;
     min-height: 30px;
+    text-align: left;
+  }
+  &__error-detail {
+    text-align: left;
+    padding: 10px;
   }
   .fa-exclamation-triangle {
-    position: absolute;
-    top: 21px;
-    left: 26px;
     color: #f8492e;
-    font-size: 30px;
+    font-size: 28px;
+    padding-right: 5px;
   }
   &__first-continue {
     margin-bottom: 20px;
@@ -239,6 +237,8 @@
 
     .fundraiser-bar__top,
     .fundraiser-bar__main {
+      border: none;
+      box-shadow: none;
       background-color: transparent;
       position: relative;
     }
@@ -261,8 +261,6 @@
     .selectize-input,
     div.BraintreeCardFields__hosted-field,
     .SweetSelect .Select > .Select-control {
-      border-color: $slate-gray;
-      border-width: 2px;
       &.braintree-hosted-fields-focused,
       &:focus {
         border-color: $teal;
@@ -310,7 +308,7 @@
         max-width: 340px;
       }
       .BraintreeCardFields__hosted-field {
-        border: #b2b5ba 2px solid;
+        border: none;
       }
       .Stepper__steps,
       .StepContent {
@@ -342,6 +340,7 @@
 
 .sticky-wrapper {
   position: relative;
+  z-index: 999;
 }
 
 .hosted-fields {
@@ -386,6 +385,7 @@
     background-image: url(asset-path('direct_debit_logo'));
     background-size: contain;
     background-repeat: no-repeat;
+    text-align: center;
   }
   &__card-type {
     position: absolute;
@@ -468,4 +468,102 @@
 
 .action-form__one-click {
   clear: both;
+}
+
+.fundraiser-bar.stuck-right {
+  .fundraiser-bar__main {
+    text-align: center;
+    background: white;
+    border: 0.6px solid #dfdfdf;
+    border-top: transparent;
+    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+    height: auto;
+    border-top: 0px transparent;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    overflow: scroll !important;
+    max-height: calc(100vh - 220px) !important;
+    @media (max-width: 480px) {
+      max-height: 100vh !important;
+    }
+  }
+}
+.donate-page-with-centered-layout {
+  .fundraiser-bar.overlay-toggle.stuck-right {
+    height: 55vh;
+    .fundraiser-bar__main {
+      height: auto !important;
+      max-height: 500px !important;
+      width: 55%;
+      overflow: scroll !important;
+      max-width: 500px;
+      @media only screen and (min-width: 500px) and (max-width: 1100px) {
+        max-height: 600px !important;
+      }
+      @media (max-width: 420px) {
+        width: 100%;
+        height: 100vh;
+        padding: 12px;
+        max-height: 100vh !important;
+      }
+    }
+    .FundraiserView-container {
+      width: 55%;
+      max-width: 500px;
+      margin: 0 auto;
+      @media (max-width: 420px) {
+        width: 100%;
+      }
+    }
+  }
+  .fundraiser-bar.overlay-toggle.sidebar.stuck-right {
+    @media (max-width: 420px) {
+      top: 0 !important;
+    }
+  }
+  .simple-footer {
+    position: relative;
+  }
+  #fa-content-container {
+    @media (max-width: 580px) {
+      min-height: 100vh;
+      padding-bottom: 120px;
+    }
+  }
+}
+
+.fundraiser-with-large-image {
+  .center-content__big-column {
+    width: 60%;
+    @media only screen and (min-width: 500px) and (max-width: 1100px) {
+      width: 50%;
+    }
+    @media (max-width: 480px) {
+      width: 100%;
+    }
+    .body-text {
+      min-height: 50vh;
+      width: auto;
+      @media only screen and (min-width: 500px) and (max-width: 1100px) {
+        min-height: 40vh;
+      }
+    }
+    @media (max-width: 480px) {
+      width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+      padding: 0;
+      text-align: left;
+      padding-bottom: 120px;
+    }
+    @media (max-width: 700px) {
+      width: 100%;
+    }
+  }
+  .fundraiser-bar.sidebar.stuck-right {
+    z-index: 600 !important;
+    @media only screen and (min-width: 500px) and (max-width: 1100px) {
+      top: 70px !important;
+    }
+  }
 }

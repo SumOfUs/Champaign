@@ -305,17 +305,12 @@ export class Payment extends Component {
       typeof window.mixpanel !== 'undefined' &&
       this.props.fundraiser.storeInVault
     ) {
-      window.mixpanel.track(
-        'donation-made',
-        {
-          event_label: 'saved-payment-info',
-          event_source: 'fa_fundraising',
-        },
-        emitTransactionSuccess
-      );
-    } else {
-      emitTransactionSuccess();
+      window.mixpanel.track('donation-made', {
+        event_label: 'saved-payment-info',
+        event_source: 'fa_fundraising',
+      });
     }
+    emitTransactionSuccess();
 
     this.setState({ errors: [] });
   };

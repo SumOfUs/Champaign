@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://openexchangerates.org/api/latest.json?app_id=<app_id>&source=USD
+    uri: https://openexchangerates.org/api/latest.json?app_id=<app_id>&base=USD
     body:
       encoding: US-ASCII
       string: ''

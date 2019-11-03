@@ -12,7 +12,7 @@
 #  canonical_url              :string
 #  compiled_html              :text
 #  content                    :text             default("")
-#  enforce_styles             :boolean          default(FALSE), not null
+#  enforce_styles             :boolean          default(TRUE), not null
 #  featured                   :boolean          default(FALSE)
 #  follow_up_plan             :integer          default("with_liquid"), not null
 #  fundraising_goal           :decimal(10, 2)   default(0.0)
@@ -197,6 +197,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Mostly donations comes as followup action
   # So for page which has petition and followup as donation
   # the page is considered as petition page.
+  # FIXME: This method is *not* reliable and intermittently tests
   def donation_page?
     plugins.first.is_a?(Plugins::Fundraiser)
   end

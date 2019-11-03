@@ -8,10 +8,11 @@
 }
 
 .DonationBands-container {
-  margin-top: 12px;
+  margin-top: 35px;
 }
 
-.AmountSelection__proceed-button, .AmountSelection__currency-selector {
+.AmountSelection__proceed-button,
+.AmountSelection__currency-selector {
   margin-top: 12px;
 }
 .DonationBands-input {
@@ -21,18 +22,23 @@
 }
 
 input.DonationBands__input {
-  height: 60px;
+  height: 55px;
+  border-radius: 4px;
+  border: solid 1px #c7c7c7;
+  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
-  border-radius: 3px;
-  border-width: 0;
   text-align: center;
   font-size: 20px;
-  width: 48.5%;
+  width: 46.5%;
 }
 
 @media (max-width: 300px) {
   input.DonationBands__input {
     min-width: 100%;
   }
+}
+
+.AmountSelection-container p {
+  font-size: 14px;
 }

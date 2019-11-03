@@ -1,0 +1,35 @@
+.email-uk-parliament {
+  section.body-text {
+    min-height: unset;
+    padding: 2em 0;
+    margin: 0;
+    margin-left: 7%;
+    width: 70%;
+    @media (max-width: 580px) {
+      width: 90%;
+      margin: 0 auto;
+      text-align: left;
+    }
+  }
+  section.alternate-bg {
+    margin-bottom: 200px;
+    width: 70%;
+    margin-left: 7%;
+    padding: 0;
+    background: transparent;
+    @media (max-width: 580px) {
+      max-width: 320px;
+      margin-bottom: 100px;
+    }
+    .form__group {
+      margin-bottom: 15px;
+      h3 {
+        font-size: 18px;
+      }
+      .sweet-placeholder__field {
+        border: solid 0.5px #e6e6e6;
+        background: #f9f9f9;
+      }
+    }
+  }
+}
