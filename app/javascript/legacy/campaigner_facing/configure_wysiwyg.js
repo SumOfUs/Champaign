@@ -13,7 +13,7 @@ function configureWysiwyg(id, editorOptions = []) {
       ? editorOptions
       : [
           ['style', ['bold', 'italic', 'underline', 'clear']],
-          ['font', ['fontname', 'fontsize']],
+          ['font', ['fontsize']],
           ['para', ['ul', 'ol', 'paragraph']],
           ['color', ['color']],
           ['insert', ['link', 'picture', 'video']],
