@@ -16,6 +16,7 @@
 #  first_name           :string
 #  last_name            :string
 #  more                 :jsonb
+#  opt_out_eoy_donation :integer          default(0)
 #  postal               :string
 #  title                :string
 #  created_at           :datetime         not null

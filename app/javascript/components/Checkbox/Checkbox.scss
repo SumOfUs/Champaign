@@ -1,20 +1,19 @@
 .Checkbox {
-  margin: 10px 0 4px;
+  margin: 30px 0;
   position: relative;
   display: block;
   box-sizing: border-box;
 
   &__label {
+    font-size: 14px;
     display: block;
-    margin-left: 24px;
+    line-height: 1.2;
     display: inline;
     cursor: pointer;
+    font-weight: 400;
   }
 
   &__label input {
-    position: absolute;
-    left: 0;
-    top: -3px;
     cursor: pointer;
     max-width: 16px;
     padding: 0;

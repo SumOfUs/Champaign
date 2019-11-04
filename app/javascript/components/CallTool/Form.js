@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { findKey, sample, compact } from 'lodash';
 import classnames from 'classnames';
-
+import captcha from '../../shared/recaptcha';
 import CallToolDrillDown from './CallToolDrillDown';
 import SelectedTarget from './SelectedTarget';
 import Button from '../Button/Button';
@@ -56,6 +56,13 @@ class Form extends Component {
     }));
   }
 
+  componentDidMount() {
+    grecaptcha.render('g-recaptcha', {
+      sitekey: window.champaign.configuration.recaptcha2.siteKey,
+      callback: token => this.props.onRecaptchaCheck(token),
+    });
+  }
+
   render() {
     const formClassNames = classnames({
       'action-form': true,
@@ -83,6 +90,8 @@ class Form extends Component {
           restrictedCountryCode={this.props.restrictedCountryCode}
           errors={this.props.errors}
         />
+
+        <div id="g-recaptcha"></div>
 
         <Button
           type="submit"

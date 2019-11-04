@@ -91,7 +91,7 @@ de:
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "Donations are not tax deductable. For more information please email us."
     confirmation: Spende erhalten
-    donate_now: Spenden Sie jetzt!
+    donate_now: "Unterstützen Sie uns mit einer kleinen monatlichen Spende, damit wir weiter gegen die Übermacht von Großkonzernen kämpfen können?"
     loading: Unser sicheres Spenden formular wird geladen
     oneclick:
       select_payment: "Wählen Sie eine der hinterlegten Zahlungsmethoden"
@@ -144,8 +144,12 @@ de:
     instructions: "Geben Sie Ihre Telefonnummer inklusive Vorwahl ein -- wir rufen Sie dann umgehend an."
     member_phone_number_title: 'Bitte geben Sie Ihre Telefonnummer ein'
     text_to_speach_menu: "Bitte drücken Sie die 1, wenn Sie bereit sind -- wir verbinden Sie dann. Drücken Sie die 2, um die Nachricht des/der Kampagnenleiter/in noch einmal zu hören."
+    termination_message: "Sie haben keine Menü-Option gewählt - der Anruf wird daher beendet. Wenn Sie möchten, können Sie einen neuen Anruf starten."
     errors:
+      recaptcha_fail: "Der reCAPTCHA test ist fehlgeschlagen. Bitte versuchen Sie es noch einmal, indem Sie auf die Checkbox klicken"
       unknown: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
+      akid: "Leider ist die Nutzung unseres Anruf-Tools nur für Mitglieder möglich, die diese Seite über eine unserer Kampagnen-Emails besuchen."
+      too_many_calls: "Vielen Dank für Ihr Engagement! Aus Sicherheitsgründen ist die Anzahl von Anrufen, die ein Mitglied für die Kampagne mit unserem Anruf-Tool durchführen kann, auf 5 beschränkt."
       target:
         outdated: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
         missing: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
@@ -263,3 +267,11 @@ de:
     dismiss_button_text: 'Einverstanden, weiter'
     privacy_policy_link_text: 'Datenschutz'
   recaptcha_branding_html: 'Diese Website ist durch reCAPTCHA geschützt und es gelten die <a href="https://policies.google.com/privacy?hl=de">Datenschutzbestimmungen</a> and <a href="https://policies.google.com/terms?hl=de">Nutzungsbedingungen</a> von Google.'
+  eoy_donation_email:
+    back_to_home: 'Back to Home'
+    opt_out:
+      notice: 'You have successfully opted out EOY donation email'
+      alert: 'Error occured while opting out EOY donation email'
+    opt_in:
+      notice: 'You have successfully opted in EOY donation email'
+      alert: 'Error occured while opting in EOY donation email'

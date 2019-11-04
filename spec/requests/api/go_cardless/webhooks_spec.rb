@@ -189,8 +189,16 @@ describe 'webhooks' do
 
     let!(:page)         { create(:page) }
     let!(:member)       { create(:member) }
-    let!(:transaction)  { create(:payment_go_cardless_transaction, go_cardless_id: 'PM003QV5KJ20TP', amount: 0.66, currency: 'EUR', page: page) }
-    let!(:transaction2) { create(:payment_go_cardless_transaction, go_cardless_id: 'PM003QV5KJ20RP', amount: 8.0, currency: 'EUR', page: page) }
+    let!(:transaction)  do
+      VCR.use_cassette('money_from_oxr') do
+        create(:payment_go_cardless_transaction, go_cardless_id: 'PM003QV5KJ20TP', amount: 0.66, currency: 'EUR', page: page)
+      end
+    end
+    let!(:transaction2) do
+      VCR.use_cassette('money_from_oxr') do
+        create(:payment_go_cardless_transaction, go_cardless_id: 'PM003QV5KJ20RP', amount: 8.0, currency: 'EUR', page: page)
+      end
+    end
     let(:valid) { instance_double(Api::HMACSignatureValidator) }
 
     before do

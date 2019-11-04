@@ -29,7 +29,11 @@ export default class Stepper extends Component {
         <h2 className="Stepper__header">{this.props.title}</h2>
         <div className="Stepper__steps">
           <hr className="Stepper__line" />
-          {this.props.steps.map((step, index) => this.renderStep(step, index))}
+          <div className="Step__wrapper">
+            {this.props.steps.map((step, index) =>
+              this.renderStep(step, index)
+            )}
+          </div>
         </div>
       </div>
     );

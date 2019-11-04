@@ -206,6 +206,8 @@ module PagesHelper
   end
 
   def page_object(page)
+    return {} unless page
+
     exceptions = %i[content javascript liquid_layout_id compiled_html messages]
     base = page.as_json(except: exceptions)
     base[:language_code] = page.language_code
@@ -228,6 +230,8 @@ module PagesHelper
   end
 
   def plugins_config(page)
+    return {} unless page
+
     page.plugins.each_with_object({}) do |plugin, hsh|
       return hsh unless plugin.present?
 

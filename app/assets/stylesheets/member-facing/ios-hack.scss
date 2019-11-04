@@ -9,8 +9,6 @@
       overflow-y: hidden;
 
       .overlay-toggle__mobile-view {
-        position: absolute;
-        left: -4%;
         height: 100vh;
       }
     }
@@ -23,7 +21,7 @@
       }
 
       .fundraiser-bar.stuck-right .fundraiser-bar__main {
-        height: auto;
+        height: auto !important;
       }
 
       .fundraiser-bar__main {

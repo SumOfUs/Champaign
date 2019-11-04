@@ -50,11 +50,12 @@ shared_examples 'transaction and subscription' do |method|
       subject
     end
 
-    it 'converts currency to SEK if scheme is autogiro' do
-      allow(mandate).to receive(:scheme).and_return('autogiro')
-      expect(PaymentProcessor::Currency).to receive(:convert).with(amount_in_usd_cents, 'SEK', 'USD')
-      subject
-    end
+    # Temporarily commented out until Sweden currency is added to GoCardless account
+    # it 'converts currency to SEK if scheme is autogiro' do
+    #   allow(mandate).to receive(:scheme).and_return('autogiro')
+    #   expect(PaymentProcessor::Currency).to receive(:convert).with(amount_in_usd_cents, 'SEK', 'USD')
+    #   subject
+    # end
 
     it 'converts currency to EUR if scheme is SEPA' do
       allow(mandate).to receive(:scheme).and_return('sepa')

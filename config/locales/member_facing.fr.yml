@@ -134,8 +134,12 @@ fr:
     instructions: "Inscrivez simplement votre numéro de téléphone en incluant l'indicatif téléphonique et nous vous appèlerons dans quelques instants."
     member_phone_number_title: 'Entrez votre numéro de téléphone'
     text_to_speach_menu: "Merci de presser la touche 1 lorsque vous serez prêt-e pour être mis en relation. Pressez la touche 2 pour entendre de nouveau le message du chargé de campagne"
+    termination_message: "Vous n'avez pas choisi d'option de menu, l'appel sera donc terminé. Essayez de rappeler."
     errors:
+      recaptcha_fail: "Le test reCAPTCHA a échoué. Veuillez réessayer en cliquant sur la case à cocher."
       unknown: "Oups ! Quelque chose n’a pas fonctionné, veuillez réessayer dans quelques minutes ou utiliser un autre numéro de téléphone."
+      akid: "Nous sommes désolés, mais pour des raisons de sécurité, cet outil d'appels téléphoniques est limité aux membres qui ont eu accès à cette page web par le biais d'un courriel de campagne de SumOfUs."
+      too_many_calls: "Merci pour votre action ! Malheureusement, pour des raisons de sécurité, le nombre d'appels téléphoniques que les membres peuvent faire pour une campagne donnée est limité à cinq."
       target:
         outdated: "Il semble que le numéro auquel nous essayons de vous connecter n’existe plus. Veuillez recharger la page et essayer à nouveau."
         missing: "Il y a un problème avec le numéro que vous essayez d’appeler."
@@ -253,3 +257,11 @@ fr:
     dismiss_button_text: 'Accepter et continuer'
     privacy_policy_link_text: 'Mentions Légales'
   recaptcha_branding_html: "Ce site est protégé par reCAPTCHA. Les <a href='https://policies.google.com/privacy?hl=fr'>règles de confidentialité</a> et les <a href='https://policies.google.com/terms?hl=fr'>conditions d'utilisation</a> de Google s'appliquent."
+  eoy_donation_email:
+    back_to_home: 'Back to Home'
+    opt_out:
+      notice: 'You have successfully opted out EOY donation email'
+      alert: 'Error occured while opting out EOY donation email'
+    opt_in:
+      notice: 'You have successfully opted in EOY donation email'
+      alert: 'Error occured while opting in EOY donation email'

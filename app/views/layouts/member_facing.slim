@@ -44,5 +44,8 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     = yield
 
+
+
     = render partial: "shared/google_analytics_snippet"
     = render partial: "shared/shareprogress_snippet"
+    = render partial: "shared/mouse_flow"

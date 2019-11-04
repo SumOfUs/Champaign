@@ -1,14 +1,13 @@
 .thermometer {
-
-  $graphic-height: 12px;
-  $graphic-border-radius: 4px;
+  $graphic-height: 10px;
+  $graphic-border-radius: 15px;
   &__bg {
     width: 100%;
     height: $graphic-height;
     border-radius: $graphic-border-radius;
-    background-color: white;
-    margin: 5px 0 25px;
+    background-color: #e2dbdb;
     float: left;
+    margin: 25px 0;
   }
   &__mercury {
     height: $graphic-height;
@@ -26,6 +25,9 @@
     font-size: 14px;
     line-height: 14px;
     font-weight: bold;
+    @media (min-width: 700px) and (max-width: 900px) {
+      padding-bottom: 10px;
+    }
   }
   &__remaining {
     float: right;
@@ -34,5 +36,8 @@
     line-height: 14px;
     font-weight: bold;
     text-transform: uppercase;
+  }
+  @media (max-width: 700px) {
+    padding: 0 15px;
   }
 }

@@ -140,8 +140,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/circleci-champaign
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - run:
           name: Docker build
           command: .circleci/build.sh
@@ -152,8 +151,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/circleci-champaign
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - run:
           name: Docker build
           command: .circleci/build.sh
@@ -235,8 +233,7 @@ workflows:
             branches:
               only:
                 - development
-                - feature.redesign
-                # - /^feature(?:\/|-|\.).+$/
+                - /^feature(?:\/|-|\.).+$/
 
       - build_docker_image:
           requires:
@@ -246,8 +243,7 @@ workflows:
               only:
                 - master
                 - development
-                - feature.redesign
-                # - /^feature(?:\/|-|\.).+$/
+                - /^feature(?:\/|-|\.).+$/
 
       - build_production_docker_image:
           requires:
@@ -295,8 +291,7 @@ workflows:
           filters:
             branches:
               only:
-                # - /^feature(?:\/|-|\.).+$/
-                - feature.redesign
+                - /^feature(?:\/|-|\.).+$/
 
       - airbrake_register_deploy:
           requires:

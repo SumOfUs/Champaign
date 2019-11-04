@@ -1,9 +1,20 @@
+.email-target.email-pension-fund {
+  padding: 0;
+  .body-text {
+    padding: 0;
+    min-height: unset;
+    margin-bottom: 200px;
+    @media (max-width: 580px) {
+      margin-bottom: 20px;
+    }
+  }
+}
 .email-target {
   .target-panel {
     margin: 20px 0;
 
     &::after {
-      content: "";
+      content: '';
       display: table;
       clear: both;
     }
@@ -11,7 +22,7 @@
   .target-panel-body {
     background: white;
     border-radius: 5px;
-    padding: 10px;    
+    padding: 10px;
   }
 }
 
@@ -21,7 +32,7 @@
     border-radius: 5px;
     padding: 10px;
     &::after {
-      content: "";
+      content: '';
       display: table;
       clear: both;
     }
@@ -31,7 +42,7 @@
     }
   }
 
-  padding: 0 20px;
+  // padding: 0 20px;
   line-height: 1.2em;
 
   h3 {
@@ -40,7 +51,7 @@
 
   .email-target-action {
     &::after {
-      content: "";
+      content: '';
       display: table;
       clear: both;
     }
@@ -49,10 +60,35 @@
   }
 
   .body-text.text-top {
-    margin-top: 20px;
-    padding: 10px 20px;
-    margin-bottom: 5px;
+    min-height: unset;
+    width: 70%;
+    margin: 20px 0;
+    margin-left: 7%;
+    padding: 0;
     color: black;
+    @media (max-width: 580px) {
+      width: 90%;
+      margin: 0 auto;
+      text-align: left;
+    }
+  }
+
+  #email-pension-component {
+    display: flex;
+    width: 70%;
+    margin: 0;
+    margin-left: 7%;
+    padding: 20px;
+    border-radius: 2px;
+    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+    border: solid 0.4px #dfdfdf;
+    background-color: #ffffff;
+    margin-bottom: 150px;
+    @media (max-width: 580px) {
+      width: 90%;
+      margin: 0 auto;
+      padding: 10px;
+    }
   }
 
   .email__target-body {
@@ -116,5 +152,8 @@
       background: #f73415;
       box-shadow: 2px 2px 6px 2px #b96f63;
     }
+  }
+  .EmailEditor-body {
+    background: #f9f9f9;
   }
 }

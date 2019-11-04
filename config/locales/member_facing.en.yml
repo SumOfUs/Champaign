@@ -150,10 +150,13 @@ en:
     you_will_be_calling: "We will call you and connect you to"
     instructions: "Just enter your phone number including the area code -- and we'll call shortly after."
     member_phone_number_title: 'Enter your phone number'
+    termination_message: "You haven't chosen a menu option, so the call will be terminated. Please try calling again if this wasn't intentional."
     text_to_speach_menu: "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again."
     errors:
-      recaptcha_fail: "Sorry, but we're unable to make the call for you at this time."
+      recaptcha_fail: "The reCAPTCHA test failed. Please try again by clicking on the checkbox."
       unknown: "Oops! Something went wrong, please try a different phone number or again in a few minutes."
+      akid: "Sorry, but for safety reasons, the calling tool is limited to recognized members who enter the website through a campaign email."
+      too_many_calls: "Thank you for making a difference! Unfortunately, to prevent fraud, we only allow five calls per member on the same page."
       target:
         outdated: "It seems the number we're trying to connect you to is no longer available. Please reload the page and try again."
         missing: "Something wasn't right about the number you're trying to call."
@@ -271,3 +274,11 @@ en:
     dismiss_button_text: 'Agree & Proceed'
     privacy_policy_link_text: 'Privacy Policy'
   recaptcha_branding_html: 'This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.'
+  eoy_donation_email:
+    back_to_home: 'Back to Home'
+    opt_out:
+      notice: 'You have successfully opted out EOY donation email'
+      alert: 'Error occured while opting out EOY donation email'
+    opt_in:
+      notice: 'You have successfully opted in EOY donation email'
+      alert: 'Error occured while opting in EOY donation email'
