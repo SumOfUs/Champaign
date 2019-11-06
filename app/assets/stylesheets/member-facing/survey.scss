@@ -53,6 +53,8 @@
   .form--big textarea,
   .form--big .selectize-control.single .selectize-input,
   .form--big .hosted-fields__host {
+    -webkit-appearance: none;
+    border-radius: 0;
     &.has-error {
       border-color: $orange;
     }
@@ -70,6 +72,8 @@
   }
   .form--big .has-error .selectize-control.single .selectize-input {
     border-color: $orange;
+    -webkit-appearance: none;
+    border-radius: 0;
   }
   .form__group {
     margin-bottom: 32px;
