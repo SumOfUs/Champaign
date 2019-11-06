@@ -105,9 +105,11 @@ export class Payment extends Component {
     const country = this.props.fundraiser.form.country;
     const showDirectDebit = isDirectDebitSupported({ country: country });
 
-    if (urlInfo.source == 'fwd') {
+    if (urlInfo.akid && this.props.fundraiser.recurring) {
       if (showDirectDebit) {
         this.selectPaymentType('gocardless');
+      } else {
+        this.selectPaymentType('paypal');
       }
     }
   };
