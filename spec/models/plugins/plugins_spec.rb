@@ -59,9 +59,8 @@ describe Plugins do
 
         it 'works for fundraisers' do
           Plugins.create_for_page('fundraiser', page, nil)
-          msg = 'Unterstützen Sie uns mit einer kleinen monatlichen Spende, '
-          msg += 'damit wir weiter gegen die Übermacht von Großkonzernen kämpfen können?'
-          expect(Plugins::Fundraiser.last.title).to eq msg
+          msg = 'Unterstützen Sie uns mit einer kleinen monatlichen Spende'
+          expect(Plugins::Fundraiser.last.title).to include(msg)
         end
 
         it 'works for actions thermometers' do
