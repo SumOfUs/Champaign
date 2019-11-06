@@ -54,12 +54,6 @@ export class Payment extends Component {
     };
   }
 
-  setRecurringCheckedForGermanPage() {
-    if (window.champaign.page.language_code == 'de') {
-      this.props.setRecurring(true);
-    }
-  }
-
   componentDidMount() {
     $.get(BRAINTREE_TOKEN_URL)
       .done(data => {
@@ -92,7 +86,6 @@ export class Payment extends Component {
       .fail(failure => {
         console.warn('could not fetch Braintree token');
       });
-    this.setRecurringCheckedForGermanPage();
     this.bindGlobalEvents();
     // set default payment type for existing user
     this.setDefaultPaymentType();
