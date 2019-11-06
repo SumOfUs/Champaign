@@ -56,7 +56,6 @@ $mobile-width: 700px;
     box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
     border: solid 0.4px #dfdfdf;
     position: absolute;
-    overflow: visible;
     width: 100%;
     @include box-sizing(border-box);
   }
@@ -88,6 +87,7 @@ $mobile-width: 700px;
   &__submit-button {
     margin-top: 15px;
     float: left;
+    margin-bottom: 30px;
   }
   &__submit-button:focus {
     background: #f73415;
@@ -188,6 +188,16 @@ $mobile-width: 700px;
     top: 10px;
     cursor: pointer;
     z-index: 100;
+    background: white;
+    position: fixed;
+    height: 20px;
+    width: 20px;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
   }
 }
 

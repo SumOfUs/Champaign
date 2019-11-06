@@ -261,6 +261,8 @@
     .selectize-input,
     div.BraintreeCardFields__hosted-field,
     .SweetSelect .Select > .Select-control {
+      -webkit-appearance: none;
+      border-radius: 0;
       &.braintree-hosted-fields-focused,
       &:focus {
         border-color: $teal;
@@ -323,16 +325,17 @@
       }
       .selectize-input {
         border: #b2b5ba;
+        -webkit-appearance: none;
+        border-radius: 0;
       }
       .Checkbox {
         line-height: 16px;
         margin: 0;
       }
       label.Checkbox__label {
-        font-size: 16px;
-        input {
-          position: relative;
-        }
+        display: block;
+        padding-left: 20px;
+        position: relative;
       }
     }
   }
