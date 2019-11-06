@@ -34,7 +34,7 @@
 
     .SweetPhoneInput__flag-container {
       cursor: pointer;
-      padding: .5em .5em .5em 1em;
+      padding: 0.5em 0.5em 0.5em 1em;
       display: flex;
       align-items: center;
       &:hover {
@@ -46,10 +46,14 @@
 .SweetPhoneInput__selected-code {
   min-width: 40px;
   color: #bbb;
+  -webkit-appearance: none;
+  border-radius: 0;
 }
 
 .SweetPhoneInput__select-country {
   display: none;
+  -webkit-appearance: none;
+  border-radius: 0;
 }
 
 .has-error .SweetPhoneInput {
@@ -59,6 +63,8 @@
 .selecting-country {
   .SweetPhoneInput {
     border: 2px solid #00c0cf;
+    -webkit-appearance: none;
+    border-radius: 0;
     .SweetPhoneInput__phone-number {
       display: none;
     }
@@ -66,12 +72,16 @@
       display: block;
       margin-bottom: -1px;
       margin-right: -2px;
+      -webkit-appearance: none;
+      border-radius: 0;
       // Country select dropdown overrides
       // FIXME (remove stricter CSS rules)
       .Select.is-focused .Select-control,
       .Select .Select-control {
         background: transparent !important;
         border: none !important;
+        -webkit-appearance: none;
+        border-radius: 0;
       }
     }
     .SweetPhoneInput__country-list {

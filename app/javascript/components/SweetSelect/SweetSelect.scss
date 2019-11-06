@@ -1,5 +1,7 @@
 .SweetSelect {
   text-align: left;
+  -webkit-appearance: none;
+  border-radius: 0;
   .Select.has-error .Select-control {
     border-color: #f8492e;
   }
@@ -15,6 +17,8 @@
     border-width: 2px;
     box-shadow: none;
     outline: none;
+    -webkit-appearance: none;
+    border-radius: 0;
   }
   .Select-option {
     font-size: 16px;
@@ -39,6 +43,9 @@
     padding: 24px 18px 12px;
     border-width: 2px;
     border-color: transparent;
+    -webkit-appearance: none;
+    border-radius: 0;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .Select-input,
@@ -49,8 +56,12 @@
     font-size: 18px;
     position: relative;
     top: -4px;
+    -webkit-appearance: none;
+    border-radius: 0;
     input {
       padding: 5px 0 0 0;
+      -webkit-appearance: none;
+      border-radius: 0;
     }
   }
 

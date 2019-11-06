@@ -41,6 +41,8 @@
     input,
     select,
     textarea {
+      -webkit-appearance: none;
+      border-radius: 0;
       border-color: $overcast-gray;
       &.has-error {
         border-color: $orange;

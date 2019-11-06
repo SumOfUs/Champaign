@@ -44,6 +44,42 @@
   label,
   input[type='radio'] {
     cursor: pointer;
+    margin-top: 0;
+    margin-right: 14px;
+    position: relative;
+    top: 0px;
+    float: left;
+    border: none;
+    -webkit-appearance: none;
+  }
+
+  input[type='radio']::before {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+  }
+
+  input[type='radio']:checked::before {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #00c0cf;
+    transition: all 0.2s;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
   }
 }
 
