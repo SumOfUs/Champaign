@@ -108,8 +108,6 @@ export class Payment extends Component {
     if (urlInfo.source == 'fwd') {
       if (showDirectDebit) {
         this.selectPaymentType('gocardless');
-      } else {
-        this.selectPaymentType('paypal');
       }
     }
   };
