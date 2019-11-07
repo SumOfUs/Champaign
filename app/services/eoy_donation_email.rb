@@ -4,7 +4,7 @@ class EoyDonationEmail
   OPT_OUT_EOD_DONATION = 1
   OPT_IN_EOD_DONATION = 0
 
-  attr_reader :akid, :actionkit_user_id
+  attr_reader :akid, :actionkit_user_id, :member_first_name
 
   validates :akid, presence: true
   validates :actionkit_user_id, presence: true
@@ -32,7 +32,9 @@ class EoyDonationEmail
     info = fetch_user_info
     return false unless info.present?
 
-    info['email'].to_s.downcase == email.to_s.downcase
+    @member_first_name = info[:first_name]
+
+    info[:email].to_s.downcase == email.to_s.downcase
   end
 
   private
@@ -56,7 +58,7 @@ class EoyDonationEmail
       resp = ActionKit::Client.get("user/#{actionkit_user_id}", params: {})
       return {} unless resp.code == 200
 
-      return resp.parsed_response
+      return resp.parsed_response.try(:with_indifferent_access)
     rescue StandardError => e
       Rails.logger.info "Error occurred while fetching actionkit user details. #{e.inspect}"
       return {}

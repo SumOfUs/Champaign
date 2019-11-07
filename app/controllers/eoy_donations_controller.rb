@@ -22,7 +22,12 @@ class EoyDonationsController < ApplicationController
     end
 
     if @eoy_donation_email.send(option)
-      render json: { success: true, msg: I18n.t("eoy_donation_email.#{option}.notice") }
+      render json: {
+        success: true, lang: params[:lang],
+        akid: params[:akid],
+        member: { first_name: @eoy_donation_email.member_first_name },
+        msg: I18n.t("eoy_donation_email.#{option}.notice")
+      }
     else
       render json: { success: false, msg: I18n.t("eoy_donation_email.#{option}.alert") }, status: :unprocessable_entity
     end
