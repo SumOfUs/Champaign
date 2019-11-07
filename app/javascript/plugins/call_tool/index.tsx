@@ -52,7 +52,7 @@ export const init = options => {
       ...filters,
       ...trackingParams,
       onSuccess(target) {
-        window.location.href = URI('{{ follow_up_url }}')
+        window.location.href = URI(window.champaign.page.follow_up_url)
           .addQuery({
             'target[name]': target.name,
             'target[title]': target.title,

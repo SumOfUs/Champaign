@@ -215,6 +215,7 @@ module PagesHelper
     layouts_and_plugins = {
       layout: page.liquid_layout.title,
       follow_up_layout: page.follow_up_liquid_layout.try(:title),
+      follow_up_url: PageFollower.new_from_page(page).follow_up_path,
       plugins: page.plugins.map { |plugin| plugin.class.name }
     }
 
