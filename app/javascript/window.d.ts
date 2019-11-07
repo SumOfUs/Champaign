@@ -143,6 +143,7 @@ export interface IChampaignPage {
   readonly ak_petition_resource_uri?: string;
   readonly campaign_id?: number;
   readonly follow_up_liquid_layout_id?: number;
+  readonly follow_up_url: string;
 }
 
 interface II18n {
