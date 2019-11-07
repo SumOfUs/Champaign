@@ -21,9 +21,13 @@ describe 'eoy donation emails' do
       end
 
       it 'should opt out from eoy donation email' do
+        msg = 'You’ve successfully opted out of our remaining fundraising emails in 2019. '
+        msg += 'Thanks so much for your support, [FNAME]. If you’ve made this request in error, '
+        msg += 'you can opt back into receiving our fundraising emails by clicking [HERE].'
+
         expect(json_hash).to include_json(
           success: true,
-          msg: 'You have successfully opted out EOY donation email'
+          msg: msg
         )
       end
     end
@@ -66,9 +70,11 @@ describe 'eoy donation emails' do
       end
 
       it 'should not opt out from eoy donation email' do
+        msg = 'An error occurred while opting you out of the remaining fundraising emails'
+        msg += ' in 2019. Click here to try again.'
         expect(json_hash).to include_json(
           success: false,
-          msg: 'Error occured while opting out EOY donation email'
+          msg: msg
         )
       end
     end
@@ -85,7 +91,7 @@ describe 'eoy donation emails' do
       it 'should opt out from eoy donation email' do
         expect(json_hash).to include_json(
           success: true,
-          msg: 'You have successfully opted in EOY donation email'
+          msg: 'You’ve successfully opted into receiving our remaining fundraising emails in 2019.'
         )
       end
     end
@@ -130,9 +136,11 @@ describe 'eoy donation emails' do
       end
 
       it 'should not opt in from eoy donation email' do
+        msg = 'An error occurred while opting you into the remaining '
+        msg += 'fundraising emails in 2019. Click here to try again.'
         expect(json_hash).to include_json(
           success: false,
-          msg: 'Error occured while opting in EOY donation email'
+          msg: msg
         )
       end
     end
