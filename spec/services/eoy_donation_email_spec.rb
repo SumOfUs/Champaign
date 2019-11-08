@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-# frozen_string_literal: true
 
 describe EoyDonationEmail do
   let(:ak_raw_id) { "#{Settings.action_kit.akid_secret}.2678.323423423999" }
