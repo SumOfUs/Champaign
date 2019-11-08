@@ -8,13 +8,18 @@ import './Thermometer.scss';
 export function Thermometer(props) {
   // Only render if active
   if (isEmpty(props) || !props.active) return null;
+  const currency = props.currency;
+  const goal = props.goals[currency];
 
   // Prevent overflow when donations > goal.
-  const donations = min([props.donations, props.goal]);
+  const donations = min([
+    props.total_donations[currency],
+    props.goals[currency],
+  ]);
 
-  const percentage = Math.round((donations / props.goal) * 100);
+  const percentage = Math.round((donations / goal) * 100);
 
-  if (props.goal === 0) return null;
+  if (goal === 0) return null;
 
   return (
     <div className="Thermometer">
@@ -27,7 +32,7 @@ export function Thermometer(props) {
           />
           <br />
           <span className="amount">
-            <CurrencyAmount amount={donations} currency={props.currency} />
+            <CurrencyAmount amount={donations} currency={currency} />
           </span>
         </div>
         <div className="Thermometer-goal">
@@ -38,7 +43,7 @@ export function Thermometer(props) {
           />
           <br />
           <span className="amount">
-            <CurrencyAmount amount={props.goal} currency={props.currency} />
+            <CurrencyAmount amount={goal} currency={currency} />
           </span>
         </div>
       </div>
@@ -59,8 +64,8 @@ const mapStateToProps = state => {
   return {
     active: data.active,
     currency,
-    donations: data.totalDonations[currency],
-    goal: data.goals[currency],
+    total_donations: data.totalDonations,
+    goals: data.goals,
     offset: data.offset,
     title: data.title,
   };

@@ -5,9 +5,15 @@ module TransactionService
   CURRENCIES = %i[USD GBP EUR CHF AUD NZD CAD].freeze
 
   def totals(date_range = Float::INFINITY..Float::INFINITY)
+    # Does this return cents or dollars?
     CURRENCIES.inject({}) do |result, currency|
       result.merge(currency => count_in_currency(currency, date_range))
     end
+  end
+
+  def goals(goal)
+    ::Donations::Currencies.for([goal]).to_hash
+      .map { |k, v| [k, ::Donations::Utils.round_fundraising_goals(v).first] }.to_h
   end
 
   def count_in_currency(currency = 'USD', date_range = Float::INFINITY..Float::INFINITY)

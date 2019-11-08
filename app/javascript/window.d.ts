@@ -89,7 +89,14 @@ interface IDonationsThermometerPluginConfig extends IPluginConfig {
   offset: number;
   title: string;
   percentage: number;
-  total_donations: number;
+  totalDonations: { [k: string]: number };
+  goals: { [k: string]: number };
+}
+
+interface IEoyThermometerConfig {
+  el: HTMLElement;
+  percentage: number;
+  totalDonations: { [k: string]: number };
   goals: { [k: string]: number };
 }
 
