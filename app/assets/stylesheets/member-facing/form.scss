@@ -162,7 +162,8 @@
     label.checkbox-label {
       background: transparent;
       padding: 0;
-      margin: 20px 0;
+      position: relative;
+      top: 13.5px;
     }
     textarea {
       line-height: 1.4em;
@@ -255,8 +256,10 @@ label.checkbox-label {
   &.has-error {
     border: 2px solid red;
   }
+  .radio-title {
+    padding-bottom: 20px;
+  }
   label {
-    margin-top: 15px;
     display: flex;
     width: 100%;
   }
