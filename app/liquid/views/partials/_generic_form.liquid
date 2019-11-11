@@ -67,5 +67,17 @@
       </div>
     {% endfor %}
   {% comment %} </div> {% endcomment %}
-  <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
+  <button type="submit" class="button action-form__submit-button" id="cta">{{ cta }}</button>
 </form>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('#cta').click(() => {
+      setTimeout(() => {
+        $('#bar-main').animate({
+         scrollTop: $('.has-error').offset().top
+    }, 1000);
+      }, 1000);
+    })
+    })
+</script>

@@ -14,7 +14,7 @@
       <div class="form__group action-form__field-container">
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
-          <div class="sweet-placeholder" data-display-mode="{{field.display_mode}}">
+          <div class="sweet-placeholder" data-display-mode="{{field.display_mode}}" >
             <label class="sweet-placeholder__label">{{ field.label }}</label>
             <input type="text" name="{{field.name}}" class="form__content sweet-placeholder__field" maxlength="249" value="{{ field.default_value }}" />
           </div>
@@ -87,10 +87,19 @@
       </div>
     {% endfor %}
   {% comment %} </div> {% endcomment %}
-  <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
+  <button type="submit" class="button action-form__submit-button" id="cta">{{ cta }}</button>
 </form>
 <script type="text/javascript">
   $(document).ready(function(){
     new window.champaign.SweetPlaceholder();
+    $('#cta').click(() => {
+      setTimeout(() => {
+        console.log('has', $('.has-error').offset().top);
+        $('#bar-main').animate({
+         scrollTop: $('.has-error').offset().top
+    }, 'slow');
+      }, 1000);
+    })
+
   });
 </script>
