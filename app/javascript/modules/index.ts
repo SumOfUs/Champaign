@@ -15,6 +15,7 @@ const MODULES = {
   StandaloneConsentPrompt: () => import('./consent/StandaloneConsentPrompt'),
   'email-ukparliament': () => import('./EmailParliament'),
   'braintree-web': () => import('./braintree-web'),
+  'eoy-thermometer': () => import('./eoy-thermometer'),
   api: () => import('./api'),
 };
 

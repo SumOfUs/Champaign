@@ -10,6 +10,11 @@ module TransactionService
     end
   end
 
+  def goals(goal)
+    ::Donations::Currencies.for([goal]).to_hash
+      .map { |k, v| [k, ::Donations::Utils.round_fundraising_goals(v).first] }.to_h
+  end
+
   def count_in_currency(currency = 'USD', date_range = Float::INFINITY..Float::INFINITY)
     count(date_range).reduce(0) do |total, item|
       local_currency, amount = item
@@ -42,12 +47,10 @@ module TransactionService
   def braintree_transactions
     ::Payment::Braintree::Transaction
       .select(:id, :created_at, :subscription_id, :amount, :currency)
-      .where(subscription_id: nil)
   end
 
   def gocardless_transactions
     ::Payment::GoCardless::Transaction
       .select(:id, :created_at, :subscription_id, :amount, :currency)
-      .where(subscription_id: nil)
   end
 end
