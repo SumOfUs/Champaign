@@ -31,12 +31,12 @@ describe TransactionService do
       expect(totals).to include sum_of_all_transactions
     end
 
-    it 'excludes subscriptions' do
-      totals = TransactionService.count_braintree
+    it 'includes subscription charges' do
       %w[USD CAD AUD NZD GBP EUR CHF].each do |currency|
         create :payment_braintree_transaction, :with_subscription, amount: 100, currency: currency
       end
-      expect(totals).to include sum_of_all_transactions
+      totals = TransactionService.count_braintree
+      expect(totals).to include('EUR' => 500.to_d)
     end
 
     it 'accepts a date range' do
@@ -51,12 +51,12 @@ describe TransactionService do
       expect(totals).to include('EUR' => 400.to_d)
     end
 
-    it 'excludes subscriptions' do
+    it 'includes subscription charges' do
       %w[AUD GBP EUR].each do |currency|
         create :payment_go_cardless_transaction, :with_subscription, amount: 100, currency: currency
       end
       totals = TransactionService.count_go_cardless
-      expect(totals).to include('EUR' => 400.to_d)
+      expect(totals).to include('EUR' => 500.to_d)
     end
 
     it 'accepts a date range' do

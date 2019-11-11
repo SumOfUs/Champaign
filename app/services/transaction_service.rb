@@ -5,7 +5,6 @@ module TransactionService
   CURRENCIES = %i[USD GBP EUR CHF AUD NZD CAD].freeze
 
   def totals(date_range = Float::INFINITY..Float::INFINITY)
-    # Does this return cents or dollars?
     CURRENCIES.inject({}) do |result, currency|
       result.merge(currency => count_in_currency(currency, date_range))
     end
@@ -48,12 +47,10 @@ module TransactionService
   def braintree_transactions
     ::Payment::Braintree::Transaction
       .select(:id, :created_at, :subscription_id, :amount, :currency)
-      .where(subscription_id: nil)
   end
 
   def gocardless_transactions
     ::Payment::GoCardless::Transaction
       .select(:id, :created_at, :subscription_id, :amount, :currency)
-      .where(subscription_id: nil)
   end
 end
