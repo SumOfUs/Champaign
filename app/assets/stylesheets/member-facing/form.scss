@@ -248,7 +248,7 @@ label.checkbox-label {
 }
 
 .radio-container {
-  padding: 20px;
+  padding: 10px 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -262,6 +262,9 @@ label.checkbox-label {
   label {
     display: flex;
     width: 100%;
+  }
+  .form__radio {
+    margin: 10px 0 15px 0;
   }
 }
 
