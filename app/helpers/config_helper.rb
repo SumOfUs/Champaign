@@ -7,11 +7,12 @@ module ConfigHelper
       default_currency: Settings.default_currency,
       facebook: Settings.facebook.to_hash.slice(:pixel_id),
       recaptcha3: Settings.recaptcha3.to_hash.slice(:site_key),
-      recaptcha2: Settings.recaptcha2.to_hash.slice(:site_key),
-      eoy_thermometer: eoy_thermometer_config
-    }.transform_keys! do |key|
+      recaptcha2: Settings.recaptcha2.to_hash.slice(:site_key)
+    }.deep_transform_keys! do |key|
       key.to_s.camelize(:lower)
-    end
+    end.merge(
+      eoyThermometer: eoy_thermometer_config
+    )
   end
 
   def eoy_thermometer_config
