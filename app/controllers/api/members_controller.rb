@@ -19,10 +19,20 @@ class Api::MembersController < ApplicationController
     head :no_content
   end
 
+  def update
+    # Only used to update AKID after a new member has been created. Called by the ActionKit worker.
+    @member = Member.find_by_id(permitted_params[:id])
+    if @member.blank?
+      render(json: { errors: "Member with ID #{permitted_params[:id]} not found" }, status: :not_found) && return
+    end
+    @member.update_attributes!(actionkit_user_id: permitted_params[:akid])
+    render json: { member: @member }, status: :success
+  end
+
   private
 
   def permitted_params
-    params.permit(:name, :email, :country, :postal, :locale)
+    params.permit(:name, :email, :country, :postal, :locale, :id, :akid)
   end
 
   def member
