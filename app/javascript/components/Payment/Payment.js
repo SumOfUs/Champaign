@@ -314,8 +314,10 @@ export class Payment extends Component {
     const fundraiserBar = document.getElementsByClassName(
       'fundraiser-bar__content'
     )[0];
-    console.log(errorParsed, fundraiserBar);
-    if (errorParsed && errorParsed.success === false) {
+    if (
+      (errorParsed && errorParsed.success === false) ||
+      !isEmpty(this.state.errors)
+    ) {
       setTimeout(() => {
         fundraiserBar.scrollTo(0, 0);
       }, 500);
