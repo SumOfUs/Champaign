@@ -309,6 +309,17 @@ export class Payment extends Component {
   };
 
   onError = reason => {
+    const errorParsed =
+      reason && reason.responseText && JSON.parse(reason.responseText);
+    const fundraiserBar = document.getElementsByClassName(
+      'fundraiser-bar__content'
+    )[0];
+    console.log(errorParsed, fundraiserBar);
+    if (errorParsed && errorParsed.success === false) {
+      setTimeout(() => {
+        fundraiserBar.scrollTo(0, 0);
+      }, 500);
+    }
     ee.emit('fundraiser:transaction_error', reason, this.props.formData);
     this.props.setSubmitting(false);
   };
@@ -370,7 +381,6 @@ export class Payment extends Component {
             })}
           </div>
         </ShowIf>
-
         {!this.props.disableFormReveal && (
           <WelcomeMember
             member={member}
@@ -389,7 +399,6 @@ export class Payment extends Component {
             disabled={this.state.loading}
             onChange={p => this.selectPaymentType(p)}
           />
-
           <PayPal
             ref="paypal"
             amount={donationAmount}

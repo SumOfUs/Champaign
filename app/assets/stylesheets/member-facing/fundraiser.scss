@@ -145,7 +145,7 @@
   &__fields-loading {
     width: calc(100% - 16px);
     background: $overcast-gray;
-    padding: 26px;
+    padding: 0 26px;
     position: relative;
     left: -26px;
     padding-left: 42px;
@@ -172,7 +172,7 @@
   &__errors {
     background: #f8492d33;
     width: 100%;
-    margin: 5px 0;
+    margin: 15px 0;
     border: 2px solid #f8492d;
     font-size: 14px;
     line-height: 16px;
@@ -330,11 +330,9 @@
       }
       .Checkbox {
         line-height: 16px;
-        margin: 0;
       }
       label.Checkbox__label {
         display: block;
-        padding-left: 20px;
         position: relative;
       }
     }
