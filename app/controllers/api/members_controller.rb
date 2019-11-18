@@ -25,8 +25,12 @@ class Api::MembersController < ApplicationController
     if @member.blank?
       render(json: { errors: "Member with ID #{permitted_params[:id]} not found" }, status: :not_found) && return
     end
-    @member.update_attributes!(actionkit_user_id: permitted_params[:akid])
-    render json: { member: @member }, status: :success
+    if @member.update_attributes(actionkit_user_id: permitted_params[:akid])
+      render json: { member: @member }
+    else
+      render json: { errors: "Failure updating AKID on Member with ID #{permitted_params[:id]}",
+                     status: :unprocessable_entity }
+    end
   end
 
   private
