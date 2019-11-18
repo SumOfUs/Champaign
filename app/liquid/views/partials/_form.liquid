@@ -1,14 +1,15 @@
 <form action='/api/pages/{{id}}/actions{{form_url_postscript}}' data-remote='true' method='post' class='form--big action-form'>
- <div class="action-form__welcome-text-container" >
-  <div class="action-form__welcome-text hidden-irrelevant">
-    <div class="action-form__welcome-user">
-      <i class="fa fa-check-circle fundraiser-bar__user-icon"></i>
-      <span class="action-form__welcome-name"></span>
+  <div class="form-wrapper">
+    <div class="action-form__welcome-text-container" >
+      <div class="action-form__welcome-text hidden-irrelevant">
+        <div class="action-form__welcome-user">
+          <i class="fa fa-check-circle fundraiser-bar__user-icon"></i>
+          <span class="action-form__welcome-name"></span>
+        </div>
+        <a href="javascript:;" class=" action-form__clear-form">{{ 'form.switch_user' | t }}</a>
+      </div>
     </div>
-    <a href="javascript:;" class=" action-form__clear-form">{{ 'form.switch_user' | t }}</a>
-  </div>
-</div>
-  <input type='hidden' name='form_id' value='{{ form_id }}' />
+    <input type='hidden' name='form_id' value='{{ form_id }}' />
   {% comment %} <div style="overflow-y: scroll; max-height: 300px; float: left;"> {% endcomment %}
     {% for field in fields %}
       <div class="form__group action-form__field-container">
@@ -86,8 +87,10 @@
         {% endcase %}
       </div>
     {% endfor %}
-  {% comment %} </div> {% endcomment %}
-  <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
+  </div>
+  <div class="button-wrapper">
+    <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
+  </div>
 </form>
 <script type="text/javascript">
   $(document).ready(function(){
