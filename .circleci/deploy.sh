@@ -1,7 +1,10 @@
 #!/bin/bash
 set -eu -o pipefail
 
-SOURCE_BUNDLE=$CIRCLE_SHA1-config.zip
+branch=`echo $CIRCLE_BRANCH | tr -s \/ - | tr -s . - | tr -s \\ -`
+version=`git describe --tags`
+label=champaign-$branch-$version
+SOURCE_BUNDLE=$label-config.zip
 
 function ebextensions_setup() {
     echo 'Setting up configuration for Papertrail logging'
@@ -22,7 +25,7 @@ function sync_s3() {
 
     echo 'Shipping source bundle to S3...'
     cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
-    zip -r9 $CIRCLE_SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
+    zip -r9 $SOURCE_BUNDLE Dockerrun.aws.json ./.ebextensions/
     aws configure set default.region $AWS_REGION
     aws s3 cp $SOURCE_BUNDLE s3://$EB_BUCKET/$SOURCE_BUNDLE
 }
@@ -50,7 +53,7 @@ function get_version() {
 
 function count_versions() {
     # Get all applications with the specified version label and look at the length of the ApplicationVersions array
-    echo $(aws elasticbeanstalk describe-application-versions --application-name $AWS_APPLICATION_NAME --version-label $CIRCLE_SHA1 2>/dev/null | jq -r '.ApplicationVersions | length')
+    echo $(aws elasticbeanstalk describe-application-versions --application-name $AWS_APPLICATION_NAME --version-label $label 2>/dev/null | jq -r '.ApplicationVersions | length')
 }
 
 function create_version() {
@@ -59,17 +62,17 @@ function create_version() {
     else
         echo 'Creating new application version...'
         aws elasticbeanstalk create-application-version --application-name "$AWS_APPLICATION_NAME" \
-          --version-label $CIRCLE_SHA1 --source-bundle S3Bucket=$EB_BUCKET,S3Key=$SOURCE_BUNDLE
+          --version-label $label --source-bundle S3Bucket=$EB_BUCKET,S3Key=$SOURCE_BUNDLE
     fi
 }
 
 function deploy() {
     echo 'Updating environment...'
     aws elasticbeanstalk update-environment --environment-name $AWS_ENVIRONMENT_NAME \
-        --version-label $CIRCLE_SHA1
+        --version-label $label
     wait_until_ready "Waiting for deploy to finish. "
     VERSION_LABEL="$(get_version $AWS_ENVIRONMENT_NAME)"
-    if [ "$VERSION_LABEL" == "$CIRCLE_SHA1" ]; then
+    if [ "$VERSION_LABEL" == "$label" ]; then
         echo ""
         echo "Application deployed succesfully. Triggering NewRelic deploy event."
         new_relic_deploy
@@ -83,7 +86,7 @@ function deploy() {
 function new_relic_deploy() {
     curl -X POST -H "x-api-key: $NEWRELIC_LICENSE_KEY" \
     -d "deployment[app_name]=$AWS_APPLICATION_NAME" \
-    -d "Deploying version $CIRCLE_SHA1 to $AWS_ENVIRONMENT_NAME" https://api.newrelic.com/deployments.xml
+    -d "Deploying version $label to $AWS_ENVIRONMENT_NAME" https://api.newrelic.com/deployments.xml
 }
 
 
