@@ -1,0 +1,69 @@
+.simple-footer {
+  // position: absolute;
+  bottom: 0;
+  color: white;
+  background: $navy;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  border-top: 2px solid $dingy-gray;
+  @include box-sizing(border-box);
+
+  @media(max-width: $mobile-width) {
+    // the action button covers it anyway
+    display: none;
+  }
+  .center-content__big-column, .center-content__one-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  &__logo-components {
+    padding-bottom: 15px;
+    padding-left: 40px;
+  }
+  &__links--stuck-to-bottom {
+    margin: 5px 0;
+    padding-left: 40px;
+  }
+
+  &__links {
+    margin: 10px 0;
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 40px;
+  }
+
+  &__link {
+    font-size: 14px;
+    color: $dingy-gray;
+    margin-right: 10px;
+  }
+
+  &__logo {
+    float: left;
+  }
+
+  &__tagline {
+    float: left;
+  }
+
+  &--dark {
+    background: #111;
+  }
+
+  &__license {
+    color: $dingy-gray;
+    font-size: 12px;
+    font-weight: 300;
+    padding-top: 10px;
+    padding-left: 40px;
+  }
+
+  &__license, &__tagline {
+    @media(max-width: $mobile-width) {
+      display: none;
+    }
+  }
+}

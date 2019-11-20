@@ -37,9 +37,12 @@ defined in these YAML files will be accessible via
 You can override configuration variables during development by creating
 a `config/settings/development.local.yml` file.
 
-## Assets
+## Vendor theme and overrides
 
-Champaign is a full Rails app. While it's ready to be deployed out of the box, you will likely want to add css, javascript, images, and translations to your deploy. To that end, Champaign supports loading assets from an external repository, both in development from a local directory and in production by downloading from a Github repository.
+Champaign is a full Rails app. While it's ready to be deployed out of the box,
+you will likely want to customise its styles, images, and translations.
+To that end,Champaign has a `vendor/theme` folder where you can add,
+override, or customise translation strings, layouts/partials, and images.
 
 ## ActionKit Integration
 

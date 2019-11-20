@@ -1,0 +1,231 @@
+<div class="baysanto">
+  <div class="header-logo header-logo--dark header-logo--over-form checks-top checks-top--at-top">
+    <div class="header-logo__pull-left">
+      <div class="baysanto__header-logo action-counter baysanto__header-drop-2">
+        {{ plugins.thermometer['default'].signatures }}
+      </div>
+      <div class="header-logo__tagline baysanto__header-tagline">
+        {{ 'baysanto.header.tagline' | t }}
+      </div>
+    </div>
+    <div class="header-logo__pull-right baysanto__header-menu">
+      <a href="{{ 'baysanto.header.translate_link' | t }}">{{ 'baysanto.header.translate' | t }}</a>
+      <a href="{{ 'baysanto.header.press_link' | t }}">{{ 'baysanto.header.press_room' | t }}</a>
+      <a href="https://s3-us-west-2.amazonaws.com/sou-assets/Konkurrenz-findings-on-Bayer-Monsanto.pdf" class="baysanto__header-drop-1" target="_blank">{{ 'baysanto.header.the_paper' | t }}</a>
+      <a href="#take-action" class="baysanto__header-drop-3">{{ 'baysanto.header.cta' | t }}</a>
+    </div>
+  </div>
+
+  <div class="full-screen-block baysanto__intro-block" style="background-image: url({{ named_images['cover-photo'].urls.large }})">
+    <h1 class="hero-title hero-title--white">
+      {{ 'baysanto.intro.title' | t }}
+    </h1>
+    <div class="baysanto__white-body baysanto__intro-details baysanto__intro-bg-contrast">
+      {{ 'baysanto.intro.details' | t }}
+    </div>
+    <div class="baysanto__white-body baysanto__intro-details">
+      <a class="baysanto__intro-bg-contrast" href="https://s3-us-west-2.amazonaws.com/sou-assets/Konkurrenz-findings-on-Bayer-Monsanto.pdf" target="_blank">{{ 'baysanto.intro.read_the_paper' | t }} &raquo;</a>
+    </div>
+  </div>
+  <div class="baysanto__magazine-block">
+    <div class="baysanto__magazine-body-text">
+      {{ content }}
+    </div>
+    <img src="{{ named_images['crop-dusting-banner'].urls.large }}" class="baysanto__banner-between">
+  </div>
+  <div class="baysanto__environmental-block">
+    <h2 class="baysanto__environmental-title">
+      {{ 'baysanto.environmental.title' | t }}
+    </h2>
+    <div class="baysanto__environmental-group">
+      <div class="baysanto__environmental-icon"
+           style="background-image: url({{ named_images['monoculture-icon'].urls.original  }})"></div>
+      <div class="baysanto__environmental-reason">
+        {{ 'baysanto.environmental.first_reason.title' | t }}
+      </div>
+      <div class="baysanto__environmental-details">
+        {{ 'baysanto.environmental.first_reason.details' | t }}
+      </div>
+    </div>
+    <div class="baysanto__environmental-group">
+      <div class="baysanto__environmental-icon"
+      style="background-image: url({{ named_images['pesticide-icon'].urls.original  }})"></div>
+      <div class="baysanto__environmental-reason">
+        {{ 'baysanto.environmental.second_reason.title' | t }}
+      </div>
+      <div class="baysanto__environmental-details">
+        {{ 'baysanto.environmental.second_reason.details' | t }}
+      </div>
+    </div>
+    <div class="baysanto__environmental-group">
+      <div class="baysanto__environmental-icon"
+      style="background-image: url({{ named_images['food-price-icon'].urls.original  }})"></div>
+      <div class="baysanto__environmental-reason">
+        {{ 'baysanto.environmental.third_reason.title' | t }}
+      </div>
+      <div class="baysanto__environmental-details">
+        {{ 'baysanto.environmental.third_reason.details' | t }}
+      </div>
+    </div>
+  </div>
+  <div class="baysanto__shareholder-block">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var ctx = $('.baysanto__pie-chart > canvas');
+        var myDoughnutChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['good', 'bad'],
+            datasets: [{
+              data: [7, 93],
+              backgroundColor: ["#cd4b21", "#1f3670"],
+            }]
+          },
+          options: {
+            cutoutPercentage: 82,
+            rotation: 0,
+            responsive: false,
+            animation: { animateRotate: true },
+            legend:    { display: false },
+            tooltips:  { enabled: false }
+          }
+        });
+      });
+    </script>
+    <div class="baysanto__pie-chart"><canvas width='680' height="680"></canvas></div>
+    <div class="baysanto__shareholder-text">
+      <div class="baysanto__shareholder-title">
+        {{ 'baysanto.shareholder.title' | t }}
+      </div>
+      <div class="baysanto__shareholder-details">
+        {{ 'baysanto.shareholder.details' | t }}
+      </div>
+    </div>
+    <div class="simple-carousel baysanto__shareholder-carousel">
+      <div class="simple-carousel__left">&laquo;</div>
+      <div class="baysanto__shareholder-quote simple-carousel__content">
+        &ldquo;<span class="simple-carousel__text">{{ 'baysanto.shareholder.quotes.first.quote' | t }}</span>&rdquo;
+      </div>
+      <div class="baysanto__shareholder-quoted">
+        &mdash; <span class="simple-carousel__attribution">{{ 'baysanto.shareholder.quotes.first.quoted' | t }}</span>
+      </div>
+      <div class="simple-carousel__right">&raquo;</div>
+    </div>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var quotes = [
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.first.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.first.quoted' | t }}"
+          },
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.second.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.second.quoted' | t }}"
+          },
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.third.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.third.quoted' | t }}"
+          },
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.fourth.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.fourth.quoted' | t }}"
+          },
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.fifth.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.fifth.quoted' | t }}"
+          },
+        ];
+        var mySimpleCarousel = new window.champaign.SimpleCarousel({content: quotes});
+      });
+    </script>
+  </div>
+  <div class="baysanto__action-block" id="take-action">
+    <div style="display:none;">{% include 'Thermometer', ref: '' %}</div>
+    <div class="baysanto__action-count action-counter">{{ plugins.thermometer['default'].signatures }}</div>
+    <div class="baysanto__action-count-explanation">
+      {{ 'baysanto.action.count_explanation' | t }}
+    </div>
+    <div class="baysanto__action-count-explanation">
+      {{ 'baysanto.action.cta_blurb' | t }}
+    </div>
+    <div class="baysanto__action-opportunities">
+      <script type="text/javascript">
+        $(document).ready(function(){
+          var chmp = window.champaign; // convenience binding
+          chmp.myActionForm  = new chmp.ActionForm({
+            member:           chmp.personalization.member,
+            outstandingFields:chmp.personalization.outstandingFields,
+            location:         chmp.personalization.location,
+            akid:             chmp.personalization.urlParams.akid,
+            source:           chmp.personalization.urlParams.source,
+            referrer_id:      chmp.personalization.urlParams.referrer_id,
+            rid:              chmp.personalization.urlParams.rid,
+            referring_akid:   chmp.personalization.urlParams.referring_akid,
+            bucket:           chmp.personalization.urlParams.bucket,
+            prefill:          true
+          });
+
+          chmp.myPetition     = new chmp.Petition({
+            submissionCallback: function(){
+              $('form.action-form, .petition-bar__fine-print').addClass('hidden-closed');
+              $('.baysanto__action-follow-up').removeClass('hidden-closed');
+            }
+          });
+        });
+      </script>
+      <div class="baysanto__action-opportunity baysanto__action-opportunity--left">
+        <h2 class="baysanto__action-title">{{ 'baysanto.action.petition_title' | t}}</h2>
+        {% include 'Petition', skip_javascript: true %}
+        <div class="petition-bar__fine-print">
+          {{ 'baysanto.action.petition_link' | t }}
+        </div>
+        <div class="baysanto__action-follow-up hidden-closed">
+          {{ 'baysanto.action.thanks_for_signing' | t }}
+        </div>
+      </div>
+      <div class="baysanto__action-opportunity baysanto__action-opportunity--right">
+        <h2 class="baysanto__action-title">{{ 'baysanto.action.tweet_title' | t }}</h2>
+        <div class="twitter-preview baysanto__action-preview">
+          <div class="twitter-preview__image" style="background-image: url({{ primary_image.urls.large }})"></div>
+          <div class="twitter-preview__text-pane">
+            <div class="twitter-preview__title">{{ 'baysanto.action.share.link_preview_1' | t }}</div>
+            <div class="twitter-preview__description">{{ 'baysanto.action.share.link_preview_2' | t }}</div>
+            <div class="twitter-preview__url">{{ 'baysanto.action.share.link_preview_url' | t }}</div>
+          </div>
+        </div>
+        <div class="baysanto__action-tweet-text">
+          <div class="baysanto__action-giant-quote">&ldquo;</div>
+          {{ 'baysanto.action.share.tweet' | t }} {{ 'baysanto.action.share.tweet_link' | t }}
+        </div>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <a href="https://twitter.com/share" class="twitter-share-button button" data-size="large"
+          data-text="{{ 'baysanto.action.share.tweet' | t }}" data-url="{{ 'baysanto.action.share.tweet_link' | t }}" data-related="SumOfUs" data-show-count="false">
+          {{ 'baysanto.action.share.cta' | t }}
+        </a>
+      </div>
+    </div>
+    {% include 'Share' %}
+  </div>
+</div>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+<!-- <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script> -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    // I'm leaving in commented out code to make it easy to activate this feature without a deploy
+    // var myCounter = new window.champaign.ActionCounter({
+    //   slugs: [
+    //     'bayer-stoppen-sie-die-uebernahme-von-monsanto',
+    //     'stop-the-bayer-monsanto-mega-merger',
+    //     'bloquez-l-acquisition-de-monsanto-par-bayer',
+    //     'bayer-monsanto-de',
+    //     'bayer-monsanto-merger',
+    //     'bayer-monsanto'
+    //   ],
+    //   actionSource: '//live-actions-production.cwctan5wfu.us-west-2.elasticbeanstalk.com',
+    // });
+  });
+</script>
+
+{% include 'Baysanto Footer' %}

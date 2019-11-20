@@ -1,0 +1,332 @@
+.petition-bar,
+.fundraiser-bar,
+.action-form {
+  color: $navy;
+
+  $padding: 26px;
+  position: relative;
+  z-index: 600;
+  &.survey__form {
+    z-index: 300;
+  }
+
+  &.petition-bar.stuck-right {
+    margin-top: 0;
+  }
+  &.stuck-right {
+    .fundraiser-bar__main {
+      max-height: calc(100vh - 250px) !important;
+      @media (max-width: 580px) {
+        max-height: unset !important;
+      }
+    }
+    .petition-bar__main {
+      max-height: calc(100vh - 250px) !important;
+      @media (max-width: 580px) {
+        max-height: unset !important;
+      }
+    }
+    .petition-bar__title-bar {
+      clip-path: none;
+      -webkit-clip-path: none;
+      top: 0 !important;
+      &::after {
+        display: none;
+      }
+      @media (max-width: 580px) {
+        display: none;
+      }
+    }
+    .petition-bar__title {
+      height: 67px;
+      @include box-sizing(border-box);
+      padding: 21px;
+      width: 100%;
+    }
+    @media (min-width: $mobile-width + 1) {
+      max-width: 500px;
+      .fundraiser-bar__steps {
+        margin-left: 0;
+      }
+    }
+  }
+  &__top {
+    background: #f9f9f9;
+    color: black;
+    padding: $padding;
+    position: relative;
+    min-height: 135px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    &.fundraiser-bar__top {
+      @include box-sizing(border-box);
+    }
+  }
+  &__main {
+    max-height: calc(100vh - 250px) !important;
+    background: white;
+    padding: $padding;
+    position: absolute;
+    width: 100%;
+    @include box-sizing(border-box);
+  }
+  &__title-bar {
+    // position: absolute;
+    top: -60px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    &::after {
+      display: none;
+      // width: 15%;
+      // height: 100%;
+      // position: absolute;
+      // right: 0;
+      // top: 0;
+      // background: $dark-teal;
+      // content: "";
+    }
+  }
+  &__title {
+    @include box-sizing(border-box);
+    padding: 18px 16px;
+    font-size: 18px;
+    background: $teal;
+    color: white;
+    // background: white;
+    // color: black;
+    &.petition-bar__title {
+      width: 100%;
+    }
+  }
+
+  &__content {
+    position: relative;
+  }
+
+  &__submit-button {
+    margin-top: 15px;
+    float: left;
+  }
+
+  &__target {
+    margin: 0 0 8px;
+    font-weight: bold;
+    line-height: 1.2em;
+    @include rem(font-size, 1rem, true);
+    margin-top: 70px;
+  }
+
+  &__petition-text {
+    @include rem(font-size, 1rem, true);
+    @include rem(line-height, 1.4rem, true);
+  }
+
+  &__welcome-text {
+    font-size: 14px;
+    display: flex;
+    max-width: 500px;
+    float: left;
+    overflow: hidden;
+    padding: 0;
+    padding-bottom: 16px;
+    @include box-sizing(border-box);
+    position: relative;
+  }
+  &__user-icon {
+    color: #00c0cf;
+    font-size: 26px;
+  }
+
+  &__welcome-name {
+    padding-left: 10px;
+    font-weight: 600;
+  }
+
+  &__clear-form {
+    font-size: 12px;
+    text-align: end;
+    color: #f8482c;
+  }
+
+  &__fine-print {
+    font-size: 12px;
+    color: $slate-gray;
+    line-height: 16px;
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+  }
+}
+
+.petition-bar {
+  &__top {
+    padding: 0;
+    min-height: 135px;
+    display: flex;
+    flex-direction: column;
+    &.fundraiser-bar__top {
+      @include box-sizing(border-box);
+    }
+  }
+  &__title-bar {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    &::after {
+      display: none;
+      width: 15%;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: $dark-teal;
+      content: "";
+    }
+  }
+  &__title {
+    @include box-sizing(border-box);
+    padding: 18px 16px;
+    font-size: 18px;
+    background: $teal;
+    color: white;
+    &.petition-bar__title {
+      width: 100%;
+    }
+  }
+
+  &__content {
+    position: relative;
+  }
+
+  &__target {
+    margin: 0;
+    padding: 13px 26px 7px 26px;
+    font-weight: 600;
+    line-height: 1.2em;
+    font-size: 16px;
+  }
+
+  &__petition-text {
+    min-height: 30px;
+    max-height: 60px;
+    padding: 6px 26px 13px 26px;
+    font-size: 12px;
+    font-weight: 400;
+    @media (max-width: 580px) {
+      max-height: unset;
+    }
+  }
+}
+
+.overlay-toggle {
+  &__mobile-ui {
+    @media (min-width: $mobile-width + 1) {
+      display: none;
+    }
+
+    &__bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: -4%;
+
+      padding: 20px 8%;
+      height: 60px;
+      width: 92%;
+      z-index: 300;
+
+      text-align: center;
+      background-color: $overcast-gray;
+      @include transition(bottom 0.2s ease-in-out);
+    }
+  }
+
+  &__close-button {
+    color: $navy;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .overlay-toggle__mobile-view {
+    position: fixed;
+    width: 100%;
+    padding: 0 4%;
+    left: -4%;
+    z-index: 400;
+    margin: 0;
+    height: 100%;
+    overflow-y: visible;
+    background: white;
+    @include transition(top 0.4s ease-in-out);
+
+    &--closed {
+      top: 2000px;
+    }
+    &--open {
+      top: 0;
+
+      .petition-bar__mobile-ui__bottom-bar {
+        bottom: -100px;
+      }
+    }
+    h1 {
+      padding: 40px 0;
+    }
+  }
+
+  .petition-bar__content,
+  .fundraiser-bar__content {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+.layout__inline-plugin {
+  .petition-bar {
+    &__target {
+      padding: 5px 0;
+    }
+    &__petition-text {
+      padding: 20px 0;
+      max-height: unset;
+    }
+  }
+}
+
+// Make CTA button floating for petition layouts
+.petition-bar {
+  &__main {
+    position: relative;
+    overflow: scroll !important;
+    form {
+      position: inherit;
+    }
+  }
+}
+.form-wrapper {
+  margin-bottom: 150px;
+}
+.button-wrapper {
+  background: rgb(239, 239, 239);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 9;
+  button {
+    position: relative;
+    left: 26px;
+    max-width: calc(100% - 56px);
+  }
+}
+.petition-bar__main .action-form__submit-button {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}

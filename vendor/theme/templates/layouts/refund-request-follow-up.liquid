@@ -1,0 +1,40 @@
+{% comment %} Description: A follow-up page to the request refund {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+
+{% include 'Small Header Without Cover Photo' %}
+<div class="center-content center-content--share-and-donate">
+  <div class="center-content__one-column">
+    <div class="center-content__central-square main-container">
+      <h1 class="thank-you__thanks main-content">
+        {{ content }}
+      </h1>
+    </div>
+  </div>
+</div>
+
+{% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}
+<style>
+  .main-container{
+    text-align: center;
+    margin-top: 120px;
+    min-height: 82vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 200px;
+  }
+    @media (max-width: 700px){
+      .main-container{
+        margin-top: 0;
+        padding-bottom: 120px;
+  }
+  }
+  .main-content{
+    max-width: 878px;
+    padding: 0 15px;
+    color: black;
+  }
+  .main-content p {
+    color: black;
+  }
+</style>

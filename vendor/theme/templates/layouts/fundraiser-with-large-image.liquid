@@ -1,0 +1,34 @@
+{% comment %} Description: The page for taking donations with a wide cover photo.{% endcomment %}
+{% comment %} Primary layout: false {% endcomment %}
+<div class="fundraiser-with-large-image">
+  {% include 'Full Width Header' %}
+
+  <div class="center-content">
+    <div class="center-content__big-column">
+    {% include 'Body Text' %}
+    </div>
+    <div class="center-content__small-column">
+      {% include 'Fundraiser', extra_class: 'overlay-toggle desktop-sticky' %}
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      window.champaign.mySticky = new window.champaign.DesktopSticky({extraClass: 'fundraiser'});
+
+      window.ee.on('fundraiser:transaction_success', function(responseData, formData) {
+        var fundraiserData = champaign.store.getState().fundraiser;
+        fbq('track', 'CompleteRegistration', {
+          registered_member: champaign.personalization.member.registered,
+          currency: fundraiserData.currency,
+          value: fundraiserData.donationAmount
+        });
+        var followUpUrl = responseData.follow_up_url || "{{ follow_up_url }}"
+        window.champaign.redirectors.AfterDonationRedirector.attemptRedirect(followUpUrl, formData)
+      });
+    });
+  </script>
+
+  {% include 'Fundraiser Mobile Footer' %}
+  {% include 'Simple Footer' %}
+</div>

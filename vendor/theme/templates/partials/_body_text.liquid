@@ -1,0 +1,9 @@
+<div class="body-text main-feature {{ extra_class }} {% if enforce_styles %}body-text--enforce-styles{% endif %}">
+  {{ content }}
+
+  {% unless link_list == blank %}
+    <hr class="stubby-hr" />
+    <h3>{{ 'page.more_info' | t }}</h3>
+    {% include 'Links' %}
+  {% endunless %}
+</div>

@@ -1,0 +1,28 @@
+{% comment %} Description: The petition page with a wide cover photo.{% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Full Width Header' %}
+
+<div class="center-content">
+  <div class="center-content__big-column">
+    <div class="mobile-show pre-main-bar">{% include 'Thermometer' %}</div>
+
+  {% include 'Body Text' %}
+  </div>
+  <div class="center-content__small-column center-content--push-down">
+    {% include 'Petition Sidebar',
+    variant: 'simple', extra_class:
+    'stuck-right not-sticky gdpr consent-variant-togglable-buttons'  %}
+  </div>
+</div>
+
+{% include 'Petition Mobile Footer' %}
+{% include 'Simple Footer' %}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    new window.champaign.Petition(
+      {followUpUrl: "{{ follow_up_url }}"}
+    );
+  });
+</script>

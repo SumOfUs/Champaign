@@ -1,0 +1,114 @@
+.thank-you {
+  &__cta {
+    font-size: 42px;
+    font-weight: normal;
+    margin: 20px;
+    
+    @media(max-width: 450px) {
+      font-size: 24px;
+      line-height: 28px;
+    }
+  }
+  &__thanks {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: normal;
+    color: $slate-gray;
+ 
+    @media(max-width: 450px) {
+      font-size: 12px;
+      line-height: 18px;
+    }
+  }
+  &--compact {
+    .thank-you__cta {
+      font-size: 26px;
+    }
+    .share-buttons {
+      margin-top: 20px;
+    }
+  }
+}
+
+.share-buttons {
+
+  display: block;
+  text-align: center;
+
+  @media(max-width: 400px) {
+    // width: 148px;
+  }
+
+  &__alternative {
+   padding: 30px 0;
+    margin: 0 auto;
+    width: 100%;
+    color: $chalkboard;
+    text-transform: uppercase;
+    font-weight: 600;
+    overflow: hidden;
+    line-height: 30px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .or-text{
+    font-size: 20px;
+    padding-bottom: 30px;
+  }
+  &__simple-email-link {
+    display: inline;
+    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
+      a {
+        font-size: 1px;
+        font-size: 0;
+        display: inline;
+        background: transparent;
+        &::before {
+          content: "Send Email";
+          font-family: Montserrat;
+          font-weight: 600;
+          color: #f8492d;
+          font-size: 16px;
+          border-radius: 1.6px;
+          border: solid 0.8px #f8492d;
+          padding: 18px 30px;
+          text-transform: uppercase;
+          cursor: pointer;
+          @media (max-width: 700px) {
+            padding: 0;
+            padding: 18px 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.two-step {
+  &__question {
+    margin-top: 50px;
+    p {
+      padding: 15px 0;
+    }
+  }
+  &__button {
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 135px;
+  }
+  &__after-donation, &__accepted {
+    font-size: 42px;
+    margin-top: 1em;
+    text-align: center;
+    @media (max-width: 700px) {
+      font-size: 26px;
+    }
+  }
+}
+
+

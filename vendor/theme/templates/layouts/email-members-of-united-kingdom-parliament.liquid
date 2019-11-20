@@ -1,0 +1,20 @@
+{% comment %} Description: A page that allows members to email custom targets. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Full Width Header'  %}
+<main class="container email-uk-parliament">
+  <section class="body-text text-top">
+    <div class="one-column">
+      {{ content }}
+    </div>
+  </section>
+
+  <section class="alternate-bg">
+    <div class="one-column">
+      {% include 'Email', type: 'ukparliament' %}
+    </div>
+  </section>
+</main>
+
+{% include 'Simple Footer' %}
+

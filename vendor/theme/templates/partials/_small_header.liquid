@@ -1,0 +1,27 @@
+<div class="header-logo header-logo--dark checks-top checks-top--at-top">
+  <div class="header-logo__left-constraint">
+      <a href="{{ 'footer.home_url' | t }}">
+      <div class="header-logo__logo sumofus-logo--negative"></div>
+    </a>
+    <div class="header-logo__tagline sumofus-logo--tagline">{{ 'branding.tagline' | t }}</div>
+  </div>
+</div>
+
+<div class="cover-photo--small" style="background-image: url({{ primary_image.urls.large }})">
+  <div class="cover-photo__overlay">
+
+    <div class="cover-photo__titles">
+      <div class="center-content__one-column">
+        <!-- one line to be able to check :empty  -->
+        <h3 class="cover-photo__target typography__highlight--dark typography__highlight--simple">{{petition_target}}</h3>
+        <div class="typography__highlight-wrapper">
+          <h1 class="cover-photo__title typography__highlight">
+            <span>{{ title }}</span>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'Mobile Title' %}

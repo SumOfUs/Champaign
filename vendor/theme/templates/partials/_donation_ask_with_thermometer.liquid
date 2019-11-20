@@ -1,0 +1,78 @@
+{% if plugins.donations_thermometer[ref].active %}
+    <style type="text/css">
+
+        .inline-thermometer {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 50px;
+        }
+
+        .AmountSelection-container .Thermometer { display: none; }
+
+        @media screen and (min-width: 992px){
+            .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
+                font-size: 30px;
+            }
+        }
+    </style>
+
+    <div class="thank-you__cta">
+        <span class="two-step__question">
+            {{ 'fundraiser.two_step.cta_eoy' | t }}
+        </span>
+    </div>
+
+    <div id="chmp-inline-thermometer__{{ ref }}" class="inline-thermometer"></div>
+
+    <div class="center-content__centered-element">
+        <span lass="two-step__question">
+            <div class="share-buttons">
+                <div class="share-buttons__button button two-step__button two-step__accept">
+                    {{ 'share.two_step.accept' | t }}
+                </div>
+                <div class="share-buttons__button button two-step__button two-step__decline">
+                    {{ 'share.two_step.decline' | t }}
+                </div>
+            </div>
+        </span>
+    </div>
+
+    <script type="text/javascript">
+    $(function () {
+        window.champaign.store.subscribe(_.throttle(updateRemainder, 1000));
+
+        function updateRemainder () {
+            var state = window.champaign.store.getState();
+            var currency = state.fundraiser.currency;
+            var currencyFormatter = new Intl.NumberFormat(window.I18n.locale, { 
+                style: 'currency', 
+                currency: currency,
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0 
+            });
+            var raised = state.donationsThermometer.totalDonations[currency];
+            var goal = state.donationsThermometer.goals[currency];
+            var remainder = (goal - raised) > 0 ? goal - raised : 0;
+            $('.donations-thermometer-remainder').html(currencyFormatter.format(remainder));
+        }
+    });
+    </script>
+{% else %}
+  <div class="thank-you__cta">
+    <span class="two-step__question">{{ 'fundraiser.two_step.cta' | t }}</span>
+  </div>
+
+  <div class="center-content__centered-element">
+    <div class="two-step__question">
+      <div class="share-buttons">
+        <div class="share-buttons__button button two-step__button two-step__accept">
+          {{ 'share.two_step.accept' | t }}
+        </div>
+        <div class="share-buttons__button button two-step__button two-step__decline">
+          {{ 'share.two_step.decline' | t }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

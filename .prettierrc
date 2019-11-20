@@ -10,7 +10,7 @@
       }
     },
     {
-      "files": ["*.css", "*.scss", "*.sass"],
+      "files": ["*.css"],
       "options": {
         "parser": "css"
       }

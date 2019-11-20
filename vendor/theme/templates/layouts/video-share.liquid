@@ -1,0 +1,156 @@
+{% comment %} Description: SumOfUs branding around title, text, and share buttons {% endcomment %}
+
+{% include 'Small Header Without Cover Photo' %}
+<style>
+  .imageless-title {
+  	margin-top: 120px;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+  .typography__highlight-wrapper {
+  	width: auto;
+    display: inline-block;
+    padding: 10px;
+  }
+  .video-container {
+  	display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+  .align-left {
+  	flex: 0.7
+  }
+  .tight-column .body-text {
+    padding-top: 0px;
+  }
+  .align-left .body-text {
+  	width: unset;
+    margin: 0;
+  }
+  .align-left .body-text p {
+  	margin: 0;
+  }
+  .align-right {
+  	flex: 0.3;
+    display: flex;
+    align-items: start;
+    padding-top: 15px;
+    position: fixed;
+    left: 70%;
+  }
+  .share-buttons {
+  	background: #efefef;
+    width: 100%;
+    margin-right: 20px;
+  }
+  .tight-column {
+  	width: 100%;
+    margin: 0;
+  }
+  .body-text.body-text--push-bottom {
+  	min-height: 100px;
+    margin: 0;
+    width: 80%;
+  }
+  .tight-column.tight-column--less-tight {
+    width: 820px
+  }
+  .share-buttons__simple-email-link.sp_em_large {
+  	margin: 24px 0 0;
+  }
+
+  .simple-footer {
+    position: relative; }
+  @media (max-width: 820px) {
+    .tight-column.tight-column--less-tight {
+      width: 100%;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  }
+  @media only screen and (min-width: 500px) and (max-width: 1100px) {
+    .align-right {
+      padding-top: 15px;
+    }
+  }
+  .body-text {
+    margin-top: 20px;
+    margin-bottom: 5px;
+  }
+  .share-buttons {
+    margin-top: 30px;
+  }
+  .body-text--push-bottom {
+    margin-bottom: 200px
+  }
+  .share-buttons__alternative {
+    text-align: center;
+  }
+  @media(max-width: 500px) {
+    h1 {
+      font-size: 28px;
+    }
+  }
+  .button--facebook, .button--twitter, .button--whatsapp {
+  	    margin: 20px;
+    margin-bottom: 0px;
+  }
+  @media (max-width: 580px) {
+    .align-right { position: unset;}
+  	.video-container {
+      flex-direction: column;}
+    .align-left .body-text, 
+    .align-right .share-buttons, 
+    .align-left .body-text .tight-column{
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 0;
+    text-align: left;
+    padding-bottom: 120px;
+    }
+    .align-right .share-buttons { text-align: center;}
+        .align-left .body-text{
+          padding-bottom: 20px; }
+    .imageless-title{
+          margin-left: 20px;
+          margin-right: 20px;
+    margin-bottom: 20px;
+      margin-top: 80px;
+    }
+  }
+  
+</style>
+<div class="imageless-title">
+    <div class="typography__highlight-wrapper">
+        <h1 class="typography__highlight">
+        <span>{{ title }}</span>
+        </h1>
+    </div>
+</div>
+
+<div class="video-container">
+  <div class="align-left">
+      {% comment %} <div class="tight-column tight-column--less-tight"> {% endcomment %}
+      <div class="body-text">
+          {{ content }}
+      </div>
+      <div class="tight-column">
+          <div class="body-text body-text--push-bottom">
+              {% include 'Text', ref: 'Text below share' %}
+              {% unless link_list == blank %}
+                  <hr class="stubby-hr" />
+                  <h3>{{ 'page.more_info' | t }}</h3>
+                  {% include 'Links' %}
+              {% endunless %}
+          </div>
+      </div>
+      {% comment %} </div> {% endcomment %}
+  </div>
+  <div class="align-right">
+      {% include 'Share' %}
+  </div>
+</div>
+
+{% include 'Small Image Footer' %}

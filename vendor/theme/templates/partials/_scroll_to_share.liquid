@@ -1,0 +1,126 @@
+<div class="scroll-to scroll-to-share">
+  <div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__yes-no-question-wrapper">
+    <div class="center-content__one-column">
+      <div class="center-content__central-square">
+        {% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
+        <h1 class="thank-you__thanks">{{ message }}</h1>
+        <div class="thank-you__cta">
+          <span class="two-step__question">{{ 'share.two_step.cta' | t }}</span>
+          <span class="two-step__declined hidden-closed">{{ 'share.two_step.declined' | t }}</span>
+          <span class="two-step__accepted hidden-closed">{{ 'share.two_step.accepted' | t }}</span>
+        </div>
+
+        <div class="center-content__centered-element">
+          <div class="two-step__question">
+            <div class="share-buttons">
+              <div class="share-buttons__button button two-step__button two-step__accept">
+                {{ 'share.two_step.accept' | t }}
+              </div>
+              <div class="share-buttons__button button two-step__button two-step__decline">
+                {{ 'share.two_step.decline' | t }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__share-wrapper">
+    <div class="center-content__one-column">
+      <div class="center-content__central-square">
+
+        <div class="thank-you__cta">{{ 'share.cta' | t }}</div>
+
+        <div class="center-content__centered-element">
+          {% include 'Share' %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__fundraiser-wrapper ">
+    <h1 class="thank-you__cta intro"> {{ 'petition_and_scroll.fundraiser_intro' | t }} </h1>
+    {% capture fundraiser_title %} {{ 'share_and_donate.fundraiser_title' | t }} {% endcapture %}
+    {% include 'Fundraiser Freestanding', fundraiser_title: fundraiser_title %}
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var pluginContainer = $('{{plugin_container}}');
+    var overlayToggleButton = $('.petition-bar__mobile_ui__bottom_bar');
+    var yesNoQuestion = $('.petition-and-scroll-to-share__yes-no-question-wrapper');
+    var shareStep = $('.petition-and-scroll-to-share__share-wrapper');
+    var fundraiserStep = $('.petition-and-scroll-to-share__fundraiser-wrapper');
+
+    new window.champaign.Petition({
+      redirectAfterAction: false,
+      submissionCallback: petitionCallback
+    });
+
+    $('.two-step__accept').click(displayAndScrollToShare);
+    $('.two-step__decline').click(displayAndScrollToDonate);
+
+    function makeStepFullScreen(stepElement) {
+      var padding = parseInt(stepElement.css('padding-top'), 10);
+      var margin =  parseInt(stepElement.css('margin-bottom'), 10);
+      var totalElementHeight = stepElement.height() + padding + margin;
+      if (totalElementHeight < window.innerHeight) {
+        stepElement.css('margin-bottom', margin + (window.innerHeight - totalElementHeight));
+      }
+    }
+
+    function petitionCallback(e, data) {
+      pluginContainer.fadeOut();
+      overlayToggleButton.fadeOut();
+      displayAndScrollToYesNoQuestion();
+    }
+
+    function displayAndScrollToYesNoQuestion() {
+      makeStepFullScreen(yesNoQuestion);
+      yesNoQuestion.fadeIn();
+      scrollTo(yesNoQuestion);
+    }
+
+    function displayAndScrollToShare() {
+      makeStepFullScreen(shareStep);
+      shareStep.fadeIn();
+      scrollTo(shareStep);
+    }
+
+    function displayAndScrollToDonate() {
+      makeStepFullScreen(fundraiserStep);
+      fundraiserStep.fadeIn();
+      scrollTo(fundraiserStep);
+    }
+
+    function scrollTo(element) {
+      $('html, body').animate({scrollTop: element.offset().top}, 800);
+    }
+
+    $.subscribe('fundraiser:transaction_success', function(event, responseData, formData) {
+      window.champaign.redirectors.AfterDonationRedirector.attemptRedirect("{{ follow_up_url }}", formData);
+    });
+
+    var interval = setInterval(function() {
+      if(SharePop && SharePop.FB){
+        clearInterval(interval);
+        SharePop.FB = function(link) {
+            var shareURL = link.getAttribute('default_share') ? link.href : this.FB_Link(link)
+              , w = this.isMobile.any() ? '300' : '526'
+              , h = this.isMobile.any() ? '300' : '636';
+
+            var win = window.open(shareURL, '_blank');
+            win.focus();
+            if (!link.getAttribute('default_share')) {
+                this.sendShare('f', link);
+                this.triggerShare('f', link);
+                displayAndScrollToDonate();
+            }
+        }
+      }
+    }, 100);
+  });
+</script>

@@ -1,0 +1,49 @@
+
+<style type="text/css">
+
+    .inline-thermometer {
+        max-width: 550px;
+        margin: auto;
+    }
+
+    .AmountSelection-container .Thermometer { display: none; }
+
+    @media screen and (min-width: 992px){
+        .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
+            font-size: 30px;
+        }
+    }
+</style>
+
+<div class="thank-you__cta">
+    <span class="two-step__question">
+        {{ 'fundraiser.two_step.cta_eoy' | t }}
+    </span>
+</div>
+
+<div id="eoy-thermometer" class="inline-thermometer"></div>
+
+<div class="center-content__centered-element">
+    <span class="two-step__question">
+        <div class="share-buttons">
+            <div class="share-buttons__button button two-step__button two-step__accept">
+                {{ 'share.two_step.accept' | t }}
+            </div>
+            <div class="share-buttons__button button two-step__button two-step__decline">
+                {{ 'share.two_step.decline' | t }}
+            </div>
+        </div>
+    </span>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var currency = window.champaign.store.getState().fundraiser.currency;
+        var data = window.champaign.configuration.eoyThermometer.data;
+        var config = {...data, currency: currency };
+        window.champaign.modules.load('eoy-thermometer', config)
+        // .then(EoyThermometer => {
+        //     console.log("Success?", EoyThermometer)
+        // })
+    });
+</script>
