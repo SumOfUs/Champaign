@@ -134,9 +134,9 @@ api_key: '1234'
 mailer_topic_arn: 'mailer_topic_arn'
 
 recaptcha3:
-  site_key: <%= ENV['RECAPTCHA_SITE_KEY'] %>
-  secret_key: <%= ENV['RECAPTCHA_SECRET_KEY'] %>
-  min_score: <%= ENV['RECAPTCHA_MIN_SCORE'] %>
+  site_key: 'site_key' 
+  secret_key: 'secret_key'
+  min_score: '0.6'
 
 recaptcha2:
   site_key: 'site_key'
