@@ -13,7 +13,6 @@ interface IDonationsThermometerOptions
   extends IPluginOptions<IDonationsThermometerPluginConfig> {
   props?: any;
 }
-
 export default class DonationsThermometer extends Plugin<
   IDonationsThermometerPluginConfig
 > {
@@ -33,7 +32,6 @@ export default class DonationsThermometer extends Plugin<
         'Donations Thermometer must be initialised with either a redux store, or props'
       );
     }
-
     this.el = options.el;
     if (options.props) {
       this.props = options.props;

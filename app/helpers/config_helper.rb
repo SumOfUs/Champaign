@@ -10,6 +10,28 @@ module ConfigHelper
       recaptcha2: Settings.recaptcha2.to_hash.slice(:site_key)
     }.deep_transform_keys! do |key|
       key.to_s.camelize(:lower)
-    end
+    end.merge(
+      eoyThermometer: eoy_thermometer_config
+    )
+  end
+
+  def eoy_thermometer_config
+    start_date = Date.new(2019, 11, 1)
+    end_date = Date.new(2019, 12, 31)
+    # end of year goal in cents
+    eoy_goal = 60_000_000
+    total_donations = TransactionService.totals(start_date...end_date)
+    goals = TransactionService.goals(eoy_goal)
+    {
+      meta: { start: start_date.to_s, end: end_date.to_s },
+      data: {
+        active: true,
+        total_donations: total_donations,
+        goals: goals,
+        offset: 0,
+        title: '',
+        percentage: goals[:USD].zero? ? 0 : (total_donations[:USD] / goals[:USD] * 100)
+      }
+    }
   end
 end

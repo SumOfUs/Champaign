@@ -328,13 +328,16 @@
         -webkit-appearance: none;
         border-radius: 0;
       }
+      .Checkbox.Payment__config {
+        margin: 0;
+        margin-top: 26px;
+      }
       .Checkbox {
         line-height: 16px;
-        margin: 0;
       }
       label.Checkbox__label {
         display: block;
-        padding-left: 20px;
+        // padding-left: 20px;
         position: relative;
       }
     }

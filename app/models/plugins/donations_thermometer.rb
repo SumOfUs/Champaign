@@ -36,7 +36,7 @@ class Plugins::DonationsThermometer < Plugins::Thermometer
     attributes.merge(
       percentage: current_progress,
       total_donations: currencies_hash(current_total),
-      goals: goals_hash(fundraising_goal)
+      goals: TransactionService.goals(fundraising_goal)
     )
   end
 
@@ -46,11 +46,6 @@ class Plugins::DonationsThermometer < Plugins::Thermometer
     # Get a hash with amount converted into all supported currencies.
     # Transform values from arrays of amounts to single amounts (e.g. GBP: [10] to GBP: 10)
     ::Donations::Currencies.for([amount]).to_hash.map { |k, v| [k, ::Donations::Utils.round(v).first] }.to_h
-  end
-
-  def goals_hash(amount)
-    ::Donations::Currencies.for([amount]).to_hash
-      .map { |k, v| [k, ::Donations::Utils.round_fundraising_goals(v).first] }.to_h
   end
 
   def fundraising_goal

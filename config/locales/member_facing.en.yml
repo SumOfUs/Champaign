@@ -275,10 +275,10 @@ en:
     privacy_policy_link_text: 'Privacy Policy'
   recaptcha_branding_html: 'This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.'
   eoy_donation_email:
-    back_to_home: 'Back to Home'
+    confirmation_error: 'Email does not match'
     opt_out:
-      notice: 'You have successfully opted out EOY donation email'
-      alert: 'Error occured while opting out EOY donation email'
+      notice: "You’ve successfully opted out of our remaining fundraising emails in 2019. Thanks so much for your support, [FNAME]. If you’ve made this request in error, you can opt back into receiving our fundraising emails by clicking [HERE]."
+      alert: "An error occurred while opting you out of the remaining fundraising emails in 2019. Click here to try again."
     opt_in:
-      notice: 'You have successfully opted in EOY donation email'
-      alert: 'Error occured while opting in EOY donation email'
+      notice: "You’ve successfully opted into receiving our remaining fundraising emails in 2019."
+      alert: "An error occurred while opting you into the remaining fundraising emails in 2019. Click here to try again."
