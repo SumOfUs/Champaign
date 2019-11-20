@@ -97,8 +97,9 @@ export class Payment extends Component {
     const urlInfo = window.champaign.personalization.urlParams;
     const country = this.props.fundraiser.form.country;
     const showDirectDebit = isDirectDebitSupported({ country: country });
+    const lang = window.champaign.page.language_code;
 
-    if (urlInfo.akid && this.props.fundraiser.recurring) {
+    if (urlInfo.akid && this.props.fundraiser.recurring && lang == 'de') {
       if (showDirectDebit) {
         this.selectPaymentType('gocardless');
       } else {
