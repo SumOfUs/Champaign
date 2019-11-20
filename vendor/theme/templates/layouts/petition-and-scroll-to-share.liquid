@@ -1,0 +1,155 @@
+{% comment %} Description: Petition page that scrolls down to share. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Small Header' %}
+
+<div class="center-content center-content--accomodates-stuck-footer">
+  <div class="center-content__big-column">
+    <div class="mobile-show pre-main-bar">{% include 'Thermometer' %}</div>
+
+    {% include 'Body Text' %}
+  </div>
+  <div class="center-content__fixed-right center-content--push-down">
+    {% include 'Petition Sidebar', variant: 'simple', extra_class: 'stuck-right not-sticky' %}
+  </div>
+</div>
+
+<div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-consent__consent-question-wrapper">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square">
+      <h1 class="thank-you__thanks">
+        {{ 'petition.before_you_sign' | val: 'petition_title', title | t }}
+      </h1>
+      <p class="opt-in-reason">{{ 'consent.opt_in_reason' | t }}</p>
+      <button id="opt-in-button" class="button">{{ 'consent.accept_alt' | t }}</button>
+      <a id="opt-out-button">{{ 'consent.decline_alt' | t }}</a>
+      <p class="how-to-opt-out">{{ 'consent.how_to_opt_out' | t }}</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__yes-no-question-wrapper">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square">
+
+      {% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
+      <h1 class="thank-you__thanks">{{ message }}</h1>
+      <div class="thank-you__cta">
+        <span class="two-step__question">{{ 'share.two_step.cta' | t }}</span>
+        <span class="two-step__declined hidden-closed">{{ 'share.two_step.declined' | t }}</span>
+        <span class="two-step__accepted hidden-closed">{{ 'share.two_step.accepted' | t }}</span>
+      </div>
+
+      <div class="center-content__centered-element">
+        <div class="two-step__question">
+          <div class="share-buttons">
+            <div class="share-buttons__button button two-step__button two-step__accept">
+              {{ 'share.two_step.accept' | t }}
+            </div>
+            <div class="share-buttons__button button two-step__button two-step__decline">
+              {{ 'share.two_step.decline' | t }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__share-wrapper">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square">
+
+      <div class="thank-you__cta">{{ 'share.cta' | t }}</div>
+
+      <div class="center-content__centered-element">
+        {% include 'Share' %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__fundraiser-wrapper ">
+  <h1 class="thank-you__cta intro"> {{ 'petition_and_scroll.fundraiser_intro' | t }} </h1>
+  {% capture fundraiser_title %} {{ 'share_and_donate.fundraiser_title' | t }} {% endcapture %}
+  {% include 'Fundraiser', freestanding: true, fundraiser_title: fundraiser_title %}
+</div>
+
+{% include 'Petition Mobile Footer' %}
+{% include 'Small Image Footer' %}
+
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    var petitionOverlayButton = $('.petition-bar__mobile_ui__bottom_bar');
+    var petitionSidebar = $('.center-content__fixed-right');
+    var yesNoQuestion = $('.petition-and-scroll-to-share__yes-no-question-wrapper');
+    var shareStep = $('.petition-and-scroll-to-share__share-wrapper');
+    var fundraiserStep = $('.petition-and-scroll-to-share__fundraiser-wrapper');
+
+    window.champaign.myPetition = new window.champaign.PetitionAndScrollToConsent({
+      followUpUrl: "{{ follow_up_url }}",
+      onSubmitSuccess: petitionCallback
+    });
+
+    $('.two-step__accept').click(displayAndScrollToShare);
+    $('.two-step__decline').click(displayAndScrollToDonate);
+
+    function makeStepFullScreen(stepElement) {
+      var padding = parseInt(stepElement.css('padding-top'), 10);
+      var margin =  parseInt(stepElement.css('margin-bottom'), 10);
+      var totalElementHeight = stepElement.height() + padding + margin;
+      if (totalElementHeight < window.innerHeight) {
+        stepElement.css('margin-bottom', margin + (window.innerHeight - totalElementHeight));
+      }
+    }
+
+    function petitionCallback(e, data) {
+      petitionSidebar.fadeOut();
+      petitionOverlayButton.fadeOut();
+      displayAndScrollToYesNoQuestion();
+    }
+
+    function displayAndScrollToYesNoQuestion() {
+      makeStepFullScreen(yesNoQuestion);
+      yesNoQuestion.fadeIn();
+      scrollTo(yesNoQuestion);
+    }
+
+    function displayAndScrollToShare() {
+      makeStepFullScreen(shareStep);
+      shareStep.fadeIn();
+      scrollTo(shareStep);
+    }
+
+    function displayAndScrollToDonate() {
+      makeStepFullScreen(fundraiserStep);
+      fundraiserStep.fadeIn();
+      scrollTo(fundraiserStep);
+    }
+
+    function scrollTo(element) {
+      $('html, body').animate({scrollTop: element.offset().top}, 800);
+    }
+
+    if(location.pathname.match(/follow\-up/)) petitionCallback();
+
+    window.ee.on('fundraiser:transaction_success', function(responseData, formData) {
+      var fundraiserData = champaign.store.getState().fundraiser;
+      fbq('track', 'CompleteRegistration', {
+        registered_member: champaign.personalization.member.registered,
+        currency: fundraiserData.currency,
+        value: fundraiserData.donationAmount
+      });
+      window.champaign.redirectors.AfterDonationRedirector.attemptRedirect("{{ follow_up_url }}", formData);
+    });
+  });
+</script>

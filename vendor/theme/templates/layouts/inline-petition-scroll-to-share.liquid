@@ -1,0 +1,95 @@
+{% comment %} Description: Petition page with an inline petition form. Post action scroll down to share. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+<style type="text/css">
+  .layout__inline-plugin {
+    background-color: white;
+  }
+  .layout__inline-plugin .center-content {
+    width: auto;
+  }
+  
+  .layout__inline-plugin .center-content__one-column {
+    width: auto;
+    float: none;
+    margin: 0;
+    margin-top: 20px;
+  }
+  
+  .layout__inline-plugin .center-content__central-square {
+    margin: 0;
+    max-width: 100%;
+  }
+  
+  .layout__inline-plugin .content {
+    max-width: 100%;
+  }
+  
+  .content-container {
+    max-width: 100%;
+    padding: 45px 40px;
+    margin: auto auto 25px auto;
+  }
+  @media (max-width: 700px) {
+      .content-container {
+    max-width: 100%;
+    padding: 25px 20px;
+    margin: auto auto 25px auto;
+  } 
+  }
+  .layout__inline-plugin .pre-main-bar {
+    padding: 5% 5% 3% 5%;
+    margin: 0;
+    width: auto;
+  }
+  
+  .layout__inline-plugin .action-form__welcome-text {
+    max-width: 100%;
+  }
+  
+  .layout__inline-plugin .script-dependent .form--big .sweet-placeholder__field {
+    border: 1px solid lightgray;
+  }
+  .layout__inline-plugin .simple-footer {
+    display: block;
+  }
+  .clear {
+    clear: both;
+  }
+.petition-inline-custom{
+  max-width: 900px;
+  margin: 0 auto;
+  margin-bottom: 120px;
+  background: whitesmoke;
+}
+.inline-body-text{
+  width: calc(100% - 40px);
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 0;
+  text-align: left;
+  padding-bottom: 120px;
+}
+</style>
+
+<div id="layout__inline-petition-scroll-to-share" class="layout layout__one-column layout__inline-plugin" data-layout-name="inline petition scroll to share">
+  <header>{% include 'Full Width Header'  %}</header>
+  <div class="content center-content">
+    <div class="mobile-show pre-main-bar">{% include 'Thermometer' %}</div>
+    <article class="content-container section__body-text">{% include 'Body Text' extra_class: 'inline-body-text' %}</article>
+    <aside class="plugin-container plugin__petition plugin__full-width petition-inline-custom">
+      <div class="content-container">
+        {% include 'Petition Inline' %}
+        <div class="clear" />
+      </div>
+    </aside>
+    <aside class="scroll-to-container post-action scroll-to-share">
+      <div class="content-container">
+        {% include 'Scroll To Share', plugin_container: '.plugin-container', freestanding: true %}
+        <div class="clear" />
+      </div>
+      
+    </aside>
+  </div>
+{% include 'Simple Footer' %}
+</div>

@@ -1,0 +1,76 @@
+{% comment %} Description: A follow-up page thanking for donating money and asking to share {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+
+{% capture confirmation %}{{'fundraiser.upgrading.becoming_stronger' | t }} {% endcapture %}
+{% capture message %} {{ 'fundraiser.upgrading.thank_you' | t }} {% endcapture %}
+
+<div id="test-fa"></div>
+<div id="fa-optimisation" data-value="post-donate"></div>
+
+ {% include 'Top Bar' %}
+
+<div class="cover-photo" style="background-image: url(https://storage.googleapis.com/fa-assets/sou/sou-post-donate-bg.jpg); background-position:top;">
+	<div class="cover-photo__overlay"></div>
+</div>
+<div class="cover-photo__titles">
+  <div class="center-content">
+    <div class="center-content__big-column" style="float:none; margin-left:0px; width:100%; text-align:center;">
+      <div class="typography__highlight-wrapper" style="border-left:none;">
+        <h1 class="cover-photo__title typography__highlight youre-awesome-container" style="font-size:50px;"><span>{{ 'fundraiser.upgrading.awesome' | t }}</span></h1>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mobile-title">
+	<div class="center-content__one-column" style="text-align:center;">
+		<h1 class="cover-photo__title youre-awesome-container"> {{ 'fundraiser.upgrading.awesome' | t }} </h1>
+	</div>
+</div>
+
+<div class="center-content">
+	<div id="share-ask">
+    <div class="center-content">
+      <div class="center-content__one-column">
+        <div class="center-content__central-square center-content-post-monthly">
+          <h1 class="thank-you__thanks">{{ message }}</h1>
+          <div class="thank-you__cta">{{ 'fundraiser.upgrading.becoming_stronger' | t }} </div>
+          <div class="center-content__centered-element">
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
+{% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}
+
+<style>
+  .cover-photo {
+    height: 50vh;
+  }
+  @media (max-width: 700px) {
+    .cover-photo {
+      height: 250px;
+    }
+  }
+  .center-content-post-monthly{
+    display: block;
+    min-height: 32vh;
+    padding: 150px 0;
+  }
+  @media (max-width: 700px) {
+    .center-content-post-monthly{
+      margin-top: 0;
+    }
+  }
+  .cover-photo__titles {
+    position: relative;
+  }
+  .center-content__central-square {
+    margin-top: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .typography__highlight-wrapper {
+    display: inline-block;
+  }
+</style>

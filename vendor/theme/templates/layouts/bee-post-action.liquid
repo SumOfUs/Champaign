@@ -1,0 +1,32 @@
+{% comment %} Description: A follow-up page with info about the bees {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+
+<div class="header-logo header-logo--dark">
+  <a href="{{ 'footer.home_url' | t }}">
+    <div class="header-logo__logo sumofus-logo--negative"></div>
+  </a>
+  <div class="header-logo__tagline sumofus-logo--tagline">{{ 'branding.tagline' | t }}</div>
+</div>
+
+<div class="center-content">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square center-content__central-square--compact thank-you--compact">
+
+      <div class="thank-you__cta">
+        Share the campaign to triple your impact! Or scroll to see what we’ve done together to protect the bees.
+      </div>
+
+      <div class="center-content__centered-element">
+        {% include 'Share' %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% include 'Bee History' %}
+
+{% include 'Bee Sustainer Footer' %}
+
+{% include 'Small Image Footer' %}

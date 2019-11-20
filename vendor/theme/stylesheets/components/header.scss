@@ -1,0 +1,57 @@
+.header-logo {
+  padding: 20px 15px 15px;
+  position: fixed;
+  width: 100%;
+  z-index: 350;
+  top: 0;
+  border: 0.4px solid #efefef;
+  @include clearfix();
+  @include box-sizing(border-box);
+
+  @media(max-width: $mobile-width) {
+    position: absolute;
+    padding: 8px;
+  }
+
+  &--dark {
+    color: black;
+    // when the element is not --at-top, the gradient is moved up and out of the way
+    // and a background color is applied.
+    background: white;
+    background-position: 0 -80px;
+    background-repeat: no-repeat;
+    @include transition(background 0.40s ease-in-out, background-position 0.20s ease-out);
+    @include background-image(linear-gradient(rgba(255,255,255,0.5), transparent));
+
+    &.checks-top--at-top {
+      background-color: transparent;
+      background-position: 0 0;
+      border: 0px transparent;
+    }
+  }
+  &--over-form {
+    z-index: 700;
+  }
+
+  &--light {
+    background: none;
+  }
+
+  &__logo {
+    float: left;
+  }
+
+  &__tagline {
+    float: left;
+
+    @media(max-width: $mobile-width) {
+      display: none;
+    }
+  }
+  &__pull-right {
+    float: right;
+  }
+  &__pull-left {
+    float: left;
+  }
+}

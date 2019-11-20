@@ -1,0 +1,210 @@
+.caller-header {
+  @media(max-width: $mobile-width) {
+    display: none;
+  }
+
+  .center-content {
+    @include centered-to-full(900px);
+  }
+}
+
+.caller {
+  @include clearfix();
+  background-color: white;
+  width: 100%;
+
+  @mixin mobile-full-width() {
+    width: 92%;
+    margin: auto;
+  }
+
+  .clearfix {
+    @include clearfix();
+    width: 100%;
+  }
+
+  .hidden { display: none }
+
+  .content {
+    @include legacy-pie-clearfix();
+    @include centered-to-full(900px);
+    background: white;
+    padding-bottom: 60px;
+    max-width: 70ch;
+    margin: 0 auto;
+  }
+
+  .text-top, .text-bottom {
+    width: 92%;
+    margin:auto;
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+
+  #call-tool-component {
+    // position: fixed;
+    position: relative;
+    margin: 0 auto;
+    width: 80%;
+    // left: 70%;
+    // top: 40%;
+    // z-index: 999;
+    border-radius: 2px;
+    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+    border: solid 0.4px #dfdfdf;
+    background-color: #ffffff;
+    padding: 20px 0;
+    @media (max-width: 1100px) {
+      margin: 0 auto;
+      position: relative;
+      left: 0;
+      width: 90%;
+    }
+    h1 {
+      @include mobile-full-width();
+      font-size: 20px;
+      line-height: 1.2em;
+      text-align: left;
+      margin-bottom: 0.7em;
+      @media (max-width: 1100px) {
+        text-align: center;
+      }
+      @media (max-width: 700px) {
+        font-size: 16px;
+      }
+    }
+
+    .base-errors {
+      max-width: 350px;
+      @include mobile-full-width();
+      margin: 0.5em 0;
+      color: #f8492e;
+      ul {
+        width: 92%;
+        margin: 0 auto;
+      }
+    }
+
+    form {
+      @include legacy-pie-clearfix();
+      @include mobile-full-width();
+      max-width: 350px;
+      margin: 10px auto;
+      z-index: 0;
+      .form__group {
+        margin-bottom: 15px;
+      }
+      .SweetPhoneInput__title {
+        margin-left: 0;
+      }
+    }
+
+    input[type='tel'], .Select-control {
+      border: solid 2px #dbdbdb;
+    }
+
+    .Select.has-error .Select-control, input[type='tel'].has-error {
+      border-color: #f8492e;
+    }
+
+
+    button[type='submit']:disabled {
+      background-color: #dbdbdb;
+    }
+
+    .selectedTarget {
+      text-align: center;
+      margin: 1em 0;
+      line-height: 1.2em;
+      font-style: italic;
+      color: rgba(0, 0, 0, 0.4);
+    }
+
+    .form__group.phoneCountryCodeField {
+      width: 25%;
+      margin-bottom: 0px;
+
+      label {
+        left: 10px;
+        max-width: 100%;
+      }
+    }
+
+    .Select.is-focused .Select-control,
+    input[type='tel']:focus {
+      border-color: $teal;
+    }
+
+    .form__group.countryCodeField .error-msg {
+      display: none;
+    }
+
+    .form__group.phoneNumberField {
+      width: calc(75% - 4px);
+      margin-left: 4px;
+      margin-bottom: 0px;
+    }
+
+    form.single-country .form__group.form__group.phoneNumberField {
+      width: 100%;
+    }
+
+    p.guessed-country-name {
+      @include clearfix();
+      width: 100%;
+      margin-left: 2px;
+      font-size: 12px;
+      line-height: 1.5em;
+      height: 1.5em;
+      color: rgba(0, 0, 0, 0.4);
+    }
+
+    .selectedTargetName {
+      font-weight: bold;
+      color: #414141;
+    }
+
+    .fine-print {
+      @include mobile-full-width();
+      max-width: 350px;
+      font-size: 12px;
+      color: $slate-gray;
+      line-height: 16px;
+      margin: 0.5em auto;
+    }
+
+    p.instructions {
+      text-align: left;
+      font-size: 18px;
+      font-weight: 500;
+      max-width: 600px;
+      margin: auto;
+      padding: 0 1em;
+      line-height: 1.2em;
+      @media (max-width: 1100px) {
+        text-align: center;
+      }
+      @media (max-width: 700px) {
+        font-size: 14px;
+      }
+    }
+
+  } // #call-tool-component
+  .body-text.text-top, .body-text.text-bottom {
+    min-height: unset;
+    // width: 60%;
+    margin: 0;
+    @media (max-width: 1100px) {
+      width: 85%;
+      margin: 0 auto;
+      text-align: left;
+    }
+    p, div {
+      font-size: 16px;
+    }
+  }
+
+  .body-text.text-bottom {
+    margin-bottom: 180px;
+  }
+}

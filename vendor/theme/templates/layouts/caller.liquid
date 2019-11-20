@@ -1,0 +1,27 @@
+{% comment %} Description: A page with the call tool widget. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Full Width Header', extra_class: 'caller-header' %}
+
+<div class="caller">
+  <div class="content">
+    <div class="body-text text-top">
+      {{ content }}
+    </div>
+    {% include 'Call Tool' %}
+
+    <div class="body-text text-bottom">
+      {% if plugins.call_tool[ref].active %}
+        {{ plugins.call_tool[ref].description }}
+      {% endif %}
+
+      {% unless link_list == blank %}
+        <hr class="stubby-hr" />
+        <h3>{{ 'page.more_info' | t }}</h3>
+        {% include 'Links' %}
+      {% endunless %}
+    </div>
+  </div>
+</div>
+
+{% include 'Simple Footer' %}

@@ -1,0 +1,21 @@
+<div class="header-logo header-logo--dark">
+  <a href="{{ 'footer.home_url' | t }}">
+    <div class="header-logo__logo sumofus-logo--negative"></div>
+  </a>
+</div>
+
+<div class="center-content">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square">
+
+      <h1 class="thank-you__thanks">{{ message }}</h1>
+      <div class="thank-you__cta">{{ 'share.cta' | t }}</div>
+
+      <div class="center-content__centered-element">
+        {% include 'Share' %}
+      </div>
+    </div>
+
+  </div>
+</div>

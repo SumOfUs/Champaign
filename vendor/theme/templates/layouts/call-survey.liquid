@@ -1,0 +1,52 @@
+{% comment %} Description: A page for surveying members after a call. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Top Bar', no_fade: true %}
+
+<div class="survey post-call">
+  <div class="imageless-title">
+    <div class="typography__highlight-wrapper call-survey-high-wrapper">
+      <h1 class="typography__highlight">
+        <span>{{ title }}</span>
+      </h1>
+    </div>
+  </div>
+  <p class="body-text survey__intro post-call__intro post-call__intro--default">
+    {{ 'caller_survey.intro' | t }}   
+  </p>
+
+  <p class="body-text survey__intro post-call__intro post-call__intro--with-target hidden">
+    {{ 'caller_survey.intro_with_target_info' | t }}   
+  </p>
+  <p>
+    <a href="#" class="post-call__toggle-button"> {{ 'caller_survey.show_talking_points' | t }} </a>
+  </p>
+  <div class="body-text survey__intro post-call__talking-points " style="display:none">
+    {{ content }}
+  </div>
+  {% capture submit %} {{ 'caller_survey.submit' | t }} {% endcapture %}
+  {% include 'Survey', last_section_submit_text: submit %}
+</div>
+
+{% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}
+
+<script>
+  $(function() {
+    var params = window.champaign.personalization.urlParams,
+        introWithTarget = $('.post-call__intro--with-target'),
+        defaultIntro = $('.post-call__intro--default')
+
+    if(params.target && params.target.name && params.target.title) {
+      var newHTML = introWithTarget.html().replace(':target_name:', params.target.name)
+                                          .replace(':target_title:', params.target.title);
+      introWithTarget.html(newHTML);
+      defaultIntro.hide(0);
+      introWithTarget.show(0);
+    }
+
+    $('.post-call__toggle-button').click(function(){ 
+      $('.post-call__talking-points').slideToggle();
+    });
+  });
+</script>
+

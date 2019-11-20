@@ -1,0 +1,17 @@
+{% comment %} Description: A page that allows members to email custom targets. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Full Width Header'  %}
+
+<div class="email-tool">
+  <div class="content email-target">
+    <div class="body-text text-top">
+      {{ content }}
+    </div>
+
+    {% include 'Email Tool' %}
+  </div>
+</div>
+
+{% include 'Simple Footer' %}
+

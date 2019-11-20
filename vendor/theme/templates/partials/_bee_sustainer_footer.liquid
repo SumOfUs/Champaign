@@ -1,0 +1,77 @@
+<div class="fixed-footer">
+  <div class="center-content">
+    <div class="fixed-footer__pitch">
+      <span class="fixed-footer__pitch-cuttable">Want to help us keep fighting for the bees?<br />Consider becoming a monthly sustainer</span>
+      <span class="fixed-footer__pitch-shortened">Help keep up the fight</span>
+    </div>
+    <div class="fixed-footer__cta">
+      <a href="https://actions.sumofus.org/a/donate-to-save-the-bees?recurring=recurring_only" class="button">Become a sustainer</a>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .body-text {
+    margin-top: 40px;
+  }
+  .fixed-footer {
+    position: fixed;
+    background: #30394f;
+    width: 100%;
+    padding: 12px 0;
+    height: auto;
+    bottom: 0;
+    color: white;
+    box-sizing: border-box;
+    z-index: 400;
+  }
+  .fixed-footer__pitch {
+    font-size: 20px;
+    float: left;
+    line-height: 1.3em;
+    margin-top: 5px;
+    margin-left: 4%;
+  }
+  .fixed-footer__cta {
+    float: right;
+    margin-right: 4%;
+  }
+  .fixed-footer__cta .button {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .simple-footer.simple-footer--stuck-to-bottom {
+    bottom: 60px;
+  }
+  .beeline {
+    margin-bottom: 250px;
+  }
+  .fixed-footer__pitch-shortened {
+    display: none;
+  }
+  @media(max-width: 700px) {
+    .fixed-footer {
+      height: auto;
+    }
+    .fixed-footer__cta {
+      float: none;
+      width: 240px;
+      margin: 0 auto;
+    }
+    .fixed-footer__pitch {
+      float: none;
+      width: 100%;
+      text-align: center;
+      margin: 0 0 8px;
+    }
+    .fixed-footer__pitch-cuttable {
+      display: none;
+    }
+    .fixed-footer__pitch-shortened {
+      display: block;
+    }
+    .beeline {
+      margin-bottom: 150px;
+    }
+  }
+</style>
