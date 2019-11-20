@@ -1,0 +1,32 @@
+@media (max-width: 700px) {
+  .partial--fundraiser {
+    .center-content .center-content__fixed-right {
+      position: absolute;
+      bottom: 0;
+      width: 100vw;
+      height: 0;
+      overflow-x: hidden;
+      overflow-y: hidden;
+
+      .overlay-toggle__mobile-view {
+        height: 100vh;
+      }
+    }
+
+    .center-content.overlay-visible {
+      .center-content__fixed-right {
+        top: 0;
+        height: 100vh;
+        overflow-y: scroll;
+      }
+
+      .fundraiser-bar.stuck-right .fundraiser-bar__main {
+        height: auto;
+      }
+
+      .fundraiser-bar__main {
+        position: relative;
+      }
+    }
+  }
+}

@@ -1,0 +1,333 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    var cards = [
+      {
+        dateAndLocation: 'December 2015 - North America',
+        title: 'US hardware giants agree to protect bees',
+        body: "After more than a year and a half of consumer pressure, <b>we pushed the two biggest hardware stores in North America, Home Depot and Lowe's, to commit to taking neonics off their shelves!</b> <br />More than a million SumOfUs members signed petitions, took action on social media and donated so we could deliver your messages straight to the stores. ",
+        photoClass: 'bee-card__photo--lowes',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: 'April 2016 - United States',
+        title: 'Silenced bee scientist continues his crucial research',
+        body: "<b>Jonathan Lundgren’s research threatened the agrochemical industry</b> so his boss, the the U.S. Department of Agriculture, tried to suppress him. <br />Over 19,000 SumOfUs members worldwide donated to <b>help Jonathan and his work get off to a new start</b> at Blue Dasher Farm, where he leads cutting-edge independent bee research.",
+        photoClass: 'bee-card__photo--lundgren',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: 'June 2016 - France',
+        title: 'France decides to ban all neonics',
+        body: '<b>France became the first country in the world to ever decide on an outright ban of all neonics</b> - going beyond temporary EU restrictions and doing what scientists and 550,000 people demanded.<br><b>This huge victory came right after a big win in the UK</b>, where Ministers rejected an “emergency” application to ignore the EU neonics ban and use bee-killing seeds. <b>Nearly 1,000,000 SumOfUs members spoke out against the industry-driven plan.</b>',
+        photoClass: 'bee-card__photo--france2',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: 'February 2017 - France',
+        title: "Stopping Dow from undermining historic neonics ban in France",
+        body: "Dow tried to get a license in France for its new generation of bee-killing pesticides, called sulfoxaflor. The pesticide acts like neonics -- but by naming it differently, Dow is craftily exploiting a loophole in the French neonics ban. The bee-killing corporation almost won... until we stopped it in court! SumOfUs members chipped in to help our French partner Générations Futures to get a court decision that's suspended the authorization of this neonics-based pesticide. With our partners, we're now fighting to get a court decision and a law that will ban the new neonic for good.",
+        photoClass: 'bee-card__photo--france',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: 'December 2017 - CANADA',
+        title: "It's a good start: One neonic down, more to go",
+        body: "We are making good progress in the fight to save the bees in Canada. You helped secure a ban on imidacloprid, one of the three bee-killing neonics used in the country. Over 300,000 SumOfUs members around the world signed petitions, and tens of thousands of SumOfUs members in Canada sent public comments to call for the ban. <br/> We also targeted the Canadian pesticide agency by delivering your names straight to their doors. After this huge step forward, we’re now turning our attention to getting all neonics banned in Canada by 2020.",
+        photoClass: 'bee-card__photo--canada',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: 'February 2018 - AUSTRALIA',
+        title: "Australian retailers protect the bees",
+        body: "30,000 members like you spoke out and very quickly got Woolworths, Coles, and Mitre 10 to spring into action: <b> neonics will be off the shelves in all major Australian retailers by the end of the year. </b>",
+        photoClass: 'bee-card__photo--australia',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: 'April 2018 - EUROPE',
+        title: "EU decides on a near-total ban on three bee-killing pesticides",
+        body: "EU governments voted in favour of the European Commission's historic ban on three neonicotinoid pesticides. This is a massive win for the bees -- and against pesticide giants like Bayer. And you and SumOfUs members around the world helped make it happen.  <br/> More than 600,000 of you signed a petition to EU governments. Thousands of you sent tweets and emails to key decision-makers, and chipped in to get our message across on huge ads at Brussels Airport -- and in major news outlets read by EU officials.",
+        photoClass: 'bee-card__photo--bayer',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: 'May 2018 - EUROPE',
+        title: "Bayer and Syngenta defeated in court",
+        body: "The European Court of Justice ruled in favour of EU restrictions on neonics -- a huge blow to Bayer and co. Thousands of SumOfUs members helped by supporting the Bee Defender Alliance in making their case in court.",
+        photoClass: 'bee-card__photo--europe',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: 'June 2018 - United States',
+        title: "Major US retailer takes steps to protect bees",
+        body: "In June, the second largest retailer in the US, Kroger, announced its decision to phase out the usage of bee-killing pesticides on gardening plants by 2020. <br/> More than 150,000 SumOfUs  members from around the world signed our petition to save the bees. Thousands of you called and emailed key decision makers to push Kroger one step closer to be another industry leader and join us in this fight to protect the bees.",
+        photoClass: 'bee-card__photo--kroger',
+        additionalClasses: ''
+      },
+      {
+        dateAndLocation: '2018 - Everywhere',
+        title: "Protecting the bees in the year ahead",
+        body: "With your help we can continue to work around the clock to get bans on bee-killing pesticides passed and defend existing restrictions around the world. We’ll be able to push major retailers like Kroger to become bee-friendly all the way and support bee scientists and beekeepers in their fight against big pesticide corporations.",
+        photoClass: 'bee-card__photo--flower',
+        additionalClasses: 'bee-card--future'
+      }
+    ];
+
+    CARD_WIDTH = 400;
+
+    var renderCards = function() {
+      var $track = $('.beeline__track');
+      var template = $('#bee-card-template').html();
+      _.map(cards, function(data) {
+        var $card = $(template);
+        $card.find('.bee-card__title').text(data.title);
+        $card.find('.bee-card__body').html(data.body);
+        $card.find('.bee-card__dateline').text(data.dateAndLocation);
+        $card.find('.bee-card__photo').addClass(data.photoClass);
+        $card.addClass(data.additionalClasses);
+        $track.prepend($card);
+      });
+      $track.css('width', (cards.length * CARD_WIDTH )+ 'px');
+    };
+
+    var centerOnCard = function($card) {
+      $('.bee-card').removeClass('bee-card--current');
+      $card.addClass('bee-card--current');
+      var offset = $card.index() * CARD_WIDTH;
+      $('.beeline__track').css('transform', 'translateX('+offset+'px)');
+
+      // handle arrows
+      $('.beeline__arrow--hidden').removeClass('beeline__arrow--hidden');
+      if ($card.next().length === 0) {
+        $('.beeline__arrow--left').addClass('beeline__arrow--hidden');
+      } else if ($card.prev().length === 0) {
+        $('.beeline__arrow--right').addClass('beeline__arrow--hidden');
+      }
+    };
+
+    var getCard = function(el) {
+      var $el = $(el);
+      if (!$el.hasClass('bee-card')) $el = $el.parents('.bee-card');
+      return $el;
+    }
+
+    var hoverCard = function($card) {
+      $('.beeline__arrow--hover').removeClass('beeline__arrow--hover');
+      var indexDifference = $('.bee-card--current').index() - $card.index();
+      if (indexDifference < 0) {
+        $('.beeline__arrow--left').addClass('beeline__arrow--hover');
+      } else if (indexDifference > 0) {
+        $('.beeline__arrow--right').addClass('beeline__arrow--hover');
+      }
+    };
+
+    var unHoverCard = function() {
+      $('.beeline__arrow--hover').removeClass('beeline__arrow--hover');
+    };
+
+    var hoverArrow = function($arrow) {
+      $('.bee-card--hover').removeClass('bee-card--hover');
+      if ($arrow.hasClass('beeline__arrow--left')) {
+        $('.beeline__arrow--left').addClass('beeline__arrow--hover');
+        $('.bee-card--current').next().addClass('bee-card--hover');
+      } else if ($arrow.hasClass('beeline__arrow--right')) {
+        $('.beeline__arrow--right').addClass('beeline__arrow--hover');
+        $('.bee-card--current').prev().addClass('bee-card--hover');
+      }
+    };
+
+    var clickArrow = function($arrow) {
+      if ($arrow.hasClass('beeline__arrow--right')) {
+        var $nextCard = $('.bee-card--current').prev();
+      } else if ($arrow.hasClass('beeline__arrow--left')) {
+        var $nextCard = $('.bee-card--current').next();
+      }
+      if ($nextCard.length) centerOnCard($nextCard);
+      hoverArrow($arrow);
+    };
+
+    var unHoverArrow = function() {
+      $('.beeline__arrow--hover').removeClass('beeline__arrow--hover');
+      $('.bee-card--hover').removeClass('bee-card--hover');
+    };
+
+    var bindEvents = function() {
+      $('.bee-card').on('click', function(e) { centerOnCard(getCard(e.target)); });
+      $('.bee-card').on('mouseenter', function(e) { hoverCard(getCard(e.target)); });
+      $('.bee-card').on('mouseleave', unHoverCard);
+      $('.beeline__arrow').on('click', function(e) { clickArrow($(e.target)); });
+      $('.beeline__arrow').on('mouseenter', function(e) { hoverArrow($(e.target)); });
+      $('.beeline__arrow').on('mouseleave', unHoverArrow);
+    };
+
+    renderCards();
+    bindEvents();
+    centerOnCard($('.bee-card').first().next());
+  });
+</script>
+
+<div class="beeline">
+  <div class="beeline__track"></div>
+  <div class="beeline__arrow beeline__arrow--left fa fa-long-arrow-left"></div>
+  <div class="beeline__arrow beeline__arrow--right fa fa-long-arrow-right"></div>
+  <div class="beeline__arrow beeline__arrow--bottom beeline__arrow--right fa fa-long-arrow-right"></div>
+  <div class="beeline__arrow beeline__arrow--bottom beeline__arrow--left fa fa-long-arrow-left"></div>
+</div>
+
+{% include 'Bee History Photos' %}
+
+<script type="text/template" id='bee-card-template'>
+  <div class="bee-card">
+    <div class="bee-card__photo">
+      <div class="bee-card__dateline"></div>
+    </div>
+    <div class="bee-card__title"></div>
+    <div class="bee-card__body"></div>
+  </div>
+</script>
+
+<style type="text/css">
+  .beeline {
+    width: 100%;
+    overflow: hidden;
+    height: 530px;
+    margin-bottom: 60px;
+    padding: 60px 0;
+    position: relative;
+  }
+  .beeline__arrow {
+    font-size: 80px;
+    color: #cdcdce;
+    opacity: 1;
+    position: absolute;
+    top: -15px;
+    cursor: pointer;
+    transition: color 0.2s linear, opacity 0.2s linear;
+  }
+  .beeline__arrow--hover, .beeline__arrow:hover {
+    color: #00c0cf;
+  }
+  .beeline__arrow--hidden {
+    opacity: 0;
+  }
+  .beeline__arrow--bottom {
+    top: auto;
+    bottom: -15px;
+  }
+  .beeline__arrow--left {
+    left: 20px;
+  }
+  .beeline__arrow--right {
+    right: 20px;
+  }
+  .beeline__track {
+    position: absolute;
+    overflow: visible;
+    height: 100%;
+    right: calc(50% - 200px);
+    transition: transform 0.3s ease-in-out;
+  }
+  .bee-card {
+    width: 360px;
+    margin: 0 20px;
+    float: right;
+    cursor: pointer;
+    position: relative;
+    outline-color: #00c0cf;
+    outline-style: solid;
+    outline-width: 0px;
+    transition: outline-width 0.1s linear;
+  }
+  .bee-card.bee-card--current {
+    cursor: default;
+  }
+  .bee-card:hover, .bee-card--hover {
+    outline-width: 5px;
+  }
+  .bee-card.bee-card--current:hover, .bee-card--hover.bee-card--current {
+    outline-width: 0;
+  }
+  .bee-card--future {
+    outline-color: #f8492e;
+  }
+  .bee-card--future .bee-card__title {
+    background: #f8492e;
+  }
+  .bee-card__photo {
+    width: 100%;
+    height: 175px;
+    background-size: cover;
+    position: relative;
+  }
+  .bee-card__dateline {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 14px 20px;
+    width: calc(100% - 40px);
+    position: absolute;
+    bottom: 0;
+  }
+  .bee-card__title {
+    background: #00c0cf;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    height: 45px;
+    padding: 15px 20px;
+    line-height: 1.2em;
+    width: calc(100% - 40px);
+  }
+  .bee-card__body {
+    background: #ececec;
+    font-size: 16px;
+    padding: 20px;
+    line-height: 1.3em;
+    width: calc(100% - 40px);
+    min-height: 250px;
+  }
+  .bee-card__body br {
+    line-height: 30px;
+  }
+  .thank-you--compact .thank-you__cta {
+    line-height: 1.3em;
+  }
+  div.center-content__central-square--compact {
+    margin-bottom: 0;
+  }
+  @media(max-width: 500px) {
+    .beeline__arrow {
+      display: none;
+    }
+    .bee-card {
+      width: 100%;
+      margin: 12px 0;
+      cursor: normal;
+    }
+    .bee-card__body {
+      min-height: 0;
+      padding-bottom: 30px;
+    }
+    .beeline {
+      height: auto;
+      padding: 0;
+    }
+    .beeline__track {
+      height: auto;
+      padding: 0 2%;
+      position: static;
+
+      /* in the javascript, it sets these with an inline style */
+      width: 96% !important;
+      transform: none !important;
+    }
+    .bee-card:hover, .bee-card--hover {
+      outline-width: 0;
+    }
+    .bee-card__title {
+      height: auto;
+    }
+  }
+</style>

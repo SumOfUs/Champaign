@@ -1,0 +1,8 @@
+{% comment %} Description: Follow up page asking to share recommending similar campaigns as a fallback {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+{% comment %} Experimental: true {% endcomment %}
+
+{% capture confirmation %}{{ 'petition.confirmation' | t }}{% endcapture %}
+{% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
+{% include 'Share And Recommend Pages', message: message, confirmation: confirmation %}
+{% comment %}{% include 'Small Image Footer', extra_class: 'simple-footer--stuck-to-bottom' %}{% endcomment %}

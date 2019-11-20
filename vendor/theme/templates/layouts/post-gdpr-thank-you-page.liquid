@@ -1,0 +1,75 @@
+{% comment %} Description: SumOfUs branding around title, text, and share buttons {% endcomment %}
+
+{% include 'Small Header Without Cover Photo'%}
+<div class="tight-column">
+  <div class="imageless-title hello">
+    <div class="typography__highlight-wrapper">
+      <h1 class="typography__highlight">
+        <span>{{ title }}</span>
+      </h1>
+    </div>
+  </div>
+  <div class="body-text">
+    {{ content }}
+    {% include 'Share' %}
+    {% unless link_list == blank %}
+        <hr class="stubby-hr" />
+        <h3>{{ 'page.more_info' | t }}</h3>
+        {% include 'Links' %}
+      {% endunless %}
+  </div>
+  
+</div>
+
+{% include 'Small Image Footer' %}
+
+<style>
+  .tight-column {
+    width: 580px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-top: 50px;
+ }
+  h1{
+    margin-top: 120px !important;
+  }
+  .typography__highlight{
+    padding: 20px;
+  }
+  @media (max-width: 580px) {
+    .tight-column {
+      width: 100%;
+      padding-left: 2%;
+      padding-right: 2%;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }  
+    h1{
+      margin-top: 0;
+      font-size: 22px;
+    }
+  }
+  .body-text {
+    min-height: 80vh;
+    width: 100%;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (max-width: 700px) {
+    .body-text {
+      width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-top: 20px;
+      padding: 0;
+      text-align: left;
+      padding-bottom: 120px;
+    }
+  }
+</style>
+<div style="display:none !important;">
+{% include 'Fundraiser With Small Image' %}
+</div>

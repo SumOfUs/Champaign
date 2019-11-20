@@ -1,0 +1,48 @@
+{% if plugins.petition[ref].active %}
+  <div class="petition-bar sidebar overlay-toggle desktop-sticky {{ extra_class }}">
+    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
+      <div class="petition-bar__content">
+        <div class="petition-bar__top">
+          <div class="overlay-toggle__mobile-ui">
+            <a class="overlay-toggle__close-button">&#x2715;</a>
+          </div>
+          <div class="petition-bar__title-bar">
+            <h2 class="petition-bar__title">{{ plugins.petition[ref].cta }}</h2>
+          </div>
+          <div class="petition-bar__target">
+            {% unless plugins.petition[ref].target == blank %}
+              {{ 'petition.target_prefix' | t }}: {{ plugins.petition[ref].target }}
+            {% endunless %}
+          </div>
+          <div class="petition-bar__petition-text">
+            {{ plugins.petition[ref].description }}
+          </div>
+        </div>
+        <div class="petition-bar__main">
+          <div class="mobile-hide">
+            {% include 'Thermometer' %}
+          </div>
+          {% include 'No Script' %}
+          <div class="script-dependent">
+
+            {% include 'Petition Refactor', transition: transition, action: action %}
+
+            <div class="petition-bar__fine-print">
+              {{ 'petition.fine_print' | t }}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var chmp = window.champaign; // convenience binding
+      chmp.myOverlayToggle = new chmp.OverlayToggle();
+      chmp.myThermometer   = new chmp.Thermometer(window.champaign.personalization.actionsThermometer);
+      chmp.mySidebar       = new chmp.Sidebar({petitionTextMinHeight: 120, baseClass: 'petition-bar'});
+      window.champaign.mySticky = new window.champaign.DesktopSticky({extra_class: 'petition'});
+    });
+  </script>
+{% endif %}

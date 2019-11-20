@@ -102,7 +102,7 @@
       "prettier --write",
       "git add"
     ],
-    "*.{js,jsx,css,scss}": [
+    "*.{js,jsx,css}": [
       "prettier --write",
       "git add"
     ],

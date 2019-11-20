@@ -1,0 +1,22 @@
+// our global styles, in the right order
+@import "global/colors";
+@import "global/mixins";
+@import "global/typography";
+@import "global/layout";
+@import "global/interactive";
+//font Montserrat
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+// our styles
+@import "components/**/*";
+@import "pages/**/*";
+
+// Hot fix for multiple choice on Surveys (iphone)
+// @media only screen
+// and (max-device-width : 737px) {
+//   .survey .action-form__field-container .radio-container {
+//     label {
+//       line-height: 2.2em;
+//     }
+//   }
+// }
+

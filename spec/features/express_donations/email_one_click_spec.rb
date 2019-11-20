@@ -67,78 +67,80 @@ feature 'Express From Mailing Link' do
     Recaptcha3.any_instance.stub(:human?).and_return(true)
   end
 
-  scenario 'Authenticated member makes a one-click donation' do
-    store_payment_in_vault
-    register_member(member)
-    authenticate_member(member.authentication)
+  VCR.use_cassette('money_from_oxr') do
+    scenario 'Authenticated member makes a one-click donation' do
+      store_payment_in_vault
+      register_member(member)
+      authenticate_member(member.authentication)
 
-    expect(Action.count).to eq(1)
-    expect(customer.transactions.count).to eq(1)
+      expect(Action.count).to eq(1)
+      expect(customer.transactions.count).to eq(1)
 
-    @is_authenticated = 1
-    expect(ChampaignQueue).to receive(:push)
-      .with(queue_payload, group_id: /action:\d+/)
+      @is_authenticated = 1
+      expect(ChampaignQueue).to receive(:push)
+        .with(queue_payload, group_id: /action:\d+/)
 
-    VCR.use_cassette('feature_member_email_donation') do
-      visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: valid_akid, one_click: true)
+      VCR.use_cassette('feature_member_email_donation') do
+        visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: valid_akid, one_click: true)
+      end
+
+      expect(customer.reload.transactions.count).to eq(2)
+      expect(Action.count).to eq(2)
+
+      # Redirects to follow up url for campaign page
+      expect(current_url).to match(%r{/foo-bar/follow-up\?member_id=#{member.id}})
     end
 
-    expect(customer.reload.transactions.count).to eq(2)
-    expect(Action.count).to eq(2)
+    scenario 'Cookied customer makes a one-click donation' do
+      store_payment_in_vault
 
-    # Redirects to follow up url for campaign page
-    expect(current_url).to match(%r{/foo-bar/follow-up\?member_id=#{member.id}})
-  end
+      expect(customer.transactions.count).to eq(1)
+      expect(Action.count).to eq(1)
 
-  scenario 'Cookied customer makes a one-click donation' do
-    store_payment_in_vault
+      @is_authenticated = 0
+      expect(ChampaignQueue).to receive(:push)
+        .with(queue_payload, group_id: /action:\d+/)
 
-    expect(customer.transactions.count).to eq(1)
-    expect(Action.count).to eq(1)
+      VCR.use_cassette('feature_one_click_cookie') do
+        visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: valid_akid, one_click: true)
+      end
 
-    @is_authenticated = 0
-    expect(ChampaignQueue).to receive(:push)
-      .with(queue_payload, group_id: /action:\d+/)
-
-    VCR.use_cassette('feature_one_click_cookie') do
-      visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: valid_akid, one_click: true)
+      expect(customer.reload.transactions.count).to eq(2)
+      expect(Action.count).to eq(2)
+      expect(current_url).to match(%r{/member_authentication/new})
     end
 
-    expect(customer.reload.transactions.count).to eq(2)
-    expect(Action.count).to eq(2)
-    expect(current_url).to match(%r{/member_authentication/new})
-  end
+    scenario 'Cookied member makes a one-click donation' do
+      VCR.use_cassette('feature_one_click_member_no_customer') do
+        visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true)
+      end
 
-  scenario 'Cookied member makes a one-click donation' do
-    VCR.use_cassette('feature_one_click_member_no_customer') do
-      visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true)
+      expect(Action.count).to eq(0)
+      expect(current_url).to match(%r{/foo-bar})
     end
 
-    expect(Action.count).to eq(0)
-    expect(current_url).to match(%r{/foo-bar})
-  end
+    scenario 'Stanger makes a one-click donation' do
+      VCR.use_cassette('feature_one_click_stranger') do
+        visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true)
+      end
 
-  scenario 'Stanger makes a one-click donation' do
-    VCR.use_cassette('feature_one_click_stranger') do
-      visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true)
+      expect(Action.count).to eq(0)
+      expect(current_url).to match(%r{/foo-bar})
     end
 
-    expect(Action.count).to eq(0)
-    expect(current_url).to match(%r{/foo-bar})
-  end
+    scenario 'One-click donation with AKID, but without cookied payment methods' do
+      store_payment_in_vault
+      store_payment_in_vault(2)
 
-  scenario 'One-click donation with AKID, but without cookied payment methods' do
-    store_payment_in_vault
-    store_payment_in_vault(2)
+      delete_cookies_from_browser
 
-    delete_cookies_from_browser
+      VCR.use_cassette('feature_one_click_stranger') do
+        expect do
+          visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true, akid: valid_akid)
+        end.to_not change { customer.transactions.count }.from(2)
+      end
 
-    VCR.use_cassette('feature_one_click_stranger') do
-      expect do
-        visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true, akid: valid_akid)
-      end.to_not change { customer.transactions.count }.from(2)
+      expect(current_url).to match(%r{/foo-bar})
     end
-
-    expect(current_url).to match(%r{/foo-bar})
   end
 end

@@ -1,0 +1,21 @@
+{% comment %} Description: A post action page that recommends similar pages {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+{% comment %} Experimental: true {% endcomment %}
+
+<div class="header-logo header-logo--dark">
+  <a href="{{ 'footer.home_url' | t }}">
+    <div class="header-logo__logo sumofus-logo--negative"></div>
+  </a>
+</div>
+
+<div class="center-content">
+  <div class="center-content__one-column">
+    <div class="center-content__central-square">
+      <h1 class="thank-you__thanks">{{ 'petition.thank_you' | val: 'petition_title', title | t }}</h1>
+        {% include 'Recommend Pages'%}
+    </div>
+  </div>
+</div>
+
+
+{% comment %}{% include 'Small Image Footer', extra_class: 'simple-footer--stuck-to-bottom' %}{% endcomment %}

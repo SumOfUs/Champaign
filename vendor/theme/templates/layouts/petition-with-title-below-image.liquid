@@ -1,0 +1,21 @@
+{% comment %} Description: The petition page with a small cover photo. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Petition With Small Image', variant: 'simple' %}
+
+<style type="text/css">
+  .cover-photo__overlay {
+    display: none;
+  }
+  .mobile-title {
+    display: block !important;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    window.champaign.myPetition = new window.champaign.PetitionAndScrollToConsent({
+      followUpUrl: "{{ follow_up_url }}"
+    });
+  });
+</script>

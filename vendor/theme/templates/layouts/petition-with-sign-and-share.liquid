@@ -1,0 +1,39 @@
+{% comment %} Description: The petition page with a wide cover photo.{% endcomment %}
+
+<div class="cover-photo {{extra_class}}" style="background-image: url({{ primary_image.urls.large }})">
+  <div class="cover-photo__overlay">
+
+    {% include 'Top Bar' %}
+
+    <div class="cover-photo__titles">
+      <div class="center-content">
+        <div class="center-content__big-column">
+          <!-- one line to be able to check :empty  -->
+          <h3 class="cover-photo__target typography__highlight--dark typography__highlight--simple">{{petition_target}}</h3>
+          <div class="typography__highlight-wrapper sign-share-typo-highlight-wrapper">
+            <h1 class="cover-photo__title typography__highlight">
+              <span>{{ title }}</span>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'Mobile Title' %}
+
+<div class="center-content">
+  <div class="center-content__big-column sign-share-big-column">
+    <div class="mobile-show pre-main-bar">{% include 'Thermometer' %}</div>
+    <div class="body-text main-feature sign-share-body-text">
+      {{ content }}
+    </div>
+  </div>
+  <div class="center-content__small-column center-content--push-down">
+    {% include 'Petition Sidebar With Sign And Share', variant: 'simple' %}
+  </div>
+</div>
+
+{% include 'Petition Mobile Footer' %}
+{% include 'Simple Footer' %}

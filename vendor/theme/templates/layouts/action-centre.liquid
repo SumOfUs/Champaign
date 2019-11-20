@@ -1,0 +1,419 @@
+{% comment %} Description: Page for offering several high-bar actions {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Small Header Without Cover Photo' %}
+<div class="tight-column">
+  <div class="imageless-title">
+    <div class="typography__highlight-wrapper">
+      <h1 class="typography__highlight">
+        <span>{{ title }}</span>
+      </h1>
+    </div>
+  </div>
+  <div class="body-text intro">
+    {{ content }}
+  </div>
+  <div class="action-center">
+    <div class="action-center__tabs">
+      <ul>
+        <a href="#email"><li class="action-center__tab" data-target="email">Email</li></a>
+        <a href="#letter"><li class="action-center__tab" data-target="letter">Letter</li></a>
+        <a href="#twitter"><li class="action-center__tab" data-target="twitter">Twitter</li></a>
+        <a href="#facebook"><li class="action-center__tab" data-target="facebook">Facebook</li></a>
+      </ul>
+    </div>
+    <div class="action-center__pages">
+      <div id="email-panel" class="action-center__page action-center__page--email">
+        <div class="action-center__instruction--email action-center__instruction">
+          {% include 'Text', ref: 'Email instruction' %}
+        </div>
+        <div contenteditable="true" class="action-center__content action-center__email-content">
+          <div class="action-center__editable-content">
+            {% include 'Text', ref: 'Email body' %}
+          </div>
+        </div>
+      </div>
+      <div id="letter-panel" class="action-center__page action-center__page--letter">
+        <div class="action-center__instruction--letter action-center__instruction">
+          {% include 'Text', ref: 'Letter instruction' %}
+        </div>
+        <div contenteditable="true" class="action-center__content action-center__letter-content">
+          <div class="action-center__editable-content">
+            {% include 'Text', ref: 'Letter body' %}
+          </div>
+        </div>
+      </div>
+      <div id="twitter-panel" class="action-center__page action-center__page--twitter">
+        <div class="action-center__instruction--twitter action-center__instruction">
+          {% include 'Text', ref: 'Twitter instruction' %}
+        </div>
+        <div class="action-center__twitter-preview">
+          <div class="action-center__twitter-icon"></div>
+          <div class="action-center__twitter-preview-body">
+            <div class="action-center__twitter-author-line">
+              <span class="action-center__twitter-author">Your Name</span>
+              @You &bull; 1m
+            </div>
+            <div class="action-center__tweet-body">
+              {% include 'Text', ref: 'Twitter body' %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="facebook-panel" class="action-center__page action-center__page--facebook">
+        <div class="action-center__instruction--facebook action-center__instruction">
+          {% include 'Text', ref: 'Facebook instruction' %}
+        </div>
+        <div class="action-center__facebook-preview">
+          <div class="action-center__facebook-preview-image"></div>
+          <div class="action-center__facebook-preview-text">
+            <span class="action-center__facebook-preview-name">Your Name</span>
+            <div class="action-center__facebook-body">
+              {% include 'Text', ref: 'Facebook body' %}
+            </div>
+            <div class="action-center__fake-like-reply">
+              <a>Like</a> • <a>Reply</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="action-center__to-print">{% include 'Text', ref: 'Letter body' %}</div>
+
+{% include 'Small Image Footer' %}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    var updateMailto = function() {
+      var content = $('.action-center__email-content')[0].innerText;
+      var subject = window.champaign.emailSubject || '';
+      var $links = $('.action-center__instruction--email').find('a');
+      $links.each(function(ii, el) {
+        var $el = $(el);
+        var href = $el.attr('href');
+        if (href.indexOf('mailto:') === 0) {
+          var email = href.split('mailto:')[1].split('?')[0];
+          var newHref = 'mailto:'+email+'?body='+encodeURIComponent(content);
+          if (subject.length) newHref = newHref + '&subject=' + encodeURIComponent(subject);
+          $el.attr('href', newHref);
+        }
+      });
+    }
+
+    var disable = function() {
+      var selectors = [
+        ['.action-center__instruction--letter, .action-center__letter-content', '[data-target="letter"], #letter-panel'],
+        ['.action-center__instruction--email, .action-center__email-content', '[data-target="email"], #email-panel'],
+        ['.action-center__instruction--twitter, .action-center__twitter-body', '[data-target="twitter"], #twitter-panel'],
+        ['.action-center__instruction--facebook, .action-center__facebook-body', '[data-target="facebook"], #facebook-panel']
+      ];
+    for (var ii = 0; ii < selectors.length; ii++) {
+        var $indicator = $(selectors[ii][0]);
+        var $content = $(selectors[ii][1]);
+        if ($indicator.text().trim().length === 0) {
+          $content.addClass('hidden-irrelevant');
+        }
+      }
+    }
+    
+    var reveal = function(id) {
+      $('.action-center__tab--active').removeClass('action-center__tab--active');
+      $('[data-target="'+id+'"]').addClass('action-center__tab--active');
+      $('.action-center__page').addClass('action-center__page--closed');
+      $('#'+id+'-panel').removeClass('action-center__page--closed');
+    }
+
+    var addTwitterButton = function() {
+      var tweet = $.trim($('.action-center__tweet-body').text());
+      var url = champaign.tweetUrl || 'https://sumofus.org';
+      $('.action-center__instruction--twitter').prepend('<a data-text="'+tweet+'" data-url="'+url+'" data-related="SumOfUs" data-show-count="false" target="_blank" href="https://twitter.com/share" class="twitter-share-button">');
+      var tag = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"><\/script>';
+      $('#twitter-panel').append(tag);
+    }
+
+    var notHidden = function() {
+      var channels = ['email', 'letter', 'facebook', 'twitter'];
+      for (var ii = 0; ii < channels.length; ii++) {
+        var $panel = $('#'+channels[ii]+'-panel');
+        if ($panel.length > 0 && !$panel.hasClass('hidden-irrelevant')){
+          return channels[ii];
+        }
+      }
+    }
+    
+    var initialize = function() {
+      disable();
+      var first = window.location.hash.slice(1) || window.champaign.openingAction || notHidden();
+      reveal(first);
+      $('.action-center__tweet-preview').detach().appendTo('.action-center__page--twitter');
+      addTwitterButton();
+      updateMailto();
+    }
+
+    $('.action-center__tab').on('click', function(e){
+      var id = $(e.target).data('target');
+      reveal(id);
+    });
+
+    $('.action-center__letter-content').on('input', function(e){
+      var content = $(e.target).html();
+      $('.action-center__to-print').html(content);
+    });
+
+    $('.action-center__email-content').on('input', updateMailto);
+    window.setTimeout(initialize, 50);
+  });
+</script>
+<style>
+  .action-center {
+    width: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #f9f9f9;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 200px;
+  }
+  .action-center__tabs {
+    padding: 20px 0;
+    width: 100%;
+    float: left;
+    border-bottom: 0.4px solid #d4d4d4;
+  }
+  .action-center__tabs ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  @media (max-width: 580px) {
+    .action-center__tabs ul {
+      flex-direction: column;
+      width: 60%;
+      margin: 0 auto;
+    }
+    .action-center__tabs ul a {
+      margin: 5px 0;
+    }
+    .action-center__instruction, .action-center__content {
+      padding: 40px 10px 20px 10px !important;
+    }
+    .action-center__page--twitter, .action-center__page--facebook {
+      padding: 40px 10px !important;
+    }
+  }
+  .action-center__tab {
+    color: #5c5c5c;
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+    padding: 12px;
+    float: left;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+  .action-center__tab:hover, .action-center__tab--active {
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.09);
+    background-color: white;
+    color: #f8492d;
+  }
+  .action-center__pages {
+    float: left;
+    width: 100%;
+  }
+  .action-center__page {
+    background: #f9f9f9;
+    border-radius: 4px;
+    width: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-bottom: 40px;
+  }
+  .action-center__instruction {
+    background: #f9f9f9;
+    padding: 40px;
+    padding-bottom: 20px;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+  .action-center__page--twitter, .action-center__page--facebook {
+    padding: 40px;
+  }
+  .action-center__instruction--twitter, .action-center__instruction--facebook {
+    padding: 0px;
+    padding-bottom: 20px;
+  }
+  .action-center__content {
+    padding: 0 40px;
+    min-height: 500px;
+    font-size: 16px;
+    line-height: 1.2em;
+    border: none;
+    outline: none;
+    color: #414141;
+  }
+  .action-center__editable-content {
+    padding: 20px;
+    background: white;
+    line-height: 1.75;
+  }
+  .action-center__facebook-preview {
+    background: white;
+    border: 1px solid;
+    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+    border-radius: 3px;
+    padding: 12px 12px 12px 70px;
+    position: relative;
+    font-size: 12px;
+    line-height: 16px;
+    color: #1d2129;
+  }
+  .action-center__tweet-preview {
+    width: 100%;
+  }
+  .action-center__twitter-preview {
+    background: white;
+    font-size: 18px;
+    line-height: 1.75;
+    font-weight: 300;
+    padding: 9px 12px;
+    position: relative;
+    color: #292f33;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+  }
+  .action-center__twitter-preview-body {
+    margin-left: 58px;
+  }
+  .action-center__twitter-icon {
+    height: 48px;
+    width: 48px;
+    border-radius: 24px;
+    background: #00c0cf;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+  }
+  .action-center__twitter-author-line {
+    width: 100%;
+    font-size: 14px;
+    color: #8899ad;
+    line-height: 19px;
+    padding: 15px 0;
+  }
+  .action-center__twitter-author {
+    font-weight: bold;
+    color: #292f33;
+    margin-right: 8px;
+    font-size: 16px;
+  }
+  .action-center__fake-like-reply {
+    width: 100%;
+    clear: left;
+  }
+  .action-center__facebook-preview a {
+    color: #365899;
+    cursor: pointer;
+  }
+  .action-center__facebook-preview-text {
+    font-size: 16px;
+    padding: 15px 0;
+  }
+  .action-center__facebook-body {
+    padding: 20px 0;
+  }
+  .action-center__facebook-preview-image {
+    height: 48px;
+    width: 48px;
+    background: #00c0cf;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    border-radius: 24px;
+  }
+  .action-center__facebook-preview-name {
+    color: #365899;
+    font-weight: bold;
+  }
+  .action-center__suggested-email,
+  .action-center__suggested-letter,
+  .action-center__page--closed,
+  .action-center__to-print {
+    display: none;
+  }
+  .twitter-share-button-rendered {
+    position: relative !important;
+    top: 4px;
+  }
+  .tight-column {
+    width: 70%;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-top: 70px;
+  }
+  @media (max-width: 1100px) {
+    .tight-column {
+      width: 85%;
+    }
+  }
+  @media (max-width: 580px) {
+    .tight-column {
+      width: 100%;
+      padding-left: 2%;
+      padding-right: 2%;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }  
+  }
+  .imageless-title {
+    display: flex;
+    justify-content: center;
+  }
+  .typography__highlight-wrapper {
+    padding: 10px;
+    display: inline-block;
+  }
+  .body-text.intro {
+    width: 100%;
+    padding: 35px 0;
+  }
+  .body-text {
+    min-height: unset;
+    margin-bottom: unset;
+  }
+  @media (max-width: 700px) {
+    .body-text.intro {
+        width: calc(100% - 40px);
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 20px;
+        padding: 0;
+        text-align: left;
+        padding-bottom: 120px;
+    }
+  }
+  @media print {
+    body > * {
+      display: none;
+    }
+    .action-center__to-print {
+      display: block;
+      width: 100%;
+      font-family: 'Times New Roman', serif;
+      font-size: 16px;
+      color: black;
+      border: none;
+      outline: none;
+      height: 100%;
+      white-space: pre-wrap;
+      padding: 0.2in 0.5in;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  }
+</style>

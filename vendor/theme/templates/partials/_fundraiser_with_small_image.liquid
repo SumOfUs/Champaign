@@ -1,0 +1,27 @@
+<div class="partial--fundraiser fundraiser-with-small-image">
+  <div class="section--header">
+    {% include 'Small Header' %}
+  </div>
+  <div class="center-content center-content--accomodates-stuck-footer">
+    <div class="center-content__big-column">
+      {% include 'Body Text' %}
+    </div>
+    <div class="center-content__fixed-right">
+      {% include 'Fundraiser', extra_class: 'stuck-right not-sticky overlay-toggle' %}
+    </div>
+  </div>
+  <div class="section--footer">
+    {% include 'Fundraiser Mobile Footer' %}
+    {% include 'Small Image Footer' %}
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    window.champaign.mySticky = new window.champaign.DesktopSticky({extraClass: 'fundraiser'});
+    window.ee.on('fundraiser:transaction_success', function(responseData, formData) {
+      var followUpUrl = responseData.follow_up_url || "{{ follow_up_url }}"
+      window.champaign.redirectors.AfterDonationRedirector.attemptRedirect(followUpUrl, formData)
+    });
+  });
+</script>

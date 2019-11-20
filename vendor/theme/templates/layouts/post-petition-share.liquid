@@ -1,0 +1,7 @@
+{% comment %} Description: A follow-up page asking to share with a two step UI {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+
+{% capture confirmation %}{{ 'petition.confirmation' | t }}{% endcapture %}
+{% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
+{% include 'Two Step Share Page', message: message, confirmation: confirmation %}
+{% include 'Small Image Footer', extra_class: 'simple-footer--stuck-to-bottom' %}

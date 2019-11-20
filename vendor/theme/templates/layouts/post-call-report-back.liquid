@@ -1,0 +1,24 @@
+{% comment %} Description: A follow-up page thanking for making a call and asking to share {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+
+<div class="header-logo header-logo--negative">
+    <a href="{{ 'footer.home_url' | t }}">
+      <div class="header-logo__logo sumofus-logo--negative"></div>
+    </a>
+  </div>
+  
+  <div class="center-content">
+    <div class="center-content__one-column">
+  
+      <div class="center-content__central-square">
+  
+        <h1 class="thank-you__thanks">We've recorded your comment.</h1>
+        <div class="thank-you__cta"> Thank you for calling and reporting back! </div>
+  
+      </div>
+  
+    </div>
+  </div>
+  
+  {% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}
+  

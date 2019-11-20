@@ -12,10 +12,6 @@
 # config/settings/#{environment}.yml will override the settings in this file, and settings in
 # config/settings/#{environment}.local.yml will override the settings in that file.
 
-external_assets_path: '<%= ENV["EXTERNAL_ASSETS_PATH"] %>'
-external_translation_path: '<%= ENV["EXTERNAL_TRANSLATION_PATH"] %>'
-external_liquid_path: '<%= ENV["EXTERNAL_LIQUID_PATH"] %>'
-
 # General Champaign settings.
 secret_key_base: 'a fake secret key'
 omniauth_client_secret: 'a fake client secret'

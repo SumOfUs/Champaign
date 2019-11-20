@@ -1,0 +1,92 @@
+<style>
+  .main {
+    overflow-y: auto;
+    width: 80vw;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .survey {
+  	width: 80vw;
+  }
+  .iframe-responsive-container {
+  	width: 100%;
+  }
+  .main-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+  }
+  .header-container{
+    text-align: center;
+  }
+  h1{
+    padding: 20px 0;
+    font-family: Montserrat;
+    font-size: 26px;
+    font-weight: 800;
+  }
+  .paragraph{
+    margin: 54px 0;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 24px;
+  }
+  .question-card{
+    min-height: 360px;
+    width: 100%;
+    background: white;
+    margin-bottom: 79px;
+  }
+  @media (max-width: 1100px) {
+    .question-card{
+      min-height: 360px;
+      width: 90%;
+      background: white;
+      margin-bottom: 79px;
+    }
+    .paragraph {
+      font-size: 20px;
+    }
+  }
+  @media (max-width: 700px) {
+    .main {
+      min-height: auto;
+    }
+    .iframe-responsive-container{
+      margin-top: 60px;
+      width: 100%;
+      height: 180px;
+      background: black;
+    }
+    .paragraph{
+      font-size: 12px;
+      margin: 0;
+      padding: 40px 0px;
+    }
+  }
+</style>
+  {% include 'Small Header Without Cover Photo' %}
+<div class="main">
+  <div class="main-container">
+    <div class="header-container">
+      <h1>Shareholder Activism</h1>
+    </div>
+    <div>
+      {{ content }}
+    </div>
+</div>
+<div class="survey">
+{% include 'Survey' %}
+</div>
+</div>
+{% include 'Simple Footer' %}

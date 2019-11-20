@@ -1,0 +1,400 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.7/URI.js"></script>
+
+<div class="spreader-bot">
+  <h1>Spreader generator</h1>
+
+  <form class="spreader-form form--big spreader-bot__left">
+    <div class="form__group">
+      <label>What do you want to generate?</label>
+      <label>
+        <input type="radio" name="desiredOutput" value="link" checked>
+        Just the link
+      </label>
+      <label>
+        <input type="radio" name="desiredOutput" value="ak-button">
+        A button to use in a mailing
+      </label>
+      <label>
+        <input type="radio" name="desiredOutput" value="champaign-button">
+        A button to use in Champaign
+      </label>
+      <label>
+        <input type="radio" name="desiredOutput" value="full-email">
+        All the HTML for a spreader email
+      </label>
+    </div>
+    <div class="form__group">
+      <label>What language does the user speak?</label>
+      <label><input type="radio" name="language" value="EN" checked>English</label>
+      <label><input type="radio" name="language" value="FR">French</label>
+      <label><input type="radio" name="language" value="DE">German</label>
+    </div>
+    <div class="form__group">
+      <label>Where will this be used?</label>
+      <label>
+        <input type="radio" name="usesAk" value="true" checked>
+        On ActionKit - please use template tags
+      </label>
+      <label>
+        <input type="radio" name="usesAk" value="false">
+        Somewhere else - make this work without template tags
+      </label>
+    </div>
+    <div class="form__group">
+      <label for="share_href">URL to share (eg. petition link)</label>
+      <input type="text" name="share_href" class="spreader-form__input" />
+    </div>
+    <div class="form__group">
+      <label for="redirect_uri">Redirect URL</label>
+      <input type="text" name="redirect_uri" class="spreader-form__input" />
+    </div>
+    <div class="form__group form__group--half-width form__group--half-width--left">
+      <label for="mailing_id">Mailing ID</label>
+      <input type="text" name="mailing_id" class="spreader-form__input" />
+    </div>
+    <div class="form__group form__group--half-width">
+      <label for="hashtag">Hashtag</label>
+      <input type="text" name="hashtag" class="spreader-form__input" placeholder="just one" />
+    </div>
+    <div class="form__group output-dependent output-dependent--full-email">
+      <label for="prompt_email_body">Email to be sent to the member</label>
+      <textarea name="prompt_email_body" class="spreader-form__input"></textarea>
+    </div>
+    <div class="form__group output-dependent output-dependent--full-email">
+      <label for="share_email_body">Email for the member to share</label>
+      <textarea name="share_email_body" class="spreader-form__input"></textarea>
+    </div>
+    <div class="form__group output-dependent output-dependent--full-email">
+      <label for="share_email_cta">Text for the link in the email to forward</label>
+      <input type="text" name="share_email_cta" class="spreader-form__input" placeholder="e.g. Click here to sign the petition">
+    </div>
+    <div class="form__group output-dependent output-dependent--full-email">
+      <label for="prompt_email_signoff">Email signers</label>
+      <textarea name="prompt_email_signoff" class="spreader-form__input">The SumOfUs team</textarea>
+    </div>
+  </form>
+  <div class="spreader-bot__right">
+    <form class="form--big spreader-form">
+      <div class="output-dependent output-dependent--link">
+        <div class="form__group">
+          <label for="link_output">The link for members to click - <a href="#" class="link_test" target="_blank">test it</a></label>
+          <textarea class="spreader-form__link-output" name="link_output" rows='12'></textarea>
+        </div>
+      </div>
+      <div class="output-dependent output-dependent--ak-button">
+        <div class="form__group">
+          <label>Preview</label>
+          <div class="output__preview">
+            Please enter a URL
+          </div>
+        </div>
+        <div class="form__group">
+          <label>Code</label>
+          <textarea class="output__code"></textarea>
+        </div>
+      </div>
+      <div class="output-dependent output-dependent--champaign-button">
+        <div class="form__group">
+          <label>Preview</label>
+          <div class="output__preview">
+            Please enter a URL
+          </div>
+        </div>
+        <div class="form__group">
+          <label>Code</label>
+          <textarea class="output__code"></textarea>
+        </div>
+      </div>
+      <div class="output-dependent output-dependent--full-email">
+        <div class="form__group">
+          <label>Preview</label>
+          <div class="output__preview">
+            Please enter a URL
+          </div>
+        </div>
+        <div class="form__group">
+          <label>Code</label>
+          <textarea class="output__code"></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var APP_ID = '514456635236116';
+
+
+    var TRANSLATIONS = {
+      EN: {
+        DEFAULT_SALUTATION: 'Friend',
+        MAILING_SHARE_ON_FACEBOOK: 'Share on Facebook',
+        CHAMPAIGN_SHARE_ON_FACEBOOK: 'Share',
+        COPY_AND_PASTE_PROMPT: 'Or you can copy and share this email if you prefer:',
+        SUMOFUS_SIGNOFF: 'Thanks for all you do,',
+        SHARE_EMAIL_SALUTATION: 'Dear Friends,'
+      },
+      DE: {
+        DEFAULT_SALUTATION: 'Hallo',
+        MAILING_SHARE_ON_FACEBOOK: 'Jetzt auf Facebook teilen!',
+        CHAMPAIGN_SHARE_ON_FACEBOOK: 'Facebook',
+        COPY_AND_PASTE_PROMPT: 'Hier noch einmal unsere E-mail:',
+        SUMOFUS_SIGNOFF: 'Vielen Dank für Ihre Unterstützung!',
+        SHARE_EMAIL_SALUTATION: 'Hallo,'
+      },
+      FR: {
+        DEFAULT_SALUTATION: 'Chèr(e) ami(e)',
+        MAILING_SHARE_ON_FACEBOOK: 'Partager sur Facebook',
+        CHAMPAIGN_SHARE_ON_FACEBOOK: 'Partager',
+        COPY_AND_PASTE_PROMPT: "Vous pouvez aussi copier et envoyer l'email ci-dessous à vos contacts :",
+        SUMOFUS_SIGNOFF: 'Merci pour tout ce que vous faites !',
+        SHARE_EMAIL_SALUTATION: 'Salut,'
+      },
+    };
+    //  funky formatting otherwise gets interpreted by Champaign liquid
+    var DEFAULT_LIQUID_SUBSTITUTIONS = {
+      LQ_USER_AKID: '{' + '{ user.akid|urlencode }}',
+      LQ_SIGNOFF: '{' + '{ user.first_name|capfirst|default:"" }}'
+    };
+    var DEFAULT_LIQUIDLESS_SUBSTITUTIONS = {
+      LQ_USER_AKID: '',
+      LQ_SIGNOFF: ''
+    };
+
+    window.LIQUID_SUBSTITUTIONS = {
+      EN: _.extend(_.clone(DEFAULT_LIQUID_SUBSTITUTIONS), TRANSLATIONS.EN, {
+        LQ_SALUTATION: '{' + '{ user.first_name|capfirst|default:"'+TRANSLATIONS.EN.DEFAULT_SALUTATION+'" }}'
+      }),
+      DE: _.extend(_.clone(DEFAULT_LIQUID_SUBSTITUTIONS), TRANSLATIONS.DE, {
+        LQ_SALUTATION: '{' + '{ user.first_name|capfirst|default:"'+TRANSLATIONS.DE.DEFAULT_SALUTATION+'" }}'
+      }),
+      FR: _.extend(_.clone(DEFAULT_LIQUID_SUBSTITUTIONS), TRANSLATIONS.FR, {
+        LQ_SALUTATION: '{' + '{ user.first_name|capfirst|default:"'+TRANSLATIONS.FR.DEFAULT_SALUTATION+'" }}'
+      })
+    };
+    window.LIQUIDLESS_SUBSTITUTIONS = {
+      EN: _.extend(_.clone(DEFAULT_LIQUID_SUBSTITUTIONS), TRANSLATIONS.EN, {
+        LQ_SALUTATION: TRANSLATIONS.EN.DEFAULT_SALUTATION
+      }),
+      DE: _.extend(_.clone(DEFAULT_LIQUID_SUBSTITUTIONS), TRANSLATIONS.DE, {
+        LQ_SALUTATION: TRANSLATIONS.DE.DEFAULT_SALUTATION
+      }),
+      FR: _.extend(_.clone(DEFAULT_LIQUID_SUBSTITUTIONS), TRANSLATIONS.FR, {
+        LQ_SALUTATION: TRANSLATIONS.FR.DEFAULT_SALUTATION
+      })
+    };
+
+
+    var $shareHref = $('[name="share_href"]');
+    var $redirectUri = $('[name="redirect_uri"]');
+    var $mailingId = $('[name="mailing_id"]');
+    var $hashtag = $('[name="hashtag"]');
+    var $linkTest = $('.link_test');
+    var $spreaderPrompt = $('[name="prompt_email_body"]');
+    var $spreaderShare = $('[name="share_email_body"]');
+    var $spreaderSignoff = $('[name="prompt_email_signoff"]');
+    var $shareEmailCta = $('[name="share_email_cta"]');
+    var akButtonTemplate = $('#ak-button-template').html();
+
+    var $outputs = {}
+    _.each(['ak-button', 'champaign-button', 'full-email'], function(category) {
+      $outputs[category] = {
+        template: $('#'+category+'-template').html(),
+        preview: $('.output-dependent--'+category+' .output__preview'),
+        code: $('.output-dependent--'+category+' .output__code'),
+      }
+    });
+
+    var $linkOutput = $('[name="link_output"]');
+
+    var shareHref = function(usesAk, medium) {
+      var href = new URI($shareHref.val());
+      var mailingId = $mailingId.val();
+      if (medium === 'email') {
+        var source = 'taf';
+      } else {
+        var source = mailingId.length ? 'fb-spread-'+mailingId : 'fb-spread';
+      }
+      href = href.addSearch('source', source);
+      if (usesAk) href = href.addSearch('referring_akid', 'LQ_USER_AKID');
+      return href.toString();
+    }
+
+    var hashtag = function() {
+      var tag = $hashtag.val();
+      return (tag.length === 0 || tag[0] === '#') ? tag : '#' + tag;
+    }
+
+    var populateCodeFromPreview = function(category) {
+      $outputs[category].code.val($outputs[category].preview.html().trim());
+    }
+
+    var updateButton = function(category, shareLink, locale) {
+      $outputs[category].preview.html($outputs[category].template);
+      $outputs[category].preview.find('a').attr('href', shareLink);
+      handleLiquid($outputs[category].preview, false, locale);
+      populateCodeFromPreview(category);
+    }
+
+    var smartFormat = function(text) {
+      return text.replace(/\n/g, '<br>');
+    }
+
+    var handleLiquid = function($el, usesAk, locale) {
+      var substitutionSource = usesAk ? LIQUID_SUBSTITUTIONS[locale] : LIQUIDLESS_SUBSTITUTIONS[locale];
+      var fullHtml = $el.html();
+      _.each(_.keys(substitutionSource), function(key) {
+        fullHtml = fullHtml.replace(new RegExp(key, 'g'), substitutionSource[key]);
+      });
+      $el.html(fullHtml);
+    }
+
+    var updateMailingHtml = function(category, usesAk, locale) {
+      $outputs[category].preview.html($outputs[category].template);
+      var buttonHtml = $outputs['ak-button'].preview.html();
+      var spreaderPrompt = smartFormat($spreaderPrompt.val());
+      var spreaderShare = smartFormat($spreaderShare.val());
+      var spreaderSignoff = smartFormat($spreaderSignoff.val());
+      var shareLink = shareHref(usesAk, 'email');
+
+      $outputs[category].preview.find('.full-email-template__button-container').html(buttonHtml);
+      $outputs[category].preview.find('.full-email-template__spreader-prompt-container').html(spreaderPrompt);
+      $outputs[category].preview.find('.full-email-template__spreader-share-container').html(spreaderShare);
+      $outputs[category].preview.find('.full-email-template__spreader-signoff-container').html(spreaderSignoff);
+      $outputs[category].preview.find('a.full-email-template__spreader-share-cta').attr('href', shareLink);
+      $outputs[category].preview.find('a.full-email-template__spreader-share-cta').text($shareEmailCta.val());
+      handleLiquid($outputs[category].preview, usesAk, locale);
+
+      populateCodeFromPreview(category);
+    }
+
+    var generateLink = function(usesAk, locale) {
+      var link = new URI('https://www.facebook.com/dialog/share').query({
+        app_id: APP_ID,
+        display: 'page',
+        href: shareHref(usesAk, 'fb'),
+        redirect_uri: $redirectUri.val(),
+        no_redirect: 1
+      });
+      if (hashtag()) link.addSearch('hashtag', hashtag());
+      var substitutionSource = usesAk ? LIQUID_SUBSTITUTIONS[locale] : LIQUIDLESS_SUBSTITUTIONS[locale];
+      return link.toString().replace(/LQ_USER_AKID/, substitutionSource.LQ_USER_AKID);
+    }
+
+    var updatePreviews = function() {
+      var usesAk = $('input[type=radio][name=usesAk]:checked').val() == 'true';
+      var locale = $('input[type=radio][name=language]:checked').val();
+      var shareLink = generateLink(usesAk, locale);
+
+      $linkOutput.val(shareLink);
+      $linkTest.attr('href', shareLink);
+
+      updateButton('ak-button', shareLink, locale);
+      updateButton('champaign-button', shareLink, locale);
+      updateMailingHtml('full-email', usesAk, locale);
+    }
+
+    var changeOutput = function() {
+      var desired = $('input[type=radio][name=desiredOutput]:checked').val();
+      $('.output-dependent').addClass('hidden-closed');
+      $('.output-dependent.output-dependent--'+desired).removeClass('hidden-closed');
+    }
+
+    $('.spreader-form__input').on('keyup', updatePreviews);
+    $('input[type=radio][name=usesAk]').change(updatePreviews);
+    $('input[type=radio][name=language]').change(updatePreviews);
+    $('input[type=radio][name=desiredOutput]').change(changeOutput);
+    changeOutput();
+  });
+</script>
+
+<style type="text/css">
+  .spreader-bot {
+    width: 880px;
+    margin: 30px auto;
+    overflow: hidden;
+  }
+  .spreader-bot__left, .spreader-bot__right {
+    width: 400px;
+    padding: 20px;
+    float: left;
+  }
+  .center-content--spreader-bot {
+    max-width: 600px;
+    font-size: 18px;
+    margin: 60px auto;
+    float: none;
+    padding-left: 10px;
+  }
+  body {
+    background: #ececec;
+  }
+  .spreader-form {
+    display: block;
+  }
+  .spreader-form label {
+    font-weight: bold;
+    margin: 10px 0 5px;
+    display: block;
+  }
+  textarea.spreader-form__link-output {
+    height: 280px;
+  }
+  textarea.output__code {
+    font-size: 14px;
+    font-family: monospace;
+    height: 400px;
+  }
+  .output-dependent--full-email .output__preview p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .output-dependent--full-email .output__preview {
+    background: white;
+    padding: 10px 15px;
+    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);
+  }
+</style>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+
+
+<script type="text/template" id="ak-button-template">
+  <a style="background-color: #3b5998; border: 1px solid #3b5998; border-radius: 3px; color: #ffffff; display: block; font-family: sans-serif; font-size: 16px; line-height: 44px; text-align: center; text-decoration: none; width: 100%; max-width: 500px; -webkit-text-size-adjust: none; white-space: nowrap;" target="_blank">
+    <img style="height: 16px; padding-right: 5px; margin-bottom: -1px;" src="https://s3.amazonaws.com/s3.sumofus.org/images/FB-f-Logo__white_29.png" alt="" height="16" /> MAILING_SHARE_ON_FACEBOOK
+  </a>
+</script>
+<script type="text/template" id="champaign-button-template">
+  <div class="share-buttons__button button--facebook">
+    <style type="text/css">
+      .button--facebook a::after { color: white; font-family: FontAwesome; content: "\f09a"; font-size: 22px; margin-left: 10px; line-height: 35px; vertical-align: top; }
+      .button--facebook a::before { color: white; font-size: 18px; line-height: 35px; }
+      .button--facebook a { box-sizing: border-box; max-width: 145px; width: 100%; height: 60px; border: none; color: white; text-transform: uppercase; font-size: 16px; font-weight: bold; border-radius: 3px; cursor: pointer; outline: none; display: block; padding-top: 15px; text-decoration: none; text-align: center; background-color: #597ac7; }
+      .button--facebook a:hover { background-color: #466bc1; text-decoration: none; }
+      .button--facebook a::before { content: "CHAMPAIGN_SHARE_ON_FACEBOOK"; }
+    </style>
+    <a target="_blank"></a>
+  </div>
+</script>
+<script type="text/template" id="full-email-template">
+  <p>
+    LQ_SALUTATION,
+  </p>
+  <p class="full-email-template__spreader-prompt-container"></p>
+  <center class="full-email-template__button-container">
+  </center>
+  <p>COPY_AND_PASTE_PROMPT</p>
+  <div style="padding: 20px; border: 1px dotted silver;">
+    <p>SHARE_EMAIL_SALUTATION&nbsp;</p>
+    <p class="full-email-template__spreader-share-container"></p>
+    <p>
+      <a class="full-email-template__spreader-share-cta"></a>
+    </p>
+    <p>
+      LQ_SIGNOFF
+    </p>
+  </div>
+  <p>SUMOFUS_SIGNOFF</p>
+  <p class="full-email-template__spreader-signoff-container"></p>
+  <hr>
+</script>
