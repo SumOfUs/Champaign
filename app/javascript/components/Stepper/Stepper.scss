@@ -20,6 +20,10 @@
   &__header {
     font-weight: 600;
   }
+  @media (max-width: 700px) {
+    padding-bottom: 0;
+    padding: 15px;
+  }
 }
 .Step__wrapper {
   display: flex;
