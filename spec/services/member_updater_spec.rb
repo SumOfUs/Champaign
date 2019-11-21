@@ -51,6 +51,10 @@ describe MemberUpdater do
       expect(updater.send(:member_attributes)).not_to include(:id)
     end
 
+    it 'does not include actionkit_user_id' do
+      expect(updater.send(:member_attributes)).not_to include(:actionkit_user_id)
+    end
+
     it 'includes all the other keys of member' do
       expect(updater.send(:member_attributes))
         .to include(
@@ -62,8 +66,7 @@ describe MemberUpdater do
           :postal,
           :title,
           :address1,
-          :address2,
-          :actionkit_user_id
+          :address2
         )
     end
   end
