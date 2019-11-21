@@ -55,6 +55,7 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers, type: :request
   config.include Requests::RequestHelpers, type: :request
   config.infer_spec_type_from_file_location!
+  config.raise_errors_for_deprecations!
 
   # During testing, the app-under-test that the browser driver connects to
   # uses a different database connection to the database connection used by

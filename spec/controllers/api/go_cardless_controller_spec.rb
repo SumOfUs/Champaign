@@ -17,7 +17,7 @@ describe Api::GoCardlessController do
     allow(Page).to receive(:find) { page }
     allow(SecureRandom).to receive(:uuid) { 'fake_session_id' }
     allow(MobileDetector).to receive(:detect) { { action_mobile: 'tablet' } }
-    Recaptcha3.any_instance.stub(:human?).and_return(true)
+    allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
   end
 
   describe 'GET #start_flow' do
