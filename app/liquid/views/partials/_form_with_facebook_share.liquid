@@ -69,7 +69,7 @@
           </div>
         {% when 'choice' %}
           <div class="radio-container">
-            <div class="">{{ field.label }}</div>
+            <div class="radio-title">{{ field.label }}</div>
             {% for choice in field.choices %}
               <label for="{{ choice.id }}">
                 <input id="{{ choice.id }}" name="{{ field.name }}" type="radio" value="{{ choice.value }}">

@@ -18,7 +18,7 @@ feature 'One Click From Save Payment Methods from Page' do
   before do
     allow(ChampaignQueue).to receive(:push)
     allow(FundingCounter).to receive(:update)
-    Recaptcha3.any_instance.stub(:human?).and_return(true)
+    allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
   end
 
   scenario 'Authenticated member makes an express donation' do

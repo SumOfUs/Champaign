@@ -3,3 +3,7 @@
     clear: both;
   }
 }
+.PetitionComponent .Checkbox__label {
+  position: relative;
+  top: 10px;
+}

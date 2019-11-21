@@ -31,5 +31,13 @@ RSpec.describe Api::DonationsController, type: :controller do
       get :total, params: { end: 'not a date' }
       expect(response).to have_http_status(:bad_request)
     end
+
+    it 'returns both total donations and EOY fundraising goals' do
+      get :total, params: { start: '2019-11-29', end: '2019-12-31' }
+      json_hash = JSON.parse(response.body).with_indifferent_access
+      expect(json_hash[:data].keys).to match(%w[total_donations eoy_goals])
+      expect(json_hash[:data][:eoy_goals].keys).to match(%w[USD GBP EUR CHF AUD NZD CAD])
+      expect(json_hash[:data][:total_donations].keys).to match(%w[USD GBP EUR CHF AUD NZD CAD])
+    end
   end
 end

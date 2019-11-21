@@ -12,7 +12,7 @@
 .ConsentControls.warning .notice {
   padding: 10px;
   margin-bottom: 10px;
-  background: rgb(255, 251, 222);
+  background: rgb(136, 133, 113);
 }
 
 .ConsentControls .notice {
@@ -27,15 +27,14 @@
   display: block;
   margin-right: 30px;
   margin-bottom: 10px;
-  font-weight: 95%;
-}
-.ConsentControls input[type="radio"]:focus {
-  box-shadow: 0 1px 8px 2px #00c0cf;
+  font-size: 85%;
+  clear: left;
 }
 
-.simple .ConsentControls input[type="radio"] {
+.simple .ConsentControls input[type='radio'] {
   float: left;
   display: block;
+  background: transparent;
 }
 
 .simple .ConsentControls label span {
@@ -44,13 +43,13 @@
 }
 
 /* Selectable Buttons variant */
-.selectable-buttons .ConsentControls input[type="radio"] {
+.selectable-buttons .ConsentControls input[type='radio'] {
   display: none;
 }
 .selectable-buttons .ConsentControls label {
   display: block;
   background: white;
-  border: 1px solid #F73415;
+  border: 1px solid #f73415;
   margin: 15px 0 0 0;
   padding: 10px 5px 10px 10px;
   cursor: pointer;
@@ -58,6 +57,6 @@
 
 .selectable-buttons .ConsentControls label:hover,
 .selectable-buttons .ConsentControls label.active {
-  background: #F73415;
+  background: #f73415;
   color: white;
 }
