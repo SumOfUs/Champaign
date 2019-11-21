@@ -18,20 +18,24 @@ describe 'URI masking' do
   end
 
   it 'renders matching URI record when path is not root' do
-    create :uri, domain: 'www.example.com', path: 'random', page: page
-    allow(LiquidRenderer).to receive(:new).and_call_original
-    get '/random'
-    expect(response.status).to eq 200
-    expect(response).to render_template('pages/show')
-    expect(LiquidRenderer).to have_received(:new)
+    VCR.use_cassette('money_from_oxr') do
+      create :uri, domain: 'www.example.com', path: 'random', page: page
+      allow(LiquidRenderer).to receive(:new).and_call_original
+      get '/random'
+      expect(response.status).to eq 200
+      expect(response).to render_template('pages/show')
+      expect(LiquidRenderer).to have_received(:new)
+    end
   end
 
   it 'renders matching URI record when path is root' do
-    create :uri, domain: 'www.example.com', path: '/', page: page
-    allow(LiquidRenderer).to receive(:new).and_call_original
-    get '/'
-    expect(response.status).to eq 200
-    expect(response).to render_template('pages/show')
-    expect(LiquidRenderer).to have_received(:new)
+    VCR.use_cassette('money_from_oxr') do
+      create :uri, domain: 'www.example.com', path: '/', page: page
+      allow(LiquidRenderer).to receive(:new).and_call_original
+      get '/'
+      expect(response.status).to eq 200
+      expect(response).to render_template('pages/show')
+      expect(LiquidRenderer).to have_received(:new)
+    end
   end
 end
