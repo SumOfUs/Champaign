@@ -162,17 +162,20 @@ describe 'Api Actions' do
           ).to eq(page.actions.first)
         end
 
-        it 'saves actionkit_user_id on member' do
-          expect(Member.last.actionkit_user_id).to eq('5678')
+        it 'leaves actionkit_user_id blank to be set by the worker' do
+          expect(Member.last.actionkit_user_id).to eq(nil)
         end
       end
 
       context 'existing member' do
         let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email] }
 
-        it 'overwrites existing actionkit_user_id' do
+        # This behavior was changed because members routinely forward emails and share through other methods with
+        # the akid in the query string intact, which made us update member A's AKID on member B's record and leading
+        # to very messy recordkeeping
+        it 'does not update the actionkit_user_id' do
           post "/api/pages/#{page.id}/actions", params: params
-          expect(member.reload.actionkit_user_id).to eq '5678'
+          expect(member.reload.actionkit_user_id).to eq '7777'
         end
       end
     end

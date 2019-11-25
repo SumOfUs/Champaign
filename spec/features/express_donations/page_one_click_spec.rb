@@ -18,7 +18,7 @@ feature 'One Click From Save Payment Methods from Page' do
   before do
     allow(ChampaignQueue).to receive(:push)
     allow(FundingCounter).to receive(:update)
-    Recaptcha3.any_instance.stub(:human?).and_return(true)
+    allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
   end
 
   scenario 'Authenticated member makes an express donation' do
@@ -42,9 +42,11 @@ feature 'One Click From Save Payment Methods from Page' do
     }
 
     VCR.use_cassette('feature_member_express_donation') do
-      Timecop.freeze(Time.now + 15.minutes) do
-        path = api_payment_braintree_one_click_path(donation_page.id)
-        page.driver.post path, params
+      VCR.use_cassette('money_from_oxr') do
+        Timecop.freeze(Time.now + 15.minutes) do
+          path = api_payment_braintree_one_click_path(donation_page.id)
+          page.driver.post path, params
+        end
       end
     end
 
@@ -73,10 +75,12 @@ feature 'One Click From Save Payment Methods from Page' do
     delete_cookies_from_browser
 
     VCR.use_cassette('feature_member_express_donation') do
-      path = api_payment_braintree_one_click_path(donation_page.id)
-      expect {
-        page.driver.post path, params
-      }.to raise_error(PaymentProcessor::Exceptions::CustomerNotFound)
+      VCR.use_cassette('money_from_oxr') do
+        path = api_payment_braintree_one_click_path(donation_page.id)
+        expect {
+          page.driver.post path, params
+        }.to raise_error(PaymentProcessor::Exceptions::CustomerNotFound)
+      end
     end
 
     expect(customer.transactions.count).to eq(1)

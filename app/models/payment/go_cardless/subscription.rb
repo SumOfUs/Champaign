@@ -108,7 +108,7 @@ class Payment::GoCardless::Subscription < ApplicationRecord
     end
 
     event :run_cancel do
-      transitions to: :cancelled
+      transitions to: :cancelled, after: proc { |*_args| publish_cancellation('processor') }
     end
 
     event :run_finish do

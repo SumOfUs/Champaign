@@ -38,6 +38,7 @@ module ActionQueue
           slug: page.slug,
           first_name: member.first_name,
           last_name: member.last_name,
+          member_id: member.id,
           created_at: @action.created_at,
           country: country(member.country),
           action_id: @action.id,

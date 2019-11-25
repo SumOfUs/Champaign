@@ -33,7 +33,7 @@ describe 'GoCardless API' do
     allow(MobileDetector).to receive(:detect).and_return(action_mobile: 'tablet')
 
     allow(FundingCounter).to receive(:update)
-    Recaptcha3.any_instance.stub(:human?).and_return(true)
+    allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
   end
 
   describe 'redirect flow' do

@@ -76,6 +76,7 @@ const ActionForm = Backbone.View.extend({
       this.selectizeDropdowns();
     }
     this.$submitButton = this.$('.action-form__submit-button');
+    this.$formWrapper = this.$('.form-wrapper');
     this.buttonText = this.$submitButton.text();
     this.setupState();
     this.enableGDPRConsent();
@@ -376,7 +377,7 @@ const ActionForm = Backbone.View.extend({
   enableGDPRConsent() {
     if (this.gdprContainer) return;
     this.gdprContainer = document.createElement('div');
-    this.$submitButton.before(this.gdprContainer);
+    this.$formWrapper.append(this.gdprContainer);
 
     render(
       <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>

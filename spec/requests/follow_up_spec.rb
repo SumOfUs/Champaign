@@ -15,8 +15,10 @@ describe 'rendering a post action share page' do
   let(:email_variant_div) { 'div class="share-buttons__simple-email-link' }
 
   let(:subject) do
-    get "/a/#{page.slug}/follow-up"
-    expect(response.successful?).to be true
+    VCR.use_cassette('money_from_oxr') do
+      get "/a/#{page.slug}/follow-up"
+      expect(response.successful?).to be true
+    end
   end
 
   describe 'a page with no variants' do

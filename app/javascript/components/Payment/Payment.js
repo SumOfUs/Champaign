@@ -97,8 +97,9 @@ export class Payment extends Component {
     const urlInfo = window.champaign.personalization.urlParams;
     const country = this.props.fundraiser.form.country;
     const showDirectDebit = isDirectDebitSupported({ country: country });
+    const lang = window.champaign.page.language_code;
 
-    if (urlInfo.akid && this.props.fundraiser.recurring) {
+    if (urlInfo.akid && this.props.fundraiser.recurring && lang == 'de') {
       if (showDirectDebit) {
         this.selectPaymentType('gocardless');
       } else {
@@ -309,6 +310,19 @@ export class Payment extends Component {
   };
 
   onError = reason => {
+    const errorParsed =
+      reason && reason.responseText && JSON.parse(reason.responseText);
+    const fundraiserBar = document.getElementsByClassName(
+      'fundraiser-bar__content'
+    )[0];
+    if (
+      (errorParsed && errorParsed.success === false) ||
+      !isEmpty(this.state.errors)
+    ) {
+      setTimeout(() => {
+        fundraiserBar.scrollTo(0, 0);
+      }, 500);
+    }
     ee.emit('fundraiser:transaction_error', reason, this.props.formData);
     this.props.setSubmitting(false);
   };
@@ -370,7 +384,6 @@ export class Payment extends Component {
             })}
           </div>
         </ShowIf>
-
         {!this.props.disableFormReveal && (
           <WelcomeMember
             member={member}
@@ -389,7 +402,6 @@ export class Payment extends Component {
             disabled={this.state.loading}
             onChange={p => this.selectPaymentType(p)}
           />
-
           <PayPal
             ref="paypal"
             amount={donationAmount}
