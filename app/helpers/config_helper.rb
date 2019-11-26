@@ -2,7 +2,7 @@
 
 module ConfigHelper
   def global_config
-    {
+    config = {
       env: Rails.env.to_s,
       default_currency: Settings.default_currency,
       facebook: Settings.facebook.to_hash.slice(:pixel_id),
@@ -10,13 +10,16 @@ module ConfigHelper
       recaptcha2: Settings.recaptcha2.to_hash.slice(:site_key)
     }.deep_transform_keys! do |key|
       key.to_s.camelize(:lower)
-    end.merge(
+    end
+    return config unless Settings.end_of_year == true
+
+    config.merge(
       eoyThermometer: eoy_thermometer_config
     )
   end
 
   def eoy_thermometer_config
-    start_date = Date.new(2019, 11, 1)
+    start_date = Date.new(2019, 11, 29)
     end_date = Date.new(2019, 12, 31)
     # end of year goal in cents
     eoy_goal = 60_000_000
