@@ -146,7 +146,6 @@ api_key: <%= ENV['CHAMPAIGN_API_KEY'] %>
 mailer_topic_arn: <%= ENV['MAILING_TOPIC_ARN'] %>
 db_pool_size: <%= ENV['DPS'] %>
 
-
 recaptcha3:
   site_key: <%= ENV['RECAPTCHA_SITE_KEY'] %>
   secret_key: <%= ENV['RECAPTCHA_SECRET_KEY'] %>
@@ -156,3 +155,4 @@ recaptcha2:
   site_key: <%= ENV['RECAP2SIK'] %>
   secret_key: <%= ENV['RECAP2SEK'] %>
 
+end_of_year: <%= ENV['END_OF_YEAR'] || false %>
