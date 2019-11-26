@@ -21,6 +21,7 @@ describe 'api/pages' do
       language
       featured
       image
+      imageset
       url
       donation_page
       plugin_names
