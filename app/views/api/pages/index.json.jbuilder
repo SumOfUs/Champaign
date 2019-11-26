@@ -17,6 +17,7 @@ json.array! @pages do |page|
   )
   json.language page.language.code
   json.image image_url(page)
+  json.imageset images_src_set(page)
   json.url member_facing_page_url(page)
   json.donation_page page.donation_page?
   json.percentage_completed page.plugin_thermometer_data.dig(:percentage).to_f
