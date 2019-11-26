@@ -11,7 +11,7 @@ module Api::PagesHelper
   # List all images required for api/featured.json
   def images_src_set(page)
     %w[medium medium_square large].each_with_index.collect do |size, index|
-      image_url(page, size).to_s + " #{index + 1}x"
+      (url = image_url(page, size)).present? ? (url.to_s + " #{index + 1}x") : nil
     end
   end
 end
