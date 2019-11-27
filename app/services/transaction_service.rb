@@ -5,7 +5,7 @@ module TransactionService
   CURRENCIES = %i[USD GBP EUR CHF AUD NZD CAD].freeze
 
   def totals(date_range = Float::INFINITY..Float::INFINITY)
-    Rails.cache.fetch('EOY_TOTALS_KEY', expires_in: 5.minutes) do
+    Rails.cache.fetch('EOY_TOTALS_KEY', expires_in: Settings.eoy_cache_timer.minutes) do
       CURRENCIES.inject({}) do |result, currency|
         result.merge(currency => count_in_currency(currency, date_range))
       end

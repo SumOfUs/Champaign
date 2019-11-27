@@ -120,3 +120,6 @@ recaptcha3:
 recaptcha2:
   site_key: ''
   secret_key: ''
+
+end_of_year: true
+eoy_cache_timer: <%= ENV['END_OF_YEAR_CACHE_TIMER'] || 1 %>
