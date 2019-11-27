@@ -156,3 +156,4 @@ recaptcha2:
   secret_key: <%= ENV['RECAP2SEK'] %>
 
 end_of_year: <%= ENV['END_OF_YEAR'] || false %>
+eoy_cache_timer: <%= ENV['END_OF_YEAR_CACHE_TIMER'] || 1 %>

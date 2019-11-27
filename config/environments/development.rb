@@ -63,7 +63,12 @@ Rails.application.configure do
 
   # to allow services consuming images through the API to have absolute URLs
   config.action_controller.asset_host = Settings.asset_host
-  config.cache_store = :null_store
+  config.cache_store = :readthis_store, {
+    namespace: 'cache',
+    expires_in: 1.day.to_i,
+    redis: { host: Settings.cache.host,
+             port: Settings.cache.port, drive: :hiredis }
+  }
 
   # Accept requests from any origin in development mode
   config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
