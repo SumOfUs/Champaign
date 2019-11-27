@@ -19,7 +19,7 @@ module ConfigHelper
   end
 
   def eoy_thermometer_config
-    start_date = Date.new(2019, 11, 29)
+    start_date = Date.new(2019, 11, 0o1)
     end_date = Date.new(2019, 12, 31)
     # end of year goal in cents
     eoy_goal = 60_000_000

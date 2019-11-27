@@ -143,3 +143,4 @@ recaptcha2:
   secret_key: 'secret_key'
 
 end_of_year: true
+eoy_cache_timer: 1
