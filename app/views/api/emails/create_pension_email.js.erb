@@ -1,0 +1,11 @@
+<% if @action.member_created %>
+    try{
+      var tracking = JSON.parse('<%= raw FacebookPixel.completed_registration_hash(page: @page, action: @action).to_json %>')
+      if (tracking.user_id) {
+        console.log("called from: app/views/api/emails/create_pension_email.js.erb: 7")
+        window.fbq('track', 'CompleteRegistration', tracking);
+      }
+    }catch(e) { console.log("facebook tracking failed in create_pension_email") }
+<% end %>
+
+window.location = "<%= PageFollower.new_from_page(@page).follow_up_path %>"

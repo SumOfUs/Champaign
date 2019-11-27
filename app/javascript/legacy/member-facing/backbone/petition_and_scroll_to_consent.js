@@ -3,6 +3,7 @@ import I18n from 'champaign-i18n';
 import Backbone from 'backbone';
 import GlobalEvents from '../../../shared/global_events';
 import DoubleOptIn from '../double_opt_in';
+import Cookie from 'js-cookie';
 
 import {
   changeCountry,
@@ -24,6 +25,8 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
   //    after a successfull submission of the action form instead of
   //    the doing the redirect.
   initialize(options = {}) {
+    this.user_id =
+      window.champaign.personalization.member.id || Cookie.get('__bpmx');
     this.store = window.champaign.store;
     this.followUpUrl = options.followUpUrl;
     this.petitionSidebar = $('.center-content__fixed-right');
@@ -57,7 +60,21 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
     }
   },
 
+  triggerRegistrationSuccessEvent(data) {
+    const tracking = data.tracking;
+    const member = window.champaign.personalization.member;
+    if (tracking && !member.id) {
+      if (typeof window.fbq === 'function') {
+        if (tracking.user_id) {
+          window.fbq('track', 'CompleteRegistration', tracking);
+        }
+      }
+    }
+  },
+
   onSubmitSuccess(e, data) {
+    this.triggerRegistrationSuccessEvent(data);
+
     DoubleOptIn.handleActionSuccess(data);
     if (this.onSubmitSuccessCallback) {
       this.onSubmitSuccessCallback();

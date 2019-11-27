@@ -1,4 +1,5 @@
 import * as EventEmitter from 'eventemitter3';
+import Cookie from 'js-cookie';
 import { omit } from 'lodash';
 import * as React from 'react';
 import { render } from 'react-dom';
@@ -99,6 +100,7 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     this.setSubmitting(true);
     return api.pages.createAction(this.config.page_id, this.formValues).then(
       success => {
+        this.triggerCompleteRegistrationEvent(success);
         DoubleOptIn.handleActionSuccess(success);
         this.onComplete();
         return this;
@@ -132,9 +134,9 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
       .then(() => {
         this.store.dispatch(actionFormUpdated(this.formValues));
       })
-      .then(() =>
-        this.events.emit('action:submitted_success', { petition: this })
-      )
+      .then(() => {
+        this.events.emit('action:submitted_success', { petition: this });
+      })
       .then(() => this.onCompleteTransition())
       .then(() => this.emit('complete', this))
       .then(() => this);
@@ -193,4 +195,14 @@ export class Petition extends Plugin<IPetitionPluginConfig> {
     }
     transitionFromTo(this.el.dataset.transition);
   }
+
+  private triggerCompleteRegistrationEvent = response => {
+    const tracking = response.tracking;
+    if (tracking) {
+      const fbq = (window as any).fbq;
+      if (fbq && tracking.user_id) {
+        fbq('track', 'CompleteRegistration', tracking);
+      }
+    }
+  };
 }
