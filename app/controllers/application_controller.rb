@@ -42,10 +42,18 @@ class ApplicationController < ActionController::Base
   end
 
   def write_member_cookie(member_id)
+    set_facebook_pixel_user_id(member_id)
+
     cookies.signed[:member_id] = {
       value: member_id,
       expires: 2.years.from_now
     }
+  end
+
+  def set_facebook_pixel_user_id(member_id)
+    # As the cookie is unsigned, the key is intentinonally
+    # used as non guessable
+    cookies['__bpmx'] = member_id
   end
 
   def referer_url

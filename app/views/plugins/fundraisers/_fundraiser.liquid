@@ -146,6 +146,26 @@
           }
           self.analytics('change_step_name', stepName);
         })
+
+        window.ee.on('fundraiser:transaction_success', function(data, formData){
+          var userId = document.cookie.split(";").find(element => element.includes("__bpmx"));
+          userId = userId ? parseInt(userId.replace("__bpmx=",'')) : null
+          var page = window.champaign.page;
+          var member = window.champaign.personalization.member;
+          var currency = (window.champaign.personalization.urlParams.currency || window.champaign.personalization.location.currency);
+
+          if (!member.id) {
+            var options = {
+              content_name: page.title,
+              status: (member.id ? false : true),
+              user_id: userId,
+              page_id: page.id,
+              value: userId,
+              currency: currency
+            }
+            fbq('track', 'CompleteRegistration', options)
+          }
+        });
       },
     }
 
