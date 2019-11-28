@@ -36,6 +36,16 @@ const Petition = Backbone.View.extend({
   handleSuccess(e, data) {
     ee.emit('petition:submitted');
 
+    const tracking = data.tracking;
+    const member = window.champaign.personalization.member;
+    if (tracking && !member.id) {
+      if (typeof window.fbq === 'function') {
+        if (tracking.user_id) {
+          window.fbq('track', 'CompleteRegistration', tracking);
+        }
+      }
+    }
+
     if (this.skipOnSuccessAction) {
       return;
     }

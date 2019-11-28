@@ -698,7 +698,7 @@ describe 'Braintree API' do
                 subject
                 transaction_id = Payment::Braintree::Transaction.last.transaction_id
                 expect(response.status).to eq 200
-                data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+                data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: page.id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, transaction_id: transaction_id }
                 expect(response.body).to eq(data.to_json)
               end
             end
@@ -761,9 +761,10 @@ describe 'Braintree API' do
 
               it 'responds successfully with transaction_id' do
                 subject
-                transaction_id = Payment::Braintree::Transaction.last.transaction_id
+                transaction = Payment::Braintree::Transaction.last
+                member = transaction.customer.member
                 expect(response.status).to eq 200
-                data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+                data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: page.id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, transaction_id: transaction.transaction_id }
                 expect(response.body).to eq(data.to_json)
               end
 
@@ -907,9 +908,10 @@ describe 'Braintree API' do
 
               it 'responds successfully with transaction_id' do
                 subject
-                transaction_id = Payment::Braintree::Transaction.last.transaction_id
+                transaction = Payment::Braintree::Transaction.last
+                member = transaction.customer.member
                 expect(response.status).to eq 200
-                data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+                data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: page.id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, transaction_id: transaction.transaction_id }
                 expect(response.body).to eq(data.to_json)
               end
             end
@@ -970,9 +972,10 @@ describe 'Braintree API' do
 
               it 'responds successfully with transaction_id' do
                 subject
-                transaction_id = Payment::Braintree::Transaction.last.transaction_id
+                transaction = Payment::Braintree::Transaction.last
+                member = transaction.customer.member
                 expect(response.status).to eq 200
-                data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+                data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: page.id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, transaction_id: transaction.transaction_id }
                 expect(response.body).to eq(data.to_json)
               end
             end
@@ -1025,9 +1028,10 @@ describe 'Braintree API' do
 
               it 'responds successfully with transaction_id' do
                 subject
-                transaction_id = Payment::Braintree::Transaction.last.transaction_id
+                transaction = Payment::Braintree::Transaction.last
+                member = transaction.customer.member
                 expect(response.status).to eq 200
-                data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+                data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: page.id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, transaction_id: transaction.transaction_id }
                 expect(response.body).to eq(data.to_json)
               end
             end
@@ -1247,9 +1251,11 @@ describe 'Braintree API' do
 
             it 'responds successfully with follow_up_url and subscription_id' do
               subject
-              subscription_id = Payment::Braintree::Subscription.last.subscription_id
+              subscription = Payment::Braintree::Subscription.last
+              member = subscription.customer.member
+
               expect(response.status).to eq 200
-              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: subscription.page_id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, subscription_id: subscription.subscription_id }
               expect(response.body).to eq(data.to_json)
             end
           end
@@ -1323,9 +1329,10 @@ describe 'Braintree API' do
 
             it 'responds successfully with follow_up_url and subscription_id' do
               subject
-              subscription_id = Payment::Braintree::Subscription.last.subscription_id
+              subscription = Payment::Braintree::Subscription.last
+              member = subscription.customer.member
               expect(response.status).to eq 200
-              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: subscription.page_id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, subscription_id: subscription.subscription_id }
               expect(response.body).to eq(data.to_json)
             end
           end
@@ -1459,9 +1466,10 @@ describe 'Braintree API' do
 
             it 'responds successfully with follow_up_url and subscription_id' do
               subject
-              subscription_id = Payment::Braintree::Subscription.last.subscription_id
+              subscription = Payment::Braintree::Subscription.last
+              member = subscription.customer.member
               expect(response.status).to eq 200
-              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: page.id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, subscription_id: subscription.subscription_id }
               expect(response.body).to eq(data.to_json)
             end
 
@@ -1539,9 +1547,10 @@ describe 'Braintree API' do
 
             it 'responds successfully with follow_up_url and subscription_id' do
               subject
-              subscription_id = Payment::Braintree::Subscription.last.subscription_id
+              subscription = Payment::Braintree::Subscription.last
+              member = subscription.customer.member
               expect(response.status).to eq 200
-              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: subscription.page_id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, subscription_id: subscription.subscription_id }
               expect(response.body).to eq(data.to_json)
             end
           end
@@ -1594,9 +1603,10 @@ describe 'Braintree API' do
 
             it 'responds successfully with follow_up_url and subscription_id' do
               subject
-              subscription_id = Payment::Braintree::Subscription.last.subscription_id
+              subscription = Payment::Braintree::Subscription.last
+              member = subscription.customer.member
               expect(response.status).to eq 200
-              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              data = { success: true, tracking: { content_name: 'cash-rules-everything-around-me', status: true, user_id: member.id, page_id: subscription.page_id, value: member.id, currency: 'USD' }, follow_up_url: follow_up_url, subscription_id: subscription.subscription_id }
               expect(response.body).to eq(data.to_json)
             end
           end

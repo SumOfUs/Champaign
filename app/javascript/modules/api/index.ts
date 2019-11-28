@@ -6,8 +6,13 @@ export interface IApiErrors {
   [fieldName: string]: string[];
 }
 
+export interface IApiTracking {
+  tracking: object;
+}
+
 export interface IApiResponse {
   errors?: IApiErrors;
+  tracking?: IApiTracking;
 }
 
 const { fetch } = fetchPonyfill();

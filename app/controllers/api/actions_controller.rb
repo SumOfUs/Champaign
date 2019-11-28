@@ -34,7 +34,8 @@ class Api::ActionsController < ApplicationController
         follow_up_url: PageFollower.new_from_page(
           page,
           action.member ? action_params.merge(member_id: action.member_id) : {}
-        ).follow_up_path
+        ).follow_up_path,
+        tracking: FacebookPixel.completed_registration_hash(page: page, action: action)
       }, status: 200
     else
       render json: { errors: validator.errors }, status: 422

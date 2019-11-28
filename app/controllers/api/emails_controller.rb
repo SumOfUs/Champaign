@@ -7,7 +7,10 @@ class Api::EmailsController < ApplicationController
     service = EmailToolSender.new(params[:page_id], email_params, tracking_params)
     if service.run
       write_member_cookie(service.action.member_id)
-      head :no_content
+      render json: {
+        success: true,
+        tracking: FacebookPixel.completed_registration_hash(page: page, action: service.action)
+      }, status: :ok
     else
       render json: { errors: service.errors }, status: :unprocessable_entity
     end
@@ -39,10 +42,15 @@ class Api::EmailsController < ApplicationController
                   end
 
     PensionEmailSender.run(params[:page_id], target_data)
-    action = ManageAction.create(action_params)
-    write_member_cookie(action.member_id)
+    @action = ManageAction.create(action_params)
+    write_member_cookie(@action.member_id)
 
-    render js: "window.location = '#{PageFollower.new_from_page(page).follow_up_path}'"
+    respond_to do |format|
+      format.html do
+        render template: 'api/emails/create_pension_email.js.erb', content_type: 'text/javascript'
+      end
+      format.js
+    end
   end
 
   private
@@ -121,7 +129,7 @@ class Api::EmailsController < ApplicationController
   end
 
   def page
-    Page.find(params[:page_id])
+    @page = Page.find(params[:page_id])
   end
 
   def plugin
