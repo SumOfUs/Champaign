@@ -294,7 +294,7 @@ export class Payment extends Component {
         content_name: this.props.page.title,
         content_ids: [this.props.page.id],
         content_type: 'product',
-        product_catalog_id: 1,
+        product_catalog_id: 445876772724152,
         donation_type: this.props.fundraiser.recurring
           ? 'recurring'
           : 'not_recurring',
