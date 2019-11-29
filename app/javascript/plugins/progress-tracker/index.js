@@ -25,7 +25,9 @@ export default class ProgressTracker {
       if ($('.overlay-visible').length > 0) {
         $header.hide();
       }
-      this.cross('shared');
+      $('[data-step="two"]')
+        .removeClass('progress-tracker__circle--tick')
+        .addClass('progress-tracker__circle--cross');
     });
   }
 
