@@ -39,7 +39,7 @@ export class FundraiserView extends Component {
         content_ids: [this.props.page.id],
         content_type: 'product',
         user_id: userId,
-        product_catalog_id: 1,
+        product_catalog_id: 445876772724152,
         page_id: this.props.page.id,
       });
     }
