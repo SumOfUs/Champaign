@@ -89,6 +89,11 @@
     }
 
     function petitionCallback(e, data) {
+      fbq("track", "CompleteRegistration");
+      var state = champaign.myPetition.store.getState();
+      if (state.consent.consented && state.member === null) {
+        fbq("track", "Lead");
+      }
       petitionSidebar.fadeOut();
       petitionOverlayButton.fadeOut();
       displayAndScrollToYesNoQuestion();
@@ -124,7 +129,7 @@
 
     window.ee.on('fundraiser:transaction_success', function(responseData, formData) {
       var fundraiserData = champaign.store.getState().fundraiser;
-      fbq('track', 'CompleteRegistration', {
+      fbq('track', 'Donate', {
         registered_member: champaign.personalization.member.registered,
         currency: fundraiserData.currency,
         value: fundraiserData.donationAmount
