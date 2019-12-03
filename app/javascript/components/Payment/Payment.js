@@ -120,6 +120,11 @@ export class Payment extends Component {
   }
 
   selectPaymentType(paymentType) {
+    console.log('clicked');
+    if (window.screen.height < 650) {
+      const bar = document.getElementsByClassName('fundraiser-bar__content')[0];
+      bar.scrollTo(0, 201);
+    }
     this.props.setPaymentType(paymentType);
   }
 
