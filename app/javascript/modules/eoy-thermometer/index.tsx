@@ -10,7 +10,7 @@ export const init = options => {
   return new DonationsThermometer({
     // I have to pass both config and props. Config is specified in the plugin interface, and the logic for the
     // component itself requires either store or props.
-    component: Thermometer,
+    // component: Thermometer,
     config: options,
     props: options,
     el: element,

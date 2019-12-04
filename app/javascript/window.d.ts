@@ -89,7 +89,6 @@ interface IDonationsThermometerPluginConfig extends IPluginConfig {
   offset: number;
   title: string;
   percentage: number;
-  currency: string;
   totalDonations: { [k: string]: number };
   goals: { [k: string]: number };
 }
