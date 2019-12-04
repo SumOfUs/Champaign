@@ -1,5 +1,19 @@
-p style="font-family:Arial,sans-serif;font-size:20px;text-align:center;margin-bottom:20px;"
-  | Klicken Sie hier, um Ihre Unterschrift zu bestätigen und sicherzustellen, dass Sie auch weiterhin die E-Mails von SumOfUs erhalten.
+h3 Hallo #{@name.titleize},
 
-a href='#{confirm_api_action_confirmations_url(token: @token, consented: true)}' style="margin-left:15px;margin-right:15px;display:block;border-bottom:10px;border:#000;padding-top:10px;padding-bottom:10px;padding-right:10px;padding-left:10px;font-family:Arial,sans-serif;font-size:20px;color:#ffffff;line-height:24px;text-align:center;background-color:#f8492e;border-radius:2px;width:220px;margin-left:auto;margin-right:auto;margin-bottom:0px;font-weight:400;text-decoration:none" target="_blank"
-  | Meine Unterschrift validieren
+p Sie haben gerade die SumOfUs-Petition "#{@page.title}" unterzeichnet. Jetzt müssen Sie Ihre Teilnahme nur noch durch den Klick auf einen der nachfolgenden Links bestätigen.
+
+p Ihr Engagement entscheidet, ob unsere Petitionen und Aktionen erfolgreich sind. Wir möchten Sie daher in entscheidenden Momenten per E-Mail informieren. Sie können sich jederzeit entscheiden, keine weiteren E-Mails zu erhalten.
+
+p Bitte klicken Sie hier:
+
+h3
+ = link_to "Ich möchte teilnehmen und weiter informiert werden", confirm_api_action_confirmations_url(token: @token, consented: true)
+p
+ = link_to "Ich möchte teilnehmen, aber verzichte auf weitere Informationen", confirm_api_action_confirmations_url(token: @token)
+
+p Nur wenn Sie Ihre Unterschrift bestätigen, zählt Ihre Stimme!
+
+p
+  | Mit herzlichen Grüßen
+  br
+  | Das Team von SumOfUs
