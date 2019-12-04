@@ -194,6 +194,10 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
     follow_up_liquid_layout.try(:title).to_s.downcase.include?('donat')
   end
 
+  def petition_page?
+    try(:liquid_layout).try(:title).to_s.downcase.include?('petition')
+  end
+
   # Mostly donations comes as followup action
   # So for page which has petition and followup as donation
   # the page is considered as petition page.

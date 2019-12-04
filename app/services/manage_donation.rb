@@ -5,8 +5,7 @@ class ManageDonation
     page = Page.find(params[:page_id])
     akit_donation_page_id = page.ak_donation_resource_uri.to_s.gsub(%r{/$}, '').split('/').last
     source = params[:source] || 'website'
-
-    if page.donation_followup? && akit_donation_page_id.present?
+    if page.petition_page? && akit_donation_page_id.present?
       source = "post-action-#{akit_donation_page_id}-#{source}"
       params[:source] = source
     end
