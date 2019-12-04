@@ -61,11 +61,12 @@
 
   .body-text.text-top {
     min-height: unset;
-    width: 70%;
+    width: 80%;
     margin: 20px 0;
     margin-left: 7%;
     padding: 0;
     color: black;
+    max-width: 100ch;
     @media (max-width: 580px) {
       width: 90%;
       margin: 0 auto;
@@ -75,7 +76,7 @@
 
   #email-pension-component {
     display: flex;
-    width: 70%;
+    width: 80%;
     margin: 0;
     margin-left: 7%;
     padding: 20px;
@@ -84,10 +85,14 @@
     border: solid 0.4px #dfdfdf;
     background-color: #ffffff;
     margin-bottom: 150px;
+    max-width: 90ch;
     @media (max-width: 580px) {
       width: 90%;
       margin: 0 auto;
       padding: 10px;
+    }
+    .App {
+      width: 100%;
     }
   }
 

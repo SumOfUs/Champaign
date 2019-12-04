@@ -10,11 +10,12 @@
 
 .email-tool {
   .body-text {
-    width: 70%;
+    width: 80%;
     margin: 0;
     margin-left: 7%;
     padding: 2em 0;
     min-height: unset;
+    max-width: 100ch;
     @media (max-width: 580px) {
       width: 90%;
       text-align: left;
@@ -25,16 +26,20 @@
 }
 
 #email-tool-component {
-  width: 70%;
+  width: 80%;
   margin: 0;
   margin-left: 7%;
   margin-bottom: 150px;
+  max-width: 90ch;
   @media (max-width: 580px) {
     width: 90%;
     margin: 0 auto;
   }
   form__group {
     margin-bottom: 15px;
+  }
+  .EmailToolView-form {
+    width: 100%;
   }
 }
 .EmailToolView-title {

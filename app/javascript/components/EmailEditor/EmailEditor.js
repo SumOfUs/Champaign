@@ -52,6 +52,7 @@ export default class EmailEditor extends Component {
 
   componentDidMount() {
     this.update();
+    this.checkHeaderFooter();
   }
 
   componentDidUpdate() {
@@ -84,6 +85,17 @@ export default class EmailEditor extends Component {
       if (!editorState.getLastChangeType()) return;
       this.update();
     });
+  };
+
+  checkHeaderFooter = () => {
+    if (this.props.header && this.props.footer) {
+      if ($(this.props.header)[0].innerText.trim().length === 0) {
+        $('.EmailEditor-header').css('display', 'none');
+      }
+      if ($(this.props.footer)[0].innerText.trim().length === 0) {
+        $('.EmailEditor-footer').css('display', 'none');
+      }
+    }
   };
 
   // class applied to content blocks
