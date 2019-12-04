@@ -56,7 +56,7 @@ class ManageBraintreeDonation
   def request_source
     return nil unless akit_donation_page_id.present?
 
-    page.donation_followup? ? "post-action-#{akit_donation_page_id}-#{original_source}" : nil
+    page.petition_page? ? "post-action-#{akit_donation_page_id}-#{original_source}" : nil
   end
 
   def original_source

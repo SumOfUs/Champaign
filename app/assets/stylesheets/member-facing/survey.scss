@@ -55,6 +55,7 @@
   .form--big .hosted-fields__host {
     -webkit-appearance: none;
     border-radius: 0;
+    background: #f9f9f9;
     &.has-error {
       border-color: $orange;
     }
