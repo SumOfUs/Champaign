@@ -16,7 +16,7 @@ class Api::DonationsController < ApplicationController
       meta: { start: start_date.to_s, end: end_date.to_s },
       data: {
         total_donations: TransactionService.totals(start_date...end_date),
-        eoy_goals: TransactionService.goals(60_000_000)
+        eoy_goals: TransactionService.goals(50_000_000)
       }
     }
 

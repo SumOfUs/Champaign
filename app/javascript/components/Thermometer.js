@@ -8,7 +8,6 @@ import './Thermometer.scss';
 export function Thermometer(props) {
   // Only render if active
   if (isEmpty(props) || !props.active) return null;
-  console.log('PROPS:', props);
   const currency = props.currency;
   const goal = props.goals[currency];
 

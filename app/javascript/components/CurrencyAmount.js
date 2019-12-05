@@ -9,7 +9,6 @@ const CONFIG = {
 
 export default function CurrencyAmount(props) {
   const { currency, amount } = props;
-  console.log('Currency:', currency);
 
   switch (currency) {
     case 'USD':
