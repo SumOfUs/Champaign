@@ -21,6 +21,13 @@ export default function CurrencyAmount(props) {
           <FormattedNumber {...CONFIG} style="decimal" value={props.amount} />
         </span>
       );
+    case 'EUR':
+      return (
+        <span>
+          <FormattedNumber {...CONFIG} style="decimal" value={props.amount} />
+          {'€'}
+        </span>
+      );
     default:
       return <FormattedNumber {...CONFIG} currency={currency} value={amount} />;
   }

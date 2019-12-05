@@ -12,11 +12,13 @@ import Plugin, { IPluginOptions } from '../plugin';
 interface IDonationsThermometerOptions
   extends IPluginOptions<IDonationsThermometerPluginConfig> {
   props?: any;
+  component?: any;
 }
 export default class DonationsThermometer extends Plugin<
   IDonationsThermometerPluginConfig
 > {
   public props?: any;
+  public component?: any;
   public customRenderer: (instance: DonationsThermometer) => any;
 
   constructor(options: IDonationsThermometerOptions) {
@@ -40,6 +42,10 @@ export default class DonationsThermometer extends Plugin<
       this.store = options.store;
     }
 
+    if (options.component) {
+      this.component = options.component;
+    }
+
     this.render();
   }
 
@@ -57,6 +63,15 @@ export default class DonationsThermometer extends Plugin<
       );
     }
     this.store.dispatch(update(attrs));
+  }
+
+  public renderWithComponent() {
+    return render(
+      <ComponentWrapper store={this.store} locale={window.I18n.locale}>
+        <this.component {...this.props} />
+      </ComponentWrapper>,
+      this.el
+    );
   }
 
   /**
@@ -117,6 +132,10 @@ export default class DonationsThermometer extends Plugin<
   // Renders a component with props or with the redux store.
   // Props will always take precedence if present.
   public render() {
+    if (this.component) {
+      return this.renderWithComponent();
+    }
+
     if (this.props) {
       return this.renderWithProps();
     }
