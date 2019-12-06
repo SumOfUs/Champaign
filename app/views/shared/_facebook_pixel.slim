@@ -6,3 +6,28 @@ javascript:
   document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', "#{Settings.facebook.pixel_id}");
   fbq('track', 'PageView');
+
+  try{
+    if (window.location.search.match(/payment=completed/)) {
+      var gc_pay = document.cookie.split(";").find(element => element.includes("__gc_pay"));
+      if(gc_pay) {
+        var userId = window.champaign.personalization.member.id || Cookie.get('__bpmx');
+        gc_pay = gc_pay.replace(" __gc_pay=", '');
+        [page_id, amount, currency, payment_type] = gc_pay.split("-")
+        fbq('track', 'Purchase', {
+          user_id: userId,
+          page_id: page_id,
+          value: amount,
+          currency: currency,
+          content_name: window.champaign.page.title,
+          content_ids: [page_id],
+          content_type: 'product',
+          product_catalog_id: 445876772724152,
+          donation_type: payment_type
+        });
+        document.cookie = "__gc_pay=;Path=/;expires = Thu, 01 Jan 1970 00:00:00 GMT"
+      }
+    }
+  }catch(e){
+    // do nothing
+  }

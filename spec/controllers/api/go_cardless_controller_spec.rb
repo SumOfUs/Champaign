@@ -73,7 +73,7 @@ describe Api::GoCardlessController do
         end
 
         it 'responds by redirecting to the follow up page' do
-          expect(response).to redirect_to(follow_up_page_path(page))
+          expect(response).to redirect_to(follow_up_page_path(page, payment: 'completed'))
         end
 
         it 'sets the member cookie' do
