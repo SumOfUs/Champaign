@@ -62,12 +62,10 @@ RSpec.describe PensionFund, type: :model do
   describe 'filter_by_country_code' do
     before do
       PensionFundsJsonImporter.new(au_json_file, 'AU').import
-      PensionFundsJsonImporter.new(be_json_file, 'BE').import
     end
 
     it 'should list out respective country funds' do
-      expect(PensionFund.filter_by_country_code('AU').size).to eql 42
-      expect(PensionFund.filter_by_country_code('BE').size).to eql 1
+      expect(PensionFund.filter_by_country_code('AU').size).to eql 5
     end
   end
 end
