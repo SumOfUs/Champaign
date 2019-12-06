@@ -32,7 +32,7 @@ describe PensionFundsJsonImporter do
 
       @importer.import
       expect(@importer.errors).to be_empty
-      expect(PensionFund.count).to eql 42
+      expect(PensionFund.count).to eql 5
     end
   end
 
