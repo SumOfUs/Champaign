@@ -108,8 +108,12 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
     # conditional below ensures that the member_id is present if it should be, but it is
     # usually already included because of the logic to pass member_id to the follow_up_url
     # returned when an action is taken.
+
+    # added payment param to identify the followup happens
+    # post successful payment.
     if member_id_should_be_present
-      return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
+      return redirect_to follow_up_member_facing_page_path(@page,
+                                                           member_id: recognized_member.id, payment: params[:payment])
     end
 
     @rendered = renderer.render_follow_up

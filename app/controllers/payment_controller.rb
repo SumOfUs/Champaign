@@ -4,6 +4,7 @@ class PaymentController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
   before_action :localize_from_page_id, only: :transaction
   before_action :authenticate_user!, only: :generate_cookie
+  before_action :clear_payment_completed_cookie, only: [:transaction]
 
   def generate_cookie
     @email = params[:email]
@@ -48,11 +49,13 @@ class PaymentController < ApplicationController
         value: existing_payment_methods.uniq.join(','),
         expires: 1.year.from_now
       }
-
     end
 
     respond_to do |format|
-      format.html { redirect_to follow_up_page_path(page) }
+      format.html do
+        set_payment_completed_cookie
+        redirect_to follow_up_page_path(page, payment: 'completed')
+      end
       format.json do
         render json: {
           success: true,
@@ -82,6 +85,18 @@ class PaymentController < ApplicationController
   end
 
   private
+
+  # For tracking gocardless payment complete action
+  # in client side
+  def set_payment_completed_cookie
+    data = [params[:page_id], params[:amount], params[:currency],
+            (recurring? ? 'recurring' : 'non_recurring')].join('-')
+    cookies['__gc_pay'] = data
+  end
+
+  def clear_payment_completed_cookie
+    cookies.delete('__gc_pay')
+  end
 
   def recurring?
     @recurring ||= ActiveRecord::Type::Boolean.new.cast(params[:recurring])
