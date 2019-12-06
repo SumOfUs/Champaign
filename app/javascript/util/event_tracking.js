@@ -10,6 +10,8 @@ import { logEvent } from './log_event';
   'petition:submitted',
   'fundraiser:transaction_submitted',
   'action:submitted_success',
+  'two_step:accept',
+  'two_step:decline',
 ].forEach(eventName => {
   const callback = (...rest) => logEvent(eventName, ...rest);
   ee.on(eventName, callback);
