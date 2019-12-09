@@ -18,6 +18,10 @@ export default class EmailEditor extends Component {
     super(props);
     const fn = this.props.templateInterpolate || interpolateVars;
 
+    // Check whether the header/footer is configured
+    this.hasHeaderValue = this.props.header && this.hasValue(this.props.header);
+    this.hasFooterValue = this.props.footer && this.hasValue(this.props.footer);
+
     this.state = {
       subject: interpolateVars(props.subject, props.templateVars),
       editorState: EditorState.createWithContent(
@@ -86,6 +90,12 @@ export default class EmailEditor extends Component {
     });
   };
 
+  hasValue = content => {
+    let parser = new DOMParser();
+    let parsedValue = parser.parseFromString(content, 'text/html');
+    return parsedValue.lastElementChild.innerText.trim().length ? true : false;
+  };
+
   // class applied to content blocks
   blockStyleFn = () => 'editor-content-block';
 
@@ -119,7 +129,7 @@ export default class EmailEditor extends Component {
         <FormGroup>
           <FormGroup className={bodyClassName}>
             <div className="EmailEditor-body">
-              {header && (
+              {this.hasHeaderValue && (
                 <div
                   className="EmailEditor-header"
                   dangerouslySetInnerHTML={{ __html: this.state.header }}
@@ -130,7 +140,7 @@ export default class EmailEditor extends Component {
                 onChange={this.onEditorChange}
                 blockStyleFn={this.blockStyleFn}
               />
-              {footer && (
+              {this.hasFooterValue && (
                 <div
                   className="EmailEditor-footer"
                   dangerouslySetInnerHTML={{ __html: this.state.footer }}
