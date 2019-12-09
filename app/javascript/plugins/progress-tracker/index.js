@@ -21,7 +21,7 @@ export default class ProgressTracker {
       },
       false
     );
-    $('.two-step__decline').on('click', () => {
+    ee.on('two_step:decline', () => {
       if ($('.overlay-visible').length > 0) {
         $header.hide();
       }
