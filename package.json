@@ -36,6 +36,7 @@
     "libphonenumber-js": "^1.7.20",
     "lodash": "^4.17.13",
     "mailcheck": "^1.1.1",
+    "memoize-one": "^5.1.1",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.1",

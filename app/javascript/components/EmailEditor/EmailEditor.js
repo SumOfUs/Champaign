@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import { Editor, EditorState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
+import memoizeOne from 'memoize-one';
 import './EmailEditor.scss';
 
 const MAX_SUBJECT_LENGTH = 64;
@@ -86,11 +87,23 @@ export default class EmailEditor extends Component {
     });
   };
 
+  hasValue = memoizeOne(content => {
+    if (content) {
+      let parser = new DOMParser();
+      let parsedValue = parser.parseFromString(content, 'text/html');
+      return parsedValue.lastElementChild.innerText.trim().length > 0;
+    }
+    return false;
+  });
+
   // class applied to content blocks
   blockStyleFn = () => 'editor-content-block';
 
   render() {
     const { header, footer, errors } = this.props;
+
+    const hasHeaderValue = this.hasValue(header);
+    const hasFooterValue = this.hasValue(footer);
 
     const bodyClassName = classnames({
       'has-error': errors.body && errors.body.length > 0,
@@ -119,7 +132,7 @@ export default class EmailEditor extends Component {
         <FormGroup>
           <FormGroup className={bodyClassName}>
             <div className="EmailEditor-body">
-              {header && (
+              {hasHeaderValue && (
                 <div
                   className="EmailEditor-header"
                   dangerouslySetInnerHTML={{ __html: this.state.header }}
@@ -130,7 +143,7 @@ export default class EmailEditor extends Component {
                 onChange={this.onEditorChange}
                 blockStyleFn={this.blockStyleFn}
               />
-              {footer && (
+              {hasFooterValue && (
                 <div
                   className="EmailEditor-footer"
                   dangerouslySetInnerHTML={{ __html: this.state.footer }}
