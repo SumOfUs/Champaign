@@ -208,7 +208,7 @@ describe 'GoCardless API' do
 
         it "redirects to the page's follow-up path" do
           subject
-          expect(response.status).to redirect_to(follow_up_page_path(page))
+          expect(response.status).to redirect_to(follow_up_page_path(page, payment: 'completed'))
         end
 
         it 'creates a Customer record with relevant data and associations' do
