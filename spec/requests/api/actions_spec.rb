@@ -231,7 +231,8 @@ describe 'Api Actions' do
               action_mobile: 'unknown',
               action_referer: nil,
               user_en: 1,
-              consented: anything
+              consented: anything,
+              source: 'website'
             }
           )
 
