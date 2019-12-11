@@ -8,7 +8,7 @@ class Api::ActionsController < ApplicationController
   def create
     # TODO: Move form validator to ManageAction
     validator = FormValidator.new(action_params.to_h)
-    action_params[:source] = action_params[:source] || 'website'
+    action_params[:source] = action_params[:source] || detect_source
 
     if validator.valid?
       action = ManageAction.create action_params
@@ -41,6 +41,12 @@ class Api::ActionsController < ApplicationController
     else
       render json: { errors: validator.errors }, status: 422
     end
+  end
+
+  def detect_source
+    return 'website' unless params[:akid].present?
+
+    params[:akid].to_s.split('.').reject(&:blank?).size == 3 ? 'email' : 'website'
   end
 
   def validate
