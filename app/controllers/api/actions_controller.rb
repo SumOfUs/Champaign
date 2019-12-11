@@ -46,7 +46,7 @@ class Api::ActionsController < ApplicationController
   def detect_source
     return 'website' unless params[:akid].present?
 
-    params[:akid].to_s.split('.').size == 3 ? 'email' : 'website'
+    params[:akid].to_s.split('.').reject(&:blank?).size == 3 ? 'email' : 'website'
   end
 
   def validate
