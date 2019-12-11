@@ -8,6 +8,7 @@ class Api::ActionsController < ApplicationController
   def create
     # TODO: Move form validator to ManageAction
     validator = FormValidator.new(action_params.to_h)
+    action_params[:source] = action_params[:source] || 'website'
 
     if validator.valid?
       action = ManageAction.create action_params
