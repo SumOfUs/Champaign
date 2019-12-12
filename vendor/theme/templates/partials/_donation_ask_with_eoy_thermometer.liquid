@@ -40,10 +40,16 @@
     $(document).ready(function(){
         var currency = window.champaign.store.getState().fundraiser.currency;
         var data = window.champaign.configuration.eoyThermometer.data;
-        var config = {...data, currency: currency };
-        window.champaign.modules.load('eoy-thermometer', config)
-        // .then(EoyThermometer => {
-        //     console.log("Success?", EoyThermometer)
-        // })
+        if (data.total_donations[currency] >= data.goals[currency]) {
+            $('#eoy-thermometer').addClass('hidden-irrelevant');
+        }
+        else {
+            var config = {...data, currency: currency };
+            window.champaign.modules.load('eoy-thermometer', config)
+            // .then(EoyThermometer => {
+            //     console.log("Success?", EoyThermometer)
+            // })
+        }
     });
 </script>
+

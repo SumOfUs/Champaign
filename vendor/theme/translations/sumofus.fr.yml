@@ -68,6 +68,7 @@ fr:
     next: "Next"
   share:
     cta: Partagez la campagne avec vos ami-e-s afin de tripler votre impact !
+    cta_thanks: Merci, vous êtes fantastique ! Maintenant, pouvez-vous partager la campagne avec vos amis pour tripler votre impact ?
     send_email: Envoyer un courriel
     share: Partager
     tweet: Tweeter
