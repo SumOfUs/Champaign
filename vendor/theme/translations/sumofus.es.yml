@@ -67,7 +67,8 @@ es:
     thanks_for_signing: 'Gracias por firmar "%{petition_title}"'
     next: "Siguiente"
   share:
-    cta: ¡Comparte la campaña con tus amigos para triplicar tu impacto!
+    cta: "¡Comparte la campaña con tus amigos para triplicar tu impacto!"
+    cta_thanks: "Gracias, ¡eres increíble! Y ahora, ¿puedes compartir esta campaña con tus amigos para triplicar tu impacto?"
     send_email: Enviar correo
     share: Compartir
     tweet: Tweet

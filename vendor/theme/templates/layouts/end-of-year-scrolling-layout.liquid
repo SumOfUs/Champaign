@@ -64,7 +64,8 @@
     <div class="center-content__one-column">
         <div class="center-content__central-square">
 
-            <div class="thank-you__cta">{{ 'share.cta' | t }}</div>
+            <div class="thank-you__cta" id="second_step_ask">{{ 'share.cta' | t }}</div>
+            <div class="thank-you__cta hidden-irrelevant" id="second_step_ask_thanks">{{ 'share.cta_thanks' | t }}</div>
 
             <div class="center-content__centered-element">
                 {% include 'Share' %}
@@ -90,8 +91,8 @@
             onSubmitSuccess: petitionCallback
         });
 
-        $('.two-step__accept').click(displayAndScrollToDonate);
-        $('.two-step__decline').click(displayAndScrollToShare);
+        window.ee.on('two_step:accept', displayAndScrollToDonate);
+        window.ee.on('two_step:decline', function(){displayAndScrollToShare(false)});
 
         function makeStepFullScreen(stepElement) {
             var padding = parseInt(stepElement.css('padding-top'), 10);
@@ -114,7 +115,17 @@
             scrollTo(yesNoQuestion);
         }
 
-        function displayAndScrollToShare() {
+        function displayAndScrollToShare(donated) {
+            if(donated){
+            // show thank you copy
+                $("#second_step_ask").addClass('hidden-irrelevant');
+                $("#second_step_ask_thanks").removeClass('hidden-irrelevant');
+            }
+            else {
+            // show copy without thanks
+                $("#second_step_ask_thanks").addClass('hidden-irrelevant');
+                $("#second_step_ask").removeClass('hidden-irrelevant');
+            }
             makeStepFullScreen(shareStep);
             shareStep.fadeIn();
             scrollTo(shareStep);
@@ -139,7 +150,7 @@
                 currency: fundraiserData.currency,
                 value: fundraiserData.donationAmount
             });
-            displayAndScrollToShare();
+            displayAndScrollToShare(true);
         });
 
         window.addEventListener('share', function (e) {
