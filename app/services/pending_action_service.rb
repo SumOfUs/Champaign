@@ -50,7 +50,7 @@ class PendingActionService
       email: email,
       name: payload[:name],
       page: page,
-      language_code: page.language_code
+      subject: subject
     }
   end
 
