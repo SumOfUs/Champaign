@@ -19,7 +19,7 @@
 
     <div class="thank-you__cta">
         <span class="two-step__question">
-            {{ 'fundraiser.two_step.cta_eoy' | t }}
+            {{ 'fundraiser.two_step.cta' | t }}
         </span>
     </div>
 
@@ -45,11 +45,11 @@
         function updateRemainder () {
             var state = window.champaign.store.getState();
             var currency = state.fundraiser.currency;
-            var currencyFormatter = new Intl.NumberFormat(window.I18n.locale, { 
-                style: 'currency', 
+            var currencyFormatter = new Intl.NumberFormat(window.I18n.locale, {
+                style: 'currency',
                 currency: currency,
                 minimumFractionDigits: 0,
-                maximumFractionDigits: 0 
+                maximumFractionDigits: 0
             });
             var raised = state.donationsThermometer.totalDonations[currency];
             var goal = state.donationsThermometer.goals[currency];
