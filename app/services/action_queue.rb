@@ -6,8 +6,9 @@ module ActionQueue
   module Enqueable
     extend ActiveSupport::Concern
 
-    def initialize(action)
+    def initialize(action, mailing_id = nil)
       @action = action
+      @mailing_id = mailing_id
     end
 
     def push
@@ -83,7 +84,7 @@ module ActionQueue
   end
 
   class Pusher
-    def self.push(event, action)
+    def self.push(event, action, _mailing_id)
       case event
       when :new_action
         if action.donation
@@ -118,7 +119,8 @@ module ActionQueue
         type: 'action',
         params: {
           page: get_page_name,
-          email: @action.member.email
+          email: @action.member.email,
+          mailing_id: @mailing_id
         }.merge(@action.form_data)
           .merge(UserLanguageISO.for(page.language))
           .tap do |params|
@@ -167,7 +169,8 @@ module ActionQueue
           }.merge(fake_card_info),
           action: action_data,
           user: user_data,
-          referring_akid: @action.form_data['referring_akid']
+          referring_akid: @action.form_data['referring_akid'],
+          mailing_id: @mailing_id
         }
       }
     end
@@ -188,7 +191,8 @@ module ActionQueue
           }.merge(fake_card_info),
           action: action_data,
           user: user_data,
-          referring_akid: @action.form_data['referring_akid']
+          referring_akid: @action.form_data['referring_akid'],
+          mailing_id: @mailing_id
         }
       }
     end

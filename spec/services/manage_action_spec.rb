@@ -6,10 +6,16 @@ describe ManageAction do
   before do
     allow(ChampaignQueue).to receive(:push)
     allow(Analytics::Page).to receive(:increment)
+    allow(AkidParser).to receive(:parse).and_return(actionkit_user_id: 29_384, mailing_id: 12_309)
   end
 
   let(:page) { create(:page, title: 'Foo Bar') }
-  let(:data) { { email: 'bob@example.com', page_id: page.id, referring_akid: '123.456.xyz' } }
+  let(:data) {
+    { email: 'bob@example.com',
+      page_id: page.id,
+      referring_akid: '123.456.xyz',
+      akid: '67012.14923663.zmxSDg' }
+  }
   let(:first_name) { { first_name: 'Bobtholomew' } }
   let(:extraneous) { { is_delta_shareholder: true, eye_color: 'hazel' } }
 
@@ -35,7 +41,8 @@ describe ManageAction do
           email: 'bob@example.com',
           page_id: page.id,
           referring_akid: '123.456.xyz',
-          user_en: 1
+          user_en: 1,
+          mailing_id: 12_309
         )
       }
 
@@ -45,6 +52,12 @@ describe ManageAction do
     end
 
     describe 'new member' do
+      let(:member) { create(:member, first_name: first_name, id: 123) }
+
+      before do
+        allow(Member).to receive(:new).and_return(member)
+      end
+
       it 'creates an member' do
         expect { subject }.to change { Member.count }.by 1
       end
@@ -76,6 +89,26 @@ describe ManageAction do
           .and_call_original
 
         ManageAction.create(data.merge(id: 200))
+      end
+
+      it 'pushes to the queue with member_id in meta so an AKID can be assigned to the member on the worker' do
+        payload = {
+          type: 'action',
+          meta: hash_including(
+            member_id: 123
+          ),
+          params: hash_including(
+            page: "#{page.slug}-petition",
+            email: 'bob@example.com',
+            page_id: page.id,
+            referring_akid: '123.456.xyz',
+            user_en: 1
+          )
+        }
+
+        expect(ChampaignQueue).to receive(:push)
+          .with(payload, group_id: /action:\d+/)
+        subject
       end
     end
 
