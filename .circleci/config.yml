@@ -22,10 +22,6 @@ jobs:
       - run:
           name: Install node_modules with Yarn
           command: yarn --frozen-lockfile
-      - run: echo $EXTERNAL_ASSETS_PATH
-      - run:
-          name: Download external assets
-          command: bundle exec rake assets:download_external_assets[$EXTERNAL_ASSETS_PATH,$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH]
       - save_cache:
           key: gems-{{ checksum "Gemfile.lock" }}
           paths:
@@ -40,7 +36,6 @@ jobs:
             - vendor/bundle
             - node_modules
             - .bundle
-            - tmp/external_assets_source
   # flow:
   #   <<: *defaults
   #   steps:
@@ -61,9 +56,6 @@ jobs:
           command: yarn run test
 
   precompile_assets:
-    # TODO: change epoch in cache key to git commit sha of the last commit in the sou-assets repo
-    # (Branch is either current branch, $DEFAULT_ASSET_BRANCH, or 'master', in that order):
-    # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
     <<: *defaults
     environment:
       RAILS_ENV: production

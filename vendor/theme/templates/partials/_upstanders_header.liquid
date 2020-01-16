@@ -1,0 +1,35 @@
+<link href="https://fonts.googleapis.com/css?family=Raleway:400,700,900" rel="stylesheet">
+<style type="text/css">
+  body {
+    background: #00c0cf;
+    padding-top: 30px;
+  }
+</style>
+
+<div class="ups-header">
+  <a href="/"><div class="ups-header__logo">Upstanders</div></a>
+  <div class="fa fa-bars ups-header__open-nav"></div>
+  <div class="ups-header__links">
+    <a href="/how-we-win" class="ups-header__link">How we'll win</a>
+    <a href="/how-we-stand-up" class="ups-header__link">How we stand up</a>
+    <a href="/about" class="ups-header__link">About</a>
+    <a href="/#join" class="ups-header__button">Join Us</a>
+    <div class="fa fa-times ups-header__close-nav"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.ups-header__open-nav, .ups-header__close-nav').on('click', function(){
+      $('.ups-header__links').toggleClass('ups-header__links--open');
+    });
+
+    var autoRecognize = function() {
+      if (window.champaign.personalization.member.action_upstander) {
+        $('.ups-header__button').text('Get started');
+      }
+    }
+
+    autoRecognize();
+  });
+</script>

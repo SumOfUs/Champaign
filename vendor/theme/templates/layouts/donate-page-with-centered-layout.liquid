@@ -1,0 +1,90 @@
+{% comment %} Description: The page for taking donations with a wide cover photo.{% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+<div class="donate-page-with-centered-layout">
+
+    {% include 'Full Width Header' %}
+    <style>
+    .fundraiser-bar__main{
+
+    }
+    
+    .center-content__big-column{
+        width:100% !important;
+    }
+    
+    .cover-photo__titles .center-content__big-column{
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        float:none;
+    }
+    
+    #sticky-wrapper{
+        top: -230px;
+        max-width: 500px;
+        margin-right: auto;
+        margin-left: 4%;
+    }
+    
+    #sticky-wrapper h2{
+            text-align:center; 
+    }
+    
+    .cover-photo{
+        background:none !important;
+    }
+    
+    .cover-photo__titles{
+        top:80px;
+    }
+    
+    .fundraiser-bar.sidebar.overlay-toggle{
+        top: -202px !important;
+    }
+    
+    body{
+        background-image: url({{ primary_image.urls.large }});
+        background-size:cover;
+        background-repeat:no-repeat;
+        background-position:center center;
+    }
+    
+    #fa-content-container{
+        top: -202px;
+        position: relative;
+        margin-bottom: 30px;
+        max-width: 460px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+        background-color: #ececec;
+        padding: 20px;
+        /*margin-top: 81px;*/
+    } 
+    
+    
+    @media only screen and (max-width : 767px) {
+        #fa-content-container{
+            margin-top: 81px;
+            top: 0px;
+            position: static;
+        }
+    }
+    
+    </style>
+    <div class="center-content">
+    <div id="fa-content-container">{{ content }}</div>
+    <div>
+        {% include 'Fundraiser', extra_class: 'overlay-toggle' %}
+    </div>
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        window.sumofus.mySticky = new window.sumofus.DesktopSticky({extraClass: 'fundraiser'});
+    });
+    </script>
+
+    {% include 'Fundraiser Mobile Footer' %}
+    {% include 'Simple Footer' %}
+</div>

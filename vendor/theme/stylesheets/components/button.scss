@@ -1,0 +1,136 @@
+@mixin button($color) {
+  @include box-sizing(border-box);
+  width: 100%;
+  height: 60px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  display: block;
+  padding-top: 23px;
+  text-decoration: none;
+  text-align: center;
+
+  // main color scheme
+  background-color: $color;
+
+  &:hover, &:active {
+    background-color: darken($color, 5%);
+    text-decoration: none;
+  }
+  &:active {
+    outline: none;
+    @include box-shadow(inset darken($color, 15%) 0 3px 10px);
+  }
+}
+
+.button {
+  @include button($orange);
+
+  &--disabled {
+    @include button($slate-gray);
+    cursor: auto;
+    &:hover, &:active {
+      box-shadow: none;
+      background-color: $slate-gray;
+    }
+  }
+  &--inverted {
+    @include box-shadow(0 0 0 2px $orange inset);
+    color: $orange;
+    background: white;
+    &:hover {
+      background: lighten($orange, 38%);
+    }
+    &:active {
+      outline: none;
+      @include box-shadow(0 0 1px 2px $orange inset);
+    }
+    &.button--disabled {
+      @include filter(grayscale(100%));
+    }
+  }
+}
+
+button.button {
+  padding-top: 0;
+}
+
+
+// shareprogress isn't super customization friendly, so we do
+// what we can.
+.button {
+  &--facebook, &--twitter, &--whatsapp {
+    margin-top: 26px;
+    margin-right: 30px;
+    display: inline-block;
+    width: 135px;
+    a {
+      width: 100%;
+      max-width: 135px;
+      padding-top: 20px;
+    }
+
+    a::before {
+      font-family: Montserrat;
+      color: white;
+      font-size: 18px;
+      line-height: 35px;
+    }
+    a::after {
+      color: white;
+      font-family: FontAwesome;
+      font-size: 22px;
+      margin-left: 10px;
+      line-height: 35px;
+      vertical-align: top;
+    }
+  }
+  &--facebook {
+    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
+      a {
+        @include button($facebook);
+        padding-top: 15px;
+        color: $facebook; // hide SP text in browsers that don't handle font-size: 0;
+        font-size: 1px;
+        font-size: 0;
+      }
+    }
+  }
+  &--twitter {
+    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
+      a {
+        @include button($twitter);
+        padding-top: 15px;
+        color: $twitter; // hide SP text in browsers that don't handle font-size: 0;
+        font-size: 1px;
+        font-size: 0;
+      }
+    }
+  }
+  &--whatsapp {
+    a {
+      @include button($whatsapp);
+      padding-top: 15px;
+      color: $whatsapp;
+      font-size: 1px;
+      font-size: 0;
+    }
+  }
+  &--facebook a::before {
+    content: "Share";
+  }
+  &--facebook a::after {
+    content: "\f09a";
+  }
+  &--twitter a::before {
+    content: 'Tweet';
+  }
+  &--twitter a::after {
+    content: '\f099';
+  }
+}

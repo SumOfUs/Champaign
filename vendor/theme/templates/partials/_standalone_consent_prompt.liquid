@@ -1,0 +1,78 @@
+<style>
+
+.standalone-consent-section h1 {
+    margin: 1em 0;
+}
+
+.standalone-consent-section p,
+.standalone-consent-section button,
+.standalone-consent-section a {
+    margin-bottom: 1em;
+    line-height: 1.2em;
+}
+
+.standalone-consent-section .button--opt-out {
+    text-align: center;
+    display: block;
+}
+
+    .hidden {
+        display: none !important;
+    }
+
+    .full-screen {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+    }
+
+    .accomodates-stuck-footer {
+        margin-bottom: 150px;
+    }
+
+    .flex-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .flex-container.centered {
+        justify-content: center;
+    }
+
+    .flex-item {
+        align-self: center;
+    }
+
+    .flex-item.centered {
+        max-width: 600px;
+        padding: 20px;
+    }
+</style>
+
+<div id="standalone-consent-section-{{ref}}" class="standalone-content-section accomodates-stuck-footer full-screen flex-container centered hidden" data-transition-id="consent-wrapper">
+    <div class="flex-item centered">
+      <h1 class="thank-you__thanks">
+        {{ 'petition.before_you_sign' | val: 'petition_title', title | t }}
+      </h1>
+      <p class="opt-in-reason">{{ 'consent.opt_in_reason' | t }}</p>
+      <button class="button button--opt-in">
+        {{ 'consent.accept_alt' | t }}
+      </button>
+      <a class="button--opt-out">
+        {{ 'consent.decline_alt' | t }}
+      </a>
+      <p class="how-to-opt-out">{{ 'consent.how_to_opt_out' | t }}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    window.champaign.modules.load('StandaloneConsentPrompt', {
+        el: document.getElementById('standalone-consent-section-{{ref}}'),
+        eventName: 'petition:default:validated',
+        ref: '{{ref}}' 
+    });
+});
+</script>

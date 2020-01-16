@@ -6,26 +6,28 @@ describe 'pages' do
   describe 'GET show' do
     let!(:page) { create(:page, title: 'I am a page', content: 'super awesome text content yo!') }
 
-    it 'is case insensitive to campaign pages slugs' do
-      get "/pages/#{page.slug.capitalize}"
-      expect(response.status).to be 200
-    end
-
-    it 'redirects pages that really are not found' do
-      get '/pages/randomslug'
-      expect(response.status).to be 302
-    end
-
-    describe 'Mega tags' do
-      it 'includes the default description meta tags' do
-        get "/pages/#{page.slug}"
-        expect(response.body).to include(I18n.t('branding.description'))
+    VCR.use_cassette('money_from_oxr') do
+      it 'is case insensitive to campaign pages slugs' do
+        get "/pages/#{page.slug.capitalize}"
+        expect(response.status).to be 200
       end
 
-      it 'includes the custom description meta tag if overriden' do
-        page.update! meta_description: 'Custom description'
-        get "/pages/#{page.slug}"
-        expect(response.body).to include('Custom description')
+      it 'redirects pages that really are not found' do
+        get '/pages/randomslug'
+        expect(response.status).to be 302
+      end
+
+      describe 'Mega tags' do
+        it 'includes the default description meta tags' do
+          get "/pages/#{page.slug}"
+          expect(response.body).to include(CGI.escapeHTML(I18n.t('branding.description')))
+        end
+
+        it 'includes the custom description meta tag if overriden' do
+          page.update! meta_description: 'Custom description'
+          get "/pages/#{page.slug}"
+          expect(response.body).to include('Custom description')
+        end
       end
     end
   end

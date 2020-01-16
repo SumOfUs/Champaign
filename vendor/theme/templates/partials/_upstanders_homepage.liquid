@@ -1,0 +1,262 @@
+<div class="upstanders">
+  {% include 'Upstanders Header' %}
+
+  <div class="ups-panel ups-intro">
+    <div class="ups-intro__content">
+      <div class="ups-lead-text ups-intro__lead-text">
+        We're standing up to end Trump's corporate coup
+      </div>
+      <a class="ups-intro__giant-button ups__giant-button ups__giant-button--teal" href="#join">
+        Become an Upstander
+      </a>
+    </div>
+  </div>
+
+  <div class="ups-panel ups-stories">
+    <div class="ups-stories__story">
+      <div class="ups-stories__circle-image ups-stories__circle-image--signing"></div>
+      <div class="ups-stories__text">
+        Corporate billionaire Donald Trump has been elected as the 45th President of the United States.
+      </div>
+    </div>
+    <div class="ups-stories__story ups-stories__story--middle">
+      <div class="ups-stories__circle-image ups-stories__circle-image--two-execs"></div>
+      <div class="ups-stories__text">
+        He’s bringing along his billionaire friends and family to cash in on the office.
+      </div>
+    </div>
+    <div class="ups-stories__story">
+      <div class="ups-stories__circle-image ups-stories__circle-image--hurting"></div>
+      <div class="ups-stories__text">
+        They're discarding whoever or whatever gets in their way - especially our most vulnerable communities.
+      </div>
+    </div>
+    <div class="ups-stories__wrap-up">
+      <strong>The only winners in Trump’s agenda are corporations.</strong>
+    </div>
+  </div>
+
+  <div class="ups-panel ups-plan">
+    That's why we're building a movement
+    <br /><br />
+    <div class="ups-plan__paragraph">
+      We will <a href="/how-we-stand-up">stand up</a> for the world we deserve and stop the Trump administration’s corporate agenda in its tracks.
+    </div>
+    <br />
+    <div class="ups-plan__paragraph">
+      And we're going <a href="/how-we-win">to win</a>.
+    </div>
+  </div>
+
+  <div id="join"></div>
+
+  <div class="ups-panel ups-simple-color ups-simple-color--teal ups-post-action hidden-irrelevant">
+    <div class="ups-simple-color__text">We're thrilled to have you with us<span class="comma-name"></span>!</div>
+    <div class="ups-simple-color__sub-text">Now, go one step farther and take <a href="https://actions.sumofus.org/a/upstanders-survey" style="background: white;">our survey</a>. You'll get a chance to tell us about the issues you find most inspiring and the tactics that you find most compelling. Or you can scroll down to see other ways you can help the Upstanders movement.</div>
+  </div>
+
+  <div class="ups-panel ups-donate-share ups-post-action hidden-irrelevant">
+    <div class="ups-donate-share__first">
+      <h1>Grow the movement</h1>
+      <div class="ups-donate-share__explanation">
+        Share on social media to invite your friends to stand up to end Trump’s corporate coup now.
+      </div>
+      <div class="ups-donate-share__share">{% include 'Share' %}</div>
+    </div>
+    <div class="ups-donate-share__second">
+      <h1>Make a donation</h1>
+      <div class="ups-donate-share__explanation">
+        We are a movement by and of the people that means don’t take money from corporations or governments. Make a small donation today to sustain our Upstander movement.
+      </div>
+      <div class="ups-donate-share__donate ups-donate-share__donate--fundraiser">
+        {% include 'Fundraiser', freestanding: true %}
+      </div>
+      <div class="ups-donate-share__donate--post-donation hidden-irrelevant">
+        Thanks so much for your donation! Together, we're staying in this fight.
+      </div>
+    </div>
+  </div>
+
+  <div class="ups-panel ups-join">
+    <div class="ups-join__lead-line">
+      Take the first step. Let's stop this coup - together. Sign up below for yourself or your group.
+    </div>
+    <div class="ups-join__content">
+      <div class="ups-join__sign-up">
+        <div class="ups-join__join-selector">
+          <div class="ups-join__join-choice ups-join__join-choice--selected">Individual</div>
+          <div class="ups-join__join-choice">Group</div>
+        </div>
+        <div class="ups-join__form ups-join__form--individual ups-join__form--selected">
+          {% include 'Petition', ref: 'Individual', skip_javascript: true %}
+        </div>
+        <div class="ups-join__form ups-join__form--group">
+          {% include 'Petition', ref: 'Group', skip_javascript: true %}
+        </div>
+      </div>
+      <script type="text/javascript">
+        $(document).ready(function(){
+          var chmp = window.champaign; // convenience binding
+          champaign.Sidebar = function(){}; // override these
+          champaign.OverlayToggle = function(){};
+
+          $('.ups-join__join-choice').on('click', function(){
+            if (!$(this).hasClass('ups-join__join-choice--selected')) {
+              $('.ups-join__join-choice').toggleClass('ups-join__join-choice--selected');
+              $('.ups-join__form').toggleClass('ups-join__form--selected');
+            }
+          });
+
+          var showFollowUp = function(e, data) {
+            $('.ups-join').addClass('hidden-irrelevant');
+            $('.ups-post-action').removeClass('hidden-irrelevant');
+          }
+
+          var autoRecognize = function() {
+            member = window.champaign.personalization.member;
+            if (member.action_upstander) {
+              if (member.first_name && member.first_name.length) {
+                $('.comma-name').text(', ' + member.first_name);
+              }
+              $('.ups-header__button').text('Get started')
+              showFollowUp();
+            }
+          }
+
+          autoRecognize();
+          formParams = {
+            member:           chmp.personalization.member,
+            outstandingFields:chmp.personalization.outstandingFields,
+            location:         chmp.personalization.location,
+            akid:             chmp.personalization.urlParams.akid,
+            referring_akid:   chmp.personalization.urlParams.referring_akid,
+            source:           chmp.personalization.urlParams.source,
+            referrer_id:      chmp.personalization.urlParams.referrer_id,
+            rid:              chmp.personalization.urlParams.rid,
+            bucket:           chmp.personalization.urlParams.bucket,
+            prefill:          true
+          }
+          chmp.individualForm  = new chmp.ActionForm(_.extend(formParams, {
+            el: '.ups-join__form--individual form.action-form'
+          }));
+          chmp.groupForm  = new chmp.ActionForm(_.extend(formParams, {
+            el: '.ups-join__form--group form.action-form'
+          }));
+
+          chmp.myPetition = new chmp.Petition({skipOnSuccessAction: true});
+
+          window.ee.on('petition:submitted', showFollowUp);
+
+          window.ee.on('fundraiser:transaction_success', function(responseData, formData) {
+            $('.ups-donate-share__donate--fundraiser').addClass('hidden-irrelevant');
+            $('.ups-donate-share__donate--post-donation').removeClass('hidden-irrelevant');
+          });
+          $('.overlay-toggle__mobile-view').
+            removeClass('overlay-toggle__mobile-view').
+            removeClass('overlay-toggle__mobile-view--closed');
+        });
+      </script>
+      <div class="ups-join__social-proof">
+        <script type="text/template" id="proof-template">
+          <div class="ups-join__signer">
+            <div class="ups-join__signer-name">
+              <strong><%= data.name %></strong> <%= data.status %>
+            </div>
+            <div class="ups-join__time-stamp"><%= data.timestamp %></div>
+          </div>
+        </script>
+        <div class="ups-join__signers"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var templater = _.template($('#proof-template').html(), { variable: 'data' });
+    var $container = $('.ups-join__signers');
+    var ANIMATION_DURATION = 1000;
+    var MAX_TO_DISPLAY = 5;
+    var HEIGHT_PER = 64;
+
+    var currentTop = 0;
+    var currentCount = $container.children().length;
+
+    var add = function(html) {
+      $container.append(html);
+      currentCount++;
+    }
+
+    var capitalize = function(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+
+    var abbreviateName = function(name) {
+      var names = name.split(' ');
+      var formattedFirstName = capitalize(names[0]);
+      if(names[1].length === 0) return formattedFirstName;
+      return formattedFirstName + ' ' + names[1].slice(0, 1).toUpperCase() + '.';
+    }
+
+    var randomStatus = function() {
+      var statuses = ['has had enough.', 'is standing up.', 'is ready.', 'is taking a stand.'];
+      return statuses[Math.floor(Math.random() * statuses.length)]
+    }
+
+    var format = function(name, timestamp) {
+      return templater({
+        name: abbreviateName(name),
+        status: randomStatus(),
+        timestamp: timestamp || 'Just now'
+      });
+    }
+
+    var reveal = function() {
+      if (currentCount - currentTop > MAX_TO_DISPLAY) {
+        currentTop++;
+        $container.css('transform', 'translateY(-'+(currentTop * HEIGHT_PER)+'px)');
+      }
+    }
+
+    var handleAction = function(msg) {
+      var data = JSON.parse(msg);
+      if (window.slugFilter && data.slug !== window.slugFilter) return;
+      add(format(data.first_name + ' ' + data.last_name));
+    }
+
+    socket = io('https://actions-api.sumofus.org');
+    socket.on('actions', handleAction);
+
+    window.setInterval(reveal, ANIMATION_DURATION);
+
+    $.get('/api/pages/upstanders-homepage/actions', {
+      page: 1, per_page: 5
+    }, function(data){
+      $container.html('')
+      currentCount = 0;
+      _.each(data.actions, function(action){
+        add(format(action.name, 'Moments ago'));
+      });
+    });
+  });
+</script>
+
+{% include 'Upstanders Footer' %}
+
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '938117079582809'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=938117079582809&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+<script>fbq('track', 'HomepageVisitor');</script>

@@ -1,0 +1,222 @@
+<div class="progress-tracker hidden-closed">
+  <div class="progress-tracker__step">
+    <div data-step="one"
+      class="progress-tracker__circle progress-tracker__circle--signed"
+    ></div>
+    <span class="progress-tracker__label">{{ 'progress_tracker.signed' | t }}</span>
+  </div>
+  {% if scroll_to_donate == 'true' %}
+    <div class="progress-tracker__step">
+      <div data-step="two" class="progress-tracker__circle progress-tracker__circle--donated"></div>
+      <span class="progress-tracker__label">{{ 'progress_tracker.donated' | t }}</span>
+    </div>
+    <div class="progress-tracker__step">
+      <div data-step="three" class="progress-tracker__circle progress-tracker__circle--shared"></div>
+      <span class="progress-tracker__label">{{ 'progress_tracker.shared' | t }}</span>
+    </div>
+  {% else %}
+    <div class="progress-tracker__step">
+      <div data-step="two" class="progress-tracker__circle progress-tracker__circle--shared"></div>
+      <span class="progress-tracker__label">{{ 'progress_tracker.shared' | t  }}</span>
+    </div>
+    <div class="progress-tracker__step">
+      <div data-step="three" class="progress-tracker__circle progress-tracker__circle--donated"></div>
+      <span class="progress-tracker__label">{{ 'progress_tracker.donated' | t  }}</span>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  window.champaign.plugins = window.champaign.plugins || {};
+  $(function () {
+    window.champaign.plugins.progressTracker = new window.champaign.ProgressTracker();
+  });
+</script>
+
+<style>
+  .header-logo.with-progress-tracker {
+    background-image: none !important;
+    background-color: #00c0cf !important;
+    z-index: 900;
+    position: fixed !important;
+  }
+
+  .header-logo__left-constraint {
+    width: 1100px;
+    max-width: 100% !important;
+    float: none;
+    padding-left: 20px;
+  }
+@media (max-width: 600px) {
+  .header-logo__left-constraint {
+    padding-left: 0;
+    display: flex;
+    height: 100px;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+  .sumofus-logo--tagline {
+    font-size: 16px;
+  }
+
+  .progress-tracker,
+  .progress-tracker *,
+  .progress-tracker *:before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .progress-tracker {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    max-width: 100%;
+    margin-top: 3px;
+    padding-left: 1em;
+    font-size: 20px;
+  }
+
+  .progress-tracker__step {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0 0.5em;
+  }
+
+  .progress-tracker__circle {
+    width: 1.25em;
+    height: 1.25em;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    position: relative;
+  }
+
+  .progress-tracker__circle--tick {
+    background-color: green;
+    border-color: green;
+  }
+
+  .progress-tracker__circle--tick::before {
+    content: "";
+    display: block;
+    position: relative;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    height: 0.25em;
+    width: 0.65em;
+    left: 0.25em;
+    top: 0.4em;
+  }
+
+  .progress-tracker__circle--cross {
+    background-color: red;
+    border-color: red;
+  }
+
+  .progress-tracker__circle--cross::before {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 2px;
+    background-color: #ffffff;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 0.8em;
+    left: calc(50% - 0.4em);
+    top: calc(50% - 1px);
+  }
+
+  .progress-tracker__circle--cross::after {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 2px;
+    background-color: #ffffff;
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    width: 0.8em;
+    left: calc(50% - 0.4em);
+    top: calc(50% - 1px);
+  }
+
+  .progress-tracker__label {
+    color: #fff;
+    margin-left: 0.4em;
+    font-size: 0.8em;
+  }
+
+  .progress-tracker--fundraiser {
+    display: none;
+    margin-bottom: 20px;
+  }
+
+  .progress-tracker--fundraiser .progress-tracker__circle {
+    border-color: #000000;
+  }
+
+  .progress-tracker--fundraiser .progress-tracker__label {
+    color: #000000;
+  }
+
+  @media screen and (max-width: 800px) {
+    .sumofus-logo--tagline {
+      display: none;
+    }
+
+    .progress-tracker {
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      padding-left: 0;
+      align-self: center;
+      padding-bottom: 15px;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .progress-tracker--fundraiser {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      font-size: 20px;
+    }
+    .progress-tracker__label {
+    color: black;
+  }   
+   .progress-tracker__circle {
+  border-color: black;
+  }
+
+    .header-logo {
+      z-index: 300;
+    }
+    .header-logo.with-progress-tracker {
+      background-color: white !important;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .with-progress-tracker .header-logo__logo {
+      float: none;
+      margin: 0 auto 10px;
+    }
+
+    .progress-tracker {
+      font-size: 18px;
+    }
+
+    .center-content__central-square {
+      margin-top: 120px;
+    }
+  }
+</style>

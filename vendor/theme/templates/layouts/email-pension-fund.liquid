@@ -1,0 +1,17 @@
+{% comment %} Description: A page with that allows users to email pension funds. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Full Width Header'  %}
+
+<div class="email-pension">
+  <div class="content email-target email-pension-fund">
+    <div class="body-text text-top">
+      {{ content }}
+    </div>
+
+    {% include 'Email Pension' %}
+  </div>
+</div>
+
+{% include 'Simple Footer' %}
+

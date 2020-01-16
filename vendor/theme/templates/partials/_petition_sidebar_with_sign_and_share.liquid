@@ -1,0 +1,66 @@
+{% if plugins.petition[ref].active %}
+  <div class="petition-bar sidebar overlay-toggle desktop-sticky {{ extra_class }}">
+    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
+      <div class="petition-bar__content">
+        <div class="petition-bar__top">
+          <div class="overlay-toggle__mobile-ui">
+            <a class="overlay-toggle__close-button">&#x2715;</a>
+          </div>
+          <div class="petition-bar__title-bar">
+            <h2 class="petition-bar__title">{{ plugins.petition[ref].cta }}</h2>
+          </div>
+          <div class="petition-bar__target">
+            {% unless plugins.petition[ref].target == blank %}
+              {{ 'petition.target_prefix' | t }}: {{ plugins.petition[ref].target }}
+            {% endunless %}
+          </div>
+          <p class="petition-bar__petition-text">
+            {{ plugins.petition[ref].description }}
+          </p>
+        </div>
+        <div class="petition-bar__main">
+          <div class="mobile-hide">
+            {% include 'Thermometer' %}
+          </div>
+          {% include 'No Script' %}
+          <div class="script-dependent">
+            {% include 'Form With Facebook Share',
+              cta: plugins.petition[ref].cta,
+              form_id: plugins.petition[ref].form_id,
+              outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
+              fields: plugins.petition[ref].fields %}
+            <div class="petition-bar__fine-print">
+              {{ 'petition.fine_print' | t }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var chmp = window.champaign; // convenience binding
+        chmp.myActionForm  = new chmp.ActionForm({
+          variant:          "{{ variant }}",
+          member:           chmp.personalization.member,
+          outstandingFields:chmp.personalization.outstandingFields,
+          location:         chmp.personalization.location,
+          akid:             chmp.personalization.urlParams.akid,
+          source:           chmp.personalization.urlParams.source,
+          referrer_id:      chmp.personalization.urlParams.referrer_id,
+          rid:              chmp.personalization.urlParams.rid,
+          referring_akid:   chmp.personalization.urlParams.referring_akid,
+          bucket:           chmp.personalization.urlParams.bucket,
+          prefill:          true
+        });
+
+        chmp.myPetition      = new chmp.Petition({followUpUrl: "{{ follow_up_url }}"});
+        chmp.myOverlayToggle = new chmp.OverlayToggle();
+        chmp.myThermometer   = new chmp.Thermometer(window.champaign.personalization.actionsThermometer);
+        chmp.mySidebar       = new chmp.Sidebar({petitionTextMinHeight: 120, baseClass: 'petition-bar'});
+
+        window.champaign.mySticky = new window.champaign.DesktopSticky({extra_class: 'petition'});
+      });
+    </script>
+  </div>
+{% endif %}

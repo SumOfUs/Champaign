@@ -1,0 +1,129 @@
+{% comment %} Description: A simple, full width, page template that's responsive. **Does not support any plugins**  {% endcomment %}
+{% comment %} Skip smoke tests: true {% endcomment %}
+
+{% comment %}
+This template supports creating page thumbnails. To do that, create a page using this
+template and add some custom JavaScript:
+
+createCampaignThumbnail({
+  id: 1234, // page id
+  imageUrl: 'http://....', // the url of the thumbnail (medium size if possible)
+  title: 'Some title', // [optional] the title will be fetched from champaign
+  url: 'http://...' // page url
+});
+{% endcomment %}
+
+<style type="text/css">
+  .cover-photo {
+    height: 500px;
+  }
+
+  .cover-photo .typography__highlight-wrapper {
+    border: none;
+  }
+  .cover-photo .typography__highlight {
+    line-height: 1.2em;
+    border: none;
+    background-color: rgba(0, 192, 207, 0.8);
+  }
+  .center-content .main-content {
+    margin: auto;
+    width: 80%;
+  }
+  .landing-layout-body-text{
+    width: 100%;
+    padding: 50px 0;
+  }
+  @media(max-width: 700px) {
+    .center-content .main-content {
+      width: 90%;
+    }
+    .landing-layout-body-text{
+      width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-top: 20px;
+      padding: 0;
+      text-align: left;
+      padding-bottom: 120px;
+    }
+    .mobile-title {
+      position: absolute;
+      bottom: 0;
+      background: rgba(0, 192, 207, 0.8);
+    }
+    
+    .cover-photo {
+      height: 400px;
+    }
+  }
+  @media(max-width: 800px) {
+  }
+</style>
+
+<script type="text/javascript">
+function createCampaignTile(options) {
+  var container = document.getElementById('campaign-tiles');
+  var tile = document.createElement('a');
+  var thumbnail = document.createElement('div');
+  var actions = document.createElement('div');
+  var title = document.createElement('div');
+  var more = document.createElement('div');
+  
+  $.get('https://actions.sumofus.org/api/pages/' + options.id).then(function (response) {    
+    actions.innerText = response.action_count.toLocaleString() + ' actions';
+    title.innerText = response.title;
+  });
+ 
+  tile.appendChild(thumbnail);
+  tile.appendChild(title);
+  tile.appendChild(more);
+  thumbnail.appendChild(actions);
+
+  // tile attrs
+  tile.id = 'campaign-' + options.id;
+  tile.className = 'campaign-tile campaign-tile--compact';
+  tile.href = options.url;
+
+  // thumbnail attrs
+  thumbnail.className = 'campaign-tile__image';
+  thumbnail.style.backgroundImage = 'url(' + options.imageUrl + ')';
+
+  actions.className = 'campaign-tile__overlay';
+  title.className = 'campaign-tile__lead';
+  title.innerText = options.title;
+  more.className = 'campaign-tile__cta campaign-tile__open-cta';
+  more.innerText = 'Learn more »';
+
+  container.appendChild(tile);
+}
+</script>
+<div class="cover-photo {{extra_class}}" style="background-image: url({{ primary_image.urls.large }})">
+  <div class="cover-photo__overlay">
+    {% include 'Top Bar' %}
+    <div class="cover-photo__titles">
+      <div class="center-content">
+        <div class="main-content">
+          <div class="typography__highlight-wrapper">
+            <h1 class="cover-photo__title typography__highlight">
+              <span>{{ title }}</span>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'Mobile Title' %}
+  </div>
+</div>
+
+
+<div class="center-content body-text-section">
+  <div class="main-content">
+	{% include 'Body Text', extra_class: 'landing-layout-body-text' %}
+  </div>
+</div>
+
+<div class="center-content">
+  <div id="campaign-tiles" class="campaign-tiles"></div>
+</div>
+{% include 'Simple Footer' %}

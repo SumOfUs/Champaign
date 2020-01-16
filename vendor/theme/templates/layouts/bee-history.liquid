@@ -1,0 +1,40 @@
+{% comment %} Description: A page showcasing our bee work {% endcomment %}
+
+{% include 'Small Header Without Cover Photo' %}
+<div class="tight-column">
+  <div class="imageless-title">
+    <div class="typography__highlight-wrapper">
+      <h1 class="typography__highlight">
+        <span>{{ title }}</span>
+      </h1>
+    </div>
+  </div>
+  <div class="body-text">
+    {{ content }}
+  </div>
+</div>
+{% include 'Bee History' %}
+
+{% include 'Bee Sustainer Footer' %}
+
+{% include 'Small Image Footer' %}
+
+<style>
+  .tight-column {
+    width: 580px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-top: 50px;
+  }
+  @media (max-width: 580px) {
+    .tight-column {
+      width: 100%;
+      padding-left: 2%;
+      padding-right: 2%;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }  
+  }
+</style>
+

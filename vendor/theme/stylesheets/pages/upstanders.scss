@@ -1,0 +1,691 @@
+.upstanders {
+  $raleway: 'Raleway', Arial, sans;
+  font-family: $raleway;
+  font-size: 20px;
+  $teal: #00c0cf;
+  $ups-orange: #f8622e;
+  $goldenrod: #FFAD00;
+  $light-teal: #ebfafb;
+  $mobile-nav-width: 850px;
+
+  .medium-text {
+    font-size: 32px;
+    line-height: 1.2em;
+    @media(max-width: 400px) {
+      font-size: 24px;
+    }
+  }
+
+  .ups-header {
+    width: 100%;
+    height: 72px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 20px;
+    z-index: 1000;
+
+    background: $teal;
+    color: white;
+
+    &__logo {
+      font-weight: 900;
+      float: left;
+      font-size: 32px;
+      color: white;
+    }
+    &__links {
+      float: right;
+      font-size: 20px;
+      font-weight: normal;
+      @media(max-width: $mobile-nav-width) {
+        box-sizing: border-box;
+        position: fixed;
+        top: 0;
+        right: -250px;
+        width: 250px;
+        background: #00c0cf;
+        height: 100%;
+        padding: 30px 10px;
+        transition: transform 0.2s ease-in-out;
+        &.ups-header__links--open {
+          transform: translateX(-250px);
+        }
+      }
+    }
+    &__close-nav, &__open-nav {
+      display: none;
+      @media(max-width: $mobile-nav-width) {
+        display: block;
+        position: absolute;
+        cursor: pointer;
+        font-size: 32px;
+        top: 20px;
+        right: 25px;
+      }
+    }
+    &__link, &__button {
+      float: left;
+      font-size: 20px;
+      margin: 5px 20px;
+      @media(max-width: $mobile-nav-width) {
+        margin: 10px 20px;
+      }
+    }
+    &__link {
+      color: white;
+    }
+    &__button {
+      background: white;
+      color: $teal;
+      font-weight: bold;
+      border-radius: 5px;
+      padding: 12px 20px;
+      position: relative;
+      top: -12px;
+      &:hover {
+        text-decoration: none;
+        background: $goldenrod;
+        color: white;
+      }
+      @media(max-width: $mobile-nav-width) {
+        top: 0;
+      }
+    }
+  }
+
+  .ups__giant-button, .button.action-form__submit-button {
+    display: block;
+    background: $goldenrod;
+    padding: 20px;
+    box-sizing: border-box;
+    height: auto;
+    @extend .medium-text;
+    font-weight: bold;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    max-width: 380px;
+    color: white;
+    margin-top: 30px;
+    text-decoration: none;
+    &.button.action-form__submit-button {
+      text-transform: none;
+      font-family: $raleway;
+      max-width: none;
+    }
+
+    &:hover {
+      text-decoration: none;
+      background: darken($goldenrod, 5%);
+    }
+    &--white {
+      background: white;
+      color: black;
+      &:hover {
+        background: darken(white, 5%);
+      }
+    }
+    &--teal {
+      background: $teal;
+      color: white;
+      &:hover {
+        background: darken($teal, 5%);
+      }
+    }
+  }
+
+  .ups-panel {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 110px;
+    overflow: hidden;
+    @media(max-width: 760px) {
+      padding: 90px 10%;
+    }
+    &--white {
+      background: white;
+    }
+  }
+
+  .ups-lead-text {
+    font-weight: bold;
+    font-size: 60px;
+    text-align: left;
+    line-height: 1.1em;
+    &__spaced {
+      margin: 30px 0;
+    }
+    @media(max-width: 1050px) {
+      font-size: 46px;
+    }
+    @media(max-width: 400px) {
+      font-size: 38px;
+    }
+  }
+  .ups-sub-text {
+    @extend .medium-text;
+    text-align: left;
+  }
+  .ups-intro {
+    background-image: url(asset-path('images/upstanders/airport-grad.jpg'));
+    background-color: #1f0c06;
+    background-size: cover;
+    color: white;
+    margin-top: 40px;
+    padding-top: 130px;
+    padding-bottom: 130px;
+
+    &__content {
+      max-width: 560px;
+      float: right;
+    }
+    &__giant-button {
+      margin-top: 60px;
+    }
+    &__lead-text {
+      text-shadow: 0 0 35px black;
+    }
+  }
+
+  .ups-stories {
+    background: white;
+    &__story {
+      width: 100%;
+      max-width: 870px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+      &--middle {
+        margin: 30px auto;
+        .ups-stories__circle-image {
+          float: right;
+          @media(max-width: 910px) {
+            float: none;
+          }
+        }
+        .ups-stories__text {
+          left: 10px;
+        }
+      }
+    }
+    &__circle-image {
+      width: 360px;
+      height: 360px;
+      border-radius: 180px;
+      background-size: contain;
+      background-color: $teal;
+      @media(max-width: 910px) {
+        float: none;
+        margin: 0 auto 20px;
+      }
+      @media(max-width: 460px) {
+        width: 255px;
+        height: 255px;
+      }
+
+      &--signing {
+        background-image: url(asset-path('images/upstanders/trump-desk.jpg'));
+      }
+      &--two-execs {
+        background-image: url(asset-path('images/upstanders/two-execs.jpg'));
+      }
+      &--hurting {
+        background-image: url(asset-path('images/upstanders/bummer.jpg'));
+      }
+      &--national {
+        background-image: url(asset-path('images/upstanders/national.png'));
+      }
+      &--local {
+        background-image: url(asset-path('images/upstanders/local.jpg'));
+      }
+      &--mobilize {
+        background-image: url(asset-path('images/upstanders/mobilize.jpg'));
+      }
+    }
+    &__wrap-up, &__intro {
+      width: 100%;
+      max-width: 830px;
+      @extend .medium-text;
+    }
+    &__wrap-up {
+      margin: 80px auto 0;
+    }
+    &__intro {
+      margin: 0 auto 80px;
+    }
+    &__text {
+      @extend .medium-text;
+      font-weight: normal;
+      width: calc(100% - 420px);
+      position: absolute;
+      left: 420px;
+      top: 50%;
+      transform: translateY(-50%);
+      @media(max-width: 910px) {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin: 40px 0 0;
+      }
+    }
+  }
+
+  .ups-plan {
+    background: $goldenrod;
+    font-weight: bold;
+    font-size: 54px;
+    line-height: 1.1em;
+    color: white;
+
+    @media(max-width: 1050px) {
+      font-size: 46px;
+    }
+    @media(max-width: 400px) {
+      font-size: 38px;
+    }
+
+    a {
+      text-decoration: underline;
+      color: white;
+      &:hover {
+        text-decoration: none;
+        background: $teal;
+        color: white;
+      }
+    }
+    &__paragraph {
+      width: 100%;
+      max-width: 870px;
+    }
+  }
+
+  .ups-simple-color {
+    background: white;
+    font-weight: bold;
+    font-size: 54px;
+    line-height: 1.1em;
+    color: black;
+    &--teal {
+      background: $teal;
+      color: white;
+    }
+    &--yellow {
+      background: $goldenrod;
+      color: white;
+    }
+    &__sub-text {
+      @extend .medium-text;
+      margin-top: 30px;
+      max-width: 800px;
+      font-weight: normal;
+    }
+  }
+
+  .ups-donate-share {
+    background: white;
+    color: black;
+
+    &__first, &__second {
+      width: calc(50% - 20px);
+      @media(max-width: 720px) {
+        width: 100%;
+        margin-bottom: 80px;
+      }
+    }
+    &__first {
+      float: left;
+    }
+    &__second {
+      float: right;
+    }
+    &__explanation {
+      margin: 20px 0 10px;
+      line-height: 1.4em;
+    }
+    &__donate--post-donation {
+      margin: 70px auto 20px;
+      font-size: 28px;
+      line-height: 1.3em;
+      text-align: center;
+    }
+    .fundraiser-bar__main {
+      height: auto;
+    }
+    .SweetSelect .Select > .Select-control {
+      border-color: #b2b5ba;
+    }
+    .DonationBands__input {
+      border: 2px solid #b2b5ba;
+    }
+    .form--big.action-form {
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    @media(max-width: 940px) {
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+  }
+
+  .ups-number-panel {
+    color: white;
+    background: $goldenrod;
+    &__number {
+      font-size: 200px;
+      font-weight: bold;
+      @media(max-width: 1250px) {
+        font-size: 150px;
+      }
+      @media(max-width: 950px) {
+        font-size: 120px;
+      }
+      @media(max-width: 750px) {
+        font-size: 90px;
+      }
+    }
+    &__text {
+      @extend .medium-text;
+      max-width: 780px;
+      padding: 30px 0;
+    }
+  }
+
+  .ups-join {
+    background-color: white;
+    // background-image: url(asset-path('images/upstanders/fists.jpg'));
+    background-size: contain;
+    background-position: bottom;
+    background-repeat: no-repeat;
+
+    &__form {
+      display: none;
+      &--selected {
+        display: block;
+      }
+    }
+    &__join-selector {
+      width: 100%;
+      border: 2px solid #00c0cf;
+      box-sizing: border-box;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    &__join-choice {
+      box-sizing: border-box;
+      width: 50%;
+      color: $teal;
+      padding: 20px;
+      float: left;
+      text-align: center;
+      cursor: pointer;
+      background: white;
+      &:hover {
+        background: $light-teal;
+      }
+      &--selected {
+        background: $teal;
+        color: white;
+        &:hover {
+          background: $teal;
+        }
+      }
+    }
+    &__lead-line {
+      @extend .medium-text;
+      font-weight: normal;
+      width: 100%;
+      text-align: center;
+      max-width: 730px;
+      margin: 0 auto;
+    }
+    &__content {
+      width: 780px;
+      margin: 60px auto 0;
+      @media(max-width: 1000px) {
+        width: 100%;
+        float: left;
+      }
+    }
+    &__sign-up {
+      margin-right: 20px;
+      float: left;
+    }
+    &__social-proof {
+      float: right;
+      height: 5 * 64px; // number of signers * height per signer
+      overflow: hidden;
+    }
+    &__sign-up, &__social-proof {
+      width: 380px;
+      @media(max-width: 1000px) {
+        float: none;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      @media(max-width: 480px) {
+        width: 100%;
+      }
+    }
+    &__social-proof {
+      @media(max-width: 1000px) {
+        margin-top: 20px;
+      }
+    }
+    &__signer {
+      float: left;
+      width: 100%;
+      margin-bottom: 20px;
+      height: 44px;
+      overflow: hidden;
+    }
+    &__signers {
+      transition: transform 0.2s ease-in-out;
+    }
+    &__signer-name {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    &__time-stamp {
+      font-size: 16px;
+    }
+    strong {
+      font-weight: bold;
+    }
+    .action-form {
+      background: white;
+    }
+    .sweet-placeholder__field {
+      border: 1px solid lightgray;
+    }
+    .form--big .sweet-placeholder .selectize-control.single .selectize-input {
+      border: none;
+    }
+  }
+  .ups-dual-panel {
+    height: 700px;
+    @media(min-width: 1150px) {
+      height: 600px
+    }
+    @media(max-width: 950px) {
+      height: auto;
+    }
+    &__fists-image {
+      float: right;
+      height: 100%;
+      width: 420px;
+      background-image: url(asset-path('images/upstanders/flag-fists-teal.jpg'));
+      background-size: contain;
+      background-position: bottom;
+      background-repeat: no-repeat;
+      height: calc(100% + 110px);
+      @media(max-width: 950px) {
+        width: 100%;
+        height: 300px;
+        margin-top: -60px;
+        bottom: -110px;
+        position: relative;
+      }
+    }
+    &__lead-text {
+      width: calc(100% - 450px);
+      max-width: 550px;
+      color: white;
+      float: left;
+
+      @media(max-width: 1050px) {
+        font-size: 46px;
+      }
+      @media(max-width: 400px) {
+        font-size: 38px;
+      }
+      @media(max-width: 950px) {
+        width: 100%;
+      }
+    }
+  }
+  .ups-split-panel {
+    min-height: 100vh;
+    background: white;
+    position: relative;
+
+    &__image {
+      position: absolute;;
+      height: 100%;
+      width: 40%;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: 99;
+      @media(max-width: 900px) {
+        width: 100%;
+        float: left;
+        height: 400px;
+        position: static;
+        background-position: center;
+      }
+      &--interview {
+        background-image: url(asset-path('images/upstanders/sou-interview.jpg'));
+      }
+    }
+    &__text {
+      width: calc(60% - 60px);
+      float: right;
+      @media(max-width: 900px) {
+        width: 90%;
+        padding: 40px 5% 0;
+      }
+      h1 {
+        font-size: 42px;
+        @media(max-width: 900px) {
+          font-size: 32px;
+          line-height: 1.2em;
+        }
+      }
+      p {
+        font-size: 20px;
+        margin: 20px 0;
+        line-height: 1.3em;
+      }
+    }
+    @media(max-width: 900px) {
+      padding: 42px 0;
+    }
+  }
+  .ups-list-panel {
+    background: white;
+    // padding-left: 0;
+    // padding-right: 0;
+    padding: 0;
+
+    &__list li, &__intro {
+      background: white;
+      @extend .medium-text;
+      line-height: 1.3em;
+      padding: 40px calc(50% - 410px);
+
+      @media(max-width: 850px) {
+        padding: 40px 4%;
+      }
+
+      &.odd {
+        background: #ececec;
+      }
+    }
+    &__intro {
+      font-weight: bold;
+      padding-top: 80px;
+      padding-bottom: 60px;
+    }
+  }
+  .ups-full-bleed-image-panel {
+    background-size: auto 100%;
+    width: 100%;
+    padding: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    &--unplug {
+      background-image: url(asset-path('images/upstanders/unplug-trump.gif'));
+      background-color: $teal;
+      height: 400px;
+      @media(max-width: 925px) {
+        height: 250px;
+      }
+      @media(max-width: 560px) {
+        height: 150px;
+      }
+    }
+  }
+  .share-buttons__alternative {
+    text-align: center;
+  }
+}
+.simple-footer {
+  &--ups {
+    border-top: none;
+    padding-bottom: 60px;
+    z-index: 100;
+    height: auto;
+  }
+  &__partner-logos {
+    float: left;
+    width: 100%;
+    clear: both;
+    &-lead-in {
+      color: $dingy-gray;
+      padding: 20px 0 0;
+      font-size: 14px;
+    }
+  }
+  &__partner-logo {
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    float: left;
+    width: 130px;
+    height: 70px;
+    margin: 20px 10px 0 0;
+    &--pfwf {
+      background-image: url(asset-path('images/upstanders/partners/pfwf.png'));
+    }
+    &--im {
+      background-image: url(asset-path('images/upstanders/partners/mischief.png'));
+    }
+    &--jvp {
+      background-image: url(asset-path('images/upstanders/partners/jvp.png'));
+    }
+    &--uv {
+      background-image: url(asset-path('images/upstanders/partners/ultraviolet.png'));
+    }
+    &--cosecha {
+      background-image: url(asset-path('images/upstanders/partners/cosecha.png'));
+    }
+  }
+}

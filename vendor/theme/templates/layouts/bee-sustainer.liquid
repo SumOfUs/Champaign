@@ -1,0 +1,52 @@
+{% comment %} Description: A recurring-donor ask with info about the bees {% endcomment %}
+{% comment %} Post-action layout: false {% endcomment %}
+
+<div class="header-logo header-logo--dark">
+  <a href="{{ 'footer.home_url' | t }}">
+    <div class="header-logo__logo sumofus-logo--negative"></div>
+  </a>
+  <div class="header-logo__tagline sumofus-logo--tagline">{{ 'branding.tagline' | t }}</div>
+</div>
+
+<div class="center-content">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square center-content__central-square--compact thank-you--compact">
+
+      <div class="thank-you__cta thank-you__cta--long">
+        {{ content }}
+      </div>
+
+      <div class="center-content__centered-element">
+        <a href="https://actions.sumofus.org/a/donate-to-save-the-bees?recurring=recurring_only&amount=3" 
+          class="button button--sustainer-bar">Donate $3/month</a>
+        <a href="https://actions.sumofus.org/a/donate-to-save-the-bees?recurring=recurring_only&amount=5" 
+          class="button button--sustainer-bar">Donate $5/month</a>
+        <a href="https://actions.sumofus.org/a/donate-to-save-the-bees?recurring=recurring_only&amount=10" 
+          class="button button--sustainer-bar">Donate $10/month</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style type="text/css">
+  .button--sustainer-bar {
+    max-width: 200px;
+    margin: 20px 16px;
+    float: left;
+  }
+  @media(max-width: 760px) {
+    .button--sustainer-bar {
+      float: none;
+      margin: 20px auto;
+    }
+  }
+  .thank-you--compact .thank-you__cta.thank-you__cta--long {
+     text-align: left;
+     font-size: 22px;
+  }
+</style>
+
+{% include 'Bee History' %}
+{% include 'Simple Footer' %}

@@ -1,0 +1,56 @@
+<div class="header-logo header-logo--dark">
+  <a href="{{ 'footer.home_url' | t }}">
+    <div class="header-logo__logo sumofus-logo--negative"></div>
+  </a>
+</div>
+
+<div class="center-content">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square">
+
+      <h1 class="thank-you__thanks">{{ message }}</h1>
+      <div class="thank-you__cta">
+        <span class="two-step__question">{{ 'share.two_step.cta' | t }}</span>
+      </div>
+      <span class="two-step__declined hidden-closed">
+        {% capture recommend_pages %} {{ 'recommend_pages.recommend_pages_title' | t }} {% endcapture %}
+        {% include 'Recommend Pages', page_title: recommend_pages_title %}
+      </span>
+      <span class="two-step__accepted hidden-closed">{{ 'share.two_step.accepted' | t }}</span>
+    </div>
+
+    <div class="center-content__centered-element">
+      <div class="two-step__question">
+        <div class="share-buttons">
+          <div class="share-buttons__button button two-step__button two-step__accept">
+            {{ 'share.two_step.accept' | t }}
+          </div>
+          <div class="share-buttons__button button two-step__button two-step__decline">
+            {{ 'share.two_step.decline' | t }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two-step__accepted hidden-closed">
+      {% include 'Share' %}
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.two-step__accept').on('click', function(){
+      $('.two-step__question').addClass('hidden-closed');
+      $('.two-step__declined').addClass('hidden-closed');
+      $('.two-step__accepted').removeClass('hidden-closed');
+    });
+    $('.two-step__decline').on('click', function(){
+      console.log("Unhiding two-step__declined");
+      $('.two-step__question').addClass('hidden-closed');
+      $('.two-step__accepted').addClass('hidden-closed');
+      $('.two-step__declined').removeClass('hidden-closed');
+    });
+
+  });
+</script>

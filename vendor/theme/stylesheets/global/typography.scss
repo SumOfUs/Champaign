@@ -1,0 +1,218 @@
+$default-fonts: 'Montserrat', -apple-system, system-ui, BlinkMacSystemFont,
+  'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: $default-fonts;
+  color: $chalkboard;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b {
+  font-weight: bold;
+}
+i {
+  font-style: italic;
+}
+
+h1 {
+  @include rem(font-size, 2.6rem, true);
+  @include rem(line-height, 3.2rem, true);
+}
+h2 {
+  @include rem(font-size, 1.5em, true);
+}
+a {
+  color: $teal;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.typography {
+  &__highlight {
+    display: block;
+    line-height: 1.1em;
+    // can't get the box shadow working on this :/
+    background: $teal;
+    backdrop-filter: blur(2px);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+
+    span {
+      position: relative;
+      z-index: 1;
+      white-space: pre-wrap;
+      padding-right: 0.25em;
+    }
+
+    &--simple {
+      display: block;
+      padding: 0.45em 15px;
+      border: none;
+      display: inline-block;
+      font-weight: normal;
+    }
+
+    &--dark {
+      background: $navy;
+      border-color: $navy;
+      color: white;
+    }
+  }
+  &__highlight-wrapper {
+    overflow: hidden;
+    margin: 0;
+    background: $teal;
+  }
+}
+.survey-typo-high-wrapper,
+.call-survey-high-wrapper {
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+.without-image-typo-wrapper {
+  width: 60%;
+  @media (max-width: 1100px) {
+    width: 60%;
+  }
+  @media (max-width: 700px) {
+    width: 100%;
+  }
+}
+.without-image-typo-highlight {
+  padding: 25px 40px;
+  @media (max-width: 1100px) {
+    padding: 20px 25px;
+  }
+  @media (max-width: 700px) {
+    padding: 20px;
+  }
+}
+.sign-share-typo-highlight-wrapper {
+  width: 60%;
+  @media (max-width: 900px) {
+    width: 50%;
+  }
+}
+.body-text {
+  width: 60%;
+  padding: 45px 20px 45px 40px;
+  line-height: 1.6em;
+  min-height: 50vh;
+  margin-bottom: 150px;
+  @media only screen and (min-width: 500px) and (max-width: 1100px) {
+    min-height: 40vh;
+  }
+  @media (max-width: 1100px) {
+    width: 50%;
+  }
+  @media (max-width: 700px) {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 0;
+    text-align: left;
+    padding-bottom: 120px;
+  }
+  p,
+  span,
+  div {
+    line-height: 1.5em;
+  }
+  p,
+  ul,
+  ol {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  ul,
+  ol {
+    padding-left: 40px;
+  }
+  ol {
+    list-style-type: decimal;
+  }
+  ul {
+    list-style-type: disc;
+  }
+  hr {
+    margin: 40px 0;
+  }
+  &--enforce-styles {
+    * {
+      font-family: $default-fonts !important;
+      font-size: 16px !important;
+      line-height: 1.6em !important;
+      color: $chalkboard !important;
+    }
+    a {
+      color: $teal !important;
+    }
+    p,
+    span,
+    div {
+      line-height: 1.5em !important;
+    }
+    p,
+    ul,
+    ol {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    ul,
+    ol {
+      padding-left: 40px !important;
+    }
+    ol {
+      list-style-type: decimal !important;
+    }
+    ul {
+      list-style-type: disc !important;
+    }
+  }
+}
+.survey__intro {
+  width: 100%;
+  padding: 60px 0;
+  min-height: unset;
+  margin: 0;
+  @media (max-width: 700px) {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    padding: 0;
+    text-align: left;
+    padding-bottom: 120px;  
+  }
+}
+.inline-body-text {
+  width: 100%;
+  padding: 0;
+}
+
+.sign-share-body-text {
+  width: unset;
+  @media (max-width: 700px) {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 0;
+    text-align: left;
+    padding-bottom: 120px;
+  }
+}

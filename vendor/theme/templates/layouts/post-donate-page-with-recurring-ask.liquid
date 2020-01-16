@@ -1,0 +1,835 @@
+{% comment %} Description: A follow-up page thanking for donating money and asking to share {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+
+{% capture confirmation %}{{ 'fundraiser.confirmation' | t }}{% endcapture %}
+{% capture message %}{{ 'fundraiser.thank_you' | t }}{% endcapture %}
+<div id="test-fa"></div>
+
+<div id="fa-optimisation" data-value="post-donate"></div>
+{% include 'Top Bar' %}
+<div class="cover-photo" style="background-image: url(https://storage.googleapis.com/fa-assets/sou/sou-post-donate-bg.jpg); background-position:top;">
+	<div class="cover-photo__overlay"></div>
+</div>
+<div class="cover-photo__titles">
+	<div class="center-content">
+		<div class="center-content__big-column" style="float:none; margin-left:0px; width:100%; text-align:center;">
+			<div class="typography__highlight-wrapper" style="border-left:none;">
+				<h1 class="cover-photo__title typography__highlight youre-awesome-container" style="font-size:50px;"><span>You're awesome!</span>
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="mobile-title">
+	<div class="center-content__one-column" style="text-align:center;">
+		<h1 class="cover-photo__title youre-awesome-container">You're awesome!</h1>
+	</div>
+</div>
+
+<div class="center-content">
+	<div id="share-ask">
+		{% include 'Share Page', message: message, confirmation: confirmation %}
+	</div>
+  <div id="donate-video">
+    <iframe src="https://www.youtube.com/embed/MCIUTw6KXmc?cc_load_policy=1&autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+<div class="center-content__one-column">
+  <div class="center-content__central-square center-content__with-ask body-text" id="thankyou-container" style="width: 100%;" >
+	<div id="donate-ask">
+			<div class="en-copy">
+				<p>
+					<b><span class="thank-you-firstname">Thank you </span>for helping build a world where people come before corporate profit.</b>
+				</p>
+				<p>
+					There's still lots of work to do. <b>Would you consider becoming a SumOfUs core member to help us get there faster?</b> A monthly donation will support our movement to plan ahead, so we can take on the biggest corporations that threaten people and planet.
+				</p>
+				<p>
+					<b>Make a monthly donation and join our amazing 17,462 core members today:</b>
+				</p>
+			</div>	
+			<div class="fr-copy">	
+				<p>
+					<b><span class="thank-you-firstname">Merci, </span>vous nous aidez à construire un monde dans lequel l’humain passe avant le profit.</b>
+				</p>
+				<p>
+					Nous avons encore énormément de pain sur la planche. <b>Aimeriez-vous devenir un membre clé et ainsi nous aider à avancer plus vite ?</b> Un don mensuel nous permettra de planifier plus en amont, afin de pouvoir nous occuper des multinationales qui nous menacent, nous et notre planète.
+				</p>
+				<p>
+					<b>Rejoignez nos 17,462 membres clés dès aujourd'hui :</b>
+				</p>
+			</div>
+			<div class="de-copy">
+				<p>
+					<b><span class="thank-you-firstname">Vielen Dank, </span>dass Sie uns dabei helfen, eine Welt zu schaffen, in der Menschen wichtiger sind als Konzernprofite.</b>
+				</p>
+				<p>
+					Es gibt noch viel zu tun. <b>Werden Sie Fördermitglied und helfen uns so, unser gemeinsames Ziel noch schneller zu erreichen.</b> Mit einer monatlichen Spende geben Sie uns wichtige Planungssicherheit. So können wir uns auch den größten Konzernen entgegenstellen, wenn sie wieder einmal Menschen und Umwelt bedrohen.
+				</p>
+				<p>
+					<b>Werden Sie Teil unserer Gemeinschaft. 17,462 Fördermitglieder unterstützen SumOfUs regelmäßig:</b>
+				</p>
+			</div>	
+			<div class="fundraiser-bar__step-panel script-dependent">
+				<div class="fundraiser-bar__amount-buttons">
+					<a class="fundraiser-bar__amount-button"  href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=1&amp;source=post_action_default_donate&amp;recurring_default=only_recurring">£1/month</a>
+					<a class="fundraiser-bar__amount-button" href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=4&amp;source=post_action_default_donate&amp;recurring_default=only_recurring"> £4/month</a>
+					<a class="fundraiser-bar__amount-button" href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=7&amp;source=post_action_default_donate&amp;recurring_default=only_recurring"> £7/month</a>
+					<a class="fundraiser-bar__amount-button" href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=18&amp;source=post_action_default_donate&amp;recurring_default=only_recurring"> £18/month</a>
+					<a class="fundraiser-bar__amount-button" href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=70&amp;source=post_action_default_donate&amp;recurring_default=only_recurring"> £70/month</a>
+					<a class="fundraiser-bar__amount-button" href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=175&amp;source=post_action_default_donate&amp;&amp;recurring_default=only_recurring"> £175/month</a>
+					<a class="fundraiser-bar__amount-button" href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=350&amp;source=post_action_default_donate&amp;recurring_default=only_recurring"> £350/month</a>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+  </div>
+</div>
+
+<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+<style>
+	.cover-photo {
+		height: 50vh;
+	}
+	@media (max-width: 700px) {
+		.cover-photo {
+			height: 250px;
+		}
+	}
+	.cover-photo__titles {
+		position: relative;
+	}
+	.cover-photo__title {
+		padding: 20px;
+	}
+	.typography__highlight-wrapper {
+		display: inline-block;
+	}
+	.center-content__one-column{
+		max-width: 100% !important;
+	}
+	.fr-copy, .de-copy{
+		display:none;
+	}
+
+	#share-ask .header-logo{
+		display:none !important;
+	}
+
+	.long-button{
+		width:250px !important;
+	}
+
+	.fundraiser-bar__amount-buttons.long-button-container{
+		max-width:100% !important;
+	}
+	.body-text {
+		padding: 0;
+	}
+	.body-text p{
+		margin-bottom:15px;
+		padding: 0 20px;
+	}
+
+	#thankyou-container{
+        min-height: auto !important;
+        display: flex;
+        flex-direction: column ;
+        align-items: center ;
+		justify-content: flex-start ;
+		width: 100%;
+		margin: 30px 0;
+	}
+
+	.fundraiser-bar__amount-button{
+		display:inline-block; 
+		float:none; 
+		margin-left:5px; 
+		margin-right:5px; 
+		font-size:16px;  
+		width:150px; 
+		margin-bottom:20px;
+	}
+
+	.fundraiser-bar__amount-buttons{
+		text-align:center; 
+		width:100%; 
+		max-width: 400px; 
+		margin-left:auto; 
+		margin-right:auto;
+	}
+
+	.share-modal-open {
+		font-size:17px;
+		max-width:150px;
+		background-color:#adabab;
+		margin:0 auto;
+	}
+
+.share-modal-open:hover,.share-modal-open:active {
+background-color:#adabab;
+-moz-box-shadow:inset #adabab 0 3px 10px;
+-webkit-box-shadow:inset #adabab 0 3px 10px;
+box-shadow:inset #adabab 0 3px 10px;
+}
+
+.modal {
+display:none;
+position:fixed;
+z-index:999;
+left:0;
+top:0;
+width:100%;
+height:100%;
+overflow:auto;
+background-color:rgba(0,0,0,.4);
+}
+
+.close {
+color:#aaa;
+float:right;
+font-size:28px;
+font-weight:700;
+position:absolute;
+top:12px;
+right:20px;
+cursor:pointer;
+}
+
+.modal-content {
+display:table-cell;
+vertical-align:middle;
+padding:0 15px;
+}
+
+.modal-inner {
+background:#fff;
+border-radius:3px;
+max-width:500px;
+margin:0 auto;
+}
+
+.facebook .bottom-section,.facebook .top-section {
+background-color:#f6f7f9;
+position:relative;
+border-bottom:1px solid #e5e5e5;
+border-radius:3px 3px 0 0;
+color:#1d2129;
+font-weight:700;
+line-height:19px;
+padding:12px;
+}
+
+.facebook .top-section {
+background:#3b5998;
+padding:6px 12px;
+}
+
+.facebook .bottom-section {
+border-radius:0 0 3px 3px;
+}
+
+.middle-section {
+padding:20px 12px 10px;
+}
+
+.facebook .top-section h3 {
+color:#FFF;
+font-size:14px;
+display:inline-block;
+font-weight:700;
+position:relative;
+bottom:3px;
+font-family:Helvetica, Arial, sans-serif;
+margin:10px 0 0 10px;
+}
+
+.facebook .topImageContainer {
+position:relative;
+padding-bottom:52.5%;
+height:0;
+}
+
+.facebook .topImageHolder {
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:url(+ogImage+);
+background-size:cover;
+}
+
+.facebook .topImageInner {
+width:100%;
+margin-left:0;
+margin-top:13%;
+}
+
+.facebook .author {
+color:#90949c;
+font-size:12px;
+line-height:11px;
+text-transform:uppercase;
+font-family:Helvetica, Arial, sans-serif;
+font-weight:500;
+display:inline-block;
+margin:10px 0;
+}
+
+.facebook .share-text {
+margin-top:10px;
+padding:0 10px;
+}
+
+.facebook .share-title {
+font-family:Georgia,Lucida Grande,Tahoma,Verdana,Arial,sans-serif;
+font-size:18px;
+font-weight:500;
+line-height:22px;
+margin-bottom:10px;
+margin-top:10px;
+}
+
+.facebook .share-description {
+line-height:16px;
+font-size:12px;
+margin-top:0;
+font-family:Helvetica,Arial,sans-serif;
+}
+
+.facebook.modal-inner {
+font-family: Montserrat;
+}
+
+.facebook .fb-button {
+border:1px solid #4267b2;
+border-radius:2px;
+box-sizing:content-box;
+-webkit-font-smoothing:antialiased;
+font-weight:700;
+justify-content:center;
+position:relative;
+text-align:center;
+text-shadow:none;
+vertical-align:middle;
+background-color:#4267b2;
+color:#fff;
+transition:.2s cubic-bezier(.08,.52,.52,1) background-color,.2s cubic-bezier(.08,.52,.52,1) box-shadow,.2s cubic-bezier(.08,.52,.52,1) transform;
+margin-left:5px;
+line-height:1.9;
+font-size:12px;
+padding:0 8px;
+}
+
+.facebook .fb-button:hover {
+background-color:#365899;
+cursor:pointer;
+text-decoration:none;
+border-color:#365899;
+}
+
+.facebook .fb-close {
+background-color:#f6f7f9;
+color:#4b4f56;
+border-color:#ced0d4;
+}
+
+.facebook .fb-close:hover {
+background-color:#e9ebee;
+border-color:#ced0d4;
+}
+
+.facebook .close-modal.x {
+float:right;
+color:#BFC2CA;
+font-weight:100;
+font-size:20px;
+position:relative;
+top:-2px;
+}
+
+.modal .facebook .close-modal.x {
+top:3px;
+}
+
+.fb-logo,.whatsapp-logo,.email-logo {
+max-width:33px;
+position:absolute;
+top:5px;
+left:8px;
+}
+
+.whatsapp .top-section {
+background-color:#075e54;
+position:relative;
+border-bottom:1px solid #e5e5e5;
+border-radius:3px 3px 0 0;
+color:#FFF;
+font-weight:700;
+line-height:19px;
+padding:12px;
+}
+
+.whatsapp .top-section h3,.email .top-section h3,.twitter .top-section h3 {
+margin-left:10px;
+display:inline-block;
+}
+
+.whatsapp-share-button {
+position:relative;
+background:#25D366;
+color:#FFF;
+display:inline-block;
+max-width:200px;
+margin-top:16px;
+margin-left:5px;
+padding:10px;
+}
+
+.whatsapp-close {
+background:#c1c1c1;
+color:#FFF;
+display:inline-block;
+max-width:200px;
+margin-top:16px;
+padding:11px 10px 10px;
+}
+
+.email .top-section {
+background-color:#FFF;
+position:relative;
+border-bottom:1px solid #e5e5e5;
+border-radius:3px 3px 0 0;
+color:#1d2129;
+font-weight:700;
+line-height:19px;
+padding:12px;
+}
+
+.email-button {
+margin-top:5px!important;
+position:relative;
+background:#f8492e;
+color:#fff;
+display:inline-block;
+max-width:300px;
+margin-right:5px;
+text-transform:uppercase;
+font-weight:600;
+font-size:16px;
+width:220px;
+margin-bottom:20px;
+height:60px;
+text-align:center;
+box-sizing:border-box;
+border-radius:3px;
+float:right;
+padding:21px 0 0;
+}
+
+.bottom-section {
+border-top:1px solid #e5e5e5;
+}
+
+.twitter .top-section {
+position:relative;
+border-bottom:1px solid #e5e5e5;
+border-radius:3px 3px 0 0;
+padding:12px;
+}
+
+.twitter-logo {
+max-width:40px;
+}
+
+.twitter-button {
+float:right;
+text-decoration:none;
+background:#48AAE6;
+transition:box-shadow .15s ease-in-out;
+border-radius:100px;
+box-shadow:none;
+cursor:pointer;
+font-size:14px;
+font-weight:700;
+line-height:20px;
+position:relative;
+text-align:center;
+white-space:nowrap;
+border:1px solid #1da1f2;
+color:#fff;
+font-family:\"Helvetica Neue\",Helvetica,Arial,sans-serif;
+padding:6px 16px;
+}
+
+.twitter-button:hover {
+background-color:#1B95E0;
+text-decoration:none;
+border-color:#1B95E0;
+}
+
+.twitter h2,.twitter p {
+font-family:\"Helvetica Neue\",Helvetica,Arial,sans-serif;
+font-weight:200;
+}
+
+.twitter-close {
+background-color:#c1c1c1;
+margin-left:5px;
+border-color:#c1c1c1;
+}
+
+.twitter-close:hover {
+background-color:#b1b3b2;
+border-color:#b1b3b2;
+}
+
+.middle-section p {
+margin-top:20px;
+}
+
+.twitter p,.whatsapp p,.email p {
+margin:10px 0;
+}
+
+span.x {
+cursor:pointer;
+}
+
+.whatsapp-share-button .fa-whatsapp {
+margin-right:7px;
+}
+
+.email .top-section h3 {
+position:relative;
+bottom:5px;
+}
+
+.email-button:hover {
+background-color:#f73415;
+text-decoration:none;
+}
+
+.email-close {
+position:relative;
+background:#adabab;
+color:#fff;
+display:inline-block;
+max-width:300px;
+margin-top:5px;
+margin-right:5px;
+text-transform:uppercase;
+font-weight:600;
+font-size:16px;
+width:150px;
+margin-bottom:20px;
+height:60px;
+text-align:center;
+box-sizing:border-box;
+border-radius:3px;
+float:right;
+padding:21px 0 0;
+}
+
+.email .close-modal {
+margin-bottom:0;
+}
+
+.share-border {
+box-shadow:0 0 0 1px rgba(0,0,0,.15) inset, 0 1px 4px rgba(0,0,0,.1);
+}
+
+.twitter .middle-section {
+background-color:#F6F7F8;
+}
+
+.twitter .middle-section p {
+font-size:14px;
+line-height:20px;
+border-radius:8px;
+border:2px solid #e6ecf0;
+background-color:#FFF;
+padding:10px;
+}
+
+.whatsapp .middle-section p,.email .middle-section p,.twitter .middle-section p {
+word-break:break-all;
+}
+
+.bottom-section .fb-button,.whatsapp-close,.whatsapp-share-button {
+float:right;
+}
+
+.author:hover,.whatsapp a:hover,.email a:hover {
+text-decoration:none;
+}
+
+.whatsapp .middle-section p,.email .middle-section p {
+background:#ECE5DD;
+font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+line-height:23px;
+padding:10px;
+}
+
+#donate-video {
+  display: none;
+}
+
+#donate-video iframe {
+  width: 720px;
+  height: 405px;
+  max-width: 100%;
+  margin: 40px auto 0;
+  display: block;
+}
+
+</style>
+<script>
+
+
+fbq('track', 'Donate');
+
+function handleLanguages(){
+
+	var language = $('html').attr('lang');
+
+	if(language == "fr"){
+		postDonatePage = "https://actions.sumofus.org/a/soutiner-sumofus-donate-french";
+		preButtonLanguage = "FAIRE UN DON DE ";
+		postButtonLanguage = "/MOIS";
+
+		thankyou = "Vous êtes fantastique!";
+		secondFirstname = "Merci, ";
+		
+		if(typeof window.champaign.personalization.member.first_name != "undefined"){
+		    thankyou = "Vous êtes fantastique "+window.champaign.personalization.member.first_name+"!"; 
+		    secondFirstname = "Merci, "+window.champaign.personalization.member.first_name+", ";
+		}  
+
+		$('.fr-copy').show();
+		$('.en-copy').hide();
+
+		$('.fundraiser-bar__amount-button').addClass('long-button');
+		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+
+	} else if( language == "de"){
+		postDonatePage = "https://actions.sumofus.org/a/spende";
+		preButtonLanguage = "";
+		postButtonLanguage = " IM MONAT SPENDEN";
+
+
+		thankyou = "Sie sind fabelhaft!";
+		secondFirstname = "Vielen Dank, ";
+		
+		if(typeof window.champaign.personalization.member.first_name != "undefined"){
+		    thankyou = window.champaign.personalization.member.first_name+", Sie sind fabelhaft!"; 
+		    secondFirstname = "Vielen Dank, ";
+		}  
+			
+		$('.de-copy').show();
+		$('.en-copy').hide();
+
+		$('.fundraiser-bar__amount-button').addClass('long-button');
+		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+
+
+	} else {
+
+		postButtonLanguage = "/month";
+
+		thankyou = "You're awesome!";
+		secondFirstname = "Thank you ";
+		
+		if(typeof window.champaign.personalization.member.first_name != "undefined"){
+		    thankyou = "You're awesome, "+window.champaign.personalization.member.first_name+"!"; 
+		    secondFirstname = "Thank you "+window.champaign.personalization.member.first_name+" ";
+		}  
+
+		
+	}
+}
+
+function updateButtons(){
+	$('.fundraiser-bar__amount-button').each(function(index){
+		if($('html').attr('lang') == "de"){
+			// handle different currency position
+			$(this).html(preButtonLanguage+donateAmounts[index]+currencySymbol+postButtonLanguage);
+		} else {
+			$(this).html(preButtonLanguage+currencySymbol+donateAmounts[index]+postButtonLanguage);
+		}
+		
+		$(this).attr("href", postDonatePage+"?amount="+donateAmounts[index]+"&source="+source+"&recurring_default=only_recurring");
+	});
+
+}
+
+function updateCopy(){
+	// add copy
+	$('.thank-you-firstname').html(secondFirstname);
+	$('.youre-awesome-container').html(thankyou);
+}
+
+function getCurrency(){
+	if(currency  == "GBP"){
+  		currencySymbol = "&#163;";
+	} else if (currency  == "EUR"){
+	  currencySymbol = "&#128;";
+	}
+
+}
+
+function getAmounts(){
+
+	// this function manually updates the donate amounts in the buttons to the monthly donation bands as we don't have access to this in the window.
+
+	if(currency == "" || typeof currency == "undefined"){} else {
+	  if(typeof window.champaign.personalization.donationBands[currency] != "undefined"){
+	    donateAmounts = window.champaign.personalization.donationBands[currency];
+	  	var userLowest = window.champaign.personalization.donationBands["USD"][0];
+
+	    var userDonationBand = "nondonor";
+	    var userRecurringBand = [100, 300, 500, 1000, 2000, 3500, 5000];
+
+	    switch (userLowest) {
+	        case 5:
+	        	userDonationBand = "lowdonor";
+	        	userRecurringBand = [300, 500, 1000, 2000, 3500, 5000, 10000];
+	            break;
+	        case 20:
+	        	userDonationBand = "middonor";
+	        	userRecurringBand = [500, 1000, 2000, 3500, 5000, 7500, 10000];
+	            break;
+	        case 50:
+	        	userDonationBand = "highdonor";
+	        	userRecurringBand = [1000, 2000, 3500, 5000, 7500, 10000, 15000];
+	            break;
+	        case 75:
+	        	userDonationBand = "vhighdonor";
+	        	userRecurringBand = [2500, 3500, 5000, 7500, 10000, 15000, 25000];
+	            break;
+	        default:
+	        	userDonationBand = "nondonor";
+	        	userRecurringBand = [100, 300, 500, 1000, 2000, 3500, 5000];
+	        	break;   
+	    }
+
+	    var conversionRate = 1;
+
+	    switch (currency) {
+	        case "AUD":
+	        	conversionRate = 1.30;
+	            break;
+	        case "CAD":
+	        	conversionRate = 1.29;
+	            break;
+	        case "CHF":
+	        	conversionRate = 0.95;
+	            break; 
+	        case "EUR":
+	        	conversionRate = 0.81;
+	            break;
+	        case "GBP":
+	        	conversionRate = 0.71;
+	            break;    
+	        case "NZD":
+	        	conversionRate = 1.38;
+	            break;    
+	        default:
+	    		conversionRate = 1;
+	        	break;                   
+	    }
+
+
+	    $(userRecurringBand).each(function(index){
+	    	var recurringAmount = this;
+	    	var convertedAmount = Math.round((recurringAmount/100)*conversionRate);
+	    	donateAmounts[index] = convertedAmount;
+	    });
+	      
+	  
+	  }    
+	}
+}
+
+function getMobileOperatingSystem() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      // Windows Phone must come first because its UA also contains "Android"
+    if (/windows phone/i.test(userAgent)) {
+        return "Windows Phone";
+    }
+
+    if (/android/i.test(userAgent)) {
+        return "Android";
+    }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    if (/iPhone/.test(userAgent) && !window.MSStream) {
+        return "iOS";
+    }
+
+    return "unknown";
+}
+
+
+
+
+
+
+
+var isDonor = false;
+var thankyou;
+var secondFirstname;
+
+// the page we're re-directing people to once they click on a button
+var postDonatePage = "https://actions.sumofus.org/a/become-a-sumofus-core-member";
+var currencyBeforeAmount = true;
+var preButtonLanguage = "";
+var postButtonLanguage = "";
+var currency;
+var currencySymbol = "&#36;";
+var donateAmounts = [5,10,15,20,50,100,250];
+var source = "post_action_default_donate";
+
+$(function(){
+
+    if (window.mixpanel) {
+          mixpanel.track("donation-made", {
+            'event_label': "post-donate-page",
+            'event_source': 'fa_fundraising'
+          });
+        }
+  
+	currency = window.champaign.personalization.location.currency;
+
+	if(typeof window.champaign.personalization.member.donor_status != "undefined" && window.champaign.personalization.member.donor_status == "recurring_donor"){
+	 	isDonor = true; 
+	}
+
+	handleLanguages();
+	updateCopy();
+	getCurrency();
+	getAmounts();
+	updateButtons();
+
+	if(isDonor == true){
+      $('#donate-video').remove();
+      $('#share-ask').show();
+      $('#donate-ask').hide();
+	} else {
+		$('#share-ask').hide();
+		$('#donate-video').remove();
+		$('#donate-ask').show();
+	}
+
+});
+
+
+
+
+
+</script>
+
+{% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}

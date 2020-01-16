@@ -378,7 +378,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.3)
-    puma (3.12.0)
+    puma (3.12.2)
     rack (2.0.7)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -634,7 +634,7 @@ DEPENDENCIES
   pg
   phony_rails
   poltergeist
-  puma (~> 3.12.0)
+  puma (~> 3.12.2)
   rack-attack
   rack-cors
   rails (~> 5.2)

@@ -9,7 +9,9 @@ javascript:
 
   try{
     if (window.location.search.match(/payment=completed/)) {
-      var gc_pay = document.cookie.split(";").find(element => element.includes("__gc_pay"));
+      var gc_pay = document.cookie.split(";").find(function (element) {
+        return element.includes("__gc_pay");
+      });
       if(gc_pay) {
         var userId = window.champaign.personalization.member.id || Cookie.get('__bpmx');
         gc_pay = gc_pay.replace(" __gc_pay=", '');

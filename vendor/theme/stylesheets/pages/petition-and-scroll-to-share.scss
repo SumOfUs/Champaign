@@ -1,0 +1,99 @@
+.petition-and-scroll-to-share {
+  &__yes-no-question-wrapper {
+    display: none;
+    position: relative;
+    padding: 50px 0;
+  }
+  &__share-wrapper {
+    display: none;
+    padding-top: 50px;
+  }
+
+  &__fundraiser-wrapper {
+    display: none;
+    padding: 90px 0;
+
+    h1.intro {
+      font-size: 24px;
+      line-height: 1.2;
+      max-width: 700px;
+      text-align: center;
+      margin: 0 auto;
+      padding-bottom: 60px;
+      @media (max-width: 700px) {
+        padding-bottom: 0;
+      }
+    }
+
+    .fundraiser-bar__top h2 {
+      font-size: 42px;
+    }
+
+    .fundraiser-bar,
+    .FundraiserView-container {
+      max-width: 700px;
+
+      .StepContent {
+        max-width: 500px;
+        @media (max-width: 700px) {
+          padding-bottom: 200px;
+        }
+      }
+    }
+
+    .submission-interstitial {
+      margin-top: 30px;
+      @media (max-width: 600px) {
+        margin-top: 0;
+      }
+    }
+  }
+
+  @media (max-width: $mobile-width) {
+    &__fundraiser-wrapper {
+      padding-top: 0;
+
+      h1.intro {
+        font-size: 12px;
+        color: #b2b5ba;
+      }
+
+      .fundraiser-bar__top h2 {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+.petition-and-scroll-to-consent {
+  &__consent-question-wrapper {
+    display: none;
+
+    h1 {
+      font-weight: bold;
+      color: black;
+    }
+
+    p.opt-in-reason {
+      margin: 20px 0;
+      line-height: 1.6em;
+    }
+
+    .how-to-opt-out {
+      font-size: 0.9em;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #opt-in-button {
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+    }
+
+    #opt-out-button {
+      margin-top: 10px;
+    }
+  }
+}

@@ -1,0 +1,191 @@
+{% comment %} Description: A follow-up page asking to share and then ask to donate as a fallback {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+
+{% capture confirmation %}{{ 'petition.confirmation' | t }}{% endcapture %}
+{% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
+
+
+<div class="header-logo header-logo--dark">
+  <a href="{{ 'footer.home_url' | t }}">
+    <div class="header-logo__logo sumofus-logo--negative"></div>
+  </a>
+</div>
+
+<div class="center-content center-content--share-and-donate">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square cutom-center-content">
+
+      <div class="js-recurring-box">
+        <h1 class="js-recurring-message"> {{ 'fundraiser.upgrade_monthly_gift' | t }} </h1>
+        <form class='js-recurring-form'>
+          <span class='js-currency-symbol'>$</span>
+          <span style='display: none;' class='error js-amount'>{{ 'fundraiser.amount_greater_than_1' | t }}</span>
+          <span style='display: none;' class='error js-problem'>{{ 'fundraiser.problem_upgrading' | t }}</span>
+          <button type="submit" class="button">{{ 'fundraiser.update' | t }}</button>
+        </form>
+      </div>
+      <div class="js-recurring-thanks" style='display:none;'>
+        <h2>Thanks!</h2>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'Small Image Footer' %}
+<style>
+  .cutom-center-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding-bottom: 200px;
+  }
+  .js-recurring-box{
+     max-width: 859px;
+    min-height: 283px;
+    padding: 38px;
+  box-shadow: 8px 1px 40px 0 rgba(0, 0, 0, 0.07);
+  background-color: #ffffff;
+  }
+  input.js-recurring-new-amount {
+    margin: 0 20px;
+    font-size: 2.6rem;
+    width: 150px;
+    padding: 3px;
+    color: rgb(65, 65, 65);
+    font-weight: bold;
+    border: solid 0.5px #e6e6e6;
+    background-color: #f9f9f9;
+  }
+  form.js-recurring-form button {
+    padding-top: 0;
+    margin-top: 20px;
+    width: 40%;
+    margin: 20px auto;
+  }
+  
+  @media (max-width: 700px) {
+      form.js-recurring-form button {
+width: 60%;
+  }
+  
+  }
+
+  form.js-recurring-form {
+    margin-top: 10px;
+    font-size: 2.6rem;
+    font-weight: bold;
+  }
+
+  .error {
+    font-size: 12px;
+    display: block;
+    color: #f8492e;
+    margin-top: 20px;
+  }
+  @media (max-width: 700px) {
+      .js-recurring-message, .js-currency-symbol{
+    font-size: 26px;
+  }
+  }
+</style>
+
+<script type="text/javascript">
+  function post(data) {
+    var options = {
+      amount: data.amount,
+      akid: data.akid
+    };
+
+    var handler = function(r) {
+      window.location.href = r.followUpUrl;
+    }
+
+    var handleFailed = function(e) {
+      $('.error').hide();
+      if (e.responseJSON.message) {
+        $('.js-problem').text(e.responseJSON.message);
+      }
+      $('.js-problem').show();
+    }
+
+    const url = "https://mvp3xdr3oa.execute-api.us-east-1.amazonaws.com/prod/subscriptions/" + data.subscription_id;
+
+    $('button.button')
+      .attr("disabled", "disabled")
+      .text("{{ 'fundraiser.processing' | t}}");
+
+    $.ajax(url, {
+      data : JSON.stringify(options),
+      crossDomain: true,
+      contentType : 'application/json',
+      type : 'POST',
+    })
+    .done(handler)
+    .fail(handleFailed)
+    .always( function() {
+      $('button.button')
+        .attr("disabled", false)
+        .text("Update");
+    })
+  }
+
+  function currencyToSymbol(currency) {
+    return currency.replace(
+      '0', 
+      '<input class="js-recurring-new-amount" type="number" />'
+    );  
+  }
+
+  $(function(){
+    var data = _.defaults(
+      {},
+      _.pick(champaign.personalization.urlParams, 'currency', 'amount', 'subscription_id', 'akid', 'new_amount'),
+      _.pick(champaign.personalization.location, 'currency')
+    );
+
+    var supportedCountryLanguageList = ['en-US', 'en-GB', 'en-CA', 'en-NZ', 'en-AU', 'en-IE', 'de-DE', 'de-AT', 'de-CH', 'fr-FR', 'fr-CA', 'es-ES', 'es-AR', 'es-MX'];
+    var countryLanguage = champaign.page.language_code + '-' + champaign.personalization.location.country;
+    supportedCountryLanguageList.includes(countryLanguage)
+      ? null
+      : countryLanguage = champaign.page.language_code
+    
+    if (data.currency && data.amount) {
+      $('.js-recurring-message span.js-current').html(
+        new Intl.NumberFormat(
+          countryLanguage, 
+          { style: 'currency', currency: data.currency }
+        ).format(data.amount)
+      );
+    }
+
+    $('.js-currency-symbol').html(
+      currencyToSymbol(
+        new Intl.NumberFormat(
+          countryLanguage, 
+          { style: 'currency', currency: data.currency, minimumFractionDigits: '0', maximumFractionDigits: '0' }
+        ).format(0))
+    );
+
+    var $field = $('.js-recurring-new-amount');
+
+    if (data.new_amount && parseFloat(data.new_amount)) {
+      $field.val(data.new_amount);
+    }
+    $('form.js-recurring-form').on('submit', function(e){
+      e.preventDefault();
+      $val = $field.val();
+      $val = parseFloat($val).toFixed(2);
+
+      if(isNaN($val)){
+        $('.error').hide();
+        $('.error.js-amount').show();
+        $('button.button').attr("disabled", false);
+
+      } else {
+        post(Object.assign({}, data, {amount: $val}));
+      }
+    })
+  });
+</script>
+{% comment %}{% include 'Small Image Footer', extra_class: 'simple-footer--stuck-to-bottom' %}{% endcomment %}

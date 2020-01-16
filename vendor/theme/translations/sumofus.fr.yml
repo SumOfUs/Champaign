@@ -1,0 +1,164 @@
+fr:
+  member_registration:
+    title: "Inscription - SumOfUs.org"
+    form:
+      password: Mot de passe
+      confirm_password: Confirmez votre mot de passe
+      your_email: Adresse e-mail
+      register: S'inscrire
+    thanks: "Merci ! Encore une toute dernière étape :"
+    enter_password_message: "Entrez un mot de passe pour commencer"
+    create_account: "Nous traitons votre don."
+    create_account_description: "Maintenant, créez un compte afin de gérer vos dons sécurisés avec SumOfUs. Cela vous permettra notamment d'annuler un don à tout moment."
+    check_email: "<strong>Merci pour votre inscription.</strong> <span>Pour activer votre compte, cliquez sur le lien de confirmation qui vient de vous être envoyé par email.</span>"
+  confirmation_mailer:
+    title: "Confirmation du compte - SumOfUs.org"
+    confirmation_email:
+      subject: "Confirmez votre compte SumOfUs"
+      headline: "Merci d'avoir créé un compte avec SumOfUs"
+      body_html: "Pour activer votre compte, <a href='%{confirmation_url}'>cliquez sur le lien de confirmation qui vient de vous être envoyé.</a><br/><br/>Merci,<br/>L'équipe SumOfUs"
+      body_text: "Pour valider votre inscription, veuillez cliquer sur le lien suivant : %{confirmation_url}"
+    follow_up_page:
+      account_not_found: "Désolé, aucun compte n'est associé à ce lien. Si vous rencontrez des difficultés, n'hésitez pas à nous contacter en écrivant un email à : donations@sumofus.org."
+      account_already_confirmed: "Votre compte a déjà été confirmé !"
+      failure: "Désolé, nous n'avons pas pu confirmer votre compte. Si vous rencontrez des difficultés, n'hésitez pas à nous contacter ici : donations@sumofus.org."
+      success: "Félicitations, votre compte SumOfUs a bien été confirmé. Merci !"
+      member_management: "Pour gérer vos modalités de paiement, vous pouvez à tout moment visiter le <a href='%{url}'>tableau de bord des membres</a> de SumOfUs."
+  branding:
+    tagline: L’humain avant le profit
+    license: Licence Creative Commons Attribution 3.0
+    description: "SumOfUs est un mouvement mondial de personnes comme vous, qui travaillent ensemble afin de responsabiliser les entreprises et de tracer une nouvelle voie durable pour l’économie mondiale."
+  fundraiser:
+    fine_print: "SumOfUs protège <a href='https://sumofus.org/fr/privacy'>vos informations personnelles</a> et vous tiendra au courant de campagnes similaires."
+    debit:
+      recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
+      one_time: "Vous souhaitez donner %{amount} à SumOfUs."
+    generic:
+      title: "Merci d’avoir agi ! Pouvez-vous faire un don afin de faire progresser le combat? "
+      target: Vous
+      ask: "Pouvez-vous faire un don afin d’aider SumOfUs à continuer de combattre le pouvoir grandissant des grandes entreprises dans le monde ?"
+      body: "Merci d’avoir agi avec SumOfUs ! Votre action aide à combattre le pouvoir des grandes entreprises dans le monde. Il reste cependant beaucoup à faire. SumOfUs dépend presque entièrement de petits dons faits par des personnes comme vous. Chaque petit don compte. Vos contributions nous permettent de défier les multinationales les plus puissantes, les plus malveillantes et de leur faire rendre des comptes. Pourriez-vous faire un don afin de nous aider à continuer le combat aujourd’hui ?"
+    two_step:
+      cta:
+        "<p><span class='inject-name'>Chèr-e ami-e</span>, nous avons besoin de votre soutien aujourd'hui pour obtenir des victoires contre l'impunité des multinationales en 2020</p>
+        <br/>
+        <p>Pouvez-vous faire un don pour aider à renforcer SumOfUs en 2020 ?</p>"
+      cta_eoy:
+        "<p><b><span class='inject-name'>Chèr.e ami.e</span>, nous n’avons pas atteint notre objectif de collecte de fonds cette année.</b> Nous avons besoin de votre soutien aujourd'hui pour continuer à gagner des campagnes contre le pouvoir des multinationales.</p>
+        <br/>
+        <p>Pouvez-vous faire un don pour combler ce déficit et aider SumOfUs à financer ses campagnes en 2020 ?</p>"
+    upgrade_monthly_gift: "J'aimerais changer mon don mensuel de <span class='js-current'></span> et le porter à :"
+    update: "Changer le montant"
+    processing: "traitement en cours..."
+    problem_upgrading: "Nous sommes désolés, mais un problème est survenu lors de la mise à jour de votre don"
+    amount_greater_than_1: "Veuillez saisir une valeur supérieure à 1"
+    upgrading:
+      awesome: "Vous êtes fantastique !"
+      thank_you: "Merci infiniment d’avoir augmenté votre don mensuel à SumOfUs."
+      becoming_stronger: "Votre soutien sera d’autant plus efficace dans notre combat face aux multinationales et leurs lobbys."
+  petition:
+    sign_it: Signez la pétition
+    target_prefix: Pétition adressée à
+    confirmation: Nom envoyé
+    excited_confirmation: Nom envoyé!
+    thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"!'
+    fine_print: "SumOfUs protège <a href='https://sumofus.org/fr/privacy'>vos informations personnelles</a> et vous tiendra au courant de campagnes similaires."
+    before_you_sign: 'Avant de signer la pétition "%{petition_title}"'
+    thanks_for_signing: 'Thanks for signing "%{petition_title}"'
+    next: "Next"
+  share:
+    cta: Partagez la campagne avec vos ami-e-s afin de tripler votre impact !
+    cta_thanks: Merci, vous êtes fantastique ! Maintenant, pouvez-vous partager la campagne avec vos amis pour tripler votre impact ?
+    send_email: Envoyer un courriel
+    share: Partager
+    tweet: Tweeter
+    twitter_handle: "@sumofus_fr"
+    two_step:
+      cta: "Pouvez-vous partager maintenant la campagne avec vos ami-e-s afin de nous aider à gagner ?"
+      accept: "Oui"
+      decline: "Non"
+      accepted: "Merci beaucoup ! Plus nous serons nombreux à nous mobiliser, plus notre mouvement sera fort."
+      declined: "Merci d'avoir signé la pétition ! "
+    thanks: "Merci pour votre don !"
+  share_and_donate:
+    fundraiser_title: "Faire un don pour aider à renforcer SumOfUs"
+  petition_and_scroll:
+    fundraiser_intro: "Merci, vous êtes fantastique ! SumOfUs est un mouvement financé par des personnes comme vous."
+  footer:
+    home: Accueil
+    about: Nous connaître
+    privacy_policy: Mentions Légales
+    contact: Contact
+    controlshift: Lancez votre propre pétition
+    home_url: https://www.sumofus.org/fr/
+    about_url: https://www.sumofus.org/fr/about/
+    privacy_policy_url: https://www.sumofus.org/fr/privacy/
+    contact_url: https://www.sumofus.org/fr/contact/
+  baysanto:
+    header:
+      tagline: "l'opposition"
+      translate: "Allemand"
+      press_room: "Salle de presse"
+      the_paper: "Lire le journal"
+      cta: "Agir"
+      translate_link: "/de"
+      press_link: "/press"
+    intro:
+      title: "En créant la plus grosse entreprise agro-industrielle au monde, la fusion Bayer-Monsanto irait à l'encontre des lois sur la concurrence déloyale."
+      details: "Konkurrenz Group, un important cabinet d'avocats spécialisé dans les fusions et acquisitions, a fait part de ses préoccupations majeures concernant la légalité de la fusion Bayer/Monsanto. Cette dernière serait contraire aux réglementations européennes et étasuniennes en matière de concurrence ; elle aboutirait également à restreindre sévèrement les choix et options s'offrant aux agriculteurs et aux consommateurs dans un marché déjà dominé par quelques grands acteurs."
+      read_the_paper: "Lire le livre blanc"
+    environmental:
+      title: "Cette fusion n'est pas juste contraire à la loi, elle va aussi fragiliser nos systèmes alimentaires."
+      first_reason:
+        title: "Monocultures fragiles"
+        details: Qui dit plus de contrôle des entreprises sur l'agriculture dit disparition progressive de la diversité des semences sur lesquelles reposent les systèmes alimentaires. Aussi, si une maladie venait à toucher une variété de semences brevetées par Bayer-Monsanto, cela pourrait avoir des conséquences catastrophiques sur nos systèmes alimentaires mondiaux.
+      second_reason:
+        title: "Pesticides funestes"
+        details: Les pesticides néonicotinoïdes de Bayer nuisent aux colonies d'abeilles dans le monde entier, et le Roundup de Monsanto détruit la principale source de nourriture des papillons monarques qui sont désormais en voie d'extinction. Or, nous comptons sur ces deux espèces pour polliniser nos cultures. Des experts indépendants de l'OMS ont classé le glyphosate, ingrédient clé du RoundUp, dans la liste des substances cancérogènes probables.
+      third_reason:
+        title: "Hausse du prix des denrées alimentaires"
+        details: Une méga-société type Bayer-Monsanto détiendrait pouvoir sans précédent sur le prix des semences et des engrais. Les consommateurs pourrait aussi avoir moins de choix dans les produits bio et non génétiquement modifiés.
+    shareholder:
+      title: "What’s more, <br>only 7% of Bayer shareholders think the acquisition is a good strategic move"
+      details: "Bernstein and Company conducted an independent poll of Bayer shareholders and found that only 7% supported the acquisition. Bernstein has no connection to SumOfUs or other advocacy groups.<br><br> According to investment magazine the Motley Fool, “[Investors] immediately after the takeover offer was announced, castigated it as an 'immediate destruction' of shareholder value. That view seems to be shared by the investors surveyed by Bernstein, who by and large believe Bayer should focus on either healthcare (50% of respondents) or its pharma pipeline (39%)."
+      quotes:
+        first:
+          quote: "As a financial advisor, I oppose this merger because it centralizes food and prescription drugs so intensely that neither Bayer nor Monsanto will be good incubators for NEW ideas. It will be too big of a company and is likely to stagnate. That's bad for my profits."
+          quoted: J. Gruber, Bayer shareholder
+        second:
+          quote: "As a Bayer shareholder I see much bigger risks and future losses in the mid to long-term from this merger than actual benefits. Monsanto's business model in based on a single product that is going to be banned in the European market, which induces a great risk in shareholder value."
+          quoted: Angelos K., Bayer shareholder
+        third:
+          quote: "I hold Bayer stock but am NOT on board with this merger. Monsanto is a dangerous entity, ruining essential biodiversity. I've done my research and Monsanto is a liability for our entire future's food security. I will be selling my Bayer stock if this merger occurs."
+          quoted: Oliva B., Bayer shareholder
+        fourth:
+          quote: "I oppose this merger because Monsanto has a bad reputation and it would make Bayer's repuation worse. People would be less trusting of this company."
+          quoted: Rob B., Bayer shareholder
+        fifth:
+          quote: "Monsanto will be a toxic burden to Bayer. The public's disdain of Monsanto will taint Bayer's reputation and share prices will drop. I will dump my shares in Bayer if there is a merger, just as I have already done with Monsanto. No merger please!"
+          quoted: Sharon L., Bayer shareholder
+    action:
+      count_explanation: "people have already taken action to stop this deal."
+      cta_blurb: "Join them now, and call on anti-trust authorities in the US and EU to stop Bayer and Monsanto from creating a toxic mega corporation."
+      petition_title: "Signez la pétition"
+      tweet_title: "Tweet the paper"
+      thanks_for_signing: "Thanks for signing! Now multiply your impact by spreading the word!"
+      petition_link: 'Click <a href="//actions.sumofus.org/a/stop-the-bayer-monsanto-mega-merger">here</a> to read the original petition.'
+      share:
+        link_preview_1: "The Bayer Monsanto merger is in clear violation of anti-trust law"
+        link_preview_2: "New research by a leading M&A firm makes it clear"
+        link_preview_url: "bayermonsantomerger.com"
+        tweet: "A Bayer-Monsanto merger violates the law and is a disaster for our birds, bees and farmers @vestager @LorettaLynch"
+        tweet_link: https://bayermonsantomerger.com
+        cta: "Tweet now"
+  caller_survey:
+    intro: "Vous allez recevoir un appel sur votre téléphone dans quelques instants. En décrochant, vous allez entendre un court message d'un de nos chargés de campagnes et vous serez ensuite mis en relation avec le bureau d'un eurodéputé.<br><br><i>Petit rappel</i>: l'appel est gratuit et ne vous sera donc pas facturé. <br> <br> <b>A la suite de votre appel, pourriez-vous nous dire comment cela s'est passé?</b>Vous pouvez nous laisser un message ci-dessous.  "
+    intro_with_target_info: "Vous allez recevoir un appel sur votre téléphone dans quelques instants. En décrochant, vous allez entendre un court message de notre chargé.e de campagnes et vous serez ensuite mis en relation avec le bureau de <b>:target_name:</b>, <b>:target_title:</b>.<br><br><i>Petit rappel</i>: l’appel est gratuit et ne vous sera donc pas facturé. <br> <br> <b>A la suite de votre appel, pourriez-vous nous dire comment cela s’est passé?</b> Vous pouvez nous laisser un message ci-dessous."
+    show_talking_points: "Cliquez ici pour revoir l'exemple de conversation, les conseils ainsi que la FAQ."
+    submit: "Envoyer"
+  cookie_consent:
+    privacy_policy_url: "https://www.sumofus.org/fr/privacy/"
+  progress_tracker:
+    signed: Signé
+    shared: Partagé
+    donated: Donné

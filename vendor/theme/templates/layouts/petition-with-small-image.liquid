@@ -1,0 +1,12 @@
+{% comment %} Description: The petition page with a small cover photo. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Petition With Small Image', variant: 'simple' %}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    new window.champaign.Petition(
+      {followUpUrl: "{{ follow_up_url }}"}
+    );
+  });
+</script>
