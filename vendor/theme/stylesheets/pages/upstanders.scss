@@ -171,7 +171,7 @@
     text-align: left;
   }
   .ups-intro {
-    background-image: url(asset-path('images/upstanders/airport-grad.jpg'));
+    background-image: url(asset-path('upstanders/airport-grad.jpg'));
     background-color: #1f0c06;
     background-size: cover;
     color: white;
@@ -228,22 +228,22 @@
       }
 
       &--signing {
-        background-image: url(asset-path('images/upstanders/trump-desk.jpg'));
+        background-image: url(asset-path('upstanders/trump-desk.jpg'));
       }
       &--two-execs {
-        background-image: url(asset-path('images/upstanders/two-execs.jpg'));
+        background-image: url(asset-path('upstanders/two-execs.jpg'));
       }
       &--hurting {
-        background-image: url(asset-path('images/upstanders/bummer.jpg'));
+        background-image: url(asset-path('upstanders/bummer.jpg'));
       }
       &--national {
-        background-image: url(asset-path('images/upstanders/national.png'));
+        background-image: url(asset-path('upstanders/national.png'));
       }
       &--local {
-        background-image: url(asset-path('images/upstanders/local.jpg'));
+        background-image: url(asset-path('upstanders/local.jpg'));
       }
       &--mobilize {
-        background-image: url(asset-path('images/upstanders/mobilize.jpg'));
+        background-image: url(asset-path('upstanders/mobilize.jpg'));
       }
     }
     &__wrap-up, &__intro {
@@ -396,7 +396,7 @@
 
   .ups-join {
     background-color: white;
-    // background-image: url(asset-path('images/upstanders/fists.jpg'));
+    // background-image: url(asset-path('upstanders/fists.jpg'));
     background-size: contain;
     background-position: bottom;
     background-repeat: no-repeat;
@@ -518,7 +518,7 @@
       float: right;
       height: 100%;
       width: 420px;
-      background-image: url(asset-path('images/upstanders/flag-fists-teal.jpg'));
+      background-image: url(asset-path('upstanders/flag-fists-teal.jpg'));
       background-size: contain;
       background-position: bottom;
       background-repeat: no-repeat;
@@ -571,7 +571,7 @@
         background-position: center;
       }
       &--interview {
-        background-image: url(asset-path('images/upstanders/sou-interview.jpg'));
+        background-image: url(asset-path('upstanders/sou-interview.jpg'));
       }
     }
     &__text {
@@ -631,7 +631,7 @@
     background-position: center;
     background-repeat: no-repeat;
     &--unplug {
-      background-image: url(asset-path('images/upstanders/unplug-trump.gif'));
+      background-image: url(asset-path('upstanders/unplug-trump.gif'));
       background-color: $teal;
       height: 400px;
       @media(max-width: 925px) {
@@ -673,19 +673,19 @@
     height: 70px;
     margin: 20px 10px 0 0;
     &--pfwf {
-      background-image: url(asset-path('images/upstanders/partners/pfwf.png'));
+      background-image: url(asset-path('upstanders/partners/pfwf.png'));
     }
     &--im {
-      background-image: url(asset-path('images/upstanders/partners/mischief.png'));
+      background-image: url(asset-path('upstanders/partners/mischief.png'));
     }
     &--jvp {
-      background-image: url(asset-path('images/upstanders/partners/jvp.png'));
+      background-image: url(asset-path('upstanders/partners/jvp.png'));
     }
     &--uv {
-      background-image: url(asset-path('images/upstanders/partners/ultraviolet.png'));
+      background-image: url(asset-path('upstanders/partners/ultraviolet.png'));
     }
     &--cosecha {
-      background-image: url(asset-path('images/upstanders/partners/cosecha.png'));
+      background-image: url(asset-path('upstanders/partners/cosecha.png'));
     }
   }
 }
