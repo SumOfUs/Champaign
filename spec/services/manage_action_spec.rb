@@ -52,12 +52,6 @@ describe ManageAction do
     end
 
     describe 'new member' do
-      let(:member) { create(:member, first_name: first_name, id: 123) }
-
-      before do
-        allow(Member).to receive(:new).and_return(member)
-      end
-
       it 'creates an member' do
         expect { subject }.to change { Member.count }.by 1
       end
@@ -91,24 +85,32 @@ describe ManageAction do
         ManageAction.create(data.merge(id: 200))
       end
 
-      it 'pushes to the queue with member_id in meta so an AKID can be assigned to the member on the worker' do
-        payload = {
-          type: 'action',
-          meta: hash_including(
-            member_id: 123
-          ),
-          params: hash_including(
-            page: "#{page.slug}-petition",
-            email: 'bob@example.com',
-            page_id: page.id,
-            referring_akid: '123.456.xyz',
-            user_en: 1
-          )
-        }
+      context 'queue payload' do
+        let(:member) { create(:member, first_name: first_name, id: 123) }
 
-        expect(ChampaignQueue).to receive(:push)
-          .with(payload, group_id: /action:\d+/)
-        subject
+        before do
+          allow(Member).to receive(:new).and_return(member)
+        end
+
+        it 'pushes to the queue with member_id in meta so an AKID can be assigned to the member on the worker' do
+          payload = {
+            type: 'action',
+            meta: hash_including(
+              member_id: 123
+            ),
+            params: hash_including(
+              page: "#{page.slug}-petition",
+              email: 'bob@example.com',
+              page_id: page.id,
+              referring_akid: '123.456.xyz',
+              user_en: 1
+            )
+          }
+
+          expect(ChampaignQueue).to receive(:push)
+            .with(payload, group_id: /action:\d+/)
+          subject
+        end
       end
     end
 

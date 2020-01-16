@@ -233,6 +233,7 @@ describe 'GoCardless API' do
                 name: "#{page.slug}-donation",
                 payment_account: 'GoCardless GBP'
               },
+              mailing_id: nil,
               order: hash_including(
                 amount: gbp_amount.to_s,
                 currency: 'GBP',
@@ -400,6 +401,7 @@ describe 'GoCardless API' do
                 name: "#{page.slug}-donation",
                 payment_account: 'GoCardless GBP'
               },
+              mailing_id: nil,
               order: {
                 amount: gbp_amount.to_s,
                 currency: 'GBP',

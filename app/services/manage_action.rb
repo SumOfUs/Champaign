@@ -16,7 +16,6 @@ class ManageAction
   end
 
   def create
-    pp 'PARAMS: ', @params
     if should_create_new_action?
       create_action
     else

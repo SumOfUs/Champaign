@@ -6,7 +6,7 @@ module ActionQueue
   module Enqueable
     extend ActiveSupport::Concern
 
-    def initialize(action, mailing_id = nil)
+    def initialize(action, mailing_id)
       @action = action
       @mailing_id = mailing_id
     end
@@ -53,8 +53,8 @@ module ActionQueue
     end
 
     class_methods do
-      def push(action)
-        new(action).push
+      def push(action, mailing_id)
+        new(action, mailing_id).push
       end
     end
   end
@@ -84,20 +84,20 @@ module ActionQueue
   end
 
   class Pusher
-    def self.push(event, action, _mailing_id)
+    def self.push(event, action, mailing_id)
       case event
       when :new_action
         if action.donation
           if action.form_data.fetch('payment_provider', '').inquiry.go_cardless?
-            NewDirectDebitAction.push(action)
+            NewDirectDebitAction.push(action, mailing_id)
           else
-            NewDonationAction.push(action)
+            NewDonationAction.push(action, mailing_id)
           end
         else
-          NewPetitionAction.push(action)
+          NewPetitionAction.push(action, mailing_id)
         end
       when :new_survey_response
-        NewSurveyResponse.push(action)
+        NewSurveyResponse.push(action, mailing_id)
       end
     end
   end
