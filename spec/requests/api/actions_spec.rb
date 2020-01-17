@@ -222,7 +222,7 @@ describe 'Api Actions' do
         it 'does not include a referring_user_uri in the queue message' do
           expected_params = hash_including(
             type: 'action',
-            params: {
+            params: hash_including(
               page: 'foo-bar-petition',
               email: 'hello@example.com',
               page_id: page.id.to_s,
@@ -233,7 +233,7 @@ describe 'Api Actions' do
               user_en: 1,
               consented: anything,
               source: 'website'
-            }
+            )
           )
 
           expect(ChampaignQueue).to have_received(:push)

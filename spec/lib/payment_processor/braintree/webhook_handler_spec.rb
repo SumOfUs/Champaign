@@ -17,6 +17,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
     create(:payment_braintree_subscription,
            action: action,
            subscription_id: 'subscription_id',
+           id: 13,
            # The transaction amount given by Braintree on the test webhook
            amount: 49.99)
   end
@@ -159,16 +160,17 @@ describe PaymentProcessor::Braintree::WebhookHandler do
 
   # This describes the event where we have updated the subscription on the Braintree dashboard but not on Champaign
   describe 'subscription that comes in with a different amount from the original' do
-    let(:action) { create(:action, member: member, form_data: { subscription_id: 'subscription_id' }) }
+    let(:action) { create(:action, member: member, form_data: { subscription_id: 'existing_subscription_id' }) }
 
     let!(:existing_subscription) do
       create(:payment_braintree_subscription,
              action: action,
-             subscription_id: 'subscription_id',
+             subscription_id: 'existing_subscription_id',
+             id: 55,
              amount: 5)
     end
 
-    let(:notification) do
+    let(:new_notification) do
       notification_faker(
         Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully,
         existing_subscription.subscription_id
@@ -181,12 +183,17 @@ describe PaymentProcessor::Braintree::WebhookHandler do
              bt_payload: 'bt_payload',
              kind: 'subscription_charged_successfully',
              subscription: double('notification_subscription',
-                                  id: 'subscription_id',
+                                  id: 'existing_subscription_id',
                                   transactions: [double('transaction', amount: 10, id: '124309')]))
     end
 
     before do
       allow(::Braintree::WebhookNotification).to receive(:parse).and_return(parsed_notification)
+    end
+
+    subject do
+      PaymentProcessor::Braintree::WebhookHandler
+        .handle(new_notification[:bt_signature], new_notification[:bt_payload])
     end
 
     it 'updates the local subscription record' do
@@ -201,7 +208,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
           params: {
             # Matches the only string format AK accepts, e.g. "2016-12-22 17:47:42"
             created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
-            recurring_id: 'subscription_id',
+            recurring_id: 'existing_subscription_id',
             success: 1,
             status: 'completed',
             amount: '10.0',
@@ -211,15 +218,15 @@ describe PaymentProcessor::Braintree::WebhookHandler do
         update_payload = {
           type: 'recurring_payment_update',
           params: {
-            recurring_id: 'subscription_id',
+            recurring_id: 'existing_subscription_id',
             amount: '10.0'
           }
         }
         expect(ChampaignQueue).to receive(:push)
-          .with(update_payload, group_id: "braintree-subscription:#{subscription.id}")
+          .with(update_payload, group_id: "braintree-subscription:#{existing_subscription.id}")
           .ordered
         expect(ChampaignQueue).to receive(:push)
-          .with(payment_payload, group_id: "braintree-subscription:#{subscription.id}")
+          .with(payment_payload, group_id: "braintree-subscription:#{existing_subscription.id}")
           .ordered
 
         subject

@@ -51,6 +51,7 @@ class ManageSurveyResponse
   end
 
   def publish_event
-    ActionQueue::Pusher.push(:new_survey_response, @action)
+    @mailing_id = AkidParser.parse(@params[:akid], Settings.action_kit.akid_secret)[:mailing_id]
+    ActionQueue::Pusher.push(:new_survey_response, @action, @mailing_id)
   end
 end
