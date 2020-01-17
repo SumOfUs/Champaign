@@ -87,7 +87,8 @@ class ManageAction
   end
 
   def publish_event
-    ActionQueue::Pusher.push(:new_action, @action) unless @skip_queue
+    @mailing_id = AkidParser.parse(@params[:akid], Settings.action_kit.akid_secret)[:mailing_id]
+    ActionQueue::Pusher.push(:new_action, @action, @mailing_id) unless @skip_queue
   end
 
   def form_data

@@ -1650,7 +1650,7 @@ describe 'Braintree API' do
 
         customer.reload
         expect(customer.payment_methods.length).to eq(4)
-        expect(customer.default_payment_method).not_to eq original_token
+        expect(customer.default_payment_method).to be_an_instance_of(Payment::Braintree::PaymentMethod)
         expect(customer.payment_methods).to include(original_token, customer.default_payment_method)
       end
 
@@ -1663,7 +1663,7 @@ describe 'Braintree API' do
         expect { subject }.to change { Payment::Braintree::Customer.count }.by(0)
         customer.reload
         expect(customer.payment_methods.length).to eq(4)
-        expect(customer.default_payment_method).not_to eq original_token
+        expect(customer.default_payment_method).to be_an_instance_of(Payment::Braintree::PaymentMethod)
         expect(customer.payment_methods).to include(original_token, customer.default_payment_method)
         new_token = customer.default_payment_method
 

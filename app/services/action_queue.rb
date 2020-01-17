@@ -6,8 +6,9 @@ module ActionQueue
   module Enqueable
     extend ActiveSupport::Concern
 
-    def initialize(action)
+    def initialize(action, mailing_id)
       @action = action
+      @mailing_id = mailing_id
     end
 
     def push
@@ -52,8 +53,8 @@ module ActionQueue
     end
 
     class_methods do
-      def push(action)
-        new(action).push
+      def push(action, mailing_id)
+        new(action, mailing_id).push
       end
     end
   end
@@ -83,20 +84,20 @@ module ActionQueue
   end
 
   class Pusher
-    def self.push(event, action)
+    def self.push(event, action, mailing_id)
       case event
       when :new_action
         if action.donation
           if action.form_data.fetch('payment_provider', '').inquiry.go_cardless?
-            NewDirectDebitAction.push(action)
+            NewDirectDebitAction.push(action, mailing_id)
           else
-            NewDonationAction.push(action)
+            NewDonationAction.push(action, mailing_id)
           end
         else
-          NewPetitionAction.push(action)
+          NewPetitionAction.push(action, mailing_id)
         end
       when :new_survey_response
-        NewSurveyResponse.push(action)
+        NewSurveyResponse.push(action, mailing_id)
       end
     end
   end
@@ -118,7 +119,8 @@ module ActionQueue
         type: 'action',
         params: {
           page: get_page_name,
-          email: @action.member.email
+          email: @action.member.email,
+          mailing_id: @mailing_id
         }.merge(@action.form_data)
           .merge(UserLanguageISO.for(page.language))
           .tap do |params|
@@ -167,7 +169,8 @@ module ActionQueue
           }.merge(fake_card_info),
           action: action_data,
           user: user_data,
-          referring_akid: @action.form_data['referring_akid']
+          referring_akid: @action.form_data['referring_akid'],
+          mailing_id: @mailing_id
         }
       }
     end
@@ -188,7 +191,8 @@ module ActionQueue
           }.merge(fake_card_info),
           action: action_data,
           user: user_data,
-          referring_akid: @action.form_data['referring_akid']
+          referring_akid: @action.form_data['referring_akid'],
+          mailing_id: @mailing_id
         }
       }
     end

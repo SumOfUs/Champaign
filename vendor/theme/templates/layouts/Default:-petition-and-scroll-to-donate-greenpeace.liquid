@@ -138,7 +138,7 @@
       $('.thank-you__cta.intro').show();
       window.champaign.redirectors.AfterDonationRedirector.attemptRedirect("{{ follow_up_url }}", formData);
     });
-    
+
     window.ee.on('action:submitted_success', function () {
       var formData = window.champaign.myActionForm.formData();
       $('.inject-name').text(formData.name.split(' ')[0]);

@@ -105,7 +105,7 @@ describe 'New Action Confirmation' do
 
     it 'posts to queue' do
       get confirm_api_action_confirmations_path(token: '1234', consented: true)
-      expect(ActionQueue::Pusher).to have_received(:push).with(:new_action, Action.last)
+      expect(ActionQueue::Pusher).to have_received(:push).with(:new_action, Action.last, nil)
     end
 
     it 'creates action and member' do
