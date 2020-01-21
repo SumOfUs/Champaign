@@ -17,6 +17,10 @@
 #  status                :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  ak_donation_action_id :string
+#  ak_order_id           :string
+#  ak_transaction_id     :string
+#  ak_user_id            :string
 #  customer_id           :integer
 #  go_cardless_id        :string
 #  page_id               :integer
