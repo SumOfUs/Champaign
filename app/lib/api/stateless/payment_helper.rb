@@ -65,6 +65,10 @@ module Api
         def active_subscriptions_for_payment_method(payment_method)
           ::Payment::GoCardless::Subscription.active.where(payment_method_id: payment_method.id)
         end
+
+        def find_transaction_by(id:)
+          ::Payment::GoCardless::Transaction.find_by(go_cardless_id: id)
+        end
       end
     end
   end
