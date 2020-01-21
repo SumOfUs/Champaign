@@ -50,7 +50,7 @@ export const init = options => {
       ...options.config,
       countryCode,
       ...filters,
-      ...trackingParams,
+      trackingParams,
       onSuccess(target) {
         window.location.href = URI(window.champaign.page.follow_up_url)
           .addQuery({

@@ -39,7 +39,7 @@ export const init = options => {
   const config = {
     ...options.config,
     ...memberData,
-    ...trackingParams,
+    trackingParams,
     country: memberData.country || personalization.location.country,
     onSuccess(target) {
       window.location.href = URI(`${window.location.pathname}/follow-up`)

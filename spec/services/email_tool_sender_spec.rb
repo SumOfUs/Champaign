@@ -20,7 +20,8 @@ gravida mollis a vitae velit. Duis tempus dolor non finibus convallis. In in ips
 condimentum sapien. Nunc non dui dolor. Ut ornare pretium nunc sed ornare. Praesent at risus a felis lacinia pretium
 et a neque. Nam non mi in eros sollicitudin imperdiet.',
       subject: 'Some subject',
-      country: 'US' }
+      country: 'US',
+      akid: '1234.2342' }
   end
 
   before { allow(EmailSender).to receive(:run) }
@@ -103,16 +104,38 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
     end
   end
 
-  it 'creates an action and member with the correct params (not-EEA country)' do
-    service = EmailToolSender.new(page.id, params)
-    expect {
-      service.run
-    }.to change(Action, :count).by(1)
+  context 'creating an action' do
+    it 'creates an action and member with the correct params (not-EEA country)' do
+      service = EmailToolSender.new(page.id, params)
+      expect {
+        service.run
+      }.to change(Action, :count).by(1)
 
-    action = service.action
-    expect(action.member&.email).to eq 'john@email.com'
-    expect(action.member&.first_name).to eq 'John'
-    expect(action.page).to eq page
+      action = service.action
+      expect(action.member&.email).to eq 'john@email.com'
+      expect(action.member&.first_name).to eq 'John'
+      expect(action.page).to eq page
+    end
+
+    it 'pushes the action to the queue with the mailing_id present' do
+      allow(AkidParser).to receive(:parse).and_return(actionkit_user_id: 29_384, mailing_id: 12_309)
+      payload = {
+        type: 'action',
+        meta: hash_including(
+          title: 'Foo Bar'
+        ),
+        params: hash_including(
+          page: "#{page.slug}-petition",
+          email: 'john@email.com',
+          page_id: page.id,
+          user_en: 1,
+          mailing_id: 12_309
+        )
+      }
+      expect(ChampaignQueue).to receive(:push)
+        .with(payload, group_id: /action:\d+/)
+      EmailToolSender.new(page.id, params).run
+    end
   end
 
   describe 'Validations' do
