@@ -144,7 +144,7 @@ describe 'API::Stateless GoCardless Transactions' do
     end
 
     context 'invalid api token' do
-      it 'should update actionkit related fields in transaction record' do
+      it 'should not process the request if the header has invalid api token' do
         go_cardless_id = one_off_transaction.go_cardless_id
         put "/api/stateless/go_cardless/transactions/#{go_cardless_id}", params: valid_attributes,
                                                                          headers: invalid_api_key
