@@ -203,7 +203,8 @@ module ActionQueue
           action_account_number_ending: data[:account_number_ending],
           action_mandate_reference: data[:mandate_reference],
           action_bank_name: data[:bank_name],
-          action_express_donation: data[:express_donation] ? 1 : 0
+          action_express_donation: data[:express_donation] ? 1 : 0,
+          payment_gateway_status: 'pending'
         ),
         source: data[:source]
       }
