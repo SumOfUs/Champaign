@@ -611,19 +611,6 @@ ActiveRecord::Schema.define(version: 2020_01_20_172811) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "session_blocked_lists", force: :cascade do |t|
-    t.string "devise_session"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "sessions_blacklists", force: :cascade do |t|
-    t.string "sessionid", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["sessionid"], name: "index_sessions_blacklists_on_sessionid"
-  end
-
   create_table "share_buttons", id: :serial, force: :cascade do |t|
     t.string "title"
     t.string "url"
