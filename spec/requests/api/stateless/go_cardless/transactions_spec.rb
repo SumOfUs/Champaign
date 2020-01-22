@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'API::Stateless GoCardless Subscriptions' do
+describe 'API::Stateless GoCardless Transactions' do
   include Requests::RequestHelpers
   include AuthToken
 
@@ -60,6 +60,14 @@ describe 'API::Stateless GoCardless Subscriptions' do
     { authorization: "Bearer #{token}" }
   end
 
+  def valid_api_key
+    { 'X-Api-Key' => '1234' }
+  end
+
+  def invalid_api_key
+    { 'X-Api-Key' => '124' }
+  end
+
   def first_transaction
     json_hash.first.deep_symbolize_keys!
   end
@@ -102,6 +110,47 @@ describe 'API::Stateless GoCardless Subscriptions' do
                                                go_cardless_id: subscription_transaction.go_cardless_id,
                                                amount: subscription_transaction.amount,
                                                currency: subscription_transaction.currency)
+    end
+  end
+
+  describe 'PUT update' do
+    let(:valid_attributes) {
+      {
+        ak_order_id: '1873844',
+        ak_transaction_id: '2903328',
+        ak_donation_action_id: '138726676',
+        ak_user_id: '15383100'
+      }
+    }
+
+    context 'existing record' do
+      it 'should update actionkit related fields in transaction record' do
+        go_cardless_id = one_off_transaction.go_cardless_id
+        put "/api/stateless/go_cardless/transactions/#{go_cardless_id}", params: valid_attributes,
+                                                                         headers: valid_api_key
+
+        expect(response.code).to eql '200'
+        expect(json_ostruct.updated).to eq true
+      end
+    end
+
+    context 'non existing record' do
+      it 'should return 404' do
+        put '/api/stateless/go_cardless/transactions/123', params: valid_attributes,
+                                                           headers: valid_api_key
+        expect(response.code).to eql '200'
+        expect(json_ostruct.status).to match 'record not found'
+      end
+    end
+
+    context 'invalid api token' do
+      it 'should not process the request if the header has invalid api token' do
+        go_cardless_id = one_off_transaction.go_cardless_id
+        put "/api/stateless/go_cardless/transactions/#{go_cardless_id}", params: valid_attributes,
+                                                                         headers: invalid_api_key
+
+        expect(response.code).to eql '403'
+      end
     end
   end
 end
