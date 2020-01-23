@@ -77,6 +77,7 @@ const ActionForm = Backbone.View.extend({
     }
     this.$submitButton = this.$('.action-form__submit-button');
     this.$formWrapper = this.$('.form-wrapper');
+    this.$petitionBarComponent = this.$('.petition-bar__main')[0];
     this.buttonText = this.$submitButton.text();
     this.setupState();
     this.enableGDPRConsent();
@@ -144,6 +145,14 @@ const ActionForm = Backbone.View.extend({
       event.preventDefault();
       event.stopPropagation();
       this.store.dispatch(showConsentRequired(true));
+      const consentComponent = document.getElementsByClassName(
+        'ConsentControls'
+      )[0];
+      this.$petitionBarComponent.scrollTo({
+        top: consentComponent.offsetTop,
+        behavior: 'smooth',
+      });
+      this.$submitButton.blur();
     }
   },
 
@@ -356,6 +365,8 @@ const ActionForm = Backbone.View.extend({
   handleFailure(e, data) {
     ErrorDisplay.show(e, data);
     this.enableButton();
+    this.$petitionBarComponent.scrollTo({ top: 0, behavior: 'smooth' });
+    this.$submitButton.blur();
   },
 
   handleStepChange(step) {
