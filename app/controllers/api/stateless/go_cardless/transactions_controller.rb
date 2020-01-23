@@ -13,9 +13,12 @@ module Api
 
         def update
           @transaction = PaymentHelper::GoCardless.find_transaction_by(id: params[:id])
-          render(json: { status: 'record not found' }, header: :not_found) && return unless @transaction.present?
+          unless @transaction.present?
+            render json: { success: false, message: 'record not found' }, header: :not_found
+            return false
+          end
           status = @transaction.update_columns(transaction_params)
-          render json: { updated: status }, header: :ok
+          render json: { success: status, message: (status ? 'record updated' : 'record not updated') }, header: :ok
         end
 
         private
