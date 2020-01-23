@@ -130,7 +130,7 @@ describe 'API::Stateless GoCardless Transactions' do
                                                                          headers: valid_api_key
 
         expect(response.code).to eql '200'
-        expect(json_ostruct.updated).to eq true
+        expect(json_ostruct.success).to eq true
       end
     end
 
@@ -139,7 +139,7 @@ describe 'API::Stateless GoCardless Transactions' do
         put '/api/stateless/go_cardless/transactions/123', params: valid_attributes,
                                                            headers: valid_api_key
         expect(response.code).to eql '200'
-        expect(json_ostruct.status).to match 'record not found'
+        expect(json_ostruct.message).to match 'record not found'
       end
     end
 
