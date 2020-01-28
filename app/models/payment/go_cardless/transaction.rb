@@ -86,7 +86,12 @@ class Payment::GoCardless::Transaction < ApplicationRecord
       transitions from: %i[created submitted], to: :confirmed, after: :publish_transaction_status_change
     end
 
+    # TODO: remove the method if it not used in any case post testing
     event :run_payout do
+      transitions from: %i[created submitted confirmed], to: :paid_out, after: :publish_transaction_status_change
+    end
+
+    event :run_pay_out do
       transitions from: %i[created submitted confirmed], to: :paid_out, after: :publish_transaction_status_change
     end
 
