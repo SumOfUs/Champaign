@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'API::Stateless GoCardless Subscriptions' do
+describe 'API::Stateless GoCardless Subscriptions', focus: true do
   include Requests::RequestHelpers
   include AuthToken
 
@@ -97,6 +97,49 @@ describe 'API::Stateless GoCardless Subscriptions' do
     it 'does not show subscriptions that have been marked as cancelled' do
       get '/api/stateless/go_cardless/subscriptions', headers: auth_headers
       expect(json_hash.to_s).to_not include(cancelled_subscription.id.to_s)
+    end
+  end
+
+  describe 'PUT update' do
+    let(:valid_attributes) {
+      { ak_order_id: '1873844' }
+    }
+
+    let(:valid_api_key) {
+      { 'X-Api-Key' => '1234' }
+    }
+
+    let(:invalid_api_key) {
+      { 'X-Api-Key' => '124' }
+    }
+
+    context 'existing record' do
+      it 'should update ak_order_id' do
+        go_cardless_id = subscription.go_cardless_id
+        put "/api/stateless/go_cardless/subscriptions/#{go_cardless_id}", params: valid_attributes,
+                                                                          headers: valid_api_key
+
+        expect(response.code).to eql '200'
+        expect(json_ostruct.success).to eq true
+      end
+    end
+
+    context 'non existing record' do
+      it 'should return 404' do
+        put '/api/stateless/go_cardless/subscriptions/123', params: valid_attributes,
+                                                            headers: valid_api_key
+        expect(response.code).to eql '200'
+        expect(json_ostruct.message).to match 'record not found'
+      end
+    end
+
+    context 'invalid api token' do
+      it 'should not process the request if the header has invalid api token' do
+        go_cardless_id = subscription.go_cardless_id
+        put "/api/stateless/go_cardless/subscriptions/#{go_cardless_id}", params: valid_attributes,
+                                                                          headers: invalid_api_key
+        expect(response.code).to eql '403'
+      end
     end
   end
 
