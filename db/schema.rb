@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_20_172811) do
+ActiveRecord::Schema.define(version: 2020_01_30_222245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -377,6 +377,7 @@ ActiveRecord::Schema.define(version: 2020_01_20_172811) do
     t.datetime "updated_at", null: false
     t.string "aasm_state"
     t.datetime "cancelled_at"
+    t.string "ak_order_id"
     t.index ["action_id"], name: "index_payment_go_cardless_subscriptions_on_action_id"
     t.index ["customer_id"], name: "index_payment_go_cardless_subscriptions_on_customer_id"
     t.index ["page_id"], name: "index_payment_go_cardless_subscriptions_on_page_id"
