@@ -15,6 +15,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  action_id         :integer
+#  ak_order_id       :string
 #  customer_id       :integer
 #  go_cardless_id    :string
 #  page_id           :integer
