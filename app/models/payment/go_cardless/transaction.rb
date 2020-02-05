@@ -127,15 +127,16 @@ class Payment::GoCardless::Transaction < ApplicationRecord
 
   def publish_failed_subscription_charge
     return publish_transaction_status_change if subscription.blank?
+    return unless subscription.ak_order_id.present?
 
     ChampaignQueue.push({
-      type: 'subscription-payment',
+      type: 'subscription-payment-failure',
       params: {
-        created_at: created_at.strftime('%Y-%m-%d %H:%M:%S'),
         recurring_id: subscription.go_cardless_id,
         success: 0,
         status: 'failed',
-        trans_id: go_cardless_id
+        trans_id: go_cardless_id,
+        ak_order_id: subscription.ak_order_id
       }
     },
                         { group_id: "gocardless-subscription:#{id}" })
