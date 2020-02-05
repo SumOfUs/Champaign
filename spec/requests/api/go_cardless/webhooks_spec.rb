@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'webhooks', focus: true do
+describe 'webhooks' do
   describe 'subscriptions' do
     let(:events) do
       {
