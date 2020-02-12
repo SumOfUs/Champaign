@@ -79,19 +79,24 @@ class Payment::GoCardless::Transaction < ApplicationRecord
     state :refunded
 
     event :run_submit do
-      transitions from: :created, to: :submitted
+      transitions from: :created, to: :submitted, after: :publish_transaction_status_change
     end
 
     event :run_confirm do
-      transitions from: %i[created submitted], to: :confirmed
+      transitions from: %i[created submitted], to: :confirmed, after: :publish_transaction_status_change
     end
 
+    # TODO: remove the method if it not used in any case post testing
     event :run_payout do
-      transitions from: %i[created submitted confirmed], to: :paid_out
+      transitions from: %i[created submitted confirmed], to: :paid_out, after: :publish_transaction_status_change
+    end
+
+    event :run_pay_out do
+      transitions from: %i[created submitted confirmed], to: :paid_out, after: :publish_transaction_status_change
     end
 
     event :run_cancel do
-      transitions to: :cancelled
+      transitions to: :cancelled, after: :publish_transaction_status_change
     end
 
     event :run_fail do
@@ -99,25 +104,39 @@ class Payment::GoCardless::Transaction < ApplicationRecord
     end
 
     event :run_charge_back do
-      transitions to: :charged_back
+      transitions to: :charged_back, after: :publish_transaction_status_change
     end
 
     event :run_refund do
-      transitions to: :refunded
+      transitions to: :refunded, after: :publish_transaction_status_change
+    end
+  end
+
+  def publish_transaction_status_change
+    if go_cardless_id.present? && ak_donation_action_id.present?
+      ChampaignQueue.push({
+        type: 'payment-status-update',
+        params: attributes.slice(
+          'id', 'go_cardless_id', 'ak_order_id',
+          'ak_donation_action_id',
+          'ak_transaction_id', 'ak_user_id'
+        ).merge!("payment_gateway_status": aasm.to_state.to_s)
+      }, { group_id: "gocardless-transaction:#{id}" })
     end
   end
 
   def publish_failed_subscription_charge
-    return if subscription.blank?
+    return publish_transaction_status_change if subscription.blank?
+    return unless subscription.ak_order_id.present?
 
     ChampaignQueue.push({
-      type: 'subscription-payment',
+      type: 'subscription-payment-failure',
       params: {
-        created_at: created_at.strftime('%Y-%m-%d %H:%M:%S'),
         recurring_id: subscription.go_cardless_id,
         success: 0,
         status: 'failed',
-        trans_id: go_cardless_id
+        trans_id: go_cardless_id,
+        ak_order_id: subscription.ak_order_id
       }
     },
                         { group_id: "gocardless-subscription:#{id}" })

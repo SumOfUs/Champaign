@@ -99,7 +99,7 @@ describe 'webhooks' do
       end
 
       context 'with payment failed event from a subscription' do
-        let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, amount: 100, page: page) }
+        let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, ak_order_id: '1', amount: 100, page: page) }
         let!(:transaction)  do
           create(:payment_go_cardless_transaction,
                  go_cardless_id: 'this_will_fail_123',
@@ -138,14 +138,13 @@ describe 'webhooks' do
 
         it 'posts a failed subscription charge to the queue' do
           expect(ChampaignQueue).to receive(:push).with({
-            type: 'subscription-payment',
+            type: 'subscription-payment-failure',
             params: {
-              # Matches the only string format AK accepts, e.g. "2016-12-22 17:47:42"
-              created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
               recurring_id: subscription.go_cardless_id,
               success: 0,
               status: 'failed',
-              trans_id: 'this_will_fail_123'
+              trans_id: 'this_will_fail_123',
+              ak_order_id: subscription.ak_order_id
             }
           },
                                                         { group_id: /gocardless-subscription:\d+/ })
