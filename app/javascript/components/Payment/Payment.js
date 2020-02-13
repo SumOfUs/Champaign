@@ -18,6 +18,7 @@ import ShowIf from '../ShowIf';
 import ReCaptchaBranding from '../ReCaptchaBranding';
 import { resetMember } from '../../state/member/reducer';
 import Cookie from 'js-cookie';
+import CurrencyAmount from '../CurrencyAmount';
 
 import {
   changeStep,
@@ -35,7 +36,7 @@ const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
 export class Payment extends Component {
-  static title = <FormattedMessage id="payment" defaultMessage="payment" />;
+  static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
 
   constructor(props) {
     super(props);
@@ -45,6 +46,7 @@ export class Payment extends Component {
       loading: true,
       submitting: false,
       expressHidden: false,
+      subscription: false,
       initializing: {
         gocardless: false,
         paypal: true,
@@ -154,6 +156,16 @@ export class Payment extends Component {
     );
   }
 
+  getMemberName(member, formValues) {
+    if (member) {
+      return `${member.fullName}:`;
+    } else if (formValues && formValues.member) {
+      return `${formValues.member.name}:`;
+    } else {
+      return null;
+    }
+  }
+
   // this should actually be a selector (a fn that returns a slice of state)
   donationData() {
     const {
@@ -198,6 +210,7 @@ export class Payment extends Component {
       ...this.donationData(),
       device_data: this.state.deviceData,
       provider: 'GC',
+      recurring: this.state.subscription,
       source: window.champaign.personalization.urlParams.source,
     };
     const url = `/api/go_cardless/pages/${
@@ -249,7 +262,13 @@ export class Payment extends Component {
     );
   }
 
-  makePayment = () => {
+  buttonOnClickHandle = e => {
+    const isRecurring = e.currentTarget.name == 'recurring';
+    this.props.setRecurring(isRecurring);
+    this.setState({ subscription: isRecurring }, this.makePayment);
+  };
+
+  makePayment = event => {
     if (this.props.currentPaymentType === 'gocardless') {
       this.submitGoCardless();
       return;
@@ -257,9 +276,10 @@ export class Payment extends Component {
     const delegate = this.delegate();
     this.props.setSubmitting(true);
     if (delegate && delegate.submit) {
-      delegate
-        .submit()
-        .then(success => this.submit(success), reason => this.onError(reason));
+      delegate.submit().then(
+        success => this.submit(success),
+        reason => this.onError(reason)
+      );
     } else {
       this.submit();
     }
@@ -271,6 +291,7 @@ export class Payment extends Component {
 
     const payload = {
       ...this.donationData(),
+      recurring: this.state.subscription,
       payment_method_nonce: data.nonce,
       device_data: this.state.deviceData,
       source: window.champaign.personalization.urlParams.source,
@@ -299,9 +320,7 @@ export class Payment extends Component {
         content_ids: [this.props.page.id],
         content_type: 'product',
         product_catalog_id: 445876772724152,
-        donation_type: this.props.fundraiser.recurring
-          ? 'recurring'
-          : 'not_recurring',
+        donation_type: this.state.subscription ? 'recurring' : 'not_recurring',
       });
     }
 
@@ -370,6 +389,7 @@ export class Payment extends Component {
     const {
       member,
       hideRecurring,
+      formData,
       fundraiser: {
         currency,
         donationAmount,
@@ -441,7 +461,7 @@ export class Payment extends Component {
             </div>
           )}
 
-          {!hideRecurring && (
+          {/* {!hideRecurring && (
             <Checkbox
               className="Payment__config"
               disabled={hideRecurring}
@@ -453,7 +473,7 @@ export class Payment extends Component {
                 defaultMessage="Make my donation monthly"
               />
             </Checkbox>
-          )}
+          )} */}
 
           <Checkbox
             className="Payment__config"
@@ -466,6 +486,46 @@ export class Payment extends Component {
             />
           </Checkbox>
 
+          <div className="payment-message">
+            <br />
+            <FormattedMessage
+              id={'fundraiser.make_monthly_donation'}
+              defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
+              values={{ name: this.getMemberName(member, formData) }}
+            />
+
+            <div className="PaymentMethod__complete-donation">
+              <FormattedMessage
+                id={'fundraiser.complete_donation'}
+                defaultMessage={`Complete your {amount} donation`}
+                values={{
+                  amount: (
+                    <CurrencyAmount
+                      amount={donationAmount || 0}
+                      currency={currency}
+                    />
+                  ),
+                }}
+              />
+            </div>
+
+            <div className="PaymentMethod__complete-donation donation-amount-text-2x">
+              <FormattedMessage
+                id={'fundraiser.donate_amount'}
+                defaultMessage={`Donate {amount}`}
+                className=""
+                values={{
+                  amount: (
+                    <CurrencyAmount
+                      amount={donationAmount || 0}
+                      currency={currency}
+                    />
+                  ),
+                }}
+              />
+            </div>
+          </div>
+
           {currentPaymentType === 'paypal' && (
             <div className="PaymentMethod__guidance">
               <FormattedMessage
@@ -477,9 +537,18 @@ export class Payment extends Component {
             currency={currency}
             amount={donationAmount || 0}
             submitting={this.state.submitting}
-            recurring={recurring}
+            name="recurring"
             disabled={this.disableSubmit()}
-            onClick={this.makePayment}
+            onClick={this.buttonOnClickHandle}
+          />
+
+          <DonateButton
+            currency={currency}
+            amount={donationAmount || 0}
+            submitting={this.state.submitting}
+            name="onetime"
+            disabled={this.disableSubmit()}
+            onClick={this.buttonOnClickHandle}
           />
         </ShowIf>
 
@@ -536,7 +605,4 @@ const mapDispatchToProps = dispatch => ({
   setPaymentType: value => dispatch(setPaymentType(value)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Payment);
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);

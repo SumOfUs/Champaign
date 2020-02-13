@@ -76,6 +76,8 @@ de:
     donate: "%{amount} Spenden"
     donate_monthly: "%{amount} pro Monat spenden"
     month: Monat
+    donation_recurring: 'Monthly'
+    donation_once: 'Just once'
     error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
     currency_in: "Beträge werden in %{currency} angezeigt"
     switch_currency: Währung ändern
@@ -117,6 +119,11 @@ de:
     thermometer:
       raised: Aktueller Spendenstand
       goal: Ziel
+    make_monthly_donation: "%{name} Mit einer monatlichen Spende helfen Sie uns dabei, langfristig zu planen - damit wir es auch mit den größten Konzernen aufnehmen können, die uns und unseren Planeten bedrohen."
+    complete_donation: "Bestätigen Sie jetzt ihre Spende über %{amount}"
+    donate_amount: "%{amount} spenden"
+    donation_once: "einmalig"
+    donation_recurring: "monatlich"
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN

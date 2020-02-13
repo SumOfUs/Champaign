@@ -66,6 +66,11 @@ fr:
     payment: Paiement
     donate: "Donner %{amount}"
     donate_monthly: "Donner  %{amount} par mois"
+    make_monthly_donation: "%{name} un don mensuel permettra à notre mouvement de planifier à l'avance, afin que nous puissions nous attaquer plus efficacement aux plus grandes entreprises qui menacent les gens et la planète."
+    complete_donation: "Validez votre don de %{amount}"
+    donate_amount: "Donnez %{amount}"
+    donation_once: "Une fois"
+    donation_recurring: "Par mois"
     month: mois
     error_intro: 'Votre don n’a pas pu être effectué '
     currency_in: "Monnaie en %{currency}"

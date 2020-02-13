@@ -12,6 +12,8 @@ const Button = props => {
     <button
       disabled={props.disabled}
       type={props.type}
+      name={props.name}
+      id={props.id}
       className={className}
       onClick={props.disabled ? null : props.onClick}
     >
