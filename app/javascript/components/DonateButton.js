@@ -8,6 +8,7 @@ import './DonateButton.css';
 export default props => (
   <Button
     className="DonateButton"
+    name={props.name}
     onClick={props.onClick}
     disabled={props.disabled}
   >
@@ -15,16 +16,12 @@ export default props => (
       <span className="fa fa-lock" />
       &nbsp;
       <FormattedMessage
-        id={props.recurring ? 'fundraiser.donate_monthly' : 'fundraiser.donate'}
-        defaultMessage="Donate {amount}"
-        values={{
-          amount: (
-            <CurrencyAmount
-              amount={props.amount || 0}
-              currency={props.currency}
-            />
-          ),
-        }}
+        id={
+          props.name == 'recurring'
+            ? 'fundraiser.donation_recurring'
+            : 'fundraiser.donation_once'
+        }
+        defaultMessage={props.name == 'recurring' ? 'Monthly' : 'Just Once'}
       />
     </ProcessingThen>
   </Button>

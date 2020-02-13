@@ -104,3 +104,33 @@
     width: 100%;
   }
 }
+
+.PaymentMethod__monthly {
+  font-weight: 700;
+  width: 100%;
+  font-size: 14px;
+  line-height: 17px;
+  margin: 20px 0 5px;
+  line-height: 20px;
+}
+
+.PaymentMethod__complete-donation {
+  font-weight: 700;
+  width: 100%;
+  font-size: 16px;
+  line-height: 17px;
+  margin: 20px 0 5px;
+  text-align: center;
+}
+
+.donation-amount-text-2x {
+  text-align: center;
+  font-size: 22px;
+}
+
+.payment-message {
+  margin-top: 15px;
+  border-top: #dfdfdf 1px solid;
+  line-height: 20px;
+  text-align: left;
+}
