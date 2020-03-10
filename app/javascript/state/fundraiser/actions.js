@@ -29,6 +29,7 @@ export function updateForm(payload) {
 }
 
 export function setRecurring(payload = false) {
+  setTimeout(() => ee.emit('fundraiser:change_recurring', payload), 100);
   return { type: 'set_recurring', payload };
 }
 

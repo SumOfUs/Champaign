@@ -46,7 +46,6 @@ export class Payment extends Component {
       loading: true,
       submitting: false,
       expressHidden: false,
-      subscription: false,
       initializing: {
         gocardless: false,
         paypal: true,
@@ -166,6 +165,16 @@ export class Payment extends Component {
     }
   }
 
+  removeRecurringPropertyListener() {
+    ee.removeListener('fundraiser:change_recurring', this.makePayment, this);
+  }
+
+  onClickHandle(e) {
+    const isRecurring = e.currentTarget.name === 'recurring';
+    this.props.setRecurring(isRecurring);
+    ee.on('fundraiser:change_recurring', this.makePayment, this);
+  }
+
   // this should actually be a selector (a fn that returns a slice of state)
   donationData() {
     const {
@@ -210,7 +219,6 @@ export class Payment extends Component {
       ...this.donationData(),
       device_data: this.state.deviceData,
       provider: 'GC',
-      recurring: this.state.subscription,
       source: window.champaign.personalization.urlParams.source,
     };
     const url = `/api/go_cardless/pages/${
@@ -262,12 +270,6 @@ export class Payment extends Component {
     );
   }
 
-  buttonOnClickHandle = e => {
-    const isRecurring = e.currentTarget.name == 'recurring';
-    this.props.setRecurring(isRecurring);
-    this.setState({ subscription: isRecurring }, this.makePayment);
-  };
-
   makePayment = event => {
     if (this.props.currentPaymentType === 'gocardless') {
       this.submitGoCardless();
@@ -283,6 +285,7 @@ export class Payment extends Component {
     } else {
       this.submit();
     }
+    this.removeRecurringPropertyListener();
   };
 
   submit = async data => {
@@ -291,7 +294,6 @@ export class Payment extends Component {
 
     const payload = {
       ...this.donationData(),
-      recurring: this.state.subscription,
       payment_method_nonce: data.nonce,
       device_data: this.state.deviceData,
       source: window.champaign.personalization.urlParams.source,
@@ -320,7 +322,9 @@ export class Payment extends Component {
         content_ids: [this.props.page.id],
         content_type: 'product',
         product_catalog_id: 445876772724152,
-        donation_type: this.state.subscription ? 'recurring' : 'not_recurring',
+        donation_type: this.props.fundraiser.recurring
+          ? 'recurring'
+          : 'not_recurring',
       });
     }
 
@@ -533,22 +537,25 @@ export class Payment extends Component {
               />
             </div>
           )}
-          <DonateButton
-            currency={currency}
-            amount={donationAmount || 0}
-            submitting={this.state.submitting}
-            name="recurring"
-            disabled={this.disableSubmit()}
-            onClick={this.buttonOnClickHandle}
-          />
+
+          {!hideRecurring && (
+            <DonateButton
+              currency={currency}
+              amount={donationAmount || 0}
+              submitting={this.state.submitting}
+              name="recurring"
+              disabled={this.disableSubmit()}
+              onClick={e => this.onClickHandle(e)}
+            />
+          )}
 
           <DonateButton
             currency={currency}
             amount={donationAmount || 0}
             submitting={this.state.submitting}
-            name="onetime"
+            name="one_time"
             disabled={this.disableSubmit()}
-            onClick={this.buttonOnClickHandle}
+            onClick={e => this.onClickHandle(e)}
           />
         </ShowIf>
 
