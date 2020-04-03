@@ -140,3 +140,6 @@ recaptcha2:
 
 end_of_year: true
 eoy_cache_timer: 1
+
+linkedin:
+  partner_id:

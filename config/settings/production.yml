@@ -149,3 +149,6 @@ recaptcha2:
 
 end_of_year: <%= ENV['END_OF_YEAR'] || false %>
 eoy_cache_timer: <%= ENV['END_OF_YEAR_CACHE_TIMER'] || 1 %>
+
+linkedin:
+  partner_id: <%= ENV['LINKEDIN_PARTNER_ID'] %>
