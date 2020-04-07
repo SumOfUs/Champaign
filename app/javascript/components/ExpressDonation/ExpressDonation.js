@@ -79,7 +79,7 @@ export class ExpressDonation extends Component {
 
   submit() {
     const data = this.oneClickData();
-
+    console.log(data.payment);
     if (data) {
       if (data.allow_duplicate == false) delete data.allow_duplicate;
       ee.emit(
@@ -87,6 +87,7 @@ export class ExpressDonation extends Component {
         data.payment,
         this.props.formData
       );
+      return;
       this.setState({ submitting: true });
       this.props.setSubmitting(true);
       $.post(
@@ -148,6 +149,10 @@ export class ExpressDonation extends Component {
   }
 
   render() {
+    let makeRecurringKey = this.props.weekly
+      ? 'fundraiser.make_recurring_weekly'
+      : 'fundraiser.make_recurring';
+
     if (!this.props.paymentMethods.length || this.props.hidden) return null;
 
     return (
@@ -174,7 +179,7 @@ export class ExpressDonation extends Component {
           onChange={e => this.props.setRecurring(e.currentTarget.checked)}
         >
           <FormattedMessage
-            id="fundraiser.make_recurring"
+            id={makeRecurringKey}
             defaultMessage="Make my donation monthly"
           />
         </Checkbox>
@@ -233,6 +238,7 @@ export class ExpressDonation extends Component {
 }
 
 const mapStateToProps = state => ({
+  weekly: true,
   paymentMethods: state.paymentMethods,
   fundraiser: state.fundraiser,
   page: state.page,
@@ -249,7 +255,4 @@ const mapDispatchToProps = dispatch => ({
   setRecurring: value => dispatch(setRecurring(value)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExpressDonation);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpressDonation);
