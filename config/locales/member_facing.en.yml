@@ -81,6 +81,7 @@ en:
     payment: Payment
     donate: "Donate %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Donate %{amount} / month"
+    donate_weekly: "Donate %{amount} / weekly"
     month: month
     error_intro: We were unable to process your donation!
     currency_in: "Values shown in %{currency}"
@@ -89,6 +90,8 @@ en:
     proceed_to_payment: Proceed to payment
     other_amount: Other
     make_recurring: Make my donation monthly
+    weekly_donation_fineprint: To reduce processing fees and make sure you donation has as much impact as possible, weekly donations are processed once per month.
+    make_recurring_weekly: Make my donation weekly
     store_in_vault: Securely store my payment information
     thank_you: Thank you for your donation!
     thank_you_with_amount: "<strong>Thank you for your donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."

@@ -16,6 +16,7 @@ import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
 import ReCaptchaBranding from '../ReCaptchaBranding';
+import WeeklyDonationFinePrint from '../WeeklyDonationFinePrint';
 import { resetMember } from '../../state/member/reducer';
 import Cookie from 'js-cookie';
 
@@ -35,7 +36,7 @@ const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
 export class Payment extends Component {
-  static title = <FormattedMessage id="payment" defaultMessage="payment" />;
+  static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
 
   constructor(props) {
     super(props);
@@ -169,7 +170,7 @@ export class Payment extends Component {
     } = this.props;
 
     return {
-      amount: donationAmount,
+      amount: this.props.weekly ? donationAmount * 4 : donationAmount,
       currency: currency,
       recurring: recurring,
       store_in_vault: storeInVault,
@@ -257,9 +258,10 @@ export class Payment extends Component {
     const delegate = this.delegate();
     this.props.setSubmitting(true);
     if (delegate && delegate.submit) {
-      delegate
-        .submit()
-        .then(success => this.submit(success), reason => this.onError(reason));
+      delegate.submit().then(
+        success => this.submit(success),
+        reason => this.onError(reason)
+      );
     } else {
       this.submit();
     }
@@ -367,6 +369,10 @@ export class Payment extends Component {
   }
 
   render() {
+    let makeRecurringKey = this.props.weekly
+      ? 'fundraiser.make_recurring_weekly'
+      : 'fundraiser.make_recurring';
+
     const {
       member,
       hideRecurring,
@@ -449,7 +455,7 @@ export class Payment extends Component {
               onChange={e => this.props.setRecurring(e.currentTarget.checked)}
             >
               <FormattedMessage
-                id="fundraiser.make_recurring"
+                id={makeRecurringKey}
                 defaultMessage="Make my donation monthly"
               />
             </Checkbox>
@@ -478,12 +484,17 @@ export class Payment extends Component {
             amount={donationAmount || 0}
             submitting={this.state.submitting}
             recurring={recurring}
+            weekly={this.props.weekly}
             disabled={this.disableSubmit()}
             onClick={this.makePayment}
           />
         </ShowIf>
 
         <div className="Payment__fine-print">
+          {this.props.weekly && this.props.fundraiser.recurring && (
+            <WeeklyDonationFinePrint />
+          )}
+
           <FormattedHTMLMessage
             className="Payment__fine-print"
             id="fundraiser.fine_print"
@@ -493,6 +504,7 @@ export class Payment extends Component {
               For further information, please contact info@sumofus.org.
             `}
           />
+
           <ReCaptchaBranding />
         </div>
 
@@ -507,6 +519,7 @@ export class Payment extends Component {
 }
 
 const mapStateToProps = state => ({
+  weekly: window.champaign.personalization.urlParams.weekly,
   disableSavedPayments:
     state.fundraiser.disableSavedPayments || state.paymentMethods.length === 0,
   defaultPaymentType: state.fundraiser.directDebitOnly ? 'gocardless' : 'card',
@@ -536,7 +549,4 @@ const mapDispatchToProps = dispatch => ({
   setPaymentType: value => dispatch(setPaymentType(value)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Payment);
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);
