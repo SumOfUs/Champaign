@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 <div class="header-logo header-logo--dark">
   <a href="{{ 'footer.home_url' | t }}">
     <div class="header-logo__logo sumofus-logo--negative"></div>
@@ -88,5 +89,13 @@
         .removeClass('overlay-toggle__mobile-view--closed')
         .addClass('overlay-toggle__mobile-view--open');
     }
+    window.addEventListener('share', function (e) {
+      $('.two-step__question').addClass('hidden-closed');
+      $('.two-step__accepted').addClass('hidden-closed');
+      $('.two-step__declined').removeClass('hidden-closed');
+      if($(window).width() < 701) {
+        revealMobileFundraiser();
+      }
+    }, false);
   });
 </script>
