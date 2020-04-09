@@ -21,7 +21,11 @@ export default props => (
             ? 'fundraiser.donation_recurring'
             : 'fundraiser.donation_once'
         }
-        defaultMessage={props.name == 'recurring' ? 'Monthly' : 'Just Once'}
+        defaultMessage={
+          props.name == 'recurring'
+            ? 'Donate {props.amount} Monthly'
+            : 'Donate {props.amount} Just Once'
+        }
       />
     </ProcessingThen>
   </Button>

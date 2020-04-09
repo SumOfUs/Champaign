@@ -513,7 +513,7 @@ export class Payment extends Component {
               />
             </div>
 
-            <div className="PaymentMethod__complete-donation donation-amount-text-2x">
+            {/* <div className="PaymentMethod__complete-donation donation-amount-text-2x">
               <FormattedMessage
                 id={'fundraiser.donate_amount'}
                 defaultMessage={`Donate {amount}`}
@@ -527,7 +527,7 @@ export class Payment extends Component {
                   ),
                 }}
               />
-            </div>
+            </div> */}
           </div>
 
           {currentPaymentType === 'paypal' && (
