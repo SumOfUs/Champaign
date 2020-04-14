@@ -2,12 +2,8 @@ class Rack::Attack
   # Braintree transactions
   %w[
     3.5.seconds
-    5.20.seconds
-    8.60.seconds
-    15.10.minutes
-    20.1.hour
-    40.5.hours
-    60.24.hours
+    7.1.hour
+    20.24.hours
   ].each do |criteria|
     limit, period, unit = criteria.split('.')
     ip_key = "tx/ip/#{period}#{unit}"
