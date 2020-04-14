@@ -2,12 +2,8 @@ class Rack::Attack
   # Braintree transactions
   %w[
     3.5.seconds
-    5.20.seconds
-    8.60.seconds
-    15.10.minutes
-    20.1.hour
-    40.5.hours
-    60.24.hours
+    7.1.hour
+    20.24.hours
   ].each do |criteria|
     limit, period, unit = criteria.split('.')
     ip_key = "tx/ip/#{period}#{unit}"
@@ -16,12 +12,39 @@ class Rack::Attack
     throttle(ip_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| transaction_rule(req) }
     throttle(device_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| device_rule(req) }
   end
+
   # Exponential throttling on actions endpoint:
   (1..5).reverse_each do |level|
     throttle("req/ip/#{level}", limit: (20 * level), period: (8**level).seconds) do |req|
       api_rule(req)
     end
   end
+
+  # Block suspicious requests to frequently botted donations paths.
+  # After 5 blocked requests in 24 hours, block all requests from that IP or device key.
+  Rack::Attack.blocklist('fail2ban donationbots') do |req|
+    # `filter` returns truthy value if request fails, or if it's from a previously banned IP
+    # so the request is blocked
+    Rack::Attack::Fail2Ban.filter("donationbots-ip-#{ip_key}",
+                                  maxretry: 5,
+                                  findtime: 24.hours,
+                                  bantime: -1) do
+      # The count for the IP is incremented if the return value is truthy
+      req.path =~ %r{^/api/payment/braintree/pages/\d+/transaction} && req.post?
+    end
+
+    Rack::Attack::Fail2Ban.filter(
+        "donationbots-device_key-#{device_key}",
+        maxretry: 5,
+        findtime: 24.hours,
+        bantime: -1) do
+      # The count for the device key is incremented if the return value is truthy
+      req.path =~ %r{^/api/payment/braintree/pages/\d+/transaction} && req.post?
+    end
+
+
+  end
+
 end
 
 # Instrumentation and Logging
