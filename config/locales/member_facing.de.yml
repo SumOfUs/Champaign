@@ -122,8 +122,8 @@ de:
     make_monthly_donation: "%{name} Mit einer monatlichen Spende helfen Sie uns dabei, langfristig zu planen - damit wir es auch mit den größten Konzernen aufnehmen können, die uns und unseren Planeten bedrohen."
     complete_donation: "Bestätigen Sie jetzt ihre Spende über %{amount}"
     donate_amount: "%{amount} spenden"
-    donation_once: "spenden %{amount} einmalig"
-    donation_recurring: "spenden %{amount} monatlich"
+    donation_once: "Einmalig %{amount} spenden"
+    donation_recurring: "Monatlich %{amount} spenden"
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN
