@@ -85,8 +85,8 @@ en:
     make_monthly_donation: "%{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet."
     complete_donation: "Complete your %{amount} donation"
     donate_amount: "Donate %{amount}"
-    donation_once: "Just once"
-    donation_recurring: "Monthly"
+    donation_once: "Donate %{amount} Just once"
+    donation_recurring: "Donate %{amount} Monthly"
 
     month: month
     error_intro: We were unable to process your donation!
