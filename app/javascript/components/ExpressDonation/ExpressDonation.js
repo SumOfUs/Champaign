@@ -8,6 +8,7 @@ import DonateButton from '../DonateButton';
 import PaymentMethodWrapper from './PaymentMethodWrapper';
 import PaymentMethodItem from './PaymentMethod';
 import { setRecurring } from '../../state/fundraiser/actions';
+import CurrencyAmount from '../CurrencyAmount';
 
 import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
@@ -32,6 +33,16 @@ export class ExpressDonation extends Component {
       optForRedonation: false,
       failureReason: '',
     };
+  }
+
+  getMemberName(member, formValues) {
+    if (member) {
+      return `${member.fullName}:`;
+    } else if (formValues && formValues.member) {
+      return `${formValues.member.name}:`;
+    } else {
+      return null;
+    }
   }
 
   oneClickData() {
@@ -77,9 +88,18 @@ export class ExpressDonation extends Component {
     return reason;
   }
 
+  clearRecurringEvent() {
+    ee.removeListener('fundraiser:change_recurring', this.submit, this);
+  }
+
+  onClickHandle(e) {
+    const isRecurring = e.currentTarget.name === 'recurring';
+    this.props.setRecurring(isRecurring);
+    ee.on('fundraiser:change_recurring', this.submit, this);
+  }
+
   submit() {
     const data = this.oneClickData();
-
     if (data) {
       if (data.allow_duplicate == false) delete data.allow_duplicate;
       ee.emit(
@@ -94,6 +114,7 @@ export class ExpressDonation extends Component {
         data
       ).then(this.onSuccess.bind(this), this.onFailure.bind(this));
     }
+    this.clearRecurringEvent();
   }
 
   selectPaymentMethod(paymentMethod) {
@@ -167,7 +188,7 @@ export class ExpressDonation extends Component {
           </a>
         </div>
 
-        <Checkbox
+        {/* <Checkbox
           className="ExpressDonation__recurring-checkbox"
           disabled={this.props.fundraiser.recurringDefault === 'only_recurring'}
           checked={this.props.fundraiser.recurring}
@@ -177,16 +198,71 @@ export class ExpressDonation extends Component {
             id="fundraiser.make_recurring"
             defaultMessage="Make my donation monthly"
           />
-        </Checkbox>
+        </Checkbox> */}
+
+        <div className="payment-message">
+          <br />
+          <FormattedMessage
+            id={'fundraiser.make_monthly_donation'}
+            defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
+            values={{
+              name: this.getMemberName(this.props.member, this.props.formData),
+            }}
+          />
+
+          <div className="PaymentMethod__complete-donation">
+            <FormattedMessage
+              id={'fundraiser.complete_donation'}
+              defaultMessage={`Complete your {amount} donation`}
+              values={{
+                amount: (
+                  <CurrencyAmount
+                    amount={this.props.fundraiser.donationAmount || 0}
+                    currency={this.props.fundraiser.currency}
+                  />
+                ),
+              }}
+            />
+          </div>
+
+          {/* <div className="PaymentMethod__complete-donation donation-amount-text-2x">
+            <FormattedMessage
+              id={'fundraiser.donate_amount'}
+              defaultMessage={`Donate {amount}`}
+              className=""
+              values={{
+                amount: (
+                  <CurrencyAmount
+                    amount={this.props.fundraiser.donationAmount || 0}
+                    currency={this.props.fundraiser.currency}
+                  />
+                ),
+              }}
+            />
+          </div> */}
+        </div>
 
         <DonateButton
           currency={this.props.fundraiser.currency}
           amount={this.props.fundraiser.donationAmount || 0}
-          recurring={this.props.fundraiser.recurring}
+          recurring={true}
+          name="recurring"
           submitting={this.state.submitting}
-          disabled={!this.state.currentPaymentMethod || this.state.submitting}
-          onClick={() => this.submit()}
+          onClick={e => this.onClickHandle(e)}
         />
+
+        {this.props.fundraiser.recurringDefault !== 'only_recurring' && (
+          <DonateButton
+            currency={this.props.fundraiser.currency}
+            amount={this.props.fundraiser.donationAmount || 0}
+            name="one_time"
+            recurring={this.props.fundraiser.recurring}
+            submitting={this.state.submitting}
+            disabled={!this.state.currentPaymentMethod || this.state.submitting}
+            onClick={e => this.onClickHandle(e)}
+          />
+        )}
+
         <Popup
           open={this.state.openPopup}
           closeOnDocumentClick
@@ -249,7 +325,4 @@ const mapDispatchToProps = dispatch => ({
   setRecurring: value => dispatch(setRecurring(value)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExpressDonation);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpressDonation);

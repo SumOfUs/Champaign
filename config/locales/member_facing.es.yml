@@ -82,8 +82,9 @@ es:
     make_monthly_donation: "%{name} una donación mensual respaldará nuestro movimiento para planificar con anticipación, de modo que podamos enfrentar de manera más efectiva a las corporaciones más grandes que amenazan a las personas y al planeta."
     complete_donation: "Complete su donación de %{amount}"
     donate_amount: "Done %{amount}"
-    donation_once: "sólo una vez"
-    donation_recurring: "cada mes"
+    donation_once: "Done %{amount} sólo una vez"
+    donation_recurring: "Done %{amount} cada mes"
+
     month: mes
     error_intro: 'Lo sentimos. No hemos podido procesar tu donación.'
     currency_in: "Valores expresados en %{currency}"
