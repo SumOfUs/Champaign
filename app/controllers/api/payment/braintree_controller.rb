@@ -57,6 +57,8 @@ class Api::Payment::BraintreeController < PaymentController
       page_id: params.require(:page_id),
       store_in_vault: store_in_vault?
     }.to_hash.tap do |options|
+      options[:device_data] = unsafe_params[:device_data].to_json unless unsafe_params[:device_data].nil?
+
       options[:extra_params] = unsafe_params[:extra_action_fields] if unsafe_params[:extra_action_fields].present?
 
       if params[:source].present?
