@@ -84,7 +84,8 @@ es:
     donate_amount: "Done %{amount}"
     donation_once: "Done %{amount} sólo una vez"
     donation_recurring: "Done %{amount} cada mes"
-
+    donation_weekly: "Donate %{amount} Weekly"
+    weekly_donation_fineprint: "To reduce processing fees and make sure your donation has as much impact as possible, weekly donations are processed once per month."
     month: mes
     error_intro: 'Lo sentimos. No hemos podido procesar tu donación.'
     currency_in: "Valores expresados en %{currency}"

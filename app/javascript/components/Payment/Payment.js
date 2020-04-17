@@ -19,6 +19,7 @@ import ReCaptchaBranding from '../ReCaptchaBranding';
 import { resetMember } from '../../state/member/reducer';
 import Cookie from 'js-cookie';
 import CurrencyAmount from '../CurrencyAmount';
+import WeeklyDonationFinePrint from '../WeeklyDonationFinePrint';
 
 import {
   changeStep,
@@ -211,7 +212,7 @@ export class Payment extends Component {
     } = this.props;
 
     return {
-      amount: donationAmount,
+      amount: this.props.weekly ? donationAmount * 4 : donationAmount,
       currency: currency,
       recurring: recurring,
       store_in_vault: storeInVault,
@@ -449,7 +450,6 @@ export class Payment extends Component {
   render() {
     const {
       member,
-      hideRecurring,
       onlyRecurring,
       recurringDonor,
       formData,
@@ -533,10 +533,10 @@ export class Payment extends Component {
             </div>
           )}
           {/*
-          {!hideRecurring && (
+          {this.showMonthlyButton() && (
             <Checkbox
               className="Payment__config"
-              disabled={hideRecurring}
+              disabled={!this.showMonthlyButton()}
               checked={recurring}
               onChange={e => this.props.setRecurring(e.currentTarget.checked)}
             >
@@ -564,7 +564,10 @@ export class Payment extends Component {
               <FormattedMessage
                 id={'fundraiser.make_monthly_donation'}
                 defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
-                values={{ name: this.getMemberName(member, formData) }}
+                values={{
+                  name: this.getMemberName(member, formData),
+                  duration: this.props.weekly ? 'weekly' : 'monthly',
+                }}
               />
             )}
 
@@ -617,6 +620,7 @@ export class Payment extends Component {
                 name="recurring"
                 recurring={true}
                 recurringDonor={this.state.recurringDonor}
+                weekly={this.props.weekly}
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
               />
@@ -630,6 +634,7 @@ export class Payment extends Component {
                 name="one_time"
                 recurring={false}
                 recurringDonor={this.state.recurringDonor}
+                weekly={this.props.weekly}
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
               />
@@ -638,6 +643,9 @@ export class Payment extends Component {
         </ShowIf>
 
         <div className="Payment__fine-print">
+          {this.props.weekly && this.showMonthlyButton() && (
+            <WeeklyDonationFinePrint className="ReCaptchaBranding mb-10" />
+          )}
           <FormattedHTMLMessage
             className="Payment__fine-print"
             id="fundraiser.fine_print"
@@ -661,6 +669,7 @@ export class Payment extends Component {
 }
 
 const mapStateToProps = state => ({
+  weekly: window.champaign.personalization.urlParams.weekly,
   disableSavedPayments:
     state.fundraiser.disableSavedPayments || state.paymentMethods.length === 0,
   defaultPaymentType: state.fundraiser.directDebitOnly ? 'gocardless' : 'card',
@@ -671,7 +680,6 @@ const mapStateToProps = state => ({
   fundraiser: state.fundraiser,
   paymentMethods: state.paymentMethods,
   member: state.member,
-  hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
   onlyRecurring: state.fundraiser.recurringDefault === 'only_recurring',
   formData: {
     storeInVault: state.fundraiser.storeInVault,

@@ -82,11 +82,13 @@ en:
     donate: "Donate %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Donate %{amount} / month"
 
-    make_monthly_donation: "%{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet."
+    make_monthly_donation: "%{name} a {duration} donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet."
     complete_donation: "Complete your %{amount} donation"
     donate_amount: "Donate %{amount}"
     donation_once: "Donate %{amount} Just once"
     donation_recurring: "Donate %{amount} Monthly"
+    donation_weekly: "Donate %{amount} Weekly"
+    weekly_donation_fineprint: "To reduce processing fees and make sure your donation has as much impact as possible, weekly donations are processed once per month."
 
     month: month
     error_intro: We were unable to process your donation!

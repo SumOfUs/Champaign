@@ -8,15 +8,14 @@ import './DonateButton.css';
 export default props => {
   let buttonId = 'fundraiser.donation_once';
   let buttonText = 'Donate {amount} Just Once';
-
-  if (props.name == 'recurring' || props.recurring) {
-    buttonId = 'fundraiser.donation_recurring';
-    buttonText = 'Donate {amount} Monthly';
-  }
-
-  if (props.recurringDonor) {
-    buttonId = 'fundraiser.donate_amount';
-    buttonText = 'Donate {amount}';
+  if (props.recurring || props.name == 'recurring') {
+    if (props.weekly) {
+      buttonId = 'fundraiser.donation_weekly';
+      buttonText = 'Donate {amount} Weekly';
+    } else {
+      buttonId = 'fundraiser.donation_recurring';
+      buttonText = 'Donate {amount} Monthly';
+    }
   }
 
   return (
