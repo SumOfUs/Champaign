@@ -254,6 +254,7 @@ export class ExpressDonation extends Component {
               recurring={true}
               name="recurring"
               recurringDonor={this.state.recurringDonor}
+              weekly={this.props.weekly}
               submitting={this.state.submitting}
               disabled={
                 !this.state.currentPaymentMethod || this.state.submitting

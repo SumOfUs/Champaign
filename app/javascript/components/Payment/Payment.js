@@ -493,6 +493,7 @@ export class Payment extends Component {
           hidden={this.isExpressHidden()}
           showOneOffButton={this.showOneOffButton()}
           showMonthlyButton={this.showMonthlyButton()}
+          weekly={this.props.weekly}
           data={{
             src: this.state.src,
             akid: this.state.akid,
@@ -634,7 +635,6 @@ export class Payment extends Component {
                 name="one_time"
                 recurring={false}
                 recurringDonor={this.state.recurringDonor}
-                weekly={this.props.weekly}
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
               />
