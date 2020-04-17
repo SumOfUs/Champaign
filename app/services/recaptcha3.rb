@@ -29,6 +29,10 @@ class Recaptcha3
     @errors.empty?
   end
 
+  def score
+    @response ? @response.dig(:score).to_f : nil
+  end
+
   private
 
   def verify
