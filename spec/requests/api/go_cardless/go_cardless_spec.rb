@@ -34,6 +34,7 @@ describe 'GoCardless API' do
 
     allow(FundingCounter).to receive(:update)
     allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+    allow_any_instance_of(PaymentRequestAuthorizer).to receive(:valid?).and_return(true)
   end
 
   describe 'redirect flow' do

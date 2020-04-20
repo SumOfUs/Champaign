@@ -98,16 +98,27 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def verify_bot
-    action   = 'donate/' + params[:page_id]
-    @captcha = Recaptcha3.new(token: params[:recaptcha_token], action: action)
-    unless @captcha.human?
-      msg = @captcha.errors.present? ? @captcha.errors : 'Invalid request'
-      Rails.logger.error("Transaction rejected [recaptcha failure] - score: #{@captcha.score} - #{params}")
+    action = 'donate/' + params[:page_id]
+    @authorizer = PaymentRequestAuthorizer.new(recaptcha: params[:recaptcha_token],
+                                               action: action, params: params, email: user_params[:email])
+    unless @authorizer.valid?
+      msg = @authorizer.errors.present? ? @authorizer.errors : 'Invalid request'
       render json: { success: false, message: msg }, status: :unprocessable_entity
       return false
     end
-    Rails.logger.info("Transaction recaptcha score: #{@captcha.score} - #{params}")
   end
+
+  # def verify_bot
+  #   action   = 'donate/' + params[:page_id]
+  #   @captcha = Recaptcha3.new(token: params[:recaptcha_token], action: action)
+  #   unless @captcha.human?
+  #     msg = @captcha.errors.present? ? @captcha.errors : 'Invalid request'
+  #     Rails.logger.error("Transaction rejected [recaptcha failure] - score: #{@captcha.score} - #{params}")
+  #     render json: { success: false, message: msg }, status: :unprocessable_entity
+  #     return false
+  #   end
+  #   Rails.logger.info("Transaction recaptcha score: #{@captcha.score} - #{params}")
+  # end
 
   def member_matches_payload
     return false unless recognized_member.present?
