@@ -40,6 +40,7 @@ class PaymentRequestAuthorizer
     total_donations = begin
                         ::Payment::Braintree::Customer.find_by(email: email).transactions.count
                       rescue StandardError
+                        0
                       end
     return true if total_donations >= 2
 
