@@ -393,6 +393,7 @@ export class Payment extends Component {
     const {
       member,
       hideRecurring,
+      hideOneOffDonation,
       formData,
       fundraiser: {
         currency,
@@ -538,25 +539,25 @@ export class Payment extends Component {
             </div>
           )}
 
-          {!hideRecurring && (
-            <DonateButton
-              currency={currency}
-              amount={donationAmount || 0}
-              submitting={this.state.submitting}
-              name="recurring"
-              disabled={this.disableSubmit()}
-              onClick={e => this.onClickHandle(e)}
-            />
-          )}
-
           <DonateButton
             currency={currency}
             amount={donationAmount || 0}
             submitting={this.state.submitting}
-            name="one_time"
+            name="recurring"
             disabled={this.disableSubmit()}
             onClick={e => this.onClickHandle(e)}
           />
+
+          {!hideOneOffDonation && (
+            <DonateButton
+              currency={currency}
+              amount={donationAmount || 0}
+              submitting={this.state.submitting}
+              name="one_time"
+              disabled={this.disableSubmit()}
+              onClick={e => this.onClickHandle(e)}
+            />
+          )}
         </ShowIf>
 
         <div className="Payment__fine-print">
@@ -593,7 +594,8 @@ const mapStateToProps = state => ({
   fundraiser: state.fundraiser,
   paymentMethods: state.paymentMethods,
   member: state.member,
-  hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
+  hideRecurring: state.fundraiser.recurringDefault === 'one_off',
+  hideOneOffDonation: state.fundraiser.recurringDefault === 'only_recurring',
   formData: {
     storeInVault: state.fundraiser.storeInVault,
     member: {
