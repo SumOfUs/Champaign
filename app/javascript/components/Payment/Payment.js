@@ -46,9 +46,7 @@ export class Payment extends Component {
       loading: true,
       submitting: false,
       expressHidden: false,
-      recurringDonar:
-        window.champaign.personalization.member.donor_status ==
-        'recurring_donar',
+      recurringDonar: false,
       initializing: {
         gocardless: false,
         paypal: true,
@@ -60,6 +58,11 @@ export class Payment extends Component {
   }
 
   componentDidMount() {
+    const isrecurringDonar =
+      window.champaign.personalization.member?.donor_status ==
+      'recurring_donor';
+    this.setState({ recurringDonar: isrecurringDonar });
+
     $.get(BRAINTREE_TOKEN_URL)
       .done(data => {
         braintreeClient.create(
@@ -437,6 +440,7 @@ export class Payment extends Component {
         <ExpressDonation
           setSubmitting={s => this.props.setSubmitting(s)}
           hidden={this.isExpressHidden()}
+          recurringDonar={this.state.reccuringDonar}
           onHide={() => this.setState({ expressHidden: true })}
         />
 
@@ -497,7 +501,7 @@ export class Payment extends Component {
 
           <div className="payment-message">
             <br />
-            {!recurringDonar && (
+            {!this.state.recurringDonar && (
               <FormattedMessage
                 id={'fundraiser.make_monthly_donation'}
                 defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
@@ -545,40 +549,69 @@ export class Payment extends Component {
             </div>
           )}
 
-          {onlyRecurring && (
+          {/* Recurring Donar can see only One off donation button
+              Recurring Donar cannot have muliple subscriptions.
+              So a member who becomes a recurring_donar via subscribing
+              any page cannot see a monthly donation button at any circumstance
+              again. Instead he can see One time donation button.
+          */}
+          {this.state.recurringDonar && (
             <DonateButton
               currency={currency}
               amount={donationAmount || 0}
               submitting={this.state.submitting}
-              name="recurring"
-              recurringDonar={this.state.recurringDonar}
+              name="one_time"
+              recurring={false}
+              recurringDonar={true}
               disabled={this.disableSubmit()}
               onClick={e => this.onClickHandle(e)}
             />
           )}
 
-          {!onlyRecurring && (
+          {/* A non recurring donar can see
+            - only monthly payment button for 'only_recurring' page
+            - else both buttons should be displayed
+          */}
+          {!this.state.recurringDonar && (
             <>
-              {!recurringDonar && (
+              {onlyRecurring && (
                 <DonateButton
                   currency={currency}
                   amount={donationAmount || 0}
                   submitting={this.state.submitting}
                   name="recurring"
                   recurringDonar={false}
+                  recurring={true}
                   disabled={this.disableSubmit()}
                   onClick={e => this.onClickHandle(e)}
                 />
               )}
-              <DonateButton
-                currency={currency}
-                amount={donationAmount || 0}
-                submitting={this.state.submitting}
-                name="one_time"
-                recurringDonar={this.state.recurringDonar}
-                disabled={this.disableSubmit()}
-                onClick={e => this.onClickHandle(e)}
-              />
+
+              {!onlyRecurring && (
+                <>
+                  <DonateButton
+                    currency={currency}
+                    amount={donationAmount || 0}
+                    submitting={this.state.submitting}
+                    name="recurring"
+                    recurring={true}
+                    recurringDonar={false}
+                    disabled={this.disableSubmit()}
+                    onClick={e => this.onClickHandle(e)}
+                  />
+
+                  <DonateButton
+                    currency={currency}
+                    amount={donationAmount || 0}
+                    submitting={this.state.submitting}
+                    name="one_time"
+                    recurring={false}
+                    recurringDonar={false}
+                    disabled={this.disableSubmit()}
+                    onClick={e => this.onClickHandle(e)}
+                  />
+                </>
+              )}
             </>
           )}
         </ShowIf>
