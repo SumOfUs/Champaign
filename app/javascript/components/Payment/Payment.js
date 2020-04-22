@@ -440,7 +440,7 @@ export class Payment extends Component {
         <ExpressDonation
           setSubmitting={s => this.props.setSubmitting(s)}
           hidden={this.isExpressHidden()}
-          recurringDonar={this.state.reccuringDonar}
+          recurringDonar={this.state.recurringDonar}
           onHide={() => this.setState({ expressHidden: true })}
         />
 
