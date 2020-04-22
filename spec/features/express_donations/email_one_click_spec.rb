@@ -65,6 +65,7 @@ feature 'Express From Mailing Link' do
     allow(ChampaignQueue).to receive(:push)
     allow(FundingCounter).to receive(:update)
     allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+    allow_any_instance_of(PaymentRequestAuthorizer).to receive(:valid?).and_return(true)
   end
 
   VCR.use_cassette('money_from_oxr') do

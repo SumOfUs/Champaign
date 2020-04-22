@@ -69,6 +69,7 @@ describe 'Braintree API' do
   before :each do
     allow(ChampaignQueue).to receive(:push)
     allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+    allow_any_instance_of(PaymentRequestAuthorizer).to receive(:valid?).and_return(true)
   end
 
   describe 'unsuccessfuly' do

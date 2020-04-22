@@ -5,36 +5,43 @@ import ProcessingThen from './ProcessingThen';
 import { FormattedMessage } from 'react-intl';
 import './DonateButton.css';
 
-export default props => (
-  <Button
-    className="DonateButton"
-    name={props.name}
-    onClick={props.onClick}
-    disabled={props.disabled}
-  >
-    <ProcessingThen processing={props.submitting || false}>
-      <span className="fa fa-lock" />
-      &nbsp;
-      <FormattedMessage
-        id={
-          props.name == 'recurring'
-            ? 'fundraiser.donation_recurring'
-            : 'fundraiser.donation_once'
-        }
-        defaultMessage={
-          props.name == 'recurring'
-            ? 'Donate {amount} Monthly'
-            : 'Donate {amount} Just Once'
-        }
-        values={{
-          amount: (
-            <CurrencyAmount
-              amount={props.amount || 0}
-              currency={props.currency}
-            />
-          ),
-        }}
-      />
-    </ProcessingThen>
-  </Button>
-);
+export default props => {
+  let buttonId = 'fundraiser.donation_once';
+  let buttonText = 'Donate {amount} Just Once';
+
+  if (props.name == 'recurring' || props.recurring) {
+    buttonId = 'fundraiser.donation_recurring';
+    buttonText = 'Donate {amount} Monthly';
+  }
+
+  if (props.recurringDonar) {
+    buttonId = 'fundraiser.donate_amount';
+    buttonText = 'Donate {amount}';
+  }
+
+  return (
+    <Button
+      className="DonateButton"
+      name={props.name}
+      onClick={props.onClick}
+      disabled={props.disabled}
+    >
+      <ProcessingThen processing={props.submitting || false}>
+        <span className="fa fa-lock" />
+        &nbsp;
+        <FormattedMessage
+          id={buttonId}
+          defaultMessage={buttonText}
+          values={{
+            amount: (
+              <CurrencyAmount
+                amount={props.amount || 0}
+                currency={props.currency}
+              />
+            ),
+          }}
+        />
+      </ProcessingThen>
+    </Button>
+  );
+};

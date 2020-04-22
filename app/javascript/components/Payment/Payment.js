@@ -46,6 +46,9 @@ export class Payment extends Component {
       loading: true,
       submitting: false,
       expressHidden: false,
+      recurringDonar:
+        window.champaign.personalization.member.donor_status ==
+        'recurring_donar',
       initializing: {
         gocardless: false,
         paypal: true,
@@ -393,6 +396,8 @@ export class Payment extends Component {
     const {
       member,
       hideRecurring,
+      onlyRecurring,
+      recurringDonar,
       formData,
       fundraiser: {
         currency,
@@ -464,8 +469,8 @@ export class Payment extends Component {
               />
             </div>
           )}
-
-          {/* {!hideRecurring && (
+          {/*
+          {!hideRecurring && (
             <Checkbox
               className="Payment__config"
               disabled={hideRecurring}
@@ -492,11 +497,13 @@ export class Payment extends Component {
 
           <div className="payment-message">
             <br />
-            <FormattedMessage
-              id={'fundraiser.make_monthly_donation'}
-              defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
-              values={{ name: this.getMemberName(member, formData) }}
-            />
+            {!recurringDonar && (
+              <FormattedMessage
+                id={'fundraiser.make_monthly_donation'}
+                defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
+                values={{ name: this.getMemberName(member, formData) }}
+              />
+            )}
 
             <div className="PaymentMethod__complete-donation">
               <FormattedMessage
@@ -538,25 +545,42 @@ export class Payment extends Component {
             </div>
           )}
 
-          {!hideRecurring && (
+          {onlyRecurring && (
             <DonateButton
               currency={currency}
               amount={donationAmount || 0}
               submitting={this.state.submitting}
               name="recurring"
+              recurringDonar={this.state.recurringDonar}
               disabled={this.disableSubmit()}
               onClick={e => this.onClickHandle(e)}
             />
           )}
 
-          <DonateButton
-            currency={currency}
-            amount={donationAmount || 0}
-            submitting={this.state.submitting}
-            name="one_time"
-            disabled={this.disableSubmit()}
-            onClick={e => this.onClickHandle(e)}
-          />
+          {!onlyRecurring && (
+            <>
+              {!recurringDonar && (
+                <DonateButton
+                  currency={currency}
+                  amount={donationAmount || 0}
+                  submitting={this.state.submitting}
+                  name="recurring"
+                  recurringDonar={false}
+                  disabled={this.disableSubmit()}
+                  onClick={e => this.onClickHandle(e)}
+                />
+              )}
+              <DonateButton
+                currency={currency}
+                amount={donationAmount || 0}
+                submitting={this.state.submitting}
+                name="one_time"
+                recurringDonar={this.state.recurringDonar}
+                disabled={this.disableSubmit()}
+                onClick={e => this.onClickHandle(e)}
+              />
+            </>
+          )}
         </ShowIf>
 
         <div className="Payment__fine-print">
@@ -594,6 +618,7 @@ const mapStateToProps = state => ({
   paymentMethods: state.paymentMethods,
   member: state.member,
   hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
+  onlyRecurring: state.fundraiser.recurringDefault === 'only_recurring',
   formData: {
     storeInVault: state.fundraiser.storeInVault,
     member: {
