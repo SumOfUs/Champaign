@@ -31,7 +31,9 @@ export class ExpressDonation extends Component {
       submitting: false,
       openPopup: false,
       onlyRecurring: props.fundraiser.recurringDefault === 'only_recurring',
-      recurringDonar: props.recurringDonar,
+      recurringDonar:
+        window.champaign.personalization.member?.donor_status ==
+        'recurring_donor',
       optForRedonation: false,
       failureReason: '',
     };
@@ -102,6 +104,8 @@ export class ExpressDonation extends Component {
 
   submit() {
     const data = this.oneClickData();
+    console.log('recurringDonar', this.state.recurringDonar);
+
     if (data) {
       if (data.allow_duplicate == false) delete data.allow_duplicate;
       ee.emit(

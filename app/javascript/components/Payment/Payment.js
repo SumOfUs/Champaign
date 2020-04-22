@@ -80,6 +80,8 @@ export class Payment extends Component {
                   return this.setState({ client, loading: false });
                 }
 
+                console.log('recurringDonar', this.state.recurringDonar);
+
                 const deviceData = collectorInst.deviceData;
                 this.setState({
                   client,
@@ -176,6 +178,8 @@ export class Payment extends Component {
   }
 
   onClickHandle(e) {
+    console.log('recurringDonar', this.state.recurringDonar);
+
     const isRecurring = e.currentTarget.name === 'recurring';
     this.props.setRecurring(isRecurring);
     ee.on('fundraiser:change_recurring', this.makePayment, this);
