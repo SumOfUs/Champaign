@@ -30,7 +30,11 @@ export class ExpressDonation extends Component {
         : null,
       submitting: false,
       openPopup: false,
-      onlyRecurring: props.fundraiser.recurringDefault === 'only_recurring',
+      recurringDefault:
+        window.champaign.personalization.member?.recurring_default,
+      onlyRecurring:
+        window.champaign.personalization.member?.recurring_default ==
+        'only_recurring',
       recurringDonar:
         window.champaign.personalization.member?.donor_status ==
         'recurring_donor',

@@ -61,15 +61,16 @@ export class Payment extends Component {
   }
 
   componentDidMount() {
+    let recurringDefault =
+      window.champaign.personalization.urlParams?.recurring_default;
     this.setState({
       recurringDonar:
         window.champaign.personalization.member?.donor_status ==
         'recurring_donor',
       akid: window.champaign.personalization.urlParams?.akid,
       source: window.champaign.personalization.urlParams?.source,
-      onlyRecurring:
-        window.champaign.personalization.urlParams?.recurring_default ==
-        'only_recurring',
+      recurringDefault: recurringDefault,
+      onlyRecurring: recurringDefault == 'only_recurring',
     });
 
     $.get(BRAINTREE_TOKEN_URL)
@@ -93,9 +94,9 @@ export class Payment extends Component {
                   'recurringDonar, akid, source, recurring_default',
                   this.state.recurringDonar,
                   this.state.akid,
-                  this.state.source
-                ),
-                  this.state.recurringDefault;
+                  this.state.source,
+                  this.state.recurringDefault
+                );
 
                 const deviceData = collectorInst.deviceData;
                 this.setState({
