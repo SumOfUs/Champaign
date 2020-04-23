@@ -48,6 +48,7 @@ export class Payment extends Component {
       expressHidden: false,
       recurringDonar: false,
       recurringDefault: '',
+      onlyRecurring: false,
       akid: '',
       source: '',
       initializing: {
@@ -61,16 +62,15 @@ export class Payment extends Component {
   }
 
   componentDidMount() {
-    let recurringDefault =
-      window.champaign.personalization.urlParams?.recurring_default;
+    const urlInfo = window.champaign.personalization.urlParams;
+    const donor_status = window.champaign.personalization.member.donor_status;
+
     this.setState({
-      recurringDonar:
-        window.champaign.personalization.member?.donor_status ==
-        'recurring_donor',
-      akid: window.champaign.personalization.urlParams?.akid,
-      source: window.champaign.personalization.urlParams?.source,
-      recurringDefault: recurringDefault,
-      onlyRecurring: recurringDefault == 'only_recurring',
+      recurringDonar: donor_status == 'recurring_donor',
+      akid: urlInfo.akid,
+      source: urlInfo.source,
+      recurringDefault: urlInfo.recurring_default,
+      onlyRecurring: urlInfo.recurring_default == 'only_recurring',
     });
 
     $.get(BRAINTREE_TOKEN_URL)
@@ -91,11 +91,17 @@ export class Payment extends Component {
                 }
 
                 console.log(
-                  'recurringDonar, akid, source, recurring_default',
+                  'recurringDonar, akid, source, recurring_default, onlyRecurring =>',
                   this.state.recurringDonar,
+                  ',',
                   this.state.akid,
+                  ',',
                   this.state.source,
-                  this.state.recurringDefault
+                  ',',
+                  this.state.recurringDefault,
+                  ',',
+                  this.state.onlyRecurring,
+                  ','
                 );
 
                 const deviceData = collectorInst.deviceData;
@@ -194,8 +200,6 @@ export class Payment extends Component {
   }
 
   onClickHandle(e) {
-    console.log('recurringDonar', this.state.recurringDonar);
-
     const isRecurring = e.currentTarget.name === 'recurring';
     this.props.setRecurring(isRecurring);
     ee.on('fundraiser:change_recurring', this.makePayment, this);
@@ -427,11 +431,14 @@ export class Payment extends Component {
 
   showMonthlyButton() {
     let keys = ['recurring', 'only_recurring'];
+    // recurring donor
     if (this.state.recurringDonar) {
       return false;
     }
+    // non recurring donors
     if (
       this.state.source == 'fwd' &&
+      this.state.akid &&
       this.state.akid.length > 5 &&
       !keys.includes(this.state.recurringDefault)
     ) {
@@ -441,6 +448,11 @@ export class Payment extends Component {
   }
 
   showOneOffButton() {
+    // recurring donor
+    if (this.state.recurringDonar) {
+      return true;
+    }
+    // non recurring donors
     if (this.state.onlyRecurring) {
       return false;
     }
@@ -493,6 +505,12 @@ export class Payment extends Component {
           setSubmitting={s => this.props.setSubmitting(s)}
           hidden={this.isExpressHidden()}
           recurringDonar={this.state.recurringDonar}
+          data={{
+            src: this.state.src,
+            akid: this.state.akid,
+            recurringDefault: this.state.recurringDefault,
+            onlyRecurring: this.state.onlyRecurring,
+          }}
           onHide={() => this.setState({ expressHidden: true })}
         />
 
@@ -602,7 +620,7 @@ export class Payment extends Component {
           )}
 
           <>
-            {this.showMonthlyButton() && (
+            <ShowIf condition={this.showMonthlyButton()}>
               <DonateButton
                 currency={currency}
                 amount={donationAmount || 0}
@@ -613,9 +631,9 @@ export class Payment extends Component {
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
               />
-            )}
+            </ShowIf>
 
-            {this.showOneOffButton() && (
+            <ShowIf condition={this.showOneOffButton()}>
               <DonateButton
                 currency={currency}
                 amount={donationAmount || 0}
@@ -626,7 +644,7 @@ export class Payment extends Component {
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
               />
-            )}
+            </ShowIf>
           </>
         </ShowIf>
 

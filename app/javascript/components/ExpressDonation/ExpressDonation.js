@@ -9,6 +9,7 @@ import PaymentMethodWrapper from './PaymentMethodWrapper';
 import PaymentMethodItem from './PaymentMethod';
 import { setRecurring } from '../../state/fundraiser/actions';
 import CurrencyAmount from '../CurrencyAmount';
+import ShowIf from '../ShowIf';
 
 import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
@@ -30,18 +31,11 @@ export class ExpressDonation extends Component {
         : null,
       submitting: false,
       openPopup: false,
-      recurringDefault:
-        window.champaign.personalization.member?.recurring_default,
-      onlyRecurring:
-        window.champaign.personalization.member?.recurring_default ==
-        'only_recurring',
-      recurringDonar:
-        window.champaign.personalization.member?.donor_status ==
-        'recurring_donor',
-      akid: window.champaign.personalization.urlParams?.akid,
-      source: window.champaign.personalization.urlParams?.source,
-      recurringDefault:
-        window.champaign.personalization.urlParams?.recurring_default,
+      recurringDonar: false,
+      recurringDefault: '',
+      onlyRecurring: false,
+      akid: '',
+      source: '',
       optForRedonation: false,
       failureReason: '',
     };
@@ -112,7 +106,6 @@ export class ExpressDonation extends Component {
 
   submit() {
     const data = this.oneClickData();
-    console.log('recurringDonar', this.state.recurringDonar);
 
     if (data) {
       if (data.allow_duplicate == false) delete data.allow_duplicate;
@@ -184,11 +177,14 @@ export class ExpressDonation extends Component {
 
   showMonthlyButton() {
     let keys = ['recurring', 'only_recurring'];
+    // recurring donor
     if (this.state.recurringDonar) {
       return false;
     }
+    // non recurring donors
     if (
       this.state.source == 'fwd' &&
+      this.state.akid &&
       this.state.akid.length > 5 &&
       !keys.includes(this.state.recurringDefault)
     ) {
@@ -198,10 +194,29 @@ export class ExpressDonation extends Component {
   }
 
   showOneOffButton() {
+    // recurring donor
+    if (this.state.recurringDonar) {
+      return true;
+    }
+
+    // non recurring donors
     if (this.state.onlyRecurring) {
       return false;
     }
     return true;
+  }
+
+  componentDidMount() {
+    const urlInfo = window.champaign.personalization.urlParams;
+    const donor_status = window.champaign.personalization.member.donor_status;
+
+    this.setState({
+      recurringDonar: donor_status == 'recurring_donor',
+      akid: urlInfo.akid,
+      source: urlInfo.source,
+      recurringDefault: urlInfo.recurring_default,
+      onlyRecurring: urlInfo.recurring_default == 'only_recurring',
+    });
   }
 
   render() {
@@ -283,7 +298,7 @@ export class ExpressDonation extends Component {
           )} */}
         </div>
         <>
-          {this.showMonthlyButton() && (
+          <ShowIf condition={this.showMonthlyButton()}>
             <DonateButton
               currency={this.props.fundraiser.currency}
               amount={this.props.fundraiser.donationAmount || 0}
@@ -296,9 +311,9 @@ export class ExpressDonation extends Component {
               }
               onClick={e => this.onClickHandle(e)}
             />
-          )}
+          </ShowIf>
 
-          {this.showOneOffButton && (
+          <ShowIf condition={this.showOneOffButton()}>
             <DonateButton
               currency={this.props.fundraiser.currency}
               amount={this.props.fundraiser.donationAmount || 0}
@@ -311,7 +326,7 @@ export class ExpressDonation extends Component {
               }
               onClick={e => this.onClickHandle(e)}
             />
-          )}
+          </ShowIf>
         </>
 
         <Popup
