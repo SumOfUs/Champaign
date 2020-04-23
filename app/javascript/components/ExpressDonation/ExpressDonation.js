@@ -309,7 +309,7 @@ export class ExpressDonation extends Component {
             />
           )}
         </>
-        )}
+
         <Popup
           open={this.state.openPopup}
           closeOnDocumentClick
