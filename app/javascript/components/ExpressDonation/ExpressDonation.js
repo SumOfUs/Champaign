@@ -188,6 +188,7 @@ export class ExpressDonation extends Component {
     }
 
     if (
+      this.state.akid &&
       this.state.akid.length > 5 &&
       !keys.includes(this.state.recurringDefault)
     ) {
