@@ -435,15 +435,19 @@ export class Payment extends Component {
     if (this.state.recurringDonar) {
       return false;
     }
+
     // non recurring donors
+    if (this.state.recurringDefault == 'only_one_off') {
+      return false;
+    }
+
     if (
-      this.state.source == 'fwd' &&
-      this.state.akid &&
       this.state.akid.length > 5 &&
       !keys.includes(this.state.recurringDefault)
     ) {
       return false;
     }
+
     return true;
   }
 
@@ -453,6 +457,10 @@ export class Payment extends Component {
       return true;
     }
     // non recurring donors
+    if (this.state.recurringDefault == 'only_one_off') {
+      return true;
+    }
+
     if (this.state.onlyRecurring) {
       return false;
     }
