@@ -225,7 +225,11 @@ export class ExpressDonation extends Component {
       recurringDonor: donor_status == 'recurring_donor',
       akid: urlInfo.akid,
       source: urlInfo.source,
-      recurringDefault: urlInfo.recurring_default,
+      recurringDefault:
+        urlInfo.recurring_default ||
+        (window.champaign.plugins.fundraiser &&
+          window.champaign.plugins.fundraiser.default &&
+          window.champaign.plugins.fundraiser.default.config.recurring_default),
       onlyRecurring: urlInfo.recurring_default == 'only_recurring',
     });
   }
