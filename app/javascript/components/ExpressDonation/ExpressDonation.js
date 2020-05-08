@@ -31,7 +31,7 @@ export class ExpressDonation extends Component {
         : null,
       submitting: false,
       openPopup: false,
-      recurringDonar: false,
+      recurringDonor: false,
       recurringDefault: '',
       onlyRecurring: false,
       akid: '',
@@ -178,7 +178,7 @@ export class ExpressDonation extends Component {
   showMonthlyButton() {
     let keys = ['recurring', 'only_recurring'];
     // recurring donor
-    if (this.state.recurringDonar) {
+    if (this.state.recurringDonor) {
       return false;
     }
 
@@ -201,7 +201,7 @@ export class ExpressDonation extends Component {
 
   showOneOffButton() {
     // recurring donor
-    if (this.state.recurringDonar) {
+    if (this.state.recurringDonor) {
       return true;
     }
 
@@ -222,7 +222,7 @@ export class ExpressDonation extends Component {
     const donor_status = window.champaign.personalization.member.donor_status;
 
     this.setState({
-      recurringDonar: donor_status == 'recurring_donor',
+      recurringDonor: donor_status == 'recurring_donor',
       akid: urlInfo.akid,
       source: urlInfo.source,
       recurringDefault: urlInfo.recurring_default,
@@ -290,7 +290,7 @@ export class ExpressDonation extends Component {
             />
           </div>
 
-          {/* {!this.state.recurringDonar && (
+          {/* {!this.state.recurringDonor && (
             <div className="PaymentMethod__complete-donation donation-amount-text-2x">
               <FormattedMessage
                 id={'fundraiser.donate_amount'}
@@ -315,7 +315,7 @@ export class ExpressDonation extends Component {
               amount={this.props.fundraiser.donationAmount || 0}
               recurring={true}
               name="recurring"
-              recurringDonar={this.state.recurringDonar}
+              recurringDonor={this.state.recurringDonor}
               submitting={this.state.submitting}
               disabled={
                 !this.state.currentPaymentMethod || this.state.submitting
@@ -331,7 +331,7 @@ export class ExpressDonation extends Component {
               name="one_time"
               recurring={false}
               submitting={this.state.submitting}
-              recurringDonar={this.state.recurringDonar}
+              recurringDonor={this.state.recurringDonor}
               disabled={
                 !this.state.currentPaymentMethod || this.state.submitting
               }

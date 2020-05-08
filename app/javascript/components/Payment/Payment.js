@@ -46,7 +46,7 @@ export class Payment extends Component {
       loading: true,
       submitting: false,
       expressHidden: false,
-      recurringDonar: false,
+      recurringDonor: false,
       recurringDefault: '',
       onlyRecurring: false,
       akid: '',
@@ -66,10 +66,14 @@ export class Payment extends Component {
     const donor_status = window.champaign.personalization.member.donor_status;
 
     this.setState({
-      recurringDonar: donor_status == 'recurring_donor',
+      recurringDonor: donor_status == 'recurring_donor',
       akid: urlInfo.akid,
       source: urlInfo.source,
-      recurringDefault: urlInfo.recurring_default,
+      recurringDefault:
+        urlInfo.recurring_default ||
+        (window.champaign.plugins.fundraiser &&
+          window.champaign.plugins.fundraiser.default &&
+          window.champaign.plugins.fundraiser.default.config.recurring_default),
       onlyRecurring: urlInfo.recurring_default == 'only_recurring',
     });
 
@@ -91,8 +95,8 @@ export class Payment extends Component {
                 }
 
                 console.log(
-                  'recurringDonar, akid, source, recurring_default, onlyRecurring =>',
-                  this.state.recurringDonar,
+                  'recurringDonor, akid, source, recurring_default, onlyRecurring =>',
+                  this.state.recurringDonor,
                   ',',
                   this.state.akid,
                   ',',
@@ -419,12 +423,12 @@ export class Payment extends Component {
     return this.state.expressHidden || this.props.disableSavedPayments;
   }
 
-  //  Recurring Donar can see only One off donation button
-  //  Recurring Donar cannot have multiple subscriptions.
-  //  So a member who becomes a recurring_donar via subscribing
+  //  Recurring Donor can see only One off donation button
+  //  Recurring Donor cannot have multiple subscriptions.
+  //  So a member who becomes a recurring_donor via subscribing
   //  any page cannot see a monthly donation button at any circumstance
   //  again. Instead he can see One time donation button alone
-  //  A non recurring donar can see
+  //  A non recurring donor can see
   //   - only monthly payment button for 'only_recurring' page
   //   - else both buttons should be displayed
   //   - he cannot see monthly donation button when the url has akid & source=fwd
@@ -432,7 +436,7 @@ export class Payment extends Component {
   showMonthlyButton() {
     let keys = ['recurring', 'only_recurring'];
     // recurring donor
-    if (this.state.recurringDonar) {
+    if (this.state.recurringDonor) {
       return false;
     }
 
@@ -455,7 +459,7 @@ export class Payment extends Component {
 
   showOneOffButton() {
     // recurring donor
-    if (this.state.recurringDonar) {
+    if (this.state.recurringDonor) {
       return true;
     }
     // non recurring donors
@@ -474,7 +478,7 @@ export class Payment extends Component {
       member,
       hideRecurring,
       onlyRecurring,
-      recurringDonar,
+      recurringDonor,
       formData,
       fundraiser: {
         currency,
@@ -514,7 +518,7 @@ export class Payment extends Component {
         <ExpressDonation
           setSubmitting={s => this.props.setSubmitting(s)}
           hidden={this.isExpressHidden()}
-          recurringDonar={this.state.recurringDonar}
+          recurringDonor={this.state.recurringDonor}
           data={{
             src: this.state.src,
             akid: this.state.akid,
@@ -637,7 +641,7 @@ export class Payment extends Component {
                 submitting={this.state.submitting}
                 name="recurring"
                 recurring={true}
-                recurringDonar={this.state.recurringDonar}
+                recurringDonor={this.state.recurringDonor}
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
               />
@@ -650,7 +654,7 @@ export class Payment extends Component {
                 submitting={this.state.submitting}
                 name="one_time"
                 recurring={false}
-                recurringDonar={this.state.recurringDonar}
+                recurringDonor={this.state.recurringDonor}
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
               />
