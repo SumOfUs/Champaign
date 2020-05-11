@@ -210,6 +210,18 @@ export class ExpressDonation extends Component {
       return true;
     }
 
+    if (
+      window.champaign.personalization.member &&
+      window.champaign.personalization.member.donor_status !=
+        'recurring_donor' &&
+      window.champaign.plugins.fundraiser &&
+        window.champaign.plugins.fundraiser.default &&
+        window.champaign.plugins.fundraiser.default.config.recurring_default ===
+          'only_recurring'
+    ) {
+      return false;
+    }
+
     if (this.state.onlyRecurring) {
       return false;
     }
