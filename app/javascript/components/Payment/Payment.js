@@ -467,14 +467,15 @@ export class Payment extends Component {
       return true;
     }
 
+    //disable one_off for non recurring donors if the page deafult is only_recurring
     if (
       window.champaign.personalization.member &&
       window.champaign.personalization.member.donor_status !=
         'recurring_donor' &&
       window.champaign.plugins.fundraiser &&
-        window.champaign.plugins.fundraiser.default &&
-        window.champaign.plugins.fundraiser.default.config.recurring_default ===
-          'only_recurring'
+      window.champaign.plugins.fundraiser.default &&
+      window.champaign.plugins.fundraiser.default.config.recurring_default ===
+        'only_recurring'
     ) {
       return false;
     }
