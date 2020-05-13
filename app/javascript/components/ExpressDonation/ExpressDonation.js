@@ -32,10 +32,10 @@ export class ExpressDonation extends Component {
       submitting: false,
       openPopup: false,
       recurringDonor: false,
-      recurringDefault: '',
+      recurringDefault: null,
       onlyRecurring: false,
-      akid: '',
-      source: '',
+      akid: null,
+      source: null,
       optForRedonation: false,
       failureReason: '',
     };
@@ -175,74 +175,13 @@ export class ExpressDonation extends Component {
     );
   }
 
-  showMonthlyButton() {
-    let keys = ['recurring', 'only_recurring'];
-    // recurring donor
-    if (this.state.recurringDonor) {
-      return false;
-    }
-
-    // non recurring donors
-    if (this.state.recurringDefault == 'only_one_off') {
-      return false;
-    }
-
-    if (
-      this.state.akid &&
-      this.state.akid.length > 5 &&
-      this.state.recurringDefault &&
-      !keys.includes(this.state.recurringDefault)
-    ) {
-      return false;
-    }
-
-    return true;
-  }
-
-  showOneOffButton() {
-    // recurring donor
-    if (this.state.recurringDonor) {
-      return true;
-    }
-
-    // non recurring donors
-    if (this.state.recurringDefault == 'only_one_off') {
-      return true;
-    }
-
-    if (
-      window.champaign.personalization.member &&
-      window.champaign.personalization.member.donor_status !=
-        'recurring_donor' &&
-      window.champaign.plugins.fundraiser &&
-        window.champaign.plugins.fundraiser.default &&
-        window.champaign.plugins.fundraiser.default.config.recurring_default ===
-          'only_recurring'
-    ) {
-      return false;
-    }
-
-    if (this.state.onlyRecurring) {
-      return false;
-    }
-
-    return true;
-  }
-
   componentDidMount() {
-    const urlInfo = window.champaign.personalization.urlParams;
-    const donor_status = window.champaign.personalization.member.donor_status;
-
     this.setState({
-      recurringDonor: donor_status == 'recurring_donor',
-      akid: urlInfo.akid,
-      source: urlInfo.source,
-      recurringDefault:
-        urlInfo.recurring_default ||
-        (window.champaign.plugins.fundraiser &&
-          window.champaign.plugins.fundraiser.default &&
-          window.champaign.plugins.fundraiser.default.config.recurring_default),
-      onlyRecurring: urlInfo.recurring_default == 'only_recurring',
+      akid: this.props.data.akid,
+      source: this.props.data.source,
+      recurringDefault: this.props.data.recurringDefault,
+      onlyRecurring: this.props.data.onlyRecurring,
+      recurringDonor: this.props.data.recurringDonor,
     });
   }
 
@@ -278,7 +217,7 @@ export class ExpressDonation extends Component {
         </Checkbox> */}
         <div className="payment-message">
           <br />
-          {this.showMonthlyButton() && (
+          {this.props.showMonthlyButton() && (
             <FormattedMessage
               id={'fundraiser.make_monthly_donation'}
               defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
@@ -325,7 +264,7 @@ export class ExpressDonation extends Component {
           )} */}
         </div>
         <>
-          <ShowIf condition={this.showMonthlyButton()}>
+          <ShowIf condition={this.props.showMonthlyButton()}>
             <DonateButton
               currency={this.props.fundraiser.currency}
               amount={this.props.fundraiser.donationAmount || 0}
@@ -340,7 +279,7 @@ export class ExpressDonation extends Component {
             />
           </ShowIf>
 
-          <ShowIf condition={this.showOneOffButton()}>
+          <ShowIf condition={this.props.howOneOffButton()}>
             <DonateButton
               currency={this.props.fundraiser.currency}
               amount={this.props.fundraiser.donationAmount || 0}

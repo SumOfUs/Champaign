@@ -47,10 +47,11 @@ export class Payment extends Component {
       submitting: false,
       expressHidden: false,
       recurringDonor: false,
-      recurringDefault: '',
+      recurringDefault: null,
+      pageDefault: null,
       onlyRecurring: false,
-      akid: '',
-      source: '',
+      akid: null,
+      source: null,
       initializing: {
         gocardless: false,
         paypal: true,
@@ -63,18 +64,22 @@ export class Payment extends Component {
 
   componentDidMount() {
     const urlInfo = window.champaign.personalization.urlParams;
-    const donor_status = window.champaign.personalization.member.donor_status;
+    const donor_status =
+      window.champaign.personalization.member &&
+      window.champaign.personalization.member.donor_status;
+    const pageDefault =
+      window.champaign.plugins.fundraiser &&
+      window.champaign.plugins.fundraiser.default &&
+      window.champaign.plugins.fundraiser.default.config.recurring_default;
+    const normalizedRecurringDefault = urlInfo.recurring_default || pageDefault;
 
     this.setState({
       recurringDonor: donor_status == 'recurring_donor',
       akid: urlInfo.akid,
       source: urlInfo.source,
-      recurringDefault:
-        urlInfo.recurring_default ||
-        (window.champaign.plugins.fundraiser &&
-          window.champaign.plugins.fundraiser.default &&
-          window.champaign.plugins.fundraiser.default.config.recurring_default),
-      onlyRecurring: urlInfo.recurring_default == 'only_recurring',
+      onlyRecurring: normalizedRecurringDefault === 'only_recurring',
+      recurringDefault: normalizedRecurringDefault,
+      pageDefault,
     });
 
     $.get(BRAINTREE_TOKEN_URL)
@@ -434,56 +439,33 @@ export class Payment extends Component {
   //   - he cannot see monthly donation button when the url has akid & source=fwd
 
   showMonthlyButton() {
-    let keys = ['recurring', 'only_recurring'];
-    // recurring donor
     if (this.state.recurringDonor) {
       return false;
+    } else {
+      if (this.state.recurringDefault === 'only_one_off') {
+        return false;
+      }
+      return true;
     }
-
-    // non recurring donors
-    if (this.state.recurringDefault == 'only_one_off') {
-      return false;
-    }
-
-    if (
-      this.state.akid &&
-      this.state.akid.length > 5 &&
-      this.state.recurringDefault &&
-      !keys.includes(this.state.recurringDefault)
-    ) {
-      return false;
-    }
-
-    return true;
   }
 
   showOneOffButton() {
-    // recurring donor
     if (this.state.recurringDonor) {
       return true;
-    }
-    // non recurring donors
-    if (this.state.recurringDefault == 'only_one_off') {
+    } else {
+      if (this.state.recurringDefault === 'only_one_off') {
+        return true;
+      }
+
+      if (this.state.recurringDefault === 'only_recurring') {
+        return false;
+      }
+
+      if (this.state.onlyRecurring) {
+        return false;
+      }
       return true;
     }
-
-    //disable one_off for non recurring donors if the page deafult is only_recurring
-    if (
-      window.champaign.personalization.member &&
-      window.champaign.personalization.member.donor_status !=
-        'recurring_donor' &&
-      window.champaign.plugins.fundraiser &&
-      window.champaign.plugins.fundraiser.default &&
-      window.champaign.plugins.fundraiser.default.config.recurring_default ===
-        'only_recurring'
-    ) {
-      return false;
-    }
-
-    if (this.state.onlyRecurring) {
-      return false;
-    }
-    return true;
   }
 
   render() {
@@ -531,12 +513,14 @@ export class Payment extends Component {
         <ExpressDonation
           setSubmitting={s => this.props.setSubmitting(s)}
           hidden={this.isExpressHidden()}
-          recurringDonor={this.state.recurringDonor}
+          showOneOffButton={this.showOneOffButton()}
+          showMonthlyButton={this.showMonthlyButton()}
           data={{
             src: this.state.src,
             akid: this.state.akid,
             recurringDefault: this.state.recurringDefault,
             onlyRecurring: this.state.onlyRecurring,
+            recurringDonor: this.state.recurringDonor,
           }}
           onHide={() => this.setState({ expressHidden: true })}
         />
