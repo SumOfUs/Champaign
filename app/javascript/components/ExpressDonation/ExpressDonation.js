@@ -9,7 +9,6 @@ import PaymentMethodWrapper from './PaymentMethodWrapper';
 import PaymentMethodItem from './PaymentMethod';
 import { setRecurring } from '../../state/fundraiser/actions';
 import CurrencyAmount from '../CurrencyAmount';
-import ShowIf from '../ShowIf';
 
 import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
@@ -31,11 +30,10 @@ export class ExpressDonation extends Component {
         : null,
       submitting: false,
       openPopup: false,
-      recurringDonar: false,
-      recurringDefault: '',
-      onlyRecurring: false,
-      akid: '',
-      source: '',
+      onlyRecurring: props.fundraiser.recurringDefault === 'only_recurring',
+      recurringDonar:
+        window.champaign.personalization.member?.donor_status ==
+        'recurring_donor',
       optForRedonation: false,
       failureReason: '',
     };
@@ -106,6 +104,7 @@ export class ExpressDonation extends Component {
 
   submit() {
     const data = this.oneClickData();
+    console.log('recurringDonar', this.state.recurringDonar);
 
     if (data) {
       if (data.allow_duplicate == false) delete data.allow_duplicate;
@@ -175,50 +174,6 @@ export class ExpressDonation extends Component {
     );
   }
 
-  showMonthlyButton() {
-    let keys = ['recurring', 'only_recurring'];
-    // recurring donor
-    if (this.state.recurringDonar) {
-      return false;
-    }
-    // non recurring donors
-    if (
-      this.state.source == 'fwd' &&
-      this.state.akid &&
-      this.state.akid.length > 5 &&
-      !keys.includes(this.state.recurringDefault)
-    ) {
-      return false;
-    }
-    return true;
-  }
-
-  showOneOffButton() {
-    // recurring donor
-    if (this.state.recurringDonar) {
-      return true;
-    }
-
-    // non recurring donors
-    if (this.state.onlyRecurring) {
-      return false;
-    }
-    return true;
-  }
-
-  componentDidMount() {
-    const urlInfo = window.champaign.personalization.urlParams;
-    const donor_status = window.champaign.personalization.member.donor_status;
-
-    this.setState({
-      recurringDonar: donor_status == 'recurring_donor',
-      akid: urlInfo.akid,
-      source: urlInfo.source,
-      recurringDefault: urlInfo.recurring_default,
-      onlyRecurring: urlInfo.recurring_default == 'only_recurring',
-    });
-  }
-
   render() {
     if (!this.props.paymentMethods.length || this.props.hidden) return null;
 
@@ -238,6 +193,7 @@ export class ExpressDonation extends Component {
             />
           </a>
         </div>
+
         {/* <Checkbox
           className="ExpressDonation__recurring-checkbox"
           disabled={this.props.fundraiser.recurringDefault === 'only_recurring'}
@@ -249,9 +205,10 @@ export class ExpressDonation extends Component {
             defaultMessage="Make my donation monthly"
           />
         </Checkbox> */}
+
         <div className="payment-message">
           <br />
-          {this.showMonthlyButton() && (
+          {!this.state.recurringDonar && (
             <FormattedMessage
               id={'fundraiser.make_monthly_donation'}
               defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
@@ -297,37 +254,68 @@ export class ExpressDonation extends Component {
             </div>
           )} */}
         </div>
-        <>
-          <ShowIf condition={this.showMonthlyButton()}>
-            <DonateButton
-              currency={this.props.fundraiser.currency}
-              amount={this.props.fundraiser.donationAmount || 0}
-              recurring={true}
-              name="recurring"
-              recurringDonar={this.state.recurringDonar}
-              submitting={this.state.submitting}
-              disabled={
-                !this.state.currentPaymentMethod || this.state.submitting
-              }
-              onClick={e => this.onClickHandle(e)}
-            />
-          </ShowIf>
 
-          <ShowIf condition={this.showOneOffButton()}>
-            <DonateButton
-              currency={this.props.fundraiser.currency}
-              amount={this.props.fundraiser.donationAmount || 0}
-              name="one_time"
-              recurring={false}
-              submitting={this.state.submitting}
-              recurringDonar={this.state.recurringDonar}
-              disabled={
-                !this.state.currentPaymentMethod || this.state.submitting
-              }
-              onClick={e => this.onClickHandle(e)}
-            />
-          </ShowIf>
-        </>
+        {this.state.recurringDonar && (
+          <DonateButton
+            currency={this.props.fundraiser.currency}
+            amount={this.props.fundraiser.donationAmount || 0}
+            name="one_time"
+            recurring={false}
+            submitting={this.state.submitting}
+            recurringDonar={true}
+            disabled={!this.state.currentPaymentMethod || this.state.submitting}
+            onClick={e => this.onClickHandle(e)}
+          />
+        )}
+
+        {!this.state.recurringDonar && (
+          <>
+            {this.state.onlyRecurring && (
+              <DonateButton
+                currency={this.props.fundraiser.currency}
+                amount={this.props.fundraiser.donationAmount || 0}
+                recurring={true}
+                name="recurring"
+                recurringDonar={false}
+                submitting={this.state.submitting}
+                disabled={
+                  !this.state.currentPaymentMethod || this.state.submitting
+                }
+                onClick={e => this.onClickHandle(e)}
+              />
+            )}
+
+            {!this.state.onlyRecurring && (
+              <>
+                <DonateButton
+                  currency={this.props.fundraiser.currency}
+                  amount={this.props.fundraiser.donationAmount || 0}
+                  recurring={true}
+                  name="recurring"
+                  recurringDonar={false}
+                  submitting={this.state.submitting}
+                  disabled={
+                    !this.state.currentPaymentMethod || this.state.submitting
+                  }
+                  onClick={e => this.onClickHandle(e)}
+                />
+
+                <DonateButton
+                  currency={this.props.fundraiser.currency}
+                  amount={this.props.fundraiser.donationAmount || 0}
+                  name="one_time"
+                  recurring={false}
+                  submitting={this.state.submitting}
+                  recurringDonar={false}
+                  disabled={
+                    !this.state.currentPaymentMethod || this.state.submitting
+                  }
+                  onClick={e => this.onClickHandle(e)}
+                />
+              </>
+            )}
+          </>
+        )}
 
         <Popup
           open={this.state.openPopup}
