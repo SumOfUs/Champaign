@@ -8,9 +8,13 @@ describe PaymentRequestAuthorizer do
   let(:page) { create(:page, publish_status: 'published') }
 
   let(:customer) do
-    attrs = FactoryBot.attributes_for(:payment_braintree_customer)
-    Payment::Braintree::Customer.create(attrs)
+    @customer ||= begin
+      attrs = FactoryBot.attributes_for(:payment_braintree_customer)
+      Payment::Braintree::Customer.create(attrs)
+    end
   end
+
+  let(:transaction) { Payment::Braintree::Transaction.last }
 
   # rubocop:disable LineLength
   let(:valid_data) do
@@ -40,109 +44,190 @@ describe PaymentRequestAuthorizer do
       end
     end
 
-    context 'With valid captcha' do
+    context 'Existing user with valid captcha and 2 transactions within 20 mins' do
       before do
         allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
-      end
-
-      subject { PaymentRequestAuthorizer.new(valid_data) }
-
-      it 'should return true' do
-        expect(subject.valid?).to be_truthy
-      end
-
-      it 'should not have any errors' do
-        subject.valid?
-        expect(subject.errors.full_messages).to be_empty
-      end
-    end
-
-    context 'With valid captcha and no donations' do
-      before do
-        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
-      end
-
-      let(:customer) { create(:payment_braintree_customer) }
-      subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
-
-      it 'should return true' do
-        expect(subject.valid?).to be_truthy
-      end
-
-      it 'should not have any errors' do
-        subject.valid?
-        expect(subject.errors.full_messages).to be_empty
-      end
-    end
-
-    context 'With invalid captcha and non existing user' do
-      before do
-        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(false)
-      end
-
-      subject { PaymentRequestAuthorizer.new(valid_data) }
-
-      it 'should return false' do
-        expect(subject.valid?).to be_falsy
-      end
-
-      it 'should have any errors' do
-        subject.valid?
-        expect(subject.errors.full_messages).to include('Invalid request')
-      end
-    end
-
-    context 'With invalid captcha and more than 2 donations' do
-      before do
-        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(false)
-      end
-
-      subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
-
-      it 'should return true' do
-        attrs = FactoryBot.attributes_for(:payment_braintree_transaction, page_id: page.id)
-        4.times { customer.transactions.create(attrs) }
-
-        expect(subject.valid?).to be_truthy
-        expect(subject.errors.full_messages).to be_empty
-      end
-    end
-
-    context 'With invalid captcha and 1 donation' do
-      before do
-        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(false)
-        Payment::Braintree::Transaction.delete_all
+        2.times { create(:payment_braintree_transaction, customer_id: customer.customer_id) }
       end
 
       subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
 
       it 'should return false' do
-        attrs = FactoryBot.attributes_for(:payment_braintree_transaction, page_id: page.id)
-        customer.transactions.create(attrs)
-        expect(subject.valid?).to be_falsy
-      end
-
-      it 'should not have any errors' do
-        subject.valid?
-        expect(subject.errors.full_messages).to include('Invalid request')
+        time = transaction.created_at
+        Timecop.freeze(time) do
+          expect(subject.valid?).to be_falsy
+          expect(subject.errors.full_messages).to include('Invalid request')
+        end
       end
     end
 
-    context 'With invalid captcha and no donations' do
+    context 'Existing user with valid captcha and more than 3 transactions within a day' do
       before do
-        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(false)
-        Payment::Braintree::Transaction.delete_all
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+
+        time = Time.now.beginning_of_day
+        2.times {
+          create(:payment_braintree_transaction,
+                 customer_id: customer.customer_id, created_at: time)
+        }
+        1.times {
+          create(:payment_braintree_transaction,
+                 customer_id: customer.customer_id, created_at: time + 2.hours)
+        }
+      end
+
+      subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
+
+      it 'should return false' do
+        time = transaction.created_at
+
+        Timecop.freeze(time) do
+          expect(subject.valid?).to be_falsy
+          expect(subject.errors.full_messages).to include('Invalid request')
+        end
+      end
+    end
+
+    context 'Existing user with valid captcha and 2 transaction within 20 mins' do
+      before do
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+        1.times {
+          create(:payment_braintree_transaction,
+                 customer_id: customer.customer_id)
+        }
       end
 
       subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
 
       it 'should return true' do
-        expect(subject.valid?).to be_falsy
+        time = Payment::Braintree::Transaction.last.created_at
+
+        Timecop.freeze(time) do
+          expect(subject.valid?).to be_truthy
+          expect(subject.errors.full_messages).to be_empty
+        end
+      end
+    end
+
+    context 'Existing user with valid captcha and 3 transactions within 1 day' do
+      before do
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+        time = Time.now.beginning_of_day
+        1.times {
+          create(:payment_braintree_transaction,
+                 customer_id: customer.customer_id, created_at: time)
+        }
+        1.times {
+          create(:payment_braintree_transaction,
+                 customer_id: customer.customer_id, created_at: time + 2.hours)
+        }
       end
 
-      it 'should not have any errors' do
-        subject.valid?
+      subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
+
+      it 'should return true' do
+        time = transaction.created_at
+        Timecop.freeze(time) do
+          expect(subject.valid?).to be_truthy
+          expect(subject.errors.full_messages).to be_empty
+        end
+      end
+    end
+
+    context 'Existing user with valid captcha and failed transactions' do
+      before do
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+        5.times {
+          create(:payment_braintree_transaction,
+                 customer_id: customer.customer_id, status: 1)
+        }
+      end
+
+      subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
+
+      it 'should return true' do
+        time = transaction.created_at
+        Timecop.freeze(time) do
+          expect(subject.valid?).to be_truthy
+          expect(subject.errors.full_messages).to be_empty
+        end
+      end
+    end
+
+    context 'Existing user with invalid captcha and failed transactions' do
+      before do
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+        5.times {
+          create(:payment_braintree_transaction,
+                 customer_id: customer.customer_id, status: 1)
+        }
+      end
+
+      subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
+
+      it 'should return true' do
+        expect(subject.valid?).to be_truthy
+        expect(subject.errors.full_messages).to be_empty
+      end
+    end
+
+    context 'Existing user with invalid captcha and less than 2 donations' do
+      before do
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(false)
+        1.times {
+          create(:payment_braintree_transaction,
+                 customer_id: customer.customer_id, status: 0)
+        }
+      end
+
+      subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
+
+      it 'should return false' do
+        expect(subject.valid?).to be_falsy
         expect(subject.errors.full_messages).to include('Invalid request')
+      end
+    end
+
+    context 'Existing user With valid captcha and no donations' do
+      before do
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+      end
+
+      subject { PaymentRequestAuthorizer.new(valid_data.merge(email: customer.email)) }
+
+      it 'should return true' do
+        expect(subject.valid?).to be_truthy
+        expect(subject.errors.full_messages).to be_empty
+      end
+    end
+
+    context 'An non existing user with invalid captcha' do
+      before do
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(false)
+        allow_any_instance_of(PaymentRequestAuthorizer).to receive(:new_customer?).and_return(true)
+      end
+
+      subject { PaymentRequestAuthorizer.new(valid_data) }
+
+      it 'should return false' do
+        subject.valid?
+        expect(subject.valid?).to be_falsy
+        expect(subject.errors.full_messages).to include('Invalid request')
+      end
+    end
+
+    context 'An non existing user with valid captcha' do
+      before do
+        allow_any_instance_of(Recaptcha3).to receive(:human?).and_return(true)
+        allow_any_instance_of(PaymentRequestAuthorizer).to receive(:new_customer?).and_return(true)
+      end
+
+      subject { PaymentRequestAuthorizer.new(valid_data) }
+
+      it 'should return true' do
+        subject.valid?
+        expect(subject.valid?).to be_truthy
+        expect(subject.errors.full_messages).to be_empty
       end
     end
   end
