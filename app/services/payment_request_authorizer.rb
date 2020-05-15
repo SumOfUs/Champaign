@@ -3,16 +3,14 @@ class PaymentRequestAuthorizer
 
   MAX_TRANSACTIONS_WITHIN_20MINS = 2
   MAX_TRANSACTIONS_PER_DAY = 3
+  VALID_DONATION_COUNT = 2
+  VALID_ACTION_COUNT = 3
 
   attr_accessor :email, :recaptcha, :action, :params
 
   validates :email,     presence: true
   validates :recaptcha, presence: true
   validates :action,    presence: true
-
-  validate :verify_recaptcha
-  validate :verify_customer_transaction_limit, if: :valid_captcha?
-  validate :verify_user_donations, unless: :valid_captcha?
 
   def initialize(email:, recaptcha:, action:, params: {})
     @email = email.to_s.strip
@@ -21,27 +19,74 @@ class PaymentRequestAuthorizer
     @params = params
   end
 
-  def verify_recaptcha
-    return false if errors.present?
+  def valid?
+    super
 
-    validate_recaptcha
-
-    unless valid_captcha?
-      msg = "[recaptcha failure] - score: #{@captcha.score} - #{params}"
-      Rails.logger.error(msg)
-
-      # New customer must not have failed recaptcha
-      if new_customer?
-        errors.add(:base, 'Invalid request')
-        errors.add(:recaptcha, @captcha.errors) if @captcha.errors.present?
-        return false
-      end
+    if errors.present?
+      log_error_message('Recaptcha: VerificationInitiaizationFailed', true)
+      return false
     end
-    Rails.logger.info("Transaction recaptcha score: #{@captcha.score} - #{params}")
+
+    verify_recaptcha
+
+    if valid_captcha?
+      return true unless user.has_braintree_account?
+
+      user_has_allowed_transaction_limit?
+    else
+      genuine_user?
+    end
+  end
+
+  def genuine_user?
+    unless user.has_account?
+      return true if email_account_exist?(email)
+
+      log_error_message('Recaptcha: Failed, UserAccountNotExist, EmailAccountExistence: false', true)
+      return false
+    end
+
+    return true if user.has_valid_transactions_count?
+    return true if user.has_valid_actions_count?
+
+    msg = "Recaptcha: Failed, Donation Count < #{VALID_DONATION_COUNT}"
+    msg += " and Action Count < #{VALID_ACTION_COUNT}"
+    log_error_message(msg, true)
+
+    false
+  end
+
+  # We are allowing 2 requests with in 20 mins.
+  # we need to check whether the user has 1 record instead of 2
+  # reason is we need to add current request in the calculation.
+  def user_has_allowed_transaction_limit?
+    return true unless user.has_braintree_account?
+
+    if user.hourly_transaction_count >= MAX_TRANSACTIONS_WITHIN_20MINS
+      log_error_message('Recaptcha: Success, HourlyLimit: Exceeds', true)
+      return false
+    end
+
+    if user.daily_transaction_count >= MAX_TRANSACTIONS_PER_DAY
+      log_error_message('Recaptcha: Success, DailyLimit: Exceeds', true)
+      return false
+    end
     true
   end
 
-  def validate_recaptcha
+  def user
+    @user ||= User.new(email)
+  end
+
+  def email_account_exist?(email)
+    @email_verifier = EmailExistenceVerifier.new(email)
+    return true if @email_verifier.exist?
+
+    log_error_message("Recaptcha: Failed, Email: #{@email_verifier.errors.full_messages.to_sentence}")
+    false
+  end
+
+  def verify_recaptcha
     @captcha = Recaptcha3.new(token: recaptcha, action: action)
     @valid_captcha = @captcha.human?
   end
@@ -50,66 +95,67 @@ class PaymentRequestAuthorizer
     @valid_captcha
   end
 
-  def new_customer?
-    customer.nil?
-  end
-
-  def customer
-    @customer ||= ::Payment::Braintree::Customer.find_by(email: email)
-  end
-
-  def total_donations
-    @total_donations ||= customer.transactions.count
-  end
-
-  def verify_user_donations
-    return false if errors.present?
-
-    if customer.nil?
+  def log_error_message(code, transaction_rejected = false)
+    msg = ''
+    if transaction_rejected
+      msg += 'Transaction rejected '
       errors.add(:base, 'Invalid request')
-      return false
+    end
+    msg += "#{code}, email: #{email}"
+    Rails.logger.info(msg)
+  end
+
+  class User
+    attr_reader :braintree_account, :member_account, :email
+
+    def initialize(email)
+      @email = email.to_s.strip
     end
 
-    return true if total_donations >= 2
+    # rubocop:disable Lint/DuplicateMethods
+    def braintree_account
+      @braintree_account ||= ::Payment::Braintree::Customer.find_by(email: email)
+    end
 
-    errors.add(:base, 'Invalid request')
-    msg = 'Transaction rejected: [Recaptcha failed and insufficient donations] '
-    msg += "user: #{email}'s past total donations: #{total_donations}"
-    Rails.logger.info(msg)
-    false
-  end
+    def member_account
+      @member_account ||= Member.find_by(email: email)
+    end
+    # rubocop:enable Lint/DuplicateMethods
 
-  def verify_customer_transaction_limit
-    return false if errors.present?
+    def has_account?
+      member_account.present?
+    end
 
-    # no need to check transactions for new user
-    return true if new_customer?
+    def has_braintree_account?
+      braintree_account.present?
+    end
 
-    return false unless valid_transaction_count?(
-      20.minutes.ago,
-      MAX_TRANSACTIONS_WITHIN_20MINS,
-      '20Minutes'
-    )
-    return false unless valid_transaction_count?(
-      Time.zone.now.beginning_of_day,
-      MAX_TRANSACTIONS_PER_DAY,
-      'Daily'
-    )
+    def actions_count
+      @actions_count ||= member_account.actions
+        .where('created_at < ?', 3.days.ago)
+        .order(created_at: :desc).limit(5).count
+    end
 
-    true
-  end
+    def transactions_count
+      @transactions_count ||= braintree_account.transactions.count
+    end
 
-  def valid_transaction_count?(time, limit, msg = '')
-    # Allow second transaction if there is already only one existing
-    return true if total_transactions_on_last(time) < limit
+    def hourly_transaction_count
+      braintree_account.transactions.where('created_at >= ? AND status = 0', 20.minutes.ago).count
+    end
 
-    msg = "Transaction rejected: [RecaptchaSuccess and Transaction#{msg}LimitExceeded] for customer: #{email}"
-    Rails.logger.info(msg)
-    errors.add(:base, 'Invalid request')
-    false
-  end
+    def daily_transaction_count
+      @daily_limit ||= braintree_account.transactions
+        .where('created_at >= ? AND status = 0', Time.zone.now.beginning_of_day)
+        .count
+    end
 
-  def total_transactions_on_last(time)
-    customer.transactions.where('created_at >= ? AND status = 0', time).count
+    def has_valid_transactions_count?
+      has_braintree_account? && transactions_count >= PaymentRequestAuthorizer::VALID_DONATION_COUNT
+    end
+
+    def has_valid_actions_count?
+      member_account && actions_count >= PaymentRequestAuthorizer::VALID_ACTION_COUNT
+    end
   end
 end
