@@ -143,3 +143,7 @@ eoy_cache_timer: 1
 
 linkedin:
   partner_id:
+
+bulk_email_checker:
+  end_point: https://api-v4.bulkemailchecker.com/
+  key:
