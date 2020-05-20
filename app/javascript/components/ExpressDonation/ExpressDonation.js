@@ -219,7 +219,7 @@ export class ExpressDonation extends Component {
 
         <div className="payment-message">
           <br />
-          {this.props.showMonthlyButton() && (
+          {this.props.showMonthlyButton && (
             <FormattedMessage
               id={'fundraiser.make_monthly_donation'}
               defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
@@ -266,7 +266,7 @@ export class ExpressDonation extends Component {
           )} */}
         </div>
         <>
-          <ShowIf condition={this.props.showMonthlyButton()}>
+          <ShowIf condition={this.props.showMonthlyButton}>
             <DonateButton
               currency={this.props.fundraiser.currency}
               amount={this.props.fundraiser.donationAmount || 0}
@@ -281,7 +281,7 @@ export class ExpressDonation extends Component {
             />
           </ShowIf>
 
-          <ShowIf condition={this.props.howOneOffButton()}>
+          <ShowIf condition={this.props.showOneOffButton}>
             <DonateButton
               currency={this.props.fundraiser.currency}
               amount={this.props.fundraiser.donationAmount || 0}
