@@ -152,3 +152,7 @@ eoy_cache_timer: <%= ENV['END_OF_YEAR_CACHE_TIMER'] || 1 %>
 
 linkedin:
   partner_id: <%= ENV['LINKEDIN_PARTNER_ID'] %>
+
+bulk_email_checker:
+  end_point: 'https://api-v4.bulkemailchecker.com/'
+  key: <%= ENV['BULK_EMAIL_CHECKER_KEY'] %>

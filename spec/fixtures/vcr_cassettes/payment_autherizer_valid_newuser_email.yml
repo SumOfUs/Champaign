@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-v4.bulkemailchecker.com/
+    body:
+      encoding: UTF-8
+      string: key=NnhcFmKvuUpw0VRtaEPjSsq6Jy3TBbAr&email=support%40sumofus.org
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 15 May 2020 14:59:22 GMT
+      Server:
+      - Apache
+      Access-Control-Allow-Origin:
+      - "*"
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - PHPSESSID=1a6f5c531a52355746ee278f7a026871; path=/
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+            "status": "unknown",
+            "event": "is_catchall",
+            "details": "Is a Catchall mx server config.",
+            "email": "support@sumofus.org",
+            "emailSuggested": "",
+            "mailbox": "support",
+            "domain": "sumofus.org",
+            "mxIp": "13.249.102.13",
+            "mxLocation": "US",
+            "isComplainer": false,
+            "isDisposable": false,
+            "isFreeService": false,
+            "isOffensive": false,
+            "isRoleAccount": true,
+            "validationsRemaining": 990,
+            "hourlyQuotaRemaining": 1499,
+            "execution": "0.04"
+        }
+    http_version: 
+  recorded_at: Fri, 15 May 2020 14:59:23 GMT
+recorded_with: VCR 3.0.3
