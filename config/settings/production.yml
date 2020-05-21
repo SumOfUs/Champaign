@@ -154,5 +154,5 @@ linkedin:
   partner_id: <%= ENV['LINKEDIN_PARTNER_ID'] %>
 
 bulk_email_checker:
-  end_point: ENV['BULK_EMAIL_CHECKER_END_POINT']
+  end_point: 'https://api-v4.bulkemailchecker.com/'
   key: <%= ENV['BULK_EMAIL_CHECKER_KEY'] %>
