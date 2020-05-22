@@ -70,7 +70,7 @@ export class Payment extends Component {
     const normalizedRecurringDefault = urlInfo.recurring_default || pageDefault;
 
     this.setState({
-      recurringDonor: donor_status == 'recurring_donor',
+      recurringDonor: donor_status === 'recurring_donor',
       akid: urlInfo.akid,
       source: urlInfo.source,
       onlyRecurring: normalizedRecurringDefault === 'only_recurring',
@@ -191,8 +191,6 @@ export class Payment extends Component {
   }
 
   onClickHandle(e) {
-    console.log('recurringDonar', this.state.recurringDonar);
-
     const isRecurring = e.currentTarget.name === 'recurring';
     this.props.setRecurring(isRecurring);
     ee.on('fundraiser:change_recurring', this.makePayment, this);
@@ -562,7 +560,7 @@ export class Payment extends Component {
 
           <div className="payment-message">
             <br />
-            {!this.state.recurringDonar && (
+            {!this.state.recurringDonor && (
               <FormattedMessage
                 id={'fundraiser.make_monthly_donation'}
                 defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}

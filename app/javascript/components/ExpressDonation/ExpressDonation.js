@@ -9,7 +9,7 @@ import PaymentMethodWrapper from './PaymentMethodWrapper';
 import PaymentMethodItem from './PaymentMethod';
 import { setRecurring } from '../../state/fundraiser/actions';
 import CurrencyAmount from '../CurrencyAmount';
-
+import ShowIf from '../ShowIf';
 import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
 
@@ -105,7 +105,6 @@ export class ExpressDonation extends Component {
 
   submit() {
     const data = this.oneClickData();
-    console.log('recurringDonar', this.state.recurringDonar);
 
     if (data) {
       if (data.allow_duplicate == false) delete data.allow_duplicate;
