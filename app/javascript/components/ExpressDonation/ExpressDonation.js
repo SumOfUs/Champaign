@@ -246,24 +246,6 @@ export class ExpressDonation extends Component {
               }}
             />
           </div>
-
-          {/* {!this.state.recurringDonor && (
-            <div className="PaymentMethod__complete-donation donation-amount-text-2x">
-              <FormattedMessage
-                id={'fundraiser.donate_amount'}
-                defaultMessage={`Donate {amount}`}
-                className=""
-                values={{
-                  amount: (
-                    <CurrencyAmount
-                      amount={this.props.fundraiser.donationAmount || 0}
-                      currency={this.props.fundraiser.currency}
-                    />
-                  ),
-                }}
-              />
-            </div>
-          )} */}
         </div>
         <>
           <ShowIf condition={this.props.showMonthlyButton}>

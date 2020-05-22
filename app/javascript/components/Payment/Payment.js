@@ -64,13 +64,9 @@ export class Payment extends Component {
 
   componentDidMount() {
     const urlInfo = window.champaign.personalization.urlParams;
-    const donor_status =
-      window.champaign.personalization.member &&
-      window.champaign.personalization.member.donor_status;
+    const donor_status = window.champaign.personalization.member?.donor_status;
     const pageDefault =
-      window.champaign.plugins.fundraiser &&
-      window.champaign.plugins.fundraiser.default &&
-      window.champaign.plugins.fundraiser.default.config.recurring_default;
+      window.champaign.plugins.fundraiser?.default?.config.recurring_default;
     const normalizedRecurringDefault = urlInfo.recurring_default || pageDefault;
 
     this.setState({
@@ -98,20 +94,6 @@ export class Payment extends Component {
                 if (err) {
                   return this.setState({ client, loading: false });
                 }
-
-                console.log(
-                  'recurringDonor, akid, source, recurring_default, onlyRecurring =>',
-                  this.state.recurringDonor,
-                  ',',
-                  this.state.akid,
-                  ',',
-                  this.state.source,
-                  ',',
-                  this.state.recurringDefault,
-                  ',',
-                  this.state.onlyRecurring,
-                  ','
-                );
 
                 const deviceData = collectorInst.deviceData;
                 this.setState({
@@ -460,10 +442,6 @@ export class Payment extends Component {
       }
 
       if (this.state.recurringDefault === 'only_recurring') {
-        return false;
-      }
-
-      if (this.state.onlyRecurring) {
         return false;
       }
       return true;

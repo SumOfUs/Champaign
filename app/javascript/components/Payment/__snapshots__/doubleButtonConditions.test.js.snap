@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`For one_off/non_donor/new_user donors when recurring default is one_off shows one_off button 1`] = `
+<Button
+  className="DonateButton"
+  disabled={[MockFunction]}
+  name="one_time"
+  onClick={[MockFunction]}
+>
+  <_default
+    processing={false}
+  >
+    <span
+      className="fa fa-lock"
+    />
+     
+    <FormattedMessage
+      defaultMessage="Donate {amount} Just Once"
+      id="fundraiser.donation_once"
+      values={
+        Object {
+          "amount": <CurrencyAmount
+            amount={1}
+            currency="$"
+          />,
+        }
+      }
+    />
+  </_default>
+</Button>
+`;
+
+exports[`For one_off/non_donor/new_user donors when recurring default is one_off shows recurring button 1`] = `
+<Button
+  className="DonateButton"
+  disabled={[MockFunction]}
+  name="one_time"
+  onClick={[MockFunction]}
+>
+  <_default
+    processing={false}
+  >
+    <span
+      className="fa fa-lock"
+    />
+     
+    <FormattedMessage
+      defaultMessage="Donate {amount} Just Once"
+      id="fundraiser.donation_once"
+      values={
+        Object {
+          "amount": <CurrencyAmount
+            amount={1}
+            currency="$"
+          />,
+        }
+      }
+    />
+  </_default>
+</Button>
+`;
+
+exports[`For one_off/non_donor/new_user donors when recurring default is only_one_off shows one_off button 1`] = `
+<Button
+  className="DonateButton"
+  disabled={[MockFunction]}
+  name="one_time"
+  onClick={[MockFunction]}
+>
+  <_default
+    processing={false}
+  >
+    <span
+      className="fa fa-lock"
+    />
+     
+    <FormattedMessage
+      defaultMessage="Donate {amount} Just Once"
+      id="fundraiser.donation_once"
+      values={
+        Object {
+          "amount": <CurrencyAmount
+            amount={1}
+            currency="$"
+          />,
+        }
+      }
+    />
+  </_default>
+</Button>
+`;
+
+exports[`For one_off/non_donor/new_user donors when recurring default is only_recurring shows recurring button 1`] = `
+<Button
+  className="DonateButton"
+  disabled={[MockFunction]}
+  name="one_time"
+  onClick={[MockFunction]}
+>
+  <_default
+    processing={false}
+  >
+    <span
+      className="fa fa-lock"
+    />
+     
+    <FormattedMessage
+      defaultMessage="Donate {amount} Just Once"
+      id="fundraiser.donation_once"
+      values={
+        Object {
+          "amount": <CurrencyAmount
+            amount={1}
+            currency="$"
+          />,
+        }
+      }
+    />
+  </_default>
+</Button>
+`;
+
+exports[`For one_off/non_donor/new_user donors when recurring default is recurring shows one_off button 1`] = `
+<Button
+  className="DonateButton"
+  disabled={[MockFunction]}
+  name="one_time"
+  onClick={[MockFunction]}
+>
+  <_default
+    processing={false}
+  >
+    <span
+      className="fa fa-lock"
+    />
+     
+    <FormattedMessage
+      defaultMessage="Donate {amount} Just Once"
+      id="fundraiser.donation_once"
+      values={
+        Object {
+          "amount": <CurrencyAmount
+            amount={1}
+            currency="$"
+          />,
+        }
+      }
+    />
+  </_default>
+</Button>
+`;
+
+exports[`For one_off/non_donor/new_user donors when recurring default is recurring shows recurring button 1`] = `
+<Button
+  className="DonateButton"
+  disabled={[MockFunction]}
+  name="one_time"
+  onClick={[MockFunction]}
+>
+  <_default
+    processing={false}
+  >
+    <span
+      className="fa fa-lock"
+    />
+     
+    <FormattedMessage
+      defaultMessage="Donate {amount} Just Once"
+      id="fundraiser.donation_once"
+      values={
+        Object {
+          "amount": <CurrencyAmount
+            amount={1}
+            currency="$"
+          />,
+        }
+      }
+    />
+  </_default>
+</Button>
+`;
+
+exports[`Recurring Donors shows one_off button for recurring donors when recurring_fedault is any 1`] = `
+<Button
+  className="DonateButton"
+  disabled={[MockFunction]}
+  name="one_time"
+  onClick={[MockFunction]}
+>
+  <_default
+    processing={false}
+  >
+    <span
+      className="fa fa-lock"
+    />
+     
+    <FormattedMessage
+      defaultMessage="Donate {amount}"
+      id="fundraiser.donate_amount"
+      values={
+        Object {
+          "amount": <CurrencyAmount
+            amount={1}
+            currency="$"
+          />,
+        }
+      }
+    />
+  </_default>
+</Button>
+`;
