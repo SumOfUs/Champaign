@@ -14,7 +14,7 @@ export default props => {
     buttonText = 'Donate {amount} Monthly';
   }
 
-  if (props.recurringDonar) {
+  if (props.recurringDonor) {
     buttonId = 'fundraiser.donate_amount';
     buttonText = 'Donate {amount}';
   }
