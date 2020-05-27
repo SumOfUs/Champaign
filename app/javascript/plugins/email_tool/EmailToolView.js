@@ -63,8 +63,27 @@ export default class EmailToolView extends Component {
   // Attempt to send the email on submit. If successful, we call the
   // onSuccess prop with the selected target. On failure, we update
   // the state with the errors we receive from the backend.
+
+  convertHtmlToPlainText = html => {
+    let htmlElement = document.createElement('div');
+    htmlElement.innerHTML = html;
+    return htmlElement.textContent || htmlElement.innerText || '';
+  }; //Should move this to Utils once feature is done
+
+  generateMailToLink = () => {
+    const target_email = encodeURIComponent(this.state.target?.email);
+    const cc_email = encodeURIComponent(this.state.email);
+    const subject = encodeURIComponent(this.state.subject);
+    const body = encodeURIComponent(
+      this.convertHtmlToPlainText(this.state.body)
+    );
+
+    return `mailto:${target_email}?cc=${cc_email}&subject=${subject}&body=${body}`;
+  };
+
   onSubmit = e => {
     e.preventDefault();
+    window.open(this.generateMailToLink());
     this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
       () => {
