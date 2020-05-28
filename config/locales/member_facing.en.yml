@@ -39,7 +39,7 @@ en:
       subject: 'Subject line'
       your_name: 'Your name'
       your_email: 'Your email address'
-      send_email: 'Send email'
+      send_email: 'Send with your email client'
       email_body: 'Body'
       name_of_your_pension_fund: 'Name of your pension fund'
       send_button_text: 'Send'
