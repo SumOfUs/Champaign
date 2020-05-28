@@ -325,7 +325,6 @@ export class ExpressDonation extends Component {
 }
 
 const mapStateToProps = state => ({
-  weekly: true,
   paymentMethods: state.paymentMethods,
   fundraiser: state.fundraiser,
   page: state.page,
