@@ -197,6 +197,14 @@ export class Payment extends Component {
     ee.on('fundraiser:change_recurring', this.makePayment, this);
   }
 
+  getFinalDonationAmount = () => {
+    return (
+      (!this.state.recurringDonor && this.props.weekly
+        ? this.props.fundraiser.donationAmount * 4
+        : this.props.fundraiser.donationAmount) || 0
+    );
+  };
+
   // this should actually be a selector (a fn that returns a slice of state)
   donationData() {
     const {
@@ -212,7 +220,7 @@ export class Payment extends Component {
     } = this.props;
 
     return {
-      amount: this.props.weekly ? donationAmount * 4 : donationAmount,
+      amount: this.getFinalDonationAmount(),
       currency: currency,
       recurring: recurring,
       store_in_vault: storeInVault,
@@ -493,6 +501,7 @@ export class Payment extends Component {
           hidden={this.isExpressHidden()}
           showOneOffButton={this.showOneOffButton()}
           showMonthlyButton={this.showMonthlyButton()}
+          getFinalDonationAmount={this.getFinalDonationAmount()}
           weekly={this.props.weekly}
           data={{
             src: this.state.src,
@@ -579,7 +588,7 @@ export class Payment extends Component {
                 values={{
                   amount: (
                     <CurrencyAmount
-                      amount={donationAmount || 0}
+                      amount={this.getFinalDonationAmount()}
                       currency={currency}
                     />
                   ),
