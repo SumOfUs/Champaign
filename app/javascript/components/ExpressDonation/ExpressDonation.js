@@ -56,7 +56,7 @@ export class ExpressDonation extends Component {
     return {
       payment: {
         currency: this.props.fundraiser.currency,
-        amount: this.props.fundraiser.donationAmount,
+        amount: this.props.getFinalDonationAmount,
         recurring: this.props.fundraiser.recurring,
         payment_method_id: this.state.currentPaymentMethod.id,
       },
@@ -238,7 +238,7 @@ export class ExpressDonation extends Component {
               values={{
                 amount: (
                   <CurrencyAmount
-                    amount={this.props.fundraiser.donationAmount || 0}
+                    amount={this.props.getFinalDonationAmount}
                     currency={this.props.fundraiser.currency}
                   />
                 ),
@@ -254,6 +254,7 @@ export class ExpressDonation extends Component {
               recurring={true}
               name="recurring"
               recurringDonor={this.state.recurringDonor}
+              weekly={this.props.weekly}
               submitting={this.state.submitting}
               disabled={
                 !this.state.currentPaymentMethod || this.state.submitting

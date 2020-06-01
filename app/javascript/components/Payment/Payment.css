@@ -47,6 +47,7 @@
 
 .Payment__fine-print .ReCaptchaBranding {
   margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .Payment__direct-debit-logo {
@@ -133,4 +134,8 @@
   border-top: #dfdfdf 1px solid;
   line-height: 20px;
   text-align: left;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
 }
