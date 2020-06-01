@@ -26,7 +26,8 @@ class ManageAction
 
   def create_action
     action_params = {
-      page: page
+      page: page,
+      clicked_copy_body_button: @params['clicked_copy_body_button']
     }.merge(@extra_attrs)
 
     return PendingActionService.create(@params) if requires_double_opt_in

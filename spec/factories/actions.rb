@@ -4,18 +4,19 @@
 #
 # Table name: actions
 #
-#  id                :integer          not null, primary key
-#  created_user      :boolean
-#  donation          :boolean          default(FALSE)
-#  form_data         :jsonb
-#  link              :string
-#  publish_status    :integer          default("default"), not null
-#  subscribed_member :boolean          default(TRUE)
-#  subscribed_user   :boolean
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  member_id         :integer
-#  page_id           :integer
+#  id                       :integer          not null, primary key
+#  clicked_copy_body_button :boolean          default(FALSE)
+#  created_user             :boolean
+#  donation                 :boolean          default(FALSE)
+#  form_data                :jsonb
+#  link                     :string
+#  publish_status           :integer          default("default"), not null
+#  subscribed_member        :boolean          default(TRUE)
+#  subscribed_user          :boolean
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  member_id                :integer
+#  page_id                  :integer
 #
 # Indexes
 #

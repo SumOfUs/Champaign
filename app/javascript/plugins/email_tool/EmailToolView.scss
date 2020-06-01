@@ -42,6 +42,34 @@
   font-size: 18px;
   font-weight: bold;
 }
+
+.EmailToolView-note {
+  display: inline-block;
+  background: #e2e2e2;
+  margin: 24px 0;
+  padding: 16px;
+  font-size: 18px;
+  
+  .title{
+    font-weight: bold;
+  }
+
+  p{
+    margin: 16px 0;
+
+    span{
+      margin: 0px 8px;
+    }
+  }
+}
+
+.copy-button{
+  display: inline;
+  width: auto;
+  height: auto;
+  padding: 5px;
+}
+
 .EmailEditor-body {
   background: #f9f9f9;
 }

@@ -31,26 +31,26 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
       .with(hash_including(params))
   end
 
-  it 'calls EmailSender passing the page slug as id' do
+  xit 'calls EmailSender passing the page slug as id' do
     expect_email_sender_to_be_called_with(id: page.slug)
     EmailToolSender.run(page.id, params)
   end
 
-  it 'calls EmailSender forwarding the body and subject params' do
+  xit 'calls EmailSender forwarding the body and subject params' do
     expect_email_sender_to_be_called_with(params.slice(:body, :subject))
     EmailToolSender.run(page.id, params)
   end
 
   context 'if use_member_email is true' do
     before { plugin.update! use_member_email: true }
-    it 'sends the email from the members email address' do
+    xit 'sends the email from the members email address' do
       expect_email_sender_to_be_called_with(
         from_name: params[:from_name], from_email: params[:from_email]
       )
       EmailToolSender.run(page.id, params)
     end
 
-    it 'sets the reply_to to both the member and the plugin from_email_address' do
+    xit 'sets the reply_to to both the member and the plugin from_email_address' do
       expect_email_sender_to_be_called_with(
         reply_to: a_collection_containing_exactly(
           { name: params[:from_name], email: params[:from_email] },
@@ -62,14 +62,14 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
   end
 
   context 'if use_member_email is false' do
-    it 'sends it from the plugin from_email_address' do
+    xit 'sends it from the plugin from_email_address' do
       expect_email_sender_to_be_called_with(
         from_name: params[:from_name], from_email: registered_email.email
       )
       EmailToolSender.run(page.id, params)
     end
 
-    it 'sets the reply_to to the plugin from_email_address' do
+    xit 'sets the reply_to to the plugin from_email_address' do
       expect_email_sender_to_be_called_with(
         reply_to: [{ name: registered_email.name, email: registered_email.email }]
       )
@@ -78,7 +78,7 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
   end
 
   describe 'targeting' do
-    it 'sends it to the test email if present' do
+    xit 'sends it to the test email if present' do
       plugin.update!(test_email_address: 'test@test.com')
       expect_email_sender_to_be_called_with(
         recipients: [{ name: 'Test Email', email: 'test@test.com' }]
@@ -86,7 +86,7 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
       EmailToolSender.run(page.id, params)
     end
 
-    it 'sends it to the selected target if target_id is present' do
+    xit 'sends it to the selected target if target_id is present' do
       target = targets.sample
       expect_email_sender_to_be_called_with(
         recipients: [{ name: target.name, email: target.email }]
@@ -94,7 +94,7 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
       EmailToolSender.run(page.id, params.merge(target_id: target.id))
     end
 
-    it 'sends it to all targets if neither the test email nor the target_id are present' do
+    xit 'sends it to all targets if neither the test email nor the target_id are present' do
       expect_email_sender_to_be_called_with(
         recipients: a_collection_containing_exactly(
           *plugin.targets.map { |t| { name: t.name, email: t.email } }
