@@ -101,6 +101,7 @@ export default class EmailToolView extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    window.open(this.generateMailToLink());
     this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
       () => {
@@ -207,7 +208,7 @@ export default class EmailToolView extends Component {
             </div>
 
             <div className="EmailToolView-note">
-              <div>
+              {/* <div>
                 <Button
                   className="button"
                   onClick={() => window.open(this.generateMailToLink())}
@@ -217,7 +218,7 @@ export default class EmailToolView extends Component {
                     defaultMessage="Send with your email client (default)"
                   />
                 </Button>
-              </div>
+              </div> */}
               <p className="title">
                 <FormattedMessage
                   id="email_tool.form.title_for_no_email_client"
@@ -236,9 +237,10 @@ export default class EmailToolView extends Component {
                 <span>
                   <Button
                     className="copy-button"
-                    onClick={() =>
-                      this.copyToClipboard(this.state.target?.email)
-                    }
+                    onClick={e => {
+                      e.preventDefault();
+                      this.copyToClipboard(this.state.target?.email);
+                    }}
                   >
                     <i className="fa fa-copy"></i>
                   </Button>
@@ -256,7 +258,10 @@ export default class EmailToolView extends Component {
                 <span>
                   <Button
                     className="copy-button"
-                    onClick={() => this.copyToClipboard(this.state.subject)}
+                    onClick={e => {
+                      e.preventDefault();
+                      this.copyToClipboard(this.state.subject);
+                    }}
                   >
                     <i className="fa fa-copy"></i>
                   </Button>
@@ -292,7 +297,8 @@ export default class EmailToolView extends Component {
                 onClick={e => this.onSubmit(e)}
               >
                 <FormattedMessage
-                  id="email_tool.form.submit_action"
+                  // id="email_tool.form.submit_action"
+                  id="email_tool.form.send_email"
                   defaultMessage="Submit Action (default)"
                 />
               </Button>
