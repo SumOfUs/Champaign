@@ -29,6 +29,7 @@ export default class EmailToolView extends Component {
       body: '', // this is the complete body: header + body + footer
       target: sample(this.props.targets),
       targetsForSelection: props.targets.map(emailTargetAsSelectOption),
+      clickedCopyBodyButton: false,
       errors: {},
       isSubmitting: false,
     };
@@ -51,7 +52,10 @@ export default class EmailToolView extends Component {
         target_id: this.targetId(),
         country: this.props.country,
       },
-      tracking_params: this.props.trackingParams,
+      tracking_params: {
+        ...this.props.trackingParams,
+        clicked_copy_body_button: this.state.clickedCopyBodyButton,
+      },
     };
   }
 
@@ -64,11 +68,25 @@ export default class EmailToolView extends Component {
   // onSuccess prop with the selected target. On failure, we update
   // the state with the errors we receive from the backend.
 
-  convertHtmlToPlainText = html => {
+  convertHtmlToPlainText = htmlValue => {
     let htmlElement = document.createElement('div');
-    htmlElement.innerHTML = html;
+    htmlElement.innerHTML = htmlValue;
     return htmlElement.textContent || htmlElement.innerText || '';
   }; //Should move this to Utils once feature is done
+
+  copyToClipboard = content => {
+    const htmlElement = document.createElement('textarea');
+    htmlElement.value = content;
+    document.body.appendChild(htmlElement);
+    htmlElement.select();
+    document.execCommand('copy');
+    document.body.removeChild(htmlElement);
+  };
+
+  handleCopyBodyButton = content => {
+    this.copyToClipboard(this.convertHtmlToPlainText(this.state.body));
+    this.setState({ clickedCopyBodyButton: true });
+  };
 
   generateMailToLink = () => {
     const target_email = encodeURIComponent(this.state.target?.email);
@@ -83,7 +101,6 @@ export default class EmailToolView extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    window.open(this.generateMailToLink());
     this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
       () => {
@@ -128,7 +145,7 @@ export default class EmailToolView extends Component {
     return (
       <div className="EmailToolView">
         <div className="EmailToolView-form">
-          <form onSubmit={this.onSubmit} className="action-form form--big">
+          <form className="action-form form--big">
             <div className="EmailToolView-action">
               <h3 className="EmailToolView-title">{this.props.title}</h3>
               <FormGroup>
@@ -189,14 +206,94 @@ export default class EmailToolView extends Component {
               />
             </div>
 
+            <div className="EmailToolView-note">
+              <div>
+                <Button
+                  className="button"
+                  onClick={() => window.open(this.generateMailToLink())}
+                >
+                  <FormattedMessage
+                    id="email_tool.form.send_email"
+                    defaultMessage="Send with your email client (default)"
+                  />
+                </Button>
+              </div>
+              <p className="title">
+                <FormattedMessage
+                  id="email_tool.form.title_for_no_email_client"
+                  defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
+                />
+              </p>
+
+              <p>
+                <span>1. </span>
+                <span>
+                  <FormattedMessage
+                    id="email_tool.form.copy_target_email_address"
+                    defaultMessage="Copy Target Email Address (default)"
+                  />
+                </span>
+                <span>
+                  <Button
+                    className="copy-button"
+                    onClick={() =>
+                      this.copyToClipboard(this.state.target?.email)
+                    }
+                  >
+                    <i className="fa fa-copy"></i>
+                  </Button>
+                </span>
+              </p>
+
+              <p>
+                <span>2. </span>
+                <span>
+                  <FormattedMessage
+                    id="email_tool.form.copy_email_subject"
+                    defaultMessage="Copy Email Subject (default)"
+                  />
+                </span>
+                <span>
+                  <Button
+                    className="copy-button"
+                    onClick={() => this.copyToClipboard(this.state.subject)}
+                  >
+                    <i className="fa fa-copy"></i>
+                  </Button>
+                </span>
+              </p>
+
+              <p>
+                <span>3. </span>
+                <span>
+                  <FormattedMessage
+                    id="email_tool.form.copy_email_body"
+                    defaultMessage="Copy Email Body (default)"
+                  />
+                </span>
+                <span>
+                  <Button
+                    className="copy-button"
+                    onClick={e => {
+                      e.preventDefault();
+                      this.handleCopyBodyButton();
+                    }}
+                  >
+                    <i className="fa fa-copy"></i>
+                  </Button>
+                </span>
+              </p>
+            </div>
+
             <FormGroup>
               <Button
                 disabled={this.state.isSubmitting}
                 className="button action-form__submit-button"
+                onClick={e => this.onSubmit(e)}
               >
                 <FormattedMessage
-                  id="email_tool.form.send_email"
-                  defaultMessage="Send email (default)"
+                  id="email_tool.form.submit_action"
+                  defaultMessage="Submit Action (default)"
                 />
               </Button>
             </FormGroup>

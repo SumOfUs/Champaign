@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_30_222245) do
+ActiveRecord::Schema.define(version: 2020_05_29_173920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2020_01_30_222245) do
     t.boolean "subscribed_member", default: true
     t.boolean "donation", default: false
     t.integer "publish_status", default: 0, null: false
+    t.boolean "clicked_copy_body_button", default: false
     t.index ["member_id"], name: "index_actions_on_member_id"
     t.index ["page_id"], name: "index_actions_on_page_id"
   end

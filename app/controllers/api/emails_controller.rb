@@ -73,7 +73,7 @@ class Api::EmailsController < ApplicationController
 
   def tracking_params
     (params.to_unsafe_hash[:tracking_params] || {})
-      .slice(:source, :akid, :referring_akid, :referrer_id, :rid)
+      .slice(:source, :akid, :referring_akid, :referrer_id, :rid, :clicked_copy_body_button)
       .merge(mobile_value)
   end
 

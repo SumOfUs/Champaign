@@ -11,7 +11,7 @@ class EmailToolSender
     @page = Page.find(page_id)
     @params = params.slice(:from_email, :from_name, :body, :subject, :target_id, :country)
     @tracking_params = tracking_params.slice(
-      :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
+      :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile, :clicked_copy_body_button
     )
     @errors = {}
   end
