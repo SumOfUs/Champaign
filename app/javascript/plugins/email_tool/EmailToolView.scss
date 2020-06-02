@@ -46,8 +46,8 @@
 .EmailToolView-note {
   display: inline-block;
   background: #e2e2e2;
-  margin: 24px 0;
-  padding: 16px;
+  margin-bottom: 24px;
+  padding: 8px 16px 0 16px;
   font-size: 18px;
   
   .title{
@@ -58,7 +58,7 @@
     margin: 16px 0;
 
     span{
-      margin: 0px 8px;
+      margin-left: 4px;
     }
   }
 }

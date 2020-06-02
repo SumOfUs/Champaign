@@ -207,6 +207,20 @@ export default class EmailToolView extends Component {
               />
             </div>
 
+            <FormGroup>
+              <Button
+                disabled={this.state.isSubmitting}
+                className="button action-form__submit-button"
+                onClick={e => this.onSubmit(e)}
+              >
+                <FormattedMessage
+                  // id="email_tool.form.submit_action"
+                  id="email_tool.form.send_email"
+                  defaultMessage="Submit Action (default)"
+                />
+              </Button>
+            </FormGroup>
+
             <div className="EmailToolView-note">
               {/* <div>
                 <Button
@@ -229,12 +243,6 @@ export default class EmailToolView extends Component {
               <p>
                 <span>1. </span>
                 <span>
-                  <FormattedMessage
-                    id="email_tool.form.copy_target_email_address"
-                    defaultMessage="Copy Target Email Address (default)"
-                  />
-                </span>
-                <span>
                   <Button
                     className="copy-button"
                     onClick={e => {
@@ -245,16 +253,16 @@ export default class EmailToolView extends Component {
                     <i className="fa fa-copy"></i>
                   </Button>
                 </span>
+                <span>
+                  <FormattedMessage
+                    id="email_tool.form.copy_target_email_address"
+                    defaultMessage="Copy Target Email Address (default)"
+                  />
+                </span>
               </p>
 
               <p>
                 <span>2. </span>
-                <span>
-                  <FormattedMessage
-                    id="email_tool.form.copy_email_subject"
-                    defaultMessage="Copy Email Subject (default)"
-                  />
-                </span>
                 <span>
                   <Button
                     className="copy-button"
@@ -266,16 +274,16 @@ export default class EmailToolView extends Component {
                     <i className="fa fa-copy"></i>
                   </Button>
                 </span>
+                <span>
+                  <FormattedMessage
+                    id="email_tool.form.copy_email_subject"
+                    defaultMessage="Copy Email Subject (default)"
+                  />
+                </span>
               </p>
 
               <p>
                 <span>3. </span>
-                <span>
-                  <FormattedMessage
-                    id="email_tool.form.copy_email_body"
-                    defaultMessage="Copy Email Body (default)"
-                  />
-                </span>
                 <span>
                   <Button
                     className="copy-button"
@@ -287,22 +295,14 @@ export default class EmailToolView extends Component {
                     <i className="fa fa-copy"></i>
                   </Button>
                 </span>
+                <span>
+                  <FormattedMessage
+                    id="email_tool.form.copy_email_body"
+                    defaultMessage="Copy Email Body (default)"
+                  />
+                </span>
               </p>
             </div>
-
-            <FormGroup>
-              <Button
-                disabled={this.state.isSubmitting}
-                className="button action-form__submit-button"
-                onClick={e => this.onSubmit(e)}
-              >
-                <FormattedMessage
-                  // id="email_tool.form.submit_action"
-                  id="email_tool.form.send_email"
-                  defaultMessage="Submit Action (default)"
-                />
-              </Button>
-            </FormGroup>
           </form>
         </div>
       </div>
