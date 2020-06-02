@@ -26,8 +26,7 @@ class ManageAction
 
   def create_action
     action_params = {
-      page: page,
-      clicked_copy_body_button: @params['clicked_copy_body_button']
+      page: page
     }.merge(@extra_attrs)
 
     return PendingActionService.create(@params) if requires_double_opt_in
@@ -46,7 +45,7 @@ class ManageAction
       @action = Action.create!(action_params)
       publish_event
     else
-      action_params[:form_data] = @params.slice(:name, :first_name, :last_name, :country)
+      action_params[:form_data] = @params.slice(:name, :first_name, :last_name, :country, 'clicked_copy_body_button')
       action_params[:subscribed_member] = false
       @action = Action.create!(action_params)
     end
