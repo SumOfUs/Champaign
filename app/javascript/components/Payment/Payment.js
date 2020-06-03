@@ -588,7 +588,7 @@ export class Payment extends Component {
                 values={{
                   amount: (
                     <CurrencyAmount
-                      amount={this.getFinalDonationAmount()}
+                      amount={donationAmount || 0}
                       currency={currency}
                     />
                   ),
