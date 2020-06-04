@@ -68,7 +68,7 @@ jobs:
       - run:
           name: Precompile assets
           # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
-          command: bundle exec rake assets:precompile
+          command: bundle exec rake assets:precompile --trace
       - persist_to_workspace:
           root: .
           paths:
@@ -90,7 +90,7 @@ jobs:
       - run:
           name: Precompile assets
           # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
-          command: bundle exec rake assets:precompile
+          command: bundle exec rake assets:precompile --trace
       - persist_to_workspace:
           root: .
           paths:
