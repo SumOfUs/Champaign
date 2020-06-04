@@ -2,6 +2,7 @@ version: 2
 
 defaults: &defaults
   working_directory: ~/circleci-champaign
+  resource_class: xlarge
   docker:
     - image: soutech/ruby:2.6-stretch-node-awscli
 
