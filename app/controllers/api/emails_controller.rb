@@ -58,7 +58,7 @@ class Api::EmailsController < ApplicationController
   def unsafe_email_params
     params
       .require(:email)
-      .permit(:body, :subject, :from_name, :from_email, :country, :consented)
+      .permit(:body, :subject, :from_name, :from_email, :country, :consented, :email_service)
   end
 
   def recipient_params
@@ -68,7 +68,7 @@ class Api::EmailsController < ApplicationController
   def email_params
     params
       .require(:email)
-      .permit(:body, :subject, :target_id, :from_email, :from_name, :country)
+      .permit(:body, :subject, :target_id, :from_email, :from_name, :country, :email_service)
   end
 
   def tracking_params

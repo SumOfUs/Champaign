@@ -44,17 +44,17 @@
 }
 
 .EmailToolView-note {
+  width: 100%;
   display: inline-block;
-  background: #e2e2e2;
-  margin-bottom: 24px;
-  padding: 8px 16px 0 16px;
+  background: #f1f1f1;
   font-size: 18px;
   
   .title{
     font-weight: bold;
   }
 
-  p{
+  .section{
+    padding: 8px 16px;
     margin: 16px 0;
 
     span{

@@ -25,6 +25,7 @@ export default class EmailToolView extends Component {
     this.state = {
       name: this.props.name,
       email: this.props.email,
+      emailService: null,
       subject: this.props.emailSubject,
       body: '', // this is the complete body: header + body + footer
       target: sample(this.props.targets),
@@ -51,6 +52,7 @@ export default class EmailToolView extends Component {
         from_email: this.state.email,
         target_id: this.targetId(),
         country: this.props.country,
+        email_service: this.state.emailService,
       },
       tracking_params: {
         ...this.props.trackingParams,
@@ -88,20 +90,43 @@ export default class EmailToolView extends Component {
     this.setState({ clickedCopyBodyButton: true });
   };
 
-  generateMailToLink = () => {
+  emailComposingLink = () => {
     const target_email = encodeURIComponent(this.state.target?.email);
     const cc_email = encodeURIComponent(this.state.email);
     const subject = encodeURIComponent(this.state.subject);
     const body = encodeURIComponent(
       this.convertHtmlToPlainText(this.state.body)
     );
+    let host, urlParams;
 
-    return `mailto:${target_email}?cc=${cc_email}&subject=${subject}&body=${body}`;
+    switch (this.state.emailService) {
+      case 'email_client':
+        return `mailto:${target_email}?cc=${cc_email}&subject=${subject}&body=${body}`;
+      case 'gmail':
+        host = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&';
+        urlParams = `to=${target_email}?cc=${cc_email}&su=${subject}&body=${body}`;
+        return `${host}${urlParams}`;
+      case 'outlook':
+        host = 'https://outlook.office.com/?path=/mail/action/compose&';
+        urlParams = `to=${target_email}?cc=${cc_email}&su=${subject}&body=${body}`;
+        return `${host}${urlParams}`;
+      case 'yahoo':
+        host = 'https://compose.mail.yahoo.com/?';
+        urlParams = `to=${target_email}?cc=${cc_email}&su=${subject}&body=${body}`;
+        return `${host}${urlParams}`;
+      default:
+        return `mailto:${target_email}?cc=${cc_email}&subject=${subject}&body=${body}`;
+    }
+  };
+
+  handleSendEmail = () => {
+    if (this.state.emailService != 'other_email_services')
+      window.open(this.emailComposingLink());
   };
 
   onSubmit = e => {
     e.preventDefault();
-    window.open(this.generateMailToLink());
+    this.handleSendEmail();
     this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
       () => {
@@ -126,6 +151,8 @@ export default class EmailToolView extends Component {
   onNameChange = name => this.setState({ name });
 
   onEmailChange = email => this.setState({ email });
+
+  onEmailServiceChange = emailService => this.setState({ emailService });
 
   // onEmailEditorChange
   // The EmailEditor component returns a structure
@@ -207,20 +234,6 @@ export default class EmailToolView extends Component {
               />
             </div>
 
-            <FormGroup>
-              <Button
-                disabled={this.state.isSubmitting}
-                className="button action-form__submit-button"
-                onClick={e => this.onSubmit(e)}
-              >
-                <FormattedMessage
-                  // id="email_tool.form.submit_action"
-                  id="email_tool.form.send_email"
-                  defaultMessage="Submit Action (default)"
-                />
-              </Button>
-            </FormGroup>
-
             <div className="EmailToolView-note">
               {/* <div>
                 <Button
@@ -233,76 +246,176 @@ export default class EmailToolView extends Component {
                   />
                 </Button>
               </div> */}
-              <p className="title">
+
+              <div className="section title">
                 <FormattedMessage
-                  id="email_tool.form.title_for_no_email_client"
+                  id="email_tool.form.choose_email_service"
                   defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
                 />
-              </p>
+              </div>
 
-              <p>
-                <span>1. </span>
-                <span>
-                  <Button
-                    className="copy-button"
-                    onClick={e => {
-                      e.preventDefault();
-                      this.copyToClipboard(this.state.target?.email);
-                    }}
-                  >
-                    <i className="fa fa-copy"></i>
-                  </Button>
-                </span>
-                <span>
-                  <FormattedMessage
-                    id="email_tool.form.copy_target_email_address"
-                    defaultMessage="Copy Target Email Address (default)"
-                  />
-                </span>
-              </p>
+              <div className="section" style={{ display: 'flex' }}>
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'gmail'}
+                      onChange={e => this.onEmailServiceChange('gmail')}
+                    />
+                    Gmail
+                  </label>
+                </div>
 
-              <p>
-                <span>2. </span>
-                <span>
-                  <Button
-                    className="copy-button"
-                    onClick={e => {
-                      e.preventDefault();
-                      this.copyToClipboard(this.state.subject);
-                    }}
-                  >
-                    <i className="fa fa-copy"></i>
-                  </Button>
-                </span>
-                <span>
-                  <FormattedMessage
-                    id="email_tool.form.copy_email_subject"
-                    defaultMessage="Copy Email Subject (default)"
-                  />
-                </span>
-              </p>
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'outlook'}
+                      onChange={e => this.onEmailServiceChange('outlook')}
+                    />
+                    Outlook/Live/Hotmail
+                  </label>
+                </div>
 
-              <p>
-                <span>3. </span>
-                <span>
-                  <Button
-                    className="copy-button"
-                    onClick={e => {
-                      e.preventDefault();
-                      this.handleCopyBodyButton();
-                    }}
-                  >
-                    <i className="fa fa-copy"></i>
-                  </Button>
-                </span>
-                <span>
-                  <FormattedMessage
-                    id="email_tool.form.copy_email_body"
-                    defaultMessage="Copy Email Body (default)"
-                  />
-                </span>
-              </p>
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'yahoo'}
+                      onChange={e => this.onEmailServiceChange('yahoo')}
+                    />
+                    Yahoo Mail
+                  </label>
+                </div>
+              </div>
+              <div className="section" style={{ display: 'flex' }}>
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'email_client'}
+                      onChange={e => this.onEmailServiceChange('email_client')}
+                    />
+                    Email Client
+                  </label>
+                </div>
+
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={
+                        this.state.emailService === 'other_email_services'
+                      }
+                      onChange={e =>
+                        this.onEmailServiceChange('other_email_services')
+                      }
+                    />
+                    Others
+                  </label>
+                </div>
+              </div>
+
+              {this.state.emailService === 'other_email_services' && (
+                <React.Fragment>
+                  <div className="section">
+                    <FormattedMessage
+                      id="email_tool.form.title_for_no_email_client"
+                      defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
+                    />
+                  </div>
+                  <div className="section">
+                    <span>1. </span>
+                    <span>
+                      <Button
+                        className="copy-button"
+                        onClick={e => {
+                          e.preventDefault();
+                          this.copyToClipboard(this.state.target?.email);
+                        }}
+                      >
+                        <i className="fa fa-copy"></i>
+                      </Button>
+                    </span>
+                    <span>
+                      <FormattedMessage
+                        id="email_tool.form.copy_target_email_address"
+                        defaultMessage="Copy Target Email Address (default)"
+                      />
+                    </span>
+                  </div>
+
+                  <div className="section">
+                    <span>2. </span>
+                    <span>
+                      <Button
+                        className="copy-button"
+                        onClick={e => {
+                          e.preventDefault();
+                          this.copyToClipboard(this.state.subject);
+                        }}
+                      >
+                        <i className="fa fa-copy"></i>
+                      </Button>
+                    </span>
+                    <span>
+                      <FormattedMessage
+                        id="email_tool.form.copy_email_subject"
+                        defaultMessage="Copy Email Subject (default)"
+                      />
+                    </span>
+                  </div>
+
+                  <div className="section">
+                    <span>3. </span>
+                    <span>
+                      <Button
+                        className="copy-button"
+                        onClick={e => {
+                          e.preventDefault();
+                          this.handleCopyBodyButton();
+                        }}
+                      >
+                        <i className="fa fa-copy"></i>
+                      </Button>
+                    </span>
+                    <span>
+                      <FormattedMessage
+                        id="email_tool.form.copy_email_body"
+                        defaultMessage="Copy Email Body (default)"
+                      />
+                    </span>
+                  </div>
+                </React.Fragment>
+              )}
             </div>
+
+            <FormGroup>
+              <Button
+                disabled={this.state.isSubmitting || !this.state.emailService}
+                className="button action-form__submit-button"
+                onClick={e => this.onSubmit(e)}
+              >
+                {this.state.emailService === 'other_email_services' ? (
+                  <FormattedMessage
+                    // id="email_tool.form.submit_action"
+                    id="email_tool.form.send_email"
+                    defaultMessage="Submit Action (default)"
+                  />
+                ) : (
+                  <FormattedMessage
+                    // id="email_tool.form.submit_action"
+                    id="email_tool.form.submit_and_send_email"
+                    defaultMessage="Submit Action &amp; Send Email(default)"
+                  />
+                )}
+              </Button>
+            </FormGroup>
           </form>
         </div>
       </div>
