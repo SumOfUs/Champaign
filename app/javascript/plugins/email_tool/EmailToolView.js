@@ -254,7 +254,7 @@ export default class EmailToolView extends Component {
                 />
               </div>
 
-              <div className="section" style={{ display: 'flex' }}>
+              <div className="section">
                 <div>
                   <label>
                     <input
@@ -290,8 +290,6 @@ export default class EmailToolView extends Component {
                     Yahoo Mail
                   </label>
                 </div>
-              </div>
-              <div className="section" style={{ display: 'flex' }}>
                 <div>
                   <label>
                     <input

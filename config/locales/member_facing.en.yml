@@ -41,7 +41,7 @@ en:
       your_email: 'Your email address'
       send_email: 'Submit'
       submit_and_send_email: 'Submit & Send Email'
-      title_for_no_email_client: 'If you have not set up an email client or the above button does not open your email, please use the following instructions.'
+      title_for_no_email_client: 'If you have not set up an email client or do not have any of mentioned email service, please use the following instructions.'
       choose_email_service: 'Choose one of the email services to send an email now'
       copy_target_email_address: 'Copy Target Email Address'
       copy_email_subject: 'Copy Email Subject'
