@@ -402,7 +402,7 @@ export default class EmailToolView extends Component {
                 {this.state.emailService === 'other_email_services' ? (
                   <FormattedMessage
                     // id="email_tool.form.submit_action"
-                    id="email_tool.form.send_email"
+                    id="email_tool.form.submit"
                     defaultMessage="Submit Action (default)"
                   />
                 ) : (
