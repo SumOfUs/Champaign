@@ -65,6 +65,7 @@
 
     span{
       margin-left: 4px;
+      display: inline-block;
     }
   }
 }
@@ -72,7 +73,7 @@
 .copy-button{
   display: inline;
   width: auto;
-  height: auto;
+  height: auto !important;
   padding: 5px;
 
   i{

@@ -275,7 +275,7 @@ export default class EmailToolView extends Component {
                       checked={this.state.emailService === 'outlook'}
                       onChange={e => this.onEmailServiceChange('outlook')}
                     />
-                    Outlook/Live/Hotmail
+                    Outlook / Live / Hotmail
                   </label>
                 </div>
 
