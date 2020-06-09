@@ -328,66 +328,81 @@ export default class EmailToolView extends Component {
                     />
                   </div>
                   <div className="section">
-                    <span>1. </span>
-                    <span>
-                      <Button
-                        className="copy-button"
-                        onClick={e => {
-                          e.preventDefault();
-                          this.copyToClipboard(this.state.target?.email);
-                        }}
-                      >
-                        <i className="fa fa-copy"></i>
-                      </Button>
-                    </span>
-                    <span>
-                      <FormattedMessage
-                        id="email_tool.form.copy_target_email_address"
-                        defaultMessage="Copy Target Email Address (default)"
-                      />
-                    </span>
-                  </div>
-
-                  <div className="section">
-                    <span>2. </span>
-                    <span>
-                      <Button
-                        className="copy-button"
-                        onClick={e => {
-                          e.preventDefault();
-                          this.copyToClipboard(this.state.subject);
-                        }}
-                      >
-                        <i className="fa fa-copy"></i>
-                      </Button>
-                    </span>
-                    <span>
-                      <FormattedMessage
-                        id="email_tool.form.copy_email_subject"
-                        defaultMessage="Copy Email Subject (default)"
-                      />
-                    </span>
-                  </div>
-
-                  <div className="section">
-                    <span>3. </span>
-                    <span>
-                      <Button
-                        className="copy-button"
-                        onClick={e => {
-                          e.preventDefault();
-                          this.handleCopyBodyButton();
-                        }}
-                      >
-                        <i className="fa fa-copy"></i>
-                      </Button>
-                    </span>
-                    <span>
-                      <FormattedMessage
-                        id="email_tool.form.copy_email_body"
-                        defaultMessage="Copy Email Body (default)"
-                      />
-                    </span>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <span>
+                              <FormattedMessage
+                                id="email_tool.form.copy_target_email_address"
+                                defaultMessage="Copy Target Email Address (default)"
+                              />
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              <Button
+                                className="copy-button"
+                                onClick={e => {
+                                  e.preventDefault();
+                                  this.copyToClipboard(
+                                    this.state.target?.email
+                                  );
+                                }}
+                              >
+                                <i className="fa fa-copy"></i>
+                              </Button>
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span>
+                              <FormattedMessage
+                                id="email_tool.form.copy_email_subject"
+                                defaultMessage="Copy Email Subject (default)"
+                              />
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              <Button
+                                className="copy-button"
+                                onClick={e => {
+                                  e.preventDefault();
+                                  this.copyToClipboard(this.state.subject);
+                                }}
+                              >
+                                <i className="fa fa-copy"></i>
+                              </Button>
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span>
+                              <FormattedMessage
+                                id="email_tool.form.copy_email_body"
+                                defaultMessage="Copy Email Body (default)"
+                              />
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              <Button
+                                className="copy-button"
+                                onClick={e => {
+                                  e.preventDefault();
+                                  this.handleCopyBodyButton();
+                                }}
+                              >
+                                <i className="fa fa-copy"></i>
+                              </Button>
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </React.Fragment>
               )}
