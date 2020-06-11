@@ -195,8 +195,8 @@ exports[`Recurring Donors shows one_off button for recurring donors when recurri
     />
      
     <FormattedMessage
-      defaultMessage="Donate {amount} Just Once"
-      id="fundraiser.donation_once"
+      defaultMessage="Donate {amount}"
+      id="fundraiser.donate_amount"
       values={
         Object {
           "amount": <CurrencyAmount

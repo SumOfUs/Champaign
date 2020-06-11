@@ -18,6 +18,11 @@ export default props => {
     }
   }
 
+  if (props.recurringDonor) {
+    buttonId = 'fundraiser.donate_amount';
+    buttonText = 'Donate {amount}';
+  }
+
   return (
     <Button
       className="DonateButton"

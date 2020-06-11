@@ -130,7 +130,7 @@ de:
     donate_amount: "%{amount} spenden"
     donation_once: "Einmalig %{amount} spenden"
     donation_recurring: "Monatlich %{amount} spenden"
-    donation_weekly: "Donate %{amount} Weekly"
+    donation_weekly: "Pro Woche %{amount} spenden"
     weekly_donation_fineprint: "To reduce processing fees and make sure your donation has as much impact as possible, weekly donations are processed once per month."
   petition:
     sign_it: Petition Unterschreiben
