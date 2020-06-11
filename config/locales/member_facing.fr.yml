@@ -30,7 +30,13 @@ fr:
       subject: 'Objet'
       your_name: 'Votre nom'
       your_email: 'Votre adresse courriel'
-      send_email: 'Envoyer le courriel'
+      submit: 'Soumettre'
+      submit_and_send_email: 'Soumettre & envoyer un email'
+      title_for_no_email_client: "Si vous n'avez pas configuré de service de messagerie ou si vous ne disposez d’aucun des services de messagerie mentionnés, veuillez suivre les instructions suivantes."
+      choose_email_service: "Choisissez l’un des services de messagerie électronique pour envoyer un email maintenant"
+      copy_target_email_address: '1. Copier le(s) adresse(s) courriel cible(s)'
+      copy_email_subject: '2. Copier l’objet du courriel'
+      copy_email_body: '3. Copier le corps de l’e-mail'
       email_body: 'Corps'
       name_of_your_pension_fund: 'Entrez le nom de votre fonds de pension ou caisse de retraite'
       send_button_text: 'Envoyer'
@@ -71,7 +77,8 @@ fr:
     donate_amount: "Donnez %{amount}"
     donation_once: "Donner %{amount} Une fois"
     donation_recurring: "Donner %{amount} Par mois"
-
+    donation_weekly: "Donner %{amount} Par semaine"
+    weekly_donation_fineprint: "To reduce processing fees and make sure your donation has as much impact as possible, weekly donations are processed once per month."
     month: mois
     error_intro: 'Votre don n’a pas pu être effectué '
     currency_in: "Monnaie en %{currency}"

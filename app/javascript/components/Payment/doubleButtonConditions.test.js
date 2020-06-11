@@ -37,7 +37,7 @@ let showOneOffButton = (recurringDonor, recurringDefault) => {
 };
 
 describe('Recurring Donors', () => {
-  it(`shows one_off button for recurring donors when recurring_fedault is any`, () => {
+  it(`shows one_off button for recurring donors when recurring_default is any`, () => {
     const recurringDonor = true;
     const recurring_default = 'only_recurring';
     let oneOffWrapper = null;

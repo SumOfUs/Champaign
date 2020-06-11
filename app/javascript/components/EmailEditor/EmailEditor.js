@@ -69,9 +69,9 @@ export default class EmailEditor extends Component {
 
   body() {
     return compact([
-      this.state.header,
+      this.state.header + '\n\n',
       stateToHTML(this.state.editorState.getCurrentContent()),
-      this.state.footer,
+      '\n\n' + this.state.footer,
     ]).join('');
   }
 

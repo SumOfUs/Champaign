@@ -36,7 +36,13 @@ de:
       subject: 'Bitte geben Sie eine Betreffzeile ein'
       your_name: 'Ihr Name'
       your_email: 'Ihre E-Mail-Adresse'
-      send_email: 'E-Mail senden'
+      submit: 'Einreichen'
+      submit_and_send_email: 'E-Mail senden'
+      title_for_no_email_client: 'Falls Sie kein E-Mail-Programm installiert haben und über keinen der hier genannten E-Mail-Dienste verfügen, folgen Sie bitte den folgenden Anweisungen.'
+      choose_email_service: 'Wählen Sie einen E-Mail-Dienst aus, um eine E-Mail zu senden'
+      copy_target_email_address: '1. E-Mail-Adresse des Empfängers/der Empfängerin kopieren'
+      copy_email_subject: '2. E-Mail-Betreff kopieren'
+      copy_email_body: '3. E-Mail-Text kopieren'
       email_body: 'E-Mail-Text'
       name_of_your_pension_fund: 'Name der Rentenversicherung '
       send_button_text: 'Senden'
@@ -124,6 +130,8 @@ de:
     donate_amount: "%{amount} spenden"
     donation_once: "Einmalig %{amount} spenden"
     donation_recurring: "Monatlich %{amount} spenden"
+    donation_weekly: "Pro Woche %{amount} spenden"
+    weekly_donation_fineprint: "To reduce processing fees and make sure your donation has as much impact as possible, weekly donations are processed once per month."
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN

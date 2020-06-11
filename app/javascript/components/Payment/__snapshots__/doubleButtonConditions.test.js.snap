@@ -180,7 +180,7 @@ exports[`For one_off/non_donor/new_user donors when recurring default is recurri
 </Button>
 `;
 
-exports[`Recurring Donors shows one_off button for recurring donors when recurring_fedault is any 1`] = `
+exports[`Recurring Donors shows one_off button for recurring donors when recurring_default is any 1`] = `
 <Button
   className="DonateButton"
   disabled={[MockFunction]}

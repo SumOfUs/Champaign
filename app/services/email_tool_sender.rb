@@ -9,9 +9,9 @@ class EmailToolSender
     @plugin = Plugins::EmailTool.find_by(page_id: page_id)
     @target = @plugin.find_target(params[:target_id])
     @page = Page.find(page_id)
-    @params = params.slice(:from_email, :from_name, :body, :subject, :target_id, :country)
+    @params = params.slice(:from_email, :from_name, :body, :subject, :target_id, :country, :email_service)
     @tracking_params = tracking_params.slice(
-      :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
+      :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile, :clicked_copy_body_button
     )
     @errors = {}
   end
@@ -21,7 +21,7 @@ class EmailToolSender
     validate_email_fields
 
     if errors.empty?
-      send_email
+      # send_email
       create_action
     end
 
@@ -50,7 +50,8 @@ class EmailToolSender
         email: @params[:from_email],
         action_target: @target&.name,
         action_target_email: @target&.email,
-        country: @params[:country]
+        country: @params[:country],
+        email_service: @params[:email_service]
       }.merge(@tracking_params)
     )
   end
@@ -93,7 +94,9 @@ class EmailToolSender
   end
 
   def validate_plugin
-    add_error(:base, 'Please configure a From email address') if @plugin.from_email_address.blank?
+    unless @plugin.use_member_email?
+      add_error(:base, 'Please configure a From email address') if @plugin.from_email_address.blank?
+    end
 
     add_error(:base, 'Please configure at least one target') if @plugin.targets.empty?
 

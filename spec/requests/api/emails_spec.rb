@@ -36,7 +36,7 @@ describe 'Emails', type: :request do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'sends an email with the expected params' do
+      xit 'sends an email with the expected params' do
         Timecop.freeze do
           expect_any_instance_of(Aws::DynamoDB::Client).to receive(:put_item)
             .with(
