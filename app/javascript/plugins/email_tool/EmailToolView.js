@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { compact, get, join, sample, template } from 'lodash';
+import { compact, get, join, sample, forEach, template } from 'lodash';
 import Select from '../../components/SweetSelect/SweetSelect';
 import Input from '../../components/SweetInput/SweetInput';
 import Button from '../../components/Button/Button';
@@ -22,17 +22,25 @@ function emailTargetAsSelectOption(target) {
 export default class EmailToolView extends Component {
   constructor(props) {
     super(props);
+    const allEmailsObject = {
+      email: null,
+      id: 'all',
+      name: 'All',
+      title: null,
+    };
+    let allTargetEmails = [allEmailsObject, ...props.targets];
     this.state = {
       name: this.props.name,
       email: this.props.email,
       emailService: null,
       subject: this.props.emailSubject,
       body: '', // this is the complete body: header + body + footer
-      target: sample(this.props.targets),
-      targetsForSelection: props.targets.map(emailTargetAsSelectOption),
+      target: allEmailsObject,
+      targetsForSelection: allTargetEmails.map(emailTargetAsSelectOption),
       clickedCopyBodyButton: false,
       errors: {},
       isSubmitting: false,
+      allTargetEmails,
     };
   }
 
@@ -85,14 +93,37 @@ export default class EmailToolView extends Component {
     document.body.removeChild(htmlElement);
   };
 
-  handleCopyBodyButton = content => {
+  handleCopyBodyButton = () => {
     this.copyToClipboard(this.convertHtmlToPlainText(this.state.body));
     this.setState({ clickedCopyBodyButton: true });
   };
 
+  handleCopyTargetEmailButton = () => {
+    this.copyToClipboard(this.composeAllTargetEmails());
+  };
+
+  composeTargetAddresses(target) {
+    return `${join(compact([target.name, target.title]), ', ')} <${
+      target.email
+    }>`;
+  }
+
+  composeAllTargetEmails = () => {
+    let toEmailAddresses = null;
+    if (this.state.target.id === 'all') {
+      forEach(this.props.targets, target => {
+        toEmailAddresses = toEmailAddresses
+          ? `${toEmailAddresses}, ${this.composeTargetAddresses(target)}`
+          : this.composeTargetAddresses(target);
+      });
+    } else {
+      toEmailAddresses = this.composeTargetAddresses(this.state.target);
+    }
+    return toEmailAddresses;
+  };
+
   emailComposingLink = () => {
-    const target_email = encodeURIComponent(this.state.target?.email);
-    const cc_email = encodeURIComponent(this.state.email);
+    const target_email = encodeURIComponent(this.composeAllTargetEmails());
     const subject = encodeURIComponent(this.state.subject);
     const body = encodeURIComponent(
       this.convertHtmlToPlainText(this.state.body)
@@ -101,21 +132,21 @@ export default class EmailToolView extends Component {
 
     switch (this.state.emailService) {
       case 'email_client':
-        return `mailto:${target_email}?cc=${cc_email}&subject=${subject}&body=${body}`;
+        return `mailto:${target_email}?subject=${subject}&body=${body}`;
       case 'gmail':
         host = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&';
-        urlParams = `to=${target_email}&cc=${cc_email}&su=${subject}&body=${body}`;
+        urlParams = `to=${target_email}&su=${subject}&body=${body}`;
         return `${host}${urlParams}`;
       case 'outlook':
         host = 'https://outlook.com/?path=/mail/action/compose&';
-        urlParams = `to=${target_email}&cc=${cc_email}&subject=${subject}&body=${body}`;
+        urlParams = `to=${target_email}&subject=${subject}&body=${body}`;
         return `${host}${urlParams}`;
       case 'yahoo':
         host = 'https://compose.mail.yahoo.com/?';
-        urlParams = `to=${target_email}&cc=${cc_email}&subject=${subject}&body=${body}`;
+        urlParams = `to=${target_email}&subject=${subject}&body=${body}`;
         return `${host}${urlParams}`;
       default:
-        return `mailto:${target_email}?cc=${cc_email}&subject=${subject}&body=${body}`;
+        return `mailto:${target_email}?subject=${subject}&body=${body}`;
     }
   };
 
@@ -145,7 +176,9 @@ export default class EmailToolView extends Component {
   // Update the selected target. We use the target.id to find the
   // target. If no id is passed, we clear the target property.
   onTargetChange = id => {
-    this.setState({ target: this.props.targets.find(t => t.id === id) });
+    this.setState({
+      target: this.state.allTargetEmails.find(t => t.id === id),
+    });
   };
 
   onNameChange = name => this.setState({ name });
@@ -194,6 +227,20 @@ export default class EmailToolView extends Component {
                   />
                 </FormGroup>
               )}
+              {/* {this.props.manualTargeting && (
+                <FormGroup>
+                  <Select
+                    clearable={false}
+                    name="Target"
+                    label={
+                      <FormattedMessage id="email_tool.form.select_target" />
+                    }
+                    value={get(this.state.target, 'id', undefined)}
+                    options={this.state.targetsForSelection}
+                    onChange={this.onTargetChange}
+                  />
+                </FormGroup>
+              )} */}
 
               <FormGroup>
                 <Input
@@ -255,6 +302,23 @@ export default class EmailToolView extends Component {
               </div>
 
               <div className="section">
+                <div className="title">
+                  <span>Mobile &amp; Desktop Apps</span>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'email_client'}
+                      onChange={e => this.onEmailServiceChange('email_client')}
+                    />
+                    Email Client
+                  </label>
+                </div>
+                <div className="title">
+                  <span>Web Browser</span>
+                </div>
                 <div>
                   <label>
                     <input
@@ -290,18 +354,9 @@ export default class EmailToolView extends Component {
                     Yahoo Mail
                   </label>
                 </div>
-                <div>
-                  <label>
-                    <input
-                      disabled={this.state.emailService === 'in_app_send'}
-                      type="radio"
-                      checked={this.state.emailService === 'email_client'}
-                      onChange={e => this.onEmailServiceChange('email_client')}
-                    />
-                    Email Client
-                  </label>
+                <div className="title">
+                  <span>Manual</span>
                 </div>
-
                 <div>
                   <label>
                     <input
@@ -345,9 +400,7 @@ export default class EmailToolView extends Component {
                                 className="copy-button"
                                 onClick={e => {
                                   e.preventDefault();
-                                  this.copyToClipboard(
-                                    this.state.target?.email
-                                  );
+                                  this.handleCopyTargetEmailButton();
                                 }}
                               >
                                 <i className="fa fa-copy"></i>
