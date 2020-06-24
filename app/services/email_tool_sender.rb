@@ -13,6 +13,7 @@ class EmailToolSender
     @tracking_params = tracking_params.slice(
       :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile, :clicked_copy_body_button
     )
+    @params[:country] ||= 'US'
     @errors = {}
   end
 
@@ -48,15 +49,21 @@ class EmailToolSender
         page_id: @page.id,
         name: @params[:from_name],
         email: @params[:from_email],
-        action_target: @target&.name,
-        action_target_email: @target&.email,
         country: @params[:country],
         email_service: @params[:email_service]
-      }.merge(@tracking_params)
+      }.merge(action_target_params, @tracking_params)
     )
   end
 
   private
+
+  def action_target_params
+    if @params[:target_id] == 'all'
+      { action_target: 'multiple', action_target_email: to_emails }
+    else
+      { action_target: @target&.name, action_target_email: @target&.email }
+    end
+  end
 
   def to_emails
     if @plugin.test_email_address.blank?
@@ -103,7 +110,7 @@ class EmailToolSender
     add_error(:base, 'Please make sure a country is being sent') if @params[:country].blank?
 
     target_id = @params[:target_id]
-    if target_id.present? && @plugin.find_target(target_id).nil?
+    if target_id.present? && target_id != 'all' && @plugin.find_target(target_id).nil?
       add_error(:base, I18n.t('email_tool.form.errors.target.outdated'))
     end
   end
