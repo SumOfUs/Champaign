@@ -105,6 +105,14 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
   end
 
   context 'creating an action' do
+    it 'assigns default value for country if the value is nil' do
+      service = EmailToolSender.new(page.id, params.merge(country: nil))
+      expect {
+        service.run
+      }.to change(Action, :count).by(1)
+      expect(service.action.form_data['country']).to eq 'US'
+    end
+
     it 'creates an action and member with the correct params (not-EEA country)' do
       service = EmailToolSender.new(page.id, params)
       expect {
@@ -175,7 +183,8 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
       expect(service.errors[:base]).to include(/targets information has recently changed/)
     end
 
-    # Skipping since default country will be set as US within EmailToolSender
+    # Skipping since default country will be set as US within EmailToolSender,
+    # verifying default country in a previous test
     xit 'validates the presence of country' do
       service = EmailToolSender.new(page.id, {})
       expect(service.run).to be false

@@ -109,7 +109,7 @@ export default class EmailToolView extends Component {
   }
 
   composeAllTargetEmails = () => {
-    let toEmailAddresses = null;
+    let toEmailAddresses;
     if (this.state.target.id === 'all') {
       forEach(this.props.targets, target => {
         toEmailAddresses = toEmailAddresses
@@ -227,20 +227,6 @@ export default class EmailToolView extends Component {
                   />
                 </FormGroup>
               )}
-              {/* {this.props.manualTargeting && (
-                <FormGroup>
-                  <Select
-                    clearable={false}
-                    name="Target"
-                    label={
-                      <FormattedMessage id="email_tool.form.select_target" />
-                    }
-                    value={get(this.state.target, 'id', undefined)}
-                    options={this.state.targetsForSelection}
-                    onChange={this.onTargetChange}
-                  />
-                </FormGroup>
-              )} */}
 
               <FormGroup>
                 <Input
