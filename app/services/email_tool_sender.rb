@@ -13,6 +13,7 @@ class EmailToolSender
     @tracking_params = tracking_params.slice(
       :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile, :clicked_copy_body_button
     )
+    @params[:country] ||= 'US'
     @errors = {}
   end
 
