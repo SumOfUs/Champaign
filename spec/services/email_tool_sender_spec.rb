@@ -175,7 +175,8 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
       expect(service.errors[:base]).to include(/targets information has recently changed/)
     end
 
-    it 'validates the presence of country' do
+    # Skipping since default country will be set as US within EmailToolSender
+    xit 'validates the presence of country' do
       service = EmailToolSender.new(page.id, {})
       expect(service.run).to be false
       expect(service.errors[:base]).to include('Please make sure a country is being sent')
