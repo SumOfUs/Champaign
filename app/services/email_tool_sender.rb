@@ -50,7 +50,7 @@ class EmailToolSender
         email: @params[:from_email],
         country: @params[:country],
         email_service: @params[:email_service]
-      }.merge(action_target_params).merge(@tracking_params)
+      }.merge(action_target_params, @tracking_params)
     )
   end
 
