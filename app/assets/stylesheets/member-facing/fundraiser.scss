@@ -272,11 +272,6 @@
       }
     }
 
-    // Fix for iOS radio button black square bug
-    .form--big input[type='radio'] {
-      background: none;
-    }
-
 
     .overlay-toggle__close-button {
       display: none;
