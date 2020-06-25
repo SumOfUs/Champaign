@@ -41,41 +41,41 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
     EmailToolSender.run(page.id, params)
   end
 
-  context 'if use_member_email is true' do
-    before { plugin.update! use_member_email: true }
-    xit 'sends the email from the members email address' do
-      expect_email_sender_to_be_called_with(
-        from_name: params[:from_name], from_email: params[:from_email]
-      )
-      EmailToolSender.run(page.id, params)
-    end
+  # context 'if use_member_email is true' do
+  #   before { plugin.update! use_member_email: true }
+  #   xit 'sends the email from the members email address' do
+  #     expect_email_sender_to_be_called_with(
+  #       from_name: params[:from_name], from_email: params[:from_email]
+  #     )
+  #     EmailToolSender.run(page.id, params)
+  #   end
 
-    xit 'sets the reply_to to both the member and the plugin from_email_address' do
-      expect_email_sender_to_be_called_with(
-        reply_to: a_collection_containing_exactly(
-          { name: params[:from_name], email: params[:from_email] },
-          { name: registered_email.name, email: registered_email.email }
-        )
-      )
-      EmailToolSender.run(page.id, params)
-    end
-  end
+  #   xit 'sets the reply_to to both the member and the plugin from_email_address' do
+  #     expect_email_sender_to_be_called_with(
+  #       reply_to: a_collection_containing_exactly(
+  #         { name: params[:from_name], email: params[:from_email] },
+  #         { name: registered_email.name, email: registered_email.email }
+  #       )
+  #     )
+  #     EmailToolSender.run(page.id, params)
+  #   end
+  # end
 
-  context 'if use_member_email is false' do
-    xit 'sends it from the plugin from_email_address' do
-      expect_email_sender_to_be_called_with(
-        from_name: params[:from_name], from_email: registered_email.email
-      )
-      EmailToolSender.run(page.id, params)
-    end
+  # context 'if use_member_email is false' do
+  #   xit 'sends it from the plugin from_email_address' do
+  #     expect_email_sender_to_be_called_with(
+  #       from_name: params[:from_name], from_email: registered_email.email
+  #     )
+  #     EmailToolSender.run(page.id, params)
+  #   end
 
-    xit 'sets the reply_to to the plugin from_email_address' do
-      expect_email_sender_to_be_called_with(
-        reply_to: [{ name: registered_email.name, email: registered_email.email }]
-      )
-      EmailToolSender.run(page.id, params)
-    end
-  end
+  #   xit 'sets the reply_to to the plugin from_email_address' do
+  #     expect_email_sender_to_be_called_with(
+  #       reply_to: [{ name: registered_email.name, email: registered_email.email }]
+  #     )
+  #     EmailToolSender.run(page.id, params)
+  #   end
+  # end
 
   describe 'targeting' do
     xit 'sends it to the test email if present' do
@@ -147,13 +147,13 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
   end
 
   describe 'Validations' do
-    it "fails if the plugin doesn't have a from_email_address configured" do
-      plugin.update! from_email_address: nil
-      service = EmailToolSender.new(page.id, params)
+    # xit "fails if the plugin doesn't have a from_email_address configured" do
+    #   plugin.update! from_email_address: nil
+    #   service = EmailToolSender.new(page.id, params)
 
-      expect(service.run).to be false
-      expect(service.errors[:base]).to include('Please configure a From email address')
-    end
+    #   expect(service.run).to be false
+    #   expect(service.errors[:base]).to include('Please configure a From email address')
+    # end
 
     it "fails if the plugins doesn't have at least a target" do
       plugin.update! targets: []
