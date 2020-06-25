@@ -147,13 +147,13 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
   end
 
   describe 'Validations' do
-    it "fails if the plugin doesn't have a from_email_address configured" do
-      plugin.update! from_email_address: nil
-      service = EmailToolSender.new(page.id, params)
+    # xit "fails if the plugin doesn't have a from_email_address configured" do
+    #   plugin.update! from_email_address: nil
+    #   service = EmailToolSender.new(page.id, params)
 
-      expect(service.run).to be false
-      expect(service.errors[:base]).to include('Please configure a From email address')
-    end
+    #   expect(service.run).to be false
+    #   expect(service.errors[:base]).to include('Please configure a From email address')
+    # end
 
     it "fails if the plugins doesn't have at least a target" do
       plugin.update! targets: []
