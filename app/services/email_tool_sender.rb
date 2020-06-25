@@ -101,10 +101,6 @@ class EmailToolSender
   end
 
   def validate_plugin
-    unless @plugin.use_member_email?
-      add_error(:base, 'Please configure a From email address') if @plugin.from_email_address.blank?
-    end
-
     add_error(:base, 'Please configure at least one target') if @plugin.targets.empty?
 
     add_error(:base, 'Please make sure a country is being sent') if @params[:country].blank?
