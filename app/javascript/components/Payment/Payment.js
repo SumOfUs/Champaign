@@ -570,10 +570,10 @@ export class Payment extends Component {
 
           <div className="payment-message">
             <br />
-            {!this.state.recurringDonor && (
+            {this.showMonthlyButton() && (
               <FormattedMessage
                 id={'fundraiser.make_monthly_donation'}
-                defaultMessage={`{name} a monthly donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
+                defaultMessage={`{name} a {duration} donation will support our movement to plan ahead, so we can more effectively take on the biggest corporations that threaten people and planet.`}
                 values={{
                   name: this.getMemberName(member, formData),
                   duration: this.props.weekly ? 'weekly' : 'monthly',
