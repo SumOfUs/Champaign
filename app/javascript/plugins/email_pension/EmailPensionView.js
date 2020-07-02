@@ -1,6 +1,6 @@
 //
 import React, { Component } from 'react';
-import { isEmpty, find, template, merge, each, pick } from 'lodash';
+import { isEmpty, find, template, merge, each, pick, join } from 'lodash';
 
 import { connect } from 'react-redux';
 import Select from '../../components/SweetSelect/SweetSelect';
@@ -105,52 +105,47 @@ class EmailPensionView extends Component {
     this.setState(state => ({ ...state, body }));
   };
 
+  generateEmailBody = () => {
+    return this.state.body + '\n' + this.props.name;
+  };
+
+  validateFormBeforeCopying = () => {
+    if (!this.validateForm()) {
+      alert('Form has errors. Please fix before copying.');
+    }
+  };
+
   handleCopyTargetEmailButton = e => {
     e.preventDefault();
-    copyToClipboard(this.composeAllTargetEmails());
+    this.validateFormBeforeCopying();
+    copyToClipboard(this.composeTargetAddress());
   };
 
   handleCopyBodyButton = e => {
     e.preventDefault();
-    copyToClipboard(convertHtmlToPlainText(this.state.body));
+    this.validateFormBeforeCopying();
+    copyToClipboard(convertHtmlToPlainText(this.generateEmailBody()));
     this.setState({ clickedCopyBodyButton: true });
   };
 
   handleCopySubjectButton = e => {
     e.preventDefault();
-    copyToClipboard(convertHtmlToPlainText(this.state.subject));
+    this.validateFormBeforeCopying();
+    copyToClipboard(convertHtmlToPlainText(this.props.emailSubject));
   };
 
-  composeTargetAddresses(target) {
-    return `${join(compact([target.name, target.title]), ', ')} <${
-      target.email
-    }>`;
+  composeTargetAddress() {
+    return `${join([this.props.fundContact], ', ')} <${this.props.fundEmail}>`;
   }
 
-  composeAllTargetEmails = () => {
-    let toEmailAddresses;
-    if (this.state.target.id === 'all') {
-      forEach(this.props.targets, target => {
-        toEmailAddresses = toEmailAddresses
-          ? `${toEmailAddresses}, ${this.composeTargetAddresses(target)}`
-          : this.composeTargetAddresses(target);
-      });
-    } else {
-      toEmailAddresses = this.composeTargetAddresses(this.state.target);
-    }
-    return toEmailAddresses;
-  };
-
   handleSendEmail = () => {
-    if (this.state.emailService != 'other_email_services') {
-      const emailParam = {
-        emailService: this.state.emailService,
-        targetEmail: this.composeAllTargetEmails(),
-        subject: this.state.subject,
-        body: convertHtmlToPlainText(this.state.body),
-      };
-      window.open(composeEmailLink(emailParam));
-    }
+    const emailParam = {
+      emailService: this.state.emailService,
+      targetEmail: this.composeTargetAddress(),
+      subject: this.props.emailSubject,
+      body: convertHtmlToPlainText(this.generateEmailBody()),
+    };
+    window.open(composeEmailLink(emailParam));
   };
 
   errorNotice = () => {
@@ -165,12 +160,12 @@ class EmailPensionView extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.handleSendEmail();
     const valid = this.validateForm();
 
     if (!valid) return;
+    this.handleSendEmail();
     const payload = {
-      body: this.state.body,
+      body: this.generateEmailBody(),
       subject: this.props.emailSubject,
       target_name: this.props.fund,
       country: this.props.country,

@@ -59,7 +59,7 @@ export default class EmailToolView extends Component {
     return {
       page_id: this.props.pageId,
       email: {
-        body: this.state.body,
+        body: this.generateEmailBody(),
         subject: this.state.subject,
         from_name: this.state.name,
         from_email: this.state.email,
@@ -83,6 +83,10 @@ export default class EmailToolView extends Component {
   // onSuccess prop with the selected target. On failure, we update
   // the state with the errors we receive from the backend.
 
+  generateEmailBody = () => {
+    return this.state.body + '\n' + this.state.name;
+  };
+
   handleCopyTargetEmailButton = e => {
     e.preventDefault();
     copyToClipboard(this.composeAllTargetEmails());
@@ -90,7 +94,7 @@ export default class EmailToolView extends Component {
 
   handleCopyBodyButton = e => {
     e.preventDefault();
-    copyToClipboard(convertHtmlToPlainText(this.state.body));
+    copyToClipboard(convertHtmlToPlainText(this.generateEmailBody()));
     this.setState({ clickedCopyBodyButton: true });
   };
 
@@ -120,15 +124,13 @@ export default class EmailToolView extends Component {
   };
 
   handleSendEmail = () => {
-    if (this.state.emailService != 'other_email_services') {
-      const emailParam = {
-        emailService: this.state.emailService,
-        targetEmail: this.composeAllTargetEmails(),
-        subject: this.state.subject,
-        body: convertHtmlToPlainText(this.state.body),
-      };
-      window.open(composeEmailLink(emailParam));
-    }
+    const emailParam = {
+      emailService: this.state.emailService,
+      targetEmail: this.composeAllTargetEmails(),
+      subject: this.state.subject,
+      body: convertHtmlToPlainText(this.generateEmailBody()),
+    };
+    window.open(composeEmailLink(emailParam));
   };
 
   onSubmit = e => {

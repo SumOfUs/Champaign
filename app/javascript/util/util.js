@@ -35,15 +35,19 @@ export function composeEmailLink(email) {
     case 'email_client':
       host = 'mailto:';
       urlParams = `${target_email}?subject=${subject}&body=${body}`;
+      break;
     case 'gmail':
       host = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&';
       urlParams = `to=${target_email}&su=${subject}&body=${body}`;
+      break;
     case 'outlook':
       host = 'https://outlook.com/?path=/mail/action/compose&';
       urlParams = `to=${target_email}&subject=${subject}&body=${body}`;
+      break;
     case 'yahoo':
       host = 'https://compose.mail.yahoo.com/?';
       urlParams = `to=${target_email}&subject=${subject}&body=${body}`;
+      break;
     default:
       host = 'mailto:';
       urlParams = `${target_email}?subject=${subject}&body=${body}`;
