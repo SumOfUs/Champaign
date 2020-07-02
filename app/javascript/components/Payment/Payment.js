@@ -678,7 +678,8 @@ export class Payment extends Component {
 }
 
 const mapStateToProps = state => ({
-  weekly: window.champaign.personalization.urlParams.weekly,
+  weekly:
+    window.champaign.personalization.urlParams.weekly == 'true' ? true : false,
   disableSavedPayments:
     state.fundraiser.disableSavedPayments || state.paymentMethods.length === 0,
   defaultPaymentType: state.fundraiser.directDebitOnly ? 'gocardless' : 'card',
