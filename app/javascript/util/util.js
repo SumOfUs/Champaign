@@ -1,4 +1,4 @@
-import { camelCase, mapKeys, mapValues } from 'lodash';
+import { camelCase, mapKeys, mapValues, forEach } from 'lodash';
 
 export function camelizeKeys(obj) {
   if (!obj) return obj;
@@ -25,8 +25,32 @@ export function copyToClipboard(content) {
   document.body.removeChild(htmlElement);
 }
 
+export function getToEmailBasedOn(emailItem, emailService) {
+  if (emailService == 'yahoo') {
+    return emailItem.email;
+  } else {
+    return `${emailItem.name} <${emailItem.email}>`;
+  }
+}
+
+export function buildToEmailForCompose(emailList, emailService) {
+  // emailList = [{name: 'ABC', email: 'abs@xyz.com'}];
+  let toEmailAddresses;
+  forEach(emailList, emailItem => {
+    const currentEmail = getToEmailBasedOn(emailItem, emailService);
+    toEmailAddresses = toEmailAddresses
+      ? `${toEmailAddresses}, ${currentEmail}`
+      : currentEmail;
+  });
+  return toEmailAddresses;
+}
+
 export function composeEmailLink(email) {
-  const target_email = encodeURIComponent(email.targetEmail);
+  const sanitizedToEmails = buildToEmailForCompose(
+    email.toEmails,
+    email.emailService
+  );
+  const to_email = encodeURIComponent(sanitizedToEmails);
   const subject = encodeURIComponent(email.subject);
   const body = encodeURIComponent(email.body);
   let host, urlParams;
@@ -34,23 +58,23 @@ export function composeEmailLink(email) {
   switch (email.emailService) {
     case 'email_client':
       host = 'mailto:';
-      urlParams = `${target_email}?subject=${subject}&body=${body}`;
+      urlParams = `${to_email}?subject=${subject}&body=${body}`;
       break;
     case 'gmail':
       host = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&';
-      urlParams = `to=${target_email}&su=${subject}&body=${body}`;
+      urlParams = `to=${to_email}&su=${subject}&body=${body}`;
       break;
     case 'outlook':
       host = 'https://outlook.live.com/?path=/mail/action/compose&';
-      urlParams = `to=${target_email}&subject=${subject}&body=${body}`;
+      urlParams = `to=${to_email}&subject=${subject}&body=${body}`;
       break;
     case 'yahoo':
       host = 'https://compose.mail.yahoo.com/?';
-      urlParams = `to=${target_email}&subject=${subject}&body=${body}`;
+      urlParams = `to=${to_email}&subject=${subject}&body=${body}`;
       break;
     default:
       host = 'mailto:';
-      urlParams = `${target_email}?subject=${subject}&body=${body}`;
+      urlParams = `${to_email}?subject=${subject}&body=${body}`;
   }
   return `${host}${urlParams}`;
 }

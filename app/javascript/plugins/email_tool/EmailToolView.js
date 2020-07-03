@@ -13,6 +13,7 @@ import {
   convertHtmlToPlainText,
   copyToClipboard,
   composeEmailLink,
+  buildToEmailForCompose,
 } from '../../util/util';
 
 import './EmailToolView';
@@ -52,7 +53,7 @@ export default class EmailToolView extends Component {
     return {
       page_id: this.props.pageId,
       email: {
-        body: this.generateEmailBody(),
+        body: this.state.body,
         subject: this.state.subject,
         from_name: this.state.name,
         from_email: this.state.email,
@@ -76,18 +77,16 @@ export default class EmailToolView extends Component {
   // onSuccess prop with the selected target. On failure, we update
   // the state with the errors we receive from the backend.
 
-  generateEmailBody = () => {
-    return this.state.body;
-  };
-
   handleCopyTargetEmailButton = e => {
     e.preventDefault();
-    copyToClipboard(this.composeAllTargetEmails());
+    copyToClipboard(
+      buildToEmailForCompose(this.getTargetEmails(), this.state.emailService)
+    );
   };
 
   handleCopyBodyButton = e => {
     e.preventDefault();
-    copyToClipboard(convertHtmlToPlainText(this.generateEmailBody()));
+    copyToClipboard(convertHtmlToPlainText(this.state.body));
     this.setState({ clickedCopyBodyButton: true });
   };
 
@@ -96,32 +95,22 @@ export default class EmailToolView extends Component {
     copyToClipboard(convertHtmlToPlainText(this.state.subject));
   };
 
-  composeTargetAddresses(target) {
-    return `${join(compact([target.name, target.title]), ', ')} <${
-      target.email
-    }>`;
-  }
-
-  composeAllTargetEmails = () => {
-    let toEmailAddresses;
-    if (this.state.target.id === 'all') {
-      forEach(this.props.targets, target => {
-        toEmailAddresses = toEmailAddresses
-          ? `${toEmailAddresses}, ${this.composeTargetAddresses(target)}`
-          : this.composeTargetAddresses(target);
-      });
-    } else {
-      toEmailAddresses = this.composeTargetAddresses(this.state.target);
-    }
-    return toEmailAddresses;
+  getTargetEmails = () => {
+    let targetEmails = this.props.manualTargeting
+      ? [this.state.target]
+      : this.props.targets;
+    return targetEmails.map(target => ({
+      name: join(compact([target.name, target.title]), ', '),
+      email: target.email,
+    }));
   };
 
   handleSendEmail = () => {
     const emailParam = {
       emailService: this.state.emailService,
-      targetEmail: this.composeAllTargetEmails(),
+      toEmails: this.getTargetEmails(),
       subject: this.state.subject,
-      body: convertHtmlToPlainText(this.generateEmailBody()),
+      body: convertHtmlToPlainText(this.state.body),
     };
     window.open(composeEmailLink(emailParam));
   };
@@ -233,11 +222,7 @@ export default class EmailToolView extends Component {
                 header={this.props.emailHeader}
                 footer={this.props.emailFooter}
                 subject={this.state.subject}
-                templateVars={{
-                  name: this.state.name,
-                  postal: this.props.postal,
-                  target: this.state.target,
-                }}
+                templateVars={this.templateVars()}
                 onUpdate={this.onEmailEditorUpdate}
               />
             </div>

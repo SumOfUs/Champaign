@@ -29,6 +29,7 @@ import {
   convertHtmlToPlainText,
   copyToClipboard,
   composeEmailLink,
+  buildToEmailForCompose,
 } from '../../util/util';
 
 class EmailPensionView extends Component {
@@ -105,10 +106,6 @@ class EmailPensionView extends Component {
     this.setState(state => ({ ...state, body }));
   };
 
-  generateEmailBody = () => {
-    return this.state.body;
-  };
-
   validateFormBeforeCopying = () => {
     if (!this.validateForm()) {
       alert('Form has errors. Please fix before copying.');
@@ -118,13 +115,18 @@ class EmailPensionView extends Component {
   handleCopyTargetEmailButton = e => {
     e.preventDefault();
     this.validateFormBeforeCopying();
-    copyToClipboard(this.composeTargetAddress());
+    copyToClipboard(
+      buildToEmailForCompose(
+        this.composeTargetAddress(),
+        this.state.emailService
+      )
+    );
   };
 
   handleCopyBodyButton = e => {
     e.preventDefault();
     this.validateFormBeforeCopying();
-    copyToClipboard(convertHtmlToPlainText(this.generateEmailBody()));
+    copyToClipboard(convertHtmlToPlainText(this.state.body));
     this.setState({ clickedCopyBodyButton: true });
   };
 
@@ -135,15 +137,15 @@ class EmailPensionView extends Component {
   };
 
   composeTargetAddress() {
-    return `${join([this.props.fundContact], ', ')} <${this.props.fundEmail}>`;
+    return [{ name: this.props.fundContact, email: this.props.fundEmail }];
   }
 
   handleSendEmail = () => {
     const emailParam = {
       emailService: this.state.emailService,
-      targetEmail: this.composeTargetAddress(),
+      toEmails: this.composeTargetAddress(),
       subject: this.props.emailSubject,
-      body: convertHtmlToPlainText(this.generateEmailBody()),
+      body: convertHtmlToPlainText(this.state.body),
     };
     window.open(composeEmailLink(emailParam));
   };
@@ -165,7 +167,7 @@ class EmailPensionView extends Component {
     if (!valid) return;
     this.handleSendEmail();
     const payload = {
-      body: this.generateEmailBody(),
+      body: this.state.body,
       subject: this.props.emailSubject,
       target_name: this.props.fund,
       country: this.props.country,
