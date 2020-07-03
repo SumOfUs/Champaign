@@ -27,25 +27,18 @@ function emailTargetAsSelectOption(target) {
 export default class EmailToolView extends Component {
   constructor(props) {
     super(props);
-    const allEmailsObject = {
-      email: null,
-      id: 'all',
-      name: 'All',
-      title: null,
-    };
-    let allTargetEmails = [allEmailsObject, ...props.targets];
     this.state = {
       name: this.props.name,
       email: this.props.email,
       emailService: null,
       subject: this.props.emailSubject,
       body: '', // this is the complete body: header + body + footer
-      target: allEmailsObject,
-      targetsForSelection: allTargetEmails.map(emailTargetAsSelectOption),
+      target: sample(this.props.targets),
+      targetsForSelection: this.props.targets.map(emailTargetAsSelectOption),
       clickedCopyBodyButton: false,
       errors: {},
       isSubmitting: false,
-      allTargetEmails,
+      allTargetEmails: this.props.targets,
     };
   }
 
@@ -84,7 +77,7 @@ export default class EmailToolView extends Component {
   // the state with the errors we receive from the backend.
 
   generateEmailBody = () => {
-    return this.state.body + '\n' + this.state.name;
+    return this.state.body;
   };
 
   handleCopyTargetEmailButton = e => {
@@ -240,7 +233,11 @@ export default class EmailToolView extends Component {
                 header={this.props.emailHeader}
                 footer={this.props.emailFooter}
                 subject={this.state.subject}
-                templateVars={this.templateVars()}
+                templateVars={{
+                  name: this.state.name,
+                  postal: this.props.postal,
+                  target: this.state.target,
+                }}
                 onUpdate={this.onEmailEditorUpdate}
               />
             </div>

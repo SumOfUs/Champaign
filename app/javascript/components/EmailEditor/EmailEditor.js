@@ -4,7 +4,7 @@ import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
-import { compact, debounce, template, isEqual } from 'lodash';
+import { compact, debounce, template, isEqual, merge } from 'lodash';
 import classnames from 'classnames';
 import { Editor, EditorState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
@@ -28,25 +28,35 @@ export default class EmailEditor extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const fn = props.templateInterpolate;
+    const fn = props.templateInterpolate || interpolateVars;
     let body = props.body;
 
     if (typeof fn == 'function') {
       body = fn(props.body, props.templateVars);
     }
-
-    return {
+    let stateParams = {
       header: interpolateVars(props.header, props.templateVars),
       body,
       footer: interpolateVars(props.footer, props.templateVars),
     };
+
+    if (state.templateVars != props.templateVars) {
+      stateParams = merge(stateParams, {
+        editorState: EditorState.createWithContent(
+          stateFromHTML(interpolateVars(props.body, props.templateVars))
+        ),
+      });
+    }
+
+    return stateParams;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
       !isEqual(nextProps.templateVars, this.props.templateVars) ||
       this.state.subject !== nextState.subject ||
-      this.state.editorState !== nextState.editorState ||
+      stateToHTML(this.state.editorState.getCurrentContent()) !==
+        stateToHTML(nextState.editorState.getCurrentContent()) ||
       !isEqual(this.props.errors, nextProps.errors)
     );
   }

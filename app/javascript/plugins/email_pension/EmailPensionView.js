@@ -106,7 +106,7 @@ class EmailPensionView extends Component {
   };
 
   generateEmailBody = () => {
-    return this.state.body + '\n' + this.props.name;
+    return this.state.body;
   };
 
   validateFormBeforeCopying = () => {
