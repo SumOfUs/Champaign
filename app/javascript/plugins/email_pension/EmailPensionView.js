@@ -1,6 +1,6 @@
 //
 import React, { Component } from 'react';
-import { isEmpty, find, template, merge, each, pick } from 'lodash';
+import { isEmpty, find, template, merge, each, pick, join } from 'lodash';
 
 import { connect } from 'react-redux';
 import Select from '../../components/SweetSelect/SweetSelect';
@@ -25,6 +25,12 @@ import {
   changeConsented,
 } from '../../state/email_pension/actions';
 import { showConsentRequired } from '../../state/consent/index';
+import {
+  convertHtmlToPlainText,
+  copyToClipboard,
+  composeEmailLink,
+  buildToEmailForCompose,
+} from '../../util/util';
 
 class EmailPensionView extends Component {
   constructor(props) {
@@ -49,6 +55,7 @@ class EmailPensionView extends Component {
       newPensionFundName: '',
       isSubmittingNewPensionFundName: false,
       newPensionFundSuggested: false,
+      clickedCopyBodyButton: false,
       errors: {},
     };
     this.store = window.champaign.store;
@@ -99,6 +106,50 @@ class EmailPensionView extends Component {
     this.setState(state => ({ ...state, body }));
   };
 
+  validateFormBeforeCopying = () => {
+    if (!this.validateForm()) {
+      alert('Form has errors. Please fix before copying.');
+    }
+  };
+
+  handleCopyTargetEmailButton = e => {
+    e.preventDefault();
+    this.validateFormBeforeCopying();
+    copyToClipboard(
+      buildToEmailForCompose(
+        this.composeTargetAddress(),
+        this.state.emailService
+      )
+    );
+  };
+
+  handleCopyBodyButton = e => {
+    e.preventDefault();
+    this.validateFormBeforeCopying();
+    copyToClipboard(convertHtmlToPlainText(this.state.body));
+    this.setState({ clickedCopyBodyButton: true });
+  };
+
+  handleCopySubjectButton = e => {
+    e.preventDefault();
+    this.validateFormBeforeCopying();
+    copyToClipboard(convertHtmlToPlainText(this.props.emailSubject));
+  };
+
+  composeTargetAddress() {
+    return [{ name: this.props.fundContact, email: this.props.fundEmail }];
+  }
+
+  handleSendEmail = () => {
+    const emailParam = {
+      emailService: this.state.emailService,
+      toEmails: this.composeTargetAddress(),
+      subject: this.props.emailSubject,
+      body: convertHtmlToPlainText(this.state.body),
+    };
+    window.open(composeEmailLink(emailParam));
+  };
+
   errorNotice = () => {
     if (!isEmpty(this.state.errors)) {
       return (
@@ -112,7 +163,9 @@ class EmailPensionView extends Component {
   onSubmit = e => {
     e.preventDefault();
     const valid = this.validateForm();
+
     if (!valid) return;
+    this.handleSendEmail();
     const payload = {
       body: this.state.body,
       subject: this.props.emailSubject,
@@ -123,14 +176,17 @@ class EmailPensionView extends Component {
       to_name: this.props.fundContact,
       to_email: this.props.fundEmail,
       consented: this.props.consented ? 1 : 0,
+      email_service: this.state.emailService,
+      clicked_copy_body_button: this.state.clickedCopyBodyButton,
     };
-
     merge(payload, this.props.formValues);
     this.props.changeSubmitting(true);
 
     // FIXME Handle errors
     $.post(`/api/pages/${this.props.pageId}/pension_emails`, payload);
   };
+
+  onEmailServiceChange = emailService => this.setState({ emailService });
 
   render() {
     return (
@@ -195,6 +251,177 @@ class EmailPensionView extends Component {
                 onUpdate={this.onEmailEditorUpdate}
               />
             </div>
+
+            <div className="EmailToolView-note">
+              {/* <div>
+                <Button
+                  className="button"
+                  onClick={() => window.open(this.generateMailToLink())}
+                >
+                  <FormattedMessage
+                    id="email_tool.form.send_email"
+                    defaultMessage="Send with your email client (default)"
+                  />
+                </Button>
+              </div> */}
+
+              <div className="section title">
+                <FormattedMessage
+                  id="email_tool.form.choose_email_service"
+                  defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
+                />
+              </div>
+
+              <div className="section">
+                <div className="title">
+                  <span>Mobile &amp; Desktop Apps</span>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'email_client'}
+                      onChange={e => this.onEmailServiceChange('email_client')}
+                    />
+                    Email Client
+                  </label>
+                </div>
+                <div className="title">
+                  <span>Web Browser</span>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'gmail'}
+                      onChange={e => this.onEmailServiceChange('gmail')}
+                    />
+                    Gmail
+                  </label>
+                </div>
+
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'outlook'}
+                      onChange={e => this.onEmailServiceChange('outlook')}
+                    />
+                    Outlook / Live / Hotmail
+                  </label>
+                </div>
+
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={this.state.emailService === 'yahoo'}
+                      onChange={e => this.onEmailServiceChange('yahoo')}
+                    />
+                    Yahoo Mail
+                  </label>
+                </div>
+                <div className="title">
+                  <span>Manual</span>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      disabled={this.state.emailService === 'in_app_send'}
+                      type="radio"
+                      checked={
+                        this.state.emailService === 'other_email_services'
+                      }
+                      onChange={e =>
+                        this.onEmailServiceChange('other_email_services')
+                      }
+                    />
+                    Others
+                  </label>
+                </div>
+              </div>
+
+              {this.state.emailService === 'other_email_services' && (
+                <React.Fragment>
+                  <div className="section">
+                    <FormattedMessage
+                      id="email_tool.form.title_for_no_email_client"
+                      defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
+                    />
+                  </div>
+                  <div className="section">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <span>
+                              <FormattedMessage
+                                id="email_tool.form.copy_target_email_address"
+                                defaultMessage="Copy Target Email Address (default)"
+                              />
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              <Button
+                                className="copy-button"
+                                onClick={this.handleCopyTargetEmailButton}
+                              >
+                                <i className="fa fa-copy"></i>
+                              </Button>
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span>
+                              <FormattedMessage
+                                id="email_tool.form.copy_email_subject"
+                                defaultMessage="Copy Email Subject (default)"
+                              />
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              <Button
+                                className="copy-button"
+                                onClick={this.handleCopySubjectButton}
+                              >
+                                <i className="fa fa-copy"></i>
+                              </Button>
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span>
+                              <FormattedMessage
+                                id="email_tool.form.copy_email_body"
+                                defaultMessage="Copy Email Body (default)"
+                              />
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              <Button
+                                className="copy-button"
+                                onClick={this.handleCopyBodyButton}
+                              >
+                                <i className="fa fa-copy"></i>
+                              </Button>
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
             <ConsentComponent
               alwaysShow={true}
               isRequired={
@@ -203,13 +430,22 @@ class EmailPensionView extends Component {
             />
             <div className="form__group">
               <Button
-                disabled={this.props.isSubmitting}
+                disabled={this.state.isSubmitting || !this.state.emailService}
                 className="button action-form__submit-button"
               >
-                <FormattedMessage
-                  id="email_tool.form.send_email"
-                  defaultMessage="Send email (default)"
-                />
+                {this.state.emailService === 'other_email_services' ? (
+                  <FormattedMessage
+                    // id="email_tool.form.submit_action"
+                    id="email_tool.form.submit"
+                    defaultMessage="Submit Action (default)"
+                  />
+                ) : (
+                  <FormattedMessage
+                    // id="email_tool.form.submit_action"
+                    id="email_tool.form.submit_and_send_email"
+                    defaultMessage="Submit Action &amp; Send Email(default)"
+                  />
+                )}
               </Button>
               {this.errorNotice()}
             </div>
@@ -261,8 +497,5 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export default injectIntl(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(EmailPensionView)
+  connect(mapStateToProps, mapDispatchToProps)(EmailPensionView)
 );

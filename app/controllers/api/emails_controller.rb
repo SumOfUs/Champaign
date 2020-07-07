@@ -27,26 +27,12 @@ class Api::EmailsController < ApplicationController
   end
 
   def create_pension_email
-    reg_endpoint = plugin.try(:registered_target_endpoint)
-
-    target_data = if reg_endpoint
-                    targets =
-                      EmailTool::TargetsFinder.new(
-                        postcode: params[:postcode],
-                        endpoint: reg_endpoint.url
-                      ).find
-
-                    constituency_targets_email_params(targets)
-                  else
-                    pension_email_params
-                  end
-
-    PensionEmailSender.run(params[:page_id], target_data)
-    @action = ManageAction.create(action_params)
+    @action = ManageAction.create(action_params.merge(target_name: params[:target_name]))
     write_member_cookie(@action.member_id)
 
     respond_to do |format|
       format.html do
+        page
         render template: 'api/emails/create_pension_email.js.erb', content_type: 'text/javascript'
       end
       format.js
@@ -58,7 +44,7 @@ class Api::EmailsController < ApplicationController
   def unsafe_email_params
     params
       .require(:email)
-      .permit(:body, :subject, :from_name, :from_email, :country, :consented, :email_service)
+      .permit(:body, :subject, :from_name, :from_email, :country, :consented, :email_service, :clicked_copy_body_button)
   end
 
   def recipient_params
@@ -68,12 +54,13 @@ class Api::EmailsController < ApplicationController
   def email_params
     params
       .require(:email)
-      .permit(:body, :subject, :target_id, :from_email, :from_name, :country, :email_service)
+      .permit(:body, :subject, :target_id, :from_email, :from_name, :country, :email_service,
+              :clicked_copy_body_button, :consented)
   end
 
   def tracking_params
     (params.to_unsafe_hash[:tracking_params] || {})
-      .slice(:source, :akid, :referring_akid, :referrer_id, :rid, :clicked_copy_body_button)
+      .slice(:source, :akid, :referring_akid, :referrer_id, :rid)
       .merge(mobile_value)
   end
 
@@ -118,15 +105,35 @@ class Api::EmailsController < ApplicationController
       name: params[:from_name],
       email: params[:from_email],
       country: params[:country],
-      action_target: params[:target_name],
+      action_target: params[:to_name],
       action_target_email: params[:to_email],
       akid: params[:akid],
       referring_akid: params[:referring_akid],
       referrer_id: params[:referrer_id],
       rid: params[:rid],
-      source: params[:source]
+      clicked_copy_body_button: params[:clicked_copy_body_button],
+      email_service: params[:email_service],
+      source: params[:source],
+      consented: params[:consented]
     }
   end
+
+  # def send_pension_email
+  #
+  #   reg_endpoint = plugin.try(:registered_target_endpoint)
+  #   target_data = if reg_endpoint
+  #                   targets =
+  #                     EmailTool::TargetsFinder.new(
+  #                       postcode: params[:postcode],
+  #                       endpoint: reg_endpoint.url
+  #                     ).find
+
+  #                   constituency_targets_email_params(targets)
+  #                 else
+  #                   pension_email_params
+  #                 end
+  #    PensionEmailSender.run(params[:page_id], target_data)
+  # end
 
   def page
     @page = Page.find(params[:page_id])
