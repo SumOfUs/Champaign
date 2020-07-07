@@ -8,8 +8,11 @@
   <div class="content email-target">
     <div class="body-text text-top">
       {{ content }}
-      <br/>
-      {% include 'Links' %}
+      {% unless link_list == blank %}
+        <hr class="stubby-hr" />
+        <h3>{{ 'page.more_info' | t }}</h3>
+        {% include 'Links' %}
+      {% endunless %}
     </div>
 
     {% include 'Email Tool' %}
