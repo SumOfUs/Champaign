@@ -112,6 +112,7 @@ class Api::EmailsController < ApplicationController
       referrer_id: params[:referrer_id],
       rid: params[:rid],
       clicked_copy_body_button: params[:clicked_copy_body_button],
+      email_service: params[:email_service],
       source: params[:source],
       consented: params[:consented]
     }
