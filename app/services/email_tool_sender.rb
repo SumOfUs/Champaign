@@ -9,9 +9,10 @@ class EmailToolSender
     @plugin = Plugins::EmailTool.find_by(page_id: page_id)
     @target = @plugin.find_target(params[:target_id])
     @page = Page.find(page_id)
-    @params = params.slice(:from_email, :from_name, :body, :subject, :target_id, :country, :email_service)
+    @params = params.slice(:from_email, :from_name, :body, :subject, :target_id, :country, :email_service,
+                           :clicked_copy_body_button)
     @tracking_params = tracking_params.slice(
-      :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile, :clicked_copy_body_button
+      :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
     )
     @params[:country] ||= 'US'
     @errors = {}
@@ -50,7 +51,8 @@ class EmailToolSender
         name: @params[:from_name],
         email: @params[:from_email],
         country: @params[:country],
-        email_service: @params[:email_service]
+        email_service: @params[:email_service],
+        clicked_copy_body_button: @params[:clicked_copy_body_button]
       }.merge(action_target_params, @tracking_params)
     )
   end

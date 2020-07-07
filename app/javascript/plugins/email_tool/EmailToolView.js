@@ -60,10 +60,10 @@ export default class EmailToolView extends Component {
         target_id: this.targetId(),
         country: this.props.country,
         email_service: this.state.emailService,
+        clicked_copy_body_button: this.state.clickedCopyBodyButton,
       },
       tracking_params: {
         ...this.props.trackingParams,
-        clicked_copy_body_button: this.state.clickedCopyBodyButton,
       },
     };
   }
