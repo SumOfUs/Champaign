@@ -55,8 +55,6 @@
       display: table;
       clear: both;
     }
-
-    margin-bottom: 20px;
   }
 
   .body-text.text-top {
@@ -155,5 +153,45 @@
   }
   .EmailEditor-body {
     background: #f9f9f9;
+  }
+}
+
+.EmailToolView-note {
+  width: 100%;
+  display: inline-block;
+  background: #f1f1f1;
+  font-size: 18px;
+  
+  .title{
+    font-weight: bold;
+  }
+
+  .section{
+    padding: 8px 16px;
+    margin: 8px 0;
+    
+    div{
+      width: 100%;
+      display: inline-block;
+      padding: 10px 0;
+    }
+
+    span{
+      margin-left: 4px;
+      display: inline-block;
+      line-height: 150%;
+    }
+  }
+}
+
+.copy-button{
+  display: inline;
+  width: auto;
+  height: auto !important;
+  padding: 5px;
+  margin-bottom: 8px !important;
+
+  i{
+    margin-right: 0 !important;
   }
 }

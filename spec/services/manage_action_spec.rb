@@ -298,12 +298,12 @@ describe ManageAction do
 
           context "that doesn't give consent" do
             before { params[:consented] = false }
-            it "creates an action, only saving the user's name" do
+            it "creates an action, only saving the user's name and target info" do
               action = nil
               expect {
                 action = ManageAction.create(params)
               }.to change(Action, :count).by(1)
-              expect(action.form_data).to eq('name' => 'Bob', 'country' => 'FR')
+              expect(action.form_data).to eq('name' => 'Bob', 'country' => 'FR', 'consented' => false)
             end
 
             it "doesn't create a member" do

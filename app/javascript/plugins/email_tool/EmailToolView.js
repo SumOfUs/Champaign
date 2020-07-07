@@ -9,6 +9,12 @@ import ErrorMessages from '../../components/ErrorMessages';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../../util/ChampaignClient';
+import {
+  convertHtmlToPlainText,
+  copyToClipboard,
+  composeEmailLink,
+  buildToEmailForCompose,
+} from '../../util/util';
 
 import './EmailToolView';
 
@@ -22,25 +28,18 @@ function emailTargetAsSelectOption(target) {
 export default class EmailToolView extends Component {
   constructor(props) {
     super(props);
-    const allEmailsObject = {
-      email: null,
-      id: 'all',
-      name: 'All',
-      title: null,
-    };
-    let allTargetEmails = [allEmailsObject, ...props.targets];
     this.state = {
       name: this.props.name,
       email: this.props.email,
       emailService: null,
       subject: this.props.emailSubject,
       body: '', // this is the complete body: header + body + footer
-      target: allEmailsObject,
-      targetsForSelection: allTargetEmails.map(emailTargetAsSelectOption),
+      target: sample(this.props.targets),
+      targetsForSelection: this.props.targets.map(emailTargetAsSelectOption),
       clickedCopyBodyButton: false,
       errors: {},
       isSubmitting: false,
-      allTargetEmails,
+      allTargetEmails: this.props.targets,
     };
   }
 
@@ -78,81 +77,42 @@ export default class EmailToolView extends Component {
   // onSuccess prop with the selected target. On failure, we update
   // the state with the errors we receive from the backend.
 
-  convertHtmlToPlainText = htmlValue => {
-    let htmlElement = document.createElement('div');
-    htmlElement.innerHTML = htmlValue;
-    return htmlElement.textContent || htmlElement.innerText || '';
-  }; //Should move this to Utils once feature is done
-
-  copyToClipboard = content => {
-    const htmlElement = document.createElement('textarea');
-    htmlElement.value = content;
-    document.body.appendChild(htmlElement);
-    htmlElement.select();
-    document.execCommand('copy');
-    document.body.removeChild(htmlElement);
+  handleCopyTargetEmailButton = e => {
+    e.preventDefault();
+    copyToClipboard(
+      buildToEmailForCompose(this.getTargetEmails(), this.state.emailService)
+    );
   };
 
-  handleCopyBodyButton = () => {
-    this.copyToClipboard(this.convertHtmlToPlainText(this.state.body));
+  handleCopyBodyButton = e => {
+    e.preventDefault();
+    copyToClipboard(convertHtmlToPlainText(this.state.body));
     this.setState({ clickedCopyBodyButton: true });
   };
 
-  handleCopyTargetEmailButton = () => {
-    this.copyToClipboard(this.composeAllTargetEmails());
+  handleCopySubjectButton = e => {
+    e.preventDefault();
+    copyToClipboard(convertHtmlToPlainText(this.state.subject));
   };
 
-  composeTargetAddresses(target) {
-    return `${join(compact([target.name, target.title]), ', ')} <${
-      target.email
-    }>`;
-  }
-
-  composeAllTargetEmails = () => {
-    let toEmailAddresses;
-    if (this.state.target.id === 'all') {
-      forEach(this.props.targets, target => {
-        toEmailAddresses = toEmailAddresses
-          ? `${toEmailAddresses}, ${this.composeTargetAddresses(target)}`
-          : this.composeTargetAddresses(target);
-      });
-    } else {
-      toEmailAddresses = this.composeTargetAddresses(this.state.target);
-    }
-    return toEmailAddresses;
-  };
-
-  emailComposingLink = () => {
-    const target_email = encodeURIComponent(this.composeAllTargetEmails());
-    const subject = encodeURIComponent(this.state.subject);
-    const body = encodeURIComponent(
-      this.convertHtmlToPlainText(this.state.body)
-    );
-    let host, urlParams;
-
-    switch (this.state.emailService) {
-      case 'email_client':
-        return `mailto:${target_email}?subject=${subject}&body=${body}`;
-      case 'gmail':
-        host = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&';
-        urlParams = `to=${target_email}&su=${subject}&body=${body}`;
-        return `${host}${urlParams}`;
-      case 'outlook':
-        host = 'https://outlook.com/?path=/mail/action/compose&';
-        urlParams = `to=${target_email}&subject=${subject}&body=${body}`;
-        return `${host}${urlParams}`;
-      case 'yahoo':
-        host = 'https://compose.mail.yahoo.com/?';
-        urlParams = `to=${target_email}&subject=${subject}&body=${body}`;
-        return `${host}${urlParams}`;
-      default:
-        return `mailto:${target_email}?subject=${subject}&body=${body}`;
-    }
+  getTargetEmails = () => {
+    let targetEmails = this.props.manualTargeting
+      ? [this.state.target]
+      : this.props.targets;
+    return targetEmails.map(target => ({
+      name: join(compact([target.name, target.title]), ', '),
+      email: target.email,
+    }));
   };
 
   handleSendEmail = () => {
-    if (this.state.emailService != 'other_email_services')
-      window.open(this.emailComposingLink());
+    const emailParam = {
+      emailService: this.state.emailService,
+      toEmails: this.getTargetEmails(),
+      subject: this.state.subject,
+      body: convertHtmlToPlainText(this.state.body),
+    };
+    window.open(composeEmailLink(emailParam));
   };
 
   onSubmit = e => {
@@ -384,10 +344,7 @@ export default class EmailToolView extends Component {
                             <span>
                               <Button
                                 className="copy-button"
-                                onClick={e => {
-                                  e.preventDefault();
-                                  this.handleCopyTargetEmailButton();
-                                }}
+                                onClick={this.handleCopyTargetEmailButton}
                               >
                                 <i className="fa fa-copy"></i>
                               </Button>
@@ -407,10 +364,7 @@ export default class EmailToolView extends Component {
                             <span>
                               <Button
                                 className="copy-button"
-                                onClick={e => {
-                                  e.preventDefault();
-                                  this.copyToClipboard(this.state.subject);
-                                }}
+                                onClick={this.handleCopySubjectButton}
                               >
                                 <i className="fa fa-copy"></i>
                               </Button>
@@ -430,10 +384,7 @@ export default class EmailToolView extends Component {
                             <span>
                               <Button
                                 className="copy-button"
-                                onClick={e => {
-                                  e.preventDefault();
-                                  this.handleCopyBodyButton();
-                                }}
+                                onClick={this.handleCopyBodyButton}
                               >
                                 <i className="fa fa-copy"></i>
                               </Button>
