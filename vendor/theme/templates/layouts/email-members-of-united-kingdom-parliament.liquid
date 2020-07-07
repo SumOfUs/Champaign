@@ -6,8 +6,11 @@
   <section class="body-text text-top">
     <div class="one-column">
       {{ content }}
-      <br/>
-      {% include 'Links' %}
+      {% unless link_list == blank %}
+        <hr class="stubby-hr" />
+        <h3>{{ 'page.more_info' | t }}</h3>
+        {% include 'Links' %}
+      {% endunless %}
     </div>
   </section>
 
