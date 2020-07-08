@@ -9,6 +9,12 @@ import Editor from '../../components/EmailEditor/EmailEditor';
 import Representative from './Representative';
 import { sendEmail } from './api';
 import './EmailComposer.css';
+import {
+  convertHtmlToPlainText,
+  copyToClipboard,
+  composeEmailLink,
+  buildToEmailForCompose,
+} from '../../util/util';
 
 export default props => {
   const member = window.champaign.personalization.member;
@@ -16,6 +22,10 @@ export default props => {
   const [email, setEmail] = useState(member.email || '');
   const [subject, setSubject] = useState(props.subject);
   const [body, setBody] = useState(props.body);
+  const [emailService, setEmailService] = useState(emailService || '');
+  const [clickedCopyBodyButton, setClickedCopyBodyButton] = useState(
+    clickedCopyBodyButton || false
+  );
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -26,6 +36,7 @@ export default props => {
   const onSubmit = async e => {
     e.preventDefault();
     try {
+      handleSendEmail();
       setSubmitting(true);
       const result = await sendEmail({
         pageId: window.champaign.page.id,
@@ -36,6 +47,8 @@ export default props => {
         sender: { name, email },
         subject,
         body,
+        emailService,
+        clickedCopyBodyButton,
         country: 'GB',
       });
 
@@ -57,6 +70,45 @@ export default props => {
     target,
     name,
     email,
+  };
+
+  const handleCopyTargetEmailButton = e => {
+    e.preventDefault();
+    copyToClipboard(buildToEmailForCompose(getTargetEmails(), emailService));
+  };
+
+  const handleCopyBodyButton = e => {
+    e.preventDefault();
+    copyToClipboard(convertHtmlToPlainText(body));
+    setClickedCopyBodyButton(true);
+  };
+
+  const handleCopySubjectButton = e => {
+    e.preventDefault();
+    copyToClipboard(convertHtmlToPlainText(subject));
+  };
+
+  const getTargetEmails = () => {
+    return [
+      {
+        name: target.displayAs,
+        email: target.email,
+      },
+    ];
+  };
+
+  const handleSendEmail = () => {
+    const emailParam = {
+      emailService: emailService,
+      toEmails: getTargetEmails(),
+      subject: subject,
+      body: convertHtmlToPlainText(body),
+    };
+    window.open(composeEmailLink(emailParam));
+  };
+
+  const onEmailServiceChange = nextEmailService => {
+    if (emailService != nextEmailService) setEmailService(nextEmailService);
   };
 
   return (
@@ -102,16 +154,178 @@ export default props => {
             templateInterpolate={templateInterpolate}
           />
         </FormGroup>
+        <div className="EmailToolView-note">
+          <div className="section title">
+            <FormattedMessage
+              id="email_tool.form.choose_email_service"
+              defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions."
+            />
+          </div>
+          <div className="section">
+            <div className="title">
+              <span>Mobile &amp; Desktop Apps</span>
+            </div>
+            <div>
+              <label>
+                <input
+                  disabled={emailService === 'in_app_send'}
+                  type="radio"
+                  checked={emailService === 'email_client'}
+                  onChange={() => onEmailServiceChange('email_client')}
+                />
+                Email Client
+              </label>
+            </div>
+            <div className="title">
+              <span>Web Browser</span>
+            </div>
+            <div>
+              <label>
+                <input
+                  disabled={emailService === 'in_app_send'}
+                  type="radio"
+                  checked={emailService === 'gmail'}
+                  onChange={() => onEmailServiceChange('gmail')}
+                />
+                Gmail
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <input
+                  disabled={emailService === 'in_app_send'}
+                  type="radio"
+                  checked={emailService === 'outlook'}
+                  onChange={() => onEmailServiceChange('outlook')}
+                />
+                Outlook / Live / Hotmail
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <input
+                  disabled={emailService === 'in_app_send'}
+                  type="radio"
+                  checked={emailService === 'yahoo'}
+                  onChange={() => onEmailServiceChange('yahoo')}
+                />
+                Yahoo Mail
+              </label>
+            </div>
+            <div className="title">
+              <span>Manual</span>
+            </div>
+            <div>
+              <label>
+                <input
+                  disabled={emailService === 'in_app_send'}
+                  type="radio"
+                  checked={emailService === 'other_email_services'}
+                  onChange={() => onEmailServiceChange('other_email_services')}
+                />
+                Others
+              </label>
+            </div>
+          </div>
+
+          {emailService === 'other_email_services' && (
+            <React.Fragment>
+              <div className="section">
+                <FormattedMessage
+                  id="email_tool.form.title_for_no_email_client"
+                  defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions."
+                />
+              </div>
+              <div className="section">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span>
+                          <FormattedMessage
+                            id="email_tool.form.copy_target_email_address"
+                            defaultMessage="Copy Target Email Address"
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          <Button
+                            className="copy-button"
+                            onClick={handleCopyTargetEmailButton}
+                          >
+                            <i className="fa fa-copy"></i>
+                          </Button>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>
+                          <FormattedMessage
+                            id="email_tool.form.copy_email_subject"
+                            defaultMessage="Copy Email Subject"
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          <Button
+                            className="copy-button"
+                            onClick={handleCopySubjectButton}
+                          >
+                            <i className="fa fa-copy"></i>
+                          </Button>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>
+                          <FormattedMessage
+                            id="email_tool.form.copy_email_body"
+                            defaultMessage="Copy Email Body"
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          <Button
+                            className="copy-button"
+                            onClick={handleCopyBodyButton}
+                          >
+                            <i className="fa fa-copy"></i>
+                          </Button>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </React.Fragment>
+          )}
+        </div>
         <FormGroup>
           <Button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || !emailService}
             className="button action-form__submit-button"
           >
-            <FormattedMessage
-              id="email_tool.form.send_email"
-              defaultMessage="Send email (default)"
-            />
+            {emailService === 'other_email_services' ? (
+              <FormattedMessage
+                // id="email_tool.form.submit_action"
+                id="email_tool.form.submit"
+                defaultMessage="Submit Action"
+              />
+            ) : (
+              <FormattedMessage
+                // id="email_tool.form.submit_action"
+                id="email_tool.form.submit_and_send_email"
+                defaultMessage="Submit Action &amp; Send Email"
+              />
+            )}
           </Button>
         </FormGroup>
         <br style={{ clear: 'both' }} />

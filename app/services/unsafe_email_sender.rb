@@ -9,6 +9,7 @@ class UnsafeEmailSender
     @tracking_params = tracking_params.to_hash.with_indifferent_access.slice(
       :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
     )
+    @params[:country] ||= 'US'
     @errors = {}
   end
 
@@ -17,24 +18,24 @@ class UnsafeEmailSender
     validate_email_fields
 
     if errors.empty?
-      send_email
+      # send_email
       create_action
     end
 
     errors.empty?
   end
 
-  def send_email
-    EmailSender.run(
-      id: @page.slug,
-      recipients: to_emails,
-      from_name: @params[:from_name],
-      from_email: from_email,
-      reply_to: reply_to_emails,
-      subject: @params[:subject],
-      body: @params[:body]
-    )
-  end
+  # def send_email
+  #   EmailSender.run(
+  #     id: @page.slug,
+  #     recipients: to_emails,
+  #     from_name: @params[:from_name],
+  #     from_email: from_email,
+  #     reply_to: reply_to_emails,
+  #     subject: @params[:subject],
+  #     body: @params[:body]
+  #   )
+  # end
 
   def create_action
     # TODO: Not handling consent.
@@ -47,7 +48,9 @@ class UnsafeEmailSender
         action_target: @recipient[:name],
         action_target_email: @recipient[:email],
         country: @params[:country],
-        consented: @params[:consented]
+        consented: @params[:consented] || true,
+        email_service: @params[:email_service],
+        clicked_copy_body_button: @params[:clicked_copy_body_button]
       }.merge(@tracking_params)
     )
   end
@@ -86,7 +89,7 @@ class UnsafeEmailSender
   end
 
   def validate_plugin
-    add_error(:base, 'Please configure a From email address') if @plugin.registered_email_address.blank?
+    add_error(:base, 'Please configure a From email address') if @params[:from_email].blank?
     add_error(:base, 'Please make sure a country is being sent') if @params[:country].blank?
   end
 
