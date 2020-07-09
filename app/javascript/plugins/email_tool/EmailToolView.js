@@ -235,7 +235,7 @@ export default class EmailToolView extends Component {
                 >
                   <FormattedMessage
                     id="email_tool.form.send_email"
-                    defaultMessage="Send with your email client (default)"
+                    defaultMessage="Send with your email client"
                   />
                 </Button>
               </div> */}
@@ -243,7 +243,7 @@ export default class EmailToolView extends Component {
               <div className="section title">
                 <FormattedMessage
                   id="email_tool.form.choose_email_service"
-                  defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
+                  defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions."
                 />
               </div>
 
@@ -325,7 +325,7 @@ export default class EmailToolView extends Component {
                   <div className="section">
                     <FormattedMessage
                       id="email_tool.form.title_for_no_email_client"
-                      defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
+                      defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions."
                     />
                   </div>
                   <div className="section">
@@ -336,7 +336,7 @@ export default class EmailToolView extends Component {
                             <span>
                               <FormattedMessage
                                 id="email_tool.form.copy_target_email_address"
-                                defaultMessage="Copy Target Email Address (default)"
+                                defaultMessage="Copy Target Email Address"
                               />
                             </span>
                           </td>
@@ -356,7 +356,7 @@ export default class EmailToolView extends Component {
                             <span>
                               <FormattedMessage
                                 id="email_tool.form.copy_email_subject"
-                                defaultMessage="Copy Email Subject (default)"
+                                defaultMessage="Copy Email Subject"
                               />
                             </span>
                           </td>
@@ -376,7 +376,7 @@ export default class EmailToolView extends Component {
                             <span>
                               <FormattedMessage
                                 id="email_tool.form.copy_email_body"
-                                defaultMessage="Copy Email Body (default)"
+                                defaultMessage="Copy Email Body"
                               />
                             </span>
                           </td>
@@ -408,13 +408,13 @@ export default class EmailToolView extends Component {
                   <FormattedMessage
                     // id="email_tool.form.submit_action"
                     id="email_tool.form.submit"
-                    defaultMessage="Submit Action (default)"
+                    defaultMessage="Submit Action"
                   />
                 ) : (
                   <FormattedMessage
                     // id="email_tool.form.submit_action"
                     id="email_tool.form.submit_and_send_email"
-                    defaultMessage="Submit Action &amp; Send Email(default)"
+                    defaultMessage="Submit Action &amp; Send Email"
                   />
                 )}
               </Button>
