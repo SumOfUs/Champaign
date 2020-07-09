@@ -25,6 +25,8 @@ export const sendEmail = async params => {
       country: params.country,
       from_name: params.sender.name,
       from_email: params.sender.email,
+      email_service: params.emailService,
+      clicked_copy_body_button: params.clickedCopyBodyButton,
     },
     tracking_params: pick(
       window.champaign.personalization.urlParams,

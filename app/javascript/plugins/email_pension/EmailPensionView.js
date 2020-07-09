@@ -216,7 +216,7 @@ class EmailPensionView extends Component {
                   label={
                     <FormattedMessage
                       id="email_tool.form.your_name"
-                      defaultMessage="Your name (default)"
+                      defaultMessage="Your name"
                     />
                   }
                   value={this.props.name}
@@ -232,7 +232,7 @@ class EmailPensionView extends Component {
                   label={
                     <FormattedMessage
                       id="email_tool.form.your_email"
-                      defaultMessage="Your email (default)"
+                      defaultMessage="Your email"
                     />
                   }
                   value={this.props.email}
@@ -260,7 +260,7 @@ class EmailPensionView extends Component {
                 >
                   <FormattedMessage
                     id="email_tool.form.send_email"
-                    defaultMessage="Send with your email client (default)"
+                    defaultMessage="Send with your email client"
                   />
                 </Button>
               </div> */}
@@ -268,7 +268,7 @@ class EmailPensionView extends Component {
               <div className="section title">
                 <FormattedMessage
                   id="email_tool.form.choose_email_service"
-                  defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
+                  defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions."
                 />
               </div>
 
@@ -350,7 +350,7 @@ class EmailPensionView extends Component {
                   <div className="section">
                     <FormattedMessage
                       id="email_tool.form.title_for_no_email_client"
-                      defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions. (default)"
+                      defaultMessage="If you have not set up an email client or the above button does not open your email, please use the following instructions."
                     />
                   </div>
                   <div className="section">
@@ -361,7 +361,7 @@ class EmailPensionView extends Component {
                             <span>
                               <FormattedMessage
                                 id="email_tool.form.copy_target_email_address"
-                                defaultMessage="Copy Target Email Address (default)"
+                                defaultMessage="Copy Target Email Address"
                               />
                             </span>
                           </td>
@@ -381,7 +381,7 @@ class EmailPensionView extends Component {
                             <span>
                               <FormattedMessage
                                 id="email_tool.form.copy_email_subject"
-                                defaultMessage="Copy Email Subject (default)"
+                                defaultMessage="Copy Email Subject"
                               />
                             </span>
                           </td>
@@ -401,7 +401,7 @@ class EmailPensionView extends Component {
                             <span>
                               <FormattedMessage
                                 id="email_tool.form.copy_email_body"
-                                defaultMessage="Copy Email Body (default)"
+                                defaultMessage="Copy Email Body"
                               />
                             </span>
                           </td>
@@ -437,13 +437,13 @@ class EmailPensionView extends Component {
                   <FormattedMessage
                     // id="email_tool.form.submit_action"
                     id="email_tool.form.submit"
-                    defaultMessage="Submit Action (default)"
+                    defaultMessage="Submit Action"
                   />
                 ) : (
                   <FormattedMessage
                     // id="email_tool.form.submit_action"
                     id="email_tool.form.submit_and_send_email"
-                    defaultMessage="Submit Action &amp; Send Email(default)"
+                    defaultMessage="Submit Action &amp; Send Email"
                   />
                 )}
               </Button>
