@@ -34,6 +34,11 @@ fr:
       submit_and_send_email: 'Soumettre & envoyer un email'
       title_for_no_email_client: "Si vous n'avez pas configuré de service de messagerie ou si vous ne disposez d’aucun des services de messagerie mentionnés, veuillez suivre les instructions suivantes."
       choose_email_service: "Choisissez l’un des services de messagerie électronique pour envoyer un email maintenant"
+      mobile_desktop_apps: 'Applications de bureau & mobiles'
+      email_client: 'Adresse email'
+      web_browser: 'Navigateur Web'
+      manual: 'Utilisez une autre adresse'
+      others: 'Autres'
       copy_target_email_address: '1. Copier le(s) adresse(s) courriel cible(s)'
       copy_email_subject: '2. Copier l’objet du courriel'
       copy_email_body: '3. Copier le corps de l’e-mail'
