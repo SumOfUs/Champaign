@@ -274,7 +274,12 @@ class EmailPensionView extends Component {
 
               <div className="section">
                 <div className="title">
-                  <span>Mobile &amp; Desktop Apps</span>
+                  <span>
+                    <FormattedMessage
+                      id="email_tool.form.mobile_desktop_apps"
+                      defaultMessage="Mobile &amp; Desktop Apps"
+                    />
+                  </span>
                 </div>
                 <div>
                   <label>
@@ -284,11 +289,19 @@ class EmailPensionView extends Component {
                       checked={this.state.emailService === 'email_client'}
                       onChange={e => this.onEmailServiceChange('email_client')}
                     />
-                    Email Client
+                    <FormattedMessage
+                      id="email_tool.form.email_client"
+                      defaultMessage="Email Client"
+                    />
                   </label>
                 </div>
                 <div className="title">
-                  <span>Web Browser</span>
+                  <span>
+                    <FormattedMessage
+                      id="email_tool.form.web_browser"
+                      defaultMessage="Web Browser"
+                    />
+                  </span>
                 </div>
                 <div>
                   <label>
@@ -326,7 +339,12 @@ class EmailPensionView extends Component {
                   </label>
                 </div>
                 <div className="title">
-                  <span>Manual</span>
+                  <span>
+                    <FormattedMessage
+                      id="email_tool.form.manual"
+                      defaultMessage="Manual"
+                    />
+                  </span>
                 </div>
                 <div>
                   <label>
@@ -340,7 +358,10 @@ class EmailPensionView extends Component {
                         this.onEmailServiceChange('other_email_services')
                       }
                     />
-                    Others
+                    <FormattedMessage
+                      id="email_tool.form.others"
+                      defaultMessage="Others"
+                    />
                   </label>
                 </div>
               </div>
