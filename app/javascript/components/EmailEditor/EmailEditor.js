@@ -40,13 +40,13 @@ export default class EmailEditor extends Component {
       footer: interpolateVars(props.footer, props.templateVars),
     };
 
-    if (state.templateVars != props.templateVars) {
-      stateParams = merge(stateParams, {
-        editorState: EditorState.createWithContent(
-          stateFromHTML(interpolateVars(props.body, props.templateVars))
-        ),
-      });
-    }
+    // if (state.templateVars != props.templateVars) {
+    //   stateParams = merge(stateParams, {
+    //     editorState: EditorState.createWithContent(
+    //       stateFromHTML(interpolateVars(props.body, props.templateVars))
+    //     ),
+    //   });
+    // }
 
     return stateParams;
   }
