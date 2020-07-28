@@ -39,21 +39,11 @@ module PaymentProcessor
           handle_subscription_charge(:success)
         when 'subscription_canceled'
           handle_subscription_cancelled
-        when 'subscription_went_past_due'
-          handle_past_due_subscription
         when 'subscription_charged_unsuccessfully'
           handle_subscription_charge(:failure)
         else
           Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{notification.kind}'")
         end
-      rescue StandardError => e
-        log_failure
-        raise e
-      end
-
-      def log_failure
-        Rails.logger.error("Braintree webhook handling failed for '#{notification.kind}',"\
-        " for subscription ID '#{notification.subscription.id}'")
       end
 
       def notification
@@ -83,8 +73,8 @@ module PaymentProcessor
         @subscription_amount ||= notification.subscription.transactions.first&.amount || 0
       end
 
-      def transaction_id
-        @transaction_id ||= @notification.subscription.transactions.first&.id
+      def transaction
+        @transaction ||= notification.subscription.transactions.first
       end
 
       def update_subscription(status)
@@ -98,12 +88,13 @@ module PaymentProcessor
 
       def create_subscription_charge(status)
         record = Payment::Braintree::Transaction.create!(
-          transaction_id: transaction_id,
+          transaction_id: transaction&.id,
           subscription: subscription,
           page: subscription.action.page,
           customer: customer,
           status: status,
-          amount: subscription_amount
+          amount: subscription_amount,
+          processor_response_code: transaction.processor_response_code
         )
         record.publish_subscription_charge
       end
