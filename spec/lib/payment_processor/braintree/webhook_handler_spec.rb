@@ -128,7 +128,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
       )
     end
 
-    it 'creates a failed transaction locally' do
+    it 'creates a failed transaction with a reason for failure locally' do
       expect { subject }
         .to change { subscription.transactions.count }
         .from(0).to(1)
@@ -184,7 +184,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
              kind: 'subscription_charged_successfully',
              subscription: double('notification_subscription',
                                   id: 'existing_subscription_id',
-                                  transactions: [double('transaction', amount: 10, id: '124309')]))
+                                  transactions: [double('transaction', amount: 10, id: '124309', processor_response_code: nil)]))
     end
 
     before do
