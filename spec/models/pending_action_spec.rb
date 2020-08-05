@@ -48,6 +48,28 @@ describe PendingAction do
       end
     end
 
+    describe :not_bounced do
+      it 'returns records where email address has not bounced' do
+        Timecop.freeze do
+          create(:pending_action, bounced_at: 2.hours.ago)
+          not_bounced = create(:pending_action, bounced_at: nil)
+
+          expect(PendingAction.not_bounced).to eq([not_bounced])
+        end
+      end
+    end
+
+    describe :not_bounced do
+      it 'returns records where email address has not bounced' do
+        Timecop.freeze do
+          create(:pending_action, complaint: true)
+          no_complaint = create(:pending_action, complaint: nil)
+
+          expect(PendingAction.not_complained).to eq([no_complaint])
+        end
+      end
+    end
+
     describe :not_emailed_last_24 do
       it 'returns records where emailed_at greater than 24 hours' do
         Timecop.freeze do

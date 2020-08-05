@@ -31,6 +31,8 @@ class PendingAction < ApplicationRecord
   scope :only_emailed_once, -> { where(email_count: 1) }
   scope :not_emailed_last_24, -> { where('emailed_at < ?', 24.hours.ago) }
   scope :not_older_than_20_days, -> { where(arel_table[:created_at].gt(20.days.ago)) }
+  scope :not_bounced, -> { where(bounced_at: nil) }
+  scope :not_complained, -> { where(complaint: nil) }
 
   belongs_to :page
   belongs_to :member, foreign_key: :email, primary_key: :email
@@ -42,6 +44,8 @@ class PendingAction < ApplicationRecord
       .not_emailed_last_24
       .not_older_than_20_days
       .left_outer_joins(:member)
+      .not_bounced
+      .not_complained
       .where('members.consented is null')
   end
 end
