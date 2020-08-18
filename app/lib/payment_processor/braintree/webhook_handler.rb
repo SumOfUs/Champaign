@@ -62,6 +62,9 @@ module PaymentProcessor
 
       def handle_subscription_charge(status)
         return unless subscription
+        # Return if a transaction record already exists for this subscription charge. This is to prevent processing
+        # the same subscription charge twice.
+        return unless Payment::Braintree::Transaction.find_by(transaction_id: transaction.id).blank?
 
         update_subscription(status)
         create_subscription_charge(status)

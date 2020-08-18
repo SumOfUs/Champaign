@@ -68,6 +68,18 @@ describe PaymentProcessor::Braintree::WebhookHandler do
           subject
         end
       end
+
+      context 'when transaction with the ID of the subscription charge already exists' do
+        # 'subscription_id' is the ID of the latest subscription charge transaction in the Braintree test notification
+        # for a subscription charge, accessible through notification.subscription.transactions.first
+        let!(:transaction) { create(:payment_braintree_transaction, transaction_id: 'subscription_id') }
+        it 'does not write a transaction or pot a subscription charge to the queue' do
+          expect(ChampaignQueue).to_not receive :push
+          expect { subject }
+            .to_not change { subscription.transactions.count }
+          subject
+        end
+      end
     end
 
     context 'when subscription is not found' do
