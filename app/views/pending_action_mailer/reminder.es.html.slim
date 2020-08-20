@@ -1,0 +1,17 @@
+h3 Hola #{@name.titleize},
+
+p Nos alegra que quieras apoyar nuestra petición "#{@page.title}". Desafortunadamente no has confirmado tu firma todavía.
+
+p Nos encantaría mantener el contacto contigo mediante correo electrónico para informarte sobre esta y otras campañas de SumOfUs (puedes darte de baja en cualquier momento). Por favor haz click en uno de los siguientes enlaces:
+
+h3
+  = link_to "Quiero firmar y recibir actualizaciones sobre esta y otras campañas", confirm_api_action_confirmations_url(token: @token, consented: true)
+p
+  = link_to "Quiero firmar pero no quiero actualizaciones", confirm_api_action_confirmations_url(token: @token)
+
+p ¡Tu firma sólo se contará si haces click para confirmar!
+
+p
+  | Saludos,
+  br
+  | El equipo de SumOfUs
