@@ -175,6 +175,11 @@ endcomment %} {% comment %} Primary layout: true {% endcomment %}
                 formData
             );
         });
+        window.ee.on('action:submitted_success', function () {
+          console.log("Action submitted, inject name");
+          var formData = window.champaign.myActionForm.formData();
+          $('.inject-name').text(formData.name.split(' ')[0]);
+        });
         window.addEventListener(
             "share",
             function(e) {
