@@ -3,8 +3,9 @@ require 'rails_helper'
 describe EmailToolSender do
   let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
   let(:registered_email) { create(:registered_email_address) }
-  let(:targets) { build_list(:email_tool_target, 2) }
-
+  target_data = [{ email: 'rando1@example.org', name: 'Random One' },
+                 { email: 'rando2@example.org', name: 'Random Two' }]
+  targets = target_data.map { |t| FactoryBot.create(:email_tool_target, t) }
   let!(:plugin) do
     create(:email_tool,
            page: page,
@@ -21,7 +22,8 @@ condimentum sapien. Nunc non dui dolor. Ut ornare pretium nunc sed ornare. Praes
 et a neque. Nam non mi in eros sollicitudin imperdiet.',
       subject: 'Some subject',
       country: 'US',
-      akid: '1234.2342' }
+      akid: '1234.2342',
+      target_id: targets.first.id }
   end
 
   before { allow(EmailSender).to receive(:run) }
@@ -29,79 +31,6 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
   def expect_email_sender_to_be_called_with(params)
     expect(EmailSender).to receive(:run)
       .with(hash_including(params))
-  end
-
-  xit 'calls EmailSender passing the page slug as id' do
-    expect_email_sender_to_be_called_with(id: page.slug)
-    EmailToolSender.run(page.id, params)
-  end
-
-  xit 'calls EmailSender forwarding the body and subject params' do
-    expect_email_sender_to_be_called_with(params.slice(:body, :subject))
-    EmailToolSender.run(page.id, params)
-  end
-
-  # context 'if use_member_email is true' do
-  #   before { plugin.update! use_member_email: true }
-  #   xit 'sends the email from the members email address' do
-  #     expect_email_sender_to_be_called_with(
-  #       from_name: params[:from_name], from_email: params[:from_email]
-  #     )
-  #     EmailToolSender.run(page.id, params)
-  #   end
-
-  #   xit 'sets the reply_to to both the member and the plugin from_email_address' do
-  #     expect_email_sender_to_be_called_with(
-  #       reply_to: a_collection_containing_exactly(
-  #         { name: params[:from_name], email: params[:from_email] },
-  #         { name: registered_email.name, email: registered_email.email }
-  #       )
-  #     )
-  #     EmailToolSender.run(page.id, params)
-  #   end
-  # end
-
-  # context 'if use_member_email is false' do
-  #   xit 'sends it from the plugin from_email_address' do
-  #     expect_email_sender_to_be_called_with(
-  #       from_name: params[:from_name], from_email: registered_email.email
-  #     )
-  #     EmailToolSender.run(page.id, params)
-  #   end
-
-  #   xit 'sets the reply_to to the plugin from_email_address' do
-  #     expect_email_sender_to_be_called_with(
-  #       reply_to: [{ name: registered_email.name, email: registered_email.email }]
-  #     )
-  #     EmailToolSender.run(page.id, params)
-  #   end
-  # end
-
-  describe 'targeting' do
-    xit 'sends it to the test email if present' do
-      plugin.update!(test_email_address: 'test@test.com')
-      expect_email_sender_to_be_called_with(
-        recipients: [{ name: 'Test Email', email: 'test@test.com' }]
-      )
-      EmailToolSender.run(page.id, params)
-    end
-
-    xit 'sends it to the selected target if target_id is present' do
-      target = targets.sample
-      expect_email_sender_to_be_called_with(
-        recipients: [{ name: target.name, email: target.email }]
-      )
-      EmailToolSender.run(page.id, params.merge(target_id: target.id))
-    end
-
-    xit 'sends it to all targets if neither the test email nor the target_id are present' do
-      expect_email_sender_to_be_called_with(
-        recipients: a_collection_containing_exactly(
-          *plugin.targets.map { |t| { name: t.name, email: t.email } }
-        )
-      )
-      EmailToolSender.run(page.id, params)
-    end
   end
 
   context 'creating an action' do
@@ -125,7 +54,7 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
       expect(action.page).to eq page
     end
 
-    it 'pushes the action to the queue with the mailing_id present' do
+    it 'pushes the action to the queue with the mailing_id and custom fields present' do
       allow(AkidParser).to receive(:parse).and_return(actionkit_user_id: 29_384, mailing_id: 12_309)
       payload = {
         type: 'action',
@@ -137,7 +66,9 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
           email: 'john@email.com',
           page_id: page.id,
           user_en: 1,
-          mailing_id: 12_309
+          mailing_id: 12_309,
+          action_target: 'Random One',
+          action_target_email: 'rando1@example.org'
         )
       }
       expect(ChampaignQueue).to receive(:push)
@@ -147,14 +78,6 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
   end
 
   describe 'Validations' do
-    # xit "fails if the plugin doesn't have a from_email_address configured" do
-    #   plugin.update! from_email_address: nil
-    #   service = EmailToolSender.new(page.id, params)
-
-    #   expect(service.run).to be false
-    #   expect(service.errors[:base]).to include('Please configure a From email address')
-    # end
-
     it "fails if the plugins doesn't have at least a target" do
       plugin.update! targets: []
       service = EmailToolSender.new(page.id, params)
@@ -181,14 +104,6 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
       service = EmailToolSender.new(page.id, target_id: 'wrong')
       expect(service.run).to be false
       expect(service.errors[:base]).to include(/targets information has recently changed/)
-    end
-
-    # Skipping since default country will be set as US within EmailToolSender,
-    # verifying default country in a previous test
-    xit 'validates the presence of country' do
-      service = EmailToolSender.new(page.id, {})
-      expect(service.run).to be false
-      expect(service.errors[:base]).to include('Please make sure a country is being sent')
     end
   end
 end
