@@ -54,26 +54,58 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
       expect(action.page).to eq page
     end
 
-    it 'pushes the action to the queue with the mailing_id and custom fields present' do
-      allow(AkidParser).to receive(:parse).and_return(actionkit_user_id: 29_384, mailing_id: 12_309)
-      payload = {
-        type: 'action',
-        meta: hash_including(
-          title: 'Foo Bar'
-        ),
-        params: hash_including(
-          page: "#{page.slug}-petition",
-          email: 'john@email.com',
-          page_id: page.id,
-          user_en: 1,
-          mailing_id: 12_309,
-          action_target: 'Random One',
-          action_target_email: 'rando1@example.org'
+    context 'single target' do
+      it 'pushes the action to the queue with the mailing_id and custom fields present' do
+        allow(AkidParser).to receive(:parse).and_return(actionkit_user_id: 29_384, mailing_id: 12_309)
+        payload = {
+          type: 'action',
+          meta: hash_including(
+            title: 'Foo Bar'
+          ),
+          params: hash_including(
+            page: "#{page.slug}-petition",
+            email: 'john@email.com',
+            page_id: page.id,
+            user_en: 1,
+            mailing_id: 12_309,
+            action_target: 'Random One',
+            action_target_email: 'rando1@example.org'
+          )
+        }
+        expect(ChampaignQueue).to receive(:push)
+          .with(payload, group_id: /action:\d+/)
+        EmailToolSender.new(page.id, params).run
+      end
+    end
+
+    context 'multiple targets' do
+      let(:params) do
+        { from_email: 'john@email.com',
+          from_name: 'John',
+          body: 'Suspendisse vestibulum dolor et libero sollicitudin aliquam eu eu purus. Phasellus eget diam in felis
+gravida mollis a vitae velit. Duis tempus dolor non finibus convallis. In in ipsum lacinia, pulvinar lectus nec,
+condimentum sapien. Nunc non dui dolor. Ut ornare pretium nunc sed ornare. Praesent at risus a felis lacinia pretium
+et a neque. Nam non mi in eros sollicitudin imperdiet.',
+          subject: 'Some subject',
+          country: 'US',
+          akid: '1234.2342',
+          target_id: 'all' }
+      end
+      it 'passes "multiple" as target data into the custom fields' do
+        allow(AkidParser).to receive(:parse).and_return(actionkit_user_id: 29_384, mailing_id: 12_309)
+        payload = hash_including(
+          params: hash_including(
+            action_target: 'multiple',
+            action_target_email: [
+              { email: 'rando1@example.org', name: 'Random One' },
+              { email: 'rando2@example.org', name: 'Random Two' }
+            ]
+          )
         )
-      }
-      expect(ChampaignQueue).to receive(:push)
-        .with(payload, group_id: /action:\d+/)
-      EmailToolSender.new(page.id, params).run
+        expect(ChampaignQueue).to receive(:push)
+          .with(payload, group_id: /action:\d+/)
+        EmailToolSender.new(page.id, params).run
+      end
     end
   end
 

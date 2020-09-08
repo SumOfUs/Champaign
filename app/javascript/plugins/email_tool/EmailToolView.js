@@ -46,6 +46,9 @@ export default class EmailToolView extends Component {
   targetId() {
     if (this.props.manualTargeting) {
       return get(this.state.target, 'id', undefined);
+    } else {
+      // EmailToolSender.rb relies on 'all' as target_id in case we're targeting all of the targets.
+      return 'all';
     }
   }
 
