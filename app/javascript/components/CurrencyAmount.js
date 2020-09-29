@@ -9,11 +9,12 @@ const CONFIG = {
 
 export default function CurrencyAmount(props) {
   const { currency, amount } = props;
-
   switch (currency) {
     case 'USD':
     case 'NZD':
     case 'CAD':
+    case 'MXN':
+    case 'ARS':
     case 'AUD':
       return (
         <span>
