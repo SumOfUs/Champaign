@@ -1,14 +1,17 @@
 import pick from 'lodash/pick';
+
+// 'https://sls.sumofus.org/parliament-data/mps'
+const url = 'https://nhk8yso3sk.execute-api.us-east-1.amazonaws.com/dev/mps';
 export const search = async postcode => {
-  const result = await fetch('https://sls.sumofus.org/parliament-data/mps', {
+  const result = await fetch(`${url}/${postcode}`, {
     method: 'post',
     headers: {
       'content-type': 'application/json',
     },
-    body: JSON.stringify({ postcode }),
   })
     .then(r => r.json())
     .then(data => {
+      console.log(data);
       if (data.errors) throw data;
       return data;
     });
@@ -18,9 +21,9 @@ export const search = async postcode => {
 
 export const sendEmail = async params => {
   const data = {
-    recipient: params.recipient,
     email: {
       body: params.body,
+      recipients: params.recipients,
       subject: params.subject,
       country: params.country,
       from_name: params.sender.name,

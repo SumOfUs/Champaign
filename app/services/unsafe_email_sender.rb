@@ -1,11 +1,11 @@
 class UnsafeEmailSender
   attr_reader :errors, :action
 
-  def initialize(page_id, email_params, recipient, tracking_params = {})
+  def initialize(page_id, email_params, tracking_params = {})
     @plugin = Plugins::Email.find_by(page_id: page_id)
     @page = Page.find(page_id)
     @params = email_params.to_hash.with_indifferent_access
-    @recipient = recipient.to_hash.with_indifferent_access
+    # @recipients = recipients.to_hash.with_indifferent_access
     @tracking_params = tracking_params.to_hash.with_indifferent_access.slice(
       :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
     )
@@ -15,7 +15,7 @@ class UnsafeEmailSender
 
   def run
     validate_plugin
-    validate_email_fields
+    # validate_email_fields
 
     if errors.empty?
       # send_email
@@ -45,8 +45,7 @@ class UnsafeEmailSender
         page_id: @page.id,
         name: @params[:from_name],
         email: @params[:from_email],
-        action_target: @recipient[:name],
-        action_target_email: @recipient[:email],
+        action_targets: @params[:recipients],
         country: @params[:country],
         consented: @params[:consented] || true,
         email_service: @params[:email_service],
