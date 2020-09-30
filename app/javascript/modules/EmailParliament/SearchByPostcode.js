@@ -25,8 +25,8 @@ const SearchByPostcode = props => {
       props.onChange(null);
 
       try {
-        const target = await search(postcode);
-        props.onChange(target);
+        const targets = await search(postcode);
+        props.onChange(targets);
       } catch (e) {
         setError(true);
       } finally {

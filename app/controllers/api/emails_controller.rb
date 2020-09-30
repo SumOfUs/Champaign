@@ -17,7 +17,7 @@ class Api::EmailsController < ApplicationController
   end
 
   def create_unsafe
-    service = UnsafeEmailSender.new(params[:page_id], unsafe_email_params, recipient_params, tracking_params)
+    service = UnsafeEmailSender.new(params[:page_id], unsafe_email_params, tracking_params)
     if service.run
       write_member_cookie(service.action.member_id) if service.action.member_id
       render json: { follow_up_page: PageFollower.new_from_page(page).follow_up_path }
@@ -44,11 +44,11 @@ class Api::EmailsController < ApplicationController
   def unsafe_email_params
     params
       .require(:email)
-      .permit(:body, :subject, :from_name, :from_email, :country, :consented, :email_service, :clicked_copy_body_button)
+      .permit(:recipients, :body, :subject, :from_name, :from_email, :country, :consented, :email_service, :clicked_copy_body_button)
   end
 
   def recipient_params
-    params.require(:recipient).permit(:name, :email)
+    params.require(:recipients).permit(:name, :email)
   end
 
   def email_params
