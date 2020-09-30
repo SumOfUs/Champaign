@@ -68,6 +68,8 @@ braintree:
     CAD: 'CAD'
     NZD: 'NZD'
     CHF: 'CHF'
+    ARS: 'ARS'
+    MXN: 'MXN'
 
 redis:
   host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
