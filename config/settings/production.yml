@@ -57,6 +57,8 @@ braintree:
     CAD: 'SumOfUs_CAD'
     NZD: 'SumOfUs_NZD'
     CHF: 'SumOfUs_CHF'
+    MXN: 'SumOfUs_MXN'
+    ARS: 'SumOfUs_ARS'
 
   subscription_plans:
     EUR: 'EUR'
