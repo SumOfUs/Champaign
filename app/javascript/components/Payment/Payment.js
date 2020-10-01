@@ -127,7 +127,11 @@ export class Payment extends Component {
       if (showDirectDebit) {
         this.selectPaymentType('gocardless');
       } else {
-        this.selectPaymentType('paypal');
+        if (this.props.currency === 'ARS') {
+          this.selectPaymentType('card');
+        } else {
+          this.selectPaymentType('paypal');
+        }
       }
     }
   };
@@ -139,6 +143,13 @@ export class Payment extends Component {
   }
 
   componentDidUpdate() {
+    if (
+      this.props.currency === 'ARS' &&
+      this.props.currentPaymentType === 'paypal'
+    ) {
+      this.selectPaymentType('card');
+    }
+    console.log(this.props.currency, this.props.currentPaymentType, 'i');
     ee.emit('sidebar:height_change');
   }
 
@@ -699,6 +710,7 @@ const mapStateToProps = state => ({
     },
   },
   extraActionFields: state.extraActionFields,
+  currency: state.fundraiser.currency,
 });
 
 const mapDispatchToProps = dispatch => ({
