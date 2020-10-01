@@ -15,7 +15,7 @@ export class PaymentTypeSelection extends PureComponent {
   // this is done since PAYPAL doesnt support ARS currency as of now
   showPaymentType(type, currency) {
     if (currency === 'ARS') {
-      if (type === 'paypal') return true;
+      if (type === 'paypal') return false;
       else return true;
     }
     return true;
@@ -29,6 +29,8 @@ export class PaymentTypeSelection extends PureComponent {
       currency,
       paymentTypes,
     } = this.props;
+
+    console.log(currency, paymentTypes);
 
     return (
       <div className="PaymentTypeSelection__payment-methods">
