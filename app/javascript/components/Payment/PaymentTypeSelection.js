@@ -12,8 +12,23 @@ export class PaymentTypeSelection extends PureComponent {
     return true;
   }
 
+  // this is done since PAYPAL doesnt support ARS currency as of now
+  showPaymentType(type, currency) {
+    if (currency === 'ARS') {
+      if (type === 'paypal') return true;
+      else return true;
+    }
+    return true;
+  }
+
   render() {
-    const { disabled, currentPaymentType, onChange } = this.props;
+    const {
+      disabled,
+      currentPaymentType,
+      onChange,
+      currency,
+      paymentTypes,
+    } = this.props;
 
     return (
       <div className="PaymentTypeSelection__payment-methods">
@@ -25,23 +40,28 @@ export class PaymentTypeSelection extends PureComponent {
             />
           </span>
 
-          {this.props.paymentTypes.map((paymentType, i) => {
-            return (
-              <div className={classnames('PaymentMethod', paymentType)} key={i}>
-                <label>
-                  <input
-                    disabled={disabled}
-                    type="radio"
-                    checked={currentPaymentType === paymentType}
-                    onChange={e => onChange(paymentType)}
-                  />
-                  <FormattedMessage
-                    id={`fundraiser.payment_methods.${paymentType}`}
-                    defaultMessage="Unknown payment method"
-                  />
-                </label>
-              </div>
-            );
+          {paymentTypes.map((paymentType, i) => {
+            if (this.showPaymentType(paymentType, currency)) {
+              return (
+                <div
+                  className={classnames('PaymentMethod', paymentType)}
+                  key={i}
+                >
+                  <label>
+                    <input
+                      disabled={disabled}
+                      type="radio"
+                      checked={currentPaymentType === paymentType}
+                      onChange={e => onChange(paymentType)}
+                    />
+                    <FormattedMessage
+                      id={`fundraiser.payment_methods.${paymentType}`}
+                      defaultMessage="Unknown payment method"
+                    />
+                  </label>
+                </div>
+              );
+            }
           })}
         </PaymentMethodWrapper>
       </div>
@@ -57,11 +77,9 @@ const mapStateToProps = state => ({
   currentPaymentType: state.fundraiser.directDebitOnly
     ? 'gocardless'
     : state.fundraiser.currentPaymentType,
+  currency: state.fundraiser.currency,
 });
 
 const mapDispatch = dispatch => ({});
 
-export default connect(
-  mapStateToProps,
-  mapDispatch
-)(PaymentTypeSelection);
+export default connect(mapStateToProps, mapDispatch)(PaymentTypeSelection);
