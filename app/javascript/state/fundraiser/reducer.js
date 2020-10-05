@@ -27,6 +27,8 @@ export const initialState = {
     CAD: [2, 5, 10, 25, 50],
     AUD: [2, 5, 10, 25, 50],
     NZD: [2, 5, 10, 25, 50],
+    MXN: [2, 5, 10, 25, 50],
+    ARS: [2, 5, 10, 25, 50],
   },
   fields: [],
   form: {},
