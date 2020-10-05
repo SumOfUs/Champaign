@@ -127,11 +127,9 @@ export class Payment extends Component {
       if (showDirectDebit) {
         this.selectPaymentType('gocardless');
       } else {
-        if (this.props.currency === 'ARS') {
-          this.selectPaymentType('card');
-        } else {
-          this.selectPaymentType('paypal');
-        }
+        // this is done since PAYPAL doesnt support ARS currency as of now
+        const paymentType = this.props.currency === 'ARS' ? 'card' : 'paypal';
+        this.selectPaymentType(paymentType);
       }
     }
   };
@@ -149,7 +147,6 @@ export class Payment extends Component {
     ) {
       this.selectPaymentType('card');
     }
-    console.log(this.props.currency, this.props.currentPaymentType, 'i');
     ee.emit('sidebar:height_change');
   }
 
