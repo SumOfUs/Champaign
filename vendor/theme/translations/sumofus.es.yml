@@ -83,8 +83,7 @@ es:
   share_and_donate:
     fundraiser_title: "Ayuda a financiar las campañas de SumOfUs"
   petition_and_scroll:
-    fundraiser_intro: "¡Gracias, eres increíble! SumOfUs se financia íntegramente mediante miembros como tú."
-    fundraiser_intro: "<p>Thank you for taking action, <span class='inject-name'>Dear friend</span>! Together we can win this fight -- can you chip in today to power this campaign to victory?</p>"
+    fundraiser_intro: "<p>¡Gracias por tomar acción, <span class='inject-name'></span>! Juntxs podemos ganar esta lucha -- ¿puedes aportar hoy para que ganemos esta campaña?</p>"
   footer:
     home: Inicio
     about: Acerca de nosotros
