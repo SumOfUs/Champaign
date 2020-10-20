@@ -83,7 +83,7 @@ de:
   share_and_donate:
     fundraiser_title: "Jetzt spenden und SumOfUs unterstützen!"
   petition_and_scroll:
-    fundraiser_intro: "Wussten Sie schon: SumOfUs finanziert sich fast ausschließlich über die Spenden von Mitgliedern wie Ihnen."
+    fundraiser_intro: "<p>Danke, dass Sie unterschrieben haben, <span class='inject-name'>SumOfUs-Mitglied</span>! Können Sie bitte spenden, um diese Kampagne zum Erfolg zu führen?</p>"
   footer:
     home: Start
     about: Über Uns

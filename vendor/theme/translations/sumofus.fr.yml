@@ -83,7 +83,7 @@ fr:
   share_and_donate:
     fundraiser_title: "Faire un don pour aider à renforcer SumOfUs"
   petition_and_scroll:
-    fundraiser_intro: "Merci, vous êtes fantastique ! SumOfUs est un mouvement financé par des personnes comme vous."
+    fundraiser_intro: "<p>Merci d'avoir agi, <span class='inject-name'>Chèr-e ami-e</span> ! Ensemble, nous pouvons gagner ce combat. Pouvez-vous faire un don aujourd'hui pour mener cette campagne jusqu'à la victoire ?</p>"
   footer:
     home: Accueil
     about: Nous connaître
