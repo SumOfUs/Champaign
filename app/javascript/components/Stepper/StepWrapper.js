@@ -1,6 +1,7 @@
 import React, { Component, Children, cloneElement } from 'react';
 import Stepper from './Stepper';
 import ShowIf from '../ShowIf';
+import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import './Stepper.scss';
 
@@ -47,7 +48,7 @@ export default class StepWrapper extends Component {
       <div className="submission-interstitial">
         <h1 className="submission-interstitial__title">
           <i className="fa fa-spin fa-cog" />
-          Processing
+          <FormattedMessage id="form.processing" />
         </h1>
         <h4>
           Please do not close this tab

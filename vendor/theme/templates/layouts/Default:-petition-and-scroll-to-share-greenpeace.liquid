@@ -137,6 +137,15 @@ endcomment %} {% comment %} Primary layout: true {% endcomment %}
             }
         }
         function petitionCallback(e, data) {
+            var img = document.createElement('img');
+            img.src = "https://px.ads.linkedin.com/collect/?pid=1988588&conversionId=3083556&fmt=gif";
+
+            img.style.display = "none";
+            img.style.height = "1px";
+            img.style.width = "1px";
+
+            $('body').append(img);
+
             petitionSidebar.fadeOut();
             petitionOverlayButton.fadeOut();
             displayAndScrollToYesNoQuestion();
@@ -174,6 +183,10 @@ endcomment %} {% comment %} Primary layout: true {% endcomment %}
                 "{{ follow_up_url }}",
                 formData
             );
+        });
+        window.ee.on('action:submitted_success', function () {
+          var formData = window.champaign.myActionForm.formData();
+          $('.inject-name').text(formData.name.split(' ')[0]);
         });
         window.addEventListener(
             "share",

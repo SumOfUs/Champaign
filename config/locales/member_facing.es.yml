@@ -91,7 +91,7 @@ es:
     donate: "Donar %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Donar %{amount} cada mes"
     make_monthly_donation: "%{name} una donación mensual respaldará nuestro movimiento para planificar con anticipación, de modo que podamos enfrentar de manera más efectiva a las corporaciones más grandes que amenazan a las personas y al planeta."
-    complete_donation: "Complete su donación de %{amount}"
+    complete_donation: "Complete tu donación de %{amount}"
     donate_amount: "Done %{amount}"
     donation_once: "Done %{amount} sólo una vez"
     donation_recurring: "Done %{amount} cada mes"

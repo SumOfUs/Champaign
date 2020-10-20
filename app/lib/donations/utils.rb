@@ -63,7 +63,9 @@ module Donations
         NZ: 'NZD',
         AU: 'AUD',
         CA: 'CAD',
-        CH: 'CHF'
+        CH: 'CHF',
+        MX: 'MXN',
+        AR: 'ARS'
       }[country_code.to_s.to_sym] || DEFAULT_CURRENCY
     end
   end

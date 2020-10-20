@@ -98,7 +98,7 @@ class OneClick extends Component {
       <div className="submission-interstitial">
         <h1 className="submission-interstitial__title">
           <i className="fa fa-spin fa-cog" />
-          Processing
+          <FormattedMessage id="form.processing" />
         </h1>
         <h4>
           Please do not close this tab
@@ -172,7 +172,4 @@ const mapDispatch = dispatch => ({
   oneClickFailed: () => dispatch(oneClickFailed()),
 });
 
-export default connect(
-  mapState,
-  mapDispatch
-)(OneClick);
+export default connect(mapState, mapDispatch)(OneClick);
