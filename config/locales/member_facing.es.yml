@@ -5,7 +5,7 @@ es:
     email:
       subject: 'Valida tu firma'
   footer:
-    home_url: http://example.com
+    home_url: "http://example.com"
   page:
     more_info: Más información
     no_script: "¡Gracias por visitarnos para conocer más acerca de este campaña! Desafortunadamente, no podrás participar en ella mientras Javascript esté deshabilitado en tu navegador. Activa Javascript o vuelve a ingresar desde un navegador en el que esté habilitado para poder participar."
@@ -15,26 +15,26 @@ es:
     description: "SumOfUs es un movimiento global de consumidores, inversores y trabajadores de todo el mundo, unidos para lograr que las corporaciones se responsabilicen por sus actos y así forjar un nuevo camino sostenible y justo para nuestra economía global. Esto no será fácil ni rápido, pero si suficientes personas se unen a nuestra causa, juntos podremos hacer una verdadera diferencia." # override this with org-specific details in your own yml file.
   recommend_pages:
     recommend_pages_title: 'Estas son otras campañas similares en las que necesitamos de tu apoyo, ¡únete ahora!'
-    actions: "%{action_count} acciones"
+    actions: '%{action_count} acciones'
     learn_more: 'más información'
   email_pension:
     form:
       select_target: 'Selecciona tu caja de jubilaciones y pensiones o tu fondo mutual'
       other_pension_fund_text: "Can't find your pension fund?"
   email_tool:
-    selected_target: "Tu/s objetivo/s de campaña seleccionado/s"
-    title: "Redacta tu correo electrónico"
+    selected_target: 'Tu/s objetivo/s de campaña seleccionado/s'
+    title: 'Redacta tu correo electrónico'
     suggest_fund: "Lo sentimos. Envía el nombre de tu caja de jubilaciones y pensiones a sumofus@ourpension.org y haremos todo lo posible para agregarlo a nuestra base de datos."
     section:
       compose: "Redacta tu correo electrónico"
     form:
       representative:
-        postal_code: "Ingresa tu código postal"
-        selected_targets: "Representantes"
-        searching: "Buscando a tu representante"
+        postal_code: 'Ingresa tu código postal'
+        selected_targets: 'Representantes'
+        searching: 'Buscando a tu representante'
         not_found: "Lo sentimos. No pudimos encontrar objetivo de campaña en esa ubicación."
         search_pending: "Ingresa tu código postal arriba"
-      select_country: "Selecciona tu país"
+      select_country: 'Selecciona tu país'
       select_target: 'Selecciona un objetivo de campaña'
       subject: 'Asunto'
       your_name: 'Tu nombre'
@@ -61,7 +61,7 @@ es:
         email: 'Agrega tu dirección de correo electrónico'
         name: 'Agrega tu nombre'
         fund: 'Selecciona una caja de jubilaciones y pensiones.'
-        suggest_fund: "El campo reservado al nombre de la caja de jubilaciones y pensiones no puede quedar en blanco"
+        suggest_fund: El campo reservado al nombre de la caja de jubilaciones y pensiones no puede quedar en blanco
         fund_not_found: "We're sorry you couldn't find your pension fund. Send us its name and we'll update our records."
         targets: 'Ingresa tu ubicación para encontrar al representante correspondiente a tu área'
         target:
@@ -75,6 +75,8 @@ es:
       target_full_name: '[Elige a tu representante arriba]'
 
   fundraiser:
+    one_click_warning: ""
+    one_click_failed: ""
     payment_methods:
       gocardless: "Domiciliación bancaria"
       paypal: "PayPal"
@@ -90,6 +92,7 @@ es:
     payment: Pago
     donate: "Donar %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Donar %{amount} cada mes"
+
     make_monthly_donation: "%{name} una donación mensual respaldará nuestro movimiento para planificar con anticipación, de modo que podamos enfrentar de manera más efectiva a las corporaciones más grandes que amenazan a las personas y al planeta."
     complete_donation: "Complete tu donación de %{amount}"
     donate_amount: "Done %{amount}"
@@ -97,8 +100,9 @@ es:
     donation_recurring: "Done %{amount} cada mes"
     donation_weekly: "Done %{amount} todas las semanas"
     weekly_donation_fineprint: "To reduce processing fees and make sure your donation has as much impact as possible, weekly donations are processed once per month."
+
     month: mes
-    error_intro: 'Lo sentimos. No hemos podido procesar tu donación.'
+    error_intro: Lo sentimos. No hemos podido procesar tu donación.
     currency_in: "Valores expresados en %{currency}"
     switch_currency: Cambiar divisa
     proceed_to_details: Avanzar a detalles
@@ -110,33 +114,32 @@ es:
     thank_you_with_amount: "<strong> Gracias por tu donación de %{amount}!</strong> Si tienes alguna duda o realizaste esta donación por error, contáctanos vía correo electrónico a donations@sumofus.org."
     recurring_thank_you_with_amount: "<strong>Thank you for your recurring donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
 
-    card_declined: 'Tu tarjeta ha sido rechazada por el procesador de pagos. Intenta utilizar un medio de pago distinto.'
+    card_declined: Tu tarjeta ha sido rechazada por el procesador de pagos. Intenta utilizar un medio de pago distinto.
     unknown_error: Nuestro equipo técnico ha sido notificado. Por favor revise su información o pruebe con un método de pago diferente.
     fine_print: "Donations are not tax deductable. For more information please email us." # override this with org-specific details in your own yml file.
-    confirmation: 'Donación recibida'
-    donate_now: 'Haz tu donación ahora mismo'
+    confirmation: Donación recibida
+    donate_now: Haz tu donación ahora mismo
     loading: Redireccionando a <br> sitio de pagos seguro
     oneclick:
       select_payment: "Selecciona un método de pago que ya hayas guardado"
       credit_card_payment_method: "%{card_type} terminada en %{last_four_digits}"
       paypal_payment_method: "Paypal (%{email})"
       new_payment_method: "Agregar método de pago"
-      duplicate_donation: "You've just made a donation a few minutes ago. Are you sure, you want to donate again? We're doing this to make sure you don't accidentally donate twice.
-                          Thanks so much for everything you do!"
+      duplicate_donation: "You've just made a donation a few minutes ago. Are you sure, you want to donate again? We're doing this to make sure you don't accidentally donate twice. Thanks so much for everything you do!"
     debit:
       recurring: "Estás estableciendo una donación mensual de %{amount}"
       one_time: "Estás donando %{amount}"
       direct_debit: "Direct Debit"
     fields:
-      cvv: 'Código de seguridad de tu tarjeta'
+      cvv: Código de seguridad de tu tarjeta
       number: Número de tarjeta
       expiration: Fecha de caducidad
       expiration_format: MM / AA
       postalCode: Código postal
     field_names: # these are used in sentence form, eg with errors.probably_invalid
-      cvv: "Código de seguridad de tu tarjeta"
-      number: "Número de tarjeta"
-      expiration: "Fecha de vencimiento"
+      cvv: Código de seguridad de tu tarjeta
+      number: Número de tarjeta
+      expiration: Fecha de vencimiento
     thermometer:
       raised: Recaudado
       goal: Objetivo
@@ -146,10 +149,7 @@ es:
     confirmation: Nombre enviado
     excited_confirmation: ¡Nombre enviado!
     thank_you: 'Gracias por añadir tu nombre a "%{petition_title}"'
-    fine_print: "SumOfUs protegerá <a href='https://sumofus.org/privacy'>tu privacidad</a>, y te mantendrá informado sobre campañas similares."
-    before_you_sign: 'Antes de firmar "%{petition_title}"'
-    thanks_for_signing: 'Gracias por firmar "%{petition_title}"'
-    next: "Siguiente"
+    fine_print: "SumOfUs protegerá <a href='https://sumofus.org/privacy'>tu privacidad</a>, y te mantendrá informado sobre campañas similares." # override this with org-specific details in your own yml file.
   form:
     switch_user: Cerrar sesión
     processing: Procesando...
@@ -162,16 +162,17 @@ es:
       phone_number: Número de teléfono
   thermometer:
     signatures_until_goal: "Faltan %{remaining} firmas para %{goal}"
-    signatures: firmas
+    signatures: firmas # as in '225 signatures'
     million: millón
   call_tool:
     manual_target_selection: "Selecciona tu objetivo de campaña"
     you_will_be_calling: "Nos pondremos en contacto contigo y te comunicaremos con"
     instructions: "Simplemente ingresa tu número telefónico con el código de área y te llamaremos a la brevedad."
     member_phone_number_title: 'Ingresa tu número telefónico'
-    text_to_speach_menu: "Cuando estés listo para que derivemos tu llamada, presiona uno. Para escuchar nuevamente el mensaje de la campaña, presiona dos."
     termination_message: ""
+    text_to_speach_menu: "Cuando estés listo para que derivemos tu llamada, presiona uno. Para escuchar nuevamente el mensaje de la campaña, presiona dos."
     errors:
+      recaptcha_fail: ""
       unknown: "¡Uy! Algo salió mal. Inténtalo nuevamente en algunos minutos o prueba con otro número."
       akid: ""
       too_many_calls: ""
@@ -199,7 +200,7 @@ es:
     probably_invalid: no parece correcto
     is_invalid: is invalid
     this_field: Este campo
-    this_field_with_message: Este campo %{message}
+    this_field_with_message: "Este campo %{message}"
     named_field_error: "{name} tiene algunos errores:"
   validation:
     is_required: es requerido
@@ -251,9 +252,9 @@ es:
   member_registration:
     title: "Registro de miembros"
     form:
-      password: "Contraseña"
-      confirm_password: "Confirmar contraseña"
-      your_email: "Tu correo electrónico"
+      password: Contraseña
+      confirm_password: Confirmar contraseña
+      your_email: Tu correo electrónico
       register: Register
     thanks: 'Thanks! Just one more step:'
     enter_password_message: "Cree una contraseña para comenzar"
