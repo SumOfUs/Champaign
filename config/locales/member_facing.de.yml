@@ -87,8 +87,6 @@ de:
     donate: "%{amount} Spenden"
     donate_monthly: "%{amount} pro Monat spenden"
     month: Monat
-    donation_recurring: 'Monthly'
-    donation_once: 'Just once'
     error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
     currency_in: "Beträge werden in %{currency} angezeigt"
     switch_currency: Währung ändern
