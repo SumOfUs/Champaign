@@ -2,7 +2,7 @@
 
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
-  before_action :get_page, except: %i[index featured similar total_donations]
+  before_action :get_page, except: %i[index featured disinfo similar total_donations]
   before_action :authenticate_user!, only: %i[update share_rows]
 
   layout false
