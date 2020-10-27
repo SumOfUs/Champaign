@@ -45,6 +45,22 @@ class Api::PagesController < ApplicationController
     render :index, format: :json
   end
 
+  def disinfo
+    slugs = %w[youtube-pull-the-plug-on-trump
+               facebook-stop-this-surveillance-nightmare
+               stand-with-twitter
+               facebook-advertisers-boycott-2
+               facebook-stop-covering-up-genocide/
+               trump-s-coronavirus-disinformation/
+               fox-corona
+               facebook-open-letter
+               message-matt-hancock-to-demand-tough-action-on-facebook
+               send-a-message-to-labour-stand-up-to-lies-and-hate]
+
+    @oages = Page.where slug: slugs
+    render :index, format: :json
+  end
+
   def actions
     return head :forbidden if @page.secure?
 
