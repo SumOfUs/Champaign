@@ -179,6 +179,7 @@ Rails.application.routes.draw do
       get 'share-rows', on: :member, action: 'share_rows'
       get 'actions', on: :member, action: 'actions'
       get 'featured', on: :collection
+      get 'disinfo', on: :collection
       get 'similar'
       get 'total_donations'
 
