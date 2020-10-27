@@ -1,4 +1,3 @@
-
 <style type="text/css">
 
     .inline-thermometer {
@@ -26,10 +25,10 @@
 <div class="center-content__centered-element">
     <span class="two-step__question">
         <div class="share-buttons">
-            <div class="share-buttons__button button two-step__button two-step__accept">
+            <div class="share-buttons__button button two-step__button eoy-donation__accept">
                 {{ 'share.two_step.accept' | t }}
             </div>
-            <div class="share-buttons__button button two-step__button two-step__decline">
+            <div class="share-buttons__button button two-step__button eoy-donation__decline">
                 {{ 'share.two_step.decline' | t }}
             </div>
         </div>
@@ -37,19 +36,16 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        var currency = window.champaign.store.getState().fundraiser.currency;
-        var data = window.champaign.configuration.eoyThermometer.data;
-        if (data.total_donations[currency] >= data.goals[currency]) {
-            $('#eoy-thermometer').addClass('hidden-irrelevant');
-        }
-        else {
-            var config = {...data, currency: currency };
-            window.champaign.modules.load('eoy-thermometer', config)
-            // .then(EoyThermometer => {
-            //     console.log("Success?", EoyThermometer)
-            // })
-        }
-    });
+  var currency = window.champaign.store.getState().fundraiser.currency;
+  var data = window.champaign.configuration.eoyThermometer.data;
+  if (data.total_donations[currency] >= data.goals[currency]) {
+      $('#eoy-thermometer').addClass('hidden-irrelevant');
+  }
+  else {
+    var config = {...data, currency: currency };
+    window.champaign.modules.load('eoy-thermometer', config)
+    // .then(EoyThermometer => {
+    //     console.log("Success?", EoyThermometer)
+    // })
+}
 </script>
-
