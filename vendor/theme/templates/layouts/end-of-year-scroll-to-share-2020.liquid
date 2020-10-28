@@ -142,7 +142,10 @@
 
     $(".eoy-donation__accept").click(displayAndScrollToDonate);
     $(".eoy-donation__decline").click(function() {
-      
+      window.champaign.redirectors.AfterDonationRedirector.attemptRedirect(
+        "{{ follow_up_url }}",
+        {}
+      );
     });
 
     function makeStepFullScreen(stepElement) {
@@ -162,7 +165,6 @@
       displayAndScrollToYesNoQuestion();
     }
     function displayAndScrollToYesNoQuestion() {
-      console.log("go to yes no question");
       makeStepFullScreen(yesNoQuestion);
       yesNoQuestion.fadeIn();
       scrollTo(yesNoQuestion);
