@@ -57,7 +57,7 @@ class Api::PagesController < ApplicationController
                message-matt-hancock-to-demand-tough-action-on-facebook
                send-a-message-to-labour-stand-up-to-lies-and-hate]
 
-    @oages = Page.where slug: slugs
+    @pages = Page.where slug: slugs
     render :index, format: :json
   end
 
