@@ -2,7 +2,7 @@
 
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
-  before_action :get_page, except: %i[index featured similar total_donations]
+  before_action :get_page, except: %i[index featured disinfo similar total_donations]
   before_action :authenticate_user!, only: %i[update share_rows]
 
   layout false
@@ -42,6 +42,22 @@ class Api::PagesController < ApplicationController
 
   def featured
     @pages = PageService.list_featured(language: params[:language])
+    render :index, format: :json
+  end
+
+  def disinfo
+    slugs = %w[youtube-pull-the-plug-on-trump
+               facebook-stop-this-surveillance-nightmare
+               stand-with-twitter
+               facebook-advertisers-boycott-2
+               facebook-stop-covering-up-genocide/
+               trump-s-coronavirus-disinformation/
+               fox-corona
+               facebook-open-letter
+               message-matt-hancock-to-demand-tough-action-on-facebook
+               send-a-message-to-labour-stand-up-to-lies-and-hate]
+
+    @pages = Page.where slug: slugs
     render :index, format: :json
   end
 
