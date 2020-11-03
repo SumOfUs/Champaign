@@ -1,0 +1,159 @@
+{% comment %} Description: A follow-up page thanking for donating money and asking to share {% endcomment %}
+{% comment %} Post-action layout: true {% endcomment %}
+
+{% include 'Top Bar', no_fade: true %}
+
+<div id="wrapper">
+  <div>
+    <img src="https://champaign-assets.s3-us-west-2.amazonaws.com/adblocker-cover.jpg" class="pic" />
+  </div>
+  <div class="section">
+    <div id="counter">36050</div>
+    <div class="counter-desc">PEOPLE ARE BLOCKING THE HATE</div>
+    <p class="desc">
+      You can take the next step by downloading this adblocker.
+
+      <span class="bold">
+        Ads bring Facebook 99% of its income.
+      </span>
+
+      &nbsp;If millions of us
+
+      <span class="bold">
+        tell Facebook we won’t allow them to show us any ads until they stop
+        the hate and disinformation,
+      </span>
+
+      &nbsp;we can generate a new people-powered media wave and double the
+      pressure on Facebook to act.&nbsp;
+
+      <span class="bold">
+        All it takes is a simple, free adblocker:
+      </span>
+    </p>
+    <a id="download"
+      href="https://adblockultimate.net/browsers"
+      target="_blank"
+      rel="noopener noreferrer">
+        Download the ad blocker
+    </a>
+  </div>
+
+</div>
+
+<style>
+  #wrapper {
+    min-height: 1000px;
+    width: 100%;
+  }
+  .pic {
+    width: 100%;
+    height: 500px;
+  }
+  .section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    max-width: 1200px;
+  }
+  #counter {
+    height: 60px;
+    border-radius: 8px;
+    background-color: #00c0cf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    letter-spacing: 6px;
+    color: white;
+    font-weight: 600;
+    padding: 0 20px;
+  }
+  .counter-desc {
+    color: #00c0cf;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+    text-transform: uppercase;
+  }
+  .desc {
+    font-size: 18px;
+    line-height: 26px;
+    color: #172340;
+    margin: 40px 20px;
+  }
+  .bold {
+    font-weight: 700;
+  }
+  #download {
+    height: 80px;
+    width: 400px;
+    background-color: #f8492d;
+    outline: 0;
+    border: 0;
+    border-radius: 28px;
+    border-bottom-left-radius: 0;
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+  }
+  #download:hover {
+    box-shadow: 0px 5px 15px rgba(10, 14, 71, 0.2);
+    transform: scale(1.01);
+  }
+
+  @media (max-width: 1100px) {
+    #download {
+      width: 80%;
+      max-width: 400px;
+      font-size: 18px;
+    }
+  }
+</style>
+
+<script>
+  $(document).ready(function(){
+    const counterEl = $('#counter');
+    const downloadEl = $('#download');
+
+    try {
+      fetch("https://hgoc1gxdu2.execute-api.eu-west-2.amazonaws.com/prod/adblockerdownloads/1")
+        .then(response => response.json())
+        .then(data => {
+          counterEl[0].innerText = data?.Item?.counter?.N ? data.Item.counter.N : 36050;
+          console.log(data.Item.counter.N);
+        });
+    } catch (error) {
+      console.log('error', error);
+    }
+
+    downloadEl.on('click', function(){
+      try {
+        fetch("https://hgoc1gxdu2.execute-api.eu-west-2.amazonaws.com/prod/adblockerdownloads/1", {
+          method: 'PUT',
+        })
+          .then(response => response.json())
+          .then(data => console.log(data));
+      } catch (error) {
+        console.log('PUT error', error);
+      }
+    });
+
+  });
+
+
+
+
+
+</script>
+
+{% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}
