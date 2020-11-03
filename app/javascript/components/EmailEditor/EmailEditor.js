@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { compact, debounce, template, isEqual, merge } from 'lodash';
 import classnames from 'classnames';
 import { Editor, EditorState } from 'draft-js';
+import { htmlToText } from 'html-to-text';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 import memoizeOne from 'memoize-one';
@@ -20,46 +21,46 @@ export default class EmailEditor extends Component {
     const fn = this.props.templateInterpolate || interpolateVars;
 
     this.state = {
-      subject: interpolateVars(props.subject, props.templateVars),
-      editorState: EditorState.createWithContent(
-        stateFromHTML(fn(props.body, props.templateVars))
-      ),
-    };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const fn = props.templateInterpolate || interpolateVars;
-    let body = props.body;
-
-    if (typeof fn == 'function') {
-      body = fn(props.body, props.templateVars);
-    }
-    let stateParams = {
       header: interpolateVars(props.header, props.templateVars),
-      body,
+      editableBody: htmlToText(props.body),
+      subject: interpolateVars(props.subject, props.templateVars),
       footer: interpolateVars(props.footer, props.templateVars),
     };
-
-    // if (state.templateVars != props.templateVars) {
-    //   stateParams = merge(stateParams, {
-    //     editorState: EditorState.createWithContent(
-    //       stateFromHTML(interpolateVars(props.body, props.templateVars))
-    //     ),
-    //   });
-    // }
-
-    return stateParams;
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      !isEqual(nextProps.templateVars, this.props.templateVars) ||
-      this.state.subject !== nextState.subject ||
-      stateToHTML(this.state.editorState.getCurrentContent()) !==
-        stateToHTML(nextState.editorState.getCurrentContent()) ||
-      !isEqual(this.props.errors, nextProps.errors)
-    );
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   const fn = props.templateInterpolate || interpolateVars;
+  //   let body = props.body;
+
+  //   // if (typeof fn == 'function') {
+  //   //   body = fn(props.body, props.templateVars);
+  //   // }
+  //   let stateParams = {
+  //     header: interpolateVars(props.header, props.templateVars),
+  //     body:  htmlToText(body) ,
+  //     footer: interpolateVars(props.footer, props.templateVars),
+  //   };
+
+  //   // if (state.templateVars != props.templateVars) {
+  //   //   stateParams = merge(stateParams, {
+  //   //     editorState: EditorState.createWithContent(
+  //   //       stateFromHTML(interpolateVars(props.body, props.templateVars))
+  //   //     ),
+  //   //   });
+  //   // }
+
+  //   return stateParams;
+  // }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return (
+  //     !isEqual(nextProps.templateVars, this.props.templateVars) ||
+  //     this.state.subject !== nextState.subject ||
+  //     stateToHTML(this.state.editorState.getCurrentContent()) !==
+  //       stateToHTML(nextState.editorState.getCurrentContent()) ||
+  //     !isEqual(this.props.errors, nextProps.errors)
+  //   );
+  // }
 
   componentDidMount() {
     this.update();
@@ -80,7 +81,7 @@ export default class EmailEditor extends Component {
   body() {
     return compact([
       this.state.header + '\n\n',
-      stateToHTML(this.state.editorState.getCurrentContent()),
+      this.state.editableBody,
       '\n\n' + this.state.footer,
     ]).join('');
   }
@@ -88,6 +89,10 @@ export default class EmailEditor extends Component {
   updateSubject = subject => {
     if (subject.length > MAX_SUBJECT_LENGTH) return;
     this.setState({ subject }, this.update);
+  };
+
+  updateEditableBody = e => {
+    this.setState({ editableBody: e.target.value }, this.update);
   };
 
   onEditorChange = editorState => {
@@ -148,11 +153,13 @@ export default class EmailEditor extends Component {
                   dangerouslySetInnerHTML={{ __html: this.state.header }}
                 />
               )}
-              <Editor
-                editorState={this.state.editorState}
-                onChange={this.onEditorChange}
-                blockStyleFn={this.blockStyleFn}
+
+              <textarea
+                value={this.state.editableBody}
+                className="sweet-placeholder__field EmailEditor-body"
+                onChange={this.updateEditableBody}
               />
+
               {hasFooterValue && (
                 <div
                   className="EmailEditor-footer"
