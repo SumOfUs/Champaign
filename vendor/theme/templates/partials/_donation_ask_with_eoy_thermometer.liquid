@@ -1,45 +1,58 @@
 <style type="text/css">
 
-    .inline-thermometer {
-        max-width: 550px;
-        margin: auto;
-    }
+  .inline-thermometer {
+    max-width: 550px;
+    margin: auto;
+  }
 
-    .AmountSelection-container .Thermometer { display: none; }
-
-    @media screen and (min-width: 992px){
-        .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
-            font-size: 30px;
-        }
+  @media screen and (min-width: 992px){
+    .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
+      font-size: 30px;
     }
+  }
 </style>
 
 <div class="thank-you__cta">
+  <div id="eoy-prompt">
     <span class="two-step__question">
         {{ 'fundraiser.two_step.cta_eoy' | t }}
     </span>
+    <div id="eoy-thermometer" class="inline-thermometer"></div>
+  </div>
+  <div class="center-content center-content--accomodates-stuck-footer ">
+    {% capture fundraiser_title %} {{ 'share_and_donate.fundraiser_title' | t }} {% endcapture %}
+    {% include 'Fundraiser', freestanding: true, fundraiser_title: fundraiser_title %}
+  </div>
 </div>
 
-<div id="eoy-thermometer" class="inline-thermometer"></div>
-
-<div class="center-content__centered-element">
-    <span class="two-step__question">
-        <div class="share-buttons">
-            <div class="share-buttons__button button two-step__button eoy-donation__accept">
-                {{ 'share.two_step.accept' | t }}
-            </div>
-            <div class="share-buttons__button button two-step__button eoy-donation__decline">
-                {{ 'share.two_step.decline' | t }}
-            </div>
-        </div>
-    </span>
-</div>
 
 <script type="text/javascript">
+  function makeStepFullScreen(stepElement) {
+    var padding = parseInt(stepElement.css("padding-top"), 10);
+    var margin = parseInt(stepElement.css("margin-bottom"), 10);
+    var totalElementHeight = stepElement.height() + padding + margin;
+    if (totalElementHeight < window.innerHeight) {
+      stepElement.css(
+        "margin-bottom",
+        margin + (window.innerHeight - totalElementHeight)
+      );
+    }
+  }
+
+  // the toggle component that contains this div is mounted within a window.setTimeout with 100 MS so I have to delay
+  // this binding to get it to apply.
+  window.setTimeout(function(){
+    $('.DonationBandButton').click(function(){
+      $('.fundraiser-bar__top').fadeIn();
+      $('#eoy-prompt').fadeOut();
+    });
+  }, 400);
+
+
   var currency = window.champaign.store.getState().fundraiser.currency;
   var data = window.champaign.configuration.eoyThermometer.data;
   if (data.total_donations[currency] >= data.goals[currency]) {
-      $('#eoy-thermometer').addClass('hidden-irrelevant');
+    $('#eoy-thermometer').addClass('hidden-irrelevant');
   }
   else {
     var config = {...data, currency: currency };
@@ -47,5 +60,5 @@
     // .then(EoyThermometer => {
     //     console.log("Success?", EoyThermometer)
     // })
-}
+  }
 </script>

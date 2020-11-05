@@ -8,6 +8,10 @@
   .mobile-title {
     display: block !important;
   }
+  .fundraiser-bar__top {
+    display: none;
+  }
+
 </style>
 
 {% assign end_of_year = 'true' %}
@@ -82,9 +86,7 @@
   </div>
 </div>
 
-<div
-  class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__share-wrapper"
->
+<div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__share-wrapper">
   <div class="center-content__one-column">
     <div class="center-content__central-square">
       <div class="thank-you__cta">{{ "share.cta" | t }}</div>
@@ -98,7 +100,6 @@
 
 <div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__share-wrapper petition-and-scroll-to-share__eoy-donation-prompt-wrapper">
   <div class="center-content__one-column">
-
     <div class="center-content__central-square">
       {% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
       <h1 class="thank-you__thanks">{{ message }}</h1>
@@ -106,18 +107,6 @@
     </div>
   </div>
 </div>
-
-<div
-  class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__fundraiser-wrapper "
->
-  <h1 class="thank-you__cta intro">
-    {{ "petition_and_scroll.fundraiser_intro" | t }}
-  </h1>
-  {% capture fundraiser_title %}
-  {{ "share_and_donate.fundraiser_title" | t }} {% endcapture %} {% include
-  'Fundraiser', freestanding: true, fundraiser_title: fundraiser_title %}
-</div>
-
 
 {% include 'Petition Mobile Footer' %} {% include 'Small Image Footer' %}
 
@@ -142,6 +131,7 @@
 
     $(".eoy-donation__accept").click(displayAndScrollToDonate);
     $(".eoy-donation__decline").click(function() {
+      // TODO - redirect to follow up page.
       window.champaign.redirectors.AfterDonationRedirector.attemptRedirect(
         "{{ follow_up_url }}",
         {}
@@ -159,12 +149,14 @@
         );
       }
     }
+
     function petitionCallback(e, data) {
       petitionSidebar.fadeOut();
       petitionOverlayButton.fadeOut();
       displayAndScrollToYesNoQuestion();
     }
     function displayAndScrollToYesNoQuestion() {
+      console.log("go to yes no question");
       makeStepFullScreen(yesNoQuestion);
       yesNoQuestion.fadeIn();
       scrollTo(yesNoQuestion);
@@ -175,6 +167,7 @@
       scrollTo(shareStep);
     }
     function displayAndScrollToEOYDonationPrompt() {
+      console.log("Go to eoy donation prompt");
       makeStepFullScreen(eoyDonationPrompt);
       eoyDonationPrompt.fadeIn();
       scrollTo(eoyDonationPrompt);
