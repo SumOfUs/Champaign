@@ -46,12 +46,13 @@ class Api::PagesController < ApplicationController
   end
 
   def disinfo
-    slugs = %w[youtube-pull-the-plug-on-trump
+    slugs = %w[detox-the-algorithm
+               youtube-pull-the-plug-on-trump
                facebook-stop-this-surveillance-nightmare
                stand-with-twitter
                facebook-advertisers-boycott-2
-               facebook-stop-covering-up-genocide/
-               trump-s-coronavirus-disinformation/
+               facebook-stop-covering-up-genocide
+               trump-s-coronavirus-disinformation
                fox-corona
                facebook-open-letter
                message-matt-hancock-to-demand-tough-action-on-facebook
