@@ -5,7 +5,7 @@ _Note: this documentation is still work in progress._
 The fundraiser plugin is one of the more complex plugins we have. This public instance API is still a work in progress.
 
 ### Instance properties
-In addition to the [Plugin](./Plugin.md) properties and methods, `Fundraiser` has a few other public methods and properties:
+In addition to the [Plugin](https://github.com/SumOfUs/Champaign/tree/development/docs/plugins) properties and methods, `Fundraiser` has a few other public methods and properties:
 
 * `amount` (Getter / Setter): Get/Set the amount. See `setAmount`.
 * `currency` (Getter / Setter): Get/set the currency. See `setCurrency`.
