@@ -40,11 +40,11 @@ es:
       body: "Gracias por tomar acción con SumOfUs. ¡Eres increíble! Tu acción ayuda a combatir el poder corporativo en todo el mundo. Pero todavía hay mucho trabajo por hacer. SumOfUs está financiado casi en su totalidad por pequeñas donaciones de personas en nuestra comunidad como usted, por lo que cada pequeña donación cuenta. Su donación significa que podemos asumir las corporaciones más grandes y malas y responsabilizarlas. ¿Harás una donación para ayudarnos a seguir luchando hoy?"
     two_step:
       cta:
-        "<p><span class='inject-name'>Querido/a amigo/a</span>, necesitamos tu apoyo hoy para ganar campañas contra el poder corporativo en el 2021.</p>
+        "<p><span class='inject-name'>Queridx amigx</span>, necesitamos tu apoyo hoy para ganar campañas contra el poder corporativo en el 2021.</p>
         <br/>
         <p>¿Contribuirás algo para financiar las campañas de SumOfUs en 2021?</p>"
       cta_eoy:
-        "<p><b><span class='inject-name'>Querido/a amigo/a</span>, necesitamos tu apoyo hoy para ganar campañas contra el poder corporativo en el 2021.</p>
+        "<p><b><span class='inject-name'>Queridx amigx</span>, necesitamos tu apoyo hoy para ganar campañas contra el poder corporativo en el 2021.</p>
         <br/>
         <p>¿Contribuirás algo para financiar las campañas de SumOfUs en 2021?</p>"
     upgrade_monthly_gift: "ES I would like to upgrade my <span class='js-current'></span> monthly gift to"

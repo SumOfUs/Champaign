@@ -81,7 +81,7 @@ en:
       declined: "No problem. Thanks for your support!"
     thanks: "Thank you for your donation!"
   share_and_donate:
-    fundraiser_title: Chip in to help power SumOfUs
+    fundraiser_title: "Chip in to help power SumOfUs"
   petition_and_scroll:
     fundraiser_intro: "<p>Thank you for taking action, <span class='inject-name'>Dear friend</span>! Together we can win this fight -- can you chip in today to power this campaign to victory?</p>"
   footer:

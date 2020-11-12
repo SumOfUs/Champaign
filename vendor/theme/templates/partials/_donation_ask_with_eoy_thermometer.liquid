@@ -1,58 +1,45 @@
 <style type="text/css">
 
-  .inline-thermometer {
-    max-width: 550px;
-    margin: auto;
-  }
-
-  @media screen and (min-width: 992px){
-    .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
-      font-size: 30px;
+    .inline-thermometer {
+        max-width: 550px;
+        margin: auto;
     }
-  }
+    #gift-array-wrapper {
+      max-width: 550px;
+      margin: auto;
+    }
+
+    @media screen and (min-width: 992px){
+        .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
+            font-size: 30px;
+        }
+    }
 </style>
 
 <div class="thank-you__cta">
-  <div id="eoy-prompt">
     <span class="two-step__question">
         {{ 'fundraiser.two_step.cta_eoy' | t }}
     </span>
-    <div id="eoy-thermometer" class="inline-thermometer"></div>
-  </div>
-  <div class="center-content center-content--accomodates-stuck-footer ">
-    {% capture fundraiser_title %} {{ 'share_and_donate.fundraiser_title' | t }} {% endcapture %}
-    {% include 'Fundraiser', freestanding: true, fundraiser_title: fundraiser_title %}
-  </div>
 </div>
 
+<div id="eoy-thermometer" class="inline-thermometer"></div>
+<div id ="gift-array-wrapper"></div>
 
 <script type="text/javascript">
-  function makeStepFullScreen(stepElement) {
-    var padding = parseInt(stepElement.css("padding-top"), 10);
-    var margin = parseInt(stepElement.css("margin-bottom"), 10);
-    var totalElementHeight = stepElement.height() + padding + margin;
-    if (totalElementHeight < window.innerHeight) {
-      stepElement.css(
-        "margin-bottom",
-        margin + (window.innerHeight - totalElementHeight)
-      );
-    }
+  function buttonAmountToInt(str) {
+    const num = str.replace(/[^0-9]/g, '');
+    return parseInt(num,10);
   }
 
-  // the toggle component that contains this div is mounted within a window.setTimeout with 100 MS so I have to delay
-  // this binding to get it to apply.
-  window.setTimeout(function(){
-    $('.DonationBandButton').click(function(){
-      $('.fundraiser-bar__top').fadeIn();
-      $('#eoy-prompt').fadeOut();
-    });
-  }, 400);
-
+  function reduxForceChangeStep(payload) {
+    return { type: 'change_step', payload };
+  }
 
   var currency = window.champaign.store.getState().fundraiser.currency;
   var data = window.champaign.configuration.eoyThermometer.data;
+
   if (data.total_donations[currency] >= data.goals[currency]) {
-    $('#eoy-thermometer').addClass('hidden-irrelevant');
+      $('#eoy-thermometer').addClass('hidden-irrelevant');
   }
   else {
     var config = {...data, currency: currency };
@@ -60,5 +47,34 @@
     // .then(EoyThermometer => {
     //     console.log("Success?", EoyThermometer)
     // })
-  }
+
+    // the toggle component that contains this the mobile fundraising form is mounted within a windows.setTimeout
+    // with 100 ms, so I have to manually delay these bindings for them to apply
+    window.setTimeout(function(){
+      console.log("Mount gift array under thermometer")
+
+      $('.DonationBands-container').clone().appendTo($('#gift-array-wrapper'));
+      $('#gift-array-wrapper').find($('.DonationBandButton')).click(function(){
+        // Set amount in the fundraising form and force it to step 2, then scroll down to it.
+        // get the integer amount from the button text
+        const amount = buttonAmountToInt($(this).context.innerText);
+        window.champaign.plugins.fundraiser.default.instance.setAmount(amount);
+        //
+        window.champaign.plugins.fundraiser.default.instance.store.dispatch(reduxForceChangeStep(1))
+
+      });
+      $('#gift-array-wrapper').find($('#DonationBands-custom-amount')).click(function(){
+        // Scroll down to the fundraising form with the "other" amount field active
+        console.log('clicked other amount')
+        // when clicking on amount button in the thermometer slide, define changeStep func and dispatch it:
+        // function forceChangeStep(payload) {
+        //   return { type: 'change_step', payload };
+        // }
+        //
+        // window.champaign.plugins.fundraiser.default.instance.store.dispatch(forceChangeStep(1))
+
+      });
+
+    }, 400);
+}
 </script>
