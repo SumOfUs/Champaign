@@ -24,6 +24,11 @@
     }
   }
 
+  .Thermometer, #gift-array-wrapper {
+    padding-left: 26px;
+    padding-right: 26px;
+  }
+
 </style>
 
 {% assign end_of_year = 'true' %}
@@ -115,7 +120,7 @@
 <div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__share-wrapper petition-and-scroll-to-share__eoy-donation-prompt-wrapper">
   <div class="center-content__one-column">
 
-  <!-- EOY THERMOMETER SECTION WITH GIFT ARRAY BUTTONS - this is not in its own partial because it shares JavaScript -->
+    <!-- EOY THERMOMETER SECTION WITH GIFT ARRAY BUTTONS - this is not in its own partial because it shares JavaScript -->
     <div class="center-content__central-square">
       {% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
       <h1 class="thank-you__thanks">{{ message }}</h1>
@@ -285,6 +290,7 @@
       console.log("Mount gift array under thermometer")
 
       $('.DonationBands-container').clone().appendTo($('#gift-array-wrapper'));
+      $('#gift-array-wrapper').find($('.DonationBands__input')).attr('id', 'DonationBands-custom-amount-EOY');
       $('#gift-array-wrapper').find($('.DonationBandButton')).click(function(){
         // Set amount in the fundraising form and force it to step 2, then scroll down to it.
         // get the integer amount from the button text
@@ -295,26 +301,16 @@
         displayAndScrollToDonate();
 
       });
-      $('#gift-array-wrapper').find($('#DonationBands-custom-amount')).click(function(){
+      $('#DonationBands-custom-amount-EOY').on('click', function(){
         // Scroll down to the fundraising form with the "other" amount field active
         console.log('clicked other amount');
         // if the member clicks "other" in the gift arrays under the EOY donation ask, scroll to the donation form
         // with the "other" input field in focus.
-        $('.AmountSelection-container').find($('input#DonationBands-custom-amount')).focus();
         displayAndScrollToDonate();
-
-        // when clicking on amount button in the thermometer slide, define changeStep func and dispatch it:
-        // function forceChangeStep(payload) {
-        //   return { type: 'change_step', payload };
-        // }
-        //
-        // window.champaign.plugins.fundraiser.default.instance.store.dispatch(forceChangeStep(1))
-
+        $('.AmountSelection-container').find($('input#DonationBands-custom-amount')).focus();
       });
 
     }, 400);
 
   });
-
-
 </script>
