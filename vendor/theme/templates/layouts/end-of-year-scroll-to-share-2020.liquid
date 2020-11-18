@@ -1,4 +1,4 @@
-{% comment %} Description: Petition page with end of year copy that scrolls down to share. {% endcomment %}
+{% comment %} Description: Petition page with end of year copy that scrolls down to share and then into an EndOfYear fundraising ask with a gift array below. {% endcomment %}
 {% comment %} Primary layout: true {% endcomment %}
 
 <style type="text/css">
@@ -277,7 +277,7 @@
     }
     else {
       var config = {...data, currency: currency };
-      window.champaign.modules.load('eoy-thermometer', config)
+      window.champaign.modules.load('eoy-thermometer', config);
       // .then(EoyThermometer => {
       //     console.log("Success?", EoyThermometer)
       // })
@@ -287,15 +287,12 @@
     // the toggle component that contains this the mobile fundraising form is mounted within a windows.setTimeout
     // with 100 ms, so I have to manually delay these bindings for them to apply
     window.setTimeout(function(){
-      console.log("Mount gift array under thermometer")
-
       $('.DonationBands-container').clone().appendTo($('#gift-array-wrapper'));
       $('#gift-array-wrapper').find($('.DonationBands__input')).attr('id', 'DonationBands-custom-amount-EOY');
       $('#gift-array-wrapper').find($('.DonationBandButton')).click(function(){
         // Set amount in the fundraising form and force it to step 2, then scroll down to it.
         // get the integer amount from the button text
         const amount = buttonAmountToInt($(this).context.innerText);
-        console.log("Amount:", amount);
         window.champaign.plugins.fundraiser.default.instance.setAmount(amount);
         window.champaign.plugins.fundraiser.default.instance.store.dispatch(reduxForceChangeStep(1));
         displayAndScrollToDonate();
@@ -303,7 +300,6 @@
       });
       $('#DonationBands-custom-amount-EOY').on('click', function(){
         // Scroll down to the fundraising form with the "other" amount field active
-        console.log('clicked other amount');
         // if the member clicks "other" in the gift arrays under the EOY donation ask, scroll to the donation form
         // with the "other" input field in focus.
         displayAndScrollToDonate();

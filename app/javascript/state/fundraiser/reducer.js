@@ -50,8 +50,6 @@ export const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case 'initialize_fundraiser':
-      // TODO: does the amount from the query strings get passed here? How is the step the form is at decided?
-      // it's set to currentStep in initialState
       const initialData = pick(
         action.payload,
         'member',
@@ -93,10 +91,7 @@ export default (state = initialState, action) => {
     case 'one_click_failed':
       return { ...state, disableSavedPayments: true, oneClickError: true };
     case 'change_step':
-      console.log('reducer change step ', action.payload);
-
       return { ...state, currentStep: action.payload };
-
     case 'update_form': {
       const form = action.payload;
       const showDirectDebit = isDirectDebitSupported({

@@ -19,10 +19,14 @@ module ConfigHelper
   end
 
   def eoy_thermometer_config
-    start_date = Date.new(2019, 11, 29)
-    end_date = Date.new(2020, 1, 2)
-    # end of year goal in cents
-    eoy_goal = 50_000_000
+    # start_date = Date.new(2020, 12, 1)
+    # end_date = Date.new(2021, 1, 1)
+    #     # end of year goal in cents
+    #     eoy_goal = 50_000_000
+    start_date = Date.new(2020, 10, 1)
+    end_date = Date.new(2021, 1, 1)
+    eoy_goal = 500
+
     total_donations = TransactionService.totals(start_date...end_date)
     goals = TransactionService.goals(eoy_goal)
     {

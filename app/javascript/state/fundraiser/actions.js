@@ -20,7 +20,6 @@ export function setSubmitting(payload) {
 
 export function changeStep(payload) {
   // we put it in a timeout because otherwise the event is fired before the step has switched
-  console.log('Change step', JSON.stringify(payload));
   setTimeout(() => ee.emit('fundraiser:change_step', payload), 100);
   // Call to the reducer?
   return { type: 'change_step', payload };
