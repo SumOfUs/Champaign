@@ -2,7 +2,7 @@
 
 module TransactionService
   extend self
-  CURRENCIES = %i[USD GBP EUR CHF AUD NZD CAD].freeze
+  CURRENCIES = %i[USD GBP EUR CHF AUD NZD CAD MXN ARS].freeze
 
   def totals(date_range = Float::INFINITY..Float::INFINITY)
     Rails.cache.fetch("TRANSACTION_TOTALS_KEY_#{date_range}", expires_in: Settings.eoy_cache_timer.minutes) do

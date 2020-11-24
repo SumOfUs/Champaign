@@ -1,18 +1,15 @@
 
 <style type="text/css">
-
-    .inline-thermometer {
-        max-width: 550px;
-        margin: auto;
+  .inline-thermometer {
+    max-width: 550px;
+    margin: auto;
+  }
+  .AmountSelection-container .Thermometer { display: none; }
+  @media screen and (min-width: 992px){
+    .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
+      font-size: 30px;
     }
-
-    .AmountSelection-container .Thermometer { display: none; }
-
-    @media screen and (min-width: 992px){
-        .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
-            font-size: 30px;
-        }
-    }
+  }
 </style>
 
 <div class="thank-you__cta">
@@ -37,19 +34,19 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        var currency = window.champaign.store.getState().fundraiser.currency;
-        var data = window.champaign.configuration.eoyThermometer.data;
-        if (data.total_donations[currency] >= data.goals[currency]) {
-            $('#eoy-thermometer').addClass('hidden-irrelevant');
-        }
-        else {
-            var config = {...data, currency: currency };
-            window.champaign.modules.load('eoy-thermometer', config)
-            // .then(EoyThermometer => {
-            //     console.log("Success?", EoyThermometer)
-            // })
-        }
-    });
+  $(document).ready(function(){
+    var currency = window.champaign.store.getState().fundraiser.currency;
+    var data = window.champaign.configuration.eoyThermometer.data;
+    if (data.total_donations[currency] >= data.goals[currency]) {
+      $('#eoy-thermometer').addClass('hidden-irrelevant');
+    }
+    else {
+      var config = {...data, currency: currency };
+      window.champaign.modules.load('eoy-thermometer', config)
+      // .then(EoyThermometer => {
+      //     console.log("Success?", EoyThermometer)
+      // })
+    }
+  });
 </script>
 

@@ -40,11 +40,11 @@ en:
       body: "Thanks for taking action with SumOfUs. You’re awesome! Your action helps fight corporate power all over the world. But there's still lots of work to be done. SumOfUs is funded almost entirely by small donations from people in our community just like you, so every little donation counts. Your donation means that we can take on the biggest, baddest corporations and hold them accountable. Will you provide a donation to help us keep fighting today?"
     two_step:
       cta:
-        "<p><span class='inject-name'>Dear friend</span>, we need your support today to win campaigns against corporate power in 2020</p>
+        "<p><span class='inject-name'>Dear friend</span>, we need your support today to win campaigns against corporate power in 2021</p>
         <br/>
         <p>Can you chip in to help power SumOfUs?</p>"
       cta_eoy:
-        "<p><b><span class='inject-name'>Dear friend</span>, we're short of our end of year fundraising goal.</b> We need your support today to win campaigns against corporate power in 2020.
+        "<p><span class='inject-name'>Dear friend</span>, we need your support today to win campaigns against corporate power in 2021.
         <br/>
         <p>Can you chip in to help power SumOfUs?</p>"
     upgrade_monthly_gift: "I would like to upgrade my <span class='js-current'></span> monthly gift to"
@@ -81,7 +81,7 @@ en:
       declined: "No problem. Thanks for your support!"
     thanks: "Thank you for your donation!"
   share_and_donate:
-    fundraiser_title: Chip in to help power SumOfUs
+    fundraiser_title: "Chip in to help power SumOfUs"
   petition_and_scroll:
     fundraiser_intro: "<p>Thank you for taking action, <span class='inject-name'>Dear friend</span>! Together we can win this fight -- can you chip in today to power this campaign to victory?</p>"
   footer:

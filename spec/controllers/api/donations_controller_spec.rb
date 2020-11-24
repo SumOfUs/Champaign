@@ -37,7 +37,7 @@ RSpec.describe Api::DonationsController, type: :controller do
       json_hash = JSON.parse(response.body).with_indifferent_access
       expect(json_hash[:data].keys).to match(%w[total_donations eoy_goals])
       expect(json_hash[:data][:eoy_goals].keys).to match(%w[USD GBP EUR CHF AUD NZD CAD MXN ARS])
-      expect(json_hash[:data][:total_donations].keys).to match(%w[USD GBP EUR CHF AUD NZD CAD])
+      expect(json_hash[:data][:total_donations].keys).to match(%w[USD GBP EUR CHF AUD NZD CAD MXN ARS])
     end
   end
 end
