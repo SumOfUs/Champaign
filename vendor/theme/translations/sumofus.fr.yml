@@ -40,13 +40,13 @@ fr:
       body: "Merci d’avoir agi avec SumOfUs ! Votre action aide à combattre le pouvoir des grandes entreprises dans le monde. Il reste cependant beaucoup à faire. SumOfUs dépend presque entièrement de petits dons faits par des personnes comme vous. Chaque petit don compte. Vos contributions nous permettent de défier les multinationales les plus puissantes, les plus malveillantes et de leur faire rendre des comptes. Pourriez-vous faire un don afin de nous aider à continuer le combat aujourd’hui ?"
     two_step:
       cta:
-        "<p><span class='inject-name'>Chèr-e ami-e</span>, nous avons besoin de votre soutien aujourd'hui pour obtenir des victoires contre l'impunité des multinationales en 2020</p>
+        "<p><span class='inject-name'>Chèr-e ami-e</span>, nous avons besoin de votre soutien aujourd'hui pour obtenir des victoires contre l'impunité des multinationales en 2021</p>
         <br/>
-        <p>Pouvez-vous faire un don pour aider à renforcer SumOfUs en 2020 ?</p>"
+        <p>Pouvez-vous faire un don pour aider à renforcer SumOfUs en 2021 ?</p>"
       cta_eoy:
-        "<p><b><span class='inject-name'>Chèr.e ami.e</span>, nous n’avons pas atteint notre objectif de collecte de fonds cette année.</b> Nous avons besoin de votre soutien aujourd'hui pour continuer à gagner des campagnes contre le pouvoir des multinationales.</p>
+        "<p><b><span class='inject-name'>Chèr.e ami.e</span>, nous avons besoin de votre soutien aujourd'hui pour continuer à remporter des campagnes contre le pouvoir des multinationales.</p>
         <br/>
-        <p>Pouvez-vous faire un don pour combler ce déficit et aider SumOfUs à financer ses campagnes en 2020 ?</p>"
+        <p>Pouvez-vous faire un don pour aider SumOfUs à renforcer ses campagnes en 2021 ?</p>"
     upgrade_monthly_gift: "J'aimerais changer mon don mensuel de <span class='js-current'></span> et le porter à :"
     update: "Changer le montant"
     processing: "traitement en cours..."
