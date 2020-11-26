@@ -209,6 +209,7 @@ en:
     is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
     is_invalid_country: must be a valid country code
     is_invalid_length: 'must be less than %{length} characters long'
+    name_is_email_or_link: 'should not contain email addresses or links'
     postal:
       has_invalid_characters: 'Can only contain letters, numbers, spaces, and hyphens'
       too_long: 'May contain no more than 9 letter or number characters'

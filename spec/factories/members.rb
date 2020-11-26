@@ -34,5 +34,8 @@ FactoryBot.define do
   factory :member do
     email { Faker::Internet.email }
     actionkit_user_id { Faker::Number.number(10) }
+    first_name 'Jane'
+    last_name 'Doe'
+    name 'Jane Doe'
   end
 end

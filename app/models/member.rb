@@ -42,6 +42,7 @@ class Member < ApplicationRecord
   delegate :authenticate, to: :authentication, allow_nil: true
 
   validates :email, uniqueness: { case_sensitive: true }, allow_nil: true
+  validate :name, :name_not_email_or_link
 
   before_validation { email.try(:downcase!) }
   before_save :update_consented_updated_at
@@ -114,5 +115,15 @@ class Member < ApplicationRecord
 
   def update_consented_updated_at
     self.consented_updated_at = Time.now if consented_changed?
+  end
+
+  def name_not_email_or_link
+    # AK REST API responds with 400 if name is email address or link. I don't know their exact validation rules yet.
+    regex = %r{@|/}
+    if first_name.match(regex) || last_name.match(regex)
+      errors.add(:name, I18n.t('validation.name_is_email_or_link'))
+      pp 'errors', errors
+      return errors
+    end
   end
 end
