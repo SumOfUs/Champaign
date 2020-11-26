@@ -50,6 +50,7 @@ class FormValidator
     validate_country(value, form_element)
     validate_phone(value, form_element)
     validate_email(value, form_element)
+    validate_name(value, form_element)
     validate_postal(value, form_element)
     validate_required(value, form_element)
     validate_checkbox(value, form_element)
@@ -86,6 +87,14 @@ class FormValidator
     email = value.try(:encode, 'UTF-8', invalid: :replace, undef: :replace)
     if form_element[:data_type] == 'email' && email.present? && !is_email?(email)
       @errors[form_element[:name]] << I18n.t('validation.is_invalid_email')
+    end
+  end
+
+  def validate_name(value, form_element)
+    # AK REST API responds with 400 if name is email address or link. I don't know their exact validation rules yet.
+    name_regex = %r{@|/}
+    if form_element[:data_type] == 'text' && form_element[:name] == :name && name_regex.match(value)
+      @errors[form_element[:name]] << I18n.t('validation.name_is_email_or_link')
     end
   end
 
