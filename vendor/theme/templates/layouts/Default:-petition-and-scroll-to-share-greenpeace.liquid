@@ -1,5 +1,5 @@
-{% comment %} Description: Petition page that scrolls down to share. {%
-endcomment %} {% comment %} Primary layout: true {% endcomment %}
+{% comment %} Description: Petition page with end of year copy that scrolls down to share and then into an EndOfYear fundraising ask with a gift array below. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
 
 <style type="text/css">
   .cover-photo__overlay {
@@ -8,8 +8,30 @@ endcomment %} {% comment %} Primary layout: true {% endcomment %}
   .mobile-title {
     display: block !important;
   }
+
+  .inline-thermometer {
+    max-width: 550px;
+    margin: auto;
+  }
+  #gift-array-wrapper {
+    max-width: 550px;
+    margin: auto;
+  }
+
+  @media screen and (min-width: 992px){
+    .petition-and-scroll-to-share__yes-no-question-wrapper .two-step__question p {
+      font-size: 30px;
+    }
+  }
+
+  .Thermometer, #gift-array-wrapper {
+    padding-left: 26px;
+    padding-right: 26px;
+  }
+
 </style>
 
+{% assign end_of_year = 'true' %}
 {% include 'Small Header With Progress Tracker' %}
 
 <div class="center-content center-content--accomodates-stuck-footer">
@@ -95,6 +117,27 @@ endcomment %} {% comment %} Primary layout: true {% endcomment %}
   </div>
 </div>
 
+<div class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__share-wrapper petition-and-scroll-to-share__eoy-donation-prompt-wrapper">
+  <div class="center-content__one-column">
+
+    <!-- EOY THERMOMETER SECTION WITH GIFT ARRAY BUTTONS - this is not in its own partial because it shares JavaScript -->
+    <div class="center-content__central-square">
+      {% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
+      <h1 class="thank-you__thanks">{{ message }}</h1>
+
+      <div class="thank-you__cta">
+        <span class="two-step__question">
+            {{ 'fundraiser.two_step.cta_eoy' | t }}
+        </span>
+      </div>
+
+      <div id="eoy-thermometer" class="inline-thermometer"></div>
+      <div id ="gift-array-wrapper"></div>
+
+    </div>
+  </div>
+</div>
+
 <div
   class="center-content center-content--accomodates-stuck-footer petition-and-scroll-to-share__fundraiser-wrapper "
 >
@@ -106,113 +149,164 @@ endcomment %} {% comment %} Primary layout: true {% endcomment %}
   'Fundraiser', freestanding: true, fundraiser_title: fundraiser_title %}
 </div>
 
+
 {% include 'Petition Mobile Footer' %} {% include 'Small Image Footer' %}
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        var petitionOverlayButton = $(".petition-bar__mobile_ui__bottom_bar");
-        var petitionSidebar = $(".center-content__fixed-right");
-        var yesNoQuestion = $(
-            ".petition-and-scroll-to-share__yes-no-question-wrapper"
-        );
-        var shareStep = $(".petition-and-scroll-to-share__share-wrapper");
-        var fundraiserStep = $(".petition-and-scroll-to-share__fundraiser-wrapper");
-        window.champaign.myPetition = new window.champaign.PetitionAndScrollToConsent(
-            {
-                followUpUrl: "{{ follow_up_url }}",
-                onSubmitSuccess: petitionCallback
-            }
-        );
-        $(".two-step__accept").click(displayAndScrollToShare);
-        $(".two-step__decline").click(displayAndScrollToDonate);
-        function makeStepFullScreen(stepElement) {
-            var padding = parseInt(stepElement.css("padding-top"), 10);
-            var margin = parseInt(stepElement.css("margin-bottom"), 10);
-            var totalElementHeight = stepElement.height() + padding + margin;
-            if (totalElementHeight < window.innerHeight) {
-                stepElement.css(
-                    "margin-bottom",
-                    margin + (window.innerHeight - totalElementHeight)
-                );
-            }
-        }
-        function petitionCallback(e, data) {
-            var img = document.createElement('img');
-            img.src = "https://px.ads.linkedin.com/collect/?pid=1988588&conversionId=3083556&fmt=gif";
+  $(document).ready(function() {
+    var petitionOverlayButton = $(".petition-bar__mobile_ui__bottom_bar");
+    var petitionSidebar = $(".center-content__fixed-right");
+    var yesNoQuestion = $(
+      ".petition-and-scroll-to-share__yes-no-question-wrapper"
+    );
+    var eoyDonationPrompt = $(".petition-and-scroll-to-share__eoy-donation-prompt-wrapper");
+    var shareStep = $(".petition-and-scroll-to-share__share-wrapper");
+    var fundraiserStep = $(".petition-and-scroll-to-share__fundraiser-wrapper");
+    window.champaign.myPetition = new window.champaign.PetitionAndScrollToConsent(
+      {
+        followUpUrl: "{{ follow_up_url }}",
+        onSubmitSuccess: petitionCallback
+      }
+    );
+    $(".two-step__accept").click(displayAndScrollToShare);
+    $(".two-step__decline").click(displayAndScrollToEOYDonationPrompt);
 
-            img.style.display = "none";
-            img.style.height = "1px";
-            img.style.width = "1px";
-
-            $('body').append(img);
-
-            petitionSidebar.fadeOut();
-            petitionOverlayButton.fadeOut();
-            displayAndScrollToYesNoQuestion();
-        }
-        function displayAndScrollToYesNoQuestion() {
-            makeStepFullScreen(yesNoQuestion);
-            yesNoQuestion.fadeIn();
-            scrollTo(yesNoQuestion);
-        }
-        function displayAndScrollToShare() {
-            makeStepFullScreen(shareStep);
-            shareStep.fadeIn();
-            scrollTo(shareStep);
-        }
-        function displayAndScrollToDonate() {
-            makeStepFullScreen(fundraiserStep);
-            fundraiserStep.fadeIn();
-            scrollTo(fundraiserStep);
-        }
-        function scrollTo(element) {
-            $("html, body").animate({ scrollTop: element.offset().top }, 800);
-        }
-        if (location.pathname.match(/follow\-up/)) petitionCallback();
-        window.ee.on("fundraiser:transaction_success", function(
-            responseData,
-            formData
-        ) {
-            var fundraiserData = champaign.store.getState().fundraiser;
-            fbq("track", "CompleteRegistration", {
-                registered_member: champaign.personalization.member.registered,
-                currency: fundraiserData.currency,
-                value: fundraiserData.donationAmount
-            });
-            window.champaign.redirectors.AfterDonationRedirector.attemptRedirect(
-                "{{ follow_up_url }}",
-                formData
-            );
-        });
-        window.ee.on('action:submitted_success', function () {
-          var formData = window.champaign.myActionForm.formData();
-          $('.inject-name').text(formData.name.split(' ')[0]);
-        });
-        window.addEventListener(
-            "share",
-            function(e) {
-                // when a share event is triggered, display and scroll to the donation form
-                displayAndScrollToDonate();
-            },
-            false
+    function makeStepFullScreen(stepElement) {
+      var padding = parseInt(stepElement.css("padding-top"), 10);
+      var margin = parseInt(stepElement.css("margin-bottom"), 10);
+      var totalElementHeight = stepElement.height() + padding + margin;
+      if (totalElementHeight < window.innerHeight) {
+        stepElement.css(
+          "margin-bottom",
+          margin + (window.innerHeight - totalElementHeight)
         );
-        var interval = setInterval(function() {
-            if (window.SharePop && window.SharePop.FB) {
-                clearInterval(interval);
-                window.SharePop.FB = function(link) {
-                    var shareURL = link.getAttribute("default_share")
-                        ? link.href
-                        : this.FB_Link(link);
-                    if (typeof window.open === "function") {
-                        var popupWindow = window.open(shareURL, "_blank");
-                        if (popupWindow) popupWindow.focus();
-                    }
-                    if (!link.getAttribute("default_share")) {
-                        this.sendShare("f", link);
-                        this.triggerShare("f", link);
-                    }
-                };
-            }
-        }, 100);
+      }
+    }
+    function petitionCallback(e, data) {
+      petitionSidebar.fadeOut();
+      petitionOverlayButton.fadeOut();
+      displayAndScrollToYesNoQuestion();
+    }
+    function displayAndScrollToYesNoQuestion() {
+      makeStepFullScreen(yesNoQuestion);
+      yesNoQuestion.fadeIn();
+      scrollTo(yesNoQuestion);
+    }
+    function displayAndScrollToShare() {
+      makeStepFullScreen(shareStep);
+      shareStep.fadeIn();
+      scrollTo(shareStep);
+    }
+    function displayAndScrollToEOYDonationPrompt() {
+      makeStepFullScreen(eoyDonationPrompt);
+      eoyDonationPrompt.fadeIn();
+      scrollTo(eoyDonationPrompt);
+    }
+    function displayAndScrollToDonate() {
+      makeStepFullScreen(fundraiserStep);
+      fundraiserStep.fadeIn();
+      scrollTo(fundraiserStep);
+    }
+
+    function scrollTo(element) {
+      $("html, body").animate({ scrollTop: element.offset().top }, 800);
+    }
+    if (location.pathname.match(/follow\-up/)) petitionCallback();
+    window.ee.on("fundraiser:transaction_success", function(
+      responseData,
+      formData
+    ) {
+      var fundraiserData = champaign.store.getState().fundraiser;
+      fbq("track", "CompleteRegistration", {
+        registered_member: champaign.personalization.member.registered,
+        currency: fundraiserData.currency,
+        value: fundraiserData.donationAmount
+      });
+      window.champaign.redirectors.AfterDonationRedirector.attemptRedirect(
+        "{{ follow_up_url }}",
+        formData
+      );
     });
+    window.ee.on('action:submitted_success', function () {
+      console.log("Action submitted, inject name");
+      var formData = window.champaign.myActionForm.formData();
+      $('.inject-name').text(formData.name.split(' ')[0]);
+    });
+    window.addEventListener(
+      "share",
+      function(e) {
+        // when a share event is triggered, display and scroll to EOY donation prompt
+        displayAndScrollToEOYDonationPrompt();
+      },
+      false
+    );
+    var interval = setInterval(function() {
+      if (window.SharePop && window.SharePop.FB) {
+        clearInterval(interval);
+        window.SharePop.FB = function(link) {
+          var shareURL = link.getAttribute("default_share")
+            ? link.href
+            : this.FB_Link(link);
+          if (typeof window.open === "function") {
+            var popupWindow = window.open(shareURL, "_blank");
+            if (popupWindow) popupWindow.focus();
+          }
+          if (!link.getAttribute("default_share")) {
+            this.sendShare("f", link);
+            this.triggerShare("f", link);
+          }
+        };
+      }
+    }, 100);
+
+    // Everything below this is needed for the EOY thermometer and gift array
+    function buttonAmountToInt(str) {
+      const num = str.replace(/[^0-9]/g, '');
+      return parseInt(num,10);
+    }
+
+    function reduxForceChangeStep(payload) {
+      return { type: 'change_step', payload };
+    }
+
+    var currency = window.champaign.store.getState().fundraiser.currency;
+    var data = window.champaign.configuration.eoyThermometer.data;
+
+    if (data.total_donations[currency] >= data.goals[currency]) {
+      $('#eoy-thermometer').addClass('hidden-irrelevant');
+    }
+    else {
+      var config = {...data, currency: currency };
+      window.champaign.modules.load('eoy-thermometer', config);
+      // .then(EoyThermometer => {
+      //     console.log("Success?", EoyThermometer)
+      // })
+
+    }
+
+    // the toggle component that contains this the mobile fundraising form is mounted within a windows.setTimeout
+    // with 100 ms, so I have to manually delay these bindings for them to apply
+    window.setTimeout(function(){
+      $('.DonationBands-container').clone().appendTo($('#gift-array-wrapper'));
+      $('#gift-array-wrapper').find($('.DonationBands__input')).attr('id', 'DonationBands-custom-amount-EOY');
+      $('#gift-array-wrapper').find($('.DonationBandButton')).click(function(){
+        // Set amount in the fundraising form and force it to step 2, then scroll down to it.
+        // get the integer amount from the button text
+        const amount = buttonAmountToInt($(this).context.innerText);
+        window.champaign.plugins.fundraiser.default.instance.setAmount(amount);
+        window.champaign.plugins.fundraiser.default.instance.store.dispatch(reduxForceChangeStep(1));
+        displayAndScrollToDonate();
+
+      });
+      $('#DonationBands-custom-amount-EOY').on('click', function(){
+        // Scroll down to the fundraising form with the "other" amount field active
+        // if the member clicks "other" in the gift arrays under the EOY donation ask, scroll to the donation form
+        // with the "other" input field in focus.
+        displayAndScrollToDonate();
+        $('.AmountSelection-container').find($('input#DonationBands-custom-amount')).focus();
+      });
+
+    }, 2000);
+
+  });
 </script>
