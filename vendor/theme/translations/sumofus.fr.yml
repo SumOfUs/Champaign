@@ -46,7 +46,7 @@ fr:
       cta_eoy:
         "<p><b><span class='inject-name'>Chèr.e ami.e</span>, nous avons besoin de votre soutien aujourd'hui pour continuer à remporter des campagnes contre le pouvoir des multinationales.</p>
         <br/>
-        <p>Pouvez-vous faire un don pour aider SumOfUs à renforcer ses campagnes en 2021 ?</p>"
+        <p>Pouvez-vous faire un don pour aider SumOfUs à renforcer ces campagnes en 2021 ?</p>"
     upgrade_monthly_gift: "J'aimerais changer mon don mensuel de <span class='js-current'></span> et le porter à :"
     update: "Changer le montant"
     processing: "traitement en cours..."
