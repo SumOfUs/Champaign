@@ -47,15 +47,15 @@ es:
         "<p><b><span class='inject-name'>Queridx amigx</span>, necesitamos tu apoyo hoy para ganar campañas contra el poder corporativo en el 2021.</p>
         <br/>
         <p>¿Contribuirás algo para financiar las campañas de SumOfUs en 2021?</p>"
-    upgrade_monthly_gift: "ES I would like to upgrade my <span class='js-current'></span> monthly gift to"
-    update: "Update"
-    processing: "Processing..."
-    problem_upgrading: "We're sorry, but there was a problem upgrading your donation"
-    amount_greater_than_1: "Please enter an amount greater than 1"
+    upgrade_monthly_gift: "Quiero aumentar mi donación mensual de <span class='js-current'></span> a"
+    update: "Actualizar"
+    processing: "Procesando..."
+    problem_upgrading: "Lo sentimos, pero ocurrió un problema al aumentar tu donación"
+    amount_greater_than_1: "Por favor ingresa un monto superior a 1"
     upgrading:
-        awesome: "ES You're awesome!"
-        thank_you: "ES Thanks so much for upgrading your monthly gift to SumOfUs."
-        becoming_stronger: "ES Because of you we'll be that much stronger in our work challenging corporate power."
+        awesome: "¡Eres lo más!"
+        thank_you: "Muchísimas gracias por aumentar tu donación mensual a SumOfUs."
+        becoming_stronger: "Gracias a ti, seremos aún más fuertes en nuestro trabajo para enfrentarnos al poder de las corporaciones."
   petition:
     sign_it: Firma la petición
     target_prefix: PARA
