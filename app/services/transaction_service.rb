@@ -33,13 +33,15 @@ module TransactionService
   def count_go_cardless(date_range = Float::INFINITY..Float::INFINITY)
     gocardless_transactions
       .where(created_at: date_range)
+      .where.not(currency: nil)
       .group(:currency)
       .sum(:amount)
   end
 
   def count_braintree(date_range = Float::INFINITY..Float::INFINITY)
     braintree_transactions
-      .where(created_at: date_range)
+      .where(created_at: date_range, status: 'success')
+      .where.not(currency: nil)
       .group(:currency)
       .sum(:amount)
   end
@@ -48,7 +50,7 @@ module TransactionService
 
   def braintree_transactions
     ::Payment::Braintree::Transaction
-      .select(:id, :created_at, :subscription_id, :amount, :currency)
+      .select(:id, :created_at, :subscription_id, :status, :transaction_id, :transaction_created_at, :amount, :currency)
   end
 
   def gocardless_transactions
