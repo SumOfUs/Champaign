@@ -95,6 +95,7 @@ describe 'Braintree API' do
         it 'creates a Payment::Braintree::Transaction that is associated with a page' do
           expect { subject }.to change { Payment::Braintree::Transaction.count }.by 1
           expect(Payment::Braintree::Transaction.last.page_id).to eq(page.id)
+          expect(Payment::Braintree::Transaction.last.currency).to eq(@subscription.currency)
         end
 
         it 'pushes to the queue with the right params' do
