@@ -97,7 +97,8 @@ module PaymentProcessor
           customer: customer,
           status: status,
           amount: subscription_amount,
-          processor_response_code: transaction.processor_response_code
+          processor_response_code: transaction.processor_response_code,
+          currency: subscription.currency
         )
         record.publish_subscription_charge
       end
