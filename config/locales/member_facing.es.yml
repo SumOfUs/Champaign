@@ -91,11 +91,11 @@ es:
     donate: "Donar %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Donar %{amount} cada mes"
     make_monthly_donation: "%{name} una donación mensual respaldará nuestro movimiento para planificar con anticipación, de modo que podamos enfrentar de manera más efectiva a las corporaciones más grandes que amenazan a las personas y al planeta."
-    complete_donation: "Complete tu donación de %{amount}"
-    donate_amount: "Done %{amount}"
-    donation_once: "Done %{amount} sólo una vez"
-    donation_recurring: "Done %{amount} cada mes"
-    donation_weekly: "Done %{amount} todas las semanas"
+    complete_donation: "Completa tu donación de %{amount}"
+    donate_amount: "Donar %{amount}"
+    donation_once: "Donar %{amount} sólo una vez"
+    donation_recurring: "Donar %{amount} cada mes"
+    donation_weekly: "Donar %{amount} todas las semanas"
     weekly_donation_fineprint: "To reduce processing fees and make sure your donation has as much impact as possible, weekly donations are processed once per month."
     month: mes
     error_intro: 'Lo sentimos. No hemos podido procesar tu donación.'
@@ -277,7 +277,7 @@ es:
     opt_in_reason: "<b>SumOfUs es una comunidad de personas comprometidas a luchar en contra del poder corporativo</b>. ¿Quieres que te notifiquemos acerca de nuestras nuevas campañas, novedades, eventos, actividades para la recaudación de fondos y enterarte de qué otras maneras puedes colaborar? <b>Haz clic en «sí» a continuación para recibir estas notificaciones vía correo electrónico:</b>"
     opt_out_warn_title: "¿Estás seguro?"
     opt_out_warn_message: "Si haces clic en «sí», te mantendremos informado acerca de campañas de SumOfUs para que puedas participar activamente tan pronto como alguna gran corporación se pase de la raya."
-    how_to_opt_out: 'Puedes decidir en qué momento dejar de recibir nuestros mensajes. Tan solo dirígete al siguiente enlace <a href="https://www.sumofus.org/unsubscribe" target="_blank">unsubscribe page</a>. Al completar este formulario con tus datos personales, confirmas que tienes 16 años o más.'
+    how_to_opt_out: 'Tan solo dirígete a nuestra <a href="https://www.sumofus.org/es/unsubscribe/" target="_blank">página de desinscripción</a>. Al completar este formulario con tus datos personales, confirmas que tienes 16 años o más.'
     accept: "Quiero que me notifiquen si esta campaña es exitosa, y que me informen cómo puedo colaborar en otras campañas similares."
     decline: "No quiero recibir notificaciones cada vez que se produzca un avance en esta campaña o en otras campañas similares."
     accept_alt: "Quiero firmar esta petición y recibir correos electrónicos"

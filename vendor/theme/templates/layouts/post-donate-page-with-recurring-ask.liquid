@@ -46,8 +46,8 @@
 				<p>
 					<b>Make a monthly donation and join our amazing 17,462 core members today:</b>
 				</p>
-			</div>	
-			<div class="fr-copy">	
+			</div>
+			<div class="fr-copy">
 				<p>
 					<b><span class="thank-you-firstname">Merci, </span>vous nous aidez à construire un monde dans lequel l’humain passe avant le profit.</b>
 				</p>
@@ -68,8 +68,31 @@
 				<p>
 					<b>Werden Sie Teil unserer Gemeinschaft. 17,462 Fördermitglieder unterstützen SumOfUs regelmäßig:</b>
 				</p>
-			</div>	
-			<div class="fundraiser-bar__step-panel script-dependent">
+			</div>
+      <div class="es-copy">
+        <p>
+          <b><span class="thank-you-firstname">Gracias </span>por ayudar a construir un mundo en el que las personas vienen antes que el lucro.</b>
+        </p>
+        <p>
+          Todavía queda mucho trabajo por hacer. <b>¿Te parece convertirte en miembrx clave de SumOfUs para ayudarnos a lograrlo más rápido?</b> Una donación mensual respaldará nuestro movimiento para planificar con anticipación, de modo que podamos enfrentar de manera más efectiva a las corporaciones más grandes que amenazan a las personas y al planeta.        </p>
+        <p>
+          <b>Aporta una donación mensual y súmate a nuestrxs increíbles 17,462 miembrxs claves hoy:</b>
+        </p>
+      </div>
+      <div class="pt-copy">
+        <p>
+          <b><span class="thank-you-firstname">Thank you </span>for helping build a world where people come before corporate profit.</b>
+        </p>
+        <p>
+          There's still lots of work to do. <b>Would you consider becoming a SumOfUs core member to help us get there faster?</b> A monthly donation will support our movement to plan ahead, so we can take on the biggest corporations that threaten people and planet.
+        </p>
+        <p>
+          <b>Make a monthly donation and join our amazing 17,462 core members today:</b>
+        </p>
+      </div>
+
+
+    <div class="fundraiser-bar__step-panel script-dependent">
 				<div class="fundraiser-bar__amount-buttons">
 					<a class="fundraiser-bar__amount-button"  href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=1&amp;source=post_action_default_donate&amp;recurring_default=only_recurring">£1/month</a>
 					<a class="fundraiser-bar__amount-button" href="https://actions.sumofus.org/a/become-a-sumofus-core-member?amount=4&amp;source=post_action_default_donate&amp;recurring_default=only_recurring"> £4/month</a>
@@ -109,7 +132,7 @@
 	.center-content__one-column{
 		max-width: 100% !important;
 	}
-	.fr-copy, .de-copy{
+	.fr-copy, .de-copy, .es-copy, .pt-copy{
 		display:none;
 	}
 
@@ -143,20 +166,20 @@
 	}
 
 	.fundraiser-bar__amount-button{
-		display:inline-block; 
-		float:none; 
-		margin-left:5px; 
-		margin-right:5px; 
-		font-size:16px;  
-		width:150px; 
+		display:inline-block;
+		float:none;
+		margin-left:5px;
+		margin-right:5px;
+		font-size:16px;
+		width:150px;
 		margin-bottom:20px;
 	}
 
 	.fundraiser-bar__amount-buttons{
-		text-align:center; 
-		width:100%; 
-		max-width: 400px; 
-		margin-left:auto; 
+		text-align:center;
+		width:100%;
+		max-width: 400px;
+		margin-left:auto;
 		margin-right:auto;
 	}
 
@@ -602,16 +625,20 @@ function handleLanguages(){
 
 		thankyou = "Vous êtes fantastique!";
 		secondFirstname = "Merci, ";
-		
+
 		if(typeof window.champaign.personalization.member.first_name != "undefined"){
-		    thankyou = "Vous êtes fantastique "+window.champaign.personalization.member.first_name+"!"; 
+		    thankyou = "Vous êtes fantastique "+window.champaign.personalization.member.first_name+"!";
 		    secondFirstname = "Merci, "+window.champaign.personalization.member.first_name+", ";
-		}  
+		}
 
 		$('.fr-copy').show();
 		$('.en-copy').hide();
+    $('.es-copy').hide();
+    $('.pt-copy').hide();
+    $('.de-copy').hide();
 
-		$('.fundraiser-bar__amount-button').addClass('long-button');
+
+    $('.fundraiser-bar__amount-button').addClass('long-button');
 		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
 
 	} else if( language == "de"){
@@ -619,35 +646,81 @@ function handleLanguages(){
 		preButtonLanguage = "";
 		postButtonLanguage = " IM MONAT SPENDEN";
 
-
 		thankyou = "Sie sind fabelhaft!";
 		secondFirstname = "Vielen Dank, ";
-		
-		if(typeof window.champaign.personalization.member.first_name != "undefined"){
-		    thankyou = window.champaign.personalization.member.first_name+", Sie sind fabelhaft!"; 
-		    secondFirstname = "Vielen Dank, ";
-		}  
-			
-		$('.de-copy').show();
-		$('.en-copy').hide();
 
-		$('.fundraiser-bar__amount-button').addClass('long-button');
+		if(typeof window.champaign.personalization.member.first_name != "undefined"){
+		    thankyou = window.champaign.personalization.member.first_name+", Sie sind fabelhaft!";
+		    secondFirstname = "Vielen Dank, ";
+		}
+
+    $('.de-copy').show();
+    $('.fr-copy').hide();
+    $('.en-copy').hide();
+    $('.es-copy').hide();
+    $('.pt-copy').hide();
+
+    $('.fundraiser-bar__amount-button').addClass('long-button');
 		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
 
 
-	} else {
+	} else if(language == "es"){
+    postDonatePage = "https://actions.sumofus.org/a/tu-puedes-ayudar-a-que-sumofus-se-mantenga-con-fuerza";
+    preButtonLanguage = "DONA ";
+    postButtonLanguage = "/MES";
+
+    thankyou = "¡Eres lo máximo!";
+    secondFirstname = "Gracias, ";
+
+    if(typeof window.champaign.personalization.member.first_name != "undefined"){
+      thankyou = "¡Eres lo máximo, "+window.champaign.personalization.member.first_name+"!";
+      secondFirstname = "Gracias, "+window.champaign.personalization.member.first_name+", ";
+    }
+
+    $('.es-copy').show();
+    $('.de-copy').hide();
+    $('.fr-copy').hide();
+    $('.en-copy').hide();
+    $('.pt-copy').hide();
+
+    $('.fundraiser-bar__amount-button').addClass('long-button');
+    $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+
+  } else if(language == "pt"){
+    postDonatePage = "https://actions.sumofus.org/a/donate";
+    preButtonLanguage = "DONA ";
+    postButtonLanguage = "/MES";
+
+    thankyou = "¡Eres lo máximo!";
+    secondFirstname = "Gracias, ";
+
+    if(typeof window.champaign.personalization.member.first_name != "undefined"){
+      thankyou = "¡Eres lo máximo, "+window.champaign.personalization.member.first_name+"!";
+      secondFirstname = "Gracias, "+window.champaign.personalization.member.first_name+", ";
+    }
+
+    $('.pt-copy').show();
+    $('.es-copy').hide();
+    $('.de-copy').hide();
+    $('.fr-copy').hide();
+    $('.en-copy').hide();
+
+    $('.fundraiser-bar__amount-button').addClass('long-button');
+    $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+
+  } else {
 
 		postButtonLanguage = "/month";
 
 		thankyou = "You're awesome!";
 		secondFirstname = "Thank you ";
-		
-		if(typeof window.champaign.personalization.member.first_name != "undefined"){
-		    thankyou = "You're awesome, "+window.champaign.personalization.member.first_name+"!"; 
-		    secondFirstname = "Thank you "+window.champaign.personalization.member.first_name+" ";
-		}  
 
-		
+		if(typeof window.champaign.personalization.member.first_name != "undefined"){
+		    thankyou = "You're awesome, "+window.champaign.personalization.member.first_name+"!";
+		    secondFirstname = "Thank you "+window.champaign.personalization.member.first_name+" ";
+		}
+
+
 	}
 }
 
@@ -659,7 +732,7 @@ function updateButtons(){
 		} else {
 			$(this).html(preButtonLanguage+currencySymbol+donateAmounts[index]+postButtonLanguage);
 		}
-		
+
 		$(this).attr("href", postDonatePage+"?amount="+donateAmounts[index]+"&source="+source+"&recurring_default=only_recurring");
 	});
 
@@ -712,33 +785,37 @@ function getAmounts(){
 	        default:
 	        	userDonationBand = "nondonor";
 	        	userRecurringBand = [100, 300, 500, 1000, 2000, 3500, 5000];
-	        	break;   
+	        	break;
 	    }
 
 	    var conversionRate = 1;
 
 	    switch (currency) {
 	        case "AUD":
-	        	conversionRate = 1.30;
+	        	conversionRate = 1.35;
 	            break;
 	        case "CAD":
 	        	conversionRate = 1.29;
 	            break;
 	        case "CHF":
-	        	conversionRate = 0.95;
-	            break; 
+	        	conversionRate = 0.89;
+	            break;
 	        case "EUR":
-	        	conversionRate = 0.81;
+	        	conversionRate = 0.83;
 	            break;
 	        case "GBP":
-	        	conversionRate = 0.71;
-	            break;    
+	        	conversionRate = 0.75;
+	            break;
 	        case "NZD":
 	        	conversionRate = 1.38;
-	            break;    
+	            break;
+          case "ARS":
+            conversionRate = 81;
+          case "MXN":
+            conversionRate = 19;
 	        default:
-	    		conversionRate = 1;
-	        	break;                   
+	    		  conversionRate = 1;
+	        	break;
 	    }
 
 
@@ -747,9 +824,9 @@ function getAmounts(){
 	    	var convertedAmount = Math.round((recurringAmount/100)*conversionRate);
 	    	donateAmounts[index] = convertedAmount;
 	    });
-	      
-	  
-	  }    
+
+
+	  }
 	}
 }
 
@@ -801,11 +878,11 @@ $(function(){
             'event_source': 'fa_fundraising'
           });
         }
-  
+
 	currency = window.champaign.personalization.location.currency;
 
 	if(typeof window.champaign.personalization.member.donor_status != "undefined" && window.champaign.personalization.member.donor_status == "recurring_donor"){
-	 	isDonor = true; 
+	 	isDonor = true;
 	}
 
 	handleLanguages();
