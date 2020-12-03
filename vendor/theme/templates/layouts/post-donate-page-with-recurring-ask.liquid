@@ -792,25 +792,29 @@ function getAmounts(){
 
 	    switch (currency) {
 	        case "AUD":
-	        	conversionRate = 1.30;
+	        	conversionRate = 1.35;
 	            break;
 	        case "CAD":
 	        	conversionRate = 1.29;
 	            break;
 	        case "CHF":
-	        	conversionRate = 0.95;
+	        	conversionRate = 0.89;
 	            break;
 	        case "EUR":
-	        	conversionRate = 0.81;
+	        	conversionRate = 0.83;
 	            break;
 	        case "GBP":
-	        	conversionRate = 0.71;
+	        	conversionRate = 0.75;
 	            break;
 	        case "NZD":
 	        	conversionRate = 1.38;
 	            break;
+          case "ARS":
+            conversionRate = 81;
+          case "MXN":
+            conversionRate = 19;
 	        default:
-	    		conversionRate = 1;
+	    		  conversionRate = 1;
 	        	break;
 	    }
 
