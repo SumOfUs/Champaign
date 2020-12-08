@@ -118,11 +118,12 @@ class Member < ApplicationRecord
   end
 
   def name_not_email_or_link
+    return if name.blank?
+
     # AK REST API responds with 400 if name is email address or link. I don't know their exact validation rules yet.
     regex = %r{@|/}
-    if first_name.match(regex) || last_name.match(regex)
+    if name.match(regex)
       errors.add(:name, I18n.t('validation.name_is_email_or_link'))
-      pp 'errors', errors
       return errors
     end
   end

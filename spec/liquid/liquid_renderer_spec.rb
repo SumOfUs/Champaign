@@ -325,7 +325,7 @@ describe LiquidRenderer do
 
     describe 'member' do
       it 'gives email as welcome name if no name' do
-        member = build :member, first_name: nil, last_name: '', email: 'sup@dude.com'
+        member = build :member, first_name: '', last_name: '', email: 'sup@dude.com'
         renderer = LiquidRenderer.new(page, member: member)
         expect(renderer.personalization_data['member']['welcome_name']).to eq 'sup@dude.com'
       end
