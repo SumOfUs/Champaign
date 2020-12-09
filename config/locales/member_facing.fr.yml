@@ -190,6 +190,7 @@ fr:
     is_invalid_phone: 'doit se composer uniquement de chiffres, de tirets, de plus ou de parenthèses'
     is_invalid_country: doit être un code pays valide
     is_invalid_length: 'doit contenir moins de %{length} caractères'
+    is_email_or_link: "ne doit pas contenir d'adresses email ou de lien"
     postal:
       has_invalid_characters: 'doit se composer uniquement de lettres, de chiffres, d’espaces ou de tirets'
       too_long: 'Ne peut contenir plus de 9 lettres ou chiffres.'

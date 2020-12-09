@@ -123,7 +123,7 @@ class Member < ApplicationRecord
     # AK REST API responds with 400 if name is email address or link. I don't know their exact validation rules yet.
     regex = %r{@|/}
     if name.match(regex)
-      errors.add(:name, I18n.t('validation.name_is_email_or_link'))
+      errors.add(:name, I18n.t('validation.is_email_or_link'))
       return errors
     end
   end
