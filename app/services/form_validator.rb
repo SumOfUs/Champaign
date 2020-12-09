@@ -94,7 +94,7 @@ class FormValidator
     # AK REST API responds with 400 if name is email address or link. I don't know their exact validation rules yet.
     name_regex = %r{@|/}
     if form_element[:data_type] == 'text' && form_element[:name] == :name && name_regex.match(value)
-      @errors[form_element[:name]] << I18n.t('validation.name_is_email_or_link')
+      @errors[form_element[:name]] << I18n.t('validation.is_email_or_link')
     end
   end
 

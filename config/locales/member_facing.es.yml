@@ -207,6 +207,7 @@ es:
     is_invalid_phone: 'solo puede consistir de números, guiones, el símbolo +, y paréntesis'
     is_invalid_country: debe ser un código de país válido
     is_invalid_length: 'debe tener un máximo de %{length} carácteres'
+    is_email_or_link: 'no debe contener direcciones de electrónicos o enlaces'
     postal:
       has_invalid_characters: 'Solo puede contener números, letras, espacios y guiones.'
       too_long: 'Debe consistir de un máximo de 9 carácteres'
