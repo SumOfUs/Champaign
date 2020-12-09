@@ -8,6 +8,7 @@ namespace :sumofus do
   def legacy_tag
     # the actionkit_uri still needs to be confirmed
     return @tag unless @tag.blank?
+
     @tag = Tag.find_or_create_by(name: 'Actionsweet_Legacy')
     @tag.update_attributes(actionkit_uri: '/rest/v1/tag/1693/')
     @tag
@@ -26,7 +27,7 @@ namespace :sumofus do
 
     puts 'Errors listed below, empty means no errors:'
 
-    %w[en fr de es].map do |locale|
+    %w[en fr de es pt].map do |locale|
       expected_title = I18n.t('fundraiser.generic.title', locale: locale)
       page = Page.find_by(title: expected_title)
       if page.blank?
@@ -44,39 +45,37 @@ namespace :sumofus do
     end
 
     page_data.each_pair do |_k, entry|
-      begin
-        # check existence, images, and language
-        page = Page.find(entry['slug']) # raises if not found
-        puts "Page at <#{entry['slug']}> has no image" if page.images.empty?
-        unless page.language.code.to_s.casecmp(entry['language'].to_s.downcase).zero?
-          puts "Page at <#{entry['slug']}> has language '#{page.language.code}', should be '#{entry['language']}'"
-        end
-
-        # check form
-        form = page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first.form
-        expected_form_name = "Basic (#{entry['language'].upcase})"
-        if form.name != expected_form_name
-          puts "Page at <#{entry['slug']}> has form #{form.name}, should be #{expected_form_name}"
-        end
-
-        # check follow-up
-        if page.follow_up_plan.to_sym != :with_page
-          puts "Page at <#{entry['slug']}> has follow_up_plan #{page.follow_up_plan}, should be with_page"
-        end
-        follow_title = page.follow_up_page.try(:title)
-        expected_title = I18n.t('fundraiser.generic.title', locale: entry['language'])
-        if follow_title != expected_title
-          puts "Page at <#{entry['slug']}> has follow_up page with title #{follow_title}, should be #{expected_title}"
-        end
-
-        # check that it has the legacy tag
-        relevant_tags = page.tags.select { |t| t.id == legacy_tag.id }
-        if relevant_tags != [legacy_tag]
-          puts "Page at <#{entry['slug']}> has tags #{page.tags.map(&:attributes)}, should include #{legacy_tag.attributes}"
-        end
-      rescue ActiveRecord::RecordNotFound
-        puts "Page is missing: <#{entry['slug']}> with expected title \"#{entry['title']}\""
+      # check existence, images, and language
+      page = Page.find(entry['slug']) # raises if not found
+      puts "Page at <#{entry['slug']}> has no image" if page.images.empty?
+      unless page.language.code.to_s.casecmp(entry['language'].to_s.downcase).zero?
+        puts "Page at <#{entry['slug']}> has language '#{page.language.code}', should be '#{entry['language']}'"
       end
+
+      # check form
+      form = page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first.form
+      expected_form_name = "Basic (#{entry['language'].upcase})"
+      if form.name != expected_form_name
+        puts "Page at <#{entry['slug']}> has form #{form.name}, should be #{expected_form_name}"
+      end
+
+      # check follow-up
+      if page.follow_up_plan.to_sym != :with_page
+        puts "Page at <#{entry['slug']}> has follow_up_plan #{page.follow_up_plan}, should be with_page"
+      end
+      follow_title = page.follow_up_page.try(:title)
+      expected_title = I18n.t('fundraiser.generic.title', locale: entry['language'])
+      if follow_title != expected_title
+        puts "Page at <#{entry['slug']}> has follow_up page with title #{follow_title}, should be #{expected_title}"
+      end
+
+      # check that it has the legacy tag
+      relevant_tags = page.tags.select { |t| t.id == legacy_tag.id }
+      if relevant_tags != [legacy_tag]
+        puts "Page at <#{entry['slug']}> has tags #{page.tags.map(&:attributes)}, should include #{legacy_tag.attributes}"
+      end
+    rescue ActiveRecord::RecordNotFound
+      puts "Page is missing: <#{entry['slug']}> with expected title \"#{entry['title']}\""
     end
   end
 
@@ -105,7 +104,7 @@ namespace :sumofus do
 
     def create_post_action_pages(layout_id, image_handle)
       pages = {}
-      %w[en fr de es].map do |locale|
+      %w[en fr de es pt].map do |locale|
         page = Page.find_or_initialize_by(title: I18n.t('fundraiser.generic.title', locale: locale))
         page.liquid_layout_id = layout_id
         page.language_id = language_ids[locale]
@@ -204,6 +203,7 @@ namespace :sumofus do
       petition.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').delete(':')
       petition.save!
       next unless page.images.count.zero?
+
       if existing_image.blank?
         existing_image = page.images.create(content: page_image_handle)
       else

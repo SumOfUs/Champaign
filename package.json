@@ -109,7 +109,6 @@
       "git add"
     ],
     "*.{rb,rake}": [
-      "bundle exec rubocop -a --force-exclusion",
       "git add"
     ]
   },
