@@ -19,7 +19,7 @@ namespace :sumofus do
       abort('Requires a valid url to a file containing the legacy actions to seed.')
     else
       puts 'Loading page data'
-      page_data_handle = open(args[:action_file])
+      page_data_handle = URI.open(args[:action_file])
       page_data = JSON.parse(page_data_handle.read)
       page_data_handle.close
       puts 'Page data loaded'
@@ -83,23 +83,23 @@ namespace :sumofus do
     if args[:page_img_file].blank?
       abort('Requires a valid url to a file containing a default header image to attach to the page.')
     else
-      page_image_handle = open(args[:page_img_file])
+      page_image_handle = URI.open(args[:page_img_file])
     end
 
     if args[:action_file].blank?
       abort('Requires a valid url to a file containing the legacy actions to seed.')
     else
       puts 'Loading page data'
-      page_data_handle = open(args[:action_file])
+      page_data_handle = URI.open(args[:action_file])
       page_data = JSON.parse(page_data_handle.read)
       page_data_handle.close
       puts 'Page data loaded'
     end
 
     follow_image_handle = if args[:follow_img_file].blank?
-                            open(args[:page_img_file])
+                            URI.open(args[:page_img_file])
                           else
-                            open(args[:follow_img_file])
+                            URI.open(args[:follow_img_file])
                           end
 
     def create_post_action_pages(layout_id, image_handle)
