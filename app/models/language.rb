@@ -16,5 +16,5 @@ class Language < ApplicationRecord
   has_paper_trail on: %i[update destroy]
   has_many :pages
 
-  validates :code, :actionkit_uri, :name, presence: true, allow_blank: false
+  validates :code, :actionkit_uri, :name, presence: true, allow_blank: false, uniqueness: true
 end
