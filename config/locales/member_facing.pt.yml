@@ -1,0 +1,303 @@
+pt:
+  double_opt_in:
+    check_email:
+      body: "Por favor, verifique seu endereço de e-mail e valide sua assinatura"
+    email:
+      subject: 'Confirme sua assinatura'
+  footer:
+    home_url: http://example.com
+  page:
+    more_info: Mais informações
+    no_script: "Agradecemos seu interesse em aprender sobre este assunto! Infelizmente, você não poderá executar nenhuma ação enquanto o Javascript estiver desativado no seu navegador. Por favor, ative o Javascript ou então acesse novamente usando um navegador com o Javascript ativado para poder executar uma ação."
+  basics:
+    or: ou
+  branding:
+    description: "Nós somos assim." # override this with org-specific details in your own yml file.
+  recommend_pages:
+    recommend_pages_title: 'Campanhas similares que precisam de seu apoio.'
+    actions: '%{action_count} ações'
+    learn_more: 'saiba mais'
+  email_pension:
+    form:
+      select_target: 'Selecione seu fundo de pensão ou fundo mútuo'
+      other_pension_fund_text: "Não consegue encontrar seu fundo de pensão?"
+  email_tool:
+    selected_target: 'Alvo(s) selecionado(s) por você'
+    title: 'Redija seu e-mail'
+    suggest_fund: "Pedimos desculpas. Envie por e-mail o nome do seu fundo para sumofus@ourpension.org e faremos nosso melhor para incluí-lo em nosso banco de dados."
+    section:
+      compose: "Redija seu e-mail"
+    form:
+      representative:
+        postal_code: 'Insira seu código postal'
+        selected_targets: 'Representantes'
+        searching: 'Buscando seu representante'
+        not_found: "Desculpe, não encontramos umx alvo com esta localização."
+        search_pending: "Por favor, insira seu CEP acima."
+      select_country: 'Selcione seu País'
+      select_target: 'Selecione umx alvo'
+      subject: 'Assunto'
+      your_name: 'Seu nome'
+      your_email: 'Seu e-mail'
+      submit: 'Enviar'
+      submit_and_send_email: 'Enviar & mandar um e-mail'
+      title_for_no_email_client: 'Se você não configurou um cliente de e-mail ou não possui nenhum dos serviços de e-mail mencionados, siga as instruções a seguir.'
+      choose_email_service: 'Escolha um serviço de e-mail para enviar um e-mail agora'
+      mobile_desktop_apps: 'Celular & Aplicativos Desktop'
+      email_client: 'Cliente de e-mail'
+      web_browser: 'Navegador'
+      manual: 'Manual'
+      others: 'Outros'
+      copy_target_email_address: '1. Copie o endereço de e-mail dx alvo'
+      copy_email_subject: '2. Copie o assunto do e-mail'
+      copy_email_body: '3. Copie o texto do corpo de e-mail'
+      email_body: 'Corpo'
+      name_of_your_pension_fund: 'Nome do fundo de pensão'
+      send_button_text: 'Enviar'
+      errors:
+        message: "Ops! Há alguns erros no formulário. Por favor, verifique se você preencheu todos os campos obrigatórios."
+        country: 'Por favor, selecione um país'
+        subject: 'Por favor, selecione um assunto'
+        email: 'Por favor, insira seu endereço de e-mail'
+        name: 'Por favor, insira seu nome'
+        fund: 'Por favor, selecione um fundo de pensão'
+        suggest_fund: O nome do fundo de pensão não pode ficar em branco
+        fund_not_found: "Lamentamos que você não pode encontrar seu fundo de pensão. Envie-nos o nome do fundo e atualizaremos nossos registros."
+        targets: 'Por favor, insira sua localização para encontrar seu representante.'
+        target:
+          outdated: "Parece que as informações dx alvo mudaram recentemente. Por favor, recarregue a página e tente novamente."
+    template_defaults:
+      fund: '[Selecione um fundo acima]'
+      fund_contact: '[Selecione um fundo acima]'
+      fund_email: '[Selecione um fundo acima]'
+      name: '[Insira seu nome acima]'
+      constituency_name: '[Selecione seu representante acima]'
+      target_full_name: '[Selecione seu representante acima]'
+
+  fundraiser:
+    one_click_warning: "Sua doação será processada imediatamente."
+    one_click_failed: "Lamentamos, mas não pudemos processar sua doação. Por favor, tente novamente com outro cartão de crédito."
+    payment_methods:
+      gocardless: "Débito Direto"
+      paypal: "PayPal"
+      card: 'Cartão de crédito ou débito'
+      google: 'Google Pay'
+      apple: 'Apple Pay'
+      ready_for_gocardless: "Clique em 'Doar' para concluir sua doação por meio do GoCardless, nosso processador de débito automático."
+      ready_for_paypal: "Ao clicar no botão abaixo, o PayPal te ajudará a concluir sua doação."
+      ready_for_google: "Ao clicar no botão abaixo, o Google te ajudará a concluir sua doação."
+    payment_type_prompt: Método de pagamento
+    amount: Quantia
+    details: Detalhes
+    payment: Pagamento
+    donate: "Doar %{amount}" # used on the submit button, eg 'Donate $15'
+    donate_monthly: "Doar %{amount} / por mês"
+
+    make_monthly_donation: "%{name}, uma doação {duration} ajudará nosso movimento a se planejar, para podermos enfrentar de maneira mais efetiva as maiores corporações que ameaçam as pessoas e o planeta."
+    complete_donation: "Complete sua doação de %{amount}"
+    donate_amount: "Doar %{amount}"
+    donation_once: "Doar %{amount} uma única vez"
+    donation_recurring: "Doar %{amount} por mês"
+    donation_weekly: "Doar %{amount} por semana"
+    weekly_donation_fineprint: "Para reduzir as taxas de processamento e para potencializar o máximo possível o impacto da sua doação, as doações semanais serão processadas apenas uma vez por mês."
+
+    month: mês
+    error_intro: Sua doação não pode ser processada!
+    currency_in: "Valores exibidos em %{currency}"
+    switch_currency: Mudar moeda
+    proceed_to_details: Ir aos detalhes
+    proceed_to_payment: Ir ao pagamento
+    other_amount: Outros
+    make_recurring: Tornar minha doação mensal
+    store_in_vault: Armazene minhas informações de pagamento de forma segura
+    thank_you: Agradecemos a sua doação!
+    thank_you_with_amount: "<strong>Agradecemos a sua doação de %{amount}!</strong> Se tiver qualquer dúvida ou se fez essa doação por engano, por favor, envie um e-mail para donations@sumofus.org."
+    recurring_thank_you_with_amount: "<strong>Agradecemos a sua doação recorrente de %{amount}!</strong> Se tiver qualquer dúvida ou se fez essa doação por engano, por favor, envie um e-mail para donations@sumofus.org."
+
+    card_declined: Seu cartão foi recusado pelo processador do pagamento. Por favor, tente novamente com um método de pagamento diferente.
+    unknown_error: Nossa equipe técnica foi notificada. Por favor, verifique suas informações novamente ou tente um método de pagamento diferente.
+    fine_print: "As doações não são dedutíveis de impostos. Para obter maiores informações, nos envie um e-mail." # override this with org-specific details in your own yml file.
+    confirmation: Doação recebida.
+    donate_now: Doe agora
+    loading: Carregando o portal de pagamento seguro
+    oneclick:
+      select_payment: "Selecione um método de pagamento salvo"
+      credit_card_payment_method: "%{card_type} terminando em %{last_four_digits}"
+      paypal_payment_method: "Paypal (%{email})"
+      new_payment_method: "Adicionar método de pagamento"
+      duplicate_donation: "Você acabou de fazer uma doação há alguns minutos. Você tem certeza que deseja doar novamente? Estamos te perguntando para garantir que você não doe duas vezes por engano.Agradecemos muito tudo o que você faz!"
+    debit:
+      recurring: "Você está ativando uma doação mensal de %{amount}"
+      one_time: "Você está doando %{amount}"
+      direct_debit: "Débito Direto"
+    fields:
+      cvv: CVV
+      number: Número do cartão
+      expiration: Data de validade
+      expiration_format: MM / AA
+      postalCode: Código Postal
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: CVV
+      number: Número do cartão
+      expiration: Data de validade
+    thermometer:
+      raised: Arrecadado
+      goal: Meta
+  petition:
+    sign_it: Assine a petição
+    target_prefix: PARA
+    confirmation: Nome enviado!
+    excited_confirmation: Nome enviado!
+    thank_you: 'Agradecemos por sua assinatura na petição "%{petition_title}"'
+    fine_print: "Protegeremos sua privacidade e te enviaremos atualizações sobre esta e outras campanhas." # override this with org-specific details in your own yml file.
+  form:
+    switch_user: Sair
+    processing: Processando...
+    submit: Enviar
+    default:
+      name: Nome completo
+      email: Endereço de e-mail
+      country: País
+      postal: CEP
+      phone_number: Número de teleone
+  thermometer:
+    signatures_until_goal: "%{remaining} assinatura para chegar em %{goal}"
+    signatures: assinaturas # as in '225 signatures'
+    million: milhão
+  call_tool:
+    manual_target_selection: "Por favor, selecione umx alvo"
+    you_will_be_calling: "Nós te ligaremos e te conectaremos a"
+    instructions: "Insira seu número de telefone, incluindo o código de área -- te ligaremos logo em seguida."
+    member_phone_number_title: 'Insira seu número de telefone'
+    termination_message: "Você não escolheu uma opção do menu, então a ligação será encerrada. Por favor, tente ligar novamente caso não tenha sido intencional."
+    text_to_speach_menu: "Por favor, pressione um quando estiver prontx e te conectaremos. Pressione dois para escutar novamente a mensagem dx coordenadorx de campanha."
+    errors:
+      recaptcha_fail: "O teste reCAPTCHA falhou. Por favor, tente novamente clicando na caixa de seleção."
+      unknown: "Ops! Alguma coisa deu errado, por favor, tente um número de telefone diferente ou tente novamente dentro de alguns minutos."
+      akid: "Desculpe, mas por questões de segurança, a ferramenta de chamada telefônica é limitada para membros reconhecidxs, que tenham entrado no site por meio de um e-mail de campanha."
+      too_many_calls: "Obrigada por fazer a diferença! Infelizmente, para evitar fraudes, são permitidas apenas cinco chamadas telefônicas por cada membro na mesma página."
+      target:
+        outdated: "Parece que o número que estamos tentanto te conectar não está mais disponível. Por favor, recarregue a página e tente novamente."
+        missing: "Algo deu errado com o número que você está tentando ligar."
+      phone_number:
+        too_short: "deve ter, no mínimo, 6 dígitos"
+        cant_connect: "não é possível conectar-se a este número de telefone. Por favor, verifique se está correto ou tente com outro número"
+        is_invalid: "número de telefone válido"
+    fine_print: 'A SumOfUs protegerá sua <a href="https://sumofus.org/privacy" target="_blank">privacidade</a> e te enviará atualizações. Se você nos informar seu número de telefone, nós também poderemos te ligar ou enviar um SMS sobre nossas campanhas.'
+    form:
+      phone_number: "Meu número de telefone"
+      phone_country_code: "Código"
+      country: "País"
+      submit: "Me ligue"
+  share:
+    cta: Compartilhar a campanha!
+    send_email: Enviar e-mail
+    share: Compartilhar
+    tweet: Tuitar
+    share_on_whatsapp: Whatsapp
+    twitter_handle: '@sumofus' # override this with your orgs twitter handle
+  errors:
+    probably_invalid: não parece correto
+    is_invalid: é inválido
+    this_field: Este campo
+    this_field_with_message: Este campo %{message}
+    named_field_error: "{name} tem alguns erros:"
+  validation:
+    is_required: é necessário
+    is_invalid_email: não é um endereço de e-mail válido
+    is_invalid_phone: 'só pode ter números, traços, sinal de mais e parênteses'
+    is_invalid_country: deve ser um código de país válido
+    is_invalid_length: 'deve conter menos de %{length} caracteres'
+    postal:
+      has_invalid_characters: 'Pode conter apenas letras, números, espaços e hífens'
+      too_long: 'Pode conter até 9 letras ou caracteres numéricos'
+  time:
+    formats:
+      default: "%-d %B %Y"
+  reset_passwords:
+    new:
+      title: 'Redefinir sua senha'
+      description: "Insira seu endereço de e-mail e te enviaremos um link para redefinir sua senha."
+      email: 'Email'
+      button_label: 'Enviar e-mail para redefinir a senha.'
+    create:
+      not_found: "Desculpe, não encontramos este e-mail."
+    show:
+      title: 'Redefinir sua senha.'
+      description: "Verifique sua caixa de entrada para acessar o e-mail com o link para redefinir a senha. Se o e-mail não chegar dentro de alguns minutos, verifique sua caixa de spam/lixo eletrônico."
+    edit:
+      password: 'Senha'
+      password_confirmation: 'Confirmar senha'
+      button_label: 'Mudar a senha'
+      title: 'Mudar a senha para'
+      description: 'A senha deve ter, pelo menos, 6 caracteres.'
+      invalid_link: 'Você aparentemente clicou em um link de redefinição de senha inválido. Por favor, tente novamente.'
+    success:
+      title: 'Sua nova senha foi salva com sucesso'
+      description: "Acesse o <a href='%{url}'>Member Painel de Membros</a> para fazer login."
+  survey:
+    next: 'Próximo'
+    finish: 'Encerrar'
+    skip: 'Pular'
+  reset_password_mailer:
+    reset_password_email:
+      subject: 'Por favor, redefina sua senha'
+      html:
+        body: "Alguém (provavelmente você) fez um pedido para recuperar a senha da sua conta na SumOfUs.<br />Você pode usar o seguinte link, que tem validade de um dia, para redefinir sua senha:<br /><br />% {url}<br /><br />Se você não solicitou uma nova senha, pode ignorar este e-mail sem se preocupar.<br /><br />Até mais,<br />SumOfUs"
+      text:
+        body: "Alguém (provavelmente você) fez um pedido para recuperar a senha da sua conta na SumOfUs.<br />Você pode usar o seguinte link, que tem validade de um dia, para redefinir sua senha:<br /><br />% {url}<br /><br />Se você não solicitou uma nova senha, pode ignorar este e-mail sem se preocupar.<br /><br />Até mais,<br />SumOfUs"
+  facebook_share:
+    caption: 'Acabei de assinar essa petição na SumOfUs.org'
+    comment_field_label: "Estou assinando porque..."
+  member_registration:
+    title: "Registro de Membro"
+    form:
+      password: Password ---------
+      confirm_password: Confirm Password -----------
+      your_email: Seu e-mail
+      register: Registrar-se
+    thanks: 'Obrigadx! Agora, só mais uma coisa:'
+    enter_password_message: "Basta inserir uma senha para poder começar"
+    create_account: "Estamos processando sua doação."
+    create_account_description: "Agora, crie uma conta para poder gerenciar suas doações de forma segura e poder cancelá-las a qualquer momento."
+    check_email: "<strong>Agradecemos o seu registro.</strong> <span>Agora, verifique seu e-mail e clique no link de confirmação.</span>"
+  confirmation_mailer:
+    title: "Confirmação de conta"
+    confirmation_email:
+      subject: "Confirme sua conta"
+      headline: "Obrigadx por registrar uma conta"
+      body_html: "Para confirmar sua conta, por favor, <a href='%{confirmation_url}'>acesse este link.</a><br/><br/>Obrigadx!<br/>"
+      body_text: "Para confirmar sua conta, por favor, acesse este link: %{confirmation_url}"
+    follow_up_page:
+      account_not_found: 'Desculpe, não encontramos nenhuma conta associada com este link.'
+      account_already_confirmed: 'Sua conta já foi confirmada!'
+      failure: 'Desculpe, houve um problema ao confirmar sua conta.'
+      success: 'Você confirmou sua conta com sucesso. Obrigadx!'
+      member_management: "Para gerenciar seus detalhes e métodos de pagamento, acesse o <a href='%{url}'>painel de membros</a> a qualquer momento."
+  consent:
+    opt_in_reason: "<b>A SumOfUs é uma comunidade global de pessoas comprometidas com a luta contra o poder corporativo.</b> Você gostaria de saber mais sobre nossas últimas campanhas, notícias, eventos e arrecadação de fundos, além de obter mais informações sobre  como você pode se envolver? <b>Escolha 'sim' abaixo para passar a receber nossos e-mails:</b>"
+    opt_out_warn_title: "Tem certeza?"
+    opt_out_warn_message: "Se você escolher 'Sim', te informaremos sobre as campanhas da SumOfUs para que você possa agir quando a próxima grande empresa sair da linha."
+    how_to_opt_out: 'Você pode cancelar o recebimento de nossas mensagens a qualquer momento. Basta acessar nossa página <a href="https://www.sumofus.org/unsubscribe" target="_blank">Descadastrar</a>. Ao inserir seus dados, você confirma que tem 16 anos ou mais.'
+    accept: "Sim! Me avise se esta campanha ganhar e me diga como posso ajudar outras campanhas importantes."
+    decline: "Não. Não quero ouvir sobre o progresso desta campanha ou sobre outras campanhas importantes."
+    accept_alt: "Sim, assinar e receber e-mails"
+    decline_alt: "Não, não quero receber e-mails, apenas assinar"
+    select_an_option: "Por favor, selecione uma opção"
+    existing:
+      opt_in_reason: "<p>Estamos pedindo aos membros da SumOfUs para confirmarem se ainda querem receber nossos e-mails sobre esta e outras campanhas urgentes. </p><p><b>Você gostaria de confirmar agora?</b></p>"
+      accept: "Sim"
+      decline: "Agora não"
+  cookie_consent:
+    message: 'Cookies são importantes para o funcionamento adequado deste site.'
+    dismiss_button_text: 'Concordar & Prosseguir'
+    privacy_policy_link_text: 'Política de Privacidade'
+  recaptcha_branding_html: 'Este site está protegido por reCAPTCHA e os <a href="https://policies.google.com/terms">Termos de Serviço</a> e a <a href="https://policies.google.com/privacy">Política de Privacidade</a> do Google são aplicáveis.'
+  eoy_donation_email:
+    confirmation_error: 'Os e-mails são diferentes'
+    opt_out:
+      notice: "Você optou por não receber nossos outros e-mails de arrecadação de fundos em 2020. Agradecemos o seu apoio, [FNAME]. Se você fez essa opção por engano, poderá receber novamente nossos e-mails de arrecadação de fundos clicando [HERE]."
+      alert: "Ocorreu um erro durante o cancelamento do recebimento dos e-mails de arrecadação de fundos em 2021. Clique aqui para tentar novamente."
+    opt_in:
+      notice: "Você optou por receber nossos e-mails de arrecadação de fundos em 2021."
+      alert: "Ocorreu um erro ao processar a opção para recebimento dos e-mails de arrecadação de fundos em 2021. Clique aqui para tentar novamente."

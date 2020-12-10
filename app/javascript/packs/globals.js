@@ -5,6 +5,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/en.js';
 import 'intl/locale-data/jsonp/de.js';
 import 'intl/locale-data/jsonp/fr.js';
+import 'intl/locale-data/jsonp/pt.js';
 import ee from '../shared/pub_sub';
 import flatten from 'flat';
 require('jquery-sticky');

@@ -17,7 +17,7 @@ describe 'Liquid page rendering' do
 
   LiquidMarkupSeeder.titles.each do |title|
     describe "page with layout #{title}" do
-      %i[en fr de es].each do |language_code|
+      %i[en fr de es pt].each do |language_code|
         it "can render in #{language_code} without errors" do
           language = create :language, code: language_code
           layout = LiquidLayout.find_by!(title: title)
