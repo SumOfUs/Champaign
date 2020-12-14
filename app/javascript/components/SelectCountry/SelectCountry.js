@@ -5,6 +5,7 @@ import countriesEn from './countries/en.json';
 import countriesDe from './countries/de.json';
 import countriesEs from './countries/es.json';
 import countriesFr from './countries/fr.json';
+import countriesPt from './countries/pt.json';
 import { injectIntl, intlShape } from 'react-intl';
 
 export const countries = countriesEn;
@@ -14,6 +15,7 @@ const countriesByLocale = {
   es: countriesEs,
   de: countriesDe,
   fr: countriesFr,
+  pt: countriesPt,
 };
 
 export class SelectCountry extends Component {

@@ -34,5 +34,10 @@ FactoryBot.define do
       code { 'de' }
       name { 'German' }
     end
+
+    trait :portuguese do
+      code { 'pt' }
+      name { 'Portuguese' }
+    end
   end
 end

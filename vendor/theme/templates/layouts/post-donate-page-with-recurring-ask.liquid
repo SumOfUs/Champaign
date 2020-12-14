@@ -44,7 +44,7 @@
 					There's still lots of work to do. <b>Would you consider becoming a SumOfUs core member to help us get there faster?</b> A monthly donation will support our movement to plan ahead, so we can take on the biggest corporations that threaten people and planet.
 				</p>
 				<p>
-					<b>Make a monthly donation and join our amazing 17,462 core members today:</b>
+					<b>Make a monthly donation and join our amazing 38,652 core members today:</b>
 				</p>
 			</div>
 			<div class="fr-copy">
@@ -55,7 +55,7 @@
 					Nous avons encore énormément de pain sur la planche. <b>Aimeriez-vous devenir un membre clé et ainsi nous aider à avancer plus vite ?</b> Un don mensuel nous permettra de planifier plus en amont, afin de pouvoir nous occuper des multinationales qui nous menacent, nous et notre planète.
 				</p>
 				<p>
-					<b>Rejoignez nos 17,462 membres clés dès aujourd'hui :</b>
+					<b>Rejoignez nos 38,652 membres clés dès aujourd'hui :</b>
 				</p>
 			</div>
 			<div class="de-copy">
@@ -66,7 +66,7 @@
 					Es gibt noch viel zu tun. <b>Werden Sie Fördermitglied und helfen uns so, unser gemeinsames Ziel noch schneller zu erreichen.</b> Mit einer monatlichen Spende geben Sie uns wichtige Planungssicherheit. So können wir uns auch den größten Konzernen entgegenstellen, wenn sie wieder einmal Menschen und Umwelt bedrohen.
 				</p>
 				<p>
-					<b>Werden Sie Teil unserer Gemeinschaft. 17,462 Fördermitglieder unterstützen SumOfUs regelmäßig:</b>
+					<b>Werden Sie Teil unserer Gemeinschaft. 38,652 Fördermitglieder unterstützen SumOfUs regelmäßig:</b>
 				</p>
 			</div>
       <div class="es-copy">
@@ -76,18 +76,18 @@
         <p>
           Todavía queda mucho trabajo por hacer. <b>¿Te parece convertirte en miembrx clave de SumOfUs para ayudarnos a lograrlo más rápido?</b> Una donación mensual respaldará nuestro movimiento para planificar con anticipación, de modo que podamos enfrentar de manera más efectiva a las corporaciones más grandes que amenazan a las personas y al planeta.        </p>
         <p>
-          <b>Aporta una donación mensual y súmate a nuestrxs increíbles 17,462 miembrxs claves hoy:</b>
+          <b>Aporta una donación mensual y súmate a nuestrxs increíbles 38,652 miembrxs claves hoy:</b>
         </p>
       </div>
       <div class="pt-copy">
         <p>
-          <b><span class="thank-you-firstname">Thank you </span>for helping build a world where people come before corporate profit.</b>
+          <b><span class="thank-you-firstname">Agradecemos </span>seu apoio na construção de um mundo onde pessoas estão acima dos lucros.</b>
         </p>
         <p>
-          There's still lots of work to do. <b>Would you consider becoming a SumOfUs core member to help us get there faster?</b> A monthly donation will support our movement to plan ahead, so we can take on the biggest corporations that threaten people and planet.
+          Ainda há muito o que ser feito. <b>Você gostaria de se tornar um membro crucial da SumOfUs e nos ajudar a chegar lá mais rapidamente?</b> Uma doação mensal recorrente ajudará o movimento a planejar a longo prazo, para que possamos agir contra as corporações que ameaçam as pessoas e o planeta.
         </p>
         <p>
-          <b>Make a monthly donation and join our amazing 17,462 core members today:</b>
+          <b>Faça uma doação mensal recorrente e junte-se agora aos outros 38,652 membros cruciais:</b>
         </p>
       </div>
 
@@ -687,16 +687,17 @@ function handleLanguages(){
     $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
 
   } else if(language == "pt"){
-    postDonatePage = "https://actions.sumofus.org/a/donate";
-    preButtonLanguage = "DONA ";
-    postButtonLanguage = "/MES";
+	  // Change with actual PT catch-all donation page if it ends up not being this one!
+    postDonatePage = "https://actions.sumofus.org/a/doar";
+    preButtonLanguage = "DOE ";
+    postButtonLanguage = " POR MÊS";
 
-    thankyou = "¡Eres lo máximo!";
-    secondFirstname = "Gracias, ";
+    thankyou = "Você é incrível!";
+    secondFirstname = "Obrigadx ";
 
     if(typeof window.champaign.personalization.member.first_name != "undefined"){
-      thankyou = "¡Eres lo máximo, "+window.champaign.personalization.member.first_name+"!";
-      secondFirstname = "Gracias, "+window.champaign.personalization.member.first_name+", ";
+      thankyou = "Você é incrível, "+window.champaign.personalization.member.first_name+"!";
+      secondFirstname = "Obrigadx "+window.champaign.personalization.member.first_name+" ";
     }
 
     $('.pt-copy').show();

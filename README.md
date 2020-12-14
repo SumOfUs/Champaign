@@ -23,7 +23,7 @@ If you're interested in collaborating on the project with us, or have ideas or r
 * Run migrations: `bundle exec rake db:schema:load`
 * Run the seed task: `bundle exec rake db:seed`
 * Seed the database with liquid layouts: `bundle exec rake champaign:seed_liquid`
-* Seed the database with tags and languages from your ActionKit integration: `bundle exec rake action_kit:seed_tags` and `bundle exec rake action_kit:seed_languages`
+* Seed the database with tags and languages from your ActionKit integration: `bundle exec rake action_kit:import_tags` and `bundle exec rake action_kit:import_languages`
 * Run the test suite to make sure everything's setup correctly: `bundle
   exec rake spec`
 

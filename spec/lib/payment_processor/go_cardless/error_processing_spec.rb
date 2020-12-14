@@ -158,10 +158,11 @@ module PaymentProcessor
         end
       end
 
-      %i[fr de es].each do |locale|
+      %i[fr de es pt].each do |locale|
         describe "with language as #{locale}" do
           let(:messages) do
             {
+              pt: 'Nossa equipe técnica foi notificada. Por favor, verifique suas informações novamente ou tente um método de pagamento diferente.',
               es: 'Nuestro equipo técnico ha sido notificado. Por favor revise su información o pruebe con un método de pago diferente.',
               fr: 'Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.',
               de: 'Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.'

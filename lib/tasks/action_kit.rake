@@ -8,6 +8,8 @@ namespace :action_kit do
     raise "Error connecting to ActionKit: #{response.inspect}" unless response.success?
 
     response.parsed_response['objects'].each do |object|
+      next if Language.find_by(code: object['iso_code'])
+
       Language.create!(code: object['iso_code'], name: object['name'], actionkit_uri: object['resource_uri'])
     end
   end
