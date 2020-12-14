@@ -21,7 +21,6 @@ export function setSubmitting(payload) {
 export function changeStep(payload) {
   // we put it in a timeout because otherwise the event is fired before the step has switched
   setTimeout(() => ee.emit('fundraiser:change_step', payload), 100);
-  // Call to the reducer?
   return { type: 'change_step', payload };
 }
 
@@ -44,4 +43,9 @@ export function setPaymentType(payload) {
 
 export function actionFormUpdated(data) {
   return { type: '@@chmp:action_form:updated', payload: data };
+}
+
+export function setSupportedLocalCurrency(payload) {
+  console.log('set supported currency reducer', payload);
+  return { type: 'set_supported_local_currency', payload };
 }

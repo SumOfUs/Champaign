@@ -10,17 +10,20 @@ import MemberDetailsForm from '../../components/MemberDetailsForm/MemberDetailsF
 import Payment from '../../components/Payment/Payment';
 import OneClick from '../../components/OneClick/OneClick';
 import Cookie from 'js-cookie';
+import { localCurrencies } from './utils';
 
 import {
   changeAmount,
   changeCurrency,
   changeStep,
   setSubmitting,
+  setSupportedLocalCurrency,
 } from '../../state/fundraiser/actions';
 
 export class FundraiserView extends Component {
   componentDidMount() {
     const { donationAmount } = this.props.fundraiser;
+    this.props.setSupportedLocalCurrency(this.supportedLocalCurrency());
     if (donationAmount && donationAmount > 0) {
       this.props.selectAmount(donationAmount);
       this.props.changeStep(1);
@@ -43,6 +46,17 @@ export class FundraiserView extends Component {
         page_id: this.props.page.id,
       });
     }
+  }
+
+  supportedLocalCurrency() {
+    const country = window.champaign.personalization.member.country;
+    // Member is in a country where we are not concerned of confusion in currencies when we display the currency sign
+    // - this is currently any country outside of Lat Am
+    if (!Object.keys(localCurrencies).includes(country)) return true;
+    const supportedLocalCurrency =
+      localCurrencies[country] === this.props.fundraiser.currency;
+    console.log('supported currency: ', supportedLocalCurrency);
+    return supportedLocalCurrency;
   }
 
   proceed() {
@@ -68,6 +82,7 @@ export class FundraiserView extends Component {
         outstandingFields,
         submitting,
         oneClickError,
+        supportedLocalCurrency,
       },
     } = this.props;
 
@@ -98,6 +113,15 @@ export class FundraiserView extends Component {
       </div>
     ) : null;
 
+    const supportedCurrencyDisclaimer = !supportedLocalCurrency ? (
+      <div className="currency-disclaimer fundraiser-bar">
+        <FormattedMessage
+          id="fundraiser.unsupported_currency.one_click_failed"
+          defaultMessage={window.I18n.t('fundraiser.currency_disclaimer')}
+        />
+      </div>
+    ) : null;
+
     if (this.props.oneClickDonate) {
       return (
         <div id="fundraiser-view" className={classNames}>
@@ -117,6 +141,7 @@ export class FundraiserView extends Component {
           <StepContent title={AmountSelection.title(donationAmount, currency)}>
             <div>
               {oneClickErrorMessage}
+              {supportedCurrencyDisclaimer}
               <AmountSelection
                 donationAmount={donationAmount}
                 currency={currency}
@@ -173,6 +198,7 @@ export const mapStateToProps = state => ({
     state.fundraiser.oneClick &&
     state.paymentMethods.length > 0 &&
     !state.fundraiser.disableSavedPayments,
+  supportedLocalCurrency: state.fundraiser.supportedLocalCurrency,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -180,9 +206,8 @@ export const mapDispatchToProps = dispatch => ({
   selectAmount: amount => dispatch(changeAmount(amount)),
   selectCurrency: currency => dispatch(changeCurrency(currency)),
   setSubmitting: submitting => dispatch(setSubmitting(submitting)),
+  setSupportedLocalCurrency: value =>
+    dispatch(setSupportedLocalCurrency(value)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FundraiserView);
+export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);

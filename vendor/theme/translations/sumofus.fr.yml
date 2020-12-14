@@ -29,6 +29,7 @@ fr:
     license: Licence Creative Commons Attribution 3.0
     description: "SumOfUs est un mouvement mondial de personnes comme vous, qui travaillent ensemble afin de responsabiliser les entreprises et de tracer une nouvelle voie durable pour l’économie mondiale."
   fundraiser:
+    currency_disclaimer: "Hello! We're working hard to soon be able to accept donations in your local currency. Meanwhile, we appreciate your patience — your donation will be processed in the foreign currency you select. Please note that your credit card might impose fees which SumOfUs has no control of. We truly appreciate your understanding."
     fine_print: "SumOfUs protège <a href='https://sumofus.org/fr/privacy'>vos informations personnelles</a> et vous tiendra au courant de campagnes similaires."
     debit:
       recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
