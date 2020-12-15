@@ -287,7 +287,9 @@
     // the toggle component that contains this the mobile fundraising form is mounted within a windows.setTimeout
     // with 100 ms, so I have to manually delay these bindings for them to apply
     window.setTimeout(function(){
+      $('.currency-disclaimer').clone().appendTo($('#gift-array-wrapper'));
       $('.DonationBands-container').clone().appendTo($('#gift-array-wrapper'));
+
       $('#gift-array-wrapper').find($('.DonationBands__input')).attr('id', 'DonationBands-custom-amount-EOY');
       $('#gift-array-wrapper').find($('.DonationBandButton')).click(function(){
         // Set amount in the fundraising form and force it to step 2, then scroll down to it.
