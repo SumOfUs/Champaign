@@ -53,10 +53,7 @@ export class FundraiserView extends Component {
     // Member is in a country where we are not concerned of confusion in currencies when we display the currency sign
     // - this is currently any country outside of Lat Am
     if (!Object.keys(localCurrencies).includes(country)) return true;
-    const supportedLocalCurrency =
-      localCurrencies[country] === this.props.fundraiser.currency;
-    console.log('supported currency: ', supportedLocalCurrency);
-    return supportedLocalCurrency;
+    return localCurrencies[country] === this.props.fundraiser.currency;
   }
 
   proceed() {
@@ -116,8 +113,8 @@ export class FundraiserView extends Component {
     const supportedCurrencyDisclaimer = !supportedLocalCurrency ? (
       <div className="currency-disclaimer fundraiser-bar">
         <FormattedMessage
-          id="fundraiser.unsupported_currency.one_click_failed"
-          defaultMessage={window.I18n.t('fundraiser.currency_disclaimer')}
+          id="fundraiser.currency_disclaimer"
+          defaultMessage="Hello! We're working hard to soon be able to accept donations in your local currency. Meanwhile, we appreciate your patience — your donation will be processed in the foreign currency you select. Please note that your credit card might impose fees which SumOfUs has no control of. We truly appreciate your understanding."
         />
       </div>
     ) : null;

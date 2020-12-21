@@ -46,6 +46,5 @@ export function actionFormUpdated(data) {
 }
 
 export function setSupportedLocalCurrency(payload) {
-  console.log('set supported currency reducer', payload);
   return { type: 'set_supported_local_currency', payload };
 }
