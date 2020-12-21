@@ -83,6 +83,7 @@ interface IFundraiserPluginConfig extends IPluginConfig {
   preselect_amount: boolean;
   recurring_default: string;
   title: string;
+  supportedLocalCurrency: boolean;
 }
 
 interface IDonationsThermometerPluginConfig extends IPluginConfig {

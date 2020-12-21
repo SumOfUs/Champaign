@@ -29,6 +29,7 @@ pt:
     license: Licença Creative Commons Atribuição 3.0 Não Adaptada
     description: "A SumOfUs é movimento global de consumidorxs, investidorxs e trabalhadorxs que, juntx, lutam por vigiar coportações e responsabilizá-las por suas ações. Juntox, queremos forjar uma economia mais justa e sustentável. Isso não será rápido ou simples. Mas unidxs e em grande número, podemos realmente fazer a diferença."
   fundraiser:
+    currency_disclaimer: "Olá! Nós estamos trabalhando duro para que doações em Reais estejam disponíveis em breve. Enquanto isso, agradecemos sua compreensão — a doação será feita na moeda estrangeira selecionada. Por favor, note que seu cartão de crédito poderá cobrar alguma taxa pela transação a qual a SumofUs não possui domínio. Agradecemos imensamente sua compreensão."
     fine_print: "A SumOfUs vai proteger <a href='https://sumofus.org/privacy'>sua privacidade</a>, e te mander atualizadx sobre essa e outras campanhas."
     debit:
       recurring: "Você está ativando uma doação mensal de %{amount} para SumOfUs"
