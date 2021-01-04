@@ -45,6 +45,7 @@ export const initialState = {
   submitting: false,
   oneClickError: false,
   title: '',
+  supportedLocalCurrency: true,
 };
 
 export default (state = initialState, action) => {
@@ -237,6 +238,8 @@ export default (state = initialState, action) => {
         currentPaymentType,
       };
     }
+    case 'set_supported_local_currency':
+      return { ...state, supportedLocalCurrency: action.payload };
     default:
       return state;
   }

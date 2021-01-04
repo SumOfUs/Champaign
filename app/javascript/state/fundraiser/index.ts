@@ -26,4 +26,5 @@ export interface IFundraiserState {
   submitting: boolean;
   oneClickError: boolean;
   title: string;
+  supportedLocalCurrency: boolean;
 }
