@@ -81,3 +81,22 @@ export const fundraiserData = (config: IFundraiserPluginConfig) => {
     // freestanding: <get this from template>
   };
 };
+
+// In Latin America, people are accidentally making high donations when the currency symbol is USD if we don't support
+// the local currency. In that case we want to show a user friendly disclaimer.
+export const localCurrencies = {
+  AR: 'ARS',
+  BO: 'BOB',
+  BR: 'BRL',
+  CL: 'CLP',
+  CO: 'COP',
+  EC: 'USD',
+  FK: 'FKP',
+  GF: 'EUR',
+  GY: 'GYD',
+  PY: 'PYG',
+  PE: 'PEN',
+  SR: 'SRD',
+  UY: 'UYU',
+  VE: 'VES',
+};
