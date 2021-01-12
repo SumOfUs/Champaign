@@ -59,6 +59,7 @@ braintree:
     CHF: 'SumOfUs_CHF'
     MXN: 'SumOfUs_MXN'
     ARS: 'SumOfUs_ARS'
+    BRL: 'SumOfUs_BRL'
 
   subscription_plans:
     EUR: 'EUR'
@@ -70,6 +71,7 @@ braintree:
     CHF: 'CHF'
     ARS: 'ARS'
     MXN: 'MXN'
+    BRL: 'BRL'
 
 redis:
   host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
