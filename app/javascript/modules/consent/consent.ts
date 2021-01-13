@@ -2,7 +2,8 @@ import { includes } from 'lodash';
 import EEA_LIST from '../../shared/eea-list';
 import { Member } from '../../state/member/';
 
-export const isGDPR = (countryCode: string) => EEA_LIST.includes(countryCode);
+const GDPR_LIST = EEA_LIST.concat('BR');
+export const isGDPR = (countryCode: string) => GDPR_LIST.includes(countryCode);
 
 export const isDoubleOptIn = (countryCode: string) => {
   return ['DE', 'AT'].includes(countryCode);

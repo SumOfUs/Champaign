@@ -97,7 +97,8 @@ export function dispatchFieldUpdate(name, value, dispatch = null) {
 // * user has not selected to consent or not (`consented` is still null)
 function isRequired(state, filter) {
   const { countryCode, consented, previouslyConsented } = state;
-  const countries = EEA_LIST.filter(filter || (() => true));
+  const GDPR_COUNTRIES = EEA_LIST.concat('BR');
+  const countries = GDPR_COUNTRIES.filter(filter || (() => true));
   const inAffectedCountry = includes(countries, countryCode);
   return inAffectedCountry && !previouslyConsented && consented === null;
 }
