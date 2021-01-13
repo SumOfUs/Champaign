@@ -14,6 +14,7 @@ export default function CurrencyAmount(props) {
     case 'NZD':
     case 'CAD':
     case 'MXN':
+    case 'BRL':
     case 'ARS':
     case 'AUD':
       return (
