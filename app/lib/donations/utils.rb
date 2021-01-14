@@ -65,7 +65,8 @@ module Donations
         CA: 'CAD',
         CH: 'CHF',
         MX: 'MXN',
-        AR: 'ARS'
+        AR: 'ARS',
+        BR: 'BRL'
       }[country_code.to_s.to_sym] || DEFAULT_CURRENCY
     end
   end

@@ -85,9 +85,7 @@ export const fundraiserData = (config: IFundraiserPluginConfig) => {
 // In Latin America, people are accidentally making high donations when the currency symbol is USD if we don't support
 // the local currency. In that case we want to show a user friendly disclaimer.
 export const localCurrencies = {
-  AR: 'ARS',
   BO: 'BOB',
-  BR: 'BRL',
   CL: 'CLP',
   CO: 'COP',
   EC: 'USD',

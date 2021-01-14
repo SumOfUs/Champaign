@@ -278,7 +278,7 @@ pt:
     opt_in_reason: "<b>A SumOfUs é uma comunidade global de pessoas comprometidas com a luta contra o poder corporativo.</b> Você gostaria de saber mais sobre nossas últimas campanhas, notícias, eventos e arrecadação de fundos, além de obter mais informações sobre  como você pode se envolver? <b>Escolha 'sim' abaixo para passar a receber nossos e-mails:</b>"
     opt_out_warn_title: "Tem certeza?"
     opt_out_warn_message: "Se você escolher 'Sim', te informaremos sobre as campanhas da SumOfUs para que você possa agir quando a próxima grande empresa sair da linha."
-    how_to_opt_out: 'Você pode cancelar o recebimento de nossas mensagens a qualquer momento. Basta acessar nossa página <a href="https://www.sumofus.org/unsubscribe" target="_blank">Descadastrar</a>. Ao inserir seus dados, você confirma que tem 16 anos ou mais.'
+    how_to_opt_out: 'Você pode cancelar o recebimento de nossas mensagens a qualquer momento. Basta acessar nossa página <a href="https://www.sumofus.org/pt/unsubscribe" target="_blank">Descadastrar</a>. Ao inserir seus dados, você confirma que tem 16 anos ou mais.'
     accept: "Sim! Me avise se esta campanha ganhar e me diga como posso ajudar outras campanhas importantes."
     decline: "Não. Não quero ouvir sobre o progresso desta campanha ou sobre outras campanhas importantes."
     accept_alt: "Sim, assinar e receber e-mails"

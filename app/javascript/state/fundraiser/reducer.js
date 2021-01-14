@@ -29,6 +29,7 @@ export const initialState = {
     NZD: [2, 5, 10, 25, 50],
     MXN: [2, 5, 10, 25, 50],
     ARS: [2, 5, 10, 25, 50],
+    BRL: [2, 5, 10, 25, 50],
   },
   fields: [],
   form: {},
