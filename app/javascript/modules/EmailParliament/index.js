@@ -18,18 +18,18 @@ export const init = options => {
 };
 
 const EmailParliament = props => {
-  const [target, setTarget] = useState(null);
+  const [targets, setTargets] = useState(null);
   const searchClassname = classnames({
-    'hidden-irrelevant': target !== null,
+    'hidden-irrelevant': targets !== null,
   });
   return (
     <div className="EmailParliament">
       <ComponentWrapper locale={props.config.locale}>
-        <SearchByPostcode className={searchClassname} onChange={setTarget} />
+        <SearchByPostcode className={searchClassname} onChange={setTargets} />
         <EmailComposer
           title={props.config.title}
           postcode={''}
-          target={target}
+          targets={targets}
           subject={props.config.subject}
           template={props.config.template}
           onSend={props.onSend || redirect}

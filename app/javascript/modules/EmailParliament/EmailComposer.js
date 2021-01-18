@@ -29,21 +29,32 @@ export default props => {
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const target = props.target;
+  let targets = props.targets;
 
-  if (!target) return null;
+  if (!targets) return null;
+
+  const listType = __EMAIL_PARLIAMENT_LIST_TYPE__ || ['MP'];
+
+  targets = targets.filter(target => {
+    if (listType.includes('MP') && target.type === 'MP') return true;
+
+    if (listType.includes('Councillor') && target.type === 'Councillor')
+      return true;
+  });
 
   const onSubmit = async e => {
     e.preventDefault();
     try {
       handleSendEmail();
       setSubmitting(true);
+
       const result = await sendEmail({
         pageId: window.champaign.page.id,
-        recipient: {
-          name: target.displayAs,
-          email: target.email,
-        },
+        recipients: targets
+          .map(
+            target => `${target.firstName} ${target.surname} (${target.email})`
+          )
+          .join(','),
         sender: { name, email },
         subject,
         body,
@@ -66,11 +77,13 @@ export default props => {
     if (data.body !== body) setBody(data.body);
   };
 
-  const templateVars = {
-    target,
-    name,
-    email,
-  };
+  // const templateVars = {
+  //   target,
+  //   name,
+  //   email,
+  // };
+
+  const templateVars = {};
 
   const handleCopyTargetEmailButton = e => {
     e.preventDefault();
@@ -89,12 +102,10 @@ export default props => {
   };
 
   const getTargetEmails = () => {
-    return [
-      {
-        name: target.displayAs,
-        email: target.email,
-      },
-    ];
+    return targets.map(t => ({
+      email: t.email,
+      name: `${t.firstName} ${t.surname}`,
+    }));
   };
 
   const handleSendEmail = () => {
@@ -116,7 +127,7 @@ export default props => {
       <form onSubmit={onSubmit}>
         <h3 className="EmailComposer-title">{props.title}</h3>
         <FormGroup>
-          <Representative target={target} />
+          <Representative targets={targets} />
         </FormGroup>
         <FormGroup>
           <SweetInput
