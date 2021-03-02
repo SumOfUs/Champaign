@@ -193,7 +193,7 @@ describe Api::GoCardlessController do
               data: { events: { an: :event } }.to_json)
 
       request.headers['HTTP_WEBHOOK_SIGNATURE'] = 'foobar'
-      post 'webhook', params: { events: { an: :event } }
+      post 'webhook', params: { go_cardless: { events: { an: :event } } }
     end
 
     context 'with invalid events' do

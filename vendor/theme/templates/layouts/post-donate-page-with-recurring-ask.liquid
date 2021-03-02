@@ -615,6 +615,12 @@ padding:10px;
 fbq('track', 'Donate');
 
 function handleLanguages(){
+	var name = null;
+	
+	if(typeof window.champaign.personalization.member.first_name != "undefined"){
+		name = window.champaign.personalization.member.first_name;
+		name = name.charAt(0).toUpperCase() + name.slice(1);
+	}
 
 	var language = $('html').attr('lang');
 
@@ -626,9 +632,9 @@ function handleLanguages(){
 		thankyou = "Vous êtes fantastique!";
 		secondFirstname = "Merci, ";
 
-		if(typeof window.champaign.personalization.member.first_name != "undefined"){
-		    thankyou = "Vous êtes fantastique "+window.champaign.personalization.member.first_name+"!";
-		    secondFirstname = "Merci, "+window.champaign.personalization.member.first_name+", ";
+		if(name){
+		    thankyou = "Vous êtes fantastique "+name+"!";
+		    secondFirstname = "Merci, "+name+", ";
 		}
 
 		$('.fr-copy').show();
@@ -649,8 +655,8 @@ function handleLanguages(){
 		thankyou = "Sie sind fabelhaft!";
 		secondFirstname = "Vielen Dank, ";
 
-		if(typeof window.champaign.personalization.member.first_name != "undefined"){
-		    thankyou = window.champaign.personalization.member.first_name+", Sie sind fabelhaft!";
+		if(name){
+		    thankyou = name+", Sie sind fabelhaft!";
 		    secondFirstname = "Vielen Dank, ";
 		}
 
@@ -672,9 +678,9 @@ function handleLanguages(){
     thankyou = "¡Eres lo máximo!";
     secondFirstname = "Gracias, ";
 
-    if(typeof window.champaign.personalization.member.first_name != "undefined"){
-      thankyou = "¡Eres lo máximo, "+window.champaign.personalization.member.first_name+"!";
-      secondFirstname = "Gracias, "+window.champaign.personalization.member.first_name+", ";
+    if(name){
+      thankyou = "¡Eres lo máximo, "+name+"!";
+      secondFirstname = "Gracias, "+name+", ";
     }
 
     $('.es-copy').show();
@@ -695,9 +701,9 @@ function handleLanguages(){
     thankyou = "Você é incrível!";
     secondFirstname = "Obrigadx ";
 
-    if(typeof window.champaign.personalization.member.first_name != "undefined"){
-      thankyou = "Você é incrível, "+window.champaign.personalization.member.first_name+"!";
-      secondFirstname = "Obrigadx "+window.champaign.personalization.member.first_name+" ";
+    if(name){
+      thankyou = "Você é incrível, "+name+"!";
+      secondFirstname = "Obrigadx "+name+" ";
     }
 
     $('.pt-copy').show();
@@ -716,12 +722,10 @@ function handleLanguages(){
 		thankyou = "You're awesome!";
 		secondFirstname = "Thank you ";
 
-		if(typeof window.champaign.personalization.member.first_name != "undefined"){
-		    thankyou = "You're awesome, "+window.champaign.personalization.member.first_name+"!";
-		    secondFirstname = "Thank you "+window.champaign.personalization.member.first_name+" ";
+		if(name){
+		    thankyou = "You're awesome, "+name+"!";
+		    secondFirstname = "Thank you "+name+" ";
 		}
-
-
 	}
 }
 
