@@ -21,7 +21,7 @@ class Api::GoCardlessController < PaymentController
     validator = Api::HMACSignatureValidator.new(
       secret: Settings.gocardless.secret,
       signature: signature,
-      data: { events: unsafe_params[:events] }.to_json
+      data: unsafe_params[:go_cardless].to_json
     )
 
     if validator.valid?
