@@ -28,29 +28,29 @@ export default class EmailEditor extends Component {
     };
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   const fn = props.templateInterpolate || interpolateVars;
-  //   let body = props.body;
+  static getDerivedStateFromProps(props, state) {
+    const fn = props.templateInterpolate || interpolateVars;
+    let body = props.body;
 
-  //   // if (typeof fn == 'function') {
-  //   //   body = fn(props.body, props.templateVars);
-  //   // }
-  //   let stateParams = {
-  //     header: interpolateVars(props.header, props.templateVars),
-  //     body:  htmlToText(body) ,
-  //     footer: interpolateVars(props.footer, props.templateVars),
-  //   };
+    if (typeof fn == 'function') {
+      body = fn(props.body, props.templateVars);
+    }
+    let stateParams = {
+      header: interpolateVars(props.header, props.templateVars),
+      body: htmlToText(body),
+      footer: interpolateVars(props.footer, props.templateVars),
+    };
 
-  //   // if (state.templateVars != props.templateVars) {
-  //   //   stateParams = merge(stateParams, {
-  //   //     editorState: EditorState.createWithContent(
-  //   //       stateFromHTML(interpolateVars(props.body, props.templateVars))
-  //   //     ),
-  //   //   });
-  //   // }
+    if (state.templateVars != props.templateVars) {
+      stateParams = merge(stateParams, {
+        editorState: EditorState.createWithContent(
+          stateFromHTML(interpolateVars(props.body, props.templateVars))
+        ),
+      });
+    }
 
-  //   return stateParams;
-  // }
+    return stateParams;
+  }
 
   // shouldComponentUpdate(nextProps, nextState) {
   //   return (
