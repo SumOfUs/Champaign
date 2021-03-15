@@ -82,6 +82,8 @@ describe 'api/pages' do
         action_count
         language
         campaign_action_count
+        primary_image
+        share_buttons
       ]
       expect(subject.keys).to match_array(expected)
       expect(subject.symbolize_keys).to include(title: 'Foo',

@@ -11,6 +11,8 @@ json.extract!(
   :publish_status,
   :featured,
   :action_count,
-  :campaign_action_count
+  :campaign_action_count,
+  :share_buttons,
 )
+json.primary_image @page.image_to_display.try(:content).try(:url)
 json.language @page.language.code
