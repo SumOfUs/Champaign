@@ -16,8 +16,14 @@ json.extract!(
 )
 json.primary_image @page.image_to_display.try(:content).try(:url)
 json.language @page.language.code
-form = @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first.try(:form)
+petition =  @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first
 
-if form
-  json.form form.form_elements.order(:position)
+if petition
+  if petition.form
+    json.form petition.form.form_elements.order(:position)
+  end
+
+  json.cta petition.cta
 end
+
+
