@@ -24,6 +24,8 @@ if petition
   end
 
   json.cta petition.cta
+  json.target petition.target
+  json.description petition.description
 end
 
 
