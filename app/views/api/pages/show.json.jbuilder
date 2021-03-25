@@ -14,7 +14,19 @@ json.extract!(
   :campaign_action_count,
   :share_buttons,
 )
-json.primary_image @page.image_to_display.try(:content).try(:url)
+
+image = @page.image_to_display
+
+if image && image.try(:content)
+  w,h = image.dimensions.split(":")
+  
+  json.image do
+    json.url image.content.url(:large)
+    json.width w 
+    json.height h
+  end
+end
+
 json.language @page.language.code
 petition =  @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first
 

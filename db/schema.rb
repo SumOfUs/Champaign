@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_30_222245) do
+ActiveRecord::Schema.define(version: 2021_03_25_152203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 2020_01_30_222245) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "page_id"
+    t.string "dimensions"
     t.index ["page_id"], name: "index_images_on_page_id"
   end
 
