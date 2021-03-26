@@ -18,12 +18,22 @@ json.extract!(
 image = @page.image_to_display
 
 if image && image.try(:content)
-  w,h = image.dimensions.split(":")
-  
-  json.image do
-    json.url image.content.url(:large)
+  if image.dimensions
+    w,h = image.dimensions.split(":")
+
     json.width w 
     json.height h
+  end
+  
+  json.image do
+    json.original do 
+      json.url image.content.url
+      json.path image.content.path
+    end
+    json.large do 
+      json.path image.content.path(:large)
+      json.url image.content.url(:large)
+    end
   end
 end
 
@@ -40,4 +50,7 @@ if petition
   json.description petition.description
 end
 
+json.sources do
+  json.array! @page.links, :title, :source, :url, :date
+end
 
