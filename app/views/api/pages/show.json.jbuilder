@@ -43,6 +43,7 @@ petition =  @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.fir
 if petition
   if petition.form
     json.form petition.form.form_elements.order(:position)
+    json.form_id petition.form.id
   end
 
   json.cta petition.cta
