@@ -12,8 +12,23 @@ json.extract!(
   :featured,
   :action_count,
   :campaign_action_count,
-  :share_buttons,
 )
+
+share_buttons = @page.share_buttons.to_a.map do |share|
+  share = share.attributes
+  share['rank'] = case share['share_type']
+  when 'facebook' then 0
+  when 'twitter' then 1
+  when 'whatsapp' then 2
+  when 'email' then 3
+  end
+
+  share
+end
+
+share_buttons.sort_by! { |hsh| hsh['rank'] }
+
+json.share_buttons share_buttons
 
 image = @page.image_to_display
 
