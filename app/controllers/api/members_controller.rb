@@ -4,6 +4,11 @@ class Api::MembersController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
   before_action :check_api_key, only: [:forget]
 
+  def show
+    member = Member.find_from_request(akid: params[:id])
+    render json: { member: member }
+  end
+
   def create
     I18n.locale = permitted_params[:locale] if permitted_params[:locale].present?
     workhorse = CreateMemberForApiMembersController.new(permitted_params.to_h)

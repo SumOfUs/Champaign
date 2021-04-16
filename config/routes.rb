@@ -227,7 +227,8 @@ Rails.application.routes.draw do
       get :location, to: 'location#index'
     end
 
-    resources :members
+    resources :members, except: [:show]
+    get 'members/:id', to: 'members#show', constraints: { id: %r{[^/]+} }
 
     post 'members/forget', to: 'members#forget'
 
