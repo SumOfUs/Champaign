@@ -9,6 +9,7 @@
 #  content_file_name    :string
 #  content_file_size    :bigint(8)
 #  content_updated_at   :datetime
+#  dimensions           :string
 #  created_at           :datetime
 #  updated_at           :datetime
 #  page_id              :integer

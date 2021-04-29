@@ -52,7 +52,7 @@ exports[`Snapshots: With default messages object 1`] = `
       "confirmation_mailer.follow_up_page.member_management": "To manage your payment methods and details, you can visit the <a href='{url}'>members dashboard</a> at any time.",
       "confirmation_mailer.follow_up_page.success": "You have successfully confirmed your account. Thanks!",
       "confirmation_mailer.title": "Account Confirmation",
-      "consent.accept": "Yes! Tell me if this campaign wins, and how I can help other relevant campaigns.",
+      "consent.accept": "Yes! Tell me if this campaign wins, and how I can help other relevant campaigns and donating.",
       "consent.accept_alt": "Yes, sign and receive emails",
       "consent.decline": "No. I do not want to hear about this campaign’s progress or other relevant campaigns.",
       "consent.decline_alt": "No, sign but don't receive emails",

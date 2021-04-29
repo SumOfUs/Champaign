@@ -9,6 +9,7 @@
 #  content_file_name    :string
 #  content_file_size    :bigint(8)
 #  content_updated_at   :datetime
+#  dimensions           :string
 #  created_at           :datetime
 #  updated_at           :datetime
 #  page_id              :integer
@@ -44,11 +45,20 @@ class Image < ApplicationRecord
   validates_attachment_size :content, less_than: 20.megabytes
   validates_attachment_content_type :content, content_type: %w[image/tiff image/jpeg image/jpg image/png image/x-png image/gif]
 
+  after_post_process :save_image_dimensions
+
   belongs_to :page, touch: true
   has_one    :page_using_as_primary, class_name: 'Page', dependent: :nullify, foreign_key: :primary_image_id
   has_many   :share_facebooks, dependent: :nullify, class_name: 'Share::Facebook'
 
   def decide_format
     content.size.to_i > TO_JPG_SIZE_THRESHOLD ? :jpg : content.content_type.split('/').last
+  end
+
+  private
+
+  def save_image_dimensions
+    geo = Paperclip::Geometry.from_file(content.queued_for_write[:original])
+    self.dimensions = "#{geo.width.to_i}:#{geo.height.to_i}"
   end
 end
