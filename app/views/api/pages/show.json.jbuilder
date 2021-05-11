@@ -12,6 +12,7 @@ json.extract!(
   :featured,
   :action_count,
   :campaign_action_count,
+  :meta_description
 )
 
 share_buttons = @page.share_buttons.to_a.map do |share|

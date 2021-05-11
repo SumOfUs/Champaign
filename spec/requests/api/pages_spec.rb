@@ -84,6 +84,7 @@ describe 'api/pages' do
         campaign_action_count
         share_buttons
         sources
+        meta_description
       ]
       expect(subject.keys).to match_array(expected)
       expect(subject.symbolize_keys).to include(title: 'Foo',
