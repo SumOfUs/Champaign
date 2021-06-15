@@ -7,8 +7,6 @@ import {
   reduce,
   without,
 } from 'lodash';
-import queryString from 'query-string';
-import { TapFormatter } from 'tslint/lib/formatters';
 
 import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
