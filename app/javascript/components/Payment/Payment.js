@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client';
+import braintree from 'braintree-web';
 import dataCollector from 'braintree-web/data-collector';
 import { isEmpty } from 'lodash';
 import ee from '../../shared/pub_sub';
@@ -11,6 +12,7 @@ import captcha from '../../shared/recaptcha';
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
 import PaymentTypeSelection from './PaymentTypeSelection';
+import { ProcessIdealPayment } from './IdealPayment';
 import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
@@ -43,6 +45,7 @@ export class Payment extends Component {
     super(props);
     this.state = {
       client: null,
+      localPaymentInstance: null,
       deviceData: {},
       loading: true,
       submitting: false,
@@ -84,6 +87,18 @@ export class Payment extends Component {
         braintreeClient.create(
           { authorization: data.token },
           (error, client) => {
+            braintree.localPayment.create(
+              {
+                client: client,
+                merchantAccountId: 'sumofus2_EUR',
+              },
+              (localPaymentErr, localPaymentInstance) => {
+                this.setState({
+                  localPaymentInstance,
+                });
+                console.log(localPaymentErr, localPaymentInstance);
+              }
+            );
             // todo: handle err?
             dataCollector.create(
               {
@@ -327,6 +342,14 @@ export class Payment extends Component {
   };
 
   submit = async data => {
+    if (this.props.currentPaymentType === 'ideal') {
+      const nonce = await ProcessIdealPayment({
+        localPaymentInstance: this.state.localPaymentInstance,
+        data: this.donationData(),
+      });
+      data = { nonce };
+    }
+
     const recaptcha_action = `donate/${this.props.page.id}`;
     const recaptcha_token = await captcha.execute({ action: recaptcha_action });
 
@@ -438,7 +461,10 @@ export class Payment extends Component {
   //   - he cannot see monthly donation button when the url has akid & source=fwd
 
   showMonthlyButton() {
-    if (this.state.recurringDonor) {
+    if (
+      this.state.recurringDonor ||
+      this.props.currentPaymentType === 'ideal'
+    ) {
       return false;
     } else {
       if (this.state.recurringDefault === 'only_one_off') {
@@ -564,18 +590,20 @@ export class Payment extends Component {
               />
             </Checkbox>
           )} */}
-
-          <Checkbox
-            className="Payment__config"
-            checked={storeInVault}
-            onChange={e => this.props.setStoreInVault(e.currentTarget.checked)}
-          >
-            <FormattedMessage
-              id="fundraiser.store_in_vault"
-              defaultMessage="Securely store my payment information"
-            />
-          </Checkbox>
-
+          {currentPaymentType !== 'ideal' && (
+            <Checkbox
+              className="Payment__config"
+              checked={storeInVault}
+              onChange={e =>
+                this.props.setStoreInVault(e.currentTarget.checked)
+              }
+            >
+              <FormattedMessage
+                id="fundraiser.store_in_vault"
+                defaultMessage="Securely store my payment information"
+              />
+            </Checkbox>
+          )}
           <div className="payment-message">
             <br />
             {this.showMonthlyButton() && (
@@ -692,6 +720,7 @@ const mapStateToProps = state => ({
     state.fundraiser.disableSavedPayments || state.paymentMethods.length === 0,
   defaultPaymentType: state.fundraiser.directDebitOnly ? 'gocardless' : 'card',
   showDirectDebit: state.fundraiser.showDirectDebit,
+  showIdeal: state.fundraiser.showIdeal,
   currentPaymentType: state.fundraiser.directDebitOnly
     ? 'gocardless'
     : state.fundraiser.currentPaymentType,
