@@ -90,7 +90,8 @@ export class Payment extends Component {
             braintree.localPayment.create(
               {
                 client: client,
-                merchantAccountId: 'sumofus2_EUR',
+                merchantAccountId:
+                  champaign.configuration.iDEALMerchantAccountId,
               },
               (localPaymentErr, localPaymentInstance) => {
                 this.setState({
@@ -347,7 +348,9 @@ export class Payment extends Component {
         localPaymentInstance: this.state.localPaymentInstance,
         data: this.donationData(),
       });
+
       data = { nonce };
+      console.log('heres response', nonce);
     }
 
     const recaptcha_action = `donate/${this.props.page.id}`;
