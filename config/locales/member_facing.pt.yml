@@ -5,7 +5,7 @@ pt:
     email:
       subject: 'Confirme sua assinatura'
   footer:
-    home_url: http://example.com
+    home_url: "http://example.com"
   page:
     more_info: Mais informações
     no_script: "Agradecemos seu interesse em aprender sobre este assunto! Infelizmente, você não poderá executar nenhuma ação enquanto o Javascript estiver desativado no seu navegador. Por favor, ative o Javascript ou então acesse novamente usando um navegador com o Javascript ativado para poder executar uma ação."
@@ -114,8 +114,8 @@ pt:
     thank_you_with_amount: "<strong>Agradecemos a sua doação de %{amount}!</strong> Se tiver qualquer dúvida ou se fez essa doação por engano, por favor, envie um e-mail para donations@sumofus.org."
     recurring_thank_you_with_amount: "<strong>Agradecemos a sua doação recorrente de %{amount}!</strong> Se tiver qualquer dúvida ou se fez essa doação por engano, por favor, envie um e-mail para donations@sumofus.org."
 
-    card_declined: Seu cartão foi recusado pelo processador do pagamento. Por favor, tente novamente com um método de pagamento diferente.
-    unknown_error: Nossa equipe técnica foi notificada. Por favor, verifique suas informações novamente ou tente um método de pagamento diferente.
+    card_declined: "Seu cartão foi recusado pelo processador do pagamento. Por favor, tente novamente com um método de pagamento diferente."
+    unknown_error: "Nossa equipe técnica foi notificada. Por favor, verifique suas informações novamente ou tente um método de pagamento diferente."
     fine_print: "As doações não são dedutíveis de impostos. Para obter maiores informações, nos envie um e-mail." # override this with org-specific details in your own yml file.
     confirmation: Doação recebida.
     donate_now: Doe agora
@@ -200,7 +200,7 @@ pt:
     probably_invalid: não parece correto
     is_invalid: é inválido
     this_field: Este campo
-    this_field_with_message: Este campo %{message}
+    this_field_with_message: "Este campo %{message}"
     named_field_error: "{name} tem alguns erros:"
   validation:
     is_required: é necessário
@@ -208,6 +208,7 @@ pt:
     is_invalid_phone: 'só pode ter números, traços, sinal de mais e parênteses'
     is_invalid_country: deve ser um código de país válido
     is_invalid_length: 'deve conter menos de %{length} caracteres'
+    is_email_or_link: ''
     postal:
       has_invalid_characters: 'Pode conter apenas letras, números, espaços e hífens'
       too_long: 'Pode conter até 9 letras ou caracteres numéricos'
