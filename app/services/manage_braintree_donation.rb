@@ -2,7 +2,7 @@
 
 class ManageBraintreeDonation
   PAYPAL_IDENTIFIER = 'PYPL'
-  LOCAL_IDENTIFIER = 'LOCAL'
+  LOCAL_IDENTIFIER = 'LCAL'
 
   def self.create(params:, braintree_result:, is_subscription: false, store_in_vault: false)
     new(
