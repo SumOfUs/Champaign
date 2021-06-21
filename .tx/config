@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[champaign.member-facing-en-yml]
+file_filter = config/locales/member_facing.<lang>.yml
+minimum_perc = 0
+source_file = config/locales/member_facing.en.yml
+source_lang = en
+type = YML
+
