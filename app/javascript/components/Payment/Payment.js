@@ -82,6 +82,8 @@ export class Payment extends Component {
       pageDefault,
     });
 
+    if (this.props.showIdeal) this.props.setPaymentType('ideal');
+
     $.get(BRAINTREE_TOKEN_URL)
       .done(data => {
         braintreeClient.create(

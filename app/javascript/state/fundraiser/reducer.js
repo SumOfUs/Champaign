@@ -17,7 +17,7 @@ const isIDEALSupported = ({ country, recurring, currency }) => {
 
 export const initialState = {
   currency: 'USD',
-  currentPaymentType: 'card',
+  currentPaymentType: 'ideal',
   currentStep: 0,
   showDirectDebit: false,
   showIdeal: false,
@@ -356,8 +356,8 @@ export function searchStringOverrides(state, search) {
 
 function supportedPaymentTypes(data) {
   const list = [];
-  if (data.showDirectDebit) list.push('gocardless');
   if (data.showIdeal) list.push('ideal');
+  if (data.showDirectDebit) list.push('gocardless');
   if (!data.directDebitOnly) list.push('paypal', 'card');
   return list;
 }
