@@ -39,11 +39,9 @@ const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
 const TESTING_ENV = process.env.TESTING_ENV;
-const FOO = JSON.stringify(process.env);
 
 console.log(BRAINTREE_TOKEN_URL);
-console.log('TESTING ENV VALUE 2', TESTING_ENV);
-console.log('foo', FOO);
+console.log('TESTING ENV VALUE 3', TESTING_ENV);
 export class Payment extends Component {
   static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
 
