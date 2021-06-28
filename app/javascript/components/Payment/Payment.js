@@ -38,6 +38,7 @@ import './Payment.css';
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
+console.log(BRAINTREE_TOKEN_URL);
 export class Payment extends Component {
   static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
 
