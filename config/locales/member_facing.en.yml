@@ -79,6 +79,7 @@ en:
     one_click_failed: "We're sorry but we could not process your donation. Please try again with a different card."
     payment_methods:
       gocardless: "Direct Debit"
+      ideal: "iDEAL"
       paypal: "PayPal"
       card: 'Credit or debit card'
       google: 'Google Pay'
