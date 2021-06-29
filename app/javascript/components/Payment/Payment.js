@@ -37,11 +37,6 @@ import './Payment.css';
 
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
-
-const TESTING_ENV = process.env.TESTING_ENV;
-
-console.log(BRAINTREE_TOKEN_URL);
-console.log('TESTING ENV VALUE 3', TESTING_ENV);
 export class Payment extends Component {
   static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
 
@@ -103,7 +98,6 @@ export class Payment extends Component {
                 this.setState({
                   localPaymentInstance,
                 });
-                console.log(localPaymentErr, localPaymentInstance);
               }
             );
             // todo: handle err?
@@ -356,7 +350,6 @@ export class Payment extends Component {
       });
 
       data = { nonce };
-      console.log('heres response', nonce);
     }
 
     const recaptcha_action = `donate/${this.props.page.id}`;
