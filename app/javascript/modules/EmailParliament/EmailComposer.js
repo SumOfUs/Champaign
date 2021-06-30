@@ -33,7 +33,7 @@ export default props => {
 
   if (!targets) return null;
 
-  const listType = __EMAIL_PARLIAMENT_LIST_TYPE__ || ['MP'];
+  const listType = window.__EMAIL_PARLIAMENT_LIST_TYPE__ || ['MP'];
 
   targets = targets.filter(target => {
     if (listType.includes('MP') && target.type === 'MP') return true;
