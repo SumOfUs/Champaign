@@ -23,5 +23,8 @@
       var followUpUrl = responseData.follow_up_url || "{{ follow_up_url }}"
       window.champaign.redirectors.AfterDonationRedirector.attemptRedirect(followUpUrl, formData)
     });
+    if(window.outerWidth < 600 && window.location.search.includes('source=fwd')) {
+      $('.overlay-toggle__mobile-ui__bottom-bar button').click()
+    }
   });
 </script>
