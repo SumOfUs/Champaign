@@ -12,7 +12,9 @@ import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 const isIDEALSupported = ({ country, recurring, currency }) => {
   if (recurring) return false;
-  return country === 'NL' && currency === 'EUR';
+  const switchedOn =
+    typeof __SHOW_IDEAL__ !== 'undefined' ? __SHOW_IDEAL__ : false;
+  return country === 'NL' && currency === 'EUR' && switchedOn;
 };
 
 export const initialState = {
