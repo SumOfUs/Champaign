@@ -12,8 +12,6 @@ module ActionQueue
     end
 
     def push
-      puts 'HERE HERE HERE'
-      puts payload.merge(meta)
       ChampaignQueue.push(payload.merge(meta), group_id: "action:#{@action.id}")
     end
 
