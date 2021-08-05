@@ -7,15 +7,22 @@ import {
   reduce,
   without,
 } from 'lodash';
-import queryString from 'query-string';
 
 import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
+const isIDEALSupported = ({ country, recurring, currency }) => {
+  if (recurring) return false;
+  const switchedOn =
+    typeof __SHOW_IDEAL__ !== 'undefined' ? __SHOW_IDEAL__ : false;
+  return country === 'NL' && currency === 'EUR' && switchedOn;
+};
+
 export const initialState = {
   currency: 'USD',
-  currentPaymentType: 'card',
+  currentPaymentType: 'ideal',
   currentStep: 0,
   showDirectDebit: false,
+  showIdeal: false,
   directDebitOnly: false,
   disableSavedPayments: false,
   donationAmount: undefined,
@@ -81,10 +88,17 @@ export default (state = initialState, action) => {
     case 'change_currency': {
       const { preselectAmount, donationBands } = state;
       const currency = supportedCurrency(action.payload, keys(donationBands));
+      const showIdeal = isIDEALSupported({
+        country: state.form.country || state.formValues.country,
+        recurring: state.recurring,
+        currency: currency,
+      });
+
       return {
         ...state,
         ...featuredAmountState(preselectAmount, { donationBands, currency }),
         currency,
+        showIdeal,
       };
     }
     case 'change_amount':
@@ -100,10 +114,19 @@ export default (state = initialState, action) => {
         country: form.country,
         recurring: state.recurring,
       });
+
+      const showIdeal = isIDEALSupported({
+        country: form.country,
+        recurring: state.recurring,
+        currency: state.currency,
+      });
+
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
+        showIdeal,
         directDebitOnly: state.directDebitOnly,
         recurring: state.recurring,
+        country: form.country,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -113,6 +136,7 @@ export default (state = initialState, action) => {
         ...state,
         form,
         showDirectDebit,
+        showIdeal,
         paymentTypes,
         currentPaymentType,
       };
@@ -120,6 +144,7 @@ export default (state = initialState, action) => {
     case 'set_direct_debit_only': {
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit: state.showDirectDebit,
+        showIdeal: state.showIdeal,
         directDebitOnly: action.payload,
         recurring: state.recurring,
       });
@@ -156,10 +181,19 @@ export default (state = initialState, action) => {
         country: state.form.country || state.formValues.country,
         recurring: action.payload,
       });
+
+      const showIdeal = isIDEALSupported({
+        country: state.form.country || state.formValues.country,
+        recurring: action.payload,
+        currency: state.currency,
+      });
+
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
+        showIdeal,
         directDebitOnly: state.directDebitOnly,
         recurring: action.payload,
+        country: state.form.country,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -170,6 +204,7 @@ export default (state = initialState, action) => {
         ...state,
         recurring: action.payload,
         showDirectDebit,
+        showIdeal,
         paymentTypes,
         currentPaymentType,
       };
@@ -180,11 +215,21 @@ export default (state = initialState, action) => {
         country: state.form.country || state.formValues.country,
         recurring: data.recurring,
       });
+
+      const showIdeal = isIDEALSupported({
+        country: state.form.country || state.formValues.country,
+        recurring: data.recurring,
+        currency: state.currency,
+      });
+
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
+        showIdeal,
         directDebitOnly: state.directDebitOnly,
         recurring: data.recurring,
+        country: state.form.country,
       });
+
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
         paymentTypes
@@ -193,6 +238,7 @@ export default (state = initialState, action) => {
         ...state,
         ...data,
         showDirectDebit,
+        showIdeal,
         paymentTypes,
         currentPaymentType,
       };
@@ -221,10 +267,17 @@ export default (state = initialState, action) => {
         country: formValues.country,
         recurring: state.recurring,
       });
+      const showIdeal = isIDEALSupported({
+        country: formValues.country,
+        recurring: state.recurring,
+        currenct: state.currency,
+      });
+
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit: showDirectDebit,
         directDebitOnly: state.directDebitOnly,
         recurring: state.recurring,
+        country: formValues.country,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -236,6 +289,7 @@ export default (state = initialState, action) => {
         formValues,
         outstandingFields,
         paymentTypes,
+        showIdeal,
         currentPaymentType,
       };
     }
@@ -304,6 +358,7 @@ export function searchStringOverrides(state, search) {
 
 function supportedPaymentTypes(data) {
   const list = [];
+  if (data.showIdeal) list.push('ideal');
   if (data.showDirectDebit) list.push('gocardless');
   if (!data.directDebitOnly) list.push('paypal', 'card');
   return list;

@@ -14,7 +14,8 @@ module ConfigHelper
     return config unless Settings.end_of_year == true
 
     config.merge(
-      eoyThermometer: eoy_thermometer_config
+      eoyThermometer: eoy_thermometer_config,
+      iDEALMerchantAccountId: PaymentProcessor::Braintree::MerchantAccountSelector.for_currency('EUR')
     )
   end
 
