@@ -8,9 +8,11 @@ class Rack::Attack
     limit, period, unit = criteria.split('.')
     ip_key = "tx/ip/#{period}#{unit}"
     device_key = "tx/device/#{period}#{unit}"
+    recaptcha_token_key = "tx/token/#{period}#{unit}"
 
     throttle(ip_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| transaction_rule(req) }
     throttle(device_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| device_rule(req) }
+    throttle(recaptcha_token_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| token_rule(req) }
   end
   # Exponential throttling on actions endpoint:
   (1..5).reverse_each do |level|
@@ -52,5 +54,12 @@ end
 def transaction_rule(req)
   if req.path =~ %r{^/api/payment/braintree/pages/\d+/transaction} && req.post?
     req.location.ip unless req.env['warden'].user
+  end
+end
+
+def token_rule(req)
+  if req.path =~ %r{^/api/payment/braintree/pages/\d+/transaction} && req.post?
+    params = Rack::Utils.parse_nested_query req.env['rack.input'].string
+    params['recaptcha_token']
   end
 end
