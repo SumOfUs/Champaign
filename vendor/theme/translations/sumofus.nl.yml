@@ -1,98 +1,98 @@
 nl:
   member_registration:
-    title: "Member Registration - SumOfUs.org"
+    title: "Ledenregistratie - SumOfUs.org"
     form:
-      password: Password
-      confirm_password: Confirm Password
-      your_email: Your email
-      register: Register
-    thanks: "Thanks! Just one more step:"
-    enter_password_message: "Just enter a password to get started"
-    create_account: "We're processing your donation."
-    create_account_description: "Now, create an account to securely manage your donations with SumOfUs, and cancel a donation at any time."
-    check_email: "<strong>Thanks for registering.</strong> <span>Now, check your email and click the confirmation link</span>"
+      password: Wachtwoord
+      confirm_password: Bevestig je wachtwoord
+      your_email: Je e-mailadres
+      register: Registreer
+    thanks: "Bedankt! Nog één stap:"
+    enter_password_message: "Voer een wachtwoord in om te beginnen"
+    create_account: "Je donatie wordt verwerkt"
+    create_account_description: "Maak nu een account aan om je donaties aan SumOfUs veilig te beheren, en om een donatie op elk moment te annuleren. "
+    check_email: "<strong>Bedankt voor je registratie.</strong> <span>Controleer nu je e-mail en klik op de bevestigingslink</span>"
   confirmation_mailer:
-    title: "Account Confirmation - SumOfUs.org"
+    title: "Accountbevestiging - SumOfUs.org"
     confirmation_email:
-      subject: "Confirm your account with SumOfUs"
-      headline: "Thank you for registering an account with SumOfUs"
-      body_html: "To confirm your account with SumOfUs, please <a href='%{confirmation_url}'>follow this link.</a><br/><br/>Thanks,<br/>The whole team at SumOfUs"
-      body_text: "To confirm your registration, please follow this link: %{confirmation_url}"
+      subject: Bevestig je SumOfUs-account"
+      headline: "Bedankt voor het registreren van een SumOfUs-account"
+      body_html: " <a href='%{confirmation_url}'>Klik op deze link om je SumOfUs-account te bevestigen.</a><br/><br/>Bedankt,<br/>Het hele SumOfUs-team"
+      body_text: "Klik op deze link om je registratie te bevestigen:  %{confirmation_url}"
     follow_up_page:
-      account_not_found: "Sorry, no account was found associated with this link. Please email donations@sumofus.org for assistance."
-      account_already_confirmed: "Your account has already been confirmed!"
-      failure: "Sorry, there was an issue confirming your account. Please email donations@sumofus.org for assistance."
-      success: "You have successfully confirmed your account with SumOfUs. Thanks!"
-      member_management: "To manage your payment methods and details, you can visit the <a href='%{url}'>SumOfUs members dashboard</a> at any time."
+      account_not_found: "Sorry, er is geen account gevonden dat aan deze link is gekoppeld. Stuur een e-mail naar donations@sumofus.org voor assistentie. "
+      account_already_confirmed: "Je account is al bevestigd!"
+      failure: "Sorry, er is een probleem opgetreden met het bevestigen van je account. Stuur een e-mail naar donations@sumofus.org voor hulp. "
+      success: "Je hebt je SumOfUs-account succesvol bevestigd. Bedankt!"
+      member_management: "Om je betaalmethoden en -gegevens te beheren, kun je op elk moment het <a href='%{url}'>SumOfUs- ledendashboard</a> bezoeken."
   branding:
-    tagline: More dutch
+    tagline: Want mensen komen voor winst
     license: Creative Commons Attribution 3.0 Unported License.
-    description: "SumOfUs is a global movement of consumers, investors, and workers all around the world, standing together to hold corporations accountable for their actions and forge a new, sustainable and just path for our global economy. It's not going to be fast or easy. But if enough of us come together, we can make a real difference."
+    description: "SumOfUs is een wereldwijde beweging van consumenten, investeerders en werknemers die zich samen inzetten om grote bedrijven verantwoordelijk te houden voor hun acties, en om een nieuwe, duurzame route uit te zetten voor onze wereldeconomie. Het zal niet snel of makkelijk gaan, maar als er genoeg van ons samenkomen kunnen we een echt verschil maken."
   fundraiser:
-    currency_disclaimer: "Hello! We're working hard to soon be able to accept donations in your local currency. Meanwhile, we appreciate your patience — your donation will be processed in the foreign currency you select. Please note that your credit card might impose fees which SumOfUs has no control of. We truly appreciate your understanding."
-    fine_print: "SumOfUs will protect <a href='https://sumofus.org/privacy'>your privacy</a>, and keep you updated about this and similar campaigns."
+    currency_disclaimer: "Hallo! We werken er hard aan om binnenkort donaties te kunnen accepteren in jouw lokale munteenheid. Ondertussen waarderen wij je geduld - je donatie zal worden verwerkt in de buitenlandse valuta die je selecteert. Houd er rekening mee dat je creditcard kosten in rekening kan brengen waar SumOfUs geen controle over heeft. Bedankt voor je begrip."
+    fine_print: "SumOfUs zal  <a href='https://sumofus.org/privacy'>je privacy</a> beschermen, en je op de hoogte houden van deze en soortgelijke campagnes."
     debit:
-      recurring: "You are setting up a monthly donation of %{amount} to SumOfUs"
-      one_time: "You are donating %{amount} to SumOfUs"
+      recurring: "Je stelt een maandelijkse donatie aan SumOfUs in van%{amount}"
+      one_time: "Je doneert %{amount} aan SumOfUs"
     generic:
-      title: "Thanks for taking action! Can you chip in to continue the fight?"
-      target: You
-      ask: "Can you donate to help SumOfUs continue to fight corporate power around the world?"
-      body: "Thanks for taking action with SumOfUs. You’re awesome! Your action helps fight corporate power all over the world. But there's still lots of work to be done. SumOfUs is funded almost entirely by small donations from people in our community just like you, so every little donation counts. Your donation means that we can take on the biggest, baddest corporations and hold them accountable. Will you provide a donation to help us keep fighting today?"
+      title: "Bedankt dat je actie onderneemt! Kun je een bijdrage leveren om de strijd voort te zetten?"
+      target: Jij
+      ask: "Kun je doneren om SumOfUs te helpen in de strijd tegen de macht van bedrijven wereldwijd?"
+      body: "Bedankt dat je actie onderneemt met SumOfUs. Je bent geweldig! Met je actie draag je bij aan de strijd tegen de macht van bedrijven over de hele wereld. Maar er is nog steeds veel werk te doen. SumOfUs wordt bijna volledig gefinancierd door kleine donaties van mensen in onze community zoals jij, dus elke kleine bijdrage telt. Jouw donatie zorgt ervoor dat we het kunnen opnemen tegen de grootste en meest kwaadaardige bedrijven, en hen ter verantwoording kunnen roepen. Help jij ons vandaag nog met een donatie zodat we kunnen blijven strijden? "
     two_step:
       cta:
-        "<p><span class='inject-name'>Dear friend</span>, we need your support today to win campaigns against corporate power in 2021</p>
+        "<p><span class='inject-name'>Beste vriend, beste vriendin</span>, we hebben vandaag je hulp nodig om campagnes tegen de macht van het bedrijfsleven in 2022 te winnen. </p>
         <br/>
-        <p>Can you chip in to help power SumOfUs?</p>"
+        <p>Kun je een donatie doen om SumOfUs sterker te maken?</p>"
       cta_eoy:
-        "<p><span class='inject-name'>Dear friend</span>, we need your support today to win campaigns against corporate power in 2021.
+        "<p><span class='inject-name'>Beste vriend, beste vriendin</span>, we hebben vandaag je hulp nodig om campagnes tegen de macht van het bedrijfsleven in 2022 te winnen. .
         <br/>
-        <p>Can you chip in to help power SumOfUs?</p>"
-    upgrade_monthly_gift: "I would like to upgrade my <span class='js-current'></span> monthly gift to"
-    update: "Update"
-    processing: "Processing..."
-    problem_upgrading: "We're sorry, but there was a problem upgrading your donation"
-    amount_greater_than_1: "Please enter an amount greater than 1"
+        <p>Kun je een donatie doen om SumOfUs sterker te maken? </p>"
+    upgrade_monthly_gift: "Ik wil graag mijn <span class='js-current'></span> maandelijkse gift verhogen naar"
+    update: "Bijwerken"
+    processing: "Verwerken..."
+    problem_upgrading: "Het spijt ons, maar er is een probleem opgetreden bij het verhogen van je donatie"
+    amount_greater_than_1: "Voer een bedrag in dat groter is dan 1"
     upgrading:
-        awesome: "You're awesome!"
-        thank_you: "Thanks so much for upgrading your monthly gift to SumOfUs."
-        becoming_stronger: "Because of you we'll be that much stronger in our work challenging corporate power."
+      awesome: "Je bent geweldig!"
+      thank_you: "Heel erg bedankt voor het verhogen van je maandelijkse donatie aan SumOfUs."
+      becoming_stronger: "Dankzij jou zullen we veel sterker staan in onze strijd tegen de macht van grote bedrijven. "
   petition:
-    sign_it: Sign the petition
+    sign_it: Teken de petitie
     target_prefix: TO
-    confirmation: Name submitted
-    excited_confirmation: Name submitted!
-    thank_you: 'Thanks for adding your name to "%{petition_title}"'
-    fine_print: "SumOfUs will protect <a href='https://sumofus.org/privacy'>your privacy</a>, and keep you updated about this and similar campaigns."
-    before_you_sign: 'Before you sign "%{petition_title}"'
-    thanks_for_signing: 'Thanks for signing "%{petition_title}"'
-    next: "Next"
+    confirmation: Naam toegevoegd
+    excited_confirmation: Naam toegevoegd!!
+    thank_you: 'Bedankt dat je je naam toevoegde aan "%{petition_title}"'
+    fine_print: "SumOfUs zal  <a href='https://sumofus.org/privacy'>je privacy</a> beschermen, en je op de hoogte houden van deze en soortgelijke campagnes. "
+    before_you_sign: 'Voor je "%{petition_title} tekent"'
+    thanks_for_signing: 'Bedankt voor het tekenen van "%{petition_title}"'
+    next: "Volgende"
   share:
-    cta: Share the campaign with your friends to triple your impact!
-    cta_thanks: Thank you, you’re amazing! Now, can you share the campaign with your friends to triple your impact!
-    send_email: Send Email
-    share: Share
+    cta: Deel de campagne met je vrienden om je impact te verdrievoudigen!
+    cta_thanks: Bedankt, je bent geweldig! Kun je nu ook de campagne met je vrienden delen om je impact te verdrievoudigen?
+    send_email: Stuur e-mail
+    share: Deel
     tweet: Tweet
     twitter_handle: "@sumofus"
     two_step:
-      cta: "Now, will you share the campaign to triple your impact?"
-      accept: "Yes"
-      decline: "No"
-      accepted: "Thanks! Share now in just a couple of clicks:"
-      declined: "No problem. Thanks for your support!"
-    thanks: "Thank you for your donation!"
+      cta: "Deel je nu de campagne om je impact te verdrievoudigen?"
+      accept: "Ja"
+      decline: "Nee"
+      accepted: "Bedankt! Deel nu in slechts een paar klikken:"
+      declined: "Geen probleem. Bedankt voor je steun!"
+    thanks: "Bedankt voor je donatie!"
   share_and_donate:
-    fundraiser_title: "Chip in to help power SumOfUs"
+    fundraiser_title: "Help SumOfUs sterker te worden"
   petition_and_scroll:
-    fundraiser_intro: "<p>Thank you for taking action, <span class='inject-name'>Dear friend</span>! Together we can win this fight -- can you chip in today to power this campaign to victory?</p>"
+    fundraiser_intro: "<p>Bedankt dat je actie onderneemt, <span class='inject-name'></span>! Samen kunnen we deze strijd winnen -- kun je vandaag een bijdrage leveren om deze campagne te helpen slagen?</p>"
   footer:
     home: Home
-    about: About
-    privacy_policy: Privacy Policy
+    about: Over
+    privacy_policy: Privacybeleid
     contact: Contact
-    controlshift: Start your own campaign
+    controlshift: Begin je eigen campagne
     home_url: https://sumofus.org/
-    about_url: https://sumofus.org/about
+    about_url: https://sumofus.org/over
     privacy_policy_url: https://sumofus.org/privacy
     contact_url: https://sumofus.org/contact
   baysanto:
@@ -153,19 +153,13 @@ nl:
         tweet_link: https://bayermonsantomerger.com
         cta: "Tweet now"
   caller_survey:
-    intro:
-      "You should receive a call on your phone any second now. Once you pick up, you will first hear a short message
-      from us and then be connected to the target. <br> <br><b>After the call, can you let us know how it went?&nbsp;</b>You can leave a message below."
-    intro_with_target_info:
-      "You should receive a call on your phone any second now. Once you pick up, you will first hear a short message
-      from us and then get connected to a the office of <b>:target_name:</b>, <b>:target_title:</b>.
-      <br> <br>
-      <b>After the call, can you let us know how it went?&nbsp;</b>You can leave a message below.&nbsp;"
-    show_talking_points: "Click here to show the example conversation, tips and FAQs again"
-    submit: "Submit"
+    intro: "Je zou nu elk moment een telefoontje moeten krijgen. Als je opneemt hoor je eerst een kort bericht van ons, daarna word je doorverbonden.  <br> <br><b>Kun je ons na het gesprek laten weten hoe het gegaan is? &nbsp;</b> Je kunt hieronder een bericht achterlaten."
+    intro_with_target_info: "Je zou nu elk moment een telefoontje moeten krijgen. Als je opneemt hoor je eerst een kort bericht van ons, daarna word je doorverbonden met het kantoor van  <b>:target_name:</b>, <b>:target_title:</b>.<br> <br><b>Kun je ons na het gesprek laten weten hoe het gegaan is?</b> Je kunt hieronder een bericht achterlaten."
+    show_talking_points: "Klik hier om het voorbeeldgesprek, de tips en de veelgestelde vragen nog eens te bekijken"
+    submit: "Indienen"
   cookie_consent:
     privacy_policy_url: "https://www.sumofus.org/privacy/"
   progress_tracker:
-    signed: Signed
-    shared: Shared
-    donated: Donated
+    signed: Getekend
+    shared: Gedeeld
+    donated: Gedoneerd
