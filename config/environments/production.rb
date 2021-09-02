@@ -121,7 +121,7 @@ Rails.application.configure do
   config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
       # origins(%r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/)
-      origins '*'
+      origins 'http://localhost:3000'
       resource '*',
                headers: :any,
                methods: %i[get post delete put patch options head],
