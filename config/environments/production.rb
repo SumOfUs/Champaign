@@ -125,7 +125,8 @@ Rails.application.configure do
       resource '*',
                headers: :any,
                methods: %i[get post delete put patch options head],
-               max_age: 86_400
+               max_age: 86_400,
+               credentials: true
     end
   end
 
