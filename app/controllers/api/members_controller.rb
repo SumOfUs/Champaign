@@ -4,6 +4,11 @@ class Api::MembersController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
   before_action :check_api_key, only: [:forget]
 
+  def payment_methods
+    payment_methods = Payment::Braintree::PaymentMethod.where(token: cookies.signed[:payment_methods].split(','))
+    render json: payment_methods
+  end
+
   def show
     member = Member.find_from_request(akid: params[:id])
     render json: { member: member }
