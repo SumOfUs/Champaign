@@ -4,9 +4,23 @@ class Api::MembersController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
   before_action :check_api_key, only: [:forget]
 
+  def set_payment_methods
+    response.headers.except! 'X-Frame-Options'
+    current_payment_methods = cookies.signed['payment_methods']
+
+    cookies.signed[:payment_methods] = {
+      value: current_payment_methods,
+      expires: 5.years.from_now,
+      domain: :all
+    }
+
+    render json: {}
+  end
+
   def payment_methods
-    payment_methods = Payment::Braintree::PaymentMethod.where(token: cookies.signed[:payment_methods].split(','))
-    render json: payment_methods
+    cookie_data = (cookies.signed[:payment_methods] || '').split(',')
+    @payment_methods = Payment::Braintree::PaymentMethod.where(token: cookie_data)
+    render json: @payment_methods
   end
 
   def show
