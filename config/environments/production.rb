@@ -121,7 +121,15 @@ Rails.application.configure do
   config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
       # origins(%r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/)
-      origins 'http://localhost:3000'
+      origins 'http://localhost:3000', 'http://local.sumofus.org:3001'
+      resource '*',
+               headers: :any,
+               methods: %i[get post delete put patch options head],
+               max_age: 86_400,
+               credentials: true
+    end
+    allow do
+      origins(%r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/)
       resource '*',
                headers: :any,
                methods: %i[get post delete put patch options head],
