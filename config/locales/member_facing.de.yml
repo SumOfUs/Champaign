@@ -1,298 +1,302 @@
-de:
+de: # translated 22 July 2021
   double_opt_in:
     check_email:
-      body: "Schauen Sie in Ihrem Postfach nach, um Ihre E-Mail-Adresse zu bestätigen und Ihre Unterschrift zu validieren."
+      body: "Gelieve je e-mail te checken om je handtekening te bevestigen"
     email:
-      subject: 'Bestätigen Sie Ihre Unterschrift'
+      subject: Bevestig je handtekening
+  footer:
+    home_url: http://voorbeeld.com
   page:
-    more_info: Mehr Informationen
-    no_script: "Vielen Dank für Ihr Interesse an diesem Thema. Leider können Sie nur unterzeichnen, wenn Javascript in Ihrem Browser aktiviert ist. Bitte aktivieren Sie Javascript oder versuchen Sie es noch einmal mit einem anderen Browser, der Javascript erlaubt."
+    more_info: Meer informatie
+    no_script: "Bedankt voor je interesse in deze kwestie! Helaas kun je geen actie ondernemen als Javascript is uitgeschakeld in je browser. Gelieve Javascript in te schakelen of terug te keren in een browser met Javascript ingeschakeld om actie te ondernemen."
   basics:
-    or: oder
+    or: of
   branding:
-    description: "Wir stellen uns vor."
+    description: "Dit zijn wij." # override this with org-specific details in your own yml file.
   recommend_pages:
-    recommend_pages_title: "Hier finden Sie ähnliche Kampagnen, für die wir Ihre Unterstützung benötigen!"
-    actions: "%{action_count} Unterschriften"
-    learn_more: "Mehr erfahren"
+    recommend_pages_title: 'Hier zijn soortgelijke campagnes waar we je steun bij nodig hebben!'
+    actions: '%{action_count} acties'
+    learn_more: 'meer...'
   email_pension:
     form:
-      select_target: 'Wählen Sie Ihren Renten- oder Investement-Fonds.'
-      other_pension_fund_text: "Ihre Rentenversicherung ist nicht dabei?"
+      select_target: 'Selecteer je pensioen- of beleggingsfonds'
+      other_pension_fund_text: "Kun je je pensioenfonds niet vinden?"
   email_tool:
-    title: 'Schreiben Sie Ihre E-Mail'
-    suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
+    selected_target: 'Je gekozen ontvanger(s)'
+    title: 'Je e-mail opstellen'
+    suggest_fund: "Sorry daarvoor. Mail de naam van je fonds naar sumofus@ourpension.org en we zullen ons best doen om het toe te voegen aan onze database. "
     section:
-      compose: "Schreiben Sie Ihre E-Mail"
+      compose: "Je E-mail Opstellen"
     form:
       representative:
-        postal_code: 'Bitte geben Sie Ihre Postleitzahl ein'
-        selected_targets: 'Abgeordnete'
-        searching: 'Ihr/e Abgeordnete/r wird gesucht'
-        not_found: "Leider konnten wir in dieser Gegend niemanden finden"
-        search_pending: "Bitte geben Sie Ihre Postleitzahl ein"
-      select_country: 'Wählen Sie Ihr Land'
-      select_target: "Wählen Sie den/die Empfänger/in"
-      subject: 'Bitte geben Sie eine Betreffzeile ein'
-      your_name: 'Ihr Name'
-      your_email: 'Ihre E-Mail-Adresse'
-      submit: 'Einreichen'
-      submit_and_send_email: 'E-Mail senden'
-      title_for_no_email_client: 'Falls Sie kein E-Mail-Programm installiert haben und über keinen der hier genannten E-Mail-Dienste verfügen, folgen Sie bitte den folgenden Anweisungen.'
-      choose_email_service: 'Wählen Sie einen E-Mail-Dienst aus, um eine E-Mail zu senden'
-      mobile_desktop_apps: 'E-Mail per Mobil oder Desktop App verschicken'
-      email_client: 'E-Mail-Programm'
-      web_browser: 'E-Mail per Web Browser verschicken'
-      manual: 'E-Mail manuell verschicken'
-      others: 'Andere Anbieter'
-      copy_target_email_address: '1. E-Mail-Adresse des Empfängers/der Empfängerin kopieren'
-      copy_email_subject: '2. E-Mail-Betreff kopieren'
-      copy_email_body: '3. E-Mail-Text kopieren'
-      email_body: 'E-Mail-Text'
-      name_of_your_pension_fund: 'Name der Rentenversicherung '
-      send_button_text: 'Senden'
+        postal_code: 'Voer je postcode in'
+        selected_targets: 'Vertegenwoordigers'
+        searching: 'Op zoek naar jouw vertegenwoordigers'
+        not_found: "Sorry, we konden geen vertegenwoordigers vinden met deze locatie. "
+        search_pending: "Gelieve hierboven je postcode in te voeren"
+      select_country: 'Selecteer je land'
+      select_target: 'Selecteer een ontvanger'
+      subject: 'Onderwerp'
+      your_name: 'Je naam'
+      your_email: 'Je e-mailadres'
+      submit: 'Indienen'
+      submit_and_send_email: 'Indienen en e-mail versturen'
+      title_for_no_email_client: 'Indien je geen e-mail software hebt ingesteld of geen van de genoemde e-maildiensten hebt, gelieve de volgende instructies te volgen. '
+      choose_email_service: Kies een van de e-maildiensten om nu een e-mail te versturen'
+      mobile_desktop_apps: 'Mobiele & Desktop Apps'
+      email_client: 'E-mail software'
+      web_browser: 'Webbrowser'
+      manual: 'Manueel'
+      others: 'Anders'
+      copy_target_email_address: '1. Kopieer het e-mailadres van de ontvanger'
+      copy_email_subject: '2. Kopieer het onderwerp van de e-mail'
+      copy_email_body: '3. Kopieer de e-mail'
+      email_body: 'Body'
+      name_of_your_pension_fund: 'Naam van je pensioenfonds'
+      send_button_text: 'Verzenden'
       errors:
-        message: "Ups! In einigen Feldern haben sich Fehler eingeschlichen. Bitte füllen Sie die benötigten Felder aus."
-        country: 'Bitte wählen Sie ein Land'
-        subject: 'Bitte fügen Sie eine Betreffzeile hinzu'
-        email: 'Bitte fügen Sie Ihre E-Mail-Adresse hinzu'
-        name: 'Bitte fügen Sie Ihren Namen hinzu'
-        fund: 'Bitte wählen Sie einen Rentenfonds'
-        suggest_fund: Bitte geben Sie den Namen Ihres Rentenfonds ein
-        fund_not_found: "Es tut uns leid, dass Ihre Rentenversicherung nicht gefunden wurde. Schicken Sie uns den Namen Ihrer Rentenversicherung und wir ergänzen sie."
-        targets: "Bitte geben Sie Ihren Wohnort an, damit wir Ihre/n Abgeordnete/n finden können"
+        message: "Oeps! Er zijn wat fouten met het formulier. Controleer of je alle verplichte velden hebt ingevuld."
+        country: 'Selecteer een land'
+        subject: 'Voeg een onderwerp toe'
+        email: 'Voeg je e-mailadres toe'
+        name: 'Voeg je naam toe'
+        fund: 'Selecteer een pensioenfonds'
+        suggest_fund: De naam van het pensioenfonds kan niet leeg blijven
+        fund_not_found: "Het spijt ons dat je je pensioenfonds niet kon vinden. Stuur ons de naam en we zullen onze gegevens bijwerken."
+        targets: 'Vul je locatie in om je vertegenwoordiger te vinden'
         target:
-          outdated: "Offensichtlich haben sich gerade Informationen auf Empfänger-Seite verändert. Bitte laden Sie die Seite erneut und probieren es noch einmal. "
+          outdated: "Het lijkt erop dat de informatie van de ontvanger onlangs is veranderd. Herlaad de pagina en probeer het opnieuw. "
     template_defaults:
-      fund: '[Select fund from above]'
-      fund_contact: '[Select fund from above]'
-      fund_email: '[Select fund from above]'
-      name: '[Enter your name above]'
-      constituency_name: '[Wählen Sie Ihre/n Abgeordnete/n aus]'
-      target_full_name: '[Wählen Sie Ihre/n Abgeordnete/n aus]'
+      fund: '[Selecteer een fonds van hierboven]'
+      fund_contact: '[Selecteer een fonds van hierboven]'
+      fund_email: '[Selecteer een fonds van hierboven]'
+      name: '[Vul hierboven je naam in]'
+      constituency_name: '[Selecteer hierboven je vertegenwoordiger]'
+      target_full_name: '[Selecteer hierboven je vertegenwoordiger]'
   fundraiser:
+    one_click_warning: "Je donatie zal onmiddellijk worden verwerkt."
+    one_click_failed: "Het spijt ons maar we konden je donatie niet verwerken. Probeer het alsjeblieft nog een keer met een andere kaart."
     payment_methods:
-      gocardless: "Lastschrift"
+      gocardless: "Direct Debit"
+      ideal: "iDEAL"
       paypal: "PayPal"
-      card: 'Kreditkarte'
+      card: 'Credit of debit card '
       google: 'Google Pay'
       apple: 'Apple Pay'
-      ready_for_gocardless: "Klicken Sie auf \"Spenden\", um den Vorgang mit unserem Zahlungsdienstleister GoCardless abzuschließen."
-      ready_for_paypal: "Wenn Sie auf das Feld unten klicken, leitet Paypal Sie durch die letzten Schritte, um Ihre Spende abzuschließen. "
-      ready_for_google: "DE When you click the button below, Google will guide you to finish your donation."
-    payment_type_prompt: Zahlungsmethode
-    amount: Betrag
-    details: Kontaktdaten
-    payment: Zahlung
-    donate: "%{amount} Spenden"
-    donate_monthly: "%{amount} pro Monat spenden"
-    month: Monat
-    donation_recurring: 'Monthly'
-    donation_once: 'Just once'
-    error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
-    currency_in: "Beträge werden in %{currency} angezeigt"
-    switch_currency: Währung ändern
-    proceed_to_details: Weiter zu Kontaktdaten
-    proceed_to_payment: Weiter zur Zahlung
-    other_amount: Betrag
-    make_recurring: Monatlich spenden
-    store_in_vault: Meine Zahlungsdaten sicher speichern
-    thank_you: Vielen Dank!
-    thank_you_with_amount: "<strong>Vielen Dank für Ihre Spende in Höhe von %{amount}!</strong> Sie haben Fragen oder versehentlich gespendet? Dann schreiben Sie uns an  hallo@sumofus.org."
-    recurring_thank_you_with_amount: "<strong> Vielen Dank für Ihre regelmäßige Spende in Höhe von %{amount}!</strong> Falls Sie eine Frage an uns haben oder diese Spende unabsichtlich getätigt haben, schreiben Sie uns gern eine Nachricht an hallo@sumofus.org."
-    card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
-    unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
-    fine_print: "Donations are not tax deductable. For more information please email us."
-    confirmation: Spende erhalten
-    donate_now: "Unterstützen Sie uns mit einer kleinen monatlichen Spende, damit wir weiter gegen die Übermacht von Großkonzernen kämpfen können?"
-    loading: Unser sicheres Spenden formular wird geladen
+      ready_for_gocardless: "Klik op ‘Doneren’ om de donatie via GoCardless, onze automatische incasso provider, af te ronden. "
+      ready_for_paypal: "Wanneer je op de onderstaande knop klikt, zal PayPal je begeleiden om je donatie te voltooien. "
+      ready_for_google: "Wanneer je op de onderstaande knop klikt, zal Google je begeleiden om je donatie te voltooien. "
+    payment_type_prompt: Betaalmethode
+    amount: Bedrag
+    details: Gegevens
+    payment: Betaling
+    donate: "Doneer %{amount}" # used on the submit button, eg 'Donate $15'
+    donate_monthly: "Doneer %{amount} / maand"
+    make_monthly_donation: "%{name} een {duration} donatie zal onze beweging ondersteunen om vooruit te plannen, zodat we effectiever kunnen optreden tegen de grootste bedrijven die mensen en de planeet bedreigen. "
+    complete_donation: "Voltooi je %{amount} donatie"
+    donate_amount: "Doneer %{amount}"
+    donation_once: "Doneer eenmalig %{amount}"
+    donation_recurring: "Doneer maandelijks %{amount}"
+    donation_weekly: "Doneer wekelijks %{amount}"
+    weekly_donation_fineprint: "Om de verwerkingskosten te beperken en er zo voor te zorgen dat je donatie zoveel mogelijk effect heeft, worden wekelijkse donaties één keer per maand verwerkt."
+    month: maand
+    error_intro: We waren niet in staat om je donatie te verwerken!
+    currency_in: "Bedrag weergegeven in %{currency}"
+    switch_currency: Verander munteenheid
+    proceed_to_details: Ga door naar gegevens
+    proceed_to_payment: Ga door naar betalen
+    other_amount: Ander
+    make_recurring: Maak mijn donatie maandelijks
+    store_in_vault: Mijn betaalgegevens veilig opslaan
+    thank_you: Bedankt voor je donatie! 
+    thank_you_with_amount: "<strong>Bedankt voor je donatie van %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org. "
+    recurring_thank_you_with_amount: "<strong>Bedankt voor je terugkerende donatie van  %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org."
+    card_declined: Je kaart werd geweigerd door de betalingsverwerker. Gelieve een andere betaalmethode te proberen. 
+    unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen. 
+    fine_print: "Donaties zijn niet belastingaftrekbaar. Voor meer informatie kun je ons mailen. " # override this with org-specific details in your own yml file.
+    confirmation: Donatie ontvangen
+    donate_now: Doneer nu
+    loading:Beveiligd betalingsportaal wordt geladen <br> 
     oneclick:
-      select_payment: "Wählen Sie eine der hinterlegten Zahlungsmethoden"
-      credit_card_payment_method: "%{card_type} gültig bis %{last_four_digits}"
-      paypal_payment_method: "Paypal (%{email})"
-      new_payment_method: "Zahlungsmethode hinzufügen"
-      duplicate_donation: "Sie haben vor wenigen Minuten schon einmal gespendet. Sind Sie sicher, dass sie noch einmal spenden möchten? Wir möchten nur sicher gehen, dass Sie nicht versehentlich doppelt spenden.
-                          Vielen Dank für Ihre Unterstützung!"
+      select_payment: "Selecteer een opgeslagen betaalmethode"
+      credit_card_payment_method: "%{card_type} geldig tot %{last_four_digits}"
+      paypal_payment_method: "PayPal (%{email})"
+      new_payment_method: "Voeg betaalmethode toe"
+      duplicate_donation: "Je hebt net een paar minuten geleden een donatie gedaan. Weet je zeker dat je opnieuw wilt doneren? We doen dit om ervoor te zorgen dat je niet per ongeluk twee keer doneert. 
+Ontzettend bedankt voor alles wat je doet! "
     debit:
-      recurring: "Sie machen eine monatliche Spende von %{amount} an SumOfUs"
-      one_time: "Sie spenden %{amount} an SumOfUs"
-      direct_debit: "Lastschrift"
+      recurring: "Je stelt een maandelijkse donatie in van  %{amount} "
+      one_time: "Je doneert  %{amount}"
+      direct_debit: "Automatische Incasso"
     fields:
-      cvv: Kartenprüfnr
-      number: Kreditkartennummer
-      expiration: Ablaufdatum
-      expiration_format: MM / JJ
-      postalCode: Postleitzahl
-    field_names:
-      cvv: Die Kartenprüfnummer
-      number: Die Kreditkartennummer
-      expiration: Das Ablaufdatum
+      cvv: Veiligheidscode
+      number: Kaartnummer
+      expiration: Vervaldatum 
+      expiration_format: MM / JJ MM / YY
+      postalCode: Postcode
+    field_names: # these are used in sentence form, eg with errors. waarschijnlijk_ongeldig
+      cvv: Veiligheidscode
+      number: Kaartnummer
+      expiration: Vervaldatum
     thermometer:
-      raised: Aktueller Spendenstand
-      goal: Ziel
-    make_monthly_donation: "%{name} Mit einer monatlichen Spende helfen Sie uns dabei, langfristig zu planen - damit wir es auch mit den größten Konzernen aufnehmen können, die uns und unseren Planeten bedrohen."
-    complete_donation: "Bestätigen Sie jetzt ihre Spende über %{amount}"
-    donate_amount: "%{amount} spenden"
-    donation_once: "Einmalig %{amount} spenden"
-    donation_recurring: "Monatlich %{amount} spenden"
-    donation_weekly: "Pro Woche %{amount} spenden"
-    weekly_donation_fineprint: "To reduce processing fees and make sure your donation has as much impact as possible, weekly donations are processed once per month."
+      raised: Opgehaald
+      goal: Doel
   petition:
-    sign_it: Petition Unterschreiben
-    target_prefix: AN
-    confirmation: Ihre Unterschrift wurde der Petition hinzugefügt
-    excited_confirmation: Ihre Unterschrift wurde der Petition hinzugefügt!
-    thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
-    fine_print: "We will protect your privacy, and keep you updated about this and similar campaigns."
+    sign_it: Teken de petitie
+    target_prefix: AAN
+    confirmation: Naam ingediend
+    excited_confirmation: Naam ingediend! 
+    thank_you: 'Bedankt voor het toevoegen van je naam aan "%{petition_title}"'
+    fine_print: "We zullen je privacy beschermen en je op de hoogte houden van deze en soortgelijke campagnes. " # override this with org-specific details in your own yml file.
   form:
-    switch_user: Ausloggen
-    processing: In Bearbeitung...
-    submit: Abschicken
+    switch_user: Afmelden
+    processing: Verwerken...
+    submit: Indienen
     default:
-      name: VOLLSTÄNDIGER NAME
-      email: E-MAIL
-      country: LAND
-      postal: PLZ
-      phone_number: "Telefonnummer"
+      name: Voor- en achternaam
+      email: E-mailadres
+      country: Land
+      postal: Postcode
+      phone_number: Telefoonnummer
   thermometer:
-    signatures_until_goal: "Noch %{remaining} Unterschriften bis zur Zielmarke %{goal}"
-    signatures: Unterschriften
-    million: Millionen
+    signatures_until_goal: "%{remaining} handtekeningen tot %{goal}"
+    signatures: handtekeningen # as in '225 signatures'
+    million: miljoen
   call_tool:
-    manual_target_selection: "Bitte wählen Sie den/die Empfänger/in "
-    you_will_be_calling: "Wir rufen Sie gleich an und verbinden Sie anschließend mit"
-    instructions: "Geben Sie Ihre Telefonnummer inklusive Vorwahl ein -- wir rufen Sie dann umgehend an."
-    member_phone_number_title: 'Bitte geben Sie Ihre Telefonnummer ein'
-    text_to_speach_menu: "Bitte drücken Sie die 1, wenn Sie bereit sind -- wir verbinden Sie dann. Drücken Sie die 2, um die Nachricht des/der Kampagnenleiter/in noch einmal zu hören."
-    termination_message: "Sie haben keine Menü-Option gewählt - der Anruf wird daher beendet. Wenn Sie möchten, können Sie einen neuen Anruf starten."
+    manual_target_selection: "Gelieve je ontvanger te selecteren"
+    you_will_be_calling: "We zullen je bellen en doorverbinden met"
+    instructions: "Voer je telefoonnummer in en we zullen je snel bellen."
+    member_phone_number_title: 'Voer je telefoonnummer in'
+    termination_message: "Je hebt geen keuze gemaakt in het menu, dit gesprek wordt beëindigd. Als dit niet de bedoeling was, probeer het dan alsjeblieft opnieuw. "
+    text_to_speach_menu: "Druk op één als je klaar bent en we verbinden je door. Druk op twee om de boodschap van de campagnevoerder nogmaals te horen. "
     errors:
-      recaptcha_fail: "Der reCAPTCHA test ist fehlgeschlagen. Bitte versuchen Sie es noch einmal, indem Sie auf die Checkbox klicken"
-      unknown: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
-      akid: "Leider ist die Nutzung unseres Anruf-Tools nur für Mitglieder möglich, die diese Seite über eine unserer Kampagnen-Emails besuchen."
-      too_many_calls: "Vielen Dank für Ihr Engagement! Aus Sicherheitsgründen ist die Anzahl von Anrufen, die ein Mitglied für die Kampagne mit unserem Anruf-Tool durchführen kann, auf 5 beschränkt."
+      recaptcha_fail: "De reCAPTCHA test is mislukt. Probeer het opnieuw door op het selectievakje te klikken. "
+      unknown: "Oeps! Er ging iets verkeerd. Probeer een ander telefoonnummer of probeer het over een paar minuten opnieuw. "
+      akid: "Sorry, maar om veiligheidsredenen is de belfunctie beperkt tot erkende leden die de website bereiken via een campagne-e-mail. ."
+      too_many_calls: "Bedankt dat je een verschil maakt! Helaas staan we, om fraude te voorkomen, slechts 5 oproepen per lid op dezelfde pagina toe. "
       target:
-        outdated: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
-        missing: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
+        outdated: "Het lijkt erop dat het nummer waarmee we je proberen te verbinden niet langer beschikbaar is. Laad de pagina opnieuw en probeer het nog eens. "
+        missing: "Er klopt iets niet met het nummer dat je probeert te bellen. "
       phone_number:
-        too_short: "enthält mindestens 6 Ziffern"
-        cant_connect: "Es kann keine Verbindung zu dieser Telefonnummer hergestellt werden. Bitte überprüfen Sie, ob die Nummer korrekt ist, oder versuchen Sie es über eine andere Nummer"
-        is_invalid: "ist keine gültige Telefonnummer"
-    fine_print: 'SumOfUs schützt<a href="https://www.sumofus.org/de/privacy" target="_blank"> Ihre Daten</a> und hält Sie auf dem Laufenden über diese und andere SumOfUs-Kampagnen. Wenn Sie Ihre Telefonnummer angeben, können wir Sie auch anrufen oder Ihnen eine SMS senden.'
+        too_short: "moet ten minste uit 6 tekens bestaan"
+        cant_connect: "kan geen verbinding maken met dit telefoonnummer, controleer of het correct is of probeer een ander nummer"
+        is_invalid: "is geen geldig telefoonnummer"
+    fine_print: 'SumOfUs zal <a href="https://sumofus.org/privacy" target="_blank">je privacy</a> beschermen, en je op de hoogte houden. Als je je telefoonnummer opgeeft kunnen we je ook bellen of sms’en over campagnes. '  # change link once the Dutch translation is ready.
     form:
-      phone_number: "Meine Telefonnummer."
-      phone_country_code: "Vorwahl"
-      country: "LAND"
-      submit: "Rufen Sie mich an"
+      phone_number: "Mijn telefoonnummer"
+      phone_country_code: "Code"
+      country: "Land"
+      submit: "Bel me"
   share:
-    cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
-    send_email: E-Mail senden
-    share: Facebook
-    tweet: Twitter
-    share_on_whatsapp: Whatsapp
-    twitter_handle: '@sumofus_de'
+    cta: Deel de campagne! 
+    send_email: Verzend e-mail
+    share: Deel
+    tweet: Tweet
+    share_on_whatsapp: WhatsApp
+    twitter_handle: '@sumofus' # change to a Dutch twitter account when we have one
   errors:
-    probably_invalid: sieht nicht richtig aus
-    is_invalid: ist ungültig
-    this_field: Dieses Feld
-    this_field_with_message: Dieses Feld %{message}
-    named_field_error: "{name} enthält einige Fehler:"
+    probably_invalid: ziet er niet goed uit
+    is_invalid: is ongeldig
+    this_field: Dit veld
+    this_field_with_message: Dit veld %{message}
+    named_field_error: "{name} heeft enkele fouten:"
   validation:
-    is_required: wird benötigt
-    is_invalid_email: ist keine gültige E-Mail-Adresse
-    is_invalid_phone: 'kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten'
-    is_invalid_country: muss eine gültige Ländervorwahl sein
-    is_invalid_length: 'darf maximal %{length} Zeichen enthalten'
-    is_email_or_link: 'darf keine E-Mail-Adressen oder links beinhalten'
+    is_required: is verplicht
+    is_invalid_email: is geen geldig e-mailadres
+    is_invalid_phone: 'kan alleen getallen, koppeltekens, plustekens en haakjes bevatten'
+    is_invalid_country: moet een geldige landcode zijn
+    is_invalid_length: 'moet minder dan %{length} karakters lang zijn'
+    is_email_or_link: 'mag geen e-mailadressen of links bevatten'
     postal:
-      has_invalid_characters: 'Kann nur Buchstaben, Nummern, Leerzeichen und Bindestriche enthalten '
-      too_long: 'Darf nicht mehr als 9 Buchstaben oder Zahlen enthalten'
+      has_invalid_characters: 'Kan alleen letters, cijfers, spaties en koppeltekens bevatten'
+      too_long: 'Mag niet meer dan 9 letters en/of cijfers bevatten'
   time:
     formats:
-      default: "%-d. %B %Y"
+      default: "%-d %B %Y"
   reset_passwords:
     new:
-      title: 'Mein Passwort zurücksetzen'
-      description: "Geben Sie Ihre E-Mail-Adresse ein. Wir schicken Ihnen dann einen Link, mit dem Sie Ihr Passwort zurücksetzen können."
-      email: 'E-Mail-Adresse'
-      button_label: 'Link zum Zurücksetzen des Passworts anfordern'
+      title: 'Stel je wachtwoord opnieuw in'
+      description: "Voer je e-mailadres in en we sturen je een link om je wachtwoord opnieuw in te stellen. "
+      email: 'E-mail'
+      button_label: 'Stuur e-mail om je wachtwoord opnieuw in te stellen'
     create:
-      not_found: "Diese E-Mail-Adresse ist uns leider nicht bekannt. "
+      not_found: "Sorry, we kunnen die e-mail niet vinden."
     show:
-      title: 'Mein Passwort zurücksetzen'
-      description: "In wenigen Minuten sollten Sie unseren Link in Ihrem Posteingang haben. Sollten Sie unsere E-Mail nicht finden, schauen Sie bitte auch in Ihrem Spam-Ordner nach.  "
+      title: 'Stel je wachtwoord opnieuw in'
+      description: "Check je e-mail voor een link om je wachtwoord opnieuw in te stellen. Als deze niet binnen een paar minuten verschijnt, controleer dan je spam folder. "
     edit:
-      password: 'Passwort'
-      password_confirmation: 'Passwort bestätigen'
-      button_label: 'Passwort ändern'
-      title: 'Passwort ändern für'
-      description: 'Das Passwort muss aus mindestens 6 Zeichen bestehen.'
-      invalid_link: 'Der Link zum Zurücksetzen des Passworts scheint ungültig zu sein. Bitte probieren Sie es noch einmal. '
+      password: 'Wachtwoord'
+      password_confirmation: 'Bevestig wachtwoord'
+      button_label: 'Verander wachtwoord'
+      title: 'Verander wachtwoord in'
+      description: 'Wachtwoord moet minstens 6 karakters bevatten.'
+      invalid_link: 'Het lijkt erop dat je op een ongeldige link hebt geklikt om je wachtwoord opnieuw in te stellen. Probeer het opnieuw. '
     success:
-      title: 'Ihr Passwort wurde erfolgreich geändert'
-      description: "Gehen Sie auf <a href='%{url}'>Mein Account</a>, um sich einzuloggen."
+      title: 'Je nieuwe wachtwoord is succesvol opgeslagen.'
+      description: "Bezoek het <a href='%{url}'>Ledendashboard</a> om in te loggen."
   survey:
-    next: 'Weiter'
-    finish: 'Fertig!'
-    skip: 'Überspringen'
+    next: 'Volgende'
+    finish: 'Afronden'
+    skip: 'Overslaan'
   reset_password_mailer:
     reset_password_email:
-      subject: 'Bitte setzen Sie Ihr Passwort zurück'
+      subject: 'Gelieve je wachtwoord opnieuw in te stellen'
       html:
-        body: "Jemand (wahrscheinlich Sie selbst) möchte das Passwort für Ihren SumOfUs-Account zurücksetzen. <br />Der folgende Link zum Zurücksetzen Ihres Passworts ist 24 Stunden gültig:<br /><br />%{url}<br /><br />Wenn Sie Ihr Passwort nicht zurücksetzen möchten, können Sie diese E-Mail einfach ignorieren.<br /><br />Vielen Dank,<br />SumOfUs"
+        body: "Iemand (waarschijnlijk jij) heeft een nieuw wachtwoord verzocht op je SumOfUs account. <br />Je kunt de volgende link in de komende dagen gebruiken om je wachtwoord opnieuw in te stellen: <br /><br />%{url}<br /><br />Als je geen nieuw wachtwoord hebt aangevraagd, kun je deze e-mail zorgeloos negeren. <br /><br />Bedankt,,<br />SumOfUs"
       text:
-        body: "Jemand (wahrscheinlich Sie selbst) möchte das Passwort für Ihren SumOfUs-Account zurücksetzen.\n\nDer folgende Link zum Zurücksetzen Ihres Passworts ist 24 Stunden gültig:\n\n %{url}\n\n Wenn Sie Ihr Passwort nicht zurücksetzen möchten, können Sie diese E-Mail einfach ignorieren.\n\nVielen Dank,\nSumOfUs"
+        body: "Iemand (waarschijnlijk jij) heeft een nieuw wachtwoord verzocht op je SumOfUs account.\n\nJe kunt de volgende link in de komende dagen gebruiken om je wachtwoord opnieuw in te stellen:\n\n%{url}\n\nAls je geen nieuw wachtwoord hebt aangevraagd, kun je deze e-mail zorgeloos negeren.\n\nBedankt,\nSumOfUs"
   facebook_share:
-    caption: 'Ich habe gerade diese SumOfUs-Petition unterschrieben'
-    comment_field_label: "Ich habe unterschrieben, weil..."
+    caption: 'Ik heb zojuist deze petitie op SumOfUs.org ondertekend'
+    comment_field_label: "Ik onderteken omdat..."
   member_registration:
-    title: "Mitglieder-Registrierung"
+    title: "Ledenregistratie"
     form:
-      password: Passwort
-      confirm_password: Passwort bestätigen
-      your_email: Ihre E-Mail-Adresse
-      register: Registrieren
-    thanks: 'Vielen Dank! Noch ein letzter Schritt:'
-    enter_password_message: "Geben Sie bitte ein Passwort ein"
-    create_account: "Ihre Spende wird bearbeitet."
-    create_account_description: "Bitte registrieren Sie sich. So können Sie Ihre Spenden an SumOfUs sicher verwalten und jederzeit wieder kündigen."
-    check_email: "<strong>Vielen Dank, dass Sie sich registriert haben.</strong> <span>Bitte überprüfen Sie Ihr E-Mail-Postfach. Dort sollten Sie eine E-Mail mit einem Bestätigungs-Link finden.</span>"
+      password: Wachtwoord
+      confirm_password: Bevestig Wachtwoord
+      your_email: Je e-mail
+      register: Registreer
+    thanks: 'Bedankt! Nog één stap.'
+    enter_password_message: "Voer een wachtwoord in om te beginnen."
+    create_account: "We verwerken je donatie."
+    create_account_description: "Maak nu een account aan om je donaties veilig te beheren en om een donatie op elk moment te annuleren. "
+    check_email: "<strong>Bedankt voor het inschrijven.</strong> <span>Check nu je e-mail en klik op de bevestigingslink. </span>"
   confirmation_mailer:
-    title: "Konto-Bestätigung"
+    title: "Accountbevestiging"
     confirmation_email:
-      subject: "Bitte bestätigen Sie Ihr SumOfUs-Konto"
-      headline: "Vielen Dank, dass Sie ein SumOfUs-Konto eingerichtet haben"
-      body_html: "Um Ihr SumOfUs-Konto zu bestätigen, klicken Sie bitte auf <a href='%{confirmation_url}'>diesen Link.</a><br/><br/>Vielen Dank!<br/> "
-      body_text: "Um Ihre Registrierung zu bestätigen, klicken Sie bitte auf diesen Link: %{confirmation_url} "
+      subject: "Bevestig je account"
+      headline: "Bedankt voor het registreren van een account"
+      body_html: "Klik op deze link om je account te bevestigen.  <a href='%{confirmation_url}'></a><br/><br/>Bedankt!<br/>"
+      body_text: "Klik op deze link om je account te bevestigen:: %{confirmation_url}"
     follow_up_page:
-      account_not_found: 'Leider konnten wir kein passendes Konto zu diesem Link finden. '
-      account_already_confirmed: 'Ihr Konto wurde bereits bestätigt!'
-      failure: 'Leider gab es bei der Einrichtung Ihres Kontos ein Problem. '
-      success: 'Sie haben Ihr SumOfUs-Konto erfolgreich bestätigt. Vielen Dank!'
-      member_management: "Um Ihre Zahlungsoptionen und -details zu verwalten, können Sie jederzeit die <a href='%{url}'>Seite für SumOfUs-Mitglieder</a> besuchen."
+      account_not_found: 'Sorry, er is geen account gevonden dat aan deze link is gekoppeld. '
+      account_already_confirmed: 'Je account is al bevestigd! '
+      failure: 'Sorry, er was een probleem met het bevestigen van je account. '
+      success: 'Je hebt je account succesvol bevestigd. Bedankt!'
+      member_management: "Om je betaalmethoden en -gegevens te beheren, kun je op elk moment het <a href='%{url}'>ledendashboard</a> bezoeken. "
   consent:
-    opt_in_reason: "<b>SumOfUs ist eine Gemeinschaft von Menschen aus der ganzen Welt, die gemeinsam Großkonzerne zur Verantwortung zieht.</b>. Möchten Sie über aktuelle Kampagnen, Neuigkeiten, Veranstaltungen sowie Spendenaktionen informiert werden und erfahren, wie Sie sich engagieren können? <b>Dann klicken Sie 'Ja', um sich für unseren Newsletter anzumelden:</b>"
-    opt_out_warn_title: "Sind Sie sicher?"
-    opt_out_warn_message: "Wenn Sie 'Ja' wählen, werden Sie von uns über aktuelle SumOfUs-Kampagnen informiert, damit Sie etwas tun können, wenn wieder ein Großkonzern versucht, skrupellose Geschäfte zu machen."
-    how_to_opt_out: 'Sie können sich jederzeit wieder abmelden - gehen Sie dazu einfach auf: <a href="https://www.sumofus.org/de/unsubscribe" target="_blank">https://www.sumofus.org/de/unsubscribe</a>. Mit der Eingabe Ihrer Daten bestätigen Sie, dass Sie mindestens 16 Jahre alt sind.'
-    accept: "Ja, ich möchte erfahren, ob wir diese Kampagne gewinnen und wie ich bei ähnlichen Kampagnen mithelfen kann."
-    decline: "Nein, ich möchte nicht wissen, wie diese Kampagne weitergeht und welche anderen wichtigen Kampagnen es gibt."
-    accept_alt: "Ja - unterschreiben und E-Mails erhalten"
-    decline_alt: "Nein - unterschreiben, aber in Zukunft über keine weiteren Aktionen informiert werden"
-    select_an_option: "Bitte wählen Sie eine Option"
+    opt_in_reason: "<b>SumOfUs is een wereldwijde community van mensen die zich inzetten tegen de macht van grote bedrijven. </b>. Wil je op de hoogte blijven van onze laatste campagnes, nieuws, evenementen en fondsenwerving, en meer te weten komen over hoe je mee kunt doen? <b>Kies ‘ja’ om je in te schrijven voor de e-mail </b>"
+    opt_out_warn_title: "Weet je het zeker?"
+    opt_out_warn_message: "Als je ‘Ja’ kiest, houden we je op de hoogte van de campagnes van SumOfUs zodat je actie kunt ondernemen wanneer het volgende bedrijf zich misdraagt. "
+    how_to_opt_out: 'Je kunt je op elk moment afmelden voor het ontvangen van onze berichten.  Ga gewoon naar onze <a href="https://www.sumofus.org/unsubscribe" target="_blank">uitschrijfpagina</a>. Door je gegevens in te voeren bevestig je dat je 16 jaar of ouder bent.'
+    accept: "Ja! Vertel me of deze campagne wint, en hoe ik bij andere relevante campagnes kan helpen en doneren. "
+    decline: "Nee, ik wil niets horen over de voortgang van deze campagne of van andere relevante campagnes. "
+    accept_alt: "Ja, onderteken en ontvang e-mails"
+    decline_alt: "Nee, onderteken maar ontvang geen e-mails"
+    select_an_option: "Gelieve een optie te selecteren"
     existing:
-      opt_in_reason: "<p>Wir bitten alle SumOfUs-Mitglieder zu bestätigen, dass sie auch weiterhin E-mails zu dieser und anderen wichtigen Kampagnen erhalten möchten.</p><p><b>Möchten Sie jetzt bestätigen?</b></p>"
+      opt_in_reason: "<p>We vragen de leden van SumOfUs om te bevestigen dat ze nog steeds e-mails van ons willen ontvangen over deze en andere dringende campagnes.</p><p><b>Wil je dat vandaag bevestigen?</b></p>"
       accept: "Ja"
-      decline: "Nein, jetzt nicht"
+      decline: "Niet nu"
   cookie_consent:
-    message: 'Cookies erleichtern die Nutzung unserer Webseite.'
-    dismiss_button_text: 'Einverstanden, weiter'
-    privacy_policy_link_text: 'Datenschutz'
-  recaptcha_branding_html: 'Diese Website ist durch reCAPTCHA geschützt und es gelten die <a href="https://policies.google.com/privacy?hl=de">Datenschutzbestimmungen</a> and <a href="https://policies.google.com/terms?hl=de">Nutzungsbedingungen</a> von Google.'
+    message: 'Cookies zijn belangrijk voor de goede werking van deze website.'
+    dismiss_button_text: 'Akkoord en ga door'
+    privacy_policy_link_text: 'Privacybeleid'
+  recaptcha_branding_html: 'Deze website is beschermd door reCAPTCHA en het Google <a href="https://policies.google.com/privacy">Privacybeleid</a> en<a href="https://policies.google.com/terms">Servicevoorwaarden</a> zijn van toepassing.'
   eoy_donation_email:
-    confirmation_error: 'Email does not match'
+    confirmation_error: 'E-mail komt niet overeen'
     opt_out:
-      notice: "You’ve successfully opted out of our remaining fundraising emails in 2019. Thanks so much for your support, [FNAME]. If you’ve made this request in error, you can opt back into receiving our fundraising emails by clicking [HERE]."
-      alert: "An error occurred while opting you out of the remaining fundraising emails in 2019. Click here to try again."
+      notice: "Je hebt je met succes afgemeld voor onze resterende e-mails omtrent fondsenwerving in 2019. Ontzettend bedankt voor je steun, [FNAME]. Als je dit verzoek per vergissing hebt gedaan, kun je je weer aanmelden voor het ontvangen van e-mails over fondsenwerving door [HIER] te klikken. "
+      alert: "Er is een fout opgetreden tijdens het afmelden voor de resterende e-mails omtrent fondsenwerving in 2019. Klik hier om het opnieuw te proberen. "
     opt_in:
-      notice: "You’ve successfully opted into receiving our remaining fundraising emails in 2019."
-      alert: "An error occurred while opting you into the remaining fundraising emails in 2019. Click here to try again."
+      notice: "Je bent met succes aangemeld voor het ontvangen van e-mails omtrent fondsenwerving in 2019. "
+      alert: "Er is een fout opgetreden tijdens het aanmelden voor de resterende e-mails omtrent fondsenwerving in 2019. Klik hier om het opnieuw te proberen. "
