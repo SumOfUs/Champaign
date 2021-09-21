@@ -642,6 +642,7 @@ function handleLanguages(){
     $('.es-copy').hide();
     $('.pt-copy').hide();
     $('.de-copy').hide();
+		$('.nl-copy').hide();
 
 
     $('.fundraiser-bar__amount-button').addClass('long-button');
@@ -665,6 +666,7 @@ function handleLanguages(){
     $('.en-copy').hide();
     $('.es-copy').hide();
     $('.pt-copy').hide();
+		$('.nl-copy').hide();
 
     $('.fundraiser-bar__amount-button').addClass('long-button');
 		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
@@ -688,6 +690,7 @@ function handleLanguages(){
     $('.fr-copy').hide();
     $('.en-copy').hide();
     $('.pt-copy').hide();
+    $('.nl-copy').hide();
 
     $('.fundraiser-bar__amount-button').addClass('long-button');
     $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
@@ -711,11 +714,36 @@ function handleLanguages(){
     $('.de-copy').hide();
     $('.fr-copy').hide();
     $('.en-copy').hide();
+		$('.nl-copy').hide();
 
     $('.fundraiser-bar__amount-button').addClass('long-button');
     $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
 
-  } else {
+  } else if( language == "nl"){
+		postDonatePage = "https://actions.sumofus.org/a/spende";
+		preButtonLanguage = "";
+		postButtonLanguage = " IM MONAT SPENDEN";
+
+		thankyou = "Sie sind fabelhaft!";
+		secondFirstname = "Vielen Dank, ";
+
+		if(name){
+		    thankyou = name+", Sie sind fabelhaft!";
+		    secondFirstname = "Vielen Dank, ";
+		}
+
+    $('.nl-copy').show();
+    $('.de-copy').hide();
+    $('.fr-copy').hide();
+    $('.en-copy').hide();
+    $('.es-copy').hide();
+    $('.pt-copy').hide();
+
+    $('.fundraiser-bar__amount-button').addClass('long-button');
+		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+
+
+	} else {
 
 		postButtonLanguage = "/month";
 

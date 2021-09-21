@@ -1,8 +1,8 @@
-xml.instruct! :xml, version: "1.0"
-xml.rss version: "2.0", "xmlns:atom": "http://www.w3.org/2005/Atom" do
+xml.instruct! :xml, version: '1.0'
+xml.rss version: '2.0', "xmlns:atom": 'http://www.w3.org/2005/Atom' do
   xml.channel do
-    xml.title "SumOfUs"
-    xml.description "stopping big corporations from behaving badly."
+    xml.title 'SumOfUs'
+    xml.description 'stopping big corporations from behaving badly.'
     xml.link feeds_pages_url
 
     @pages.each do |article|
@@ -16,6 +16,6 @@ xml.rss version: "2.0", "xmlns:atom": "http://www.w3.org/2005/Atom" do
         xml.link member_facing_page_url(article)
         xml.guid member_facing_page_url(article)
       end
-     end
+    end
   end
 end

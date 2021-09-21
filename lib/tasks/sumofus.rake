@@ -27,7 +27,7 @@ namespace :sumofus do
 
     puts 'Errors listed below, empty means no errors:'
 
-    %w[en fr de es pt].map do |locale|
+    %w[en fr de es pt nl].map do |locale|
       expected_title = I18n.t('fundraiser.generic.title', locale: locale)
       page = Page.find_by(title: expected_title)
       if page.blank?
@@ -104,7 +104,7 @@ namespace :sumofus do
 
     def create_post_action_pages(layout_id, image_handle)
       pages = {}
-      %w[en fr de es pt].map do |locale|
+      %w[en fr de es pt nl].map do |locale|
         page = Page.find_or_initialize_by(title: I18n.t('fundraiser.generic.title', locale: locale))
         page.liquid_layout_id = layout_id
         page.language_id = language_ids[locale]
