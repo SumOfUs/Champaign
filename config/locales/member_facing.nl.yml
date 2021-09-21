@@ -115,15 +115,13 @@ nl: # translated 22 July 2021
     unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen. 
     fine_print: "Donaties zijn niet belastingaftrekbaar. Voor meer informatie kun je ons mailen. " # override this with org-specific details in your own yml file.
     confirmation: Donatie ontvangen
-    donate_now: Doneer nu
-    loading:Beveiligd betalingsportaal wordt geladen <br> 
+    donate_now: Doneer nu loading:Beveiligd betalingsportaal wordt geladen <br> 
     oneclick:
       select_payment: "Selecteer een opgeslagen betaalmethode"
       credit_card_payment_method: "%{card_type} geldig tot %{last_four_digits}"
       paypal_payment_method: "PayPal (%{email})"
       new_payment_method: "Voeg betaalmethode toe"
-      duplicate_donation: "Je hebt net een paar minuten geleden een donatie gedaan. Weet je zeker dat je opnieuw wilt doneren? We doen dit om ervoor te zorgen dat je niet per ongeluk twee keer doneert. 
-Ontzettend bedankt voor alles wat je doet! "
+      duplicate_donation: "Je hebt net een paar minuten geleden een donatie gedaan. Weet je zeker dat je opnieuw wilt doneren? We doen dit om ervoor te zorgen dat je niet per ongeluk twee keer doneert.  Ontzettend bedankt voor alles wat je doet! "
     debit:
       recurring: "Je stelt een maandelijkse donatie in van  %{amount} "
       one_time: "Je doneert  %{amount}"
