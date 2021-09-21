@@ -6,7 +6,7 @@ nl:
       confirm_password: Bevestig je wachtwoord
       your_email: Je e-mailadres
       register: Registreer
-    thanks: Bedankt! Nog één stap:
+    thanks: "Bedankt! Nog één stap:"
     enter_password_message: "Voer een wachtwoord in om te beginnen"
     create_account: "Je donatie wordt verwerkt"
     create_account_description: "Maak nu een account aan om je donaties aan SumOfUs veilig te beheren, en om een donatie op elk moment te annuleren. "
