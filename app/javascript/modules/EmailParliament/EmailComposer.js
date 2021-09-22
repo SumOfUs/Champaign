@@ -77,13 +77,17 @@ export default props => {
     if (data.body !== body) setBody(data.body);
   };
 
-  // const templateVars = {
-  //   target,
-  //   name,
-  //   email,
-  // };
-
-  const templateVars = {};
+  // Sent as template variable values to interpolate
+  const templateVars = {
+    target: {
+      name: targets[0].firstName + ' ' + targets[0].surname,
+      party: targets[0].partyAffiliation,
+      ...targets[0],
+    },
+    name,
+    email,
+    postal: member.postal,
+  };
 
   const handleCopyTargetEmailButton = e => {
     e.preventDefault();
@@ -162,7 +166,6 @@ export default props => {
             errors={errors}
             onUpdate={onUpdate}
             templateVars={templateVars}
-            templateInterpolate={templateInterpolate}
           />
         </FormGroup>
         <div className="EmailToolView-note">
@@ -366,12 +369,16 @@ export default props => {
   );
 };
 
-import { compact, debounce, template, isEqual } from 'lodash';
+/*
 
-function templateInterpolate(tpl, values) {
-  const options = {
-    interpolate: /{{([\s\S]+?)}}/g,
-  };
-  if (!tpl) return '';
-  return template(tpl, options)(values);
-}
+  ! Commenting it out since we are sticking to ${} as template [Refer https://app.asana.com/0/1119304937718815/1201038772171675/f]
+
+  function templateInterpolate(tpl, values) {
+    const options = {
+      interpolate: /{{([\s\S]+?)}}/g,
+    };
+    if (!tpl) return '';
+    return template(tpl, options)(values);
+  }
+
+*/
