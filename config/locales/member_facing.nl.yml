@@ -1,0 +1,300 @@
+nl: # translated 22 July 2021
+  double_opt_in:
+    check_email:
+      body: "Gelieve je e-mail te checken om je handtekening te bevestigen"
+    email:
+      subject: Bevestig je handtekening
+  footer:
+    home_url: http://voorbeeld.com
+  page:
+    more_info: Meer informatie
+    no_script: "Bedankt voor je interesse in deze kwestie! Helaas kun je geen actie ondernemen als Javascript is uitgeschakeld in je browser. Gelieve Javascript in te schakelen of terug te keren in een browser met Javascript ingeschakeld om actie te ondernemen."
+  basics:
+    or: of
+  branding:
+    description: "Dit zijn wij." # override this with org-specific details in your own yml file.
+  recommend_pages:
+    recommend_pages_title: 'Hier zijn soortgelijke campagnes waar we je steun bij nodig hebben!'
+    actions: '%{action_count} acties'
+    learn_more: 'meer...'
+  email_pension:
+    form:
+      select_target: 'Selecteer je pensioen- of beleggingsfonds'
+      other_pension_fund_text: "Kun je je pensioenfonds niet vinden?"
+  email_tool:
+    selected_target: 'Je gekozen ontvanger(s)'
+    title: 'Je e-mail opstellen'
+    suggest_fund: "Sorry daarvoor. Mail de naam van je fonds naar sumofus@ourpension.org en we zullen ons best doen om het toe te voegen aan onze database. "
+    section:
+      compose: "Je E-mail Opstellen"
+    form:
+      representative:
+        postal_code: 'Voer je postcode in'
+        selected_targets: 'Vertegenwoordigers'
+        searching: 'Op zoek naar jouw vertegenwoordigers'
+        not_found: "Sorry, we konden geen vertegenwoordigers vinden met deze locatie. "
+        search_pending: "Gelieve hierboven je postcode in te voeren"
+      select_country: 'Selecteer je land'
+      select_target: 'Selecteer een ontvanger'
+      subject: 'Onderwerp'
+      your_name: 'Je naam'
+      your_email: 'Je e-mailadres'
+      submit: 'Indienen'
+      submit_and_send_email: 'Indienen en e-mail versturen'
+      title_for_no_email_client: 'Indien je geen e-mail software hebt ingesteld of geen van de genoemde e-maildiensten hebt, gelieve de volgende instructies te volgen. '
+      choose_email_service: Kies een van de e-maildiensten om nu een e-mail te versturen'
+      mobile_desktop_apps: 'Mobiele & Desktop Apps'
+      email_client: 'E-mail software'
+      web_browser: 'Webbrowser'
+      manual: 'Manueel'
+      others: 'Anders'
+      copy_target_email_address: '1. Kopieer het e-mailadres van de ontvanger'
+      copy_email_subject: '2. Kopieer het onderwerp van de e-mail'
+      copy_email_body: '3. Kopieer de e-mail'
+      email_body: 'Body'
+      name_of_your_pension_fund: 'Naam van je pensioenfonds'
+      send_button_text: 'Verzenden'
+      errors:
+        message: "Oeps! Er zijn wat fouten met het formulier. Controleer of je alle verplichte velden hebt ingevuld."
+        country: 'Selecteer een land'
+        subject: 'Voeg een onderwerp toe'
+        email: 'Voeg je e-mailadres toe'
+        name: 'Voeg je naam toe'
+        fund: 'Selecteer een pensioenfonds'
+        suggest_fund: De naam van het pensioenfonds kan niet leeg blijven
+        fund_not_found: "Het spijt ons dat je je pensioenfonds niet kon vinden. Stuur ons de naam en we zullen onze gegevens bijwerken."
+        targets: 'Vul je locatie in om je vertegenwoordiger te vinden'
+        target:
+          outdated: "Het lijkt erop dat de informatie van de ontvanger onlangs is veranderd. Herlaad de pagina en probeer het opnieuw. "
+    template_defaults:
+      fund: '[Selecteer een fonds van hierboven]'
+      fund_contact: '[Selecteer een fonds van hierboven]'
+      fund_email: '[Selecteer een fonds van hierboven]'
+      name: '[Vul hierboven je naam in]'
+      constituency_name: '[Selecteer hierboven je vertegenwoordiger]'
+      target_full_name: '[Selecteer hierboven je vertegenwoordiger]'
+  fundraiser:
+    one_click_warning: "Je donatie zal onmiddellijk worden verwerkt."
+    one_click_failed: "Het spijt ons maar we konden je donatie niet verwerken. Probeer het alsjeblieft nog een keer met een andere kaart."
+    payment_methods:
+      gocardless: "Direct Debit"
+      ideal: "iDEAL"
+      paypal: "PayPal"
+      card: 'Credit of debit card '
+      google: 'Google Pay'
+      apple: 'Apple Pay'
+      ready_for_gocardless: "Klik op ‘Doneren’ om de donatie via GoCardless, onze automatische incasso provider, af te ronden. "
+      ready_for_paypal: "Wanneer je op de onderstaande knop klikt, zal PayPal je begeleiden om je donatie te voltooien. "
+      ready_for_google: "Wanneer je op de onderstaande knop klikt, zal Google je begeleiden om je donatie te voltooien. "
+    payment_type_prompt: Betaalmethode
+    amount: Bedrag
+    details: Gegevens
+    payment: Betaling
+    donate: "Doneer %{amount}" # used on the submit button, eg 'Donate $15'
+    donate_monthly: "Doneer %{amount} / maand"
+    make_monthly_donation: "%{name} een {duration} donatie zal onze beweging ondersteunen om vooruit te plannen, zodat we effectiever kunnen optreden tegen de grootste bedrijven die mensen en de planeet bedreigen. "
+    complete_donation: "Voltooi je %{amount} donatie"
+    donate_amount: "Doneer %{amount}"
+    donation_once: "Doneer eenmalig %{amount}"
+    donation_recurring: "Doneer maandelijks %{amount}"
+    donation_weekly: "Doneer wekelijks %{amount}"
+    weekly_donation_fineprint: "Om de verwerkingskosten te beperken en er zo voor te zorgen dat je donatie zoveel mogelijk effect heeft, worden wekelijkse donaties één keer per maand verwerkt."
+    month: maand
+    error_intro: We waren niet in staat om je donatie te verwerken!
+    currency_in: "Bedrag weergegeven in %{currency}"
+    switch_currency: Verander munteenheid
+    proceed_to_details: Ga door naar gegevens
+    proceed_to_payment: Ga door naar betalen
+    other_amount: Ander
+    make_recurring: Maak mijn donatie maandelijks
+    store_in_vault: Mijn betaalgegevens veilig opslaan
+    thank_you: Bedankt voor je donatie! 
+    thank_you_with_amount: "<strong>Bedankt voor je donatie van %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org. "
+    recurring_thank_you_with_amount: "<strong>Bedankt voor je terugkerende donatie van  %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org."
+    card_declined: Je kaart werd geweigerd door de betalingsverwerker. Gelieve een andere betaalmethode te proberen. 
+    unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen. 
+    fine_print: "Donaties zijn niet belastingaftrekbaar. Voor meer informatie kun je ons mailen. " # override this with org-specific details in your own yml file.
+    confirmation: Donatie ontvangen
+    donate_now: Doneer nu loading:Beveiligd betalingsportaal wordt geladen <br> 
+    oneclick:
+      select_payment: "Selecteer een opgeslagen betaalmethode"
+      credit_card_payment_method: "%{card_type} geldig tot %{last_four_digits}"
+      paypal_payment_method: "PayPal (%{email})"
+      new_payment_method: "Voeg betaalmethode toe"
+      duplicate_donation: "Je hebt net een paar minuten geleden een donatie gedaan. Weet je zeker dat je opnieuw wilt doneren? We doen dit om ervoor te zorgen dat je niet per ongeluk twee keer doneert.  Ontzettend bedankt voor alles wat je doet! "
+    debit:
+      recurring: "Je stelt een maandelijkse donatie in van  %{amount} "
+      one_time: "Je doneert  %{amount}"
+      direct_debit: "Automatische Incasso"
+    fields:
+      cvv: Veiligheidscode
+      number: Kaartnummer
+      expiration: Vervaldatum 
+      expiration_format: MM / JJ MM / YY
+      postalCode: Postcode
+    field_names: # these are used in sentence form, eg with errors. waarschijnlijk_ongeldig
+      cvv: Veiligheidscode
+      number: Kaartnummer
+      expiration: Vervaldatum
+    thermometer:
+      raised: Opgehaald
+      goal: Doel
+  petition:
+    sign_it: Teken de petitie
+    target_prefix: AAN
+    confirmation: Naam ingediend
+    excited_confirmation: Naam ingediend! 
+    thank_you: 'Bedankt voor het toevoegen van je naam aan "%{petition_title}"'
+    fine_print: "We zullen je privacy beschermen en je op de hoogte houden van deze en soortgelijke campagnes. " # override this with org-specific details in your own yml file.
+  form:
+    switch_user: Afmelden
+    processing: Verwerken...
+    submit: Indienen
+    default:
+      name: Voor- en achternaam
+      email: E-mailadres
+      country: Land
+      postal: Postcode
+      phone_number: Telefoonnummer
+  thermometer:
+    signatures_until_goal: "%{remaining} handtekeningen tot %{goal}"
+    signatures: handtekeningen # as in '225 signatures'
+    million: miljoen
+  call_tool:
+    manual_target_selection: "Gelieve je ontvanger te selecteren"
+    you_will_be_calling: "We zullen je bellen en doorverbinden met"
+    instructions: "Voer je telefoonnummer in en we zullen je snel bellen."
+    member_phone_number_title: 'Voer je telefoonnummer in'
+    termination_message: "Je hebt geen keuze gemaakt in het menu, dit gesprek wordt beëindigd. Als dit niet de bedoeling was, probeer het dan alsjeblieft opnieuw. "
+    text_to_speach_menu: "Druk op één als je klaar bent en we verbinden je door. Druk op twee om de boodschap van de campagnevoerder nogmaals te horen. "
+    errors:
+      recaptcha_fail: "De reCAPTCHA test is mislukt. Probeer het opnieuw door op het selectievakje te klikken. "
+      unknown: "Oeps! Er ging iets verkeerd. Probeer een ander telefoonnummer of probeer het over een paar minuten opnieuw. "
+      akid: "Sorry, maar om veiligheidsredenen is de belfunctie beperkt tot erkende leden die de website bereiken via een campagne-e-mail. ."
+      too_many_calls: "Bedankt dat je een verschil maakt! Helaas staan we, om fraude te voorkomen, slechts 5 oproepen per lid op dezelfde pagina toe. "
+      target:
+        outdated: "Het lijkt erop dat het nummer waarmee we je proberen te verbinden niet langer beschikbaar is. Laad de pagina opnieuw en probeer het nog eens. "
+        missing: "Er klopt iets niet met het nummer dat je probeert te bellen. "
+      phone_number:
+        too_short: "moet ten minste uit 6 tekens bestaan"
+        cant_connect: "kan geen verbinding maken met dit telefoonnummer, controleer of het correct is of probeer een ander nummer"
+        is_invalid: "is geen geldig telefoonnummer"
+    fine_print: 'SumOfUs zal <a href="https://sumofus.org/privacy" target="_blank">je privacy</a> beschermen, en je op de hoogte houden. Als je je telefoonnummer opgeeft kunnen we je ook bellen of sms’en over campagnes. '  # change link once the Dutch translation is ready.
+    form:
+      phone_number: "Mijn telefoonnummer"
+      phone_country_code: "Code"
+      country: "Land"
+      submit: "Bel me"
+  share:
+    cta: Deel de campagne! 
+    send_email: Verzend e-mail
+    share: Deel
+    tweet: Tweet
+    share_on_whatsapp: WhatsApp
+    twitter_handle: '@sumofus' # change to a Dutch twitter account when we have one
+  errors:
+    probably_invalid: ziet er niet goed uit
+    is_invalid: is ongeldig
+    this_field: Dit veld
+    this_field_with_message: Dit veld %{message}
+    named_field_error: "{name} heeft enkele fouten:"
+  validation:
+    is_required: is verplicht
+    is_invalid_email: is geen geldig e-mailadres
+    is_invalid_phone: 'kan alleen getallen, koppeltekens, plustekens en haakjes bevatten'
+    is_invalid_country: moet een geldige landcode zijn
+    is_invalid_length: 'moet minder dan %{length} karakters lang zijn'
+    is_email_or_link: 'mag geen e-mailadressen of links bevatten'
+    postal:
+      has_invalid_characters: 'Kan alleen letters, cijfers, spaties en koppeltekens bevatten'
+      too_long: 'Mag niet meer dan 9 letters en/of cijfers bevatten'
+  time:
+    formats:
+      default: "%-d %B %Y"
+  reset_passwords:
+    new:
+      title: 'Stel je wachtwoord opnieuw in'
+      description: "Voer je e-mailadres in en we sturen je een link om je wachtwoord opnieuw in te stellen. "
+      email: 'E-mail'
+      button_label: 'Stuur e-mail om je wachtwoord opnieuw in te stellen'
+    create:
+      not_found: "Sorry, we kunnen die e-mail niet vinden."
+    show:
+      title: 'Stel je wachtwoord opnieuw in'
+      description: "Check je e-mail voor een link om je wachtwoord opnieuw in te stellen. Als deze niet binnen een paar minuten verschijnt, controleer dan je spam folder. "
+    edit:
+      password: 'Wachtwoord'
+      password_confirmation: 'Bevestig wachtwoord'
+      button_label: 'Verander wachtwoord'
+      title: 'Verander wachtwoord in'
+      description: 'Wachtwoord moet minstens 6 karakters bevatten.'
+      invalid_link: 'Het lijkt erop dat je op een ongeldige link hebt geklikt om je wachtwoord opnieuw in te stellen. Probeer het opnieuw. '
+    success:
+      title: 'Je nieuwe wachtwoord is succesvol opgeslagen.'
+      description: "Bezoek het <a href='%{url}'>Ledendashboard</a> om in te loggen."
+  survey:
+    next: 'Volgende'
+    finish: 'Afronden'
+    skip: 'Overslaan'
+  reset_password_mailer:
+    reset_password_email:
+      subject: 'Gelieve je wachtwoord opnieuw in te stellen'
+      html:
+        body: "Iemand (waarschijnlijk jij) heeft een nieuw wachtwoord verzocht op je SumOfUs account. <br />Je kunt de volgende link in de komende dagen gebruiken om je wachtwoord opnieuw in te stellen: <br /><br />%{url}<br /><br />Als je geen nieuw wachtwoord hebt aangevraagd, kun je deze e-mail zorgeloos negeren. <br /><br />Bedankt,,<br />SumOfUs"
+      text:
+        body: "Iemand (waarschijnlijk jij) heeft een nieuw wachtwoord verzocht op je SumOfUs account.\n\nJe kunt de volgende link in de komende dagen gebruiken om je wachtwoord opnieuw in te stellen:\n\n%{url}\n\nAls je geen nieuw wachtwoord hebt aangevraagd, kun je deze e-mail zorgeloos negeren.\n\nBedankt,\nSumOfUs"
+  facebook_share:
+    caption: 'Ik heb zojuist deze petitie op SumOfUs.org ondertekend'
+    comment_field_label: "Ik onderteken omdat..."
+  member_registration:
+    title: "Ledenregistratie"
+    form:
+      password: Wachtwoord
+      confirm_password: Bevestig Wachtwoord
+      your_email: Je e-mail
+      register: Registreer
+    thanks: 'Bedankt! Nog één stap.'
+    enter_password_message: "Voer een wachtwoord in om te beginnen."
+    create_account: "We verwerken je donatie."
+    create_account_description: "Maak nu een account aan om je donaties veilig te beheren en om een donatie op elk moment te annuleren. "
+    check_email: "<strong>Bedankt voor het inschrijven.</strong> <span>Check nu je e-mail en klik op de bevestigingslink. </span>"
+  confirmation_mailer:
+    title: "Accountbevestiging"
+    confirmation_email:
+      subject: "Bevestig je account"
+      headline: "Bedankt voor het registreren van een account"
+      body_html: "Klik op deze link om je account te bevestigen.  <a href='%{confirmation_url}'></a><br/><br/>Bedankt!<br/>"
+      body_text: "Klik op deze link om je account te bevestigen:: %{confirmation_url}"
+    follow_up_page:
+      account_not_found: 'Sorry, er is geen account gevonden dat aan deze link is gekoppeld. '
+      account_already_confirmed: 'Je account is al bevestigd! '
+      failure: 'Sorry, er was een probleem met het bevestigen van je account. '
+      success: 'Je hebt je account succesvol bevestigd. Bedankt!'
+      member_management: "Om je betaalmethoden en -gegevens te beheren, kun je op elk moment het <a href='%{url}'>ledendashboard</a> bezoeken. "
+  consent:
+    opt_in_reason: "<b>SumOfUs is een wereldwijde community van mensen die zich inzetten tegen de macht van grote bedrijven. </b>. Wil je op de hoogte blijven van onze laatste campagnes, nieuws, evenementen en fondsenwerving, en meer te weten komen over hoe je mee kunt doen? <b>Kies ‘ja’ om je in te schrijven voor de e-mail </b>"
+    opt_out_warn_title: "Weet je het zeker?"
+    opt_out_warn_message: "Als je ‘Ja’ kiest, houden we je op de hoogte van de campagnes van SumOfUs zodat je actie kunt ondernemen wanneer het volgende bedrijf zich misdraagt. "
+    how_to_opt_out: 'Je kunt je op elk moment afmelden voor het ontvangen van onze berichten.  Ga gewoon naar onze <a href="https://www.sumofus.org/unsubscribe" target="_blank">uitschrijfpagina</a>. Door je gegevens in te voeren bevestig je dat je 16 jaar of ouder bent.'
+    accept: "Ja! Vertel me of deze campagne wint, en hoe ik bij andere relevante campagnes kan helpen en doneren. "
+    decline: "Nee, ik wil niets horen over de voortgang van deze campagne of van andere relevante campagnes. "
+    accept_alt: "Ja, onderteken en ontvang e-mails"
+    decline_alt: "Nee, onderteken maar ontvang geen e-mails"
+    select_an_option: "Gelieve een optie te selecteren"
+    existing:
+      opt_in_reason: "<p>We vragen de leden van SumOfUs om te bevestigen dat ze nog steeds e-mails van ons willen ontvangen over deze en andere dringende campagnes.</p><p><b>Wil je dat vandaag bevestigen?</b></p>"
+      accept: "Ja"
+      decline: "Niet nu"
+  cookie_consent:
+    message: 'Cookies zijn belangrijk voor de goede werking van deze website.'
+    dismiss_button_text: 'Akkoord en ga door'
+    privacy_policy_link_text: 'Privacybeleid'
+  recaptcha_branding_html: 'Deze website is beschermd door reCAPTCHA en het Google <a href="https://policies.google.com/privacy">Privacybeleid</a> en<a href="https://policies.google.com/terms">Servicevoorwaarden</a> zijn van toepassing.'
+  eoy_donation_email:
+    confirmation_error: 'E-mail komt niet overeen'
+    opt_out:
+      notice: "Je hebt je met succes afgemeld voor onze resterende e-mails omtrent fondsenwerving in 2019. Ontzettend bedankt voor je steun, [FNAME]. Als je dit verzoek per vergissing hebt gedaan, kun je je weer aanmelden voor het ontvangen van e-mails over fondsenwerving door [HIER] te klikken. "
+      alert: "Er is een fout opgetreden tijdens het afmelden voor de resterende e-mails omtrent fondsenwerving in 2019. Klik hier om het opnieuw te proberen. "
+    opt_in:
+      notice: "Je bent met succes aangemeld voor het ontvangen van e-mails omtrent fondsenwerving in 2019. "
+      alert: "Er is een fout opgetreden tijdens het aanmelden voor de resterende e-mails omtrent fondsenwerving in 2019. Klik hier om het opnieuw te proberen. "

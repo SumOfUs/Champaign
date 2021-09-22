@@ -6,7 +6,7 @@ ruby '2.6.2'
 gem 'aasm'
 gem 'activeadmin', '~> 2.0.0'
 gem 'bcrypt', '~> 3.1.7'
-gem 'braintree', "~> 4.0.0"
+gem 'braintree', '~> 4.0.0'
 gem 'countries', require: 'countries/global'
 gem 'country_select'
 gem 'devise', '~> 4.6'
@@ -77,12 +77,12 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'feedjira'
   gem 'magic_lamp'
   gem 'rspec-rails', '~> 3.8'
   gem 'rubocop', '~> 0.72', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
-  gem "feedjira"
 end
 
 group :development do
@@ -94,12 +94,12 @@ group :development do
 end
 
 group :test do
-  gem 'shoulda-matchers'
   gem 'coveralls', '~> 0.8.21', require: false
   gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
   gem 'rubocop-rspec'
+  gem 'shoulda-matchers'
   gem 'timecop'
   gem 'webmock'
 end

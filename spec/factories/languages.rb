@@ -39,5 +39,10 @@ FactoryBot.define do
       code { 'pt' }
       name { 'Portuguese' }
     end
+
+    trait :nederlands do
+      code { 'nl' }
+      name { 'Nederlands' }
+    end
   end
 end
