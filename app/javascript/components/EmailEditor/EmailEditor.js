@@ -4,7 +4,7 @@ import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
-import { compact, debounce, template, isEqual, merge } from 'lodash';
+import { compact, debounce, template, isEqual, merge, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import { Editor, EditorState } from 'draft-js';
 import { htmlToText } from 'html-to-text';
@@ -18,39 +18,42 @@ const MAX_SUBJECT_LENGTH = 64;
 export default class EmailEditor extends Component {
   constructor(props) {
     super(props);
-    const fn = this.props.templateInterpolate || interpolateVars;
-
     this.state = {
       header: interpolateVars(props.header, props.templateVars),
-      editableBody: htmlToText(props.body),
+      editableBody: htmlToText(interpolateVars(props.body, props.templateVars)), // interpolate, convert to text & assign content to state
       subject: interpolateVars(props.subject, props.templateVars),
       footer: interpolateVars(props.footer, props.templateVars),
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const fn = props.templateInterpolate || interpolateVars;
-    let body = props.body;
+  /*
 
-    if (typeof fn == 'function') {
-      body = fn(props.body, props.templateVars);
+    ! Commenting it out since we are sticking to ${} as template [Refer https://app.asana.com/0/1119304937718815/1201038772171675/f]
+
+    static getDerivedStateFromProps(props, state) {
+      const fn = props.templateInterpolate || interpolateVars;
+      let body = props.body;
+
+      if (typeof fn == 'function') {
+        body = fn(props.body, props.templateVars);
+      }
+      let stateParams = {
+        header: interpolateVars(props.header, props.templateVars),
+        body: htmlToText(body),
+        footer: interpolateVars(props.footer, props.templateVars),
+      };
+
+      if (state.templateVars != props.templateVars) {
+        stateParams = merge(stateParams, {
+          editorState: EditorState.createWithContent(
+            stateFromHTML(interpolateVars(props.body, props.templateVars))
+          ),
+        });
+      }
+      return stateParams;
     }
-    let stateParams = {
-      header: interpolateVars(props.header, props.templateVars),
-      body: htmlToText(body),
-      footer: interpolateVars(props.footer, props.templateVars),
-    };
 
-    if (state.templateVars != props.templateVars) {
-      stateParams = merge(stateParams, {
-        editorState: EditorState.createWithContent(
-          stateFromHTML(interpolateVars(props.body, props.templateVars))
-        ),
-      });
-    }
-
-    return stateParams;
-  }
+  */
 
   // shouldComponentUpdate(nextProps, nextState) {
   //   return (
@@ -180,5 +183,6 @@ export default class EmailEditor extends Component {
 
 function interpolateVars(templateString, templateVars) {
   if (!templateString) return '';
+  if (templateString && isEmpty(templateVars)) return templateString;
   return template(templateString)(templateVars);
 }
