@@ -42,7 +42,7 @@ FactoryBot.define do
 
     trait :nederlands do
       code { 'nl' }
-      name { 'Nederlands' }
+      name { 'Dutch' }
     end
   end
 end
