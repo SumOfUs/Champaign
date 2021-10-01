@@ -120,15 +120,7 @@ Rails.application.configure do
   # In production, we only accept CORS request from sumofus.org or its subdomains.
   config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
-      origins 'http://localhost:4000'
-      resource '*',
-               headers: :any,
-               methods: %i[get post delete put patch options head],
-               max_age: 86_400,
-               credentials: true
-    end
-    allow do
-      origins(%r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/)
+      origins(%r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/, /peoplevsbig.tech/)
       resource '*',
                headers: :any,
                methods: %i[get post delete put patch options head],
