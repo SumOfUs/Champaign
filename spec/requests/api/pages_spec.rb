@@ -85,6 +85,7 @@ describe 'api/pages' do
         share_buttons
         sources
         meta_description
+        template_name
       ]
       expect(subject.keys).to match_array(expected)
       expect(subject.symbolize_keys).to include(title: 'Foo',
