@@ -12,7 +12,7 @@ ActiveAdmin.register Member do
                 :address2,
                 :consented_updated_at,
                 :consented,
-                :actionkit_member_id
+                :actionkit_user_id
 
   index pagination_total: false
   config.per_page = 20
