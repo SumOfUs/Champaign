@@ -15,6 +15,8 @@ json.extract!(
   :meta_description
 )
 
+json.template_name  @page.liquid_layout.title
+
 share_buttons = @page.share_buttons.to_a.map do |share|
   share = share.attributes
   share['rank'] = case share['share_type']
