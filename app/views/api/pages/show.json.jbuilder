@@ -56,10 +56,11 @@ if image&.try(:content)
 end
 
 json.language @page.language.code
-petition = @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first
+
+petition =  @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first
 fundraiser = @page.plugins.select { |p| p.class.name == 'Plugins::Fundraiser' }.first
 
-json.petition do
+json.petition do 
   if petition
     if petition.form
       json.form petition.form.form_elements.order(:position)
@@ -72,7 +73,7 @@ json.petition do
   end
 end
 
-json.fundraiser do
+json.fundraiser do 
   if fundraiser
     if fundraiser.form
       json.form fundraiser.form.form_elements.order(:position)

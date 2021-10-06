@@ -228,6 +228,8 @@ Rails.application.routes.draw do
     end
 
     resources :members, except: [:show]
+    get 'members/payment_methods', to: 'members#payment_methods'
+    get 'members/set_payment_methods', to: 'members#set_payment_methods'
     get 'members/:id', to: 'members#show', constraints: { id: %r{[^/]+} }
 
     post 'members/forget', to: 'members#forget'
