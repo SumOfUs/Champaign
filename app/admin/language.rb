@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Language do
-  permit_params :code, :name
+  permit_params :code, :name, :actionkit_uri
   config.filters = false
 
   sidebar 'Previous Versions', only: :show do

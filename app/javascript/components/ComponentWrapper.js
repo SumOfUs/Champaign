@@ -7,6 +7,7 @@ import deLocaleData from 'react-intl/locale-data/de';
 import frLocaleData from 'react-intl/locale-data/fr';
 import esLocaleData from 'react-intl/locale-data/es';
 import ptLocaleData from 'react-intl/locale-data/pt';
+import nlLocaleData from 'react-intl/locale-data/nl';
 import loadTranslations from '../util/TranslationsLoader';
 
 function WrapInStore(options) {
@@ -51,4 +52,5 @@ addLocaleData([
   ...frLocaleData,
   ...esLocaleData,
   ...ptLocaleData,
+  ...nlLocaleData,
 ]);

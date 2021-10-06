@@ -20,10 +20,10 @@ json.template_name  @page.liquid_layout.title
 share_buttons = @page.share_buttons.to_a.map do |share|
   share = share.attributes
   share['rank'] = case share['share_type']
-  when 'facebook' then 0
-  when 'twitter' then 1
-  when 'whatsapp' then 2
-  when 'email' then 3
+                  when 'facebook' then 0
+                  when 'twitter' then 1
+                  when 'whatsapp' then 2
+                  when 'email' then 3
   end
 
   share
@@ -35,20 +35,20 @@ json.share_buttons share_buttons
 
 image = @page.image_to_display
 
-if image && image.try(:content)
+if image&.try(:content)
   if image.dimensions
-    w,h = image.dimensions.split(":")
+    w, h = image.dimensions.split(':')
 
-    json.width w 
+    json.width w
     json.height h
   end
-  
+
   json.image do
-    json.original do 
+    json.original do
       json.url image.content.url
       json.path image.content.path
     end
-    json.large do 
+    json.large do
       json.path image.content.path(:large)
       json.url image.content.url(:large)
     end
@@ -56,6 +56,7 @@ if image && image.try(:content)
 end
 
 json.language @page.language.code
+
 petition =  @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first
 fundraiser = @page.plugins.select { |p| p.class.name == 'Plugins::Fundraiser' }.first
 
@@ -84,4 +85,3 @@ end
 json.sources do
   json.array! @page.links, :title, :source, :url, :date
 end
-
