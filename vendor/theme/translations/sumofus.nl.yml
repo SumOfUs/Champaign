@@ -89,14 +89,14 @@ nl:
     fundraiser_intro: "<p>Bedankt dat je actie onderneemt, <span class='inject-name'></span>! Samen kunnen we deze strijd winnen -- kun je vandaag een bijdrage leveren om deze campagne te helpen slagen?</p>"
   footer:
     home: Home
-    about: Over
+    about: Over Ons
     privacy_policy: Privacybeleid
     contact: Contact
     controlshift: Begin je eigen campagne
-    home_url: https://sumofus.org/
-    about_url: https://sumofus.org/over
-    privacy_policy_url: https://sumofus.org/privacy
-    contact_url: https://sumofus.org/contact
+    home_url: https://www.sumofus.org/nl/
+    about_url: https://www.sumofus.org/nl/about/
+    privacy_policy_url: https://www.sumofus.org/nl/privacy/
+    contact_url: https://www.sumofus.org/nl/contact/
   baysanto:
     header:
       tagline: "people in opposition"
@@ -164,7 +164,7 @@ nl:
     show_talking_points: "Klik hier om het voorbeeldgesprek, de tips en de veelgestelde vragen nog eens te bekijken"
     submit: "Indienen"
   cookie_consent:
-    privacy_policy_url: "https://www.sumofus.org/privacy/"
+    privacy_policy_url: "https://www.sumofus.org/nl/privacy/"
   progress_tracker:
     signed: Getekend
     shared: Gedeeld
