@@ -115,7 +115,7 @@ nl: # translated 22 July 2021
     unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen. 
     fine_print: "Donaties zijn niet belastingaftrekbaar. Voor meer informatie kun je ons mailen. " # override this with org-specific details in your own yml file.
     confirmation: Donatie ontvangen
-    donate_now: Doneer nu loading:Beveiligd betalingsportaal wordt geladen <br> 
+    donate_now: Doneer nu
     oneclick:
       select_payment: "Selecteer een opgeslagen betaalmethode"
       credit_card_payment_method: "%{card_type} geldig tot %{last_four_digits}"
