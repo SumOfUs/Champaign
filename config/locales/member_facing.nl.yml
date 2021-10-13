@@ -130,7 +130,7 @@ nl: # translated 22 July 2021
       cvv: Veiligheidscode
       number: Kaartnummer
       expiration: Vervaldatum 
-      expiration_format: MM / JJ MM / YY
+      expiration_format: MM / JJ
       postalCode: Postcode
     field_names: # these are used in sentence form, eg with errors. waarschijnlijk_ongeldig
       cvv: Veiligheidscode
