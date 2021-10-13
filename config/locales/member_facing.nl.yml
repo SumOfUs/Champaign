@@ -92,7 +92,7 @@ nl: # translated 22 July 2021
     payment: Betaling
     donate: "Doneer %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Doneer %{amount} / maand"
-    make_monthly_donation: "%{name} een {duration} donatie zal onze beweging ondersteunen om vooruit te plannen, zodat we effectiever kunnen optreden tegen de grootste bedrijven die mensen en de planeet bedreigen. "
+    make_monthly_donation: "%{name} een maandelijkse donatie zal onze beweging ondersteunen om vooruit te plannen, zodat we effectiever kunnen optreden tegen de grootste bedrijven die mensen en de planeet bedreigen. "
     complete_donation: "Voltooi je %{amount} donatie"
     donate_amount: "Doneer %{amount}"
     donation_once: "Doneer eenmalig %{amount}"
