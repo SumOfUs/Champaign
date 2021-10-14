@@ -616,7 +616,6 @@ fbq('track', 'Donate');
 
 function handleLanguages(){
 	var name = null;
-	
 	if(typeof window.champaign.personalization.member.first_name != "undefined"){
 		name = window.champaign.personalization.member.first_name;
 		name = name.charAt(0).toUpperCase() + name.slice(1);
@@ -648,7 +647,8 @@ function handleLanguages(){
     $('.fundraiser-bar__amount-button').addClass('long-button');
 		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
 
-	} else if( language == "de"){
+	}
+  else if( language == "de"){
 		postDonatePage = "https://actions.sumofus.org/a/spende";
 		preButtonLanguage = "";
 		postButtonLanguage = " IM MONAT SPENDEN";
@@ -672,7 +672,8 @@ function handleLanguages(){
 		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
 
 
-	} else if(language == "es"){
+	}
+  else if(language == "es"){
     postDonatePage = "https://actions.sumofus.org/a/tu-puedes-ayudar-a-que-sumofus-se-mantenga-con-fuerza";
     preButtonLanguage = "DONA ";
     postButtonLanguage = "/MES";
@@ -695,7 +696,8 @@ function handleLanguages(){
     $('.fundraiser-bar__amount-button').addClass('long-button');
     $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
 
-  } else if(language == "pt"){
+  }
+  else if(language == "pt"){
 	  // Change with actual PT catch-all donation page if it ends up not being this one!
     postDonatePage = "https://actions.sumofus.org/a/doar";
     preButtonLanguage = "DOE ";
@@ -719,17 +721,18 @@ function handleLanguages(){
     $('.fundraiser-bar__amount-button').addClass('long-button');
     $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
 
-  } else if( language == "nl"){
-		postDonatePage = "https://actions.sumofus.org/a/spende";
+  }
+  else if( language == "nl"){
+		postDonatePage = "https://actions.sumofus.org/a/nl-doneren";
 		preButtonLanguage = "";
-		postButtonLanguage = " IM MONAT SPENDEN";
+		postButtonLanguage = " PER MAAND";
 
-		thankyou = "Sie sind fabelhaft!";
-		secondFirstname = "Vielen Dank, ";
+		thankyou = "je bent geweldig";
+		secondFirstname = "";
 
 		if(name){
-		    thankyou = name+", Sie sind fabelhaft!";
-		    secondFirstname = "Vielen Dank, ";
+		    thankyou = name+", je bent geweldig!";
+		    secondFirstname = "";
 		}
 
     $('.nl-copy').show();
@@ -741,9 +744,8 @@ function handleLanguages(){
 
     $('.fundraiser-bar__amount-button').addClass('long-button');
 		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
-
-
-	} else {
+	}
+  else {
 
 		postButtonLanguage = "/month";
 
