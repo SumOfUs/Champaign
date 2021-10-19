@@ -162,8 +162,9 @@ Rails.application.routes.draw do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
         get 'refund'
-        post 'pages/:page_id/transaction',  action: 'transaction',  as: 'transaction'
-        post 'pages/:page_id/one_click',    action: 'one_click',    as: 'one_click'
+        post 'pages/:page_id/transaction', action: 'transaction', as: 'transaction'
+        post 'pages/:page_id/local_payment_transaction', action: 'local_payment_transaction', as: 'local_payment_transaction'
+        post 'pages/:page_id/one_click', action: 'one_click',    as: 'one_click'
         get  'pages/:page_id/link_payment', action: 'link_payment', as: 'link_payment'
         post 'webhook', action: 'webhook'
       end
