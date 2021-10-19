@@ -343,13 +343,14 @@ export class Payment extends Component {
   };
 
   submit = async data => {
-    if (this.props.currentPaymentType === 'ideal') {
+    const localPayment = this.props.currentPaymentType === 'ideal';
+
+    if (localPayment) {
       const nonce = await ProcessIdealPayment({
         localPaymentInstance: this.state.localPaymentInstance,
         data: this.donationData(),
+        pageId: this.props.page.id,
       });
-
-      data = { nonce };
     }
 
     const recaptcha_action = `donate/${this.props.page.id}`;

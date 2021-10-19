@@ -1,6 +1,10 @@
 import { PAYPAL_FLOW_FAILED } from 'braintree-web/paypal/shared/errors';
 
-export const ProcessIdealPayment = async ({ localPaymentInstance, data }) => {
+export const ProcessIdealPayment = async ({
+  localPaymentInstance,
+  pageId,
+  data,
+}) => {
   const { user, amount } = data;
   const { name } = user;
 
@@ -17,7 +21,20 @@ export const ProcessIdealPayment = async ({ localPaymentInstance, data }) => {
     address: {
       countryCode: 'NL',
     },
-    onPaymentStart: function(data, start) {
+    onPaymentStart: function(localData, start) {
+      const { paymentId } = localData;
+      const payload = {
+        paymentId,
+        data,
+      };
+
+      $.post(
+        `/api/payment/braintree/pages/${pageId}/local_payment_transaction`,
+        payload
+      ).then(resp => {
+        console.log('resp', resp);
+      });
+
       start();
     },
   };
