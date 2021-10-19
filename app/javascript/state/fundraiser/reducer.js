@@ -17,12 +17,20 @@ const isIDEALSupported = ({ country, recurring, currency }) => {
   return country === 'NL' && currency === 'EUR' && switchedOn;
 };
 
+const isGiropaySupported = ({ country, recurring, currency }) => {
+  if (recurring) return false;
+  const switchedOn =
+    typeof __SHOW_GIROPAY__ !== 'undefined' ? __SHOW_GIROPAY__ : false;
+  return country === 'DE' && currency === 'EUR' && switchedOn;
+};
+
 export const initialState = {
   currency: 'USD',
-  currentPaymentType: 'ideal',
+  currentPaymentType: 'giropay',
   currentStep: 0,
   showDirectDebit: false,
   showIdeal: false,
+  showGiropay: false,
   directDebitOnly: false,
   disableSavedPayments: false,
   donationAmount: undefined,
@@ -93,12 +101,18 @@ export default (state = initialState, action) => {
         recurring: state.recurring,
         currency: currency,
       });
+      const showGiropay = isGiropaySupported({
+        country: state.form.country || state.formValues.country,
+        recurring: state.recurring,
+        currency: currency,
+      });
 
       return {
         ...state,
         ...featuredAmountState(preselectAmount, { donationBands, currency }),
         currency,
         showIdeal,
+        showGiropay,
       };
     }
     case 'change_amount':
@@ -120,10 +134,16 @@ export default (state = initialState, action) => {
         recurring: state.recurring,
         currency: state.currency,
       });
+      const showGiropay = isGiropaySupported({
+        country: form.country,
+        recurring: state.recurring,
+        currency: state.currency,
+      });
 
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
         showIdeal,
+        showGiropay,
         directDebitOnly: state.directDebitOnly,
         recurring: state.recurring,
         country: form.country,
@@ -137,6 +157,7 @@ export default (state = initialState, action) => {
         form,
         showDirectDebit,
         showIdeal,
+        showGiropay,
         paymentTypes,
         currentPaymentType,
       };
@@ -145,6 +166,7 @@ export default (state = initialState, action) => {
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit: state.showDirectDebit,
         showIdeal: state.showIdeal,
+        showGiropay: state.showGiropay,
         directDebitOnly: action.payload,
         recurring: state.recurring,
       });
@@ -188,9 +210,16 @@ export default (state = initialState, action) => {
         currency: state.currency,
       });
 
+      const showGiropay = isGiropaySupported({
+        country: state.form.country || state.formValues.country,
+        recurring: action.payload,
+        currency: state.currency,
+      });
+
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
         showIdeal,
+        showGiropay,
         directDebitOnly: state.directDebitOnly,
         recurring: action.payload,
         country: state.form.country,
@@ -205,6 +234,7 @@ export default (state = initialState, action) => {
         recurring: action.payload,
         showDirectDebit,
         showIdeal,
+        showGiropay,
         paymentTypes,
         currentPaymentType,
       };
@@ -222,9 +252,16 @@ export default (state = initialState, action) => {
         currency: state.currency,
       });
 
+      const showGiropay = isGiropaySupported({
+        country: state.form.country || state.formValues.country,
+        recurring: data.recurring,
+        currency: state.currency,
+      });
+
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
         showIdeal,
+        showGiropay,
         directDebitOnly: state.directDebitOnly,
         recurring: data.recurring,
         country: state.form.country,
@@ -239,6 +276,7 @@ export default (state = initialState, action) => {
         ...data,
         showDirectDebit,
         showIdeal,
+        showGiropay,
         paymentTypes,
         currentPaymentType,
       };
@@ -272,9 +310,16 @@ export default (state = initialState, action) => {
         recurring: state.recurring,
         currenct: state.currency,
       });
+      const showGiropay = isGiropaySupported({
+        country: formValues.country,
+        recurring: state.recurring,
+        currency: state.currency,
+      });
 
       const paymentTypes = supportedPaymentTypes({
-        showDirectDebit: showDirectDebit,
+        showDirectDebit,
+        showIdeal,
+        showGiropay,
         directDebitOnly: state.directDebitOnly,
         recurring: state.recurring,
         country: formValues.country,
@@ -290,6 +335,7 @@ export default (state = initialState, action) => {
         outstandingFields,
         paymentTypes,
         showIdeal,
+        showGiropay,
         currentPaymentType,
       };
     }
@@ -358,6 +404,7 @@ export function searchStringOverrides(state, search) {
 
 function supportedPaymentTypes(data) {
   const list = [];
+  if (data.showGiropay) list.push('giropay');
   if (data.showIdeal) list.push('ideal');
   if (data.showDirectDebit) list.push('gocardless');
   if (!data.directDebitOnly) list.push('paypal', 'card');

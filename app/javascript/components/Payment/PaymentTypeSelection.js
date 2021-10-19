@@ -20,6 +20,7 @@ export class PaymentTypeSelection extends PureComponent {
       currency,
       paymentTypes,
       showIdeal,
+      showGiropay,
     } = this.props;
 
     const filteredPaymentTypes = paymentTypes.filter(paymentType => {
@@ -27,6 +28,7 @@ export class PaymentTypeSelection extends PureComponent {
       if (currency === 'ARS' && paymentType === 'paypal') return false;
 
       if (!showIdeal && paymentType === 'ideal') return false;
+      if (!showGiropay && paymentType === 'giropay') return false;
       return true;
     });
 
@@ -70,6 +72,7 @@ const mapStateToProps = state => ({
   recurring: state.fundraiser.recurring,
   showDirectDebit: state.fundraiser.showDirectDebit,
   showIdeal: state.fundraiser.showIdeal,
+  showGiropay: state.fundraiser.showGiropay,
   currentPaymentType: state.fundraiser.directDebitOnly
     ? 'gocardless'
     : state.fundraiser.currentPaymentType,

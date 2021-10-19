@@ -80,6 +80,7 @@ en:
     payment_methods:
       gocardless: "Direct Debit"
       ideal: "iDEAL"
+      giropay: 'Giropay'
       paypal: "PayPal"
       card: 'Credit or debit card'
       google: 'Google Pay'
