@@ -36,6 +36,18 @@ class PaymentController < ApplicationController
     end
   end
 
+  def local_payment_transaction
+    puts params
+    opts = {
+      payment_id: params[:paymentId],
+      data: params[:data],
+      page_id: params[:page_id]
+    }
+
+    resp = Payment::Braintree::LocalPaymentTransaction.create(opts)
+    render json: resp
+  end
+
   def process_and_render_success
     write_member_cookie(builder.action.member_id) unless builder.action.blank?
 

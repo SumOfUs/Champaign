@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_25_152203) do
+ActiveRecord::Schema.define(version: 2021_10_19_130111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -272,6 +272,15 @@ ActiveRecord::Schema.define(version: 2021_03_25_152203) do
     t.datetime "updated_at", null: false
     t.integer "member_id"
     t.index ["member_id"], name: "index_payment_braintree_customers_on_member_id"
+  end
+
+  create_table "payment_braintree_local_payment_transactions", force: :cascade do |t|
+    t.string "payment_id"
+    t.jsonb "data"
+    t.string "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["payment_id"], name: "index_local_payment_transactions_on_payment_id"
   end
 
   create_table "payment_braintree_payment_methods", id: :serial, force: :cascade do |t|
