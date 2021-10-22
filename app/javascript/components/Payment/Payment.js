@@ -12,8 +12,6 @@ import captcha from '../../shared/recaptcha';
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
 import PaymentTypeSelection from './PaymentTypeSelection';
-import { ProcessIdealPayment } from './IdealPayment';
-import ProcessGiropay from './Giropay';
 import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
@@ -35,6 +33,7 @@ import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 // Styles
 import './Payment.css';
+import { ProcessLocalPayment } from './ProcessLocalPayment';
 
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
@@ -345,21 +344,17 @@ export class Payment extends Component {
   };
 
   submit = async data => {
-    if (this.props.currentPaymentType === 'ideal') {
-      const nonce = await ProcessIdealPayment({
+    const localPayment =
+      this.props.currentPaymentType === 'ideal' ||
+      this.props.currentPaymentType === 'giropay';
+
+    if (localPayment) {
+      const nonce = await ProcessLocalPayment({
         localPaymentInstance: this.state.localPaymentInstance,
         data: this.donationData(),
+        pageId: this.props.page.id,
+        paymentType: this.props.currentPaymentType,
       });
-
-      data = { nonce };
-    }
-
-    if (this.props.currentPaymentType === 'giropay') {
-      const nonce = await ProcessGiropay({
-        localPaymentInstance: this.state.localPaymentInstance,
-        data: this.donationData(),
-      });
-
       data = { nonce };
     }
 

@@ -35,6 +35,8 @@ module PaymentProcessor
 
       def process_notification
         case notification.kind
+        when 'local_payment_completed'
+          handle_local_payment_completed
         when 'subscription_charged_successfully'
           handle_subscription_charge(:success)
         when 'subscription_canceled'
@@ -48,6 +50,25 @@ module PaymentProcessor
 
       def notification
         @notification ||= ::Braintree::WebhookNotification.parse(@signature, @payload)
+      end
+
+      def handle_local_payment_completed
+        payment_id = notification.local_payment_completed.payment_id
+        nonce = notification.local_payment_completed.payment_method_nonce
+        transaction_record = Payment::Braintree::LocalPaymentTransaction.find_by(payment_id: payment_id)
+        if transaction_record.nil?
+          Rails.logger.info("LocalPayment transaction record missing for payment '#{payment_id}'")
+        end
+
+        payment_options = {
+          nonce: nonce,
+          amount: transaction_record.data['amount'],
+          currency: 'EUR',
+          user: transaction_record.data['user'],
+          page_id: transaction_record.page_id
+        }
+
+        PaymentProcessor::Braintree::Transaction.make_transaction(payment_options)
       end
 
       def handle_subscription_cancelled
