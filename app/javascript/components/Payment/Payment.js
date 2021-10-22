@@ -12,7 +12,7 @@ import captcha from '../../shared/recaptcha';
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
 import PaymentTypeSelection from './PaymentTypeSelection';
-import { ProcessIdealPayment } from './IdealPayment';
+import { ProcessLocalPayment } from './ProcessLocalPayment';
 import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
@@ -92,7 +92,7 @@ export class Payment extends Component {
               {
                 client: client,
                 merchantAccountId:
-                  champaign.configuration.iDEALMerchantAccountId,
+                  champaign.configuration.localPaymentMerchantAccountId,
               },
               (localPaymentErr, localPaymentInstance) => {
                 this.setState({
@@ -343,14 +343,19 @@ export class Payment extends Component {
   };
 
   submit = async data => {
-    const localPayment = this.props.currentPaymentType === 'ideal';
+    const localPayment =
+      this.props.currentPaymentType === 'ideal' ||
+      this.props.currentPaymentType === 'giropay';
 
     if (localPayment) {
-      const nonce = await ProcessIdealPayment({
+      const nonce = await ProcessLocalPayment({
         localPaymentInstance: this.state.localPaymentInstance,
         data: this.donationData(),
         pageId: this.props.page.id,
+        paymentType: this.props.currentPaymentType,
       });
+
+      data = { nonce };
     }
 
     const recaptcha_action = `donate/${this.props.page.id}`;
@@ -466,7 +471,8 @@ export class Payment extends Component {
   showMonthlyButton() {
     if (
       this.state.recurringDonor ||
-      this.props.currentPaymentType === 'ideal'
+      this.props.currentPaymentType === 'ideal' ||
+      this.props.currentPaymentType === 'giropay'
     ) {
       return false;
     } else {
@@ -593,7 +599,7 @@ export class Payment extends Component {
               />
             </Checkbox>
           )} */}
-          {currentPaymentType !== 'ideal' && (
+          {currentPaymentType !== 'ideal' && currentPaymentType !== 'giropay' && (
             <Checkbox
               className="Payment__config"
               checked={storeInVault}
