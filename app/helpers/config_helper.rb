@@ -15,7 +15,7 @@ module ConfigHelper
 
     config.merge(
       eoyThermometer: eoy_thermometer_config,
-      iDEALMerchantAccountId: PaymentProcessor::Braintree::MerchantAccountSelector.for_currency('EUR')
+      localPaymentMerchantAccountId: PaymentProcessor::Braintree::MerchantAccountSelector.for_currency('EUR')
     )
   end
 

@@ -1,25 +1,41 @@
-import { PAYPAL_FLOW_FAILED } from 'braintree-web/paypal/shared/errors';
-
-export const ProcessIdealPayment = async ({
+export const ProcessLocalPayment = async ({
   localPaymentInstance,
   pageId,
   data,
+  paymentType,
 }) => {
   const { user, amount } = data;
   const { name } = user;
 
+  function getCountryCode() {
+    switch (paymentType) {
+      case 'ideal':
+        return 'NL';
+      case 'giropay':
+        return 'DE';
+    }
+  }
+
+  function getCurrencyCode() {
+    switch (paymentType) {
+      case 'ideal':
+      case 'giropay':
+        return 'EUR';
+    }
+  }
+
   const opts = {
-    paymentType: 'ideal',
+    paymentType,
     amount: amount.toFixed(2),
     fallback: {
       // see Fallback section for details on these params
       url: 'https://sumofus.org/a/donate',
       buttonText: 'Complete Payment',
     },
-    currencyCode: 'EUR',
+    currencyCode: getCurrencyCode(),
     givenName: name,
     address: {
-      countryCode: 'NL',
+      countryCode: getCountryCode(),
     },
     onPaymentStart: function(localData, start) {
       const { paymentId } = localData;

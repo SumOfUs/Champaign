@@ -68,7 +68,7 @@ module PaymentProcessor
           page_id: transaction_record.page_id
         }
 
-        PaymentProcessor::Braintree::Transaction.make_transaction(payment_options)
+        PaymentProcessor::Braintree::Transaction.make_transaction(payment_options.deep_symbolize_keys)
       end
 
       def handle_subscription_cancelled

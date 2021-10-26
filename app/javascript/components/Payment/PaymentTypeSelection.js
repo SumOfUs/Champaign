@@ -19,15 +19,20 @@ export class PaymentTypeSelection extends PureComponent {
       onChange,
       currency,
       paymentTypes,
-      showIdeal,
+      localPaymentTypes,
     } = this.props;
 
     const filteredPaymentTypes = paymentTypes.filter(paymentType => {
-      // PAYPAL doesnt support ARS currency as of now
-      if (currency === 'ARS' && paymentType === 'paypal') return false;
-
-      if (!showIdeal && paymentType === 'ideal') return false;
-      return true;
+      switch (paymentType) {
+        case 'paypal':
+          return !(currency === 'ARS');
+        case 'ideal':
+          return localPaymentTypes.includes('ideal');
+        case 'giropay':
+          return localPaymentTypes.includes('giropay');
+        default:
+          return true;
+      }
     });
 
     return (
@@ -67,9 +72,9 @@ export class PaymentTypeSelection extends PureComponent {
 const mapStateToProps = state => ({
   directDebitOnly: state.fundraiser.directDebitOnly,
   paymentTypes: state.fundraiser.paymentTypes,
+  localPaymentTypes: state.fundraiser.localPaymentTypes,
   recurring: state.fundraiser.recurring,
   showDirectDebit: state.fundraiser.showDirectDebit,
-  showIdeal: state.fundraiser.showIdeal,
   currentPaymentType: state.fundraiser.directDebitOnly
     ? 'gocardless'
     : state.fundraiser.currentPaymentType,
