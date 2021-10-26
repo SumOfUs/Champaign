@@ -37,6 +37,8 @@ import './Payment.css';
 
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
+
+const LOCAL_PAYMENT_PROVIDERS = ['ideal', 'giropay'];
 export class Payment extends Component {
   static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
 
@@ -81,7 +83,8 @@ export class Payment extends Component {
       pageDefault,
     });
 
-    if (this.props.showIdeal) this.props.setPaymentType('ideal');
+    if (this.props.localPaymentTypes.length > 0)
+      this.props.setPaymentType(this.props.localPaymentTypes[0]);
 
     $.get(BRAINTREE_TOKEN_URL)
       .done(data => {
@@ -343,9 +346,9 @@ export class Payment extends Component {
   };
 
   submit = async data => {
-    const localPayment =
-      this.props.currentPaymentType === 'ideal' ||
-      this.props.currentPaymentType === 'giropay';
+    const localPayment = LOCAL_PAYMENT_PROVIDERS.includes(
+      this.props.currentPaymentType
+    );
 
     if (localPayment) {
       const nonce = await ProcessLocalPayment({
@@ -471,8 +474,7 @@ export class Payment extends Component {
   showMonthlyButton() {
     if (
       this.state.recurringDonor ||
-      this.props.currentPaymentType === 'ideal' ||
-      this.props.currentPaymentType === 'giropay'
+      LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType)
     ) {
       return false;
     } else {
@@ -599,7 +601,7 @@ export class Payment extends Component {
               />
             </Checkbox>
           )} */}
-          {currentPaymentType !== 'ideal' && currentPaymentType !== 'giropay' && (
+          {!LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType) && (
             <Checkbox
               className="Payment__config"
               checked={storeInVault}
@@ -729,7 +731,7 @@ const mapStateToProps = state => ({
     state.fundraiser.disableSavedPayments || state.paymentMethods.length === 0,
   defaultPaymentType: state.fundraiser.directDebitOnly ? 'gocardless' : 'card',
   showDirectDebit: state.fundraiser.showDirectDebit,
-  showIdeal: state.fundraiser.showIdeal,
+  localPaymentTypes: state.fundraiser.localPaymentTypes,
   currentPaymentType: state.fundraiser.directDebitOnly
     ? 'gocardless'
     : state.fundraiser.currentPaymentType,
