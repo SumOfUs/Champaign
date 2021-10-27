@@ -6,7 +6,7 @@ ruby '2.6.2'
 gem 'aasm'
 gem 'activeadmin', '~> 2.0.0'
 gem 'bcrypt', '~> 3.1.7'
-gem 'braintree', '~> 4.0.0'
+gem 'braintree', "~> 4.0.0"
 gem 'countries', require: 'countries/global'
 gem 'country_select'
 gem 'devise', '~> 4.6'

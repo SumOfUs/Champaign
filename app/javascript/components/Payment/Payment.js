@@ -37,8 +37,8 @@ import './Payment.css';
 
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
-
 const LOCAL_PAYMENT_PROVIDERS = ['ideal', 'giropay'];
+
 export class Payment extends Component {
   static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
 
@@ -94,8 +94,7 @@ export class Payment extends Component {
             braintree.localPayment.create(
               {
                 client: client,
-                merchantAccountId:
-                  champaign.configuration.localPaymentMerchantAccountId,
+                merchantAccountId: champaign.configuration.localPaymentMerchantAccountId,
               },
               (localPaymentErr, localPaymentInstance) => {
                 this.setState({
@@ -356,8 +355,8 @@ export class Payment extends Component {
         data: this.donationData(),
         pageId: this.props.page.id,
         paymentType: this.props.currentPaymentType,
-      });
 
+      });
       data = { nonce };
     }
 
@@ -473,8 +472,7 @@ export class Payment extends Component {
 
   showMonthlyButton() {
     if (
-      this.state.recurringDonor ||
-      LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType)
+      this.state.recurringDonor || LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType)
     ) {
       return false;
     } else {

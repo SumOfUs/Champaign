@@ -35,6 +35,7 @@ export const initialState = {
   currentPaymentType: 'ideal',
   currentStep: 0,
   showDirectDebit: false,
+  showIdeal: false,
   directDebitOnly: false,
   disableSavedPayments: false,
   donationAmount: undefined,
@@ -101,7 +102,6 @@ export default (state = initialState, action) => {
     case 'change_currency': {
       const { preselectAmount, donationBands } = state;
       const currency = supportedCurrency(action.payload, keys(donationBands));
-
       const localPaymentTypes = getLocalPaymentTypes({
         country: state.form.country || state.formValues.country,
         recurring: state.recurring,
@@ -128,7 +128,6 @@ export default (state = initialState, action) => {
         country: form.country,
         recurring: state.recurring,
       });
-
       const localPaymentTypes = getLocalPaymentTypes({
         country: form.country,
         recurring: state.recurring,
@@ -156,6 +155,7 @@ export default (state = initialState, action) => {
     case 'set_direct_debit_only': {
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit: state.showDirectDebit,
+        showIdeal: state.showIdeal,
         directDebitOnly: action.payload,
       });
       const currentPaymentType = safePaymentType(
@@ -228,7 +228,6 @@ export default (state = initialState, action) => {
         country: state.form.country || state.formValues.country,
         recurring: data.recurring,
         currency: state.currency,
-        localPayProvider: 'ideal',
       });
 
       const paymentTypes = supportedPaymentTypes({

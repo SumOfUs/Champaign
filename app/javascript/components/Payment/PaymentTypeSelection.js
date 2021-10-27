@@ -75,6 +75,7 @@ const mapStateToProps = state => ({
   localPaymentTypes: state.fundraiser.localPaymentTypes,
   recurring: state.fundraiser.recurring,
   showDirectDebit: state.fundraiser.showDirectDebit,
+  showIdeal: state.fundraiser.showIdeal,
   currentPaymentType: state.fundraiser.directDebitOnly
     ? 'gocardless'
     : state.fundraiser.currentPaymentType,
