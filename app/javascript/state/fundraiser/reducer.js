@@ -10,11 +10,24 @@ import {
 
 import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
-const isIDEALSupported = ({ country, recurring, currency }) => {
+const getLocalPaymentTypes = ({ country, recurring, currency }) => {
   if (recurring) return false;
-  const switchedOn =
+
+  const supportedList = [];
+
+  // IDEAL
+  const isIdealSwitchedOn =
     typeof __SHOW_IDEAL__ !== 'undefined' ? __SHOW_IDEAL__ : false;
-  return country === 'NL' && currency === 'EUR' && switchedOn;
+  if (country === 'NL' && currency === 'EUR' && isIdealSwitchedOn)
+    supportedList.push('ideal');
+
+  // GIROPAY
+  const isGiropaySwitchedOn =
+    typeof __SHOW_GIROPAY__ !== 'undefined' ? __SHOW_GIROPAY__ : false;
+  if (country === 'DE' && currency === 'EUR' && isGiropaySwitchedOn)
+    supportedList.push('giropay');
+
+  return supportedList;
 };
 
 export const initialState = {
@@ -46,6 +59,7 @@ export const initialState = {
   outstandingFields: [],
   paymentMethods: [],
   paymentTypes: ['card', 'paypal'],
+  localPaymentTypes: [],
   preselectAmount: false,
   recurring: false,
   recurringDefault: 'one_off',
@@ -88,7 +102,7 @@ export default (state = initialState, action) => {
     case 'change_currency': {
       const { preselectAmount, donationBands } = state;
       const currency = supportedCurrency(action.payload, keys(donationBands));
-      const showIdeal = isIDEALSupported({
+      const localPaymentTypes = getLocalPaymentTypes({
         country: state.form.country || state.formValues.country,
         recurring: state.recurring,
         currency: currency,
@@ -98,7 +112,7 @@ export default (state = initialState, action) => {
         ...state,
         ...featuredAmountState(preselectAmount, { donationBands, currency }),
         currency,
-        showIdeal,
+        localPaymentTypes,
       };
     }
     case 'change_amount':
@@ -114,8 +128,7 @@ export default (state = initialState, action) => {
         country: form.country,
         recurring: state.recurring,
       });
-
-      const showIdeal = isIDEALSupported({
+      const localPaymentTypes = getLocalPaymentTypes({
         country: form.country,
         recurring: state.recurring,
         currency: state.currency,
@@ -123,10 +136,8 @@ export default (state = initialState, action) => {
 
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
-        showIdeal,
+        localPaymentTypes,
         directDebitOnly: state.directDebitOnly,
-        recurring: state.recurring,
-        country: form.country,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -136,7 +147,7 @@ export default (state = initialState, action) => {
         ...state,
         form,
         showDirectDebit,
-        showIdeal,
+        localPaymentTypes,
         paymentTypes,
         currentPaymentType,
       };
@@ -146,7 +157,6 @@ export default (state = initialState, action) => {
         showDirectDebit: state.showDirectDebit,
         showIdeal: state.showIdeal,
         directDebitOnly: action.payload,
-        recurring: state.recurring,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -182,7 +192,7 @@ export default (state = initialState, action) => {
         recurring: action.payload,
       });
 
-      const showIdeal = isIDEALSupported({
+      const localPaymentTypes = getLocalPaymentTypes({
         country: state.form.country || state.formValues.country,
         recurring: action.payload,
         currency: state.currency,
@@ -190,10 +200,8 @@ export default (state = initialState, action) => {
 
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
-        showIdeal,
+        localPaymentTypes,
         directDebitOnly: state.directDebitOnly,
-        recurring: action.payload,
-        country: state.form.country,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -204,7 +212,7 @@ export default (state = initialState, action) => {
         ...state,
         recurring: action.payload,
         showDirectDebit,
-        showIdeal,
+        localPaymentTypes,
         paymentTypes,
         currentPaymentType,
       };
@@ -216,7 +224,7 @@ export default (state = initialState, action) => {
         recurring: data.recurring,
       });
 
-      const showIdeal = isIDEALSupported({
+      const localPaymentTypes = getLocalPaymentTypes({
         country: state.form.country || state.formValues.country,
         recurring: data.recurring,
         currency: state.currency,
@@ -224,10 +232,8 @@ export default (state = initialState, action) => {
 
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit,
-        showIdeal,
+        localPaymentTypes,
         directDebitOnly: state.directDebitOnly,
-        recurring: data.recurring,
-        country: state.form.country,
       });
 
       const currentPaymentType = safePaymentType(
@@ -238,7 +244,7 @@ export default (state = initialState, action) => {
         ...state,
         ...data,
         showDirectDebit,
-        showIdeal,
+        localPaymentTypes,
         paymentTypes,
         currentPaymentType,
       };
@@ -267,17 +273,16 @@ export default (state = initialState, action) => {
         country: formValues.country,
         recurring: state.recurring,
       });
-      const showIdeal = isIDEALSupported({
+      const localPaymentTypes = getLocalPaymentTypes({
         country: formValues.country,
         recurring: state.recurring,
         currenct: state.currency,
       });
 
       const paymentTypes = supportedPaymentTypes({
-        showDirectDebit: showDirectDebit,
+        showDirectDebit,
+        localPaymentTypes,
         directDebitOnly: state.directDebitOnly,
-        recurring: state.recurring,
-        country: formValues.country,
       });
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
@@ -289,7 +294,7 @@ export default (state = initialState, action) => {
         formValues,
         outstandingFields,
         paymentTypes,
-        showIdeal,
+        localPaymentTypes,
         currentPaymentType,
       };
     }
@@ -357,8 +362,8 @@ export function searchStringOverrides(state, search) {
 }
 
 function supportedPaymentTypes(data) {
-  const list = [];
-  if (data.showIdeal) list.push('ideal');
+  let list = [];
+  if (data.localPaymentTypes?.length > 0) list = data.localPaymentTypes;
   if (data.showDirectDebit) list.push('gocardless');
   if (!data.directDebitOnly) list.push('paypal', 'card');
   return list;

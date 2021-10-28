@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UserLanguageISO
-  SUPPORTED = %w[de en es fr pt].freeze
+  SUPPORTED = %w[de en es fr pt nl].freeze
 
   def self.for(language)
     new(language).to_h

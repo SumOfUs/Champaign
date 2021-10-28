@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable all
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -120,7 +121,9 @@ Rails.application.configure do
   # In production, we only accept CORS request from sumofus.org or its subdomains.
   config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
-      origins(%r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/, /peoplevsbig.tech/)
+      origins(
+        %r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/, /peoplevsbig.tech/
+      )
       resource '*',
                headers: :any,
                methods: %i[get post delete put patch options head],
