@@ -93,7 +93,7 @@ nl: # translated 22 July 2021
     donate: "Doneer %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Doneer %{amount} / maand"
     make_monthly_donation: "%{name} een maandelijkse donatie zal onze beweging ondersteunen om vooruit te plannen, zodat we effectiever kunnen optreden tegen de grootste bedrijven die mensen en de planeet bedreigen. "
-    complete_donation: "Voltooi je %{amount} donatie"
+    complete_donation: "Voltooi je donatie van %{amount}"
     donate_amount: "Doneer %{amount}"
     donation_once: "Doneer eenmalig %{amount}"
     donation_recurring: "Doneer maandelijks %{amount}"
@@ -108,11 +108,11 @@ nl: # translated 22 July 2021
     other_amount: Ander bedrag
     make_recurring: Maak mijn donatie maandelijks
     store_in_vault: Mijn betaalgegevens veilig opslaan
-    thank_you: Bedankt voor je donatie! 
+    thank_you: Bedankt voor je donatie!
     thank_you_with_amount: "<strong>Bedankt voor je donatie van %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org. "
     recurring_thank_you_with_amount: "<strong>Bedankt voor je terugkerende donatie van  %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org."
-    card_declined: Je kaart werd geweigerd door de betalingsverwerker. Gelieve een andere betaalmethode te proberen. 
-    unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen. 
+    card_declined: Je kaart werd geweigerd door de betalingsverwerker. Gelieve een andere betaalmethode te proberen.
+    unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen.
     fine_print: "Donaties zijn niet belastingaftrekbaar. Voor meer informatie kun je ons mailen. " # override this with org-specific details in your own yml file.
     confirmation: Donatie ontvangen
     donate_now: Doneer nu
@@ -129,7 +129,7 @@ nl: # translated 22 July 2021
     fields:
       cvv: Veiligheidscode
       number: Kaartnummer
-      expiration: Vervaldatum 
+      expiration: Vervaldatum
       expiration_format: MM / JJ
       postalCode: Postcode
     field_names: # these are used in sentence form, eg with errors. waarschijnlijk_ongeldig
@@ -143,7 +143,7 @@ nl: # translated 22 July 2021
     sign_it: Teken de petitie
     target_prefix: AAN
     confirmation: Naam ingediend
-    excited_confirmation: Naam ingediend! 
+    excited_confirmation: Naam ingediend!
     thank_you: 'Bedankt voor het toevoegen van je naam aan "%{petition_title}"'
     fine_print: "We zullen je privacy beschermen en je op de hoogte houden van deze en soortgelijke campagnes. " # override this with org-specific details in your own yml file.
   form:
@@ -179,14 +179,14 @@ nl: # translated 22 July 2021
         too_short: "moet ten minste uit 6 tekens bestaan"
         cant_connect: "kan geen verbinding maken met dit telefoonnummer, controleer of het correct is of probeer een ander nummer"
         is_invalid: "is geen geldig telefoonnummer"
-    fine_print: 'SumOfUs zal <a href="https://sumofus.org/privacy" target="_blank">je privacy</a> beschermen, en je op de hoogte houden. Als je je telefoonnummer opgeeft kunnen we je ook bellen of sms’en over campagnes. '  # change link once the Dutch translation is ready.
+    fine_print: 'SumOfUs zal <a href="https://sumofus.org/privacy" target="_blank">je privacy</a> beschermen en je op de hoogte houden. Als je je telefoonnummer opgeeft kunnen we je ook bellen of sms’en over campagnes. '  # change link once the Dutch translation is ready.
     form:
       phone_number: "Mijn telefoonnummer"
       phone_country_code: "Code"
       country: "Land"
       submit: "Bel me"
   share:
-    cta: Deel de campagne! 
+    cta: Deel de campagne!
     send_email: Verzend e-mail
     share: Deel
     tweet: Tweet

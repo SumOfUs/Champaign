@@ -90,6 +90,17 @@
           <b>Faça uma doação mensal recorrente e junte-se agora aos outros 38,652 membros cruciais:</b>
         </p>
       </div>
+      <div class="nl-copy">
+				<p>
+					<b><span class="thank-you-firstname">Dank je, </span>voor het helpen bouwen aan een wereld waarin mensen voor winst komen.</b>
+				</p>
+				<p>
+          Er is nog een hoop werk te doen. Zou je willen overwegen om een kernlid van SumOfUs te worden om ons te helpen sneller onze doelen te bereiken? Met een maandelijkse donatie steun je onze beweging om vooruit te plannen, zodat we het kunnen opnemen tegen de machtigste bedrijven die mensen en de planeet bedreigen.
+				</p>
+				<p>
+					<b>Doe een maandelijkse donatie en sluit je vandaag nog aan bij onze geweldige 38.652 kernleden:</b>
+				</p>
+			</div>
 
 
     <div class="fundraiser-bar__step-panel script-dependent">
@@ -623,140 +634,136 @@ function handleLanguages(){
 
 	var language = $('html').attr('lang');
 
-	if(language == "fr"){
-		postDonatePage = "https://actions.sumofus.org/a/soutiner-sumofus-donate-french";
-		preButtonLanguage = "FAIRE UN DON DE ";
-		postButtonLanguage = "/MOIS";
+  switch (language) {
+    case 'fr':
+      postDonatePage = "https://actions.sumofus.org/a/soutiner-sumofus-donate-french";
+      preButtonLanguage = "FAIRE UN DON DE ";
+      postButtonLanguage = "/MOIS";
 
-		thankyou = "Vous êtes fantastique!";
-		secondFirstname = "Merci, ";
+      thankyou = "Vous êtes fantastique!";
+      secondFirstname = "Merci, ";
 
-		if(name){
-		    thankyou = "Vous êtes fantastique "+name+"!";
-		    secondFirstname = "Merci, "+name+", ";
-		}
+      if(name){
+          thankyou = "Vous êtes fantastique "+name+"!";
+          secondFirstname = "Merci, "+name+", ";
+      }
 
-		$('.fr-copy').show();
-		$('.en-copy').hide();
-    $('.es-copy').hide();
-    $('.pt-copy').hide();
-    $('.de-copy').hide();
-		$('.nl-copy').hide();
-
-
-    $('.fundraiser-bar__amount-button').addClass('long-button');
-		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
-
-	}
-  else if( language == "de"){
-		postDonatePage = "https://actions.sumofus.org/a/spende";
-		preButtonLanguage = "";
-		postButtonLanguage = " IM MONAT SPENDEN";
-
-		thankyou = "Sie sind fabelhaft!";
-		secondFirstname = "Vielen Dank, ";
-
-		if(name){
-		    thankyou = name+", Sie sind fabelhaft!";
-		    secondFirstname = "Vielen Dank, ";
-		}
-
-    $('.de-copy').show();
-    $('.fr-copy').hide();
-    $('.en-copy').hide();
-    $('.es-copy').hide();
-    $('.pt-copy').hide();
-		$('.nl-copy').hide();
-
-    $('.fundraiser-bar__amount-button').addClass('long-button');
-		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+      $('.fr-copy').show();
+      $('.en-copy').hide();
+      $('.es-copy').hide();
+      $('.pt-copy').hide();
+      $('.de-copy').hide();
+      $('.nl-copy').hide();
 
 
-	}
-  else if(language == "es"){
-    postDonatePage = "https://actions.sumofus.org/a/tu-puedes-ayudar-a-que-sumofus-se-mantenga-con-fuerza";
-    preButtonLanguage = "DONA ";
-    postButtonLanguage = "/MES";
+      $('.fundraiser-bar__amount-button').addClass('long-button');
+      $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+      break;
+    case 'de':
+    	postDonatePage = "https://actions.sumofus.org/a/spende";
+    	preButtonLanguage = "";
+    	postButtonLanguage = " IM MONAT SPENDEN";
 
-    thankyou = "¡Eres lo máximo!";
-    secondFirstname = "Gracias, ";
+    	thankyou = "Sie sind fabelhaft!";
+    	secondFirstname = "Vielen Dank, ";
 
-    if(name){
-      thankyou = "¡Eres lo máximo, "+name+"!";
-      secondFirstname = "Gracias, "+name+", ";
-    }
+    	if(name){
+    	    thankyou = name+", Sie sind fabelhaft!";
+    	    secondFirstname = "Vielen Dank, ";
+    	}
 
-    $('.es-copy').show();
-    $('.de-copy').hide();
-    $('.fr-copy').hide();
-    $('.en-copy').hide();
-    $('.pt-copy').hide();
-    $('.nl-copy').hide();
+      $('.de-copy').show();
+      $('.fr-copy').hide();
+      $('.en-copy').hide();
+      $('.es-copy').hide();
+      $('.pt-copy').hide();
+    	$('.nl-copy').hide();
 
-    $('.fundraiser-bar__amount-button').addClass('long-button');
-    $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+      $('.fundraiser-bar__amount-button').addClass('long-button');
+    	$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+      break;
+    case 'es':
+      postDonatePage = "https://actions.sumofus.org/a/tu-puedes-ayudar-a-que-sumofus-se-mantenga-con-fuerza";
+      preButtonLanguage = "DONA ";
+      postButtonLanguage = "/MES";
 
+      thankyou = "¡Eres lo máximo!";
+      secondFirstname = "Gracias, ";
+
+      if(name){
+        thankyou = "¡Eres lo máximo, "+name+"!";
+        secondFirstname = "Gracias, "+name+", ";
+      }
+
+      $('.es-copy').show();
+      $('.de-copy').hide();
+      $('.fr-copy').hide();
+      $('.en-copy').hide();
+      $('.pt-copy').hide();
+      $('.nl-copy').hide();
+
+      $('.fundraiser-bar__amount-button').addClass('long-button');
+      $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+      break;
+    case 'pt':
+      // Change with actual PT catch-all donation page if it ends up not being this one!
+      postDonatePage = "https://actions.sumofus.org/a/doar";
+      preButtonLanguage = "DOE ";
+      postButtonLanguage = " POR MÊS";
+
+      thankyou = "Você é incrível!";
+      secondFirstname = "Obrigadx ";
+
+      if(name){
+        thankyou = "Você é incrível, "+name+"!";
+        secondFirstname = "Obrigadx "+name+" ";
+      }
+
+      $('.pt-copy').show();
+      $('.es-copy').hide();
+      $('.de-copy').hide();
+      $('.fr-copy').hide();
+      $('.en-copy').hide();
+      $('.nl-copy').hide();
+
+      $('.fundraiser-bar__amount-button').addClass('long-button');
+      $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+      break;
+    case 'nl':
+      postDonatePage = "https://actions.sumofus.org/a/nl-doneren";
+      preButtonLanguage = "DONEER ";
+      postButtonLanguage = " PER MAAND";
+
+      thankyou = "je bent geweldig";
+      secondFirstname = "";
+
+      if(name){
+          thankyou = name+", je bent geweldig!";
+          secondFirstname = "";
+      }
+
+      $('.nl-copy').show();
+      $('.de-copy').hide();
+      $('.fr-copy').hide();
+      $('.en-copy').hide();
+      $('.es-copy').hide();
+      $('.pt-copy').hide();
+
+      $('.fundraiser-bar__amount-button').addClass('long-button');
+      $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+      break;
+    default:
+      postButtonLanguage = "/month";
+
+      thankyou = "You're awesome!";
+      secondFirstname = "Thank you ";
+
+      if(name){
+        thankyou = "You're awesome, "+name+"!";
+        secondFirstname = "Thank you "+name+" ";
+      }
+      break;
   }
-  else if(language == "pt"){
-	  // Change with actual PT catch-all donation page if it ends up not being this one!
-    postDonatePage = "https://actions.sumofus.org/a/doar";
-    preButtonLanguage = "DOE ";
-    postButtonLanguage = " POR MÊS";
-
-    thankyou = "Você é incrível!";
-    secondFirstname = "Obrigadx ";
-
-    if(name){
-      thankyou = "Você é incrível, "+name+"!";
-      secondFirstname = "Obrigadx "+name+" ";
-    }
-
-    $('.pt-copy').show();
-    $('.es-copy').hide();
-    $('.de-copy').hide();
-    $('.fr-copy').hide();
-    $('.en-copy').hide();
-		$('.nl-copy').hide();
-
-    $('.fundraiser-bar__amount-button').addClass('long-button');
-    $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
-
-  }
-  else if( language == "nl"){
-		postDonatePage = "https://actions.sumofus.org/a/nl-doneren";
-		preButtonLanguage = "DONEER";
-		postButtonLanguage = " PER MAAND";
-
-		thankyou = "je bent geweldig";
-		secondFirstname = "";
-
-		if(name){
-		    thankyou = name+", je bent geweldig!";
-		    secondFirstname = "";
-		}
-
-    $('.nl-copy').show();
-    $('.de-copy').hide();
-    $('.fr-copy').hide();
-    $('.en-copy').hide();
-    $('.es-copy').hide();
-    $('.pt-copy').hide();
-
-    $('.fundraiser-bar__amount-button').addClass('long-button');
-		$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
-	}
-  else {
-
-		postButtonLanguage = "/month";
-
-		thankyou = "You're awesome!";
-		secondFirstname = "Thank you ";
-
-		if(name){
-		    thankyou = "You're awesome, "+name+"!";
-		    secondFirstname = "Thank you "+name+" ";
-		}
-	}
 }
 
 function updateButtons(){
