@@ -26,13 +26,13 @@ nl:
       member_management: "Om je betaalmethoden en -gegevens te beheren, kun je op elk moment het <a href='%{url}'>SumOfUs- ledendashboard</a> bezoeken."
   branding:
     tagline: Want mensen komen voor winst
-    license: Creative Commons Attribution 3.0 Unported License. 
+    license: Creative Commons Attribution 3.0 Unported License.
     description: "SumOfUs is een wereldwijde beweging van consumenten, investeerders en werknemers die zich samen inzetten om grote bedrijven verantwoordelijk te houden voor hun acties, en om een nieuwe, duurzame route uit te zetten voor onze wereldeconomie. Het zal niet snel of makkelijk gaan, maar als er genoeg van ons samenkomen kunnen we een echt verschil maken.
 "
   fundraiser:
     currency_disclaimer: "Hallo! We werken er hard aan om binnenkort donaties te kunnen accepteren in jouw lokale munteenheid. Ondertussen waarderen wij je geduld - je donatie zal worden verwerkt in de buitenlandse valuta die je selecteert. Houd er rekening mee dat je creditcard kosten in rekening kan brengen waar SumOfUs geen controle over heeft. Bedankt voor je begrip.
 "
-    fine_print: "SumOfUs zal  <a href='https://sumofus.org/privacy'>je privacy</a> beschermen, en je op de hoogte houden van deze en soortgelijke campagnes."
+    fine_print: "SumOfUs zal  <a href='https://sumofus.org/nl/privacy'>je privacy</a> beschermen en je op de hoogte houden van deze en soortgelijke campagnes."
     debit:
       recurring: "Je stelt een maandelijkse donatie aan SumOfUs in van%{amount}"
       one_time: "Je doneert %{amount} aan SumOfUs"
@@ -65,7 +65,7 @@ nl:
     confirmation: Naam toegevoegd
     excited_confirmation: Naam toegevoegd!!
     thank_you: 'Bedankt dat je je naam toevoegde aan "%{petition_title}"'
-    fine_print: "SumOfUs zal  <a href='https://sumofus.org/privacy'>je privacy</a> beschermen, en je op de hoogte houden van deze en soortgelijke campagnes. "
+    fine_print: "SumOfUs zal  <a href='https://sumofus.org/nl/privacy'>je privacy</a> beschermen en je op de hoogte houden van deze en soortgelijke campagnes. "
     before_you_sign: 'Voor je "%{petition_title} tekent"'
     thanks_for_signing: 'Bedankt voor het tekenen van "%{petition_title}"'
     next: "Volgende"
