@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
+import braintree from 'braintree-web';
 import hostedFields from 'braintree-web/hosted-fields';
 import './Braintree.scss';
 import ee from '../../shared/pub_sub';
@@ -93,49 +94,68 @@ class BraintreeCardFields extends Component {
 
   createHostedFields(client) {
     const formatMessage = this.props.intl.formatMessage;
-    hostedFields.create(
-      {
-        client,
-        styles: this.state.styles,
-        fields: this.state.fields,
-      },
-      (err, hostedFieldsInstance) => {
-        if (err) {
-          if (window.Sentry) {
-            window.Sentry.captureException(err);
+    Promise.all([
+      braintree.threeDSecure.create(
+        {
+          client: client,
+        },
+        (err, threeDSInstance) => {
+          if (err) {
+            if (window.Sentry) {
+              window.Sentry.captureException(err);
+            }
+            ee.emit('fundraiser:configure:3ds:error', err);
+            return;
           }
-          ee.emit('fundraiser:configure:hosted_fields:error', err);
-          return;
+          ee.emit('fundraiser:configure:3ds:success', threeDSInstance);
+
+          this.setState({ threeDS: threeDSInstance });
         }
-        ee.emit(
-          'fundraiser:configure:hosted_fields:success',
-          hostedFieldsInstance
-        );
-
-        this.setState({ hostedFields: hostedFieldsInstance }, () => {
-          if (this.props.onInit) {
-            this.props.onInit();
+      ),
+      hostedFields.create(
+        {
+          client,
+          styles: this.state.styles,
+          fields: this.state.fields,
+        },
+        (err, hostedFieldsInstance) => {
+          if (err) {
+            if (window.Sentry) {
+              window.Sentry.captureException(err);
+            }
+            ee.emit('fundraiser:configure:hosted_fields:error', err);
+            return;
           }
-        });
+          ee.emit(
+            'fundraiser:configure:hosted_fields:success',
+            hostedFieldsInstance
+          );
 
-        hostedFieldsInstance.on('validityChange', event => {
-          const field = event.fields[event.emittedBy];
-          const newErrors = {};
-          newErrors[event.emittedBy] = !field.isPotentiallyValid;
-          this.setState({
-            errors: Object.assign({}, this.state.errors, newErrors),
+          this.setState({ hostedFields: hostedFieldsInstance }, () => {
+            if (this.props.onInit) {
+              this.props.onInit();
+            }
           });
-        });
 
-        hostedFieldsInstance.on('cardTypeChange', event => {
-          if (event.cards.length === 1) {
-            this.setState({ cardType: event.cards[0].type });
-          } else {
-            this.setState({ cardType: '' });
-          }
-        });
-      }
-    );
+          hostedFieldsInstance.on('validityChange', event => {
+            const field = event.fields[event.emittedBy];
+            const newErrors = {};
+            newErrors[event.emittedBy] = !field.isPotentiallyValid;
+            this.setState({
+              errors: Object.assign({}, this.state.errors, newErrors),
+            });
+          });
+
+          hostedFieldsInstance.on('cardTypeChange', event => {
+            if (event.cards.length === 1) {
+              this.setState({ cardType: event.cards[0].type });
+            } else {
+              this.setState({ cardType: '' });
+            }
+          });
+        }
+      ),
+    ]);
   }
 
   teardown() {
@@ -161,6 +181,28 @@ class BraintreeCardFields extends Component {
             this.processTokenizeErrors(error);
             return reject(error);
           }
+
+          if (this.state.threeDS) {
+            this.state.threeDS
+              .verifyCard({
+                onLookupComplete: function(data, next) {
+                  next();
+                },
+                nonce: payload.nonce,
+                bin: payload.details.bin,
+              })
+              .then(function(payload) {
+                if (!payload.liabilityShifted) {
+                  console.log('Liability did not shift', payload);
+                  return;
+                }
+              })
+              .catch(function(err) {
+                console.log(err);
+                reject(err);
+              });
+          }
+
           this.teardown();
           resolve(data);
         }
