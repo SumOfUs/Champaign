@@ -15,6 +15,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = favicon_link_tag "org-favicon.ico"
     = metamagic
 
+    = javascript_include_tag "https://www.googleoptimize.com/optimize.js?id=#{Settings.google_optimize.key}"
     = javascript_include_tag 'https://code.jquery.com/jquery-2.2.4.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
@@ -27,7 +28,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render partial: "shared/js_locale"
     = render partial: "shared/champaign_object"
     = render "pages/personalization", data: @data
-    = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
 
     = stylesheet_link_tag "member-facing"
     = stylesheet_packs_with_chunks_tag "globals", "member_facing", "plugins"

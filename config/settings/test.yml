@@ -13,6 +13,8 @@
 # config/settings/#{environment}.local.yml will override the settings in that file.
 
 # General Champaign settings.
+google_optimize:
+  key: "test-1234"
 secret_key_base: 'a fake secret key'
 omniauth_client_secret: 'a fake client secret'
 omniauth_client_id: 'a fake client_id'
