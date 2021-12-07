@@ -14,7 +14,7 @@ nl:
   confirmation_mailer:
     title: "Accountbevestiging - SumOfUs.org"
     confirmation_email:
-      subject: Bevestig je SumOfUs-account"
+      subject: Bevestig je SumOfUs-account
       headline: "Bedankt voor het registreren van een SumOfUs-account"
       body_html: " <a href='%{confirmation_url}'>Klik op deze link om je SumOfUs-account te bevestigen.</a><br/><br/>Bedankt,<br/>Het hele SumOfUs-team"
       body_text: "Klik op deze link om je registratie te bevestigen:  %{confirmation_url}"
