@@ -1,6 +1,45 @@
 # frozen_string_literal: true
 
 module Payment::Braintree
+  class SelectPaymentType
+    PAYPAL_IDENTIFIER = 'PYPL'
+    GIRO_IDENTIFIER = 'GIRO'
+    IDEAL_IDENTIFIER = 'IDEL'
+
+    def initialize(transaction)
+      @transaction = transaction
+    end
+
+    def select
+      if is_paypal?
+        PAYPAL_IDENTIFIER
+      elsif is_local?
+        select_local_type
+      else
+        @transaction.credit_card_details.last_4
+      end
+    end
+
+    def is_local?
+      @transaction.payment_instrument_type.inquiry.local_payment?
+    end
+
+    def select_local_type
+      source = @transaction.local_payment_details.funding_source
+
+      result = {
+        'giropay' => GIRO_IDENTIFIER,
+        'ideal' => IDEAL_IDENTIFIER
+      }[source]
+
+      result
+    end
+
+    def is_paypal?
+      @transaction.payment_instrument_type.inquiry.paypal_account?
+    end
+  end
+
   class << self
     def table_name_prefix
       'payment_braintree_'
@@ -235,7 +274,7 @@ module Payment::Braintree
     end
 
     def last_4
-      transaction.payment_instrument_type == 'paypal_account' ? 'PYPL' : card.last_4
+      ::Payment::Braintree::SelectPaymentType.new(transaction).select
     end
 
     def payment_method_token
