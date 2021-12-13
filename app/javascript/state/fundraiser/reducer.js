@@ -15,17 +15,13 @@ const getLocalPaymentTypes = ({ country, recurring, currency }) => {
 
   const supportedList = [];
 
+  if (currency !== 'EUR') return supportedList;
+
   // IDEAL
-  const isIdealSwitchedOn =
-    typeof __SHOW_IDEAL__ !== 'undefined' ? __SHOW_IDEAL__ : false;
-  if (country === 'NL' && currency === 'EUR' && isIdealSwitchedOn)
-    supportedList.push('ideal');
+  if (country === 'NL') supportedList.push('ideal');
 
   // GIROPAY
-  const isGiropaySwitchedOn =
-    typeof __SHOW_GIROPAY__ !== 'undefined' ? __SHOW_GIROPAY__ : false;
-  if (country === 'DE' && currency === 'EUR' && isGiropaySwitchedOn)
-    supportedList.push('giropay');
+  if (country === 'DE') supportedList.push('giropay');
 
   return supportedList;
 };
