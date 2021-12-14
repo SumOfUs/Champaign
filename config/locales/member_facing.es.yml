@@ -76,6 +76,8 @@ es:
 
   fundraiser:
     payment_methods:
+      ideal: "iDEAL"
+      giropay: 'Giropay'
       gocardless: "Domiciliación bancaria"
       paypal: "PayPal"
       card: 'Tarjeta de crédito'

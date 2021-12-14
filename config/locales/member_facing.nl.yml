@@ -79,6 +79,7 @@ nl: # translated 22 July 2021
     payment_methods:
       gocardless: "Direct Debit"
       ideal: "iDEAL"
+      giropay: 'Giropay'
       paypal: "PayPal"
       card: 'Credit of debit card '
       google: 'Google Pay'
