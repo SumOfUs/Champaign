@@ -63,6 +63,8 @@ fr:
       name: '[Enter your name above]'
   fundraiser:
     payment_methods:
+      ideal: "iDEAL"
+      giropay: 'Giropay'
       gocardless: "Prélèvement bancaire"
       paypal: "PayPal"
       card: 'Carte bancaire'

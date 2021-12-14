@@ -83,6 +83,8 @@ pt:
       card: 'Cartão de crédito ou débito'
       google: 'Google Pay'
       apple: 'Apple Pay'
+      ideal: "iDEAL"
+      giropay: 'Giropay'
       ready_for_gocardless: "Clique em 'Doar' para concluir sua doação por meio do GoCardless, nosso processador de débito automático."
       ready_for_paypal: "Ao clicar no botão abaixo, o PayPal te ajudará a concluir sua doação."
       ready_for_google: "Ao clicar no botão abaixo, o Google te ajudará a concluir sua doação."

@@ -72,6 +72,8 @@ de:
       target_full_name: '[Wählen Sie Ihre/n Abgeordnete/n aus]'
   fundraiser:
     payment_methods:
+      ideal: "iDEAL"
+      giropay: 'Giropay'
       gocardless: "Lastschrift"
       paypal: "PayPal"
       card: 'Kreditkarte'
