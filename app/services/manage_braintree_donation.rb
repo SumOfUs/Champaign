@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class ManageBraintreeDonation
-  PAYPAL_IDENTIFIER = 'PYPL'
-  LOCAL_IDENTIFIER = 'LCAL'
-
   def self.create(params:, braintree_result:, is_subscription: false, store_in_vault: false)
     new(
       params: params,
@@ -74,20 +71,6 @@ class ManageBraintreeDonation
   end
 
   def card_num
-    if is_paypal?
-      PAYPAL_IDENTIFIER
-    elsif is_local?
-      LOCAL_IDENTIFIER
-    else
-      transaction.credit_card_details.last_4
-    end
-  end
-
-  def is_paypal?
-    transaction.payment_instrument_type.inquiry.paypal_account?
-  end
-
-  def is_local?
-    transaction.payment_instrument_type.inquiry.local_payment?
+    ::Payment::Braintree::SelectPaymentType.new(transaction).select
   end
 end
