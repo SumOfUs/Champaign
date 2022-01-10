@@ -32,7 +32,9 @@ class Api::MembersController < ApplicationController
 
   def show
     member = Member.find_from_request(akid: params[:id], id: cookies.signed[:member_id])
-    render json: { member: member }
+    cookie_data = (cookies.signed[:payment_methods] || '').split(',')
+    payment_methods = Payment::Braintree::PaymentMethod.where(token: cookie_data)
+    render json: { member: member, payment_method: payment_methods }
   end
 
   def create
