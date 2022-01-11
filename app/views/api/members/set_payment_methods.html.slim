@@ -1,0 +1,11 @@
+doctype html
+html
+  body
+    javascript:
+      window.top.postMessage(
+        JSON.stringify({
+          error: false,
+          message: "Hello World"
+        }),
+        '*'
+      );

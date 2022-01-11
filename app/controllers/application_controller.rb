@@ -84,6 +84,8 @@ class ApplicationController < ActionController::Base
   end
 
   def recognized_member
+    puts 'SEE signed member'
+    puts cookies.signed[:member_id]
     @recognized_member ||= current_member ||
                            Member.find_from_request(akid: unsafe_params[:akid], id: cookies.signed[:member_id])
   end

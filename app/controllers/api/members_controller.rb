@@ -2,10 +2,14 @@
 
 class Api::MembersController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
+  skip_before_action :set_default_locale, :set_raven_context, only: [:show]
+  after_action :allow_iframe, only: :set_payment_methods
+
   before_action :check_api_key, only: [:forget]
 
   def set_payment_methods
     response.headers.except! 'X-Frame-Options'
+
     current_payment_methods = cookies.signed['payment_methods']
     current_member_id = cookies.signed['member_id']
 
@@ -21,7 +25,7 @@ class Api::MembersController < ApplicationController
       domain: :all
     }
 
-    render json: {}
+    render layout: false
   end
 
   def payment_methods
@@ -32,8 +36,8 @@ class Api::MembersController < ApplicationController
 
   def show
     member = Member.find_from_request(akid: params[:id], id: cookies.signed[:member_id])
-    cookie_data = (cookies.signed[:payment_methods] || '').split(',')
-    payment_methods = Payment::Braintree::PaymentMethod.where(token: cookie_data)
+    payment_method_ids = (cookies.signed[:payment_methods] || '').split(',')
+    payment_methods = Payment::Braintree::PaymentMethod.where(token: payment_method_ids)
     render json: { member: member, payment_method: payment_methods }
   end
 
@@ -74,5 +78,9 @@ class Api::MembersController < ApplicationController
 
   def member
     @member ||= Member.find_by(email: permitted_params[:email])
+  end
+
+  def allow_iframe
+    response.headers.except! 'X-Frame-Options'
   end
 end
