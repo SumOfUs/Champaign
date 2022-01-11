@@ -13,19 +13,23 @@ class Api::MembersController < ApplicationController
     current_payment_methods = cookies.signed['payment_methods']
     current_member_id = cookies.signed['member_id']
 
-    cookies.signed[:payment_methods] = {
-      value: current_payment_methods,
-      expires: 5.years.from_now,
-      domain: :all
-    }
+    if current_payment_methods
+      cookies.signed[:payment_methods] = {
+        value: current_payment_methods,
+        expires: 5.years.from_now,
+        domain: :all
+      }
+    end
 
-    cookies.signed[:member_id] = {
-      value: current_member_id,
-      expires: 5.years.from_now,
-      domain: :all
-    }
+    if current_member_id
+      cookies.signed[:member_id] = {
+        value: current_member_id,
+        expires: 5.years.from_now,
+        domain: :all
+      }
+    end
 
-    render layout: false
+    render json: {}
   end
 
   def payment_methods
