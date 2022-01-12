@@ -18,12 +18,14 @@ class PaymentController < ApplicationController
 
       cookies.signed[:member_id] = {
         value: @customer.member.id,
-        expires: 1.day.from_now
+        expires: 1.day.from_now,
+        domain: :all
       }
 
       cookies.signed[:payment_methods] = {
         value: payment_method.token,
-        expires: 1.day.from_now
+        expires: 1.day.from_now,
+        domain: :all
       }
     end
   end
@@ -59,7 +61,8 @@ class PaymentController < ApplicationController
 
       cookies.signed[:payment_methods] = {
         value: existing_payment_methods.uniq.join(','),
-        expires: 1.year.from_now
+        expires: 1.year.from_now,
+        domain: :all
       }
     end
 

@@ -46,7 +46,8 @@ class ApplicationController < ActionController::Base
 
     cookies.signed[:member_id] = {
       value: member_id,
-      expires: 2.years.from_now
+      expires: 2.years.from_now,
+      domain: :all
     }
   end
 
