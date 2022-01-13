@@ -36,7 +36,8 @@ import { isDirectDebitSupported } from '../../util/directDebitDecider';
 import './Payment.css';
 
 const BRAINTREE_TOKEN_URL =
-  process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
+  process.env.BRAINTREE_TOKEN_URL ||
+  'https://1j1tytu4da.execute-api.us-west-2.amazonaws.com/dev/braintree/token';
 const LOCAL_PAYMENT_PROVIDERS = ['ideal', 'giropay'];
 
 export class Payment extends Component {
@@ -94,7 +95,8 @@ export class Payment extends Component {
             braintree.localPayment.create(
               {
                 client: client,
-                merchantAccountId: champaign.configuration.localPaymentMerchantAccountId,
+                merchantAccountId:
+                  champaign.configuration.localPaymentMerchantAccountId,
               },
               (localPaymentErr, localPaymentInstance) => {
                 this.setState({
@@ -355,7 +357,6 @@ export class Payment extends Component {
         data: this.donationData(),
         pageId: this.props.page.id,
         paymentType: this.props.currentPaymentType,
-
       });
       data = { nonce };
     }
@@ -370,6 +371,9 @@ export class Payment extends Component {
       source: window.champaign.personalization.urlParams.source,
       recaptcha_token,
       recaptcha_action,
+      ...(data.threeDSecureInfo?.threeDSecureAuthenticationId && {
+        authenticationId: data.threeDSecureInfo.threeDSecureAuthenticationId,
+      }),
     };
 
     this.emitTransactionSubmitted();
@@ -432,6 +436,10 @@ export class Payment extends Component {
       }, 500);
     }
     ee.emit('fundraiser:transaction_error', reason, this.props.formData);
+    if (reason.code === '3DS') {
+      const errors = [<FormattedMessage id="fundraiser.unknown_error" />];
+      this.setState({ errors });
+    }
     this.props.setSubmitting(false);
   };
 
@@ -472,7 +480,8 @@ export class Payment extends Component {
 
   showMonthlyButton() {
     if (
-      this.state.recurringDonor || LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType)
+      this.state.recurringDonor ||
+      LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType)
     ) {
       return false;
     } else {
@@ -576,6 +585,7 @@ export class Payment extends Component {
             recurring={recurring}
             isActive={currentPaymentType === 'card'}
             onInit={() => this.paymentInitialized('card')}
+            amount={this.getFinalDonationAmount()}
           />
 
           {currentPaymentType === 'gocardless' && (
@@ -585,20 +595,6 @@ export class Payment extends Component {
               />
             </div>
           )}
-          {/*
-          {this.showMonthlyButton() && (
-            <Checkbox
-              className="Payment__config"
-              disabled={!this.showMonthlyButton()}
-              checked={recurring}
-              onChange={e => this.props.setRecurring(e.currentTarget.checked)}
-            >
-              <FormattedMessage
-                id="fundraiser.make_recurring"
-                defaultMessage="Make my donation monthly"
-              />
-            </Checkbox>
-          )} */}
           {!LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType) && (
             <Checkbox
               className="Payment__config"
@@ -640,22 +636,6 @@ export class Payment extends Component {
                 }}
               />
             </div>
-
-            {/* <div className="PaymentMethod__complete-donation donation-amount-text-2x">
-              <FormattedMessage
-                id={'fundraiser.donate_amount'}
-                defaultMessage={`Donate {amount}`}
-                className=""
-                values={{
-                  amount: (
-                    <CurrencyAmount
-                      amount={donationAmount || 0}
-                      currency={currency}
-                    />
-                  ),
-                }}
-              />
-            </div> */}
           </div>
 
           {currentPaymentType === 'paypal' && (

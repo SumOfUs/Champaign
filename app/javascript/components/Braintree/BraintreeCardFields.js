@@ -61,7 +61,6 @@ class BraintreeCardFields extends Component {
         fields: config.fields || this.state.fields,
       },
       () => {
-        console.log(this.state.fields);
         if (this.state.hostedFields) {
           return this.teardown();
         }
@@ -93,21 +92,19 @@ class BraintreeCardFields extends Component {
   }
 
   createHostedFields(client) {
-    const formatMessage = this.props.intl.formatMessage;
     Promise.all([
       braintree.threeDSecure.create(
         {
           client: client,
+          version: 2,
         },
         (err, threeDSInstance) => {
           if (err) {
             if (window.Sentry) {
               window.Sentry.captureException(err);
             }
-            ee.emit('fundraiser:configure:3ds:error', err);
             return;
           }
-          ee.emit('fundraiser:configure:3ds:success', threeDSInstance);
 
           this.setState({ threeDS: threeDSInstance });
         }
@@ -167,6 +164,7 @@ class BraintreeCardFields extends Component {
 
   submit(event) {
     if (event) event.preventDefault();
+    const donationAmount = this.props.amount;
     this.resetErrors();
 
     return new Promise((resolve, reject) => {
@@ -181,30 +179,36 @@ class BraintreeCardFields extends Component {
             this.processTokenizeErrors(error);
             return reject(error);
           }
-
           if (this.state.threeDS) {
             this.state.threeDS
               .verifyCard({
                 onLookupComplete: function(data, next) {
                   next();
                 },
-                nonce: payload.nonce,
-                bin: payload.details.bin,
+                nonce: data.nonce,
+                bin: data.details.bin,
+                amount: donationAmount,
               })
-              .then(function(payload) {
-                if (!payload.liabilityShifted) {
-                  console.log('Liability did not shift', payload);
-                  return;
+              .then(function(response) {
+                if (
+                  !response.liabilityShifted &&
+                  response.liabilityShiftPossible
+                ) {
+                  const error = { code: '3DS' };
+                  reject(error);
                 }
+
+                resolve(response);
               })
               .catch(function(err) {
                 console.log(err);
                 reject(err);
               });
+          } else {
+            resolve(data);
           }
 
           this.teardown();
-          resolve(data);
         }
       );
     });
