@@ -36,8 +36,7 @@ import { isDirectDebitSupported } from '../../util/directDebitDecider';
 import './Payment.css';
 
 const BRAINTREE_TOKEN_URL =
-  process.env.BRAINTREE_TOKEN_URL ||
-  'https://1j1tytu4da.execute-api.us-west-2.amazonaws.com/dev/braintree/token';
+  process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 const LOCAL_PAYMENT_PROVIDERS = ['ideal', 'giropay'];
 
 export class Payment extends Component {
