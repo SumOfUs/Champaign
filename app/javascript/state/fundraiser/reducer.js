@@ -64,6 +64,19 @@ export const initialState = {
   oneClickError: false,
   title: '',
   supportedLocalCurrency: true,
+  merchantAccounts: {
+    USD: 'sumofus',
+    GBP: 'sumofus2_GBP',
+    EUR: 'sumofus2_EUR',
+    CHF: 'SumOfUs_CHF',
+    CAD: 'SumOfUs_CAD',
+    AUD: 'SumOfUs_AUD',
+    NZD: 'SumOfUs_NZD',
+    MXN: 'SumOfUs_MXN',
+    ARS: 'SumOfUs_ARS',
+    BRL: 'SumOfUs_BRL',
+  },
+  merchantAccountId: 'sumofus',
 };
 
 export default (state = initialState, action) => {
@@ -96,19 +109,21 @@ export default (state = initialState, action) => {
         formValues: {},
       };
     case 'change_currency': {
-      const { preselectAmount, donationBands } = state;
+      const { preselectAmount, donationBands, merchantAccounts } = state;
       const currency = supportedCurrency(action.payload, keys(donationBands));
       const localPaymentTypes = getLocalPaymentTypes({
         country: state.form.country || state.formValues.country,
         recurring: state.recurring,
         currency: currency,
       });
+      const merchantAccountId = merchantAccounts[currency.toUpperCase()];
 
       return {
         ...state,
         ...featuredAmountState(preselectAmount, { donationBands, currency }),
         currency,
         localPaymentTypes,
+        merchantAccountId,
       };
     }
     case 'change_amount':

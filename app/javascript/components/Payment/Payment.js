@@ -85,8 +85,35 @@ export class Payment extends Component {
 
     if (this.props.localPaymentTypes.length > 0)
       this.props.setPaymentType(this.props.localPaymentTypes[0]);
+    this.getBraintreeToken();
+    this.bindGlobalEvents();
+    // set default payment type for existing user
+    this.setDefaultPaymentType();
+  }
 
-    $.get(BRAINTREE_TOKEN_URL)
+  // set default payment as DirectDebit / paypal when the
+  // user follows external link like email
+  setDefaultPaymentType = () => {
+    const urlInfo = window.champaign.personalization.urlParams;
+    const country = this.props.fundraiser.form.country;
+    const showDirectDebit = isDirectDebitSupported({ country: country });
+    const lang = window.champaign.page.language_code;
+
+    if (urlInfo.akid && this.props.fundraiser.recurring && lang == 'de') {
+      if (showDirectDebit) {
+        this.selectPaymentType('gocardless');
+      } else {
+        // this is done since PAYPAL doesnt support ARS currency as of now
+        const paymentType = this.props.currency === 'ARS' ? 'card' : 'paypal';
+        this.selectPaymentType(paymentType);
+      }
+    }
+  };
+
+  getBraintreeToken = () => {
+    $.get(
+      BRAINTREE_TOKEN_URL + `?merchantAccountId=${this.props.merchantAccountId}`
+    )
       .done(data => {
         braintreeClient.create(
           { authorization: data.token },
@@ -129,28 +156,6 @@ export class Payment extends Component {
       .fail(failure => {
         console.warn('could not fetch Braintree token');
       });
-    this.bindGlobalEvents();
-    // set default payment type for existing user
-    this.setDefaultPaymentType();
-  }
-
-  // set default payment as DirectDebit / paypal when the
-  // user follows external link like email
-  setDefaultPaymentType = () => {
-    const urlInfo = window.champaign.personalization.urlParams;
-    const country = this.props.fundraiser.form.country;
-    const showDirectDebit = isDirectDebitSupported({ country: country });
-    const lang = window.champaign.page.language_code;
-
-    if (urlInfo.akid && this.props.fundraiser.recurring && lang == 'de') {
-      if (showDirectDebit) {
-        this.selectPaymentType('gocardless');
-      } else {
-        // this is done since PAYPAL doesnt support ARS currency as of now
-        const paymentType = this.props.currency === 'ARS' ? 'card' : 'paypal';
-        this.selectPaymentType(paymentType);
-      }
-    }
   };
 
   bindGlobalEvents() {
@@ -159,7 +164,10 @@ export class Payment extends Component {
     ee.on('fundraiser:form:success', this.setDefaultPaymentType);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (this.props.merchantAccountId !== prevProps.merchantAccountId) {
+      this.getBraintreeToken();
+    }
     if (
       this.props.currency === 'ARS' &&
       this.props.currentPaymentType === 'paypal'
@@ -725,6 +733,7 @@ const mapStateToProps = state => ({
   },
   extraActionFields: state.extraActionFields,
   currency: state.fundraiser.currency,
+  merchantAccountId: state.fundraiser.merchantAccountId,
 });
 
 const mapDispatchToProps = dispatch => ({
