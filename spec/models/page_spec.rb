@@ -582,6 +582,34 @@ describe Page do
     end
   end
 
+  describe 'ak_slug' do
+    before do
+      allow(SecureRandom).to receive(:hex).with(3).and_return('abc')
+    end
+
+    it 'has a unique ak_slug after creating page' do
+      expect(page.ak_slug).to match(/[^a-zA-Z0-9]*abc$/)
+    end
+  end
+
+  describe 'ak_uid' do
+    before do
+      allow(SecureRandom).to receive(:hex).with(3).and_return('abc')
+    end
+
+    context 'ak_slug not present' do
+      before do
+        page.update(ak_slug: nil)
+      end
+
+      it 'returns slug' do
+      end
+    end
+
+    context 'ak_slug present' do
+    end
+  end
+
   # FIXME: page.donation_page? is not reliable and intermittently breaks tests
   describe '#donation_page?' do
     let(:page) { create :page }

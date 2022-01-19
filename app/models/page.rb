@@ -96,8 +96,13 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate  :meta_tags_are_valid, if: ->(o) { o.meta_tags.present? }
 
   after_save :switch_plugins
+  after_create :create_ak_slug
 
   friendly_id :slug_candidates, use: %i[finders slugged]
+
+  def ak_uid
+    ak_slug.empty? ? slug : ak_slug
+  end
 
   def liquid_data
     attributes.merge(link_list: links.map(&:attributes))
@@ -207,6 +212,11 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   private
+
+  def create_ak_slug
+    rand_str = SecureRandom.hex(3)
+    update(ak_slug: "#{slug}-#{rand_str}")
+  end
 
   def switch_plugins
     fields = %w[liquid_layout_id follow_up_liquid_layout_id follow_up_plan]
