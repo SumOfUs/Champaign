@@ -37,7 +37,7 @@ describe ManageAction do
           title: 'Foo Bar'
         ),
         params: hash_including(
-          page: "#{page.slug}-petition",
+          page: "#{page.ak_slug}-petition",
           email: 'bob@example.com',
           page_id: page.id,
           referring_akid: '123.456.xyz',
@@ -99,7 +99,7 @@ describe ManageAction do
               member_id: 123
             ),
             params: hash_including(
-              page: "#{page.slug}-petition",
+              page: "#{page.ak_slug}-petition",
               email: 'bob@example.com',
               page_id: page.id,
               referring_akid: '123.456.xyz',

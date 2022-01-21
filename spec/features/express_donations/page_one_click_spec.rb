@@ -8,7 +8,7 @@ feature 'One Click From Save Payment Methods from Page' do
 
   let(:follow_up_layout) { create :liquid_layout, default_follow_up_layout: nil }
   let(:liquid_layout)    { create :liquid_layout, default_follow_up_layout: follow_up_layout }
-  let(:donation_page)    { create(:page, slug: 'foo-bar', title: 'Foo Bar', follow_up_liquid_layout: liquid_layout) }
+  let(:donation_page)    { create(:page, ak_slug: 'foo-bar', title: 'Foo Bar', follow_up_liquid_layout: liquid_layout) }
 
   let(:email)    { 'donor@example.com' }
   let(:member)   { Member.find_by(email: email) }

@@ -8,6 +8,7 @@
 #  action_count               :integer          default(0)
 #  ak_donation_resource_uri   :string
 #  ak_petition_resource_uri   :string
+#  ak_slug                    :string           default("")
 #  allow_duplicate_actions    :boolean          default(FALSE)
 #  canonical_url              :string
 #  compiled_html              :text

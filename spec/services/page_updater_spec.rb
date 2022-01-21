@@ -15,7 +15,7 @@ describe PageUpdater do
   let(:url) { 'sumofus.org/my-path' }
   let(:simple_changes) { { page: { title: 'howdy folks!', content: 'Did they get you to trade' } } }
   let(:breaking_changes) { { page: { title: nil, content: 'your heros for ghosts' } } }
-  let(:thermo_plugin) { page.plugins.select { |p| p.name == 'ActionsThermometer' }.first }
+  let!(:thermo_plugin) { page.plugins.select { |p| p.name == 'ActionsThermometer' }.first }
   let(:petition_plugin) { page.plugins.select { |p| p.name == 'Petition' }.first }
 
   subject(:pupdater) { PageUpdater.new(page, url) }

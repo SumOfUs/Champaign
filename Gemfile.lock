@@ -638,6 +638,7 @@ DEPENDENCIES
   pg
   phony_rails
   poltergeist
+  pry
   puma (~> 3.12.2)
   rack-attack
   rack-cors
