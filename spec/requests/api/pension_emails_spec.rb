@@ -83,7 +83,7 @@ describe 'Pension Emails', type: :request do
                                email: 'sender@example.com',
                                mailing_id: be_present,
                                name: "Sender's Name",
-                               page: 'foo-bar-petition',
+                               page: /foo-bar-[a-zA-Z0-9]{6,}-petition/,
                                page_id: be_present,
                                referrer_id: be_nil,
                                referring_akid: be_nil,

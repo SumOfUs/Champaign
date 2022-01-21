@@ -52,7 +52,7 @@ describe 'Api Actions' do
                              subscribed_member: true,
                              action_id: instance_of(Integer)),
 
-        params: hash_including(page: 'foo-bar-petition',
+        params: hash_including(page: /foo-bar-[a-zA-Z0-9]{6,}-petition/,
                                email: 'hello@example.com',
                                name: 'Bob Mash',
                                page_id: page.id.to_s,
@@ -223,7 +223,7 @@ describe 'Api Actions' do
           expected_params = hash_including(
             type: 'action',
             params: hash_including(
-              page: 'foo-bar-petition',
+              page: /foo-bar-[a-zA-Z0-9]{6,}-petition/,
               email: 'hello@example.com',
               page_id: page.id.to_s,
               form_id: form.id.to_s,

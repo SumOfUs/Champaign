@@ -11,7 +11,7 @@ describe QueueManager do
       type: :update_pages,
       params: {
         page_id: page.id,
-        name: 'i-am-a-slug',
+        name: /i-am-a-slug-[a-zA-Z0-9]{6,}/,
         title: 'boo',
         language: page.language.actionkit_uri,
         tags: [],

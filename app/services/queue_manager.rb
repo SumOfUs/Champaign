@@ -47,7 +47,7 @@ class QueueManager
   def params
     {
       page_id: page.id,
-      name: page.slug,
+      name: page.ak_uid,
       title: page.title,
       language: page.language.try(:actionkit_uri),
       tags: tags,

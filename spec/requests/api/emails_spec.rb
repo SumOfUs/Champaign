@@ -77,7 +77,7 @@ describe 'Emails', type: :request do
         payload = hash_including(
           type: 'action',
           params: hash_including(
-            page: 'foo-bar-petition',
+            page: /foo-bar-[a-zA-Z0-9]{6,}-petition/,
             name: 'John Doe',
             source: 'fb',
             akid: akid,
