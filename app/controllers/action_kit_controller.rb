@@ -14,6 +14,8 @@ class ActionKitController < ApplicationController
 
   def create_resources
     @page = Page.find(params[:id])
+    @page.set_ak_slug
+    @page.save
     QueueManager.push(@page, job_type: :create)
   end
 end

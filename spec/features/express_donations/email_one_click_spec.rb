@@ -8,7 +8,7 @@ feature 'Express From Mailing Link' do
 
   let(:follow_up_layout) { create :liquid_layout, default_follow_up_layout: nil }
   let(:liquid_layout)    { create :liquid_layout, default_follow_up_layout: follow_up_layout }
-  let(:donation_page)    { create(:page, slug: 'foo-bar', title: 'Foo Bar', follow_up_liquid_layout: liquid_layout) }
+  let(:donation_page)    { create(:page, ak_slug: 'foo-bar', title: 'Foo Bar', follow_up_liquid_layout: liquid_layout) }
 
   let(:email)    { 'donor@example.com' }
   let(:member)   { Member.find_by(email: email) }
@@ -21,7 +21,8 @@ feature 'Express From Mailing Link' do
       payment_provider: 'braintree',
       params: {
         donationpage: {
-          name: 'foo-bar-donation', payment_account: 'Braintree GBP'
+          name: /foo-bar-[a-zA-Z0-9]{6,}-donation/,
+          payment_account: 'Braintree GBP'
         },
         order: {
           amount: '2.10',
@@ -52,7 +53,7 @@ feature 'Express From Mailing Link' do
       meta: a_hash_including(
         title: 'Foo Bar',
         uri: '/a/foo-bar',
-        slug: 'foo-bar',
+        slug: /foo\-bar/,
         first_name: 'Foo',
         last_name: 'Bar',
         country: 'United States',

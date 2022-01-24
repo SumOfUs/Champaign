@@ -63,7 +63,7 @@ et a neque. Nam non mi in eros sollicitudin imperdiet.',
             title: 'Foo Bar'
           ),
           params: hash_including(
-            page: "#{page.slug}-petition",
+            page: "#{page.ak_slug}-petition",
             email: 'john@email.com',
             page_id: page.id,
             user_en: 1,

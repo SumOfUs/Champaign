@@ -231,7 +231,7 @@ describe 'GoCardless API' do
             meta: meta,
             params: {
               donationpage: {
-                name: "#{page.slug}-donation",
+                name: "#{page.ak_slug}-donation",
                 payment_account: 'GoCardless GBP'
               },
               mailing_id: nil,
@@ -399,7 +399,7 @@ describe 'GoCardless API' do
             meta: meta,
             params: {
               donationpage: {
-                name: "#{page.slug}-donation",
+                name: "#{page.ak_slug}-donation",
                 payment_account: 'GoCardless GBP'
               },
               mailing_id: nil,

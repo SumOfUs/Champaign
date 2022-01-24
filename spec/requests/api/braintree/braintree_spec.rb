@@ -295,7 +295,7 @@ describe 'Express Donation' do
             payment_provider: 'braintree',
             params: {
               donationpage: {
-                name: 'hello-world-donation',
+                name: /hello-world-[a-zA-Z0-9]{6,}-donation/,
                 payment_account: 'Braintree GBP'
               },
               order: hash_including(amount: '2.0',
@@ -378,7 +378,7 @@ describe 'Braintree API' do
       payment_provider: 'braintree',
       params: {
         donationpage: {
-          name: 'cash-rules-everything-around-me-donation',
+          name: /cash-rules-everything-around-me-[a-zA-Z0-9]{6,}-donation/,
           payment_account: 'Braintree EUR'
         },
         order: hash_including(
@@ -528,7 +528,7 @@ describe 'Braintree API' do
             payment_provider: 'braintree',
             params: {
               donationpage: {
-                name: 'cash-rules-everything-around-me-donation',
+                name: /cash-rules-everything-around-me-[a-zA-Z0-9]{6,}-donation/,
                 payment_account: 'Braintree EUR'
               },
               order: hash_including(amount: '2.0', trans_id: '6c9xdhg9'),
@@ -1061,7 +1061,7 @@ describe 'Braintree API' do
           meta: meta,
           params: {
             donationpage: {
-              name: 'cash-rules-everything-around-me-donation',
+              name: /cash-rules-everything-around-me-[a-zA-Z0-9]{6,}-donation/,
               payment_account: 'Braintree EUR'
             },
             order: {

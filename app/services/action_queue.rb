@@ -110,7 +110,7 @@ module ActionQueue
       if page.status.inquiry.imported?
         page.slug
       else
-        "#{page.slug}-petition"
+        "#{page.ak_uid}-petition"
       end
     end
 
@@ -159,7 +159,7 @@ module ActionQueue
         payment_provider: 'go_cardless',
         params: {
           donationpage: {
-            name: "#{@action.page.slug}-donation",
+            name: "#{@action.page.ak_uid}-donation",
             payment_account: get_payment_account
           },
           order: {
@@ -181,7 +181,7 @@ module ActionQueue
         payment_provider: 'go_cardless',
         params: {
           donationpage: {
-            name: "#{@action.page.slug}-donation",
+            name: "#{@action.page.ak_uid}-donation",
             payment_account: get_payment_account
           },
           order: {
@@ -246,7 +246,7 @@ module ActionQueue
         payment_provider: 'braintree',
         params: {
           donationpage: {
-            name: "#{@action.page.slug}-donation",
+            name: "#{@action.page.ak_uid}-donation",
             payment_account: get_payment_account
           },
           order: {
@@ -275,7 +275,7 @@ module ActionQueue
         payment_provider: 'braintree',
         params: {
           donationpage: {
-            name: "#{@action.page.slug}-donation",
+            name: "#{@action.page.ak_uid}-donation",
             payment_account: get_payment_account
           },
           order: {

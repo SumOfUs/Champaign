@@ -8,6 +8,7 @@
 #  action_count               :integer          default(0)
 #  ak_donation_resource_uri   :string
 #  ak_petition_resource_uri   :string
+#  ak_slug                    :string           default("")
 #  allow_duplicate_actions    :boolean          default(FALSE)
 #  canonical_url              :string
 #  compiled_html              :text
@@ -96,8 +97,13 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate  :meta_tags_are_valid, if: ->(o) { o.meta_tags.present? }
 
   after_save :switch_plugins
+  before_save :set_ak_slug, if: :new_record?
 
   friendly_id :slug_candidates, use: %i[finders slugged]
+
+  def ak_uid
+    ak_slug.blank? ? slug : ak_slug
+  end
 
   def liquid_data
     attributes.merge(link_list: links.map(&:attributes))
@@ -151,7 +157,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     clone.assign_attributes(
       primary_image: nil,
-      slug: nil,
+      ak_slug: nil,
       action_count: 0,
       featured: false
     )
@@ -204,6 +210,11 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # FIXME: This method is *not* reliable and intermittently tests
   def donation_page?
     plugins.first.is_a?(Plugins::Fundraiser)
+  end
+
+  def set_ak_slug
+    rand_str = SecureRandom.hex(3)
+    self.ak_slug = "#{slug}-#{rand_str}"
   end
 
   private

@@ -8,6 +8,7 @@
 #  action_count               :integer          default(0)
 #  ak_donation_resource_uri   :string
 #  ak_petition_resource_uri   :string
+#  ak_slug                    :string           default("")
 #  allow_duplicate_actions    :boolean          default(FALSE)
 #  canonical_url              :string
 #  compiled_html              :text
@@ -579,6 +580,34 @@ describe Page do
       expect(page.total_donations).to eq 0
       FactoryBot.create(:payment_braintree_transaction, page: page, amount: 10, currency: 'EUR')
       expect(page.total_donations.to_s).to eq '1200.0'
+    end
+  end
+
+  describe 'ak_slug' do
+    before do
+      allow(SecureRandom).to receive(:hex).with(3).and_return('abc')
+    end
+
+    it 'has a unique ak_slug after creating page' do
+      expect(page.ak_slug).to match(/[^a-zA-Z0-9]*abc$/)
+    end
+  end
+
+  describe 'ak_uid' do
+    before do
+      allow(SecureRandom).to receive(:hex).with(3).and_return('abc')
+    end
+
+    context 'ak_slug not present' do
+      before do
+        page.update(ak_slug: nil)
+      end
+
+      it 'returns slug' do
+      end
+    end
+
+    context 'ak_slug present' do
     end
   end
 
