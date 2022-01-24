@@ -12,7 +12,7 @@
     "@types/react-dom": "^16.8.4",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "backbone": "^1.4.0",
-    "braintree-web": "^3.46.0",
+    "braintree-web": "^3.52.0",
     "c3": "^0.7.1",
     "classnames": "^2.2.6",
     "cookieconsent": "^3.1.1",
