@@ -8,7 +8,8 @@ class Api::Payment::BraintreeController < PaymentController
   # before_action :verify_bot, only: [:transaction]
 
   def token
-    render json: { token: ::Braintree::ClientToken.generate }
+    @merchant_account_id = unsafe_params[:merchantAccountId]
+    render json: { token: ::Braintree::ClientToken.generate(merchant_account_id: @merchant_account_id) }
   end
 
   def webhook
