@@ -65,7 +65,7 @@ export function composeEmailLink(email) {
       urlParams = `to=${to_email}&su=${subject}&body=${body}`;
       break;
     case 'outlook':
-      host = 'https://outlook.live.com/?path=/mail/action/compose&';
+      host = 'https://outlook.live.com/mail/0/deeplink/compose?popoutv2=1&';
       urlParams = `to=${to_email}&subject=${subject}&body=${body}`;
       break;
     case 'yahoo':
