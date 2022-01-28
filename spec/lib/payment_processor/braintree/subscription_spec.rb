@@ -236,6 +236,9 @@ module PaymentProcessor
                   first_name: 'Bob',
                   last_name: 'Loblaw',
                   country_code_alpha2: 'AU'
+                },
+                options: {
+                  verification_merchant_account_id: 'AUD'
                 }
               }
             }
