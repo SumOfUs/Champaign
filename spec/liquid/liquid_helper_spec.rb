@@ -58,7 +58,7 @@ describe LiquidHelper do
       create :plugins_petition, page: page, target: '', active: true
       create :plugins_petition, page: page, target: 'mf doom', active: true
       create :plugins_petition, page: page, target: '', active: true
-      expect(LiquidHelper.globals(page: page)[:petition_target]).to eq 'koch brothers'
+      expect(LiquidHelper.globals(page: page)[:petition_target]).to eq 'mf doom'
     end
   end
 end
