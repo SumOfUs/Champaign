@@ -1437,6 +1437,9 @@ describe 'Braintree API' do
                                                                              street_address: '25 Elm Drive',
                                                                              postal_code: '11225',
                                                                              country_code_alpha2: 'US'
+                                                                           },
+                                                                           options: {
+                                                                             verification_merchant_account_id: 'EUR'
                                                                            }
                                                                          })
             end
