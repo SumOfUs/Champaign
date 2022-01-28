@@ -1218,7 +1218,8 @@ describe 'Braintree API' do
                                                                               customer_id: customer.customer_id,
                                                                               device_data: {},
                                                                               options: {
-                                                                                verify_card: true
+                                                                                verify_card: true,
+                                                                                verification_merchant_account_id: 'EUR'
                                                                               },
                                                                               billing_address: {
                                                                                 first_name: 'Bernie',
