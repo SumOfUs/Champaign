@@ -380,7 +380,6 @@ export class Payment extends Component {
       ...(data.threeDSecureInfo?.threeDSecureAuthenticationId && {
         authenticationId: data.threeDSecureInfo.threeDSecureAuthenticationId,
       }),
-      merchantAccountId: this.props.merchantAccountId,
     };
 
     this.emitTransactionSubmitted();
