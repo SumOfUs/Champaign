@@ -69,7 +69,8 @@ module PaymentProcessor
               payment_method_nonce: required_options[:nonce],
               customer_id: customer.customer_id,
               options: {
-                verify_card: true
+                verify_card: true,
+                verification_merchant_account_id: 'AUD'
               },
               device_data: { foo: 'bar' },
               billing_address: {
