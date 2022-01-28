@@ -121,8 +121,7 @@ export class Payment extends Component {
             braintree.localPayment.create(
               {
                 client: client,
-                merchantAccountId:
-                  champaign.configuration.localPaymentMerchantAccountId,
+                merchantAccountId: this.props.merchantAccountId,
               },
               (localPaymentErr, localPaymentInstance) => {
                 this.setState({
@@ -381,6 +380,7 @@ export class Payment extends Component {
       ...(data.threeDSecureInfo?.threeDSecureAuthenticationId && {
         authenticationId: data.threeDSecureInfo.threeDSecureAuthenticationId,
       }),
+      merchantAccountId: this.props.merchantAccountId,
     };
 
     this.emitTransactionSubmitted();
