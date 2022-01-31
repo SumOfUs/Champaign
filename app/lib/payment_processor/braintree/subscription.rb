@@ -111,7 +111,8 @@ module PaymentProcessor
           customer_id: existing_customer.customer_id,
           billing_address: billing_options,
           options: {
-            verify_card: true
+            verify_card: true,
+            verification_merchant_account_id: MerchantAccountSelector.for_currency(@currency)
           },
           device_data: @device_data
         }
@@ -144,7 +145,10 @@ module PaymentProcessor
 
         customer_options.merge(payment_method_nonce: @nonce,
                                credit_card: {
-                                 billing_address: billing_options
+                                 billing_address: billing_options,
+                                 options: {
+                                   verification_merchant_account_id: MerchantAccountSelector.for_currency(@currency)
+                                 }
                                })
       end
     end

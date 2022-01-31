@@ -1218,7 +1218,8 @@ describe 'Braintree API' do
                                                                               customer_id: customer.customer_id,
                                                                               device_data: {},
                                                                               options: {
-                                                                                verify_card: true
+                                                                                verify_card: true,
+                                                                                verification_merchant_account_id: 'EUR'
                                                                               },
                                                                               billing_address: {
                                                                                 first_name: 'Bernie',
@@ -1436,6 +1437,9 @@ describe 'Braintree API' do
                                                                              street_address: '25 Elm Drive',
                                                                              postal_code: '11225',
                                                                              country_code_alpha2: 'US'
+                                                                           },
+                                                                           options: {
+                                                                             verification_merchant_account_id: 'EUR'
                                                                            }
                                                                          })
             end

@@ -69,7 +69,8 @@ module PaymentProcessor
               payment_method_nonce: required_options[:nonce],
               customer_id: customer.customer_id,
               options: {
-                verify_card: true
+                verify_card: true,
+                verification_merchant_account_id: 'AUD'
               },
               device_data: { foo: 'bar' },
               billing_address: {
@@ -235,6 +236,9 @@ module PaymentProcessor
                   first_name: 'Bob',
                   last_name: 'Loblaw',
                   country_code_alpha2: 'AU'
+                },
+                options: {
+                  verification_merchant_account_id: 'AUD'
                 }
               }
             }

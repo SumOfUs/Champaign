@@ -85,8 +85,35 @@ export class Payment extends Component {
 
     if (this.props.localPaymentTypes.length > 0)
       this.props.setPaymentType(this.props.localPaymentTypes[0]);
+    this.getBraintreeToken();
+    this.bindGlobalEvents();
+    // set default payment type for existing user
+    this.setDefaultPaymentType();
+  }
 
-    $.get(BRAINTREE_TOKEN_URL)
+  // set default payment as DirectDebit / paypal when the
+  // user follows external link like email
+  setDefaultPaymentType = () => {
+    const urlInfo = window.champaign.personalization.urlParams;
+    const country = this.props.fundraiser.form.country;
+    const showDirectDebit = isDirectDebitSupported({ country: country });
+    const lang = window.champaign.page.language_code;
+
+    if (urlInfo.akid && this.props.fundraiser.recurring && lang == 'de') {
+      if (showDirectDebit) {
+        this.selectPaymentType('gocardless');
+      } else {
+        // this is done since PAYPAL doesnt support ARS currency as of now
+        const paymentType = this.props.currency === 'ARS' ? 'card' : 'paypal';
+        this.selectPaymentType(paymentType);
+      }
+    }
+  };
+
+  getBraintreeToken = () => {
+    $.get(
+      BRAINTREE_TOKEN_URL + `?merchantAccountId=${this.props.merchantAccountId}`
+    )
       .done(data => {
         braintreeClient.create(
           { authorization: data.token },
@@ -94,7 +121,7 @@ export class Payment extends Component {
             braintree.localPayment.create(
               {
                 client: client,
-                merchantAccountId: champaign.configuration.localPaymentMerchantAccountId,
+                merchantAccountId: this.props.merchantAccountId,
               },
               (localPaymentErr, localPaymentInstance) => {
                 this.setState({
@@ -128,28 +155,6 @@ export class Payment extends Component {
       .fail(failure => {
         console.warn('could not fetch Braintree token');
       });
-    this.bindGlobalEvents();
-    // set default payment type for existing user
-    this.setDefaultPaymentType();
-  }
-
-  // set default payment as DirectDebit / paypal when the
-  // user follows external link like email
-  setDefaultPaymentType = () => {
-    const urlInfo = window.champaign.personalization.urlParams;
-    const country = this.props.fundraiser.form.country;
-    const showDirectDebit = isDirectDebitSupported({ country: country });
-    const lang = window.champaign.page.language_code;
-
-    if (urlInfo.akid && this.props.fundraiser.recurring && lang == 'de') {
-      if (showDirectDebit) {
-        this.selectPaymentType('gocardless');
-      } else {
-        // this is done since PAYPAL doesnt support ARS currency as of now
-        const paymentType = this.props.currency === 'ARS' ? 'card' : 'paypal';
-        this.selectPaymentType(paymentType);
-      }
-    }
   };
 
   bindGlobalEvents() {
@@ -158,7 +163,10 @@ export class Payment extends Component {
     ee.on('fundraiser:form:success', this.setDefaultPaymentType);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (this.props.merchantAccountId !== prevProps.merchantAccountId) {
+      this.getBraintreeToken();
+    }
     if (
       this.props.currency === 'ARS' &&
       this.props.currentPaymentType === 'paypal'
@@ -355,7 +363,6 @@ export class Payment extends Component {
         data: this.donationData(),
         pageId: this.props.page.id,
         paymentType: this.props.currentPaymentType,
-
       });
       data = { nonce };
     }
@@ -370,6 +377,9 @@ export class Payment extends Component {
       source: window.champaign.personalization.urlParams.source,
       recaptcha_token,
       recaptcha_action,
+      ...(data.threeDSecureInfo?.threeDSecureAuthenticationId && {
+        authenticationId: data.threeDSecureInfo.threeDSecureAuthenticationId,
+      }),
     };
 
     this.emitTransactionSubmitted();
@@ -432,6 +442,10 @@ export class Payment extends Component {
       }, 500);
     }
     ee.emit('fundraiser:transaction_error', reason, this.props.formData);
+    if (reason.code === '3DS') {
+      const errors = [<FormattedMessage id="fundraiser.unknown_error" />];
+      this.setState({ errors });
+    }
     this.props.setSubmitting(false);
   };
 
@@ -472,7 +486,8 @@ export class Payment extends Component {
 
   showMonthlyButton() {
     if (
-      this.state.recurringDonor || LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType)
+      this.state.recurringDonor ||
+      LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType)
     ) {
       return false;
     } else {
@@ -576,6 +591,7 @@ export class Payment extends Component {
             recurring={recurring}
             isActive={currentPaymentType === 'card'}
             onInit={() => this.paymentInitialized('card')}
+            amount={this.getFinalDonationAmount()}
           />
 
           {currentPaymentType === 'gocardless' && (
@@ -585,20 +601,6 @@ export class Payment extends Component {
               />
             </div>
           )}
-          {/*
-          {this.showMonthlyButton() && (
-            <Checkbox
-              className="Payment__config"
-              disabled={!this.showMonthlyButton()}
-              checked={recurring}
-              onChange={e => this.props.setRecurring(e.currentTarget.checked)}
-            >
-              <FormattedMessage
-                id="fundraiser.make_recurring"
-                defaultMessage="Make my donation monthly"
-              />
-            </Checkbox>
-          )} */}
           {!LOCAL_PAYMENT_PROVIDERS.includes(this.props.currentPaymentType) && (
             <Checkbox
               className="Payment__config"
@@ -640,22 +642,6 @@ export class Payment extends Component {
                 }}
               />
             </div>
-
-            {/* <div className="PaymentMethod__complete-donation donation-amount-text-2x">
-              <FormattedMessage
-                id={'fundraiser.donate_amount'}
-                defaultMessage={`Donate {amount}`}
-                className=""
-                values={{
-                  amount: (
-                    <CurrencyAmount
-                      amount={donationAmount || 0}
-                      currency={currency}
-                    />
-                  ),
-                }}
-              />
-            </div> */}
           </div>
 
           {currentPaymentType === 'paypal' && (
@@ -746,6 +732,7 @@ const mapStateToProps = state => ({
   },
   extraActionFields: state.extraActionFields,
   currency: state.fundraiser.currency,
+  merchantAccountId: state.fundraiser.merchantAccountId,
 });
 
 const mapDispatchToProps = dispatch => ({

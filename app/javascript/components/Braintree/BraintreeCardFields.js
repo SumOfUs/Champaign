@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
+import braintree from 'braintree-web';
 import hostedFields from 'braintree-web/hosted-fields';
 import './Braintree.scss';
 import ee from '../../shared/pub_sub';
@@ -60,7 +61,6 @@ class BraintreeCardFields extends Component {
         fields: config.fields || this.state.fields,
       },
       () => {
-        console.log(this.state.fields);
         if (this.state.hostedFields) {
           return this.teardown();
         }
@@ -92,50 +92,67 @@ class BraintreeCardFields extends Component {
   }
 
   createHostedFields(client) {
-    const formatMessage = this.props.intl.formatMessage;
-    hostedFields.create(
-      {
-        client,
-        styles: this.state.styles,
-        fields: this.state.fields,
-      },
-      (err, hostedFieldsInstance) => {
-        if (err) {
-          if (window.Sentry) {
-            window.Sentry.captureException(err);
+    Promise.all([
+      braintree.threeDSecure.create(
+        {
+          client: client,
+          version: 2,
+        },
+        (err, threeDSInstance) => {
+          if (err) {
+            if (window.Sentry) {
+              window.Sentry.captureException(err);
+            }
+            return;
           }
-          ee.emit('fundraiser:configure:hosted_fields:error', err);
-          return;
+
+          this.setState({ threeDS: threeDSInstance });
         }
-        ee.emit(
-          'fundraiser:configure:hosted_fields:success',
-          hostedFieldsInstance
-        );
-
-        this.setState({ hostedFields: hostedFieldsInstance }, () => {
-          if (this.props.onInit) {
-            this.props.onInit();
+      ),
+      hostedFields.create(
+        {
+          client,
+          styles: this.state.styles,
+          fields: this.state.fields,
+        },
+        (err, hostedFieldsInstance) => {
+          if (err) {
+            if (window.Sentry) {
+              window.Sentry.captureException(err);
+            }
+            ee.emit('fundraiser:configure:hosted_fields:error', err);
+            return;
           }
-        });
+          ee.emit(
+            'fundraiser:configure:hosted_fields:success',
+            hostedFieldsInstance
+          );
 
-        hostedFieldsInstance.on('validityChange', event => {
-          const field = event.fields[event.emittedBy];
-          const newErrors = {};
-          newErrors[event.emittedBy] = !field.isPotentiallyValid;
-          this.setState({
-            errors: Object.assign({}, this.state.errors, newErrors),
+          this.setState({ hostedFields: hostedFieldsInstance }, () => {
+            if (this.props.onInit) {
+              this.props.onInit();
+            }
           });
-        });
 
-        hostedFieldsInstance.on('cardTypeChange', event => {
-          if (event.cards.length === 1) {
-            this.setState({ cardType: event.cards[0].type });
-          } else {
-            this.setState({ cardType: '' });
-          }
-        });
-      }
-    );
+          hostedFieldsInstance.on('validityChange', event => {
+            const field = event.fields[event.emittedBy];
+            const newErrors = {};
+            newErrors[event.emittedBy] = !field.isPotentiallyValid;
+            this.setState({
+              errors: Object.assign({}, this.state.errors, newErrors),
+            });
+          });
+
+          hostedFieldsInstance.on('cardTypeChange', event => {
+            if (event.cards.length === 1) {
+              this.setState({ cardType: event.cards[0].type });
+            } else {
+              this.setState({ cardType: '' });
+            }
+          });
+        }
+      ),
+    ]);
   }
 
   teardown() {
@@ -147,6 +164,7 @@ class BraintreeCardFields extends Component {
 
   submit(event) {
     if (event) event.preventDefault();
+    const donationAmount = this.props.amount;
     this.resetErrors();
 
     return new Promise((resolve, reject) => {
@@ -161,8 +179,36 @@ class BraintreeCardFields extends Component {
             this.processTokenizeErrors(error);
             return reject(error);
           }
+          if (this.state.threeDS) {
+            this.state.threeDS
+              .verifyCard({
+                onLookupComplete: function(data, next) {
+                  next();
+                },
+                nonce: data.nonce,
+                bin: data.details.bin,
+                amount: donationAmount,
+              })
+              .then(function(response) {
+                if (
+                  !response.liabilityShifted &&
+                  response.liabilityShiftPossible
+                ) {
+                  const error = { code: '3DS' };
+                  reject(error);
+                }
+
+                resolve(response);
+              })
+              .catch(function(err) {
+                console.log(err);
+                reject(err);
+              });
+          } else {
+            resolve(data);
+          }
+
           this.teardown();
-          resolve(data);
         }
       );
     });
