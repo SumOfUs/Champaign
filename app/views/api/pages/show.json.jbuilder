@@ -78,6 +78,7 @@ json.fundraiser do
     if fundraiser.form
       json.form fundraiser.form.form_elements.order(:position)
       json.form_id fundraiser.form.id
+      json.donation_bands fundraiser.liquid_data.donation_bands
     end
   end
 end
