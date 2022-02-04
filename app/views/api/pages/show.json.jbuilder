@@ -59,6 +59,7 @@ json.language @page.language.code
 
 petition =  @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first
 fundraiser = @page.plugins.select { |p| p.class.name == 'Plugins::Fundraiser' }.first
+liquid_data = fundraiser.liquid_data
 
 json.petition do 
   if petition
@@ -78,7 +79,7 @@ json.fundraiser do
     if fundraiser.form
       json.form fundraiser.form.form_elements.order(:position)
       json.form_id fundraiser.form.id
-      json.donation_bands fundraiser.liquid_data.donation_bands
+      json.extract! liquid_data, :donation_bands
     end
   end
 end
