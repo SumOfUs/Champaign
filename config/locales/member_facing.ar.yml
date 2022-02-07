@@ -1,0 +1,306 @@
+ar:
+  double_opt_in:
+    check_email:
+      body: "يُرجى مراجعة إيميلك لتأكيد عنوان بريدك الإلكتروني وتوقيعك"
+    email:
+      subject: 'تثبيت توقيعك'
+  footer:
+    home_url: "http://example.com"
+  page:
+    more_info: للمزيد من المعلومات
+    no_script: "شكراً لاهتمامك بهذه القضيّة! للأسف لا يمكنك تسجيل توقيعك إذا كان جافاسكريبت غير مفعّل على المتصفّح الخاص بك. يُرجى تفعيل Javascript أو استخدام متصفّحٍ آخر تمّ تمكين جافاسكريبت فيه لتتمكّن من اتّخاذ خطوةٍ معنا! "
+  basics:
+    or: أو
+  branding:
+    description: "هذا مجتمعنا" # override this with org-specific details in your own yml file.
+  recommend_pages:
+    recommend_pages_title: 'إليك بعض الحملات الأخرى التي نحتاج إلى دعمك فيها!'
+    actions: '%{action_count} الخطوات'
+    learn_more: 'لمعرفة المزيد'
+  email_pension:
+    form:
+      select_target: 'يُرجى تحديد برنامج التقاعد الخاص بك أو الصندوق التعاوني'
+      other_pension_fund_text: "برنامج التقاعد الخاص بك غير محدّد؟"
+  email_tool:
+    selected_target: 'المستهدف (المستهدفون) '
+    title: 'البدء بالإيميل'
+    suggest_fund: "نأسف لذلك. يُرجى إرسال اسم الصندوق الخاص بك إلى sumofus@ourpension.org وسنفعل ما في وسعنا لإضافته إلى لائحتنا. "
+    section:
+      compose: "البدء بإيميلك"
+    form:
+      representative:
+        postal_code: 'يٌرجى إدخال الرمز البريدي'
+        selected_targets: 'المندوبون'
+        searching: 'البحث عن المندوب الخاص بموقعك الجغرافي'
+        not_found: "عذراً، لم نتمكّن من إيجاد مستهدفٍ في المنطقة المحدّدة."
+        search_pending: "يُرجى إدخال رمزك البريدي أعلاه"
+      select_country: 'اختيار البلد'
+      select_target: 'اختيار المستهدف'
+      subject: 'خانة الموضوع'
+      your_name: 'الاسم'
+      your_email: 'عنوان البريد الإلكتروني'
+      submit: 'تأكيد'
+      submit_and_send_email: 'تأكيد وإرسال الإيميل'
+      title_for_no_email_client: 'في حال لم يتمّ تحديد عميل للبريد الإلكتروني أو لم يكن لديك وصول إلى أيّ من الخدمات البريدية المذكورة، يُرجى اتّباع الإرشادات التالية.'
+      choose_email_service: 'يُرجى اختيار إحدى خدمات البريد الإلكتروني لإرسال إيميل الآن'
+      mobile_desktop_apps: 'تطبيقات الموبايل وسطح المكتب'
+      email_client: 'عميل البريد الإلكتروني'
+      web_browser: 'متصفّح الويب'
+      manual: 'يدويّاً'
+      others: 'خيارات أُخرى'
+      copy_target_email_address: '١. نسخ عنوان البريد الإلكتروني الخاص بالجهة المستهدفة'
+      copy_email_subject: '٢. نسخ خانة الموضوع'
+      copy_email_body: '٣. نسخ محتوى رسالة البريد الإلكتروني'
+      email_body: 'المحتوى'
+      name_of_your_pension_fund: 'اسم صندوق المعاش التقاعدي الخاص بك'
+      send_button_text: 'إرسال'
+      errors:
+        message: "عذراً! ثمة أخطاء في النموذج. يُرجى التأكّد من ملء الخانات المطلوبة."
+        country: 'يُرجى اختيار البلد'
+        subject: 'يُرجى إضافة الموضوع'
+        email: 'يُرجى إدخال عنوان بريدك الإلكتروني'
+        name: 'يُرجى إضافة الاسم'
+        fund: 'يُرجى اختيار صندوق التقاعد'
+        suggest_fund: لا يمكن ترك خانة اسم صندوق التقاعد فارغة
+        fund_not_found: "نعتذر لعدم ذكر صندوق التقاعد الخاص بك. يُرجى مراسلتنا وذكر اسم الصندوق المعتمد من قبلك وسنضيفه إلى اللائحة. "
+        targets: 'يُرجى إدخال موقعك لتحديد مندوبٍ فيها'
+        target:
+          outdated: "يبدو أن معلومات المستهدفين قد تغيّرت مؤخّراً. يُرجى إعادة تحميل الصفحة والمحاولة من جديد."
+    template_defaults:
+      fund: '[اختيار صندوق من اللائحة أعلاه]'
+      fund_contact: '[اختيار صندوق من اللائحة أعلاه]'
+      fund_email: '[اختيار صندوق من اللائحة أعلاه]'
+      name: '[إدخال إسمك أعلاه]'
+      constituency_name: '[اختيار مندوب من اللائحة أعلاه]'
+      target_full_name: '[اختيار مندوب من اللائحة أعلاه]'
+
+  fundraiser:
+    one_click_warning: "سيتمّ معالجة تبرّعك على الفور."
+    one_click_failed: "نعتذر لعدم تمكّننا من معالجة تبرّعك. يُرجى المحاولة من جديد باستخدام بطاقةٍ أخرى. "
+    payment_methods:
+      gocardless: "خصم مباشر"
+      ideal: "IDEAL"
+      giropay: 'Giropay'
+      paypal: "PayPal"
+      card: 'بطاقة ائتمان'
+      google: 'Google Pay'
+      apple: 'Apple Pay'
+      ready_for_gocardless: "يُرجى الضغط على \"التبرّع\" لإنهاء تبرّعك عبر GoCardless، مزوّد الخصم المباشر الذي نتعامل معه."
+      ready_for_paypal: "بالضغط على الزرّ أدناه، سيرشدك PayPal لإتمام تبرّعك. "
+      ready_for_google: "بالضغط على الزرّ أدناه، سيرشكد Google لإتمام تبرّعك. "
+    payment_type_prompt: طريقة الدفع
+    amount: المبلغ
+    details: التفاصيل
+    payment: الدفع
+    donate: "تبرّع بمبلغ%{amount}" # used on the submit button, eg 'Donate $15'
+    donate_monthly: "تبرّع بمبلغ%{amount} كلّ شهر"
+
+    make_monthly_donation: "%{name} تبرّعك {duration} سيوفّر دعماً لحركتنا ويتيح لنا التخطيط للمستقبل، بحيث نتّخذ خطواتٍ أكثر فاعليّةً لوقف الشركات الكبرى التي تهدّدنا وتهدّد كوكبنا. "
+    complete_donation: "استكمال تبرّعك بمبلغ%{amount}"
+    donate_amount: "التبرّع بمبلغ%{amount}"
+    donation_once: "التبرّع بمبلغ%{amount} لمرّة واحدة"
+    donation_recurring: "التبرّع بمبلغ%{amount} كلّ شهر"
+    donation_weekly: "التبرّع بمبلغ%{amount} كلّ أسبوع"
+    weekly_donation_fineprint: "لتقليل رسوم المعالجة وحفاظاً على قيمة تبرّعك وتأثيره، تتم معالجة التبرّعات الأسبوعية مرة واحدة في الشهر.  "
+
+    month: شهر
+    error_intro: لم نتمكّن من معالجة تبرّعك!
+    currency_in: "اقيم المُبَيَّنة بال%{currency}"
+    switch_currency: تغيير العملة
+    proceed_to_details: إدخال التفاصيل
+    proceed_to_payment: استكمال الدفع
+    other_amount: خيارات أخرى
+    make_recurring: تغيير التبرّع ليصبح شهرياً
+    store_in_vault: حفظ معلومات الدفع الخاصة بي
+    thank_you: شكراً لتبرّعك!
+    thank_you_with_amount: "<strong>شكراً لتبرّعك بمبلغ%{amount}!</strong> إذا كانت لديك أيّ أسئلة، أو إذا كنت قد أتممت التبرّع بالخطأ، يُرجى مراسلتنا على العنوان donations@sumofus.org."
+    recurring_thank_you_with_amount: "<strong>شكراً لتبرّعك الدوري بمبلغ%{amount}! </strong> إذا كانت لديك أيّ أسئلة، أو إذا كنت قد أتممت التبرّع بالخطأ، يُرجى مراسلتنا على العنوان donations@sumofus.org."
+
+    card_declined: تمّ رفض بطاقتك من قبل معالج الدفع. يُرجى تجربة طريقة دفع مختلفة.
+    unknown_error: "تمّ إبلاغ فريقنا التقني. يُرجى التأكّد من معلوماتك أو محاولة طريقة دفعٍ أخرى. "
+    fine_print: "التبرّعات لصالحنا ليست معفاة من الضرائب. لمزيد من المعلومات، الرجاء مراسلتنا عبر البريد الإلكتروني. " # override this with org-specific details in your own yml file.
+    confirmation: تمّ استلام التبرّع
+    donate_now: التبرّع مباشرةً
+    loading: جاري تحميل <br> بوابة الدفع الآمنة
+    oneclick:
+      select_payment: "اختيار طريقة دفعٍ محفّظة"
+      credit_card_payment_method: "%{card_type} تنتهي ب %{last_four_digits}"
+      paypal_payment_method: "Paypal (%{email})"
+      new_payment_method: "إضافة وسيلة دفع جديدة"
+      duplicate_donation: "لقد تبرّعت قبل دقائق. يُرجى تأكيد رغبتك في التبرّع مرّة ثانية. يهمّنا التأكّد من عدم إجرائك تبرّعين متتاليين من دون قصد منك. شكراً جزيلاً لك!"
+    debit:
+      recurring: "أعددت تبرّعاً دوريّاً بمبلغ %{amount}"
+      one_time: "تبرّعت بمبلغ %{amount}"
+      direct_debit: "خصم مباشر"
+    fields:
+      cvv: رمز التحقّق من البطاقة
+      number: رقم البطاقة
+      expiration: تاريخ انتهاء صلاحية البطاقة
+      expiration_format: الشهر/السنة
+      postalCode: الرمز البريدي
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: رمز التحقّق من البطاقة
+      number: رقم البطاقة
+      expiration: تاريخ انتهاء صلاحية البطاقة
+    thermometer:
+      raised: تمّ جمع
+      goal: من أصل
+  petition:
+    sign_it: التوقيع على العريضة
+    target_prefix: إلى
+    confirmation: تمّ تسجيل الاسم
+    excited_confirmation: تمّ تسجيل الاسم!
+    thank_you: 'شكراً لإضافة اسمك إلى %{petition_title}'
+    fine_print: "سنحمي خصوصيّتك وسنبقيك على اطّلاع بكلّ جديدٍ بخصوص هذه الحملة والحملات المشابهة." # override this with org-specific details in your own yml file.
+  form:
+    switch_user: تسجيل الخروج
+    processing: جاري المعالجة...
+    submit: تأكيد
+    default:
+      name: الاسم الكامل
+      email: عنوان البريد الإلكتروني
+      country: البلد
+      postal: الرمز البريدي
+      phone_number: رقم الهاتف
+  thermometer:
+    signatures_until_goal: "باقي %{remaining} توقيع حتى بلوغ %{goal}"
+    signatures: تواقيع # as in '225 signatures'
+    million: مليون
+  call_tool:
+    manual_target_selection: "يُرجى اختيار الجهة المستهدفة"
+    you_will_be_calling: "سنتّصل بك لوضعك على تواصل مع "
+    instructions: "يُرجى إدخال رقم هاتفك وتضمينه رمز المنطقة وسنتّصل بك. "
+    member_phone_number_title: 'إدخال رقم الهاتف'
+    termination_message: "لم يتمّ اختيار أيّ من خيارات القائمة، لذا سنقوم بإنهاء الاتّصال. يُرجى المحاولة من جديد. "
+    text_to_speach_menu: "يُرجى الضغط على الرقم واحد عند الجهوز وسيتمّ إيصالك. يمكنك الضغط على الرقم اثنين إذا أردت الاستماع إلى رسالة الحملة من جديد. "
+    errors:
+      recaptcha_fail: "فشل اختبار reCAPTCHA. يرجى المحاولة مرة أخرى بالضغط فوق خانة الاختيار."
+      unknown: "عذراً! حدث خطأٌ ما، يٌرجى الاتصال من رقمٍ آخر أو المحاولة من جديد بعد دقائق عدّة. "
+      akid: "عذرًا ، ولكن لأسباب تتعلّق بالسلامة، أداة الاتصال مقصورة على الأعضاء المعرّفين الذين يدخلون موقع الويب من خلال رابطٍ للحملة وصلهم إلى إيميلهم.  "
+      too_many_calls: "شكراً لاتخاذك خطوةً نحو التغيير! للأسف لا يمكن إجراء أكثر من خمسة اتّصالاتٍ على الصفحة ذاتها، وذلك منعاً لمحاولات الاحتيال. "
+      target:
+        outdated: "يبدو أن الرقم الذي نحاول الاتصال به لم يعد متاحاً. يُرجى إعادة تحميل الصفحة والمحاولة من جديد. "
+        missing: "عذراً ثمة خطأ ما في الرقم. "
+      phone_number:
+        too_short: "يجب أن يتضمّن رقم الهاتف ٦ أرقامٍ على الأقلّ"
+        cant_connect: "تعذّر الاتّصال بهذا الرقم، يُرجى التأكّد من الرقم والمحاولة من جديد. "
+        is_invalid: "الرقم غير صحيح"
+    fine_print: 'ستحمي SumOfUs <a href="https://sumofus.org/privacy" target="_blank"> خصوصيّتك</a>، وسنبقيك على اطّلاع. إذا تمّ تزويدنا برقم هاتفك قد نتّصل بك أو نرسل لك رسائل قصيرة بخصوص الحملات. '
+    form:
+      phone_number: "رقم هاتفي"
+      phone_country_code: "الرمز"
+      country: "البلد"
+      submit: "الاتّصال بي"
+  share:
+    cta: مشاركة الحملة!
+    send_email: إرسال بريد إلكتروني
+    share: مشاركة
+    tweet: إطلاق تغريدة
+    share_on_whatsapp: واتساب
+    twitter_handle: 'sumofus@' # override this with your orgs twitter handle
+  errors:
+    probably_invalid: يبدو أن ثمة خطأً ما
+    is_invalid: غير صحيح
+    this_field: هذه الخانة
+    this_field_with_message: "هذه الخانة %{message}"
+    named_field_error: "ثمة أخطاء في {name} "
+  validation:
+    is_required: إلزامية
+    is_invalid_email: ليس بريداً إلكترونياً صحيحاً
+    is_invalid_phone: 'يمكن أن تحتوي فقط على أرقام وعلامة داش وعلامة الجمع وأقواس '
+    is_invalid_country: يُرجى إدخال رمز بلد صحيح
+    is_invalid_length: 'ينبغي أن تحتوي على أقلّ من %{length}أحرف'
+    is_email_or_link: 'يجب ألا تحتوي على عناوين بريد إلكتروني أو روابط '
+    postal:
+      has_invalid_characters: 'لا يمكن أن يحتوي إلا على أحرف وأرقام ومسافات وواصلات '
+      too_long: 'لا يمكن أن تتضمّن أكثر من ٩ أحرف أو أرقام'
+  time:
+    formats:
+      default: "%-d %B %Y"
+  reset_passwords:
+    new:
+      title: 'تغيير كلمة السرّ'
+      description: "يُرجى إدخال إيميلك وسنرسل لك رابطاً لتحديث كلمة السرّ الخاصة بك. "
+      email: 'إيميل'
+      button_label: 'إرسال إيميل تغيير كلمة السرّ'
+    create:
+      not_found: "عذراً، هذا الإيميل غير موجود"
+    show:
+      title: 'تغيير كلمة السرّ'
+      description: "يُرجى مراجعة إيميلك بحثًا عن رابط لإعادة تعيين كلمة السرّ الخاصة بك. إذا لم يظهر في غضون بضع دقائق يُرجى التحقّق من البريد العشوائي. "
+    edit:
+      password: 'كلمة السرّ'
+      password_confirmation: 'تأكيد كلمة السرّ'
+      button_label: 'تغيير كلمة السرّ'
+      title: 'تغيير كلمة السرّ إلى'
+      description: 'ينبغي أن تتضمّن كلمة السرّ ستّة حروفٍ على الأقلّ'
+      invalid_link: 'يبدو أنك ضغطت على رابطٍ لتحديث كلمة السرّ غير صالح. يرجى إعادة المحاولة. '
+    success:
+      title: 'تمّ حفظ كلمة السرّ الجديدة الخاصة بك'
+      description: "يُرجى زيارة <a href='%{url}'>لوحة إعداجات الأعضاء</a>لتسجيل الدخول."
+  survey:
+    next: 'متابعة'
+    finish: 'إنهاء'
+    skip: 'تخطّي'
+  reset_password_mailer:
+    reset_password_email:
+      subject: 'يُرجى تحديث كلمة السرّ الخاصة بك'
+      html:
+        body: "طلب شخص ما (على الأرجح أنّه أنت) تغيير كلمة السرّ الخاصة بحسابك مع SumOfUs.<br />يمكنك استخدام الرابط التالي في اليوم التالي لإعادة تعيين كلمة المرور الخاصة بك: <br /><br />%{url}<br /><br />إذا لم تطلب تغيير كلمة السرّ، يمكنك تجاهل هذا البريد الإلكتروني بأمان.<br /><br />شكراً،<br /> SumOfUs"
+      text:
+        body: "طلب شخص ما (على الأرجح أنّه أنت) تغيير كلمة السرّ الخاصة بحسابك مع SumOfUs.\n\nيمكنك استخدام الرابط التالي في اليوم التالي لإعادة تعيين كلمة المرور الخاصة بك: \n\n%{url}\n\nإذا لم تطلب تغيير كلمة السرّ، يمكنك تجاهل هذا البريد الإلكتروني بأمان.\n\nشكراً ،\nSumOfUs"
+  facebook_share:
+    caption: 'وقّعتُ للتوّ عريضةً على SumOfUs.org'
+    comment_field_label: "وقّعت لأن..."
+  member_registration:
+    title: "تسجيل الأعضاء"
+    form:
+      password: كلمة السرّ
+      confirm_password: تأكيد كلمة السرّ
+      your_email: عنوان بريدك الإلكتروني
+      register: تسجيل
+    thanks: 'شكراً! ثمةٌ خطوةٌ واحدةٌ بعد:'
+    enter_password_message: "يُرجى إدخال كلمة سرّ للمتابعة"
+    create_account: "جاري معالجة تبرّعك."
+    create_account_description: "يُرجى الآن إنشاء حسابٍ لإدارة تبرّعاتك بأمان وإلغاء أيّ تبرّعٍ في أيّ وقت."
+    check_email: "<strong>شكراً لتسجيلك معنا.</strong> <span>يمكنك الآن التحقّق من بريدك الإلكتروني والضغط على رابط التأكيد</span>"
+  confirmation_mailer:
+    title: "تأكيد الحساب"
+    confirmation_email:
+      subject: "تأكيد حسابك"
+      headline: "شكراً لتسجيل حسابٍ معنا"
+      body_html: "لتأكيد حسابك يُرجى <a href='%{confirmation_url}'>الضغط على هذا الرابط.</a><br/><br/>شكراً!<br/>"
+      body_text: "لتأكيد تسجيل حسابك، يُرجى الضغط على هذا الرابط: %{confirmation_url}"
+    follow_up_page:
+      account_not_found: 'عذراً، لم نتمكّن من إيجاد حسابٍ مرتبط بهذا الرابط.'
+      account_already_confirmed: 'تمّ تأكيد حسابك من قبل!'
+      failure: 'عذراً، لم يتمّ تأكيد حسابك.'
+      success: 'لقد تمّ تأكيد حسابك. شكراً!'
+      member_management: "لإدارة وسائل الدفع والتفاصيل الخاصّة بك، يمكنك زيارة <a href='%{url}'> لوحة إعدادات الأعضاء</a> في أيّ وقت. "
+  consent:
+    opt_in_reason: "<b>SumOfUs مجتمعٌ مكوّنٌ من أشخاصٍ من مختلف أنحاء العالم اجتمعوا على هدف كبح النفوذ المتعاظم للشركات</b>. هل من رغبةٍ لديك في تلقّي حملاتنا الأخيرة، وأخبارنا، ونشاطاتنا وحملات جمع التبرّعات الخاصّة بنا، والتعرّف أكثر إلى سبل المشاركة معنا؟<b> يُرجى اختيار 'نعم' كي يتمّ تسجيل إضافة عنوانك البريدي:</b>"
+    opt_out_warn_title: "هل أنت متأكّد/ة؟"
+    opt_out_warn_message: "في حال اخترت 'نعم' سنطلعك على آخر المستجدّات بخصوص حملات SumOfUs كي نتيح لك اتّخاذ خطواتٍ فاعلة حين تحيد إحدى الشركات الكبرى عن الخطّ الصحيح."
+    how_to_opt_out: 'يمكنك طلب عدم تلقّي رسائلنا أو اتّصالاتنا في أيّ وقت. تكفي زيارة <a href="https://www.sumofus.org/unsubscribe" target="_blank"> صفحة إلغاء الاشتراك</a>. إدخالك لتفاصيلك بمثابة تأكيد منك بأن عمرك 16 عاماً أو أكثر.  '
+    accept: "نعم! أودّ معرفة ما إذا كانت هذه الحملة قد نجحت، وكيف يمكنني دعم الحملات الأخرى ذات الصلة. إذا زوّدتنا برقم هاتفك، قد نتصل بك لإطلاعك على سبل مساعدتنا، بما في ذلك دعم عملنا عن طريق التبرّع.  "
+    decline: "لا، لا أودّ أن أعرف المزيد عن هذه الحملة ولا عن الحملات الأخرى المشابهة"
+    accept_alt: "نعم، أودّ التوقيع وتلقّي رسائلكم عبر البريد الإلكتروني"
+    decline_alt: "لا، أودّ التوقيع لكنني لا أريد تلقّي أيّ رسائل منكم عبر البريد الإلكتروني"
+    select_an_option: "يُرجى تحديد الخيار"
+    existing:
+      opt_in_reason: "<p>نطلب من أعضاء SumOfUs تأكيد رغبتهم في تلقّي رسائل إلكترونية منّا حول هذه الحملة وحملاتٍ طارئةٍ أُخرى.</p><p><b>هل تودّ/ين التأكيد؟</b></p>"
+      accept: "نعم"
+      decline: "ليس الآن"
+  cookie_consent:
+    message: 'ملفات تعريف الارتباط مهمة لهذا الموقع.  '
+    dismiss_button_text: 'الموافقة والمتابعة'
+    privacy_policy_link_text: 'سياسة الخصوصيّة'
+  recaptcha_branding_html: 'هذا الموقع محمي بواسطة reCAPTCHA وسياسة غوغل <a href="https://policies.google.com/privacy"> للخصوصية </a> و<a href="https://policies.google.com/terms">شروط الخدمة مطبّقة. '
+  eoy_donation_email:
+    confirmation_error: 'الإيميل غير متطابق'
+    opt_out:
+      notice: "تمّ تسجيل عدم رغبتك في تلقّي رسائل البريد الإلكتروني الخاصة بجمع التبرّعات لهذا العام. شكراً جزيلاً لدعمك،  [FNAME]. إذا كنت قد أكّدت خيارك عن طريق الخطأ، يمكنك في أيّ لحظةٍ طلب استقبال رسائل جمع التبرّعات عبر الضغط [هنا]. "
+      alert: "حدث خطأٌ ما خلال محاولة تسجيل عدم رغبتك في تلقّي رسائل البريد الإلكتروني الخاصة بحملات جمع التبرّعات المتبقيّة لهذا العام. يُرجى الضغط هنا لإعادة المحاولة. "
+    opt_in:
+      notice: "تمّ تسجيل رغبتك في تلقّي رسائل البريد الإلكتروني الخاصة بجمع التبرّعات لهذا العام."
+      alert: "حدث خطأٌ ما خلال محاولة تسجيل رغبتك في تلقّي رسائل البريد الإلكتروني الخاصة بحملات SumOfUs لجمع التبرّعات خلال ما تبقّى من هذا العام. يُرجى الضغط هنا لإعادة المحاولة. "
