@@ -75,9 +75,13 @@ end
 
 json.fundraiser do 
   if fundraiser
+    liquid_data = fundraiser.liquid_data
     if fundraiser.form
       json.form fundraiser.form.form_elements.order(:position)
       json.form_id fundraiser.form.id
+    end
+    if liquid_data
+      json.extract! liquid_data, :donation_bands
     end
   end
 end
