@@ -41,22 +41,18 @@ fr:
       body: "Merci d’avoir agi avec SumOfUs ! Votre action aide à combattre le pouvoir des grandes entreprises dans le monde. Il reste cependant beaucoup à faire. SumOfUs dépend presque entièrement de petits dons faits par des personnes comme vous. Chaque petit don compte. Vos contributions nous permettent de défier les multinationales les plus puissantes, les plus malveillantes et de leur faire rendre des comptes. Pourriez-vous faire un don afin de nous aider à continuer le combat aujourd’hui ?"
     two_step:
       cta:
-        "<p><span class='inject-name'>Chèr-e ami-e</span>, nous avons besoin de votre soutien aujourd'hui pour obtenir des victoires contre l'impunité des multinationales en 2021</p>
-        <br/>
-        <p>Pouvez-vous faire un don pour aider à renforcer SumOfUs en 2021 ?</p>"
+        "<p><span class='inject-name'>Chèr-e ami-e</span>, nous avons besoin de votre soutien aujourd'hui pour obtenir des victoires contre l'impunité des multinationales en 2021</p> <br/> <p>Pouvez-vous faire un don pour aider à renforcer SumOfUs en 2021 ?</p>"
       cta_eoy:
-        "<p><b><span class='inject-name'>Chèr.e ami.e</span>, nous avons besoin de votre soutien aujourd'hui pour continuer à remporter des campagnes contre le pouvoir des multinationales.</p>
-        <br/>
-        <p>Pouvez-vous faire un don pour aider SumOfUs à renforcer ces campagnes en 2021 ?</p>"
+        "<p><b><span class='inject-name'>Chèr.e ami.e</span>, nous avons besoin de votre soutien aujourd'hui pour continuer à remporter des campagnes contre le pouvoir des multinationales.</p> <br/> <p>Pouvez-vous faire un don pour aider SumOfUs à renforcer ces campagnes en 2021 ?</p>"
     upgrade_monthly_gift: "J'aimerais changer mon don mensuel de <span class='js-current'></span> et le porter à :"
     update: "Changer le montant"
     processing: "traitement en cours..."
     problem_upgrading: "Nous sommes désolés, mais un problème est survenu lors de la mise à jour de votre don"
     amount_greater_than_1: "Veuillez saisir une valeur supérieure à 1"
     upgrading:
-      awesome: "Vous êtes fantastique !"
-      thank_you: "Merci infiniment d’avoir augmenté votre don mensuel à SumOfUs."
-      becoming_stronger: "Votre soutien sera d’autant plus efficace dans notre combat face aux multinationales et leurs lobbys."
+        awesome: "Vous êtes fantastique !"
+        thank_you: "Merci infiniment d’avoir augmenté votre don mensuel à SumOfUs."
+        becoming_stronger: "Votre soutien sera d’autant plus efficace dans notre combat face aux multinationales et leurs lobbys."
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à
@@ -69,7 +65,7 @@ fr:
     next: "Next"
   share:
     cta: Partagez la campagne avec vos ami-e-s afin de tripler votre impact !
-    cta_thanks: Merci, vous êtes fantastique ! Maintenant, pouvez-vous partager la campagne avec vos amis pour tripler votre impact ?
+    cta_thanks: "Merci, vous êtes fantastique ! Maintenant, pouvez-vous partager la campagne avec vos amis pour tripler votre impact ?"
     send_email: Envoyer un courriel
     share: Partager
     tweet: Tweeter
@@ -91,10 +87,10 @@ fr:
     privacy_policy: Mentions Légales
     contact: Contact
     controlshift: Lancez votre propre pétition
-    home_url: https://www.sumofus.org/fr/
-    about_url: https://www.sumofus.org/fr/about/
-    privacy_policy_url: https://www.sumofus.org/fr/privacy/
-    contact_url: https://www.sumofus.org/fr/contact/
+    home_url: "https://www.sumofus.org/fr/"
+    about_url: "https://www.sumofus.org/fr/about/"
+    privacy_policy_url: "https://www.sumofus.org/fr/privacy/"
+    contact_url: "https://www.sumofus.org/fr/contact/"
   baysanto:
     header:
       tagline: "l'opposition"
@@ -112,10 +108,10 @@ fr:
       title: "Cette fusion n'est pas juste contraire à la loi, elle va aussi fragiliser nos systèmes alimentaires."
       first_reason:
         title: "Monocultures fragiles"
-        details: Qui dit plus de contrôle des entreprises sur l'agriculture dit disparition progressive de la diversité des semences sur lesquelles reposent les systèmes alimentaires. Aussi, si une maladie venait à toucher une variété de semences brevetées par Bayer-Monsanto, cela pourrait avoir des conséquences catastrophiques sur nos systèmes alimentaires mondiaux.
+        details: "Qui dit plus de contrôle des entreprises sur l'agriculture dit disparition progressive de la diversité des semences sur lesquelles reposent les systèmes alimentaires. Aussi, si une maladie venait à toucher une variété de semences brevetées par Bayer-Monsanto, cela pourrait avoir des conséquences catastrophiques sur nos systèmes alimentaires mondiaux."
       second_reason:
         title: "Pesticides funestes"
-        details: Les pesticides néonicotinoïdes de Bayer nuisent aux colonies d'abeilles dans le monde entier, et le Roundup de Monsanto détruit la principale source de nourriture des papillons monarques qui sont désormais en voie d'extinction. Or, nous comptons sur ces deux espèces pour polliniser nos cultures. Des experts indépendants de l'OMS ont classé le glyphosate, ingrédient clé du RoundUp, dans la liste des substances cancérogènes probables.
+        details: "Les pesticides néonicotinoïdes de Bayer nuisent aux colonies d'abeilles dans le monde entier, et le Roundup de Monsanto détruit la principale source de nourriture des papillons monarques qui sont désormais en voie d'extinction. Or, nous comptons sur ces deux espèces pour polliniser nos cultures. Des experts indépendants de l'OMS ont classé le glyphosate, ingrédient clé du RoundUp, dans la liste des substances cancérogènes probables."
       third_reason:
         title: "Hausse du prix des denrées alimentaires"
         details: Une méga-société type Bayer-Monsanto détiendrait pouvoir sans précédent sur le prix des semences et des engrais. Les consommateurs pourrait aussi avoir moins de choix dans les produits bio et non génétiquement modifiés.
@@ -125,19 +121,19 @@ fr:
       quotes:
         first:
           quote: "As a financial advisor, I oppose this merger because it centralizes food and prescription drugs so intensely that neither Bayer nor Monsanto will be good incubators for NEW ideas. It will be too big of a company and is likely to stagnate. That's bad for my profits."
-          quoted: J. Gruber, Bayer shareholder
+          quoted: "J. Gruber, Bayer shareholder"
         second:
           quote: "As a Bayer shareholder I see much bigger risks and future losses in the mid to long-term from this merger than actual benefits. Monsanto's business model in based on a single product that is going to be banned in the European market, which induces a great risk in shareholder value."
-          quoted: Angelos K., Bayer shareholder
+          quoted: "Angelos K., Bayer shareholder"
         third:
           quote: "I hold Bayer stock but am NOT on board with this merger. Monsanto is a dangerous entity, ruining essential biodiversity. I've done my research and Monsanto is a liability for our entire future's food security. I will be selling my Bayer stock if this merger occurs."
-          quoted: Oliva B., Bayer shareholder
+          quoted: "Oliva B., Bayer shareholder"
         fourth:
           quote: "I oppose this merger because Monsanto has a bad reputation and it would make Bayer's repuation worse. People would be less trusting of this company."
-          quoted: Rob B., Bayer shareholder
+          quoted: "Rob B., Bayer shareholder"
         fifth:
           quote: "Monsanto will be a toxic burden to Bayer. The public's disdain of Monsanto will taint Bayer's reputation and share prices will drop. I will dump my shares in Bayer if there is a merger, just as I have already done with Monsanto. No merger please!"
-          quoted: Sharon L., Bayer shareholder
+          quoted: "Sharon L., Bayer shareholder"
     action:
       count_explanation: "people have already taken action to stop this deal."
       cta_blurb: "Join them now, and call on anti-trust authorities in the US and EU to stop Bayer and Monsanto from creating a toxic mega corporation."
@@ -150,11 +146,13 @@ fr:
         link_preview_2: "New research by a leading M&A firm makes it clear"
         link_preview_url: "bayermonsantomerger.com"
         tweet: "A Bayer-Monsanto merger violates the law and is a disaster for our birds, bees and farmers @vestager @LorettaLynch"
-        tweet_link: https://bayermonsantomerger.com
+        tweet_link: "https://bayermonsantomerger.com"
         cta: "Tweet now"
   caller_survey:
-    intro: "Vous allez recevoir un appel sur votre téléphone dans quelques instants. En décrochant, vous allez entendre un court message d'un de nos chargés de campagnes et vous serez ensuite mis en relation avec le bureau d'un eurodéputé.<br><br><i>Petit rappel</i>: l'appel est gratuit et ne vous sera donc pas facturé. <br> <br> <b>A la suite de votre appel, pourriez-vous nous dire comment cela s'est passé?</b>Vous pouvez nous laisser un message ci-dessous.  "
-    intro_with_target_info: "Vous allez recevoir un appel sur votre téléphone dans quelques instants. En décrochant, vous allez entendre un court message de notre chargé.e de campagnes et vous serez ensuite mis en relation avec le bureau de <b>:target_name:</b>, <b>:target_title:</b>.<br><br><i>Petit rappel</i>: l’appel est gratuit et ne vous sera donc pas facturé. <br> <br> <b>A la suite de votre appel, pourriez-vous nous dire comment cela s’est passé?</b> Vous pouvez nous laisser un message ci-dessous."
+    intro:
+      "Vous allez recevoir un appel sur votre téléphone dans quelques instants. En décrochant, vous allez entendre un court message d'un de nos chargés de campagnes et vous serez ensuite mis en relation avec le bureau d'un eurodéputé.<br><br><i>Petit rappel</i>: l'appel est gratuit et ne vous sera donc pas facturé. <br> <br> <b>A la suite de votre appel, pourriez-vous nous dire comment cela s'est passé?</b>Vous pouvez nous laisser un message ci-dessous.  "
+    intro_with_target_info:
+      "Vous allez recevoir un appel sur votre téléphone dans quelques instants. En décrochant, vous allez entendre un court message de notre chargé.e de campagnes et vous serez ensuite mis en relation avec le bureau de <b>:target_name:</b>, <b>:target_title:</b>.<br><br><i>Petit rappel</i>: l’appel est gratuit et ne vous sera donc pas facturé. <br> <br> <b>A la suite de votre appel, pourriez-vous nous dire comment cela s’est passé?</b> Vous pouvez nous laisser un message ci-dessous."
     show_talking_points: "Cliquez ici pour revoir l'exemple de conversation, les conseils ainsi que la FAQ."
     submit: "Envoyer"
   cookie_consent:
