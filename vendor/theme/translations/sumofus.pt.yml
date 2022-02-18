@@ -19,10 +19,10 @@ pt:
       body_html: "Para confirmar sua conta, por favor, <a href='%{confirmation_url}'>acesse este link.</a><br/><br/>Obrigadx!<br/>"
       body_text: "Para confirmar sua conta, por favor, acesse este link: %{confirmation_url}"
     follow_up_page:
-      account_not_found: 'Desculpe, não encontramos nenhuma conta associada com este link.'
-      account_already_confirmed: 'Sua conta já foi confirmada!'
-      failure: 'Desculpe, houve um problema ao confirmar sua conta.'
-      success: 'Você confirmou sua conta com sucesso. Obrigadx!'
+      account_not_found: "Desculpe, não encontramos nenhuma conta associada com este link."
+      account_already_confirmed: "Sua conta já foi confirmada!"
+      failure: "Desculpe, houve um problema ao confirmar sua conta."
+      success: "Você confirmou sua conta com sucesso. Obrigadx!"
       member_management: "Para gerenciar seus detalhes e métodos de pagamento, acesse o <a href='%{url}'>painel de membros</a> a qualquer momento."
   branding:
     tagline: Lutando para que pessoas estejam acima de lucro
@@ -41,13 +41,9 @@ pt:
       body: "Agradecemos sua ação! Você é incrível! Sua ação ajuda no combate ao poder corporativo no mundo todo. Mas há muito trabalho a ser feito. A SumofUs é financiada quase inteiramente por pequenas doações de nossxs membrxs, assim como você. Por isso, cada quantia vale muito! Sua doação significa que poderemos lutar contra as piores e maiores multinacionais, e responsabilizá-las por suas ações. Você gostaria de doar e nos ajudar nessa luta?"
     two_step:
       cta:
-        "<p><span class='inject-name'>Caro amigx</span>, precisamos de seu apoio para vencer campanhas contra o poder corporativo em 2021.</p>
-        <br/>
-        <p>Você pode doar para apoiar a SumofUs?</p>"
+        "<p><span class='inject-name'>Caro amigx</span>, precisamos de seu apoio para vencer campanhas contra o poder corporativo em 2021.</p> <br/> <p>Você pode doar para apoiar a SumofUs?</p>"
       cta_eoy:
-        "<p><span class='inject-name'>Caro amigx</span>, precisamos de seu apoio para vencer campanhas contra o poder corporativo em 2021.</p>
-        <br/>
-        <p>Você pode doar para apoiar a SumofUs?</p>"
+        "<p><span class='inject-name'>Caro amigx</span>, precisamos de seu apoio para vencer campanhas contra o poder corporativo em 2021.</p> <br/> <p>Você pode doar para apoiar a SumofUs?</p>"
     upgrade_monthly_gift: "Eu gostaria de aumentar minha <span class='js-current'></span> doação mensal para"
     update: "Atualizar"
     processing: "Processando..."
@@ -69,7 +65,7 @@ pt:
     next: "Próximo"
   share:
     cta: Compartilhe essa campanha com amigxs e vamos triplicar nosso impacto!
-    cta_thanks: Obrigadx, você é incrível! Compartilhe essa campanha com amigxs para triplicar nosso impacto!
+    cta_thanks: "Obrigadx, você é incrível! Compartilhe essa campanha com amigxs para triplicar nosso impacto!"
     send_email: Enviar e-mail
     share: Compartilhar
     tweet: Tuitar
@@ -91,10 +87,10 @@ pt:
     privacy_policy: Política de Privacidade
     contact: Contato
     controlshift: Comece sua Campanha
-    home_url: https://sumofus.org/pt
-    about_url: https://sumofus.org/pt/about
-    privacy_policy_url: https://sumofus.org/pt/privacy
-    contact_url: https://sumofus.org/pt/contact
+    home_url: "https://sumofus.org/pt"
+    about_url: "https://sumofus.org/pt/about"
+    privacy_policy_url: "https://sumofus.org/pt/privacy"
+    contact_url: "https://sumofus.org/pt/contact"
   baysanto:
     header:
       tagline: "people in opposition"
@@ -112,32 +108,32 @@ pt:
       title: "This merger isn’t just breaking the law, it makes all of our food systems more vulnerable"
       first_reason:
         title: "Fragile monocultures"
-        details: More corporate control over farming leads to food systems reliant on fewer and fewer specific types of seeds. If a disease targeted any of Bayer-Monsanto’s patented seed strains, it could spell disaster for our global food systems.
+        details: "More corporate control over farming leads to food systems reliant on fewer and fewer specific types of seeds. If a disease targeted any of Bayer-Monsanto’s patented seed strains, it could spell disaster for our global food systems."
       second_reason:
         title: "Disastrous pesticides"
-        details: Bayer’s neonic pesticides are harming bee populations worldwide, and Monsanto’s Roundup kills the main food source for Monarch butterflies, which are now at risk of extinction. We rely on both species to pollinate our crops. What’s more, independent experts of the WHO classified glyphosate, RoundUp's key ingredient, as a probable cause of cancer.
+        details: "Bayer’s neonic pesticides are harming bee populations worldwide, and Monsanto’s Roundup kills the main food source for Monarch butterflies, which are now at risk of extinction. We rely on both species to pollinate our crops. What’s more, independent experts of the WHO classified glyphosate, RoundUp's key ingredient, as a probable cause of cancer."
       third_reason:
         title: "Rising food prices"
-        details: A Bayer-Monsanto mega corporation would have a lot of power over seed and fertilizer prices, which could in turn get passed onto consumers in the grocery aisles. Consumers could also be faced with fewer organic and non-GMO food options.
+        details: "A Bayer-Monsanto mega corporation would have a lot of power over seed and fertilizer prices, which could in turn get passed onto consumers in the grocery aisles. Consumers could also be faced with fewer organic and non-GMO food options."
     shareholder:
       title: "What’s more, <br>only 7% of Bayer shareholders think the acquisition is a good strategic move"
       details: "Bernstein and Company conducted an independent poll of Bayer shareholders and found that only 7% supported the acquisition. Bernstein has no connection to SumOfUs or other advocacy groups.<br><br> According to investment magazine the Motley Fool, “[Investors] immediately after the takeover offer was announced, castigated it as an 'immediate destruction' of shareholder value. That view seems to be shared by the investors surveyed by Bernstein, who by and large believe Bayer should focus on either healthcare (50% of respondents) or its pharma pipeline (39%)."
       quotes:
         first:
           quote: "As a financial advisor, I oppose this merger because it centralizes food and prescription drugs so intensely that neither Bayer nor Monsanto will be good incubators for NEW ideas. It will be too big of a company and is likely to stagnate. That's bad for my profits."
-          quoted: J. Gruber, Bayer shareholder
+          quoted: "J. Gruber, Bayer shareholder"
         second:
           quote: "As a Bayer shareholder I see much bigger risks and future losses in the mid to long-term from this merger than actual benefits. Monsanto's business model in based on a single product that is going to be banned in the European market, which induces a great risk in shareholder value."
-          quoted: Angelos K., Bayer shareholder
+          quoted: "Angelos K., Bayer shareholder"
         third:
           quote: "I hold Bayer stock but am NOT on board with this merger. Monsanto is a dangerous entity, ruining essential biodiversity. I've done my research and Monsanto is a liability for our entire future's food security. I will be selling my Bayer stock if this merger occurs."
-          quoted: Oliva B., Bayer shareholder
+          quoted: "Oliva B., Bayer shareholder"
         fourth:
           quote: "I oppose this merger because Monsanto has a bad reputation and it would make Bayer's repuation worse. People would be less trusting of this company."
-          quoted: Rob B., Bayer shareholder
+          quoted: "Rob B., Bayer shareholder"
         fifth:
           quote: "Monsanto will be a toxic burden to Bayer. The public's disdain of Monsanto will taint Bayer's reputation and share prices will drop. I will dump my shares in Bayer if there is a merger, just as I have already done with Monsanto. No merger please!"
-          quoted: Sharon L., Bayer shareholder
+          quoted: "Sharon L., Bayer shareholder"
     action:
       count_explanation: "people have already taken action to stop this deal."
       cta_blurb: "Join them now, and call on anti-trust authorities in the US and EU to stop Bayer and Monsanto from creating a toxic mega corporation."
@@ -150,15 +146,13 @@ pt:
         link_preview_2: "New research by a leading M&A firm makes it clear"
         link_preview_url: "bayermonsantomerger.com"
         tweet: "A Bayer-Monsanto merger violates the law and is a disaster for our birds, bees and farmers @vestager @LorettaLynch"
-        tweet_link: https://bayermonsantomerger.com
+        tweet_link: "https://bayermonsantomerger.com"
         cta: "Tweet now"
   caller_survey:
     intro:
       "Em breve você estará recebendo uma ligação nossa em seu telefone. Assim que atender, você vai ouvir uma breve mensagem nossa e depois será conectadx com o alvo. <br> <br><b>Depois da ligação, você pode nos avisar como foi?&nbsp;</b>Você pode deixar sua mensagem abaixo."
     intro_with_target_info:
-      "Você deve estar recebendo uma ligação em breve. Uma vez que atender, você ouvirá uma breve mensagem e depois será direcionadx ao escritório de <b>:target_name:</b>, <b>:target_title:</b>.
-      <br> <br>
-      <b>Depois da ligação, você pode nos avisar como foi?&nbsp;</b>Você pode deixar sua mensagem abaixo."
+      "Você deve estar recebendo uma ligação em breve. Uma vez que atender, você ouvirá uma breve mensagem e depois será direcionadx ao escritório de <b>:target_name:</b>, <b>:target_title:</b>. <br> <br> <b>Depois da ligação, você pode nos avisar como foi?&nbsp;</b>Você pode deixar sua mensagem abaixo."
     show_talking_points: "Clique para ler exemplos de conversação, dicas e Perguntas Frequentes"
     submit: "Enviar"
   cookie_consent:
