@@ -158,7 +158,7 @@ module PaymentProcessor
         end
       end
 
-      %i[fr de es pt nl].each do |locale|
+      %i[fr de es pt nl ar].each do |locale|
         describe "with language as #{locale}" do
           let(:messages) do
             {
@@ -166,7 +166,8 @@ module PaymentProcessor
               es: 'Nuestro equipo técnico ha sido notificado. Por favor revise su información o pruebe con un método de pago diferente.',
               fr: 'Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.',
               de: 'Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.',
-              nl: 'Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen.'
+              nl: 'Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen.',
+              ar: 'تمّ إبلاغ فريقنا التقني. يُرجى التأكّد من معلوماتك أو محاولة طريقة دفعٍ أخرى. '
             }
           end
           subject { described_class.new(@error, locale: locale).process }
