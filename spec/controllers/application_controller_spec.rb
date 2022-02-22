@@ -96,13 +96,5 @@ describe ApplicationController do
         get :index
       end.not_to raise_error
     end
-
-    it 'raises for users not on the list' do
-      Settings.admin_users = 'foo@example.com'
-
-      expect do
-        get :index
-      end.to raise_error(SecurityError)
-    end
   end
 end
