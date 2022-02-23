@@ -23,6 +23,7 @@
 #  meta_tags                  :string
 #  notes                      :text
 #  optimizely_status          :integer          default("optimizely_enabled"), not null
+#  pronto                     :boolean          default(FALSE)
 #  publish_actions            :integer          default("secure"), not null
 #  publish_status             :integer          default("unpublished"), not null
 #  slug                       :string           not null
