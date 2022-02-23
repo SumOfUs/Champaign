@@ -16,7 +16,7 @@ json.extract!(
 )
 
 json.template_name  @page.liquid_layout.title
-json.follow_up_template @page.follow_up_liquid_layout.title
+json.follow_up_template @page.follow_up_liquid_layout
 
 share_buttons = @page.share_buttons.to_a.map do |share|
   share = share.attributes
