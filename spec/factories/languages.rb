@@ -44,5 +44,10 @@ FactoryBot.define do
       code { 'nl' }
       name { 'Dutch' }
     end
+
+    trait :arabic do
+      code { 'ar' }
+      name { 'Arabic' }
+    end
   end
 end

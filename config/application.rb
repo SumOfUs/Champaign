@@ -28,7 +28,7 @@ module Champaign
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    config.i18n.available_locales = %i[en fr de es pt nl]
+    config.i18n.available_locales = %i[en fr de es pt nl ar]
     config.i18n.enforce_available_locales = true
   end
 end
