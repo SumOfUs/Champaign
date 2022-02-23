@@ -203,7 +203,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   end
 
   def redirect_to_pronto
-    if @page.pronto
+    if @page.pronto && @page.published? && !user_signed_in?
       redirect_to("https://pronto.sumofus.org/#{request.fullpath}") if rand.round == 1
     end
   end

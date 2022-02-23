@@ -6,7 +6,7 @@ describe PagesController do
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
-  let(:page) { instance_double('Page', published?: true, featured?: true, to_param: 'foo', id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
+  let(:page) { instance_double('Page', published?: true, featured?: true, pronto: false, to_param: 'foo', id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
   let(:renderer) do
     instance_double(
       'LiquidRenderer',
@@ -208,10 +208,10 @@ describe PagesController do
 
     context 'on pages with localization' do
       let(:french_page) do
-        instance_double(Page, valid?: true, published?: true, language_code: language.code, id: '42', liquid_layout: '5')
+        instance_double(Page, valid?: true, pronto: false, published?: true, language_code: language.code, id: '42', liquid_layout: '5')
       end
       let(:english_page) do
-        instance_double(Page, valid?: true, published?: true, language_code: default_language.code, id: '66', liquid_layout: '5')
+        instance_double(Page, valid?: true, pronto: false, published?: true, language_code: default_language.code, id: '66', liquid_layout: '5')
       end
 
       context 'with french' do
