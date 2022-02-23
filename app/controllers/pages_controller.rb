@@ -12,6 +12,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   before_action :redirect_unless_published, only: %i[show follow_up]
   before_action :localize, only: %i[show follow_up double_opt_in_notice]
   before_action :record_tracking, only: %i[show]
+  before_action :redirect_to_pronto, only: [:show]
 
   def index
     @pages = Search::PageSearcher.search(search_params)
@@ -199,5 +200,11 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
 
   def localize
     set_locale(@page.language_code)
+  end
+
+  def redirect_to_pronto
+    if @page.pronto
+      redirect_to("https://pronto.sumofus.org/#{request.fullpath}") if rand.round == 1
+    end
   end
 end
