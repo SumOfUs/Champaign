@@ -90,7 +90,9 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_super_admin!
-    true
+    return true if authenticate_user! && admin?
+
+    raise SecurityError, "#{current_user.email} is not an administrator."
   end
 
   def admin?
