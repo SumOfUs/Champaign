@@ -2,7 +2,7 @@
 
 ActiveAdmin.register Page do
   actions :all, except: %i[new destroy]
-  permit_params :publish_status, :featured
+  permit_params :publish_status, :featured, :pronto
 
   config.per_page = 20
   scope :publish_status, show_count: false
@@ -24,13 +24,5 @@ ActiveAdmin.register Page do
     column :publish_status
     column :status
     actions
-  end
-
-  sidebar 'Previous Versions', only: :show do
-    attributes_table_for page do
-      row :versions do
-        render '/versions/versions_link', model: page, model_name: 'page'
-      end
-    end
   end
 end

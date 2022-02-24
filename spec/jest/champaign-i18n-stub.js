@@ -20,6 +20,9 @@ export const translations = {
   ...YAML.parse(
     fs.readFileSync('./config/locales/member_facing.nl.yml', 'utf8')
   ),
+  ...YAML.parse(
+    fs.readFileSync('./config/locales/member_facing.ar.yml', 'utf8')
+  ),
 };
 
 export default {
