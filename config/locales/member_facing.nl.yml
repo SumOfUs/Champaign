@@ -1,11 +1,11 @@
-nl: # translated 22 July 2021
+nl:
   double_opt_in:
     check_email:
       body: "Gelieve je e-mail te checken om je handtekening te bevestigen"
     email:
-      subject: Bevestig je handtekening
+      subject: 'Bevestig je handtekening'
   footer:
-    home_url: http://voorbeeld.com
+    home_url: "http://voorbeeld.com"
   page:
     more_info: Meer informatie
     no_script: "Bedankt voor je interesse in deze kwestie! Helaas kun je geen actie ondernemen als Javascript is uitgeschakeld in je browser. Gelieve Javascript in te schakelen of terug te keren in een browser met Javascript ingeschakeld om actie te ondernemen."
@@ -42,7 +42,7 @@ nl: # translated 22 July 2021
       submit: 'Indienen'
       submit_and_send_email: 'Indienen en e-mail versturen'
       title_for_no_email_client: 'Indien je geen e-mail software hebt ingesteld of geen van de genoemde e-maildiensten hebt, gelieve de volgende instructies te volgen. '
-      choose_email_service: Kies een van de e-maildiensten om nu een e-mail te versturen'
+      choose_email_service: 'Kies een van de e-maildiensten om nu een e-mail te versturen'''
       mobile_desktop_apps: 'Mobiele & Desktop Apps'
       email_client: 'E-mail software'
       web_browser: 'Webbrowser'
@@ -73,6 +73,7 @@ nl: # translated 22 July 2021
       name: '[Vul hierboven je naam in]'
       constituency_name: '[Selecteer hierboven je vertegenwoordiger]'
       target_full_name: '[Selecteer hierboven je vertegenwoordiger]'
+
   fundraiser:
     one_click_warning: "Je donatie zal onmiddellijk worden verwerkt."
     one_click_failed: "Het spijt ons maar we konden je donatie niet verwerken. Probeer het alsjeblieft nog een keer met een andere kaart."
@@ -93,6 +94,7 @@ nl: # translated 22 July 2021
     payment: Betaling
     donate: "Doneer %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Doneer %{amount} / maand"
+
     make_monthly_donation: "%{name} een maandelijkse donatie zal onze beweging ondersteunen om vooruit te plannen, zodat we effectiever kunnen optreden tegen de grootste bedrijven die mensen en de planeet bedreigen. "
     complete_donation: "Voltooi je donatie van %{amount}"
     donate_amount: "Doneer %{amount}"
@@ -100,6 +102,7 @@ nl: # translated 22 July 2021
     donation_recurring: "Doneer maandelijks %{amount}"
     donation_weekly: "Doneer wekelijks %{amount}"
     weekly_donation_fineprint: "Om de verwerkingskosten te beperken en er zo voor te zorgen dat je donatie zoveel mogelijk effect heeft, worden wekelijkse donaties één keer per maand verwerkt."
+
     month: maand
     error_intro: We waren niet in staat om je donatie te verwerken!
     currency_in: "Bedrag weergegeven in %{currency}"
@@ -112,11 +115,13 @@ nl: # translated 22 July 2021
     thank_you: Bedankt voor je donatie!
     thank_you_with_amount: "<strong>Bedankt voor je donatie van %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org. "
     recurring_thank_you_with_amount: "<strong>Bedankt voor je terugkerende donatie van  %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org."
+
     card_declined: Je kaart werd geweigerd door de betalingsverwerker. Gelieve een andere betaalmethode te proberen.
     unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen.
     fine_print: "Donaties zijn niet belastingaftrekbaar. Voor meer informatie kun je ons mailen. " # override this with org-specific details in your own yml file.
     confirmation: Donatie ontvangen
     donate_now: Doneer nu
+    loading: ""
     oneclick:
       select_payment: "Selecteer een opgeslagen betaalmethode"
       credit_card_payment_method: "%{card_type} geldig tot %{last_four_digits}"
@@ -133,7 +138,7 @@ nl: # translated 22 July 2021
       expiration: Vervaldatum
       expiration_format: MM / JJ
       postalCode: Postcode
-    field_names: # these are used in sentence form, eg with errors. waarschijnlijk_ongeldig
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
       cvv: Veiligheidscode
       number: Kaartnummer
       expiration: Vervaldatum
@@ -180,7 +185,7 @@ nl: # translated 22 July 2021
         too_short: "moet ten minste uit 6 tekens bestaan"
         cant_connect: "kan geen verbinding maken met dit telefoonnummer, controleer of het correct is of probeer een ander nummer"
         is_invalid: "is geen geldig telefoonnummer"
-    fine_print: 'SumOfUs zal <a href="https://sumofus.org/privacy" target="_blank">je privacy</a> beschermen en je op de hoogte houden. Als je je telefoonnummer opgeeft kunnen we je ook bellen of sms’en over campagnes. '  # change link once the Dutch translation is ready.
+    fine_print: 'SumOfUs zal <a href="https://sumofus.org/privacy" target="_blank">je privacy</a> beschermen en je op de hoogte houden. Als je je telefoonnummer opgeeft kunnen we je ook bellen of sms’en over campagnes. '
     form:
       phone_number: "Mijn telefoonnummer"
       phone_country_code: "Code"
@@ -192,12 +197,12 @@ nl: # translated 22 July 2021
     share: Deel
     tweet: Tweet
     share_on_whatsapp: WhatsApp
-    twitter_handle: '@sumofus' # change to a Dutch twitter account when we have one
+    twitter_handle: '@sumofus' # override this with your orgs twitter handle
   errors:
     probably_invalid: ziet er niet goed uit
     is_invalid: is ongeldig
     this_field: Dit veld
-    this_field_with_message: Dit veld %{message}
+    this_field_with_message: "Dit veld %{message}"
     named_field_error: "{name} heeft enkele fouten:"
   validation:
     is_required: is verplicht
