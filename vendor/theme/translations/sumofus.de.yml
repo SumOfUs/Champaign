@@ -41,13 +41,9 @@ de:
       body: "Vielen Dank, dass Sie die Petition unterschrieben haben. Das war großartig! Jede Stimme zählt, wenn wir uns weltweit mit Großkonzernen anlegen. Doch es gibt noch viel zu tun! Dafür benötigen wir Geld. SumOfUs finanziert sich fast ausschließlich aus den Spenden unserer Mitglieder – und jeder kleine Beitrag hilft. Dank Ihrer Spende können wir es mit den größten und skrupellosesten Konzernen aufnehmen und sie zur Verantwortung ziehen. Unterstützen Sie uns bitte heute mit einer Spende!"
     two_step:
       cta:
-        "<p>Damit wir auch 2021 Kampagnen gewinnen können, brauchen wir heute Ihre Unterstützung, <span class='inject-name'></span>.</p>
-        <br/>
-        <p>Helfen Sie mit Ihrer Spende dabei, SumOfUs für 2021 stark zu machen?</p>"
+        "<p>Damit wir auch 2021 Kampagnen gewinnen können, brauchen wir heute Ihre Unterstützung, <span class='inject-name'></span>.</p> <br/> <p>Helfen Sie mit Ihrer Spende dabei, SumOfUs für 2021 stark zu machen?</p>"
       cta_eoy:
-        "<p><b><span class='inject-name'>2020 ist fast zu Ende</span>, aber wir haben unser Spendenziel für dieses Jahr noch nicht erreicht.</b> Wir brauchen Ihre Unterstützung, damit wir auch 2021 Kampagnen gegen skrupellose Konzerne gewinnen.
-        <br>
-        <p>Helfen Sie uns mit einer Spende dabei, SumOfUs 2021 erfolgreich zu machen?</p>"
+        "<p><b><span class='inject-name'>2020 ist fast zu Ende</span>, aber wir haben unser Spendenziel für dieses Jahr noch nicht erreicht.</b> Wir brauchen Ihre Unterstützung, damit wir auch 2021 Kampagnen gegen skrupellose Konzerne gewinnen. <br> <p>Helfen Sie uns mit einer Spende dabei, SumOfUs 2021 erfolgreich zu machen?</p>"
     upgrade_monthly_gift: "Ich erhöhe meine <span class='js-current'></span> monatliche Spende auf "
     update: "Spende erhöhen"
     processing: "Ihre Änderung wird bearbeitet..."
@@ -69,7 +65,7 @@ de:
     next: "Next"
   share:
     cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
-    cta_thanks: Danke, Sie sind fantastisch! Können Sie die Kampagne jetzt mit Ihren Freund*innen teilen, um Ihre Wirkung zu verdreifachen?
+    cta_thanks: "Danke, Sie sind fantastisch! Können Sie die Kampagne jetzt mit Ihren Freund*innen teilen, um Ihre Wirkung zu verdreifachen?"
     send_email: E-Mail senden
     share: Facebook
     tweet: Twitter
@@ -90,11 +86,11 @@ de:
     about: Über Uns
     privacy_policy: Datenschutz
     contact: Kontakt (Impressum)
-    controlshift: "" #intentionally left blank
-    home_url: https://www.sumofus.org/de/
-    about_url: https://www.sumofus.org/de/about/
-    privacy_policy_url: https://www.sumofus.org/de/privacy/
-    contact_url: https://www.sumofus.org/de/contact/
+    controlshift: ""
+    home_url: "https://www.sumofus.org/de/"
+    about_url: "https://www.sumofus.org/de/about/"
+    privacy_policy_url: "https://www.sumofus.org/de/privacy/"
+    contact_url: "https://www.sumofus.org/de/contact/"
   baysanto:
     header:
       tagline: "Menschen engagieren sich bereits gegen die Übernahme"
@@ -112,13 +108,13 @@ de:
       title: "Diese Übernahme verstößt nicht nur gegen das Gesetz, sie wäre auch eine Katastrophe für die weltweite Nahrungsmittelversorgung"
       first_reason:
         title: "Anfällige Monokulturen"
-        details: Ein einzelner Schädling oder eine einzelne Krankheit könnten unsere gesamte Nahrungsversorgung in Gefahr bringen. Wenn wir uns systematisch von Bayer-Monsantos patentiertem Saatgut abhängig machen, ist unsere Landwirtschaft anfälliger und verliert ihre natürliche Widerstandsfähigkeit gegen Krankheiten.
+        details: "Ein einzelner Schädling oder eine einzelne Krankheit könnten unsere gesamte Nahrungsversorgung in Gefahr bringen. Wenn wir uns systematisch von Bayer-Monsantos patentiertem Saatgut abhängig machen, ist unsere Landwirtschaft anfälliger und verliert ihre natürliche Widerstandsfähigkeit gegen Krankheiten."
       second_reason:
         title: "Tödliche Pestizide"
         details: "Bayer’s Pestizide aus der Klasse der Neonikotinoide werden mit dem Massensterben von Bienen in Verbindung gebracht. Monsantos Glyphosat zerstört die Nahrungsgrundlage von Schmetterlingen. Beide Spezies sind aber für uns Menschen überlebenswichtig: Sie bestäuben die Pflanzen, von denen wir uns ernähren. Und es kommt noch schlimmer: Glyphosat steht unter dem dringenden Verdacht, Krebs zu verursachen."
       third_reason:
         title: "Der größte Agrochemie-Konzern der Welt"
-        details: Unsere Auswahl an Lebensmitteln und deren Preise könnten bald von der Willkür des Bayer-Monsanto-Konzerns abhängen. Steigende Saatgut- und Düngerpreise führen zu höheren Preisen für uns Verbraucher -- gerade Familien mit niedrigem Einkommen würden besonders darunter leiden. Auch die Auswahl im Obst- und Gemüseregal könnte kleiner werden, wenn Bayer-Monsanto mit seinen Massenprodukten aus industrieller Landwirtschaft kleine Bio-Bauern vom Markt drängt.
+        details: "Unsere Auswahl an Lebensmitteln und deren Preise könnten bald von der Willkür des Bayer-Monsanto-Konzerns abhängen. Steigende Saatgut- und Düngerpreise führen zu höheren Preisen für uns Verbraucher -- gerade Familien mit niedrigem Einkommen würden besonders darunter leiden. Auch die Auswahl im Obst- und Gemüseregal könnte kleiner werden, wenn Bayer-Monsanto mit seinen Massenprodukten aus industrieller Landwirtschaft kleine Bio-Bauern vom Markt drängt."
     shareholder:
       title: "Nur 7 Prozent der<br> Bayer-Aktionäre halten die Monsanto-Übernahme für strategisch sinnvoll"
       details: "Laut einer unabhängigen Umfrage der Investmentfirma Bernstein and Company unterstützen nur 7% der Bayer-Aktionäre  den Monsanto-Deal. Bernstein hat keine Verbindungen zu SumOfUs oder anderen Interessengruppen.<br><br> Das Investment-Portal Motley Fool schreibt: “[Bayer-Investoren] kritisierten das Übernahmeangebot bereits unmittelbar nach der Bekanntgabe als eine “massive Wertvernichtung” für Bayer-Anteilseigner. Die von Bernstein befragten Investoren scheinen diese Ansicht zu teilen, sind sie doch mehrheitlich der Ansicht, Bayer sollte sich besser auf die Sparten Gesundheit (so 50% der Befragten), bzw. Pharma (39%) konzentrieren.”"
@@ -143,18 +139,20 @@ de:
       cta_blurb: "Machen Sie mit -- rufen Sie die Kartellbehörden in Europa und den USA auf, Bayer und Monsanto zu stoppen und einen gefährlichen Mega-Konzern zu verhindern."
       petition_title: "Jetzt unterschreiben"
       tweet_title: "Tweeten Sie an die Kartellbehörden"
-      thanks_for_signing: 'Vielen Dank, dass Sie "Bayer: Stoppen Sie die Übernahme von Monsanto!" mit Ihrer Unterschrift unterstützen.'
+      thanks_for_signing: "Vielen Dank, dass Sie \"Bayer: Stoppen Sie die Übernahme von Monsanto!\" mit Ihrer Unterschrift unterstützen."
       petition_link: 'Klicken Sie <a href="//actions.sumofus.org/a/bayer-stoppen-sie-die-uebernahme-von-monsanto">hier</a> um die ursprüngliche Petition zu lesen.'
       share:
         link_preview_1: "Bayers Übernahme von Monsanto verstößt gegen das Kartellrecht"
         link_preview_2: "Neue Studie einer führenden Anwaltskanzlein zweifelt an der Legalität des Bayer-Monsanto-Deals"
         link_preview_url: "bayermonsantomerger.com"
         tweet: "Eine Bayer-Monsanto Fusion verstößt gegen Kartellrecht und ist ein Desaster für den Planeten @vestager @LorettaLynch"
-        tweet_link: http://bit.ly/2aVFqfg
+        tweet_link: "http://bit.ly/2aVFqfg"
         cta: "Jetzt tweeten"
   caller_survey:
-    intro: "Sie sollten jetzt jeden Moment einen Anruf erhalten. Sie werden zuerst eine kurze Nachricht von uns hören, und dann mit dem Büro einer/ eines Abgeordneten verbunden. <br> <br> Wir freuen uns, wenn Sie uns nach Ihrem Anruf mitteilen, wie es gelaufen ist.&nbsp;</b>Unten können Sie uns eine Nachricht hinterlassen.&nbsp;"
-    intro_with_target_info: "Sie sollten jetzt jeden Moment einen Anruf erhalten. Sie werden zuerst eine kurze Nachricht von uns hören, und dann mit dem Büro von <b>:target_name:</b>, <b>:target_title:</b> verbunden.<br><br> Wir freuen uns, wenn Sie uns nach Ihrem Anruf mitteilen, wie es gelaufen ist.&nbsp;</b>Unten können Sie uns eine Nachricht hinterlassen.&nbsp;"
+    intro:
+      "Sie sollten jetzt jeden Moment einen Anruf erhalten. Sie werden zuerst eine kurze Nachricht von uns hören, und dann mit dem Büro einer/ eines Abgeordneten verbunden. <br> <br> Wir freuen uns, wenn Sie uns nach Ihrem Anruf mitteilen, wie es gelaufen ist.&nbsp;</b>Unten können Sie uns eine Nachricht hinterlassen.&nbsp;"
+    intro_with_target_info:
+      "Sie sollten jetzt jeden Moment einen Anruf erhalten. Sie werden zuerst eine kurze Nachricht von uns hören, und dann mit dem Büro von <b>:target_name:</b>, <b>:target_title:</b> verbunden.<br><br> Wir freuen uns, wenn Sie uns nach Ihrem Anruf mitteilen, wie es gelaufen ist.&nbsp;</b>Unten können Sie uns eine Nachricht hinterlassen.&nbsp;"
     show_talking_points: "Klicken Sie hier, wenn Sie das Beispiel-Gespräch, die Tipps oder FAQs noch einmal lesen möchten. "
     submit: "Senden"
   cookie_consent:
