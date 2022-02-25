@@ -79,13 +79,6 @@
     overflow: hidden;
     &::after {
       display: none;
-      // width: 15%;
-      // height: 100%;
-      // position: absolute;
-      // right: 0;
-      // top: 0;
-      // background: $dark-teal;
-      // content: "";
     }
   }
   &__title {
@@ -157,6 +150,14 @@
     width: 100%;
     float: left;
     margin-top: 10px;
+  }
+}
+
+html[dir=rtl] div.petition-bar {
+  &__title-bar {
+    &::after {
+      left: 0;
+    }
   }
 }
 
