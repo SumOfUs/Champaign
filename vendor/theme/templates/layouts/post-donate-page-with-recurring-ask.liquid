@@ -101,6 +101,17 @@
 					<b>Doe een maandelijkse donatie en sluit je vandaag nog aan bij onze geweldige 38.652 kernleden:</b>
 				</p>
 			</div>
+	<div class="ar-copy">
+			<p>
+				<b><span class="thank-you-firstname">Thank you </span>for helping build a world where people come before corporate profit.</b>
+			</p>
+			<p>
+				There's still lots of work to do. <b>Would you consider becoming a SumOfUs core member to help us get there faster?</b> A monthly donation will support our movement to plan ahead, so we can take on the biggest corporations that threaten people and planet.
+			</p>
+			<p>
+				<b>Make a monthly donation and join our amazing 38,652 core members today:</b>
+			</p>
+	</div>
 
 
     <div class="fundraiser-bar__step-panel script-dependent">
@@ -654,6 +665,7 @@ function handleLanguages(){
       $('.pt-copy').hide();
       $('.de-copy').hide();
       $('.nl-copy').hide();
+	  $('.ar-copy').hide();
 
 
       $('.fundraiser-bar__amount-button').addClass('long-button');
@@ -677,7 +689,8 @@ function handleLanguages(){
       $('.en-copy').hide();
       $('.es-copy').hide();
       $('.pt-copy').hide();
-    	$('.nl-copy').hide();
+      $('.nl-copy').hide();
+	  $('.ar-copy').hide();
 
       $('.fundraiser-bar__amount-button').addClass('long-button');
     	$('.fundraiser-bar__amount-buttons').addClass('long-button-container');
@@ -701,6 +714,7 @@ function handleLanguages(){
       $('.en-copy').hide();
       $('.pt-copy').hide();
       $('.nl-copy').hide();
+	  $('.ar-copy').hide();
 
       $('.fundraiser-bar__amount-button').addClass('long-button');
       $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
@@ -725,6 +739,7 @@ function handleLanguages(){
       $('.fr-copy').hide();
       $('.en-copy').hide();
       $('.nl-copy').hide();
+	  $('.ar-copy').hide();
 
       $('.fundraiser-bar__amount-button').addClass('long-button');
       $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
@@ -748,11 +763,39 @@ function handleLanguages(){
       $('.en-copy').hide();
       $('.es-copy').hide();
       $('.pt-copy').hide();
+	  $('.ar-copy').hide();
 
       $('.fundraiser-bar__amount-button').addClass('long-button');
       $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
       break;
-    default:
+	case 'ar':
+      postDonatePage = "https://actions.sumofus.org/a/donate"; //TODO: Change for real link
+      preButtonLanguage = "التبرّع بمبلغ ";
+      postButtonLanguage = " شهرياً
+";
+
+      thankyou = "ما أروعك!";
+      secondFirstname = "";
+
+      if(name){
+          thankyou = name+", ما أروعك!";
+          secondFirstname = "";
+      }
+
+	  $('.ar-copy').show();
+      $('.nl-copy').hide();
+      $('.de-copy').hide();
+      $('.fr-copy').hide();
+      $('.en-copy').hide();
+      $('.es-copy').hide();
+      $('.pt-copy').hide();
+
+      $('.fundraiser-bar__amount-button').addClass('long-button');
+      $('.fundraiser-bar__amount-buttons').addClass('long-button-container');
+      break;
+    
+	
+	default:
       postButtonLanguage = "/month";
 
       thankyou = "You're awesome!";
