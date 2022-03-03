@@ -16,6 +16,7 @@ json.extract!(
 )
 
 json.template_name  @page.liquid_layout.title
+json.follow_up_template @page.follow_up_liquid_layout
 
 share_buttons = @page.share_buttons.to_a.map do |share|
   share = share.attributes
@@ -60,7 +61,7 @@ json.language @page.language.code
 petition =  @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first
 fundraiser = @page.plugins.select { |p| p.class.name == 'Plugins::Fundraiser' }.first
 
-json.petition do 
+json.petition do
   if petition
     if petition.form
       json.form petition.form.form_elements.order(:position)
@@ -73,7 +74,7 @@ json.petition do
   end
 end
 
-json.fundraiser do 
+json.fundraiser do
   if fundraiser
     liquid_data = fundraiser.liquid_data
     if fundraiser.form
