@@ -1,5 +1,14 @@
 $mobile-width: 700px;
 
+html[dir=rtl] .petition-bar,
+.fundraiser-bar,
+.action-form  {
+  &__welcome-name {
+    padding-right: 10px;
+    padding-left: unset;
+  }
+}
+
 .petition-bar,
 .fundraiser-bar,
 .action-form {
