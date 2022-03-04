@@ -81,7 +81,7 @@
   }
 }
 
-html[dir=rtl] div.mobile-title, div.header-logo__tagline, div.header-logo__logo {
+html[dir=rtl] div.mobile-title, html[dir=rtl] div.header-logo__tagline, html[dir=rtl] div.header-logo__logo {
   float: right;
 }
 
