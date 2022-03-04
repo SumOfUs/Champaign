@@ -1,3 +1,9 @@
+html[dir=rtl] .sumofus-logo {
+  &--tagline {
+    margin-right: 15px;
+  }
+}
+
 .sumofus-logo {
   &--negative {
     background-image: url(asset-path('sumofus-logo-horizontal.svg'));

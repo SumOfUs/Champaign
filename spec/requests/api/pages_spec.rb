@@ -86,6 +86,7 @@ describe 'api/pages' do
         sources
         meta_description
         template_name
+        follow_up_template
       ]
       expect(subject.keys).to match_array(expected)
       expect(subject.symbolize_keys).to include(title: 'Foo',
