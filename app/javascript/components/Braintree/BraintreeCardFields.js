@@ -9,7 +9,6 @@ import ee from '../../shared/pub_sub';
 class BraintreeCardFields extends Component {
   constructor(props) {
     super(props);
-    const lang = window.champaign.page.language_code;
     this.state = {
       hostedFields: null,
       errors: {
@@ -21,9 +20,6 @@ class BraintreeCardFields extends Component {
         input: {
           color: '#333',
           'font-size': '16px',
-          ...(lang === 'ar' && {
-            'text-align': 'right',
-          }),
         },
         ':focus': { color: '#333' },
         '.valid': { color: '#333' },

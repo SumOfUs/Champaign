@@ -1,9 +1,3 @@
-html[dir=rtl] div.thermometer {
-  &__mercury {
-    float: right;
-  }
-}
-
 .thermometer {
   $graphic-height: 10px;
   $graphic-border-radius: 15px;

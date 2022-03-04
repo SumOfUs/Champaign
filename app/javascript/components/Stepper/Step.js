@@ -1,7 +1,6 @@
 /*  */
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { FormattedMessage } from 'react-intl';
 import './Step.scss';
 
 export default class Step extends Component {
@@ -16,10 +15,7 @@ export default class Step extends Component {
     return (
       <div className={rootClasses} onClick={this.props.onClick}>
         <div className="Step__circle">
-          <FormattedMessage
-            id={`fundraiser.donation_steps.number${index + 1}`}
-            defaultMessage={index + 1}
-          />
+          <span>{index + 1}</span>
         </div>
         <div className="Step__label">{label}</div>
       </div>

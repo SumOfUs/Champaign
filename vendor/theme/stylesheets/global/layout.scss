@@ -78,14 +78,6 @@ html {
   }
 
 }
-
-html[dir=rtl] div.center-content {
-  &__fixed-right {
-    left: 0;
-    right: unset;
-  }
-}
-
 .center-content--share-and-donate {
   margin-top: 100px;
 }

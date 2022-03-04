@@ -1,5 +1,5 @@
 doctype html
-html lang="#{@page.language.try(:code).try(:downcase)}" dir=("#{@page.language.try(:code).try(:downcase)}" == 'ar' ? 'rtl' : 'ltr')
+html lang="#{@page.language.try(:code).try(:downcase)}"
   head
     title  = @page.title
     meta http-equiv="X-UA-Compatible" content="IE=edge;"
