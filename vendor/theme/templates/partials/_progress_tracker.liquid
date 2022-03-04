@@ -101,6 +101,11 @@
     border-color: green;
   }
 
+  html[dir=rtl] div.progress-tracker__circle--tick::before {
+    right: 0.25em;
+    left: unset;
+  }
+
   .progress-tracker__circle--tick::before {
     content: "";
     display: block;
@@ -119,6 +124,12 @@
   .progress-tracker__circle--cross {
     background-color: red;
     border-color: red;
+  }
+
+  html[dir=rtl] div.progress-tracker__circle--cross::before, 
+  html[dir=rtl] div.progress-tracker__circle--cross::after {
+    right: calc(50% - 0.4em);
+    left: unset;
   }
 
   .progress-tracker__circle--cross::before {
@@ -147,6 +158,11 @@
     width: 0.8em;
     left: calc(50% - 0.4em);
     top: calc(50% - 1px);
+  }
+
+  html[dir=rtl] span.progress-tracker__label {
+    margin-right: 0.4em;
+    margin-left: unset;
   }
 
   .progress-tracker__label {
