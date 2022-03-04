@@ -81,6 +81,10 @@
   }
 }
 
+html[dir=rtl] div.mobile-title, html[dir=rtl] div.header-logo__tagline, html[dir=rtl] div.header-logo__logo {
+  float: right;
+}
+
 .cover-photo--small, .header-logo__left-constraint, .mobile-title {
   width: 65%;
   &.header-logo__left-constraint {
