@@ -80,7 +80,7 @@ ar:
   share_and_donate:
     fundraiser_title: "تبرّعك يساهم في تمكين SumOfUs"
   petition_and_scroll:
-    fundraiser_intro: "<p>شكراً لاتّخاذك خطوةً نحو التغيير، <span class='inject-name'>أيّها الصديق/ة العزيز/ة</span>! يمكننا معاً تحقيق النصر -- هل تودّ التبرّع اليوم لامساعدة في إنجاح هذه الحملة؟</p>"
+    fundraiser_intro: "<p>شكراً لاتّخاذك خطوةً نحو التغيير، <span class='inject-name'>أيّها الصديق/ة العزيز/ة</span>! يمكننا معاً تحقيق النصر -- هل يمكنك التبرّع اليوم للمساعدة في إنجاح هذه الحملة؟</p>"
   footer:
     home: الصفحة الرئيسيّة
     about: من نحن
@@ -158,6 +158,6 @@ ar:
   cookie_consent:
     privacy_policy_url: "https://sumofus.org/ar/privacy"
   progress_tracker:
-    signed: وقّعوا
-    shared: شاركوا
-    donated: تبرّعوا
+    signed: التوقيع
+    shared: المشاركة
+    donated: التبرّع
