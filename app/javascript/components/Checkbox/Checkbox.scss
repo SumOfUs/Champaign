@@ -59,3 +59,19 @@
     }
   }
 }
+
+html[dir=rtl] .Checkbox {
+  &__label {
+    input[type='checkbox'] {
+      left: unset;
+      right: -5px;
+      float: right;
+    }
+    input[type='checkbox']:before {
+      left: 0;
+    }
+    input[type='checkbox']:checked:before {
+      left: 0;
+    }
+  }
+}
