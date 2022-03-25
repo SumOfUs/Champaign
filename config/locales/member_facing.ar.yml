@@ -92,19 +92,19 @@ ar:
     amount: المبلغ
     details: التفاصيل
     payment: الدفع
-    donate: "التبرّع بمبلغ%{amount}" # used on the submit button, eg 'Donate $15'
-    donate_monthly: "التبرّع بمبلغ%{amount} كلّ شهر"
+    donate: "التبرّع بمبلغ %{amount}" # used on the submit button, eg 'Donate $15'
+    donate_monthly: "التبرّع بمبلغ %{amount} كلّ شهر"
     donation_steps:
       number1: "١"
       number2: "٢"
       number3: "٣"
 
-    make_monthly_donation: "%{name} تبرّعك {duration} سيوفّر دعماً لحركتنا ويتيح لنا التخطيط للمستقبل، بحيث نتّخذ خطواتٍ أكثر فاعليّةً لوقف الشركات الكبرى التي تهدّدنا وتهدّد كوكبنا. "
-    complete_donation: "استكمال تبرّعك بمبلغ%{amount}"
-    donate_amount: "التبرّع بمبلغ%{amount}"
-    donation_once: "التبرّع بمبلغ%{amount} لمرّة واحدة"
-    donation_recurring: "التبرّع بمبلغ%{amount} كلّ شهر"
-    donation_weekly: "التبرّع بمبلغ%{amount} كلّ أسبوع"
+    make_monthly_donation: "%{name} تبرّعك شهرياً سيوفّر دعماً لحركتنا ويتيح لنا التخطيط للمستقبل، بحيث نتّخذ خطواتٍ أكثر فاعليّةً لوقف الشركات الكبرى التي تهدّدنا وتهدّد كوكبنا. "
+    complete_donation: "استكمال تبرّعك بمبلغ %{amount}"
+    donate_amount: "التبرّع بمبلغ %{amount}"
+    donation_once: "التبرّع بمبلغ %{amount} لمرّة واحدة"
+    donation_recurring: "التبرّع بمبلغ %{amount} كلّ شهر"
+    donation_weekly: "التبرّع بمبلغ %{amount} كلّ أسبوع"
     weekly_donation_fineprint: "لتقليل رسوم المعالجة وحفاظاً على قيمة تبرّعك وتأثيره، تتم معالجة التبرّعات الأسبوعية مرة واحدة في الشهر.  "
 
     month: شهر
@@ -117,8 +117,8 @@ ar:
     make_recurring: تغيير التبرّع ليصبح شهرياً
     store_in_vault: حفظ معلومات الدفع الخاصة بي
     thank_you: شكراً لتبرّعك!
-    thank_you_with_amount: "<strong>شكراً لتبرّعك بمبلغ%{amount}!</strong> إذا كانت لديك أيّ أسئلة، أو إذا كنت قد أتممت التبرّع بالخطأ، يُرجى مراسلتنا على العنوان donations@sumofus.org."
-    recurring_thank_you_with_amount: "<strong>شكراً لتبرّعك الدوري بمبلغ%{amount}! </strong> إذا كانت لديك أيّ أسئلة، أو إذا كنت قد أتممت التبرّع بالخطأ، يُرجى مراسلتنا على العنوان donations@sumofus.org."
+    thank_you_with_amount: "<strong>شكراً لتبرّعك بمبلغ %{amount}!</strong> إذا كانت لديك أيّ أسئلة، أو إذا كنت قد أتممت التبرّع بالخطأ، يُرجى مراسلتنا على العنوان donations@sumofus.org."
+    recurring_thank_you_with_amount: "<strong>شكراً لتبرّعك الدوري بمبلغ %{amount}! </strong> إذا كانت لديك أيّ أسئلة، أو إذا كنت قد أتممت التبرّع بالخطأ، يُرجى مراسلتنا على العنوان donations@sumofus.org."
 
     card_declined: تمّ رفض بطاقتك من قبل معالج الدفع. يُرجى تجربة طريقة دفع مختلفة.
     unknown_error: "تمّ إبلاغ فريقنا التقني. يُرجى التأكّد من معلوماتك أو محاولة طريقة دفعٍ أخرى. "

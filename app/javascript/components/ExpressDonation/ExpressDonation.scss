@@ -83,6 +83,25 @@
   }
 }
 
+html[dir=rtl] .PaymentMethod {
+  label,
+  input[type='radio'] {
+    margin-left: 14px;
+    margin-right: unset;
+    float: right;
+  }
+
+  input[type='radio']::before {
+    right: -1px;
+    left: unset;
+  }
+
+  input[type='radio']:checked::before {
+    right: -1px;
+    left: unset;
+  }
+}
+
 .PaymentMethod input {
   height: 14px;
   width: 14px;
