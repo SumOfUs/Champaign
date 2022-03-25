@@ -92,8 +92,8 @@ ar:
     amount: المبلغ
     details: التفاصيل
     payment: الدفع
-    donate: "التبرّع بمبلغ%{amount}" # used on the submit button, eg 'Donate $15'
-    donate_monthly: "التبرّع بمبلغ%{amount} كلّ شهر"
+    donate: "التبرّع بمبلغ%{amount} " # used on the submit button, eg 'Donate $15'
+    donate_monthly: "التبرّع بمبلغ%{amount}  كلّ شهر"
     donation_steps:
       number1: "١"
       number2: "٢"
