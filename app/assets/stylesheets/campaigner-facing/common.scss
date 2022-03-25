@@ -29,6 +29,27 @@ span.cross:after {
   border: 1px solid #ddd;
 }
 
+.page-title {
+  &.form-group {
+    &.rtl {
+      input {
+        direction: rtl;
+        text-align: right;
+      }
+    }
+  }
+}
+
+.form-group {
+  &.rtl {
+    input#page_body_content {
+      direction: rtl;
+      text-align: right;
+    }
+  }
+}
+
+
 .feedback {
   float: right;
   display: inline-block;
