@@ -92,18 +92,18 @@ ar:
     amount: المبلغ
     details: التفاصيل
     payment: الدفع
-    donate: "التبرّع بمبلغ%{amount}" # used on the submit button, eg 'Donate $15'
-    donate_monthly: "التبرّع بمبلغ%{amount} كلّ شهر"
+    donate: "التبرّع بمبلغ%{amount} " # used on the submit button, eg 'Donate $15'
+    donate_monthly: "التبرّع بمبلغ%{amount}  كلّ شهر"
     donation_steps:
       number1: "١"
       number2: "٢"
       number3: "٣"
 
     make_monthly_donation: "%{name} تبرّعك شهرياً سيوفّر دعماً لحركتنا ويتيح لنا التخطيط للمستقبل، بحيث نتّخذ خطواتٍ أكثر فاعليّةً لوقف الشركات الكبرى التي تهدّدنا وتهدّد كوكبنا. "
-    complete_donation: "استكمال تبرّعك بمبلغ%{amount}"
-    donate_amount: "التبرّع بمبلغ%{amount}"
-    donation_once: "التبرّع بمبلغ%{amount} لمرّة واحدة"
-    donation_recurring: "التبرّع بمبلغ%{amount} كلّ شهر"
+    complete_donation: "استكمال تبرّعك بمبلغ %{amount}"
+    donate_amount: "التبرّع بمبلغ %{amount} "
+    donation_once: "التبرّع بمبلغ %{amount} لمرّة واحدة"
+    donation_recurring: "التبرّع بمبلغ %{amount} كلّ شهر"
     donation_weekly: "التبرّع بمبلغ%{amount} كلّ أسبوع"
     weekly_donation_fineprint: "لتقليل رسوم المعالجة وحفاظاً على قيمة تبرّعك وتأثيره، تتم معالجة التبرّعات الأسبوعية مرة واحدة في الشهر.  "
 
