@@ -49,6 +49,13 @@ span.cross:after {
   }
 }
 
+#page_title {
+  &.rtl {
+    direction: rtl;
+    text-align: right;
+  }
+}
+
 .feedback {
   float: right;
   display: inline-block;

@@ -157,8 +157,10 @@ en:
       language_label: "Language"
       slug_label: "Slug"
       layout_select: "Pick a layout"
+      rtl: "Enable RTL mode (use this for Arabic)"
     edit:
       title: 'Title'
+      rtl: 'Enable RTL mode (use this for Arabic)'
       content: 'Body text'
       meta_description: 'Meta description'
       meta_tags: 'Meta tags'

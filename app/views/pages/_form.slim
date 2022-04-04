@@ -5,11 +5,16 @@
 
       = render 'shared/error_messages', target: page
 
-      .page-title.form-group class=("#{@page.language.try(:code).try(:downcase)}" == 'ar' ? 'rtl' : 'ltr')
+      .page-title.form-group class=("#{@page.language.try(:code).try(:downcase)}" == 'ar' ? 'rtl' : '')
         = label_with_tooltip(f, :title, t('pages.edit.title'), t('tooltips.title'))
         = f.text_field :title
 
-      .form-group class=("#{@page.language.try(:code).try(:downcase)}" == 'ar' ? 'rtl' : 'ltr')
+      div.checkbox
+        label for="rtl-check"
+          input id="rtl-check" type="checkbox" checked=("#{@page.language.try(:code).try(:downcase)}" == 'ar' ? 'checked' : '')
+          =t('pages.edit.rtl')
+        
+      .form-group class=("#{@page.language.try(:code).try(:downcase)}" == 'ar' ? 'rtl' : '')
         = label_with_tooltip(f, :content, t('pages.edit.content'), t('tooltips.content'))
         = render 'shared/wysiwyg', id: 'page_body', f: f
 
@@ -42,4 +47,11 @@
           = label_with_tooltip(f, :javascript, t('pages.edit.javascript'), t('tooltips.javascript'))
           = f.text_area :javascript, class: 'form-control syntax-highlighting', 'data-highlight-mode' => 'javascript'
 
+javascript:
+  $(function() {
+    $("#rtl-check").click(function(e) {
+      $(".page-title.form-group").toggleClass("rtl");
+      $("input#page_body_content").closest(".form-group").toggleClass("rtl");
+    });
+  });
 
