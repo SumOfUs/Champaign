@@ -11,7 +11,7 @@
 
       div.checkbox
         label for="rtl-check"
-          input id="rtl-check" type="checkbox" checked=("#{@page.language.try(:code).try(:downcase)}" == 'ar' ? 'checked' : '')
+          input id="rtl-check" type="checkbox"
           =t('pages.edit.rtl')
         
       .form-group class=("#{@page.language.try(:code).try(:downcase)}" == 'ar' ? 'rtl' : '')
@@ -49,6 +49,10 @@
 
 javascript:
   $(function() {
+    if('#{@page.language.try(:code).try(:downcase)}' == 'ar') {
+      $("#rtl-check").attr("checked", true);
+    }
+
     $("#rtl-check").click(function(e) {
       $(".page-title.form-group").toggleClass("rtl");
       $("input#page_body_content").closest(".form-group").toggleClass("rtl");
