@@ -16,6 +16,7 @@ function configureWysiwyg(id, editorOptions = []) {
           ['font', ['fontsize']],
           ['para', ['ul', 'ol', 'paragraph']],
           ['color', ['color']],
+          ['insert', ['ltr', 'rtl']],
           ['insert', ['link', 'picture', 'video']],
           ['view', ['fullscreen', 'codeview', 'help']],
         ],
