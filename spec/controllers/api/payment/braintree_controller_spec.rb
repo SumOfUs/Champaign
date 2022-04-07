@@ -87,8 +87,7 @@ describe Api::Payment::BraintreeController do
         end
         # TODO: Add scenario to handle newly created user
         it 'responds with subscription_id in JSON' do
-          data = { success: true, tracking: {}, follow_up_url: '/a/asd-f/follow-up?member_id=79', subscription_id: 's1234' }
-          expect(response.body).to eq(data.to_json)
+          expect(response.body).to include_json(subscription_id: 's1234')
         end
 
         it 'sets the member cookie' do
@@ -114,8 +113,7 @@ describe Api::Payment::BraintreeController do
         end
 
         it 'responds with transaction_id in JSON' do
-          data = { success: true, tracking: {}, follow_up_url: '/a/asd-f/follow-up?member_id=79', transaction_id: 't1234' }
-          expect(response.body).to eq(data.to_json)
+          expect(response.body).to include_json(transaction_id: 't1234')
         end
 
         it 'sets the member cookie' do
