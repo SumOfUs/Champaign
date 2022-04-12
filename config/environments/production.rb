@@ -122,7 +122,7 @@ Rails.application.configure do
   config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
       origins(
-        %r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/, /peoplevsbig.tech/
+        %r{^(https?:\/\/)?(([a-z0-9-]+\.)?)+sumofus\.org$}i, /sumofus.vercel.app/, /pronto-three.vercel.app/, /apiboficial.org/
       )
       resource '*',
                headers: :any,
