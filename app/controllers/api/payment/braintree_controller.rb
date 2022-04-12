@@ -12,6 +12,11 @@ class Api::Payment::BraintreeController < PaymentController
     render json: { token: ::Braintree::ClientToken.generate(merchant_account_id: @merchant_account_id) }
   end
 
+  def payment_methods
+    tokens = (cookies.signed[:payment_methods] || '').split(',')
+    render json: Payment::Braintree::PaymentMethod.where(token: tokens)
+  end
+
   def webhook
     if client::WebhookHandler.handle(unsafe_params[:bt_signature], unsafe_params[:bt_payload])
       head :ok

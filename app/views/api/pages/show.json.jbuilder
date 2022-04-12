@@ -84,6 +84,7 @@ json.fundraiser do
     if liquid_data
       json.extract! liquid_data, :donation_bands
     end
+    json.title fundraiser.title
   end
 end
 

@@ -11,6 +11,10 @@
     .form-group
       = label_with_tooltip(f, :title, t('pages.edit.title'), t('tooltips.title'))
       = f.text_field :title, class: 'form-control'
+      div.checkbox
+        label for="rtl-check"
+          input id="rtl-check" type="checkbox"
+          =t('pages.edit.rtl')
 
     .form-group.slug-field style='display:none;'
       .form-group
@@ -44,6 +48,10 @@
 javascript:
   $(function () {
     window.ee.emit("pages:new");
+
+    $("#rtl-check").click(function(e) {
+      $("#page_title").toggleClass("rtl");
+    });
   });
 
 

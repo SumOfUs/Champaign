@@ -39,7 +39,6 @@ class PaymentController < ApplicationController
   end
 
   def local_payment_transaction
-    puts params
     opts = {
       payment_id: params[:paymentId],
       data: params[:data],
@@ -59,6 +58,8 @@ class PaymentController < ApplicationController
       existing_payment_methods = (cookies.signed[:payment_methods] || '').split(',')
       existing_payment_methods << result.payment_method_token
 
+      @payment_method_obj = Payment::Braintree::PaymentMethod.find_by_token(result.payment_method_token).attributes
+
       cookies.signed[:payment_methods] = {
         value: existing_payment_methods.uniq.join(','),
         expires: 1.year.from_now,
@@ -74,6 +75,7 @@ class PaymentController < ApplicationController
       format.json do
         render json: {
           success: true,
+          payment_method: @payment_method_obj,
           tracking: FacebookPixel.completed_registration_hash(page: page, action: builder.action)
         }.merge(follow_up).merge(id_for_response)
       end
