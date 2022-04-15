@@ -5,12 +5,13 @@ class LiquidRenderer # rubocop:disable Metrics/ClassLength
 
   HIDDEN_FIELDS = %w[source bucket referrer_id rid akid referring_akid].freeze
 
-  def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [])
+  def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [], id_mismatch: false)
     @page            = page
     @location        = location
     @member          = member
     @payment_methods = payment_methods
     @url_params      = url_params
+    @id_mismatch = id_mismatch
   end
 
   def render
@@ -46,7 +47,8 @@ class LiquidRenderer # rubocop:disable Metrics/ClassLength
       email_tool: email_tool_data,
       email_pension: email_pension_data,
       action_count: @page.action_count,
-      payment_methods: @payment_methods
+      payment_methods: @payment_methods,
+      id_mismatch: @id_mismatch
     }.deep_stringify_keys
   end
 

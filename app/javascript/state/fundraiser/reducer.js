@@ -92,7 +92,8 @@ export default (state = initialState, action) => {
         'title',
         'fields',
         'oneClick',
-        'donationAmount'
+        'donationAmount',
+        'id_mismatch'
       );
       initialData.formValues = initialData.formValues || {};
       return {

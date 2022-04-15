@@ -61,6 +61,7 @@ export const fundraiserData = (config: IFundraiserPluginConfig) => {
     donationBands,
     outstandingFields,
     formValues,
+    id_mismatch,
   } = window.champaign.personalization;
 
   return {
@@ -72,6 +73,7 @@ export const fundraiserData = (config: IFundraiserPluginConfig) => {
     outstandingFields,
     formId: config.form_id,
     formValues,
+    id_mismatch,
     // title: <get title from template, fallback to: config.title>,
     title: config.title,
     preselectAmount: config.preselect_amount,

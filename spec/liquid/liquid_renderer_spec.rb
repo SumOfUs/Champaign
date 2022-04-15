@@ -176,6 +176,7 @@ describe LiquidRenderer do
         call_tool
         email_tool
         email_pension
+        id_mismatch
       ]
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)

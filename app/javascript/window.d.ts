@@ -38,6 +38,7 @@ interface IChampaignGlobalObject {
     formValues?: { [key: string]: string };
     donationBands?: { [currency: string]: number[] };
     urlParams: { [key: string]: string };
+    id_mismatch: boolean;
   };
   plugins: IChampaignPagePlugins;
   store?: Store<IAppState>;
@@ -84,6 +85,7 @@ interface IFundraiserPluginConfig extends IPluginConfig {
   recurring_default: string;
   title: string;
   supportedLocalCurrency: boolean;
+  id_mismatch: boolean;
 }
 
 interface IDonationsThermometerPluginConfig extends IPluginConfig {
