@@ -87,6 +87,12 @@ class ApplicationController < ActionController::Base
   def recognized_member
     @recognized_member ||= current_member ||
                            Member.find_from_request(akid: unsafe_params[:akid], id: cookies.signed[:member_id])
+
+    @recognized_member.idMismatch = if !@recognized_member.nil? && current_member != @recognized_member.id
+                                      true
+                                    else
+                                      false
+                                    end
   end
 
   def authenticate_super_admin!
