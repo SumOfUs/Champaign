@@ -57,13 +57,11 @@ class Member < ApplicationRecord
   end
 
   def self.find_by_akid(akid)
-    puts 'TRACK: self.find_by_akid'
     actionkit_user_id = AkidParser.parse(akid, Settings.action_kit.akid_secret)[:actionkit_user_id]
     where(actionkit_user_id: actionkit_user_id).order('created_at ASC').first if actionkit_user_id.present?
   end
 
   def self.find_by_email(email)
-    puts 'TRACK: self.find_by_email'
     Member.find_by(email: email.try(:downcase))
   end
 
@@ -78,7 +76,6 @@ class Member < ApplicationRecord
   end
 
   def liquid_data
-    puts 'TRACK: liquid_data'
     full_name = name
     additional_values = {
       consented: consented,
