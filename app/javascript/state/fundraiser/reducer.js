@@ -380,23 +380,6 @@ function supportedPaymentTypes(data) {
   return list;
 }
 
-// function canPreSelectDirectDebit() {
-//   // Condition 1: Page language should be German
-//   // Condition 2: akid query parameter should be present
-//   // Condition 3: recurring_default query parameter should
-//   //              be either 'recurring' or 'only_recurring'
-//   if (window.champaign.page.language_code != 'de') {
-//     return false;
-//   }
-
-//   const params = queryString.parse(window.location.search);
-//   const recurringDefault = params['recurring_default'];
-//   return (
-//     params['akid'] !== undefined &&
-//     ['recurring', 'only_recurring'].includes(recurringDefault)
-//   );
-// }
-
 function safePaymentType(pt, pts) {
   return pts.includes(pt) ? pt : pts[0];
 }

@@ -39,6 +39,7 @@ class Api::Payment::BraintreeController < PaymentController
   private
 
   def member
+    puts 'TRACK member BT'
     if params[:user][:email].present?
       Member.find_by_email(params[:user][:email])
     elsif unsafe_params[:akid].present?

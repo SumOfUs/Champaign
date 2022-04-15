@@ -37,6 +37,7 @@ class Api::MembersController < ApplicationController
   end
 
   def show
+    puts 'TRACK: show'
     member = Member.find_from_request(akid: params[:id], id: cookies.signed[:member_id])
     payment_method_ids = (cookies.signed[:payment_methods] || '').split(',')
     payment_methods = Payment::Braintree::PaymentMethod.where(token: payment_method_ids)

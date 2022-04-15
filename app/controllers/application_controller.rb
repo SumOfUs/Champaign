@@ -62,6 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def renderer
+    puts 'TRACK: renderer'
     @renderer ||= LiquidRenderer.new(@page, location: request.location,
                                             member: recognized_member,
                                             url_params: unsafe_params,
@@ -81,12 +82,25 @@ class ApplicationController < ActionController::Base
     return nil if cookies.signed[:authentication_id].nil?
 
     payload = decode_jwt(cookies.signed[:authentication_id])
+    Rails.logger.error(
+      "AB: current_member payload is #{payload['id']}."
+    )
     @current_member ||= Member.find_by(id: payload['id'])
+    Rails.logger.error(
+      "current_member is #{@current_member}."
+    )
   end
 
   def recognized_member
+    puts 'TRACK: recognized member'
+    puts unsafe_params[:source]
+    puts cookies.signed[:member_id]
+    puts current_member
     @recognized_member ||= current_member ||
                            Member.find_from_request(akid: unsafe_params[:akid], id: cookies.signed[:member_id])
+    Rails.logger.error(
+      "recognized_member is #{@recognized_member}."
+    )
   end
 
   def authenticate_super_admin!
@@ -104,6 +118,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_raven_context
+    puts 'TRACK: set_raven_context'
     Raven.user_context(id: recognized_member&.id)
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end

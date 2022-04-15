@@ -11,11 +11,16 @@ class AkidParser
   end
 
   def initialize(akid, secret)
+    puts 'initialize'
+    puts akid
     @akid = akid.try(:split, '.') || []
     @secret = secret
   end
 
   def parse
+    puts 'TRACK: AkidParser parse'
+    puts @akid
+    puts invalid?
     if invalid?
       response
     else
