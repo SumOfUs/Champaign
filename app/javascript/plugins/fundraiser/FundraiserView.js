@@ -12,6 +12,7 @@ import OneClick from '../../components/OneClick/OneClick';
 import Cookie from 'js-cookie';
 import { localCurrencies } from './utils';
 import unintendedDonationsExperiment from '../../experiments/unintended-donations';
+import { setExperimentVariant } from '../../state/experiments';
 
 import {
   changeAmount,
@@ -33,8 +34,9 @@ export class FundraiserView extends Component {
         const variant = window.google_optimize.get(
           unintendedDonationsExperiment.experimentId
         );
+        console.log('variant', variant);
         if (variant) {
-          this.setState({
+          this.props.setExperimentVariant({
             variant,
             experimentId: unintendedDonationsExperiment.experimentId,
           });
@@ -226,6 +228,7 @@ export const mapDispatchToProps = dispatch => ({
   setSubmitting: submitting => dispatch(setSubmitting(submitting)),
   setSupportedLocalCurrency: value =>
     dispatch(setSupportedLocalCurrency(value)),
+  setExperimentVariant: value => dispatch(setExperimentVariant(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);
