@@ -1,6 +1,6 @@
 # General Champaign settings.
 google_optimize:
-  key: "OPT-NMK9DTB"
+  key: "OPT-5XL8RFP"
 secret_key_base: secret_key_base
 omniauth_client_secret: omniauth_client_secret
 omniauth_client_id: omniauth_client_id
