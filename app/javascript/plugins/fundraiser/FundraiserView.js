@@ -11,6 +11,7 @@ import Payment from '../../components/Payment/Payment';
 import OneClick from '../../components/OneClick/OneClick';
 import Cookie from 'js-cookie';
 import { localCurrencies } from './utils';
+import unintendedDonationsExperiment from '../../experiments/unintended-donations';
 
 import {
   changeAmount,
@@ -21,7 +22,27 @@ import {
 } from '../../state/fundraiser/actions';
 
 export class FundraiserView extends Component {
-  componentDidMount() {
+  async componentDidMount() {
+    if (window.dataLayer) {
+      await window.dataLayer.push({
+        event: unintendedDonationsExperiment.activationEvent,
+      });
+    }
+    this.intervalId = setInterval(() => {
+      if (window.google_optimize !== undefined) {
+        const variant = window.google_optimize.get(
+          unintendedDonationsExperiment.experimentId
+        );
+        if (variant) {
+          this.setState({
+            variant,
+            experimentId: unintendedDonationsExperiment.experimentId,
+          });
+        }
+        clearInterval(this.intervalId);
+      }
+    }, 500);
+
     const { donationAmount } = this.props.fundraiser;
     this.props.setSupportedLocalCurrency(this.supportedLocalCurrency());
     if (donationAmount && donationAmount > 0) {
