@@ -11,7 +11,7 @@ class LiquidRenderer # rubocop:disable Metrics/ClassLength
     @member          = member
     @payment_methods = payment_methods
     @url_params      = url_params
-    @id_mismatch = id_mismatch
+    @id_mismatch     = id_mismatch
   end
 
   def render

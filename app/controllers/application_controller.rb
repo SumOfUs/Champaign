@@ -91,7 +91,10 @@ class ApplicationController < ActionController::Base
   end
 
   def id_mismatch
-    !@recognized_member.nil? && current_member != @recognized_member.id
+    return false if recognized_member.nil?
+
+    Rails.logger.info("current is '#{current_member}' and recognized is '#{@recognized_member.id}'")
+    current_member != @recognized_member.id
   end
 
   def authenticate_super_admin!

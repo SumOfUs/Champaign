@@ -1,4 +1,4 @@
-export const SET_VARIANT = 'SET_VARIANT';
+export const SET_VARIANT = 'set_variant';
 
 const initialState = {
   experiments: [],
@@ -6,7 +6,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_VARIANT':
+    case SET_VARIANT:
       const { variant, experimentId } = action.payload;
       if (!variant || !experimentId) return initialState;
       return {
@@ -19,5 +19,5 @@ export default (state = initialState, action) => {
 };
 
 export function setExperimentVariant(payload) {
-  return { type: 'SET_VARIANT', payload };
+  return { type: SET_VARIANT, payload };
 }

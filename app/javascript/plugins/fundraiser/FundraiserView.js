@@ -13,7 +13,7 @@ import Cookie from 'js-cookie';
 import { localCurrencies } from './utils';
 import unintendedDonationsExperiment from '../../experiments/unintended-donations';
 import { setExperimentVariant } from '../../state/experiments';
-
+import { resetMember } from '../../state/member/reducer';
 import {
   changeAmount,
   changeCurrency,
@@ -50,6 +50,23 @@ export class FundraiserView extends Component {
     if (donationAmount && donationAmount > 0) {
       this.props.selectAmount(donationAmount);
       this.props.changeStep(1);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.experiments.length == 0 &&
+      this.props.experiments.length > 0
+    ) {
+      const { variant } =
+        this.props.experiments.find(
+          e => (e.experimentId = unintendedDonationsExperiment.experimentId)
+        ) || {};
+      console.log(this.props);
+      if (variant && variant === '1' && this.props.idMismatch) {
+        this.props.resetMember();
+        this.props.changeStep(0);
+      }
     }
   }
 
@@ -219,9 +236,12 @@ export const mapStateToProps = state => ({
     state.paymentMethods.length > 0 &&
     !state.fundraiser.disableSavedPayments,
   supportedLocalCurrency: state.fundraiser.supportedLocalCurrency,
+  experiments: state.abTests.experiments,
+  idMismatch: state.fundraiser.id_mismatch,
 });
 
 export const mapDispatchToProps = dispatch => ({
+  resetMember: () => dispatch(resetMember()),
   changeStep: step => dispatch(changeStep(step)),
   selectAmount: amount => dispatch(changeAmount(amount)),
   selectCurrency: currency => dispatch(changeCurrency(currency)),
