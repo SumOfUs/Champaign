@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
@@ -23,6 +23,14 @@ import {
 } from '../../state/fundraiser/actions';
 
 export class FundraiserView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoaded: false,
+    };
+  }
+
   async componentDidMount() {
     if (window.dataLayer) {
       await window.dataLayer.push({
@@ -42,6 +50,9 @@ export class FundraiserView extends Component {
           });
         }
         clearInterval(this.intervalId);
+        this.setState({
+          isLoaded: true,
+        });
       }
     }, 500);
 
@@ -177,58 +188,66 @@ export class FundraiserView extends Component {
     }
 
     return (
-      <div id="fundraiser-view" className={classNames}>
-        <StepWrapper
-          title={this.props.fundraiser.title}
-          submitting={submitting}
-          currentStep={currentStep}
-          changeStep={this.props.changeStep}
-        >
-          <StepContent title={AmountSelection.title(donationAmount, currency)}>
-            <div>
-              {oneClickErrorMessage}
-              {supportedCurrencyDisclaimer}
-              <AmountSelection
-                donationAmount={donationAmount}
-                currency={currency}
-                donationBands={donationBands}
-                donationFeaturedAmount={donationFeaturedAmount}
-                nextStepTitle={firstStepButtonTitle}
-                changeCurrency={this.props.selectCurrency.bind(this)}
-                selectAmount={amount => this.selectAmount(amount)}
-                proceed={this.proceed.bind(this)}
-              />
-            </div>
-          </StepContent>
-
-          {this.showStepTwo() && (
-            <StepContent title={<FormattedMessage id="fundraiser.details" />}>
-              <MemberDetailsForm
-                buttonText={
-                  <FormattedMessage
-                    id="fundraiser.proceed_to_payment"
-                    defaultMessage="Proceed to payment"
+      <Fragment>
+        {this.state.isLoaded ? (
+          <div id="fundraiser-view" className={classNames}>
+            <StepWrapper
+              title={this.props.fundraiser.title}
+              submitting={submitting}
+              currentStep={currentStep}
+              changeStep={this.props.changeStep}
+            >
+              <StepContent
+                title={AmountSelection.title(donationAmount, currency)}
+              >
+                <div>
+                  {oneClickErrorMessage}
+                  {supportedCurrencyDisclaimer}
+                  <AmountSelection
+                    donationAmount={donationAmount}
+                    currency={currency}
+                    donationBands={donationBands}
+                    donationFeaturedAmount={donationFeaturedAmount}
+                    nextStepTitle={firstStepButtonTitle}
+                    changeCurrency={this.props.selectCurrency.bind(this)}
+                    selectAmount={amount => this.selectAmount(amount)}
+                    proceed={this.proceed.bind(this)}
                   />
-                }
-                fields={fields}
-                outstandingFields={outstandingFields}
-                formValues={formValues}
-                formId={formId}
-                pageId={this.props.page.id}
-                proceed={this.proceed.bind(this)}
-              />
-            </StepContent>
-          )}
+                </div>
+              </StepContent>
 
-          <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
-            <Payment
-              page={this.props.page}
-              disableFormReveal={this.showStepTwo()}
-              setSubmitting={s => this.props.setSubmitting(s)}
-            />
-          </StepContent>
-        </StepWrapper>
-      </div>
+              {this.showStepTwo() && (
+                <StepContent
+                  title={<FormattedMessage id="fundraiser.details" />}
+                >
+                  <MemberDetailsForm
+                    buttonText={
+                      <FormattedMessage
+                        id="fundraiser.proceed_to_payment"
+                        defaultMessage="Proceed to payment"
+                      />
+                    }
+                    fields={fields}
+                    outstandingFields={outstandingFields}
+                    formValues={formValues}
+                    formId={formId}
+                    pageId={this.props.page.id}
+                    proceed={this.proceed.bind(this)}
+                  />
+                </StepContent>
+              )}
+
+              <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
+                <Payment
+                  page={this.props.page}
+                  disableFormReveal={this.showStepTwo()}
+                  setSubmitting={s => this.props.setSubmitting(s)}
+                />
+              </StepContent>
+            </StepWrapper>
+          </div>
+        ) : null}
+      </Fragment>
     );
   }
 }
