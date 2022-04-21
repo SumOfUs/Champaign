@@ -101,6 +101,15 @@ export class FundraiserView extends Component {
   }
 
   showStepTwo() {
+    const { variant } =
+      this.props.experiments.find(
+        e => (e.experimentId = unintendedDonationsExperiment.experimentId)
+      ) || {};
+
+    if (variant && variant === '1' && this.props.idMismatch) {
+      return true;
+    }
+
     const { outstandingFields } = this.props.fundraiser;
     return !outstandingFields || outstandingFields.length !== 0;
   }
