@@ -199,6 +199,7 @@ describe PagesController do
       subject
       url_params = { 'id' => '1', 'controller' => 'pages', 'action' => 'show' }
       expect(LiquidRenderer).to have_received(:new).with(page,
+                                                         id_mismatch: false,
                                                          location: {},
                                                          member: nil,
                                                          payment_methods: [],
@@ -259,6 +260,7 @@ describe PagesController do
         allow(page).to receive(:follow_up_liquid_layout).and_return(nil)
         subject
         expect(LiquidRenderer).to have_received(:new).with(page,
+                                                           id_mismatch: anything,
                                                            location: {},
                                                            member: anything,
                                                            payment_methods: [],
@@ -270,6 +272,7 @@ describe PagesController do
         url_params = { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' }
         url_params['member_id'] = member.id.to_s if member.present?
         expect(LiquidRenderer).to have_received(:new).with(page,
+                                                           id_mismatch: anything,
                                                            location: {},
                                                            member: member,
                                                            payment_methods: [],

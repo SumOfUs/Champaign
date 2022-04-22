@@ -65,7 +65,8 @@ class ApplicationController < ActionController::Base
     @renderer ||= LiquidRenderer.new(@page, location: request.location,
                                             member: recognized_member,
                                             url_params: unsafe_params,
-                                            payment_methods: payment_methods)
+                                            payment_methods: payment_methods,
+                                            id_mismatch: id_mismatch)
   end
 
   def payment_methods
@@ -87,6 +88,13 @@ class ApplicationController < ActionController::Base
   def recognized_member
     @recognized_member ||= current_member ||
                            Member.find_from_request(akid: unsafe_params[:akid], id: cookies.signed[:member_id])
+  end
+
+  def id_mismatch
+    return false if recognized_member.nil?
+
+    Rails.logger.info("current is '#{current_member}' and recognized is '#{@recognized_member.id}'")
+    current_member != @recognized_member.id
   end
 
   def authenticate_super_admin!
