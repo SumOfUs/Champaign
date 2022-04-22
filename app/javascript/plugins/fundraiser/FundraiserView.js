@@ -42,7 +42,7 @@ export class FundraiserView extends Component {
         const variant = window.google_optimize.get(
           unintendedDonationsExperiment.experimentId
         );
-        console.log('variant', variant);
+
         if (variant) {
           this.props.setExperimentVariant({
             variant,
@@ -73,7 +73,7 @@ export class FundraiserView extends Component {
         this.props.experiments.find(
           e => (e.experimentId = unintendedDonationsExperiment.experimentId)
         ) || {};
-      console.log(this.props);
+
       if (variant && variant === '1' && this.props.idMismatch) {
         this.props.resetMember();
         this.props.changeStep(0);
