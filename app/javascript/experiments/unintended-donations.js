@@ -1,5 +1,5 @@
 export default {
-  experimentId: 'wXDP1ynuTQKHs6vVvMEj1A',
+  experimentId: 'CdwQzGyfTHmOjcojd_bKuw',
   pageLoad: false,
   activationEvent: 'optimize.activate',
 };
