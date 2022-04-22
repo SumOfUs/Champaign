@@ -37,7 +37,13 @@ describe LiquidLayoutsController do
   let(:invalid_attributes) do
     attributes_for(:liquid_layout, title: '')
   end
-  let(:user) { create(:user) }
+
+  let(:user) { build(:user, email: 'test@example.com', admin: true) }
+
+  before do
+    allow(request.env['warden']).to receive(:authenticate!) { user }
+    allow(controller).to receive(:current_user) { user }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
