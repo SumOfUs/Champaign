@@ -93,7 +93,9 @@ class ApplicationController < ActionController::Base
   def id_mismatch
     return false if recognized_member.nil?
 
-    Rails.logger.info("current is '#{current_member}' and recognized is '#{@recognized_member.id}'")
+    @member_id_from_cookie ||= cookies.signed[:member_id]
+
+    Rails.logger.info("current is '#{@member_id_from_cookie}' and recognized is '#{@recognized_member.id}'")
     current_member != @recognized_member.id
   end
 
