@@ -94,9 +94,8 @@ class ApplicationController < ActionController::Base
     return false if recognized_member.nil?
 
     @member_id_from_cookie ||= cookies.signed[:member_id]
-
     Rails.logger.info("current is '#{@member_id_from_cookie}' and recognized is '#{@recognized_member.id}'")
-    current_member != @recognized_member.id
+    @member_id_from_cookie != @recognized_member.id
   end
 
   def authenticate_super_admin!
