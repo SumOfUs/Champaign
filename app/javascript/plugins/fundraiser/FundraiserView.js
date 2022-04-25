@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
@@ -11,7 +11,9 @@ import Payment from '../../components/Payment/Payment';
 import OneClick from '../../components/OneClick/OneClick';
 import Cookie from 'js-cookie';
 import { localCurrencies } from './utils';
-
+import unintendedDonationsExperiment from '../../experiments/unintended-donations';
+import { setExperimentVariant } from '../../state/experiments';
+import { resetMember } from '../../state/member/reducer';
 import {
   changeAmount,
   changeCurrency,
@@ -21,12 +23,61 @@ import {
 } from '../../state/fundraiser/actions';
 
 export class FundraiserView extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoaded: false,
+    };
+  }
+
+  async componentDidMount() {
+    if (window.dataLayer) {
+      await window.dataLayer.push({
+        event: unintendedDonationsExperiment.activationEvent,
+      });
+    }
+    this.intervalId = setInterval(() => {
+      if (window.google_optimize !== undefined) {
+        const variant = window.google_optimize.get(
+          unintendedDonationsExperiment.experimentId
+        );
+
+        if (variant) {
+          this.props.setExperimentVariant({
+            variant,
+            experimentId: unintendedDonationsExperiment.experimentId,
+          });
+        }
+        clearInterval(this.intervalId);
+        this.setState({
+          isLoaded: true,
+        });
+      }
+    }, 500);
+
     const { donationAmount } = this.props.fundraiser;
     this.props.setSupportedLocalCurrency(this.supportedLocalCurrency());
     if (donationAmount && donationAmount > 0) {
       this.props.selectAmount(donationAmount);
       this.props.changeStep(1);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.experiments.length == 0 &&
+      this.props.experiments.length > 0
+    ) {
+      const { variant } =
+        this.props.experiments.find(
+          e => (e.experimentId = unintendedDonationsExperiment.experimentId)
+        ) || {};
+
+      if (variant && variant === '1' && this.props.idMismatch) {
+        this.props.resetMember();
+        this.props.changeStep(0);
+      }
     }
   }
 
@@ -128,58 +179,66 @@ export class FundraiserView extends Component {
     }
 
     return (
-      <div id="fundraiser-view" className={classNames}>
-        <StepWrapper
-          title={this.props.fundraiser.title}
-          submitting={submitting}
-          currentStep={currentStep}
-          changeStep={this.props.changeStep}
-        >
-          <StepContent title={AmountSelection.title(donationAmount, currency)}>
-            <div>
-              {oneClickErrorMessage}
-              {supportedCurrencyDisclaimer}
-              <AmountSelection
-                donationAmount={donationAmount}
-                currency={currency}
-                donationBands={donationBands}
-                donationFeaturedAmount={donationFeaturedAmount}
-                nextStepTitle={firstStepButtonTitle}
-                changeCurrency={this.props.selectCurrency.bind(this)}
-                selectAmount={amount => this.selectAmount(amount)}
-                proceed={this.proceed.bind(this)}
-              />
-            </div>
-          </StepContent>
-
-          {this.showStepTwo() && (
-            <StepContent title={<FormattedMessage id="fundraiser.details" />}>
-              <MemberDetailsForm
-                buttonText={
-                  <FormattedMessage
-                    id="fundraiser.proceed_to_payment"
-                    defaultMessage="Proceed to payment"
+      <Fragment>
+        {this.state.isLoaded ? (
+          <div id="fundraiser-view" className={classNames}>
+            <StepWrapper
+              title={this.props.fundraiser.title}
+              submitting={submitting}
+              currentStep={currentStep}
+              changeStep={this.props.changeStep}
+            >
+              <StepContent
+                title={AmountSelection.title(donationAmount, currency)}
+              >
+                <div>
+                  {oneClickErrorMessage}
+                  {supportedCurrencyDisclaimer}
+                  <AmountSelection
+                    donationAmount={donationAmount}
+                    currency={currency}
+                    donationBands={donationBands}
+                    donationFeaturedAmount={donationFeaturedAmount}
+                    nextStepTitle={firstStepButtonTitle}
+                    changeCurrency={this.props.selectCurrency.bind(this)}
+                    selectAmount={amount => this.selectAmount(amount)}
+                    proceed={this.proceed.bind(this)}
                   />
-                }
-                fields={fields}
-                outstandingFields={outstandingFields}
-                formValues={formValues}
-                formId={formId}
-                pageId={this.props.page.id}
-                proceed={this.proceed.bind(this)}
-              />
-            </StepContent>
-          )}
+                </div>
+              </StepContent>
 
-          <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
-            <Payment
-              page={this.props.page}
-              disableFormReveal={this.showStepTwo()}
-              setSubmitting={s => this.props.setSubmitting(s)}
-            />
-          </StepContent>
-        </StepWrapper>
-      </div>
+              {this.showStepTwo() && (
+                <StepContent
+                  title={<FormattedMessage id="fundraiser.details" />}
+                >
+                  <MemberDetailsForm
+                    buttonText={
+                      <FormattedMessage
+                        id="fundraiser.proceed_to_payment"
+                        defaultMessage="Proceed to payment"
+                      />
+                    }
+                    fields={fields}
+                    outstandingFields={outstandingFields}
+                    formValues={formValues}
+                    formId={formId}
+                    pageId={this.props.page.id}
+                    proceed={this.proceed.bind(this)}
+                  />
+                </StepContent>
+              )}
+
+              <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
+                <Payment
+                  page={this.props.page}
+                  disableFormReveal={this.showStepTwo()}
+                  setSubmitting={s => this.props.setSubmitting(s)}
+                />
+              </StepContent>
+            </StepWrapper>
+          </div>
+        ) : null}
+      </Fragment>
     );
   }
 }
@@ -196,15 +255,19 @@ export const mapStateToProps = state => ({
     state.paymentMethods.length > 0 &&
     !state.fundraiser.disableSavedPayments,
   supportedLocalCurrency: state.fundraiser.supportedLocalCurrency,
+  experiments: state.abTests.experiments,
+  idMismatch: state.fundraiser.id_mismatch,
 });
 
 export const mapDispatchToProps = dispatch => ({
+  resetMember: () => dispatch(resetMember()),
   changeStep: step => dispatch(changeStep(step)),
   selectAmount: amount => dispatch(changeAmount(amount)),
   selectCurrency: currency => dispatch(changeCurrency(currency)),
   setSubmitting: submitting => dispatch(setSubmitting(submitting)),
   setSupportedLocalCurrency: value =>
     dispatch(setSupportedLocalCurrency(value)),
+  setExperimentVariant: value => dispatch(setExperimentVariant(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);

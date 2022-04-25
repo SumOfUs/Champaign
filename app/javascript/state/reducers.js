@@ -9,6 +9,7 @@ import features from './features';
 import donationsThermometer from './thermometer';
 import extraActionFields from './extraActionFields';
 import { reducer as emailTarget } from './email_pension/actions';
+import abTests from './experiments';
 
 const reducers = {
   consent,
@@ -21,6 +22,7 @@ const reducers = {
   page,
   paymentMethods,
   donationsThermometer,
+  abTests,
 };
 
 export default combineReducers(reducers);
