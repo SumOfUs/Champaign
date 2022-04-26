@@ -41,7 +41,6 @@ describe LiquidLayoutsController do
   let(:user) { build(:user, email: 'test@example.com', admin: true) }
 
   before do
-    allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
   end
 
