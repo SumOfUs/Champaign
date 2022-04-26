@@ -24,8 +24,7 @@ require 'rails_helper'
 #
 describe LiquidLayoutsController do
   include_examples 'session authentication',
-                   [{ get:  [:index] },
-                    { get:  [:new] }]
+                   [{ get:  [:new] }]
 
   # This should return the minimal set of attributes required to create a valid
   # LiquidLayout. As you add validations to LiquidLayout, be sure to
@@ -41,6 +40,7 @@ describe LiquidLayoutsController do
   let(:user) { build(:user, email: 'test@example.com', admin: true) }
 
   before do
+    allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
   end
 
