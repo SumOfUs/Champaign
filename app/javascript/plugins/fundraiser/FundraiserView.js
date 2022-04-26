@@ -53,6 +53,10 @@ export class FundraiserView extends Component {
         this.setState({
           isLoaded: true,
         });
+      } else {
+        this.setState({
+          isLoaded: true,
+        });
       }
     }, 500);
 
