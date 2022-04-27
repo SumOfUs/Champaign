@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class LiquidLayoutsController < ApplicationController
+  before_action :authenticate_user!
   before_action :authenticate_super_admin!, only: %i[edit update destroy new]
   before_action :set_liquid_layout, only: %i[show edit update destroy]
 
