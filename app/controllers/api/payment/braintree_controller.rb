@@ -12,6 +12,19 @@ class Api::Payment::BraintreeController < PaymentController
     render json: { token: ::Braintree::ClientToken.generate(merchant_account_id: @merchant_account_id) }
   end
 
+  def express_payment
+    @page = Page.find(params[:page_id])
+
+    @process_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
+      params.to_unsafe_hash,
+      page: @page,
+      member: recognized_member,
+      cookied_payment_methods: params.to_unsafe_hash['payment_method_ids']
+    ).process
+
+    render json: { body: cookies.signed[:payment_methods], one_click: @process_one_click, params: params }
+  end
+
   def payment_methods
     tokens = (cookies.signed[:payment_methods] || '').split(',')
     render json: Payment::Braintree::PaymentMethod.where(token: tokens)

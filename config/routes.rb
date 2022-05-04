@@ -69,7 +69,6 @@ Rails.application.routes.draw do
     get 'preview',   on: :member
     get 'emails',    on: :member
     get 'feeds',     on: :collection, defaults: { format: 'xss' }
-
     get 'follow-up', on: :member, action: 'follow_up'
     get 'confirmation', on: :member, action: 'double_opt_in_notice'
 
@@ -163,6 +162,7 @@ Rails.application.routes.draw do
         get 'token'
         get 'refund'
         get 'payment_methods'
+        post 'pages/:page_id/express_payment', action: 'express_payment', as: 'express_payment'
         post 'pages/:page_id/transaction', action: 'transaction', as: 'transaction'
         post 'pages/:page_id/local_payment_transaction', action: 'local_payment_transaction', as: 'local_payment_transaction'
         post 'pages/:page_id/one_click', action: 'one_click',    as: 'one_click'
