@@ -19,7 +19,7 @@ module CallEvent
     def payload
       {
         params: {
-          page: "#{@call.page.slug}-petition",
+          page: "#{@call.page.ak_uid}-petition",
           email: @call.member.email,
           phone: @call.member_phone_number,
           action_call_status: @call.status,
