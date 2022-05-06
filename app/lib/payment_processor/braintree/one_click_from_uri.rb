@@ -5,7 +5,7 @@ module PaymentProcessor::Braintree
     attr_reader :params, :page, :member, :cookied_payment_methods
 
     def initialize(params, page:, member: nil, cookied_payment_methods: '')
-      @params = params
+      @params = params.symbolize_keys
       @page = page
       @member = member
       @cookied_payment_methods = cookied_payment_methods || ''
@@ -25,11 +25,26 @@ module PaymentProcessor::Braintree
 
     private
 
+    def one_click_flag
+      ActiveRecord::Type::Boolean.new.cast(
+        params.fetch(:one_click, false)
+      )
+    end
+
+    def positive_amount?
+      params.fetch(:amount, 0).to_f.positive?
+    end
+
+    def currency_present?
+      params[:currency].present?
+    end
+
     def one_click?
-      params.fetch(:one_click, '') == 'true' &&
-        payment_method_id &&
-        params.fetch(:amount, 0).to_f.positive? &&
-        params[:currency].present?
+      @one_click ||= one_click_flag &&
+                     payment_method_id &&
+                     positive_amount? &&
+                     currency_present?
+      @one_click
     end
 
     def options
