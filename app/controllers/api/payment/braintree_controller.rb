@@ -37,7 +37,7 @@ class Api::Payment::BraintreeController < PaymentController
     rescue StandardError => e
       render json: { error: e.message, success: false }, status: 500
     else
-      render json: { success: @process_one_click, follow_up_url: @follow_up_url }, status: 200
+      render json: { success: true, follow_up_url: @follow_up_url }, status: 200
     end
   end
 
