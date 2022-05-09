@@ -192,6 +192,8 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
       member: recognized_member,
       cookied_payment_methods: cookies.signed[:payment_methods]
     ).process
+  rescue StandardError
+    @process_one_click = false
   end
 
   def redirect_unless_published

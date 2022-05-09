@@ -21,6 +21,8 @@ module PaymentProcessor::Braintree
       if sale.success?
         action = create_action(extra_fields(sale))
         store_locally(sale, action)
+      else
+        raise "Error while making a sale transaction on BrainTree: #{sale}" unless sale.success?
       end
 
       sale

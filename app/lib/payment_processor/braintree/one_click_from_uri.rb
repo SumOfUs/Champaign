@@ -12,7 +12,7 @@ module PaymentProcessor::Braintree
     end
 
     def process
-      return false unless one_click?
+      raise ArgumentError, 'Invalid request arguments' unless one_click?
 
       PaymentProcessor::Braintree::OneClick.new(options, @cookied_payment_methods, member).run
       self
