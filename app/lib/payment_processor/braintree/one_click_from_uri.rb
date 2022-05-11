@@ -44,6 +44,11 @@ module PaymentProcessor::Braintree
                      payment_method_id &&
                      positive_amount? &&
                      currency_present?
+
+      Rails.logger.info("one_click_flag is: #{one_click_flag}")
+      Rails.logger.info("payment_method_id is: #{payment_method_id}")
+      Rails.logger.info("positive_amount is: #{positive_amount}")
+      Rails.logger.info("currency_present is: #{currency_present}")
       @one_click
     end
 
@@ -65,6 +70,7 @@ module PaymentProcessor::Braintree
 
     def payment_method_id
       customer = member&.customer
+      Rails.logger.info("Customer on payment_method_id is: #{customer}")
       return nil unless customer
 
       customer.valid_payment_method_id(cookied_payment_methods.split(','))
