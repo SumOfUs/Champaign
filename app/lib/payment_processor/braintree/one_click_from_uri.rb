@@ -12,6 +12,7 @@ module PaymentProcessor::Braintree
     end
 
     def process
+      Rails.logger.info("payment_method_id is: #{payment_method_id}")
       raise ArgumentError, 'Invalid request arguments' unless one_click?
 
       PaymentProcessor::Braintree::OneClick.new(options, @cookied_payment_methods, member).run
@@ -40,10 +41,6 @@ module PaymentProcessor::Braintree
     end
 
     def one_click?
-      Rails.logger.info("one_click_flag is: #{one_click_flag}")
-      Rails.logger.info("payment_method_id is: #{payment_method_id}")
-      Rails.logger.info("positive_amount is: #{positive_amount}")
-      Rails.logger.info("currency_present is: #{currency_present}")
       @one_click ||= one_click_flag &&
                      payment_method_id &&
                      positive_amount? &&
