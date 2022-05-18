@@ -149,6 +149,7 @@ de:
   form:
     switch_user: Ausloggen
     processing: In Bearbeitung...
+    do_not_close: Bitte schließen Sie nicht das Fenster und benutzen nicht die “Zurück”-Taste.
     submit: Abschicken
     default:
       name: VOLLSTÄNDIGER NAME

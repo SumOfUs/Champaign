@@ -51,9 +51,7 @@ export default class StepWrapper extends Component {
           <FormattedMessage id="form.processing" />
         </h1>
         <h4>
-          Please do not close this tab
-          <br />
-          or use the back button.
+          <FormattedMessage id="form.do_not_close" />
         </h4>
       </div>
     );

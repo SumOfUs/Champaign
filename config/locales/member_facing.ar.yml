@@ -159,6 +159,7 @@ ar:
   form:
     switch_user: تسجيل الخروج
     processing: جاري المعالجة...
+    do_not_close: الرجاء عدم إغلاق علامة التبويب هذه أو استخدام زر الرجوع.
     submit: تأكيد
     default:
       name: الاسم الكامل
