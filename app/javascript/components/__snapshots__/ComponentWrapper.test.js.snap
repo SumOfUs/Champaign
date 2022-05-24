@@ -134,6 +134,7 @@ exports[`Snapshots: With default messages object 1`] = `
       "form.default.name": "Full name",
       "form.default.phone_number": "Phone number",
       "form.default.postal": "Postal Code",
+      "form.do_not_close": "Please do not close this tab or use the back button.",
       "form.processing": "Processing...",
       "form.submit": "Submit",
       "form.switch_user": "Sign out",

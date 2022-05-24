@@ -150,6 +150,7 @@ nl: # translated 22 July 2021
   form:
     switch_user: Afmelden
     processing: Verwerken...
+    do_not_close: Gelieve dit tabblad niet te sluiten of de terugknop te gebruiken.
     submit: Indienen
     default:
       name: Voor- en achternaam

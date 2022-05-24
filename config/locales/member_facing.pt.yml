@@ -155,6 +155,7 @@ pt:
   form:
     switch_user: Sair
     processing: Processando...
+    do_not_close: Por favor, não feche essa janela ou clique o botão de voltar!
     submit: Enviar
     default:
       name: Nome completo
