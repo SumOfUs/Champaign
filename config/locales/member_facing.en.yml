@@ -156,6 +156,7 @@ en:
   form:
     switch_user: Sign out
     processing: Processing...
+    do_not_close: Please do not close this tab or use the back button.
     submit: Submit
     default:
       name: Full name

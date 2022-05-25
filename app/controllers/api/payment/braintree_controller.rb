@@ -14,15 +14,31 @@ class Api::Payment::BraintreeController < PaymentController
 
   def express_payment
     @page = Page.find(params[:page_id])
+    @follow_up_url = ''
 
-    @process_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
-      params.to_unsafe_hash,
-      page: @page,
-      member: recognized_member,
-      cookied_payment_methods: params.to_unsafe_hash['payment_method_ids']
-    ).process
+    begin
+      @follow_up_url = PageFollower.new_from_page(
+        @page
+      ).follow_up_path
+    rescue StandardError
+    end
 
-    render json: { body: cookies.signed[:payment_methods], one_click: @process_one_click, params: params }
+    begin
+      @process_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
+        params.to_unsafe_hash,
+        page: @page,
+        member: recognized_member,
+        cookied_payment_methods: params.to_unsafe_hash['payment_method_ids']
+      ).process
+    rescue ArgumentError => e
+      @status = 400
+      @status = 404 if e.to_s == 'PaymentProcessor::Exceptions::CustomerNotFound'
+      render json: { error: e, success: false }, status: @status
+    rescue StandardError => e
+      render json: { error: e.message, success: false }, status: 500
+    else
+      render json: { success: true, follow_up_url: @follow_up_url }, status: 200
+    end
   end
 
   def payment_methods

@@ -137,7 +137,8 @@ fr:
     fine_print: "Nous protégerons vos données personnelles, et vous tiendrons au courant de la suite ainsi que de nos différentes campagnes."
   form:
     switch_user: Déconnexion
-    processing: En cours de traitement...
+    processing: Chargement en cours...
+    do_not_close: S’il vous plaît, ne fermez pas cet onglet et ne cliquez pas sur "retour".
     submit: Envoyer
     default:
       name: Prénom et nom
