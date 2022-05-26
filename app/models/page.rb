@@ -186,7 +186,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def language_code
-    language&.code || I18n.default_locale
+    language&.code || I18n.default_locale.to_s
   end
 
   def optimization_tags

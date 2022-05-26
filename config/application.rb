@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'boot'
-
 require 'rails/all'
+require './lib/middleware/pronto'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -30,6 +30,7 @@ module Champaign
 
     config.i18n.available_locales = %i[en fr de es pt nl ar]
     config.i18n.enforce_available_locales = true
+    config.middleware.use Pronto
   end
 end
 
