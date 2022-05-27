@@ -3,7 +3,7 @@
 require './lib/middleware/pronto'
 require 'spec_helper'
 
-describe Pronto::PathMatcher, :focus do
+describe Pronto::PathMatcher do
   describe '.match' do
     let(:slug) { '/a/foo-bar' }
     let(:slug_with_trailing_slash) { '/a/foo-bar/' }
@@ -35,7 +35,7 @@ describe Pronto::PathMatcher, :focus do
         expect(Pronto::PathMatcher.match(slug_with_follow_up)).to be_nil
       end
 
-      it 'when no slug present', :focus do
+      it 'when no slug present' do
         expect(Pronto::PathMatcher.match(no_slug)).to be_nil
       end
     end
