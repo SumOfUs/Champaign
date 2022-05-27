@@ -28,13 +28,13 @@ describe Pronto::PathMatcher, :focus do
       it 'with trailing slash and query params' do
         expect(Pronto::PathMatcher.match(slug_with_trailing_slash_and_query_params)).to eq('foo-bar')
       end
-
-      it 'with follow up' do
-        expect(Pronto::PathMatcher.match(slug_with_follow_up)).to eq('foo-bar')
-      end
     end
 
     context 'returns nil' do
+      it 'with follow up' do
+        expect(Pronto::PathMatcher.match(slug_with_follow_up)).to be_nil
+      end
+
       it 'when no slug present', :focus do
         expect(Pronto::PathMatcher.match(no_slug)).to be_nil
       end
