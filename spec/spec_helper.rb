@@ -38,7 +38,7 @@ RSpec.configure do |config|
     raise "Fool, :focus shouldn't be pushed!" if ENV['CIRCLECI']
   end
 
-  config.after { I18n.locale = I18n.default_locale } if Object.const_defined?(:I18n)
+  config.after { I18n.locale = I18n.default_locale }
 
   config.run_all_when_everything_filtered = true
 
