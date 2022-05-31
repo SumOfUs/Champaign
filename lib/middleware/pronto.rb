@@ -1,10 +1,10 @@
 class Pronto
   class PathMatcher
-    PATTERN = %r{^((?:/a/)(?<Q>[\w-]+)(?:/?)(?:(\?.*)*))$}.freeze
+    PATTERN = %r{^((?:/a/)(?<slug>[\w-]+)(?:/?)(?:(\?.*)*))$}.freeze
 
     def self.match(path)
       match = PATTERN.match(path)
-      return match[1] if match
+      return match[:slug] if match
     end
   end
 
