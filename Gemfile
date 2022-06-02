@@ -41,6 +41,7 @@ gem 'aws-sdk-dynamodb', '~> 1.21'
 gem 'aws-sdk-s3', '~> 1.30'
 gem 'aws-sdk-sns', '~> 1.3'
 gem 'aws-sdk-sqs', '~> 1.10'
+gem 'aws-sdk-secretsmanager', '~> 1.62'
 gem 'paper_trail', '~> 10.2'
 gem 'paperclip', '~> 6.0'
 gem 'rmagick' # rmagick for image processing
@@ -51,7 +52,7 @@ gem 'aws-sdk-rails'
 gem 'bootsnap', require: false
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'browser', '~> 2.5'
-gem 'compass-rails' # was using git master branch before
+gem 'compass-rails', '~> 3.0.2' # was using git master branch before
 gem 'config'
 gem 'envyable', require: 'envyable/rails-now'
 gem 'friendly_id'

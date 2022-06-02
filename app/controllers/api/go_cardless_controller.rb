@@ -17,9 +17,10 @@ class Api::GoCardlessController < PaymentController
 
   def webhook
     signature = request.headers['HTTP_WEBHOOK_SIGNATURE']
+    gocardless_secrets = SecretsManager.get_value('gocardless')
 
     validator = Api::HMACSignatureValidator.new(
-      secret: Settings.gocardless.secret,
+      secret: gocardless_secrets['secret'],
       signature: signature,
       data: unsafe_params[:go_cardless].to_json
     )

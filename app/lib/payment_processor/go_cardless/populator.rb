@@ -4,8 +4,9 @@ module PaymentProcessor
   module GoCardless
     class Populator
       def self.client
+        gocardless_secrets = SecretsManager.get_value('gocardless')
         GoCardlessPro::Client.new(
-          access_token: Settings.gocardless.token,
+          access_token: gocardless_secrets['token'],
           environment: Settings.gocardless.environment.to_sym
         )
       end

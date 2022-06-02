@@ -38,7 +38,8 @@ module PaymentProcessor
         end
 
         def client
-          @client ||= ::GoCardlessPro::Client.new(access_token: Settings.gocardless.token)
+          gocardless_secrets = SecretsManager.get_value('gocardless')
+          @client ||= ::GoCardlessPro::Client.new(access_token: gocardless_secrets['token'])
         end
       end
     end

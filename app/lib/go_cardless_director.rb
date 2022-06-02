@@ -37,8 +37,9 @@ class GoCardlessDirector
   end
 
   def client
+    gocardless_secrets = SecretsManager.get_value('gocardless')
     @client ||= GoCardlessPro::Client.new(
-      access_token: Settings.gocardless.token,
+      access_token: gocardless_secrets['token'],
       environment: Settings.gocardless.environment.to_sym
     )
   end
