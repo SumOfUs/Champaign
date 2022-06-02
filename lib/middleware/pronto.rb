@@ -21,7 +21,7 @@ class Pronto
     if path_match
       page = Page.find_by(slug: path_match)
 
-      if page.language_code == 'en' && page.petition_page?
+      if page&.language_code == 'en' && page&.petition_page?
         location = "#{Settings.pronto.domain}/#{req.fullpath}"
         return [301, { 'Location' => location, 'Content-Type' => 'text/html', 'Content-Length' => '0' }, []]
       end
