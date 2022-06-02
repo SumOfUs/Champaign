@@ -1,4 +1,6 @@
 # General Champaign settings.
+pronto:
+  domain: 'https://pronto-development.sumofus.org'
 google_optimize:
   key: "OPT-5XL8RFP"
 secret_key_base: secret_key_base

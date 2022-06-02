@@ -1,4 +1,6 @@
 # Production Settings for Champaign
+pronto:
+  domain: <%= ENV['PRONTO_DOMAIN'] || 'https://action.sumofus.org' %>
 
 google_optimize:
   key: <%= ENV['GOOGLE_OPTIMIZE'] || 'OPT-PS8FHLC' %>

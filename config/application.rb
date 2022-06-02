@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'boot'
-
 require 'rails/all'
+require './lib/middleware/pronto'
 
 require './app/lib/secrets_manager'
 
@@ -32,7 +32,8 @@ module Champaign
 
     config.i18n.available_locales = %i[en fr de es pt nl ar]
     config.i18n.enforce_available_locales = true
-
+    config.middleware.use Pronto
+    
     #omniauth_secrets = SecretsManager.get_value('omniauth');
     ak_secrets = SecretsManager.get_value('prod/actionKitApi');
     database_secrets = SecretsManager.get_value('champaignDB');
