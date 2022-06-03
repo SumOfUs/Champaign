@@ -104,3 +104,5 @@ group :test do
   gem 'timecop'
   gem 'webmock'
 end
+
+gem "aws-sdk-secretsmanager", "~> 1.21"
