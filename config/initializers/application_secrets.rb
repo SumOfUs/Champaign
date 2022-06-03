@@ -1,6 +1,6 @@
 require './app/lib/secrets_manager'
 
-if Rails.env != 'test'
+if Rails.env == 'production'
   omniauth_secrets = SecretsManager.get_value('omniauth')
   ak_secrets = SecretsManager.get_value('prod/actionKitApi')
   database_secrets = SecretsManager.get_value('champaignDB')
