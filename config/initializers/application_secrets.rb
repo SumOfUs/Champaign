@@ -9,6 +9,8 @@ if Rails.env == 'production'
   smtp_secrets = SecretsManager.get_value('prod/smtp')
   mixpanel_secrets = SecretsManager.get_value('prod/mixpanel')
   twilio_secrets = SecretsManager.get_value('prod/twilio')
+  devise_secrets = SecretsManager.get_value('deviseSecret')
+  key_base_secrets = SecretsManager.get_value('champaignSecretKeyBase')
 
   ENV['OMNIAUTH_CLIENT_SECRET'] = omniauth_secrets['secret']
   ENV['OMNIAUTH_CLIENT_ID'] = omniauth_secrets['clientId']
@@ -30,4 +32,7 @@ if Rails.env == 'production'
   ENV['MIXPANEL_TOKEN'] = mixpanel_secrets['token']
   ENV['TWILIO_ACCOUNT_SID'] = twilio_secrets['sid']
   ENV['TWILIO_AUTH_TOKEN'] = twilio_secrets['token']
+
+  ENV['DEVISE_SECRET_KEY'] = devise_secrets['secretKey']
+  ENV['SECRET_KEY_BASE'] = key_base_secrets['secretKeyBase']
 end
