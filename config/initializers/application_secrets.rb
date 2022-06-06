@@ -11,6 +11,10 @@ if Rails.env == 'production'
   twilio_secrets = SecretsManager.get_value('prod/twilio')
   devise_secrets = SecretsManager.get_value('deviseSecret')
   key_base_secrets = SecretsManager.get_value('champaignSecretKeyBase')
+  recaptcha2_secrets = SecretsManager.get_value('recaptchaTwo')
+  call_targeting_secrets = SecretsManager.get_value('prod/callToolTargeting')
+  member_services_secrets = SecretsManager.get_value('memberServices')
+  champaign_api_secrets = SecretsManager.get_value('champaign')
 
   ENV['OMNIAUTH_CLIENT_SECRET'] = omniauth_secrets['secret']
   ENV['OMNIAUTH_CLIENT_ID'] = omniauth_secrets['clientId']
@@ -32,7 +36,12 @@ if Rails.env == 'production'
   ENV['MIXPANEL_TOKEN'] = mixpanel_secrets['token']
   ENV['TWILIO_ACCOUNT_SID'] = twilio_secrets['sid']
   ENV['TWILIO_AUTH_TOKEN'] = twilio_secrets['token']
+  ENV['CALL_TARGETING_SECRET'] = call_targeting_secrets['secret']
 
   ENV['DEVISE_SECRET_KEY'] = devise_secrets['secretKey']
   ENV['SECRET_KEY_BASE'] = key_base_secrets['secretKeyBase']
+  ENV['CHAMPAIGN_API_KEY'] = champaign_api_secrets['apiKey']
+  ENV['RECAP2SIK'] = recaptcha2_secrets['siteKey']
+  ENV['RECAP2SEK'] = recaptcha2_secrets['secretKey']
+  ENV['MEMBER_SERVICES_SECRET'] = member_services_secrets['secret']
 end
