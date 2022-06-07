@@ -16,10 +16,16 @@ if Rails.env == 'production'
   member_services_secrets = SecretsManager.get_value('memberServices')
   champaign_api_secrets = SecretsManager.get_value('champaign')
 
-  ENV['OMNIAUTH_CLIENT_SECRET'] = omniauth_secrets['secret']
-  ENV['OMNIAUTH_CLIENT_ID'] = omniauth_secrets['clientId']
-  ENV['AK_USERNAME'] = ak_secrets['username']
-  ENV['AK_PASSWORD'] = ak_secrets['password']
+  Settings.add_source!(omniauth_client_secret: omniauth_secrets['secret'])
+  Settings.add_source!(omniauth_client_id: omniauth_secrets['clientId'])
+  Settings.add_source!(ak_username: ak_secrets['username'])
+  Settings.add_source!(ak_password: ak_secrets['password'])
+  Settings.add_source!(share_progress_api_key: share_progress_secrets['apiKey'])
+  Settings.add_source!(mixpanel_token: mixpanel_secrets['token'])
+  Settings.add_source!(secret_key_base: key_base_secrets['secretKeyBase'])
+  Settings.add_source!(api_key: champaign_api_secrets['apiKey'])
+  Settings.add_source!(member_services_secret: member_services_secrets['secret'])
+  Settings.reload!
 
   ENV['RDS_DB_NAME'] = database_secrets['dbname']
   ENV['RDS_USERNAME'] = database_secrets['username']
@@ -30,18 +36,13 @@ if Rails.env == 'production'
   ENV['GOCARDLESS_TOKEN'] = gocardless_secrets['token']
   ENV['GOCARDLESS_SECRET'] = gocardless_secrets['secret']
 
-  ENV['SHARE_PROGRESS_API_KEY'] = share_progress_secrets['apiKey']
   ENV['SMTP_USERNAME'] = smtp_secrets['username']
   ENV['SMTP_PASSWORD'] = smtp_secrets['password']
-  ENV['MIXPANEL_TOKEN'] = mixpanel_secrets['token']
   ENV['TWILIO_ACCOUNT_SID'] = twilio_secrets['sid']
   ENV['TWILIO_AUTH_TOKEN'] = twilio_secrets['token']
   ENV['CALL_TARGETING_SECRET'] = call_targeting_secrets['secret']
 
   ENV['DEVISE_SECRET_KEY'] = devise_secrets['secretKey']
-  ENV['SECRET_KEY_BASE'] = key_base_secrets['secretKeyBase']
-  ENV['CHAMPAIGN_API_KEY'] = champaign_api_secrets['apiKey']
   ENV['RECAP2SIK'] = recaptcha2_secrets['siteKey']
   ENV['RECAP2SEK'] = recaptcha2_secrets['secretKey']
-  ENV['MEMBER_SERVICES_SECRET'] = member_services_secrets['secret']
 end
