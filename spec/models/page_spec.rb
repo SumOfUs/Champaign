@@ -725,4 +725,17 @@ describe Page do
       end
     end
   end
+
+  describe '#has_pronto_inclusion_template?' do
+    let(:with) { create :page, liquid_layout: create(:liquid_layout, title: 'Default: Petition And Scroll To Share Greenpeace') }
+    let(:without) { create :page, liquid_layout: create(:liquid_layout, title: 'another title') }
+
+    it 'returns true when template title matches' do
+      expect(with.has_pronto_inclusion_template?).to be true
+    end
+
+    it 'returns false when template title does not match' do
+      expect(without.has_pronto_inclusion_template?).to be false
+    end
+  end
 end

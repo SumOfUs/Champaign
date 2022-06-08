@@ -83,6 +83,10 @@ Rails.application.routes.draw do
     get 'follow-up', on: :member, action: 'follow_up'
   end
 
+  resources :pages, path: 'b', as: 'member_facing_page', only: %i[show] do
+    get 'follow-up', on: :member, action: 'follow_up'
+  end
+
   resources :forms do
     resources :form_elements do
       post :sort, on: :collection

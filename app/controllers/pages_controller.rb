@@ -12,7 +12,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   before_action :redirect_unless_published, only: %i[show follow_up]
   before_action :localize, only: %i[show follow_up double_opt_in_notice]
   before_action :record_tracking, only: %i[show]
-  before_action :redirect_to_pronto, only: [:show]
+  before_action :redirect_to_experiment, only: [:show]
 
   def index
     @pages = Search::PageSearcher.search(search_params)
@@ -64,6 +64,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
 
   def show
     respond_to :html
+
     one_click_processor = process_one_click
 
     if one_click_processor
@@ -204,9 +205,12 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
     set_locale(@page.language_code)
   end
 
-  def redirect_to_pronto
-    if @page.pronto && @page.published? && !user_signed_in?
-      redirect_to("https://pronto.sumofus.org/#{request.fullpath}") if rand.round == 1
+  def redirect_to_experiment
+    return unless @page.published?
+
+    path_match = %r{^/a/}
+    if request.path.match(path_match) && @page.has_pronto_inclusion_template?
+      redirect_to request.fullpath.gsub(path_match, '/b/')
     end
   end
 end
