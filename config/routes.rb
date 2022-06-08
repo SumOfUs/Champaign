@@ -83,7 +83,7 @@ Rails.application.routes.draw do
     get 'follow-up', on: :member, action: 'follow_up'
   end
 
-  resources :pages, path: 'b', as: 'member_facing_page', only: %i[show] do
+  resources :pages, path: 'b/:locale/', as: 'member_facing_page', only: %i[show], constraints: { locale: /en|fr|de|es|pt|nl|ar/ } do
     get 'follow-up', on: :member, action: 'follow_up'
   end
 
