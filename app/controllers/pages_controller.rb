@@ -207,10 +207,11 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
 
   def redirect_to_experiment
     return unless @page.published?
+    return unless @page.language_code
 
     path_match = %r{^/a/}
     if request.path.match(path_match) && @page.has_pronto_inclusion_template?
-      redirect_to request.fullpath.gsub(path_match, '/b/')
+      redirect_to request.fullpath.gsub(path_match, "/#{@page.language_code}/a/")
     end
   end
 end
