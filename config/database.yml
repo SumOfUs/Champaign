@@ -33,7 +33,7 @@ production:
   encoding: unicode
   database: <%= Settings.database.dbname || ENV['RDS_DB_NAME'] %>
   username: <%= Settings.database.username || ENV['RDS_USERNAME'] %>
-  password: <%= Settings.database.password || ENV['RDS_PASSWORD']] %>
+  password: <%= Settings.database.password || ENV['RDS_PASSWORD'] %>
   host: <%= Settings.database.host || ENV['RDS_HOSTNAME'] %>
   port: <%= Settings.database.port  || ENV['RDS_PORT'] %>
   pool: <%= Settings.db_pool_size || 5 %>
