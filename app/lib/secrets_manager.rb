@@ -10,8 +10,8 @@ module SecretsManager
       JSON.parse(secrets_manager.get_secret_value(
         secret_id: secret_name(secret_id)
       ).secret_string)
-    rescue StandardError => e
-      logger.warn("Failed to get secret value for #{secret_name(secret_id)}!\n#{e}")
+    rescue StandardError
+      nil
     end
 
     private

@@ -9,19 +9,15 @@
 #
 # Configuration details:
 # https://github.com/airbrake/airbrake-ruby#configuration
-
-require './app/lib/secrets_manager'
-airbrake_secrets = SecretsManager.get_value('champaignAirbrake') if Rails.env == 'production'
-
-if Settings.airbrake_project_id.present? || (airbrake_secrets.nil? == false && airbrake_secrets['projectId'].present?)
+if Settings.airbrake_project_id.present?
   Airbrake.configure do |c|
     # You must set both project_id & project_key. To find your project_id and
     # project_key navigate to your project's General Settings and copy the values
     # from the right sidebar.
     # https://github.com/airbrake/airbrake-ruby#project_id--project_key
 
-    c.project_id = airbrake_secrets.nil? ? Settings.airbrake_project_id : airbrake_secrets['projectId']
-    c.project_key = airbrake_secrets.nil? ? Settings.airbrake_api_key : airbrake_secrets['apiKey']
+    c.project_id = Settings.airbrake_project_id
+    c.project_key = Settings.airbrake_api_key
 
     # Configures the root directory of your project. Expects a String or a
     # Pathname, which represents the path to your project. Providing this option
