@@ -20,7 +20,6 @@ module SecretsManager
       if secret_id.include? '/'
         secret_id
       else
-        puts "Prefix is ##{prefix}"
         [prefix, secret_id].compact.join('/')
       end
     end
