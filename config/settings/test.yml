@@ -29,6 +29,7 @@ oauth_domain_whitelist:
 # in production situations.
 aws_region: 'us-west-2'
 aws_account_id: 1234
+aws_secrets_manager_prefix: 'dev'
 sqs_queue_url: 'http://example.com'
 ak_processor_url: 'http://example.com'
 default_currency: 'USD'
