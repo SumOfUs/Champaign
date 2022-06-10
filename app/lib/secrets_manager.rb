@@ -11,7 +11,7 @@ module SecretsManager
         secret_id: secret_name(secret_id)
       ).secret_string)
     rescue StandardError
-      nil
+      {}
     end
 
     private
@@ -20,6 +20,7 @@ module SecretsManager
       if secret_id.include? '/'
         secret_id
       else
+        puts "Prefix is ##{prefix}"
         [prefix, secret_id].compact.join('/')
       end
     end
