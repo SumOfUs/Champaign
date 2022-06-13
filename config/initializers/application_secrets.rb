@@ -1,27 +1,27 @@
 require './app/lib/secrets_manager'
 
 if Rails.env == 'production' && Settings.aws_secrets_manager_prefix.present?
-  omniauth_secrets = SecretsManager.get_value('omniauth')
+  omniauth_secrets = SecretsManager.get_value('dev/omniauth')
   ak_secrets = SecretsManager.get_value('prod/actionKitApi')
-  database_secrets = SecretsManager.get_value('champaignDB')
-  gocardless_secrets = SecretsManager.get_value('gocardless')
+  database_secrets = SecretsManager.get_value('dev/champaignDB')
+  gocardless_secrets = SecretsManager.get_value('dev/gocardless')
   smtp_secrets = SecretsManager.get_value('prod/smtp')
   twilio_secrets = SecretsManager.get_value('prod/twilio')
-  recaptcha2_secrets = SecretsManager.get_value('recaptchaTwo')
-  recaptcha3_secrets = SecretsManager.get_value('recaptchaThree')
-  braintree_secrets = SecretsManager.get_value('braintree')
-  airbrake_secrets = SecretsManager.get_value('champaignAirbrake')
+  recaptcha2_secrets = SecretsManager.get_value('dev/recaptchaTwo')
+  recaptcha3_secrets = SecretsManager.get_value('dev/recaptchaThree')
+  braintree_secrets = SecretsManager.get_value('dev/braintree')
+  airbrake_secrets = SecretsManager.get_value('dev/champaignAirbrake')
 
   secrets = {
     omniauth_client_secret: omniauth_secrets['secret'],
     omniauth_client_id: omniauth_secrets['clientId'],
     ak_username: ak_secrets['username'],
     ak_password: ak_secrets['password'],
-    share_progress_api_key: SecretsManager.get_value('shareProgressApi')['apiKey'],
+    share_progress_api_key: SecretsManager.get_value('dev/shareProgressApi')['apiKey'],
     mixpanel_token: SecretsManager.get_value('prod/mixpanel')['token'],
-    secret_key_base: SecretsManager.get_value('champaignSecretKeyBase')['secretKeyBase'],
-    api_key: SecretsManager.get_value('champaign')['apiKey'],
-    member_services_secret: SecretsManager.get_value('memberServices')['secret'],
+    secret_key_base: SecretsManager.get_value('dev/champaignSecretKeyBase')['secretKeyBase'],
+    api_key: SecretsManager.get_value('dev/champaign')['apiKey'],
+    member_services_secret: SecretsManager.get_value('dev/memberServices')['secret'],
     database: {
       dbname: database_secrets['dbname'],
       username: database_secrets['username'],
@@ -44,7 +44,7 @@ if Rails.env == 'production' && Settings.aws_secrets_manager_prefix.present?
     calls: {
       targeting_secret: SecretsManager.get_value('prod/callToolTargeting')['secret']
     },
-    devise_secret_key: SecretsManager.get_value('deviseSecret')['secretKey'],
+    devise_secret_key: SecretsManager.get_value('dev/deviseSecret')['secretKey'],
     'recaptcha2' => {
       site_key: recaptcha2_secrets['siteKey'],
       secret_key: recaptcha2_secrets['secretKey']
