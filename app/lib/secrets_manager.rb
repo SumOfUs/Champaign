@@ -10,6 +10,8 @@ module SecretsManager
       JSON.parse(secrets_manager.get_secret_value(
         secret_id: secret_name(secret_id)
       ).secret_string)
+    rescue StandardError
+      {}
     end
 
     private
