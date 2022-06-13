@@ -17,7 +17,6 @@ function ebextensions_setup() {
     mv temp .ebextensions/04_newrelic.config
     envsubst '$APP_DOMAIN' <.ebextensions/05_nginx_proxy.config >temp
     mv temp .ebextensions/05_nginx_proxy.config
-    aws configure set default.region $AWS_REGION
 }
 
 function sync_s3() {
