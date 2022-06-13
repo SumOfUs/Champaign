@@ -23,7 +23,7 @@ module SecretsManager
     end
 
     def secrets_manager
-      Aws::SecretsManager::Client.new(region: 'us-west-2')
+      Aws::SecretsManager::Client.new(region: Settings.aws_region)
     end
 
     def prefix
