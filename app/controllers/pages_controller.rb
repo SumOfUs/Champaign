@@ -208,6 +208,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   def redirect_to_experiment
     return unless @page.published?
     return unless @page.language_code
+    return if user_signed_in?
 
     path_match = %r{^/a/}
     if request.path.match(path_match) && @page.has_pronto_inclusion_template?
