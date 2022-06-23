@@ -1,0 +1,14 @@
+| Hallo #{@name.titleize},
+
+  We zijn heel blij dat je onze petitie "#{@page.title}" wil ondersteunen. Helaas heb je je handtekening nog niet bevestigd.
+
+  We blijven graag met je in contact via e-mail, zodat we je op de hoogte kunnen houden van deze en andere SumOfUs campagnes (je kunt je op elk moment uitschrijven). Klik op één van de volgende links:
+
+= link_to "Ik wil tekenen en ik ontvang graag updates over deze en andere campagnes", confirm_api_action_confirmations_url(token: @token, consented: true)
+
+= link_to "Ik wil tekenen maar ik ontvang liever geen updates", confirm_api_action_confirmations_url(token: @token)
+
+| Je handtekening telt alleen als je klikt om hem te bevestigen!
+
+| Met vriendelijke groet,
+  Het team van SumOfUs
