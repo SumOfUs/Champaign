@@ -31,7 +31,7 @@ export function setIsCustomAmount(payload, amount) {
       const { selectedAmountButton, donationAmount } = state.fundraiser;
 
       const event =
-        selectedAmountButton && donationAmount === null
+        !selectedAmountButton && donationAmount === null
           ? 'form:select_amount'
           : 'change_amount';
       const getGaLabel = (selectedButton, amount, otherAmount) => {
