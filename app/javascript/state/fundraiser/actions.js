@@ -57,7 +57,6 @@ export function setSelectedAmountButton(payload) {
     const state = getState();
     const { selectedAmountButton, donationAmount, isCustomAmount } =
       state.fundraiser || {};
-    console.log(selectedAmountButton, donationAmount, isCustomAmount);
     const event =
       !selectedAmountButton && !donationAmount
         ? 'form:select_amount'
