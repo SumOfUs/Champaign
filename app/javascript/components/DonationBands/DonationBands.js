@@ -1,16 +1,9 @@
 /*  */
 import React, { Component } from 'react';
 
-import { FormattedNumber, injectIntl } from 'react-intl';
-import classnames from 'classnames';
+import { injectIntl } from 'react-intl';
 import DonationBandButton from './DonationBandButton';
 import './DonationBands.css';
-
-const FORMATTED_NUMBER_DEFAULTS = {
-  style: 'currency',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-};
 
 export class DonationBands extends Component {
   constructor(props) {
@@ -21,7 +14,9 @@ export class DonationBands extends Component {
     };
   }
 
-  onButtonClicked(amount = 0) {
+  onButtonClicked(e, amount = 0) {
+    e.preventDefault();
+    this.props.setSelectedAmountButton(e.target.name);
     this.setState({ customAmount: undefined });
     this.props.selectAmount(amount);
     this.props.proceed();
@@ -32,6 +27,7 @@ export class DonationBands extends Component {
     const number = value.replace(/\D/g, '');
     const amount = number ? parseFloat(number) : undefined;
     this.setState({ customAmount: amount });
+    this.props.setIsCustomAmount(true, amount);
     if (this.props.selectCustomAmount) {
       this.props.selectCustomAmount(amount);
     } else {
@@ -56,10 +52,11 @@ export class DonationBands extends Component {
         {amounts.map((amount, i) => (
           <DonationBandButton
             key={i}
+            name={i + 1}
             amount={amount}
             featuredAmount={this.props.featuredAmount}
             currency={this.props.currency}
-            onClick={() => this.onButtonClicked(amount)}
+            onClick={event => this.onButtonClicked(event, amount)}
           />
         ))}
         <input

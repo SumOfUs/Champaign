@@ -13,7 +13,7 @@ export default function DonationBandButton(props) {
   });
 
   return (
-    <Button className={className} onClick={props.onClick}>
+    <Button className={className} onClick={props.onClick} name={props.name}>
       <CurrencyAmount currency={props.currency} amount={props.amount} />
     </Button>
   );

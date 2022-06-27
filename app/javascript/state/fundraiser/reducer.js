@@ -1,12 +1,5 @@
-import {
-  compact,
-  includes,
-  isEmpty,
-  keys,
-  pick,
-  reduce,
-  without,
-} from 'lodash';
+import { isEmpty, keys, pick, reduce } from 'lodash';
+import ee from '../../shared/pub_sub';
 
 import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
@@ -35,6 +28,8 @@ export const initialState = {
   directDebitOnly: false,
   disableSavedPayments: false,
   donationAmount: undefined,
+  selectedAmountButton: null,
+  isCustomAmount: false,
   donationBands: {
     USD: [2, 5, 10, 25, 50],
     GBP: [2, 5, 10, 25, 50],
@@ -130,10 +125,14 @@ export default (state = initialState, action) => {
     case 'change_amount':
       const donationAmount = action.payload || undefined;
       return { ...state, donationAmount };
+    case 'set_selected_amount_button':
+      return { ...state, selectedAmountButton: action.payload };
     case 'one_click_failed':
       return { ...state, disableSavedPayments: true, oneClickError: true };
     case 'change_step':
       return { ...state, currentStep: action.payload };
+    case 'set_is_custom_amount':
+      return { ...state, isCustomAmount: action.payload };
     case 'update_form': {
       const form = action.payload;
       const showDirectDebit = isDirectDebitSupported({
@@ -194,6 +193,10 @@ export default (state = initialState, action) => {
         donationBands,
       };
     case 'set_payment_type':
+      const label = state.currentPaymentType
+        ? `from_${state.currentPaymentType}_to_${action.payload}`
+        : action.payload;
+      ee.emit('set_payment_type', label);
       return {
         ...state,
         currentPaymentType: safePaymentType(action.payload, state.paymentTypes),

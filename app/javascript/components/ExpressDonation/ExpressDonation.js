@@ -73,6 +73,13 @@ export class ExpressDonation extends Component {
 
   async onSuccess(data) {
     ee.emit('fundraiser:transaction_success', data, this.props.formData);
+    const donationType = this.props.fundraiser.recurring
+      ? 'monthly'
+      : 'one_time';
+    const label = `successful_${donationType}_donation_submitted`;
+    const event = `fundraiser:${donationType}_transaction_submitted`;
+
+    ee.emit(event, label);
     return data;
   }
 

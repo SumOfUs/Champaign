@@ -18,14 +18,14 @@ export default function CurrencyAmount(props) {
     case 'ARS':
     case 'AUD':
       return (
-        <span>
+        <span style={{ pointerEvents: 'none' }}>
           {'$'}
           <FormattedNumber {...CONFIG} style="decimal" value={props.amount} />
         </span>
       );
     case 'EUR':
       return (
-        <span>
+        <span style={{ pointerEvents: 'none' }}>
           <FormattedNumber {...CONFIG} style="decimal" value={props.amount} />
           {'€'}
         </span>

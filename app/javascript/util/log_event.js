@@ -26,13 +26,17 @@ const getEventData = (eventName, ...data) => {
       return ['gdpr', 'change_country', data[0].countryCode];
     case '@@chmp:consent:change_consent':
       return ['gdpr', 'change_consent', data[0].consented ? 'true' : 'false'];
-    case 'change_amount':
+    case 'select_amount':
       return [
         'fundraising',
-        'change_amount',
-        null,
-        parseFloat(data[0].payload),
+        'select_amount',
+        data[0].label,
+        parseFloat(data[0].amount),
       ];
+    case 'form:select_amount':
+      return ['fundraising', 'select_amount', data[0].label];
+    case 'change_amount':
+      return ['fundraising', 'change_amount', data[0].label];
     case 'set_store_in_vault':
       return [
         'fundraising',
@@ -53,12 +57,26 @@ const getEventData = (eventName, ...data) => {
         null,
         parseFloat(data[0].value || data[0].amount),
       ];
+    case 'fundraiser:one_time_transaction_submitted':
+      return ['fundraising', 'one_time_submitted', data];
+    case 'fundraiser:monthly_transaction_submitted':
+      return ['fundraising', 'monthly_submitted', data];
+    case 'fundraiser:set_store_in_vault':
+      return ['fundraising', 'set_store_in_vault', data];
+    case 'fundraiser:set_one_time':
+      return ['fundraising', 'set_one_time', data];
+    case 'fundraiser:set_monthly':
+      return ['fundraising', 'set_monthly', data];
     case 'change_step':
-      return ['fundraising', 'change_step', data[0].payload];
+      return [
+        'fundraising',
+        'donation_form_change_step',
+        `step_${data[0].payload + 1}`,
+      ];
     case 'change_currency':
-      return ['fundraising', 'change_currency', data[0].payload];
+      return ['fundraising', 'change_currency', data[0]];
     case 'set_payment_type':
-      return ['fundraising', 'set_payment_type', data[0].payload];
+      return ['fundraising', 'set_payment_type', data[0]];
     case 'social_share':
       return ['social_share', 'shared_on_' + data[0].share_type];
     default:
