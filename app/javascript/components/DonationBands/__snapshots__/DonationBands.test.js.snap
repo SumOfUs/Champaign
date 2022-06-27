@@ -293,6 +293,8 @@ SumOfUs",
   }
   proceed={[MockFunction]}
   selectAmount={[MockFunction]}
+  setIsCustomAmount={[MockFunction]}
+  setSelectedAmountButton={[MockFunction]}
 >
   <div
     className="DonationBands-container"
@@ -301,14 +303,17 @@ SumOfUs",
       amount={1}
       currency="GBP"
       key="0"
+      name={1}
       onClick={[Function]}
     >
       <Button
         className="DonationBandButton"
+        name={1}
         onClick={[Function]}
       >
         <button
           className="Button-root DonationBandButton"
+          name={1}
           onClick={[Function]}
         >
           <CurrencyAmount
@@ -334,14 +339,17 @@ SumOfUs",
       amount={2}
       currency="GBP"
       key="1"
+      name={2}
       onClick={[Function]}
     >
       <Button
         className="DonationBandButton"
+        name={2}
         onClick={[Function]}
       >
         <button
           className="Button-root DonationBandButton"
+          name={2}
           onClick={[Function]}
         >
           <CurrencyAmount
@@ -367,14 +375,17 @@ SumOfUs",
       amount={3}
       currency="GBP"
       key="2"
+      name={3}
       onClick={[Function]}
     >
       <Button
         className="DonationBandButton"
+        name={3}
         onClick={[Function]}
       >
         <button
           className="Button-root DonationBandButton"
+          name={3}
           onClick={[Function]}
         >
           <CurrencyAmount
@@ -400,14 +411,17 @@ SumOfUs",
       amount={4}
       currency="GBP"
       key="3"
+      name={4}
       onClick={[Function]}
     >
       <Button
         className="DonationBandButton"
+        name={4}
         onClick={[Function]}
       >
         <button
           className="Button-root DonationBandButton"
+          name={4}
           onClick={[Function]}
         >
           <CurrencyAmount
@@ -433,14 +447,17 @@ SumOfUs",
       amount={5}
       currency="GBP"
       key="4"
+      name={5}
       onClick={[Function]}
     >
       <Button
         className="DonationBandButton"
+        name={5}
         onClick={[Function]}
       >
         <button
           className="Button-root DonationBandButton"
+          name={5}
           onClick={[Function]}
         >
           <CurrencyAmount
@@ -768,6 +785,8 @@ SumOfUs",
   }
   proceed={[MockFunction]}
   selectAmount={[MockFunction]}
+  setIsCustomAmount={[MockFunction]}
+  setSelectedAmountButton={[MockFunction]}
 >
   <div
     className="DonationBands-container"

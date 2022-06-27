@@ -16,6 +16,7 @@ const defaultProps = {
   currency: 'USD',
   changeCurrency: jest.fn(),
   selectAmount: jest.fn(),
+  setSelectedAmountButton: jest.fn(),
   proceed: jest.fn(),
 };
 
