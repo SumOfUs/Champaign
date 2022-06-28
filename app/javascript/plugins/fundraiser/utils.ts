@@ -1,11 +1,11 @@
 import * as qs from 'query-string';
+import ee from '../../shared/pub_sub';
 import { IFundraiserPluginConfig } from '../../window';
 
 export const configureStore = (data, dispatch) => {
   const search = qs.parse(location.search, {
     arrayFormat: 'bracket',
   });
-  const { personalization, page } = window.champaign;
   dispatch({
     type: 'initialize_fundraiser',
     payload: data,
@@ -25,6 +25,9 @@ export const configureStore = (data, dispatch) => {
 
   const amount = parseInt(search.amount as string, 10) || undefined;
   dispatch({ type: 'change_amount', payload: amount, skip_log: true });
+  if (amount) {
+    ee.emit('select_amount', { label: 'from_url', amount });
+  }
 
   const preselect = search.preselect === '1' || data.preselectAmount;
   dispatch({

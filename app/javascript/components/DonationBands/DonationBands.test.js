@@ -6,6 +6,8 @@ import DonationBands from './DonationBands';
 const amounts = [1, 2, 3, 4, 5];
 
 const selectAmount = jest.fn();
+const setSelectedAmountButton = jest.fn();
+const setIsCustomAmount = jest.fn();
 const proceed = jest.fn();
 
 const component = (
@@ -15,6 +17,8 @@ const component = (
     currency="GBP"
     proceed={proceed}
     selectAmount={selectAmount}
+    setSelectedAmountButton={setSelectedAmountButton}
+    setIsCustomAmount={setIsCustomAmount}
   />
 );
 
