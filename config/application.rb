@@ -30,7 +30,6 @@ module Champaign
 
     config.i18n.available_locales = %i[en fr de es pt nl ar]
     config.i18n.enforce_available_locales = true
-    puts 'This is a test log from Yesi'
   end
 end
 
