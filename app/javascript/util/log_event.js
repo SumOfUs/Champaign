@@ -61,12 +61,16 @@ const getEventData = (eventName, ...data) => {
       return ['fundraising', 'one_time_submitted', data];
     case 'fundraiser:monthly_transaction_submitted':
       return ['fundraising', 'monthly_submitted', data];
+    case 'fundraiser:weekly_transaction_submitted':
+      return ['fundraising', 'weekly_submitted', data];
     case 'fundraiser:set_store_in_vault':
       return ['fundraising', 'set_store_in_vault', data];
     case 'fundraiser:set_one_time':
       return ['fundraising', 'set_one_time', data];
     case 'fundraiser:set_monthly':
       return ['fundraising', 'set_monthly', data];
+    case 'fundraiser:set_weekly':
+      return ['fundraising', 'set_weekly', data];
     case 'change_step':
       return [
         'fundraising',
