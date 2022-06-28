@@ -10,8 +10,11 @@ module SecretsManager
       JSON.parse(secrets_manager.get_secret_value(
         secret_id: secret_name(secret_id)
       ).secret_string)
-    rescue StandardError
-      {}
+    rescue StandardError => e
+      Rails.logger.error(
+        "Error while trying to get secret #{secret_id} from AWS with error: #{e.message}."
+      )
+      throw e
     end
 
     private
