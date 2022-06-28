@@ -58,19 +58,19 @@ const getEventData = (eventName, ...data) => {
         parseFloat(data[0].value || data[0].amount),
       ];
     case 'fundraiser:one_time_transaction_submitted':
-      return ['fundraising', 'one_time_submitted', data];
+      return ['fundraising', 'one_time_submitted', data[0]];
     case 'fundraiser:monthly_transaction_submitted':
-      return ['fundraising', 'monthly_submitted', data];
+      return ['fundraising', 'monthly_submitted', data[0]];
     case 'fundraiser:weekly_transaction_submitted':
-      return ['fundraising', 'weekly_submitted', data];
+      return ['fundraising', 'weekly_submitted', data][0];
     case 'fundraiser:set_store_in_vault':
-      return ['fundraising', 'set_store_in_vault', data];
+      return ['fundraising', 'set_store_in_vault', data[0]];
     case 'fundraiser:set_one_time':
-      return ['fundraising', 'set_one_time', data];
+      return ['fundraising', 'set_one_time', data[0]];
     case 'fundraiser:set_monthly':
-      return ['fundraising', 'set_monthly', data];
+      return ['fundraising', 'set_monthly', data[0]];
     case 'fundraiser:set_weekly':
-      return ['fundraising', 'set_weekly', data];
+      return ['fundraising', 'set_weekly', data[0]];
     case 'change_step':
       return [
         'fundraising',
