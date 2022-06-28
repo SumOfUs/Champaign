@@ -6,7 +6,6 @@ import DonateButton from '../DonateButton';
 import CurrencySelector from '../CurrencySelector/CurrencySelector';
 import ee from '../../shared/pub_sub';
 
-import Button from '../Button/Button';
 import {
   changeAmount,
   setSubmitting,
@@ -39,7 +38,6 @@ class OneClick extends Component {
         amount: this.props.donationAmount,
         recurring: false,
         payment_method_id: this.props.paymentMethods[0].id,
-        // payment_method_id: 900,
       },
       user: {
         form_id: this.props.formId,
@@ -74,6 +72,11 @@ class OneClick extends Component {
 
   async onSuccess(data) {
     ee.emit('fundraiser:transaction_success', data, this.oneClickData());
+    const label = 'successful_one_time_donation_submitted';
+    const event = 'fundraiser:one_time_transaction_submitted';
+
+    ee.emit(event, label);
+
     return data;
   }
 

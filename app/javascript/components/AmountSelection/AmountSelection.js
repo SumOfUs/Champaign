@@ -37,6 +37,10 @@ export default class AmountSelection extends React.Component {
   }
 
   onSelectCurrency(currency) {
+    const label = this.props.currency
+      ? `from_${this.props.currency}_to_${currency}`
+      : currency;
+    ee.emit('change_currency', label);
     this.props.changeCurrency(currency);
   }
 
@@ -67,6 +71,8 @@ export default class AmountSelection extends React.Component {
           featuredAmount={this.props.donationFeaturedAmount}
           selectAmount={this.props.selectAmount}
           selectCustomAmount={this.props.selectCustomAmount}
+          setSelectedAmountButton={this.props.setSelectedAmountButton}
+          setIsCustomAmount={this.props.setIsCustomAmount}
         />
         <p>
           <FormattedMessage

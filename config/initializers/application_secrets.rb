@@ -62,7 +62,8 @@ if Rails.env == 'production' && Settings.aws_secrets_manager_prefix.present?
       public_key: braintree_secrets['publicKey'],
       private_key: braintree_secrets['privateKey'],
       environment: Settings.braintree.environment,
-      merchants: Settings.braintree.merchants
+      merchants: Settings.braintree.merchants,
+      subscription_plans: Settings.braintree.subscription_plans
     },
     sentry_dsn: SecretsManager.get_value('prod/sentry')['dsn'],
     airbrake_project_id: airbrake_secrets['projectId'],

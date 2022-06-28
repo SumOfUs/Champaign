@@ -228,6 +228,17 @@ export class Payment extends Component {
   onClickHandle(e) {
     const isRecurring = e.currentTarget.name === 'recurring';
     this.props.setRecurring(isRecurring);
+
+    let donationType;
+    if (isRecurring) {
+      donationType = this.props.weekly ? 'weekly' : 'monthly';
+    } else {
+      donationType = 'one_time';
+    }
+    const label = `user_clicks_${donationType}_donation_button`;
+    const event = `fundraiser:set_${donationType}`;
+
+    ee.emit(event, label);
     ee.on('fundraiser:change_recurring', this.makePayment, this);
   }
 
@@ -407,6 +418,18 @@ export class Payment extends Component {
           ? 'recurring'
           : 'not_recurring',
       });
+
+      let donationType;
+      if (this.props.fundraiser.recurring) {
+        donationType = this.props.weekly ? 'weekly' : 'monthly';
+      } else {
+        donationType = 'one_time';
+      }
+
+      const label = `successful_${donationType}_donation_submitted`;
+      const event = `fundraiser:${donationType}_transaction_submitted`;
+
+      ee.emit(event, label);
     }
 
     const emitTransactionSuccess = () => {

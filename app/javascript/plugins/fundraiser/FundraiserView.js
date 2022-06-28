@@ -18,8 +18,10 @@ import {
   changeAmount,
   changeCurrency,
   changeStep,
+  setSelectedAmountButton,
   setSubmitting,
   setSupportedLocalCurrency,
+  setIsCustomAmount,
 } from '../../state/fundraiser/actions';
 
 export class FundraiserView extends Component {
@@ -206,7 +208,11 @@ export class FundraiserView extends Component {
                     nextStepTitle={firstStepButtonTitle}
                     changeCurrency={this.props.selectCurrency.bind(this)}
                     selectAmount={amount => this.selectAmount(amount)}
+                    setSelectedAmountButton={this.props.setSelectedAmountButton.bind(
+                      this
+                    )}
                     proceed={this.proceed.bind(this)}
+                    setIsCustomAmount={this.props.setIsCustomAmount.bind(this)}
                   />
                 </div>
               </StepContent>
@@ -267,11 +273,15 @@ export const mapDispatchToProps = dispatch => ({
   resetMember: () => dispatch(resetMember()),
   changeStep: step => dispatch(changeStep(step)),
   selectAmount: amount => dispatch(changeAmount(amount)),
+  setSelectedAmountButton: selectedButton =>
+    dispatch(setSelectedAmountButton(selectedButton)),
   selectCurrency: currency => dispatch(changeCurrency(currency)),
   setSubmitting: submitting => dispatch(setSubmitting(submitting)),
   setSupportedLocalCurrency: value =>
     dispatch(setSupportedLocalCurrency(value)),
   setExperimentVariant: value => dispatch(setExperimentVariant(value)),
+  setIsCustomAmount: (isCustomAmount, amount) =>
+    dispatch(setIsCustomAmount(isCustomAmount, amount)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);
