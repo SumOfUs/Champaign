@@ -7,6 +7,7 @@ module SecretsManager
     # @param secret_id [String] - The secret ID to get the value for
     # @return [String] - The value of the stored secret
     def get_value(secret_id)
+      puts 'Test Log'
       JSON.parse(secrets_manager.get_secret_value(
         secret_id: secret_name(secret_id)
       ).secret_string)

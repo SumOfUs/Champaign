@@ -1,6 +1,6 @@
 require './app/lib/secrets_manager'
 
-# if Rails.env == 'development' && Settings.aws_secrets_manager_prefix.present?
+# if Rails.env == 'production' && Settings.aws_secrets_manager_prefix.present?
 omniauth_secrets = SecretsManager.get_value('omniauth')
 ak_secrets = SecretsManager.get_value('prod/actionKitApi')
 database_secrets = SecretsManager.get_value('champaignDB')
@@ -62,7 +62,8 @@ secrets = {
     public_key: braintree_secrets['publicKey'],
     private_key: braintree_secrets['privateKey'],
     environment: Settings.braintree.environment,
-    merchants: Settings.braintree.merchants
+    merchants: Settings.braintree.merchants,
+    subscription_plans: Settings.braintree.subscription_plans
   },
   sentry_dsn: SecretsManager.get_value('prod/sentry')['dsn'],
   airbrake_project_id: airbrake_secrets['projectId'],
