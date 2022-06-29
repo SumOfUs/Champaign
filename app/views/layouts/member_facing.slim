@@ -15,6 +15,10 @@ html lang="#{@page.language.try(:code).try(:downcase)}" dir=("#{@page.language.t
     = favicon_link_tag "org-favicon.ico"
     = metamagic
 
+    / This piece of code is added to run ads via ad agency only for the specified campaign, to be discarded once the ad ends
+    - if "#{@page.slug}" == "email-your-mp-no-special-treatment-in-the-online-safety-bill"
+      = render partial: "shared/ad_agency_pixel"
+
     = javascript_include_tag "https://www.googleoptimize.com/optimize.js?id=#{Settings.google_optimize.key}"
     = javascript_include_tag 'https://code.jquery.com/jquery-2.2.4.min.js'
     = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.min.js'
@@ -39,7 +43,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}" dir=("#{@page.language.t
     .mobile-indicator
 
     = render partial: "shared/facebook_pixel" unless Rails.env.testing?
-    = render partial: "shared/tiktok_pixel"
 
     = javascript_packs_with_chunks_tag "globals", "member_facing", "plugins"
 
