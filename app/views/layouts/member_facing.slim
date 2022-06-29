@@ -39,6 +39,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}" dir=("#{@page.language.t
     .mobile-indicator
 
     = render partial: "shared/facebook_pixel" unless Rails.env.testing?
+    = render partial: "shared/tiktok_pixel"
 
     = javascript_packs_with_chunks_tag "globals", "member_facing", "plugins"
 
