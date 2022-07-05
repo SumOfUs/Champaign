@@ -27,7 +27,7 @@ gem 'phony_rails'
 gem 'rack-attack'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2'
-gem 'rails-html-sanitizer', '~> 1.0.4'
+gem 'rails-html-sanitizer', '~> 1.4.3'
 gem 'rails-i18n'
 gem 'readthis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
