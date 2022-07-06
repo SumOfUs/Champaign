@@ -19,6 +19,7 @@ class UnsafeEmailSender
 
     if errors.empty?
       # send_email
+
       create_action
     end
 
@@ -37,6 +38,10 @@ class UnsafeEmailSender
   #   )
   # end
 
+  def existing_member
+    @existing_member ||= Member.find_by_email(@params[:from_email])
+  end
+
   def create_action
     # TODO: Not handling consent.
     # No new members for EEA countries
@@ -47,7 +52,10 @@ class UnsafeEmailSender
         email: @params[:from_email],
         action_targets: @params[:recipients],
         country: @params[:country],
-        consented: @params[:consented] || true,
+        # TODO: Update UI to support consent selection
+        # consented: @params[:consented] || true,
+
+        consented: existing_member ? existing_member.consented? : false,
         email_service: @params[:email_service],
         clicked_copy_body_button: @params[:clicked_copy_body_button]
       }.merge(@tracking_params)
