@@ -16,7 +16,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}" dir=("#{@page.language.t
     = metamagic
 
     / This piece of code is added to run ads via ad agency only for the specified campaign, to be discarded once the ad ends
-    - if "#{@page.slug}" == "email-your-mp-no-special-treatment-in-the-online-safety-bill"
+    - if "#{@page.slug}" == "email-your-mp-no-special-treatment-in-the-online-safety-bill" || "#{@page.slug}" == "email-your-mp-keep-the-internet-fair"
       = render partial: "shared/ad_agency_pixel"
 
     = javascript_include_tag "https://www.googleoptimize.com/optimize.js?id=#{Settings.google_optimize.key}"
