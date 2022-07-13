@@ -253,18 +253,6 @@ class EmailPensionView extends Component {
             </div>
 
             <div className="EmailToolView-note">
-              {/* <div>
-                <Button
-                  className="button"
-                  onClick={() => window.open(this.generateMailToLink())}
-                >
-                  <FormattedMessage
-                    id="email_tool.form.send_email"
-                    defaultMessage="Send with your email client"
-                  />
-                </Button>
-              </div> */}
-
               <div className="section title">
                 <FormattedMessage
                   id="email_tool.form.choose_email_service"
@@ -456,7 +444,6 @@ class EmailPensionView extends Component {
               >
                 {this.state.emailService === 'other_email_services' ? (
                   <FormattedMessage
-                    // id="email_tool.form.submit_action"
                     id="email_tool.form.submit"
                     defaultMessage="Submit Action"
                   />
