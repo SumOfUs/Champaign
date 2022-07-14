@@ -14,12 +14,13 @@ class Rack::Attack
     throttle(device_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| device_rule(req) }
     throttle(recaptcha_token_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| token_rule(req) }
   end
+
   # Exponential throttling on actions endpoint:
-  (1..5).reverse_each do |level|
-    throttle("req/ip/#{level}", limit: (20 * level), period: (8**level).seconds) do |req|
-      api_rule(req)
-    end
-  end
+  # (1..5).reverse_each do |level|
+  #   throttle("req/ip/#{level}", limit: (20 * level), period: (8**level).seconds) do |req|
+  #     api_rule(req)
+  #   end
+  # end
 end
 
 # Instrumentation and Logging
