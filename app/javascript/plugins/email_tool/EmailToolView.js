@@ -78,7 +78,10 @@ export class EmailToolView extends Component {
   validateForm() {
     const errors = {};
     // For GDPR countries alone this field should have value
-    if (this.props.isRequiredNew && this.props.consented === null) {
+    if (
+      this.props.isRequiredNew &&
+      (this.props.consented === null || this.props.consentRequired)
+    ) {
       this.props.setShowConsentRequired(true);
       errors['consented'] = true;
     }
