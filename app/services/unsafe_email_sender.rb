@@ -5,7 +5,6 @@ class UnsafeEmailSender
     @plugin = Plugins::Email.find_by(page_id: page_id)
     @page = Page.find(page_id)
     @params = email_params.to_hash.with_indifferent_access
-    # @recipients = recipients.to_hash.with_indifferent_access
     @tracking_params = tracking_params.to_hash.with_indifferent_access.slice(
       :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
     )
@@ -26,25 +25,7 @@ class UnsafeEmailSender
     errors.empty?
   end
 
-  # def send_email
-  #   EmailSender.run(
-  #     id: @page.slug,
-  #     recipients: to_emails,
-  #     from_name: @params[:from_name],
-  #     from_email: from_email,
-  #     reply_to: reply_to_emails,
-  #     subject: @params[:subject],
-  #     body: @params[:body]
-  #   )
-  # end
-
-  def existing_member
-    @existing_member ||= Member.find_by_email(@params[:from_email])
-  end
-
   def create_action
-    # TODO: Not handling consent.
-    # No new members for EEA countries
     @action = ManageAction.create(
       {
         page_id: @page.id,
@@ -52,10 +33,7 @@ class UnsafeEmailSender
         email: @params[:from_email],
         action_targets: @params[:recipients],
         country: @params[:country],
-        # TODO: Update UI to support consent selection
-        # consented: @params[:consented] || true,
-
-        consented: existing_member ? existing_member.consented? : false,
+        consented: @params[:consented] || false,
         email_service: @params[:email_service],
         clicked_copy_body_button: @params[:clicked_copy_body_button]
       }.merge(@tracking_params)
