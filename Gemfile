@@ -103,6 +103,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'timecop'
   gem 'webmock'
+  gem 'simplecov', require: false
 end
 
 gem "aws-sdk-secretsmanager", "~> 1.21"
