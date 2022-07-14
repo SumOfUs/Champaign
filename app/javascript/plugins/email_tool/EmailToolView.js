@@ -438,6 +438,9 @@ export class EmailToolView extends Component {
                 this.props.isRequiredNew || this.props.isRequiredExisting
               }
             />
+            <span>{`isRequiredNew: ${this.props.isRequiredNew}`}</span>
+            <span>{`isRequiredExisting: ${this.props.isRequiredExisting}`}</span>
+            <span>{`showConsentRequired: ${this.props.consentRequired}`}</span>
             <FormGroup>
               <Button
                 disabled={this.state.isSubmitting || !this.state.emailService}
