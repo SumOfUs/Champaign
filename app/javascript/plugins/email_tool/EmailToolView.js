@@ -79,7 +79,7 @@ export class EmailToolView extends Component {
     const errors = {};
     // For GDPR countries alone this field should have value
     if (this.props.isRequiredNew && this.props.consented === null) {
-      this.props.showConsentRequired(true);
+      this.props.setShowConsentRequired(true);
       errors['consented'] = true;
     }
     this.setState({ errors: errors });
@@ -164,7 +164,12 @@ export class EmailToolView extends Component {
 
   onNameChange = name => this.setState({ name });
 
-  onEmailChange = email => this.setState({ email });
+  onEmailChange = email => {
+    if (this.props.isRequiredNew) {
+      this.props.setShowConsentRequired(true);
+    }
+    this.setState({ email });
+  };
 
   onEmailServiceChange = emailService => this.setState({ emailService });
 
@@ -430,9 +435,14 @@ export class EmailToolView extends Component {
             <ConsentComponent
               alwaysShow={true}
               isRequired={
-                this.props.isRequiredNew || this.props.isRequiredExisting
+                this.props.isRequiredNew ||
+                this.props.isRequiredExisting ||
+                this.props.consentRequired
               }
             />
+            <span>{`isRequiredNew: ${this.props.isRequiredNew}`}</span>
+            <span>{`isRequiredExisting: ${this.props.isRequiredExisting}`}</span>
+            <span>{`showConsentRequired: ${this.props.consentRequired}`}</span>
             <FormGroup>
               <Button
                 disabled={this.state.isSubmitting || !this.state.emailService}
@@ -460,16 +470,22 @@ export class EmailToolView extends Component {
 }
 
 export const mapStateToProps = ({ consent }) => {
-  const { consented, isRequiredNew, isRequiredExisting } = consent;
+  const {
+    consented,
+    isRequiredNew,
+    isRequiredExisting,
+    showConsentRequired: consentRequired,
+  } = consent;
   return {
     consented,
     isRequiredNew,
     isRequiredExisting,
+    consentRequired,
   };
 };
 
 export const mapDispatchToProps = dispatch => ({
-  showConsentRequired: consentRequired =>
+  setShowConsentRequired: consentRequired =>
     dispatch(showConsentRequired(consentRequired)),
 });
 
