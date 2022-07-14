@@ -127,6 +127,8 @@ jobs:
       - run:
           name: Run specs
           command: bundle exec rspec spec
+      - store_artifacts:
+          path: coverage
 
   build_docker_image:
     <<: *defaults
