@@ -78,10 +78,7 @@ export class EmailToolView extends Component {
   validateForm() {
     const errors = {};
     // For GDPR countries alone this field should have value
-    if (
-      this.props.isRequiredNew &&
-      (this.props.consented === null || this.props.consentRequired)
-    ) {
+    if (this.props.isRequiredNew && this.props.consented === null) {
       this.props.setShowConsentRequired(true);
       errors['consented'] = true;
     }
@@ -167,12 +164,7 @@ export class EmailToolView extends Component {
 
   onNameChange = name => this.setState({ name });
 
-  onEmailChange = email => {
-    if (this.props.isRequiredNew) {
-      this.props.setShowConsentRequired(true);
-    }
-    this.setState({ email });
-  };
+  onEmailChange = email => this.setState({ email });
 
   onEmailServiceChange = emailService => this.setState({ emailService });
 
@@ -438,9 +430,7 @@ export class EmailToolView extends Component {
             <ConsentComponent
               alwaysShow={true}
               isRequired={
-                this.props.isRequiredNew ||
-                this.props.isRequiredExisting ||
-                this.props.consentRequired
+                this.props.isRequiredNew || this.props.isRequiredExisting
               }
             />
             <FormGroup>
@@ -470,17 +460,11 @@ export class EmailToolView extends Component {
 }
 
 export const mapStateToProps = ({ consent }) => {
-  const {
-    consented,
-    isRequiredNew,
-    isRequiredExisting,
-    showConsentRequired: consentRequired,
-  } = consent;
+  const { consented, isRequiredNew, isRequiredExisting } = consent;
   return {
     consented,
     isRequiredNew,
     isRequiredExisting,
-    consentRequired,
   };
 };
 

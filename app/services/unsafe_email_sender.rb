@@ -33,7 +33,7 @@ class UnsafeEmailSender
         email: @params[:from_email],
         action_targets: @params[:recipients],
         country: @params[:country],
-        consented: @params[:consented] || false,
+        consented: @params[:consented],
         email_service: @params[:email_service],
         clicked_copy_body_button: @params[:clicked_copy_body_button]
       }.merge(@tracking_params)
