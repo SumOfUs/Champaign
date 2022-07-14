@@ -435,9 +435,7 @@ export class EmailToolView extends Component {
             <ConsentComponent
               alwaysShow={true}
               isRequired={
-                this.props.isRequiredNew ||
-                this.props.isRequiredExisting ||
-                this.props.consentRequired
+                this.props.isRequiredNew || this.props.isRequiredExisting
               }
             />
             <FormGroup>

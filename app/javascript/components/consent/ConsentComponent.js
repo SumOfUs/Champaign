@@ -49,6 +49,8 @@ class ConsentComponent extends PureComponent {
       variant,
       showConsentRequired,
     } = this.props;
+    console.log('active', active);
+    console.log('isRequired', isRequired);
     if (!active && !isRequired) return null;
 
     const classNames = classnames('ConsentComponent', variant, {
@@ -97,7 +99,4 @@ const mapDispatchToProps = dispatch => ({
   changeConsent: value => dispatch(changeConsent(value)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConsentComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ConsentComponent);
