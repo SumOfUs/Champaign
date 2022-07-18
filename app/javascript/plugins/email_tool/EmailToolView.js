@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { compact, get, join, sample, forEach, template } from 'lodash';
+import { connect } from 'react-redux';
+import { compact, get, join, sample, isEmpty } from 'lodash';
 import Select from '../../components/SweetSelect/SweetSelect';
 import Input from '../../components/SweetInput/SweetInput';
 import Button from '../../components/Button/Button';
 import FormGroup from '../../components/Form/FormGroup';
 import EmailEditor from '../../components/EmailEditor/EmailEditor';
 import ErrorMessages from '../../components/ErrorMessages';
+import ConsentComponent from '../../components/consent/ConsentComponent';
+import { showConsentRequired } from '../../state/consent/index';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../../util/ChampaignClient';
@@ -25,7 +28,7 @@ function emailTargetAsSelectOption(target) {
   };
 }
 
-export default class EmailToolView extends Component {
+export class EmailToolView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,6 +58,7 @@ export default class EmailToolView extends Component {
   payload() {
     return {
       page_id: this.props.pageId,
+      consented: this.props.consented ? 1 : 0,
       email: {
         body: this.state.body,
         subject: this.state.subject,
@@ -69,6 +73,17 @@ export default class EmailToolView extends Component {
         ...this.props.trackingParams,
       },
     };
+  }
+
+  validateForm() {
+    const errors = {};
+    // For GDPR countries alone this field should have value
+    if (this.props.isRequiredNew && this.props.consented === null) {
+      this.props.setShowConsentRequired(true);
+      errors['consented'] = true;
+    }
+    this.setState({ errors: errors });
+    return isEmpty(errors);
   }
 
   // Event Handlers
@@ -120,6 +135,9 @@ export default class EmailToolView extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    const valid = this.validateForm();
+
+    if (!valid) return;
     this.handleSendEmail();
     this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
@@ -231,18 +249,6 @@ export default class EmailToolView extends Component {
             </div>
 
             <div className="EmailToolView-note">
-              {/* <div>
-                <Button
-                  className="button"
-                  onClick={() => window.open(this.generateMailToLink())}
-                >
-                  <FormattedMessage
-                    id="email_tool.form.send_email"
-                    defaultMessage="Send with your email client"
-                  />
-                </Button>
-              </div> */}
-
               <div className="section title">
                 <FormattedMessage
                   id="email_tool.form.choose_email_service"
@@ -421,7 +427,12 @@ export default class EmailToolView extends Component {
                 </React.Fragment>
               )}
             </div>
-
+            <ConsentComponent
+              alwaysShow={true}
+              isRequired={
+                this.props.isRequiredNew || this.props.isRequiredExisting
+              }
+            />
             <FormGroup>
               <Button
                 disabled={this.state.isSubmitting || !this.state.emailService}
@@ -430,13 +441,11 @@ export default class EmailToolView extends Component {
               >
                 {this.state.emailService === 'other_email_services' ? (
                   <FormattedMessage
-                    // id="email_tool.form.submit_action"
                     id="email_tool.form.submit"
                     defaultMessage="Submit Action"
                   />
                 ) : (
                   <FormattedMessage
-                    // id="email_tool.form.submit_action"
                     id="email_tool.form.submit_and_send_email"
                     defaultMessage="Submit Action &amp; Send Email"
                   />
@@ -449,3 +458,19 @@ export default class EmailToolView extends Component {
     );
   }
 }
+
+export const mapStateToProps = ({ consent }) => {
+  const { consented, isRequiredNew, isRequiredExisting } = consent;
+  return {
+    consented,
+    isRequiredNew,
+    isRequiredExisting,
+  };
+};
+
+export const mapDispatchToProps = dispatch => ({
+  setShowConsentRequired: consentRequired =>
+    dispatch(showConsentRequired(consentRequired)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmailToolView);
