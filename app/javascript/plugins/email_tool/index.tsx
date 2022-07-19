@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { Store } from 'redux';
 import URI from 'urijs';
 import ComponentWrapper from '../../components/ComponentWrapper';
+import { isDoubleOptIn } from '../../modules/consent/consent';
 import { IAppState } from '../../types';
 import { camelizeKeys } from '../../util/util';
 import Plugin from '../plugin';
@@ -46,6 +47,9 @@ export const init = options => {
         .addSearch({
           'target[name]': target.name,
           'target[title]': target.title,
+          double_opt_in: isDoubleOptIn(
+            memberData?.country || personalization.location.country || 'US'
+          ),
         })
         .toString();
     },
