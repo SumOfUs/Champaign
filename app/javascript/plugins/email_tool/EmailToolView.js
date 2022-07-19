@@ -20,6 +20,7 @@ import {
 } from '../../util/util';
 
 import './EmailToolView';
+import DoubleOptIn from '../../modules/double-opt-in';
 
 function emailTargetAsSelectOption(target) {
   return {
@@ -143,6 +144,7 @@ export class EmailToolView extends Component {
     MailerClient.sendEmail(this.payload()).then(
       () => {
         this.setState(s => ({ ...s, isSubmitting: false }));
+        DoubleOptIn.handleActionSuccess('success');
         if (typeof this.props.onSuccess === 'function' && this.state.target) {
           this.props.onSuccess(this.state.target);
         }
