@@ -20,7 +20,7 @@ import {
 } from '../../util/util';
 
 import './EmailToolView';
-import DoubleOptIn from '../../modules/double-opt-in';
+import { DoubleOptIn } from '../../modules/double-opt-in';
 
 function emailTargetAsSelectOption(target) {
   return {
