@@ -144,7 +144,7 @@ export class EmailToolView extends Component {
     MailerClient.sendEmail(this.payload()).then(
       () => {
         this.setState(s => ({ ...s, isSubmitting: false }));
-        DoubleOptIn.handleActionSuccess('success');
+        DoubleOptIn.handleActionSuccess({ status: 'success' });
         if (typeof this.props.onSuccess === 'function' && this.state.target) {
           this.props.onSuccess(this.state.target);
         }
