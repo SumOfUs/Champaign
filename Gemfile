@@ -94,7 +94,6 @@ group :development do
 end
 
 group :test do
-  gem 'coveralls', '~> 0.8.21', require: false
   gem 'poltergeist'
   gem 'pry'
   gem 'rails-controller-testing'
