@@ -1,0 +1,17 @@
+h3 Olá #{@name.titleize},
+
+p Estamos felizes de saber que você deseja apoiar nossa petição "#{@page.title}". Infelizmente, você ainda não confirmou sua assinatura.
+
+p Adoraríamos manter contato com você por e-mail para te atualizar sobre esta e outras campanhas da SumOfUs (você pode se desinscrever a qualquer momento). Por favor, clique em um dos links a seguir:
+
+h3
+ = link_to "Eu quero assinar e receber atualizações sobre esta e outras campanhas", confirm_api_action_confirmations_url(token: @token, consented: true)
+p
+ = link_to "Eu quero assinar, mas sem atualizações", confirm_api_action_confirmations_url(token: @token)
+
+p A sua assinatura só é válida se você clicar para confirmar!
+
+p
+ | Atenciosamente,
+ br
+ | Equipe da SumOfUs
