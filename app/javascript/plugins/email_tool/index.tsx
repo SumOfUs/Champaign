@@ -46,6 +46,7 @@ export const init = options => {
         .addSearch({
           'target[name]': target.name,
           'target[title]': target.title,
+          double_opt_in: target.double_opt_in,
         })
         .toString();
     },
