@@ -40,7 +40,7 @@ a `config/settings/development.local.yml` file.
 ## Vendor theme and overrides
 
 Champaign is a full Rails app. While it's ready to be deployed out of the box,
-you will likely want to customise its styles, images, and translations. 
+you will likely want to customise its styles, images, and translations.
 To that end,Champaign has a `vendor/theme` folder where you can add,
 override, or customise translation strings, layouts/partials, and images.
 
