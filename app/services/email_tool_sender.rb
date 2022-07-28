@@ -60,10 +60,11 @@ class EmailToolSender
   private
 
   def action_target_params
+    action_target_double_opt_in = { double_opt_in: @target&.double_opt_in }
     if @params[:target_id] == 'all'
-      { action_target: 'multiple', action_target_email: to_emails }
+      { action_target: 'multiple', action_target_email: to_emails }.merge(action_target_double_opt_in)
     else
-      { action_target: @target&.name, action_target_email: @target&.email }
+      { action_target: @target&.name, action_target_email: @target&.email }.merge(action_target_double_opt_in)
     end
   end
 
