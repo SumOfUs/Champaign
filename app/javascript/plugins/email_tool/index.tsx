@@ -42,6 +42,8 @@ export const init = options => {
     trackingParams,
     country: memberData.country || personalization.location.country,
     onSuccess(target) {
+      // tslint:disable-next-line:no-console
+      console.log(target);
       window.location.href = URI(`${window.location.pathname}/follow-up`)
         .addSearch({
           'target[name]': target.name,

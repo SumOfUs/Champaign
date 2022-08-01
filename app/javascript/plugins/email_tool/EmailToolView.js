@@ -20,6 +20,7 @@ import {
 } from '../../util/util';
 
 import './EmailToolView';
+import consent from '../../modules/consent/consent';
 
 function emailTargetAsSelectOption(target) {
   return {
@@ -427,12 +428,15 @@ export class EmailToolView extends Component {
                 </React.Fragment>
               )}
             </div>
-            <ConsentComponent
-              alwaysShow={true}
-              isRequired={
-                this.props.isRequiredNew || this.props.isRequiredExisting
-              }
-            />
+            {consent.isRequired(this.props.countryCode, null) && (
+              <ConsentComponent
+                alwaysShow={true}
+                isRequired={
+                  this.props.isRequiredNew || this.props.isRequiredExisting
+                }
+              />
+            )}
+
             <FormGroup>
               <Button
                 disabled={this.state.isSubmitting || !this.state.emailService}
@@ -460,12 +464,8 @@ export class EmailToolView extends Component {
 }
 
 export const mapStateToProps = ({ consent }) => {
-  const { consented, isRequiredNew, isRequiredExisting } = consent;
-  return {
-    consented,
-    isRequiredNew,
-    isRequiredExisting,
-  };
+  const { countryCode, consented, isRequiredNew, isRequiredExisting } = consent;
+  return { countryCode, consented, isRequiredNew, isRequiredExisting };
 };
 
 export const mapDispatchToProps = dispatch => ({
