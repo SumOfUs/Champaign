@@ -428,7 +428,10 @@ export class EmailToolView extends Component {
                 </React.Fragment>
               )}
             </div>
-            {consent.isRequired(this.props.countryCode, null) && (
+            {consent.isRequired(
+              this.props.countryCode,
+              window.champaign.personalization.member
+            ) && (
               <ConsentComponent
                 alwaysShow={true}
                 isRequired={
