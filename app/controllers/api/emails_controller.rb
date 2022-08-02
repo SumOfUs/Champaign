@@ -20,7 +20,6 @@ class Api::EmailsController < ApplicationController
   def create_unsafe
     service = UnsafeEmailSender.new(params[:page_id], unsafe_email_params, tracking_params)
     if service.run
-      pending_action_check(service.action)
       write_member_cookie(service.action.member_id) if service.action.member_id
       render json: { follow_up_page: PageFollower.new_from_page(page).follow_up_path }
     else
