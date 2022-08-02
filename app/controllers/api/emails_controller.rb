@@ -6,18 +6,7 @@ class Api::EmailsController < ApplicationController
   def create
     service = EmailToolSender.new(params[:page_id], email_params, tracking_params)
     if service.run
-      if service.action.is_a?(PendingActionService)
-        service.action.send_email
-        render json: {
-          follow_up_page: PageFollower.new_from_page(
-            page,
-            double_opt_in: true
-          ).follow_up_path,
-          double_opt_in: true
-        }, status: :ok
-        return
-      end
-
+      pending_action_check(service.action)
       write_member_cookie(service.action.member_id)
       render json: {
         success: true,
@@ -31,6 +20,7 @@ class Api::EmailsController < ApplicationController
   def create_unsafe
     service = UnsafeEmailSender.new(params[:page_id], unsafe_email_params, tracking_params)
     if service.run
+      pending_action_check(service.action)
       write_member_cookie(service.action.member_id) if service.action.member_id
       render json: { follow_up_page: PageFollower.new_from_page(page).follow_up_path }
     else
@@ -40,6 +30,7 @@ class Api::EmailsController < ApplicationController
 
   def create_pension_email
     @action = ManageAction.create(action_params.merge(target_name: params[:target_name]))
+    pending_action_check(@action)
     write_member_cookie(@action.member_id)
 
     respond_to do |format|
@@ -136,5 +127,19 @@ class Api::EmailsController < ApplicationController
 
   def plugin
     @plugin ||= Plugins::EmailPension.find_by id: params[:plugin_id], page_id: page.id
+  end
+
+  def pending_action_check(action)
+    if action.is_a?(PendingActionService)
+      action.send_email
+      render json: {
+        follow_up_page: PageFollower.new_from_page(
+          page,
+          double_opt_in: true
+        ).follow_up_path,
+        double_opt_in: true
+      }, status: :ok
+      nil
+    end
   end
 end
