@@ -370,17 +370,10 @@ export function EmailComposer(props) {
             </React.Fragment>
           )}
         </div>
-        {consent.isRequired(
-          this.props.countryCode,
-          window.champaign.personalization.member
-        ) && (
-          <ConsentComponent
-            alwaysShow={true}
-            isRequired={
-              this.props.isRequiredNew || this.props.isRequiredExisting
-            }
-          />
-        )}
+        <ConsentComponent
+          alwaysShow={true}
+          isRequired={isRequiredNew || isRequiredExisting}
+        />
         <FormGroup>
           <Button
             type="submit"

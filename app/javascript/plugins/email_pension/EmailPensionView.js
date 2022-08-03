@@ -482,7 +482,7 @@ export const mapStateToProps = ({ emailTarget, consent }) => {
     fund,
     fundId,
   } = emailTarget;
-  const { consented, isRequiredNew, isRequiredExisting } = consent;
+  const { countryCode, consented, isRequiredNew, isRequiredExisting } = consent;
   return {
     email,
     name,
@@ -493,6 +493,7 @@ export const mapStateToProps = ({ emailTarget, consent }) => {
     fundEmail,
     fund,
     fundId,
+    countryCode,
     consented,
     isRequiredNew,
     isRequiredExisting,
