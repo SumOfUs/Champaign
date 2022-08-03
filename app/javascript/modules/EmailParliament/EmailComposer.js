@@ -19,7 +19,6 @@ import {
   buildToEmailForCompose,
 } from '../../util/util';
 import { showConsentRequired } from '../../state/consent';
-import consent from '../../modules/consent/consent';
 
 export function EmailComposer(props) {
   const dispatch = useDispatch();

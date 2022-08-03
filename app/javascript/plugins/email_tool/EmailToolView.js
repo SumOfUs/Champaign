@@ -57,9 +57,8 @@ export class EmailToolView extends Component {
   }
 
   payload() {
-    return {
+    const payload = {
       page_id: this.props.pageId,
-      consented: this.props.consented ? 1 : 0,
       email: {
         body: this.state.body,
         subject: this.state.subject,
@@ -74,6 +73,11 @@ export class EmailToolView extends Component {
         ...this.props.trackingParams,
       },
     };
+    // For double optin countries consented field should not have a value
+    if (this.props.consented !== null) {
+      payload.consented = this.props.consented ? 1 : 0;
+    }
+    return payload;
   }
 
   validateForm() {

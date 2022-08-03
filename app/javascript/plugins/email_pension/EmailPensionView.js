@@ -176,10 +176,12 @@ class EmailPensionView extends Component {
       from_email: this.props.email,
       to_name: this.props.fundContact,
       to_email: this.props.fundEmail,
-      consented: this.props.consented ? 1 : 0,
       email_service: this.state.emailService,
       clicked_copy_body_button: this.state.clickedCopyBodyButton,
     };
+    // For double optin consented field should not have a value
+    if (this.props.consented !== null)
+      payload.consented = this.props.consented ? 1 : 0;
     merge(payload, this.props.formValues);
     this.props.changeSubmitting(true);
 
