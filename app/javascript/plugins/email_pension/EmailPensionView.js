@@ -13,6 +13,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import SelectPensionFund from './SelectPensionFund';
 import './EmailPensionView.scss';
 import ConsentComponent from '../../components/consent/ConsentComponent';
+import consent from '../../modules/consent/consent';
 
 import {
   changeBody,
@@ -431,12 +432,17 @@ class EmailPensionView extends Component {
                 </React.Fragment>
               )}
             </div>
-            <ConsentComponent
-              alwaysShow={true}
-              isRequired={
-                this.props.isRequiredNew || this.props.isRequiredExisting
-              }
-            />
+            {consent.isRequired(
+              this.props.countryCode,
+              window.champaign.personalization.member
+            ) && (
+              <ConsentComponent
+                alwaysShow={true}
+                isRequired={
+                  this.props.isRequiredNew || this.props.isRequiredExisting
+                }
+              />
+            )}
             <div className="form__group">
               <Button
                 disabled={this.state.isSubmitting || !this.state.emailService}

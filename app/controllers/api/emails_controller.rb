@@ -6,6 +6,7 @@ class Api::EmailsController < ApplicationController
   def create
     service = EmailToolSender.new(params[:page_id], email_params, tracking_params)
     if service.run
+      pending_action_check(service.action)
       write_member_cookie(service.action.member_id)
       render json: {
         success: true,
@@ -28,6 +29,7 @@ class Api::EmailsController < ApplicationController
 
   def create_pension_email
     @action = ManageAction.create(action_params.merge(target_name: params[:target_name]))
+    pending_action_check(@action)
     write_member_cookie(@action.member_id)
 
     respond_to do |format|
@@ -44,7 +46,7 @@ class Api::EmailsController < ApplicationController
   def unsafe_email_params
     params
       .require(:email)
-      .permit(:recipients, :body, :subject, :from_name, :from_email, :country, :consented, :email_service, :clicked_copy_body_button)
+      .permit(:recipients, :body, :subject, :from_name, :from_email, :country, :consented, :email_service, :clicked_copy_body_button) # rubocop:disable Metrics/LineLength
   end
 
   def recipient_params
@@ -118,28 +120,25 @@ class Api::EmailsController < ApplicationController
     }
   end
 
-  # def send_pension_email
-  #
-  #   reg_endpoint = plugin.try(:registered_target_endpoint)
-  #   target_data = if reg_endpoint
-  #                   targets =
-  #                     EmailTool::TargetsFinder.new(
-  #                       postcode: params[:postcode],
-  #                       endpoint: reg_endpoint.url
-  #                     ).find
-
-  #                   constituency_targets_email_params(targets)
-  #                 else
-  #                   pension_email_params
-  #                 end
-  #    PensionEmailSender.run(params[:page_id], target_data)
-  # end
-
   def page
     @page = Page.find(params[:page_id])
   end
 
   def plugin
     @plugin ||= Plugins::EmailPension.find_by id: params[:plugin_id], page_id: page.id
+  end
+
+  def pending_action_check(action)
+    if action.is_a?(PendingActionService)
+      action.send_email
+      render json: {
+        follow_up_page: PageFollower.new_from_page(
+          page,
+          double_opt_in: true
+        ).follow_up_path,
+        double_opt_in: true
+      }, status: :ok
+      nil
+    end
   end
 end

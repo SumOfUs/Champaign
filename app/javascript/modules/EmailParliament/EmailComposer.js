@@ -19,6 +19,7 @@ import {
   buildToEmailForCompose,
 } from '../../util/util';
 import { showConsentRequired } from '../../state/consent';
+import consent from '../../modules/consent/consent';
 
 export function EmailComposer(props) {
   const dispatch = useDispatch();
@@ -369,10 +370,17 @@ export function EmailComposer(props) {
             </React.Fragment>
           )}
         </div>
-        <ConsentComponent
-          alwaysShow={true}
-          isRequired={isRequiredNew || isRequiredExisting}
-        />
+        {consent.isRequired(
+          this.props.countryCode,
+          window.champaign.personalization.member
+        ) && (
+          <ConsentComponent
+            alwaysShow={true}
+            isRequired={
+              this.props.isRequiredNew || this.props.isRequiredExisting
+            }
+          />
+        )}
         <FormGroup>
           <Button
             type="submit"
