@@ -31,6 +31,10 @@
   &__title {
     padding: 20px 20px 20px 40px;
     font-size: 36px;
+    &__center {
+      text-align: center;
+      padding-bottom: 36px;
+    }
     @media(max-width: 900px) {
       font-size: 34px;
     }
@@ -99,4 +103,16 @@ html[dir=rtl] div.mobile-title, html[dir=rtl] div.header-logo__tagline, html[dir
   @media(max-width: $mobile-width) {
     width: 100%;
   }
+}
+
+.cover-photo--center {
+  width: 70%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 390px;
+  background-position: center;
+  overflow: hidden;
+  position: relative;
+  @include background-size(cover);
 }
