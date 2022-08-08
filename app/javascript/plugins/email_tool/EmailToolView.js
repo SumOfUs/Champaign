@@ -146,10 +146,10 @@ export class EmailToolView extends Component {
     this.handleSendEmail();
     this.setState(s => ({ ...s, isSubmitting: true, errors: {} }));
     MailerClient.sendEmail(this.payload()).then(
-      () => {
+      response => {
         this.setState(s => ({ ...s, isSubmitting: false }));
         if (typeof this.props.onSuccess === 'function' && this.state.target) {
-          this.props.onSuccess(this.state.target);
+          this.props.onSuccess(this.state.target, response.data);
         }
       },
       ({ errors }) => {
