@@ -164,11 +164,19 @@ export default (state = initialState, action) => {
       };
     }
     case 'set_direct_debit_only': {
+      const localPaymentTypes = getLocalPaymentTypes({
+        country: state.form.country || state.formValues.country,
+        recurring: action.payload,
+        currency: state.currency,
+      });
+
       const paymentTypes = supportedPaymentTypes({
         showDirectDebit: state.showDirectDebit,
         showIdeal: state.showIdeal,
         directDebitOnly: action.payload,
+        localPaymentTypes,
       });
+
       const currentPaymentType = safePaymentType(
         state.currentPaymentType,
         paymentTypes
