@@ -13,6 +13,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   before_action :localize, only: %i[show follow_up double_opt_in_notice]
   before_action :record_tracking, only: %i[show]
   before_action :redirect_to_experiment, only: [:show]
+  before_action :redirect_to_donations_experiment, only: [:show]
 
   def index
     @pages = Search::PageSearcher.search(search_params)
@@ -208,6 +209,18 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   def redirect_to_experiment
     return unless @page.published?
     return unless @page.language_code
+    return if user_signed_in?
+
+    path_match = %r{^/a/}
+    if request.path.match(path_match) && @page.has_pronto_inclusion_template?
+      redirect_to request.fullpath.gsub(path_match, "/#{@page.language_code}/a/")
+    end
+  end
+
+  def redirect_to_donations_experiment
+    return unless @page.published?
+    return unless @page.language_code
+    return unless @page.donation_page?
     return if user_signed_in?
 
     path_match = %r{^/a/}
