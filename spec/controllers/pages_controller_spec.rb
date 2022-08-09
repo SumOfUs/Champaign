@@ -17,6 +17,7 @@ describe PagesController do
   end
 
   include_examples 'session authentication'
+  it { is_expected.to respond_to :plugins }
 
   before do
     ActionController::Parameters.permit_all_parameters = true
