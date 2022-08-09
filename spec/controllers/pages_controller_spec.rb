@@ -170,7 +170,8 @@ describe PagesController do
       allow(Page).to            receive(:find) { page }
       allow(page).to            receive(:update)
       allow(page).to            receive(:language_code).and_return('en')
-      allow(LiquidRenderer).to  receive(:new) { renderer }
+      allow(page).to receive(:donation_page?) { false }
+      allow(LiquidRenderer).to receive(:new) { renderer }
     end
 
     include_examples 'show and follow-up'
@@ -218,7 +219,10 @@ describe PagesController do
 
       context 'with french' do
         subject { french_page }
-        before { allow(Page).to receive(:find) { french_page } }
+        before do
+          allow(Page).to receive(:find) { french_page }
+          allow(page).to receive(:donation_page?) { false }
+        end
 
         it 'sets the locality to :fr' do
           get :show, params: { id: '42' }
