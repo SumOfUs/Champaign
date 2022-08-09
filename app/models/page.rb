@@ -61,7 +61,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   extend FriendlyId
   has_paper_trail
 
-  PRONTO_TEMPLATES = ['Default: Petition And Scroll To Share Greenpeace'].freeze
+  PRONTO_TEMPLATES = ['Default: Petition And Scroll To Share Greenpeace', 'Fundraiser With Title Below Image'].freeze
 
   enum follow_up_plan: %i[with_liquid with_page] # TODO: - :with_link
   enum publish_status: %i[published unpublished archived]
