@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { pick } from 'lodash';
+import { isEmpty } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+
+import ConsentComponent from '../../components/consent/ConsentComponent';
 import SweetInput from '../../components/SweetInput/SweetInput';
 import FormGroup from '../../components/Form/FormGroup';
 import Button from '../../components/Button/Button';
@@ -15,8 +18,11 @@ import {
   composeEmailLink,
   buildToEmailForCompose,
 } from '../../util/util';
+import { showConsentRequired } from '../../state/consent';
 
-export default props => {
+export function EmailComposer(props) {
+  const dispatch = useDispatch();
+
   const member = window.champaign.personalization.member;
   const [name, setName] = useState(member.name || '');
   const [email, setEmail] = useState(member.email || '');
@@ -28,6 +34,12 @@ export default props => {
   );
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const isRequiredNew = useSelector(state => state.consent.isRequiredNew);
+  const isRequiredExisting = useSelector(
+    state => state.consent.isRequiredExisting
+  );
+  const consented = useSelector(state => state.consent.consented);
 
   let targets = props.targets;
 
@@ -44,6 +56,10 @@ export default props => {
 
   const onSubmit = async e => {
     e.preventDefault();
+
+    const valid = validateForm();
+    if (!valid) return;
+
     try {
       handleSendEmail();
       setSubmitting(true);
@@ -61,6 +77,7 @@ export default props => {
         emailService,
         clickedCopyBodyButton,
         country: 'GB',
+        consented: consented ? 1 : 0,
       });
 
       props.onSend(result);
@@ -75,6 +92,16 @@ export default props => {
   const onUpdate = data => {
     if (data.subject !== subject) setSubject(data.subject);
     if (data.body !== body) setBody(data.body);
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    if (isRequiredNew && consented === null) {
+      dispatch(showConsentRequired(true));
+      errors['consented'] = true;
+    }
+    setErrors({ errors: errors });
+    return isEmpty(errors);
   };
 
   // Sent as template variable values to interpolate
@@ -342,6 +369,10 @@ export default props => {
             </React.Fragment>
           )}
         </div>
+        <ConsentComponent
+          alwaysShow={true}
+          isRequired={isRequiredNew || isRequiredExisting}
+        />
         <FormGroup>
           <Button
             type="submit"
@@ -367,7 +398,7 @@ export default props => {
       </form>
     </section>
   );
-};
+}
 
 /*
 

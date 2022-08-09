@@ -7,7 +7,7 @@ export const parseResponse = response => {
     case 200:
     case 201:
     case 204:
-      return { success: true, errors: {} };
+      return { success: true, errors: {}, data: response.responseJSON };
     case 422:
     case 403:
       return {

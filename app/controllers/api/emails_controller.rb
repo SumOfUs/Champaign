@@ -6,7 +6,16 @@ class Api::EmailsController < ApplicationController
   def create
     service = EmailToolSender.new(params[:page_id], email_params, tracking_params)
     if service.run
-      write_member_cookie(service.action.member_id)
+      if service.action.is_a?(PendingActionService)
+        service.action.send_email
+        render json: {
+          follow_up_page: PageFollower.new_from_page(page, double_opt_in: true).follow_up_path,
+          double_opt_in: true
+        }, status: :ok
+        return
+      end
+      write_member_cookie(service.action.member_id) if service.action.member_id
+
       render json: {
         success: true,
         tracking: FacebookPixel.completed_registration_hash(page: page, action: service.action)
@@ -28,15 +37,21 @@ class Api::EmailsController < ApplicationController
 
   def create_pension_email
     @action = ManageAction.create(action_params.merge(target_name: params[:target_name]))
-    write_member_cookie(@action.member_id)
-
-    respond_to do |format|
-      format.html do
-        page
-        render template: 'api/emails/create_pension_email.js.erb', content_type: 'text/javascript'
-      end
-      format.js
+    if @action.is_a?(PendingActionService)
+      @action.send_email
+      render json: {
+        follow_up_page: PageFollower.new_from_page(page, double_opt_in: true).follow_up_path,
+        double_opt_in: true
+      }, status: :ok
+      return
     end
+
+    write_member_cookie(@action.member_id) if @action.member_id
+    render json: {
+      success: true,
+      tracking: FacebookPixel.completed_registration_hash(page: page, action: @action),
+      follow_up_page: PageFollower.new_from_page(page).follow_up_path
+    }, status: :ok
   end
 
   private
@@ -44,7 +59,7 @@ class Api::EmailsController < ApplicationController
   def unsafe_email_params
     params
       .require(:email)
-      .permit(:recipients, :body, :subject, :from_name, :from_email, :country, :consented, :email_service, :clicked_copy_body_button)
+      .permit(:recipients, :body, :subject, :from_name, :from_email, :country, :consented, :email_service, :clicked_copy_body_button) # rubocop:disable Metrics/LineLength
   end
 
   def recipient_params
@@ -117,23 +132,6 @@ class Api::EmailsController < ApplicationController
       consented: params[:consented]
     }
   end
-
-  # def send_pension_email
-  #
-  #   reg_endpoint = plugin.try(:registered_target_endpoint)
-  #   target_data = if reg_endpoint
-  #                   targets =
-  #                     EmailTool::TargetsFinder.new(
-  #                       postcode: params[:postcode],
-  #                       endpoint: reg_endpoint.url
-  #                     ).find
-
-  #                   constituency_targets_email_params(targets)
-  #                 else
-  #                   pension_email_params
-  #                 end
-  #    PensionEmailSender.run(params[:page_id], target_data)
-  # end
 
   def page
     @page = Page.find(params[:page_id])

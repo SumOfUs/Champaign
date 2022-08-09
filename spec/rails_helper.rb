@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 ENV['RAILS_ENV'] = 'test'
+require 'simplecov'
+SimpleCov.start 'rails'
+SimpleCov.minimum_coverage 90
+
 require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
@@ -16,14 +20,11 @@ require 'webmock/rspec'
 require 'paper_trail/frameworks/rspec'
 require 'capybara/rails'
 require 'capybara/poltergeist'
-require 'coveralls'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 Capybara.javascript_driver = :poltergeist
 ActiveRecord::Migration.maintain_test_schema!
-
-Coveralls.wear!('rails')
 
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'

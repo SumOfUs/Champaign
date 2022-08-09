@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import classnames from 'classnames';
 import { search } from './api';
 import SearchByPostcode from './SearchByPostcode';
-import EmailComposer from './EmailComposer';
+import { EmailComposer } from './EmailComposer';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import { redirect } from '../../util/redirector';
 import './EmailParliment.scss';
@@ -24,7 +24,10 @@ const EmailParliament = props => {
   });
   return (
     <div className="EmailParliament">
-      <ComponentWrapper locale={props.config.locale}>
+      <ComponentWrapper
+        locale={props.config.locale}
+        store={window.champaign.store}
+      >
         <SearchByPostcode className={searchClassname} onChange={setTargets} />
         <EmailComposer
           title={props.config.title}

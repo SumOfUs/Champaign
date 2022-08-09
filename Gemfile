@@ -94,7 +94,6 @@ group :development do
 end
 
 group :test do
-  gem 'coveralls', '~> 0.8.21', require: false
   gem 'poltergeist'
   gem 'pry'
   gem 'rails-controller-testing'
@@ -103,6 +102,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'timecop'
   gem 'webmock'
+  gem 'simplecov', require: false
 end
 
 gem "aws-sdk-secretsmanager", "~> 1.21"

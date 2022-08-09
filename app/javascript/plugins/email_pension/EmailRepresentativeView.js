@@ -9,6 +9,7 @@ import SelectTarget from './SelectTarget';
 import SelectCountry from '../../components/SelectCountry/SelectCountry';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import './EmailPensionView.scss';
+import { MailerClient } from '../../util/ChampaignClient';
 
 class EmailRepresentativeView extends Component {
   constructor(props) {
@@ -111,10 +112,12 @@ class EmailRepresentativeView extends Component {
     merge(payload, this.props.formValues);
     this.setState({ isSubmitting: true });
 
-    // FIXME Handle errors
-    $.post(`/api/pages/${this.props.pageId}/pension_emails`, payload).fail(
-      e => {
-        console.log('Unable to send email', e);
+    MailerClient.sendPensionEmail({ page_id: this.props.pageId, payload }).then(
+      response => {
+        window.location.href = URI(`${response.data.follow_up_page}`);
+      },
+      ({ errors }) => {
+        this.setState(s => ({ ...s, errors }));
       }
     );
   };

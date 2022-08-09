@@ -13,6 +13,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import SelectPensionFund from './SelectPensionFund';
 import './EmailPensionView.scss';
 import ConsentComponent from '../../components/consent/ConsentComponent';
+import consent from '../../modules/consent/consent';
 
 import {
   changeBody,
@@ -31,6 +32,8 @@ import {
   composeEmailLink,
   buildToEmailForCompose,
 } from '../../util/util';
+import { MailerClient } from '../../util/ChampaignClient';
+import URI from 'urijs';
 
 class EmailPensionView extends Component {
   constructor(props) {
@@ -175,15 +178,23 @@ class EmailPensionView extends Component {
       from_email: this.props.email,
       to_name: this.props.fundContact,
       to_email: this.props.fundEmail,
-      consented: this.props.consented ? 1 : 0,
       email_service: this.state.emailService,
       clicked_copy_body_button: this.state.clickedCopyBodyButton,
     };
+    // For double optin consented field should not have a value
+    if (this.props.consented !== null)
+      payload.consented = this.props.consented ? 1 : 0;
     merge(payload, this.props.formValues);
     this.props.changeSubmitting(true);
 
-    // FIXME Handle errors
-    $.post(`/api/pages/${this.props.pageId}/pension_emails`, payload);
+    MailerClient.sendPensionEmail({ page_id: this.props.pageId, payload }).then(
+      response => {
+        window.location.href = URI(`${response.data.follow_up_page}`);
+      },
+      ({ errors }) => {
+        this.setState(s => ({ ...s, errors }));
+      }
+    );
   };
 
   onEmailServiceChange = emailService => this.setState({ emailService });
@@ -253,18 +264,6 @@ class EmailPensionView extends Component {
             </div>
 
             <div className="EmailToolView-note">
-              {/* <div>
-                <Button
-                  className="button"
-                  onClick={() => window.open(this.generateMailToLink())}
-                >
-                  <FormattedMessage
-                    id="email_tool.form.send_email"
-                    defaultMessage="Send with your email client"
-                  />
-                </Button>
-              </div> */}
-
               <div className="section title">
                 <FormattedMessage
                   id="email_tool.form.choose_email_service"
@@ -443,12 +442,17 @@ class EmailPensionView extends Component {
                 </React.Fragment>
               )}
             </div>
-            <ConsentComponent
-              alwaysShow={true}
-              isRequired={
-                this.props.isRequiredNew || this.props.isRequiredExisting
-              }
-            />
+            {consent.isRequired(
+              this.props.countryCode,
+              window.champaign.personalization.member
+            ) && (
+              <ConsentComponent
+                alwaysShow={true}
+                isRequired={
+                  this.props.isRequiredNew || this.props.isRequiredExisting
+                }
+              />
+            )}
             <div className="form__group">
               <Button
                 disabled={this.state.isSubmitting || !this.state.emailService}
@@ -456,7 +460,6 @@ class EmailPensionView extends Component {
               >
                 {this.state.emailService === 'other_email_services' ? (
                   <FormattedMessage
-                    // id="email_tool.form.submit_action"
                     id="email_tool.form.submit"
                     defaultMessage="Submit Action"
                   />
@@ -489,7 +492,7 @@ export const mapStateToProps = ({ emailTarget, consent }) => {
     fund,
     fundId,
   } = emailTarget;
-  const { consented, isRequiredNew, isRequiredExisting } = consent;
+  const { countryCode, consented, isRequiredNew, isRequiredExisting } = consent;
   return {
     email,
     name,
@@ -500,6 +503,7 @@ export const mapStateToProps = ({ emailTarget, consent }) => {
     fundEmail,
     fund,
     fundId,
+    countryCode,
     consented,
     isRequiredNew,
     isRequiredExisting,
