@@ -219,10 +219,7 @@ describe PagesController do
 
       context 'with french' do
         subject { french_page }
-        before do
-          allow(Page).to receive(:find) { french_page }
-          allow(Page).to receive(:donation_page?) { false }
-        end
+        before { allow(Page).to receive(:find) { french_page } }
 
         it 'sets the locality to :fr' do
           get :show, params: { id: '42' }
