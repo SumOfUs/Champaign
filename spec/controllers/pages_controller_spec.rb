@@ -214,7 +214,7 @@ describe PagesController do
 
     context 'on pages with localization' do
       let(:french_page) do
-        instance_double(Page, valid?: true, pronto: false, published?: true, language_code: language.code, id: '42', liquid_layout: '5', donation_page: false)
+        instance_double(Page, valid?: true, pronto: false, published?: true, language_code: language.code, id: '42', liquid_layout: '5')
       end
       let(:english_page) do
         instance_double(Page, valid?: true, pronto: false, published?: true, language_code: default_language.code, id: '66', liquid_layout: '5')
@@ -225,6 +225,7 @@ describe PagesController do
         before { allow(Page).to receive(:find) { french_page } }
 
         it 'sets the locality to :fr' do
+          allow(french_page).to receive(:donation_page?) { false }
           get :show, params: { id: '42' }
           expect(I18n.locale).to eq :fr
         end
@@ -234,6 +235,7 @@ describe PagesController do
           before { allow(Page).to receive(:find) { english_page } }
 
           it 'sets the locality to :en' do
+            allow(english_page).to receive(:donation_page?) { false }
             get :show, params: { id: '66' }
             expect(I18n.locale).to eq :en
           end
