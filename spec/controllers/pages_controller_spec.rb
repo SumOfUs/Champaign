@@ -146,6 +146,7 @@ describe PagesController do
     it 'does not redirect to homepage if user not logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:published?) { true }
+      allow(page).to receive(:donation_page?) { false }
       expect(subject).not_to be_redirect
     end
 
