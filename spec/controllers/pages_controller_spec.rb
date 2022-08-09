@@ -221,7 +221,7 @@ describe PagesController do
         subject { french_page }
         before do
           allow(Page).to receive(:find) { french_page }
-          allow(page).to receive(:donation_page?) { false }
+          allow(Page).to receive(:donation_page?) { false }
         end
 
         it 'sets the locality to :fr' do
