@@ -45,15 +45,13 @@ class Api::EmailsController < ApplicationController
       }, status: :ok
       return
     end
-    write_member_cookie(@action.member_id) if @action.member_id
 
-    respond_to do |format|
-      format.html do
-        page
-        render template: 'api/emails/create_pension_email.js.erb', content_type: 'text/javascript'
-      end
-      format.js
-    end
+    write_member_cookie(@action.member_id) if @action.member_id
+    render json: {
+      success: true,
+      tracking: FacebookPixel.completed_registration_hash(page: page, action: @action),
+      follow_up_page: PageFollower.new_from_page(page).follow_up_path
+    }, status: :ok
   end
 
   private

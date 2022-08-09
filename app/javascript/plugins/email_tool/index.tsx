@@ -41,12 +41,16 @@ export const init = options => {
     ...memberData,
     trackingParams,
     country: memberData.country || personalization.location.country,
-    onSuccess(target) {
+    onSuccess(target, response) {
+      const searchParams: any = {
+        'target[name]': target.name,
+        'target[title]': target.title,
+      };
+      if (response?.double_opt_in) {
+        searchParams.double_opt_in = 'true';
+      }
       window.location.href = URI(`${window.location.pathname}/follow-up`)
-        .addSearch({
-          'target[name]': target.name,
-          'target[title]': target.title,
-        })
+        .addSearch(searchParams)
         .toString();
     },
   };

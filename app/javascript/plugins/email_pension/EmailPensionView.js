@@ -32,6 +32,8 @@ import {
   composeEmailLink,
   buildToEmailForCompose,
 } from '../../util/util';
+import { MailerClient } from '../../util/ChampaignClient';
+import URI from 'urijs';
 
 class EmailPensionView extends Component {
   constructor(props) {
@@ -185,8 +187,14 @@ class EmailPensionView extends Component {
     merge(payload, this.props.formValues);
     this.props.changeSubmitting(true);
 
-    // FIXME Handle errors
-    $.post(`/api/pages/${this.props.pageId}/pension_emails`, payload);
+    MailerClient.sendPensionEmail({ page_id: this.props.pageId, payload }).then(
+      response => {
+        window.location.href = URI(`${response.data.follow_up_page}`);
+      },
+      ({ errors }) => {
+        this.setState(s => ({ ...s, errors }));
+      }
+    );
   };
 
   onEmailServiceChange = emailService => this.setState({ emailService });
