@@ -27,6 +27,8 @@ describe PagesController do
     allow(controller).to receive(:current_user) { user }
     allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
     Settings.home_page_url = 'http://example.com'
+    create(:plugins_petition, page: page)
+    create(:plugins_fundraiser, page: page)
   end
 
   describe 'GET #index' do
