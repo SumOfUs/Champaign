@@ -6,7 +6,10 @@ describe PagesController do
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
+  let!(:follow_up_layout) { create :liquid_layout, title: 'Follow up layout' }
+  let!(:liquid_layout)    { create :liquid_layout, title: 'Liquid layout', default_follow_up_layout: follow_up_layout }
   let(:page) { instance_double('Page', published?: true, featured?: true, pronto: false, to_param: 'foo', id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
+  let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
   let(:renderer) do
     instance_double(
       'LiquidRenderer',
@@ -17,7 +20,6 @@ describe PagesController do
   end
 
   include_examples 'session authentication'
-  it { is_expected.to respond_to :plugins }
 
   before do
     ActionController::Parameters.permit_all_parameters = true
