@@ -216,7 +216,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # the page is considered as petition page.
   # FIXME: This method is *not* reliable and intermittently tests
   def donation_page?
-    plugins.first.is_a?(Plugins::Fundraiser) || false
+    plugins&.first.is_a?(Plugins::Fundraiser) || false
   end
 
   def set_ak_slug
