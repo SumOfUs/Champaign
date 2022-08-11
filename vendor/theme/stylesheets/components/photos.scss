@@ -31,10 +31,6 @@
   &__title {
     padding: 20px 20px 20px 40px;
     font-size: 36px;
-    &__center {
-      text-align: center;
-      padding-bottom: 36px;
-    }
     @media(max-width: 900px) {
       font-size: 34px;
     }
