@@ -193,6 +193,13 @@ de:
     tweet: Twitter
     share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus_de'
+  aria_share:
+    email: Share with email
+    twitter: Share on twitter
+    whatsapp: Share on whatsapp
+    facebook: Share on facebook
+    print: Print
+    copy: Copy the link
   errors:
     probably_invalid: sieht nicht richtig aus
     is_invalid: ist ungültig

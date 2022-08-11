@@ -199,6 +199,13 @@ pt:
     tweet: Tuitar
     share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus' # override this with your orgs twitter handle
+  aria_share:
+    email: Compartilhar por e-mail
+    twitter: Compartilhar no twitter
+    whatsapp: Compartilhar no whatsapp
+    facebook: Compartilhar no facebook
+    print: imprimir
+    copy: Copiar link
   errors:
     probably_invalid: não parece correto
     is_invalid: é inválido
