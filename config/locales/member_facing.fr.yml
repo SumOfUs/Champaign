@@ -181,6 +181,13 @@ fr:
     tweet: Tweeter
     share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus_fr'
+  aria_share:
+    email: Share with email
+    twitter: Share on twitter
+    whatsapp: Share on whatsapp
+    facebook: Share on facebook
+    print: Print
+    copy: Copy the link
   errors:
     probably_invalid: semble invalide
     is_invalid: est invalide

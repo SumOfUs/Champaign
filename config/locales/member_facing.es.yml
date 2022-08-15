@@ -198,6 +198,13 @@ es:
     tweet: Tweet
     share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus' # override this with your orgs twitter handle
+  aria_share:
+    email: Compartir en correo electrónico
+    twitter: Compartir en twitter
+    whatsapp: Compartir en whatsapp
+    facebook: Compartir en facebook
+    print: Imprimir
+    copy: Copiar el enlace
   errors:
     probably_invalid: no parece correcto
     is_invalid: is invalid

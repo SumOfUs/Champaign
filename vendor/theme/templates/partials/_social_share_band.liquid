@@ -1,0 +1,197 @@
+<section class="social-share-band-wrapper">
+  <div class="social-icons">
+  {% unless shares['facebook'] == blank %}
+    <div class="hidden-irrelevant {{ shares['facebook'].css_class }}"></div>
+    <a title="{{ 'aria_share.facebook' | t }}" target="popup" class="f-share skeleton" onclick="facebookShareClickHandler()" tabindex="0">
+      <img src="/assets/Facebook.png" aria-hidden="true" alt=""/>
+    </a>
+  {% endunless %}
+  {% unless shares['twitter'] == blank %}
+    <div class="hidden-irrelevant {{ shares['twitter'].css_class }}"></div>
+    <a title="{{ 'aria_share.twitter' | t }}" href="#" class="t-share skeleton" onclick="twitterShareClickHandler()">
+      <img src="/assets/Twitter.png" aria-hidden="true" alt=""/>
+    </a>
+  {% endunless %}
+  {% unless shares['whatsapp'] == blank %}
+    <div class="shares-w hidden-irrelevant">{{ shares['whatsapp'].link_html }}</div>
+    <a title="{{ 'aria_share.whatsapp' | t }}" href="#" class="w-share skeleton" onclick="whatsAppShareClickHandler()">
+      <img src="/assets/WhatsApp.png" aria-hidden="true" alt=""/>
+    </a>
+  {% endunless %}
+  {% unless shares['email'] == blank %}
+    <div class="hidden-irrelevant {{ shares['email'].css_class }}"></div>
+    <a title="{{ 'aria_share.email' | t }}" href="#" class="e-share skeleton" onclick="emailShareClickHandler()">
+      <img src="/assets/Mail.png" aria-hidden="true" alt=""/>
+    </a>
+  {% endunless %}
+  </div>
+</section>
+<script type="text/javascript">
+  function facebookShareClickHandler() {
+    console.log('facebookShareClickHandler');
+  };
+  function twitterShareClickHandler() {
+    console.log('twitterShareClickHandler');
+  };
+  function whatsAppShareClickHandler() {
+    if(window.ga) {
+        window.ga('send', 'event', ...[
+          'social_share',
+          'shared_on_w'
+        ]);
+      }
+      document.querySelector('.whatsapp_large').click();
+      return false; 
+  };
+  function emailShareClickHandler() {
+    console.log('emailShareClickHandler');
+  };
+  $(document).ready(function(){
+    document.querySelectorAll('.whatsapp_large').forEach(e => {
+      e.setAttribute('target', '_blank');
+      e.setAttribute('tabindex', '-1')
+      e.setAttribute('aria-hidden', 'true');
+    });
+    document.querySelector('.whatsapp_large').setAttribute('tabindex', '-1');
+    document.querySelector('.whatsapp_large').setAttribute('aria-hidden', 'true');
+    var counter = 0;
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        var target = mutation.target;
+        if (target.href.indexOf(location.pathname) === -1 && 
+            (target.classList.value.indexOf("w-share") === -1  
+              && target.classList.value.indexOf('shares-w') === -1)) {
+            var socialType = target.getAttribute('type');
+            target.setAttribute('tabindex', '-1');
+            target.setAttribute('aria-hidden', 'true');
+            function clickHandler() {
+              if(window.ga) {
+                window.ga('send', 'event', ...[
+                  'social_share',
+                  `shared_on_${socialType}`
+                ]);
+              }
+              target.click();
+              return false; 
+            };
+
+            switch(socialType) {
+              case "f":
+                facebookShareClickHandler = clickHandler;
+                break;
+              case "t":
+                twitterShareClickHandler = clickHandler;
+                break;
+              case "e":
+                emailShareClickHandler = clickHandler;
+                break;
+              default:
+                console.log('not supported type');
+            }
+            target.parentNode.style.display = 'none';
+          }
+          counter++;
+      });
+
+      if(counter === 4) {
+        document.querySelectorAll('.skeleton').forEach(e => e.classList.remove("skeleton"));
+      }
+    });
+    observer.observe(document.querySelector('.social-share-band-wrapper'), {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['href']
+    });
+  });
+</script>
+<style>
+    .social-share-band-wrapper {
+        position: fixed;
+        top: 35%;
+        right: 15px;
+        width: 10%;
+    }
+    .social-icons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    .social-icons img {
+        padding-bottom: 9px
+    }
+
+    .social-icons img:hover {
+      transform: scale(1.1);
+    }
+
+    .social-icons img:active {
+      transform: translateY(2px);
+    }
+
+    .social-icons a {
+        cursor: pointer;
+    }
+
+    .skeleton img {
+      visibility: hidden;
+    }
+
+    .skeleton {
+        background-color: #e2e5e7;
+        background-image:linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+        background-size: 40px 100%; 
+        background-repeat: no-repeat;
+        background-position: left -40px top 0; 
+        animation: shine 1s ease infinite; 
+        border-radius: 19101988px;
+        height: 48px;
+        margin-bottom: 9px;
+        pointer-events: none
+    }
+
+@keyframes shine {
+	to {
+		background-position: right -40px top 0;
+	}
+}
+
+@media (max-width: 700px) {
+  .social-icons {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .social-icons img {
+    padding-right: 9px;
+  }
+
+  .social-share-band-wrapper {
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    padding-bottom: 15px;
+    padding-top: 32px;
+    position: relative;
+  }
+
+  .skeleton {
+    width: 48px;
+    padding-right: 9px;
+  }
+}
+@media (max-width: 500px) {
+  .skeleton {
+    height: 51px;
+    width: 42px;
+    margin-right: 9px;
+  }
+
+  .share-title {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+</style>
