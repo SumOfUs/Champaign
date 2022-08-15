@@ -1,0 +1,94 @@
+{% comment %} Description: SumOfUs header, title, image and share buttons {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+<header>
+  <div class="header-logo header-logo--dark">
+    <div class="header-logo__left-constraint">
+        <a href="{{ 'footer.home_url' | t }}" title="SumOfUs logo">
+        <div class="header-logo__logo sumofus-logo--negative"></div>
+      </a>
+      <div class="header-logo__tagline sumofus-logo--tagline">{{ 'branding.tagline' | t }}</div>
+    </div>
+  </div>
+</header>
+<main tabindex="0">
+  <h1 class="share-title">
+      <span>{{ title }}</span>
+  </h1>
+  <div class="cover-photo--center" style="background-image: url({{ primary_image.urls.large }})">
+    <div class="cover-photo__overlay">
+    </div>
+  </div>
+  <div class="top-share-menu">
+    {% include 'Social Share Band' %}
+  </div>
+  <div class="center-content center-content--accomodates-stuck-footer">
+      <div class="center-content__big-column">
+        <div class="body-text-center main-feature {{ extra_class }} {% if enforce_styles %}body-text--enforce-styles{% endif %}">
+          {{ content }}
+
+          {% unless link_list == blank %}
+              <hr class="stubby-hr" />
+              <h3>{{ 'page.more_info' | t }}</h3>
+              {% include 'Links' %}
+          {% endunless %}
+      </div>
+  </div>
+  </div>
+  {% include 'Social Share Band' %}
+</main>
+<style>
+  .body-text-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    padding: 45px 20px 45px 40px
+  }
+
+  .share-title {
+    text-align: center;
+    padding-bottom: 36px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+  }
+
+  .top-share-menu {
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    .cover-photo--center {
+      height: 250px;
+      background-position: top;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .body-text-center.main-feature {
+      width: 85%;
+      padding: 0px 15px 15px 15px;
+    }
+
+    .body-text-center.main-feature img {
+      width: 60% !important;
+    }
+
+    .top-share-menu {
+      display: block;
+    }
+  }
+
+  @media (max-width: 500px) {
+  .cover-photo--center {
+    height: 200px;
+  }
+
+  .share-title {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+</style>

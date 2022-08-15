@@ -100,3 +100,15 @@ html[dir=rtl] div.mobile-title, html[dir=rtl] div.header-logo__tagline, html[dir
     width: 100%;
   }
 }
+
+.cover-photo--center {
+  width: 70%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 390px;
+  background-position: center;
+  overflow: hidden;
+  position: relative;
+  @include background-size(cover);
+}

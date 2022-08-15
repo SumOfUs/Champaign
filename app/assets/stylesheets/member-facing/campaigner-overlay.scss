@@ -3,7 +3,7 @@
   bottom: -20px;
   left: 6px;
   z-index: 10000;
-  color: white;
+  color: black;
   width: 130px;
   @include box-sizing(border-box);
   @include transition(bottom 1s linear);
@@ -12,7 +12,7 @@
   border-radius: 5px;
 
   &--active {
-    background: darkgreen;
+    background: #00B800;
     .campaigner-overlay__info--inactive {
       display: none;
     }
@@ -52,7 +52,7 @@
     height: 14px;
     font-size: 12px;
     text-decoration: underline;
-    color: white;
+    color: black;
     cursor: pointer;
     display: inline;
     &:hover {
