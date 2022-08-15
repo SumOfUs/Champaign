@@ -11,4 +11,8 @@ module ChampaignLiquidFilters
   def jsonify(my_hash)
     my_hash.to_json
   end
+
+  def asset_src(asset_name)
+    ActionController::Base.helpers.asset_path(asset_name)
+  end
 end
