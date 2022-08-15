@@ -60,6 +60,8 @@ json.language @page.language.code
 
 petition =  @page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first
 fundraiser = @page.plugins.select { |p| p.class.name == 'Plugins::Fundraiser' }.first
+actionsThermometer = @page.plugins.select { |p| p.class.name == 'Plugins::ActionsThermometer' }.first
+donationsThermometer = @page.plugins.select { |p| p.class.name == 'Plugins::DonationsThermometer' }.first
 
 json.petition do
   if petition
@@ -87,6 +89,9 @@ json.fundraiser do
     json.title fundraiser.title
   end
 end
+
+json.actions_offset_count actionsThermometer.offset if actionsThermometer
+json.donations_offset_count donationsThermometer.offset if donationsThermometer
 
 json.sources do
   json.array! @page.links, :title, :source, :url, :date
