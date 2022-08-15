@@ -3,25 +3,25 @@
   {% unless shares['facebook'] == blank %}
     <div class="hidden-irrelevant {{ shares['facebook'].css_class }}"></div>
     <a title="{{ 'aria_share.facebook' | t }}" target="popup" class="f-share skeleton" onclick="facebookShareClickHandler()" tabindex="0">
-      <img src="/assets/Facebook.png" aria-hidden="true" alt=""/>
+      <img src="{{ 'Facebook.png' | asset_src }}" aria-hidden="true" alt=""/>
     </a>
   {% endunless %}
   {% unless shares['twitter'] == blank %}
     <div class="hidden-irrelevant {{ shares['twitter'].css_class }}"></div>
     <a title="{{ 'aria_share.twitter' | t }}" href="#" class="t-share skeleton" onclick="twitterShareClickHandler()">
-      <img src="/assets/Twitter.png" aria-hidden="true" alt=""/>
+      <img src="{{ 'Twitter.png' | asset_src }}" aria-hidden="true" alt=""/>
     </a>
   {% endunless %}
   {% unless shares['whatsapp'] == blank %}
     <div class="shares-w hidden-irrelevant">{{ shares['whatsapp'].link_html }}</div>
     <a title="{{ 'aria_share.whatsapp' | t }}" href="#" class="w-share skeleton" onclick="whatsAppShareClickHandler()">
-      <img src="/assets/WhatsApp.png" aria-hidden="true" alt=""/>
+      <img src="{{ 'WhatsApp.png' | asset_src }}" aria-hidden="true" alt=""/>
     </a>
   {% endunless %}
   {% unless shares['email'] == blank %}
     <div class="hidden-irrelevant {{ shares['email'].css_class }}"></div>
     <a title="{{ 'aria_share.email' | t }}" href="#" class="e-share skeleton" onclick="emailShareClickHandler()">
-      <img src="/assets/Mail.png" aria-hidden="true" alt=""/>
+      <img src="{{ 'Mail.png' | asset_src }}" aria-hidden="true" alt="" />
     </a>
   {% endunless %}
   </div>
@@ -29,9 +29,11 @@
 <script type="text/javascript">
   function facebookShareClickHandler() {
     console.log('facebookShareClickHandler');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${location.href}`, '', 'width=600,height=600');
   };
   function twitterShareClickHandler() {
     console.log('twitterShareClickHandler');
+    window.open(`https://twitter.com/intent/tweet?text=${location.href}`, '', 'width=600,height=600');
   };
   function whatsAppShareClickHandler() {
     if(window.ga) {
@@ -40,13 +42,18 @@
           'shared_on_w'
         ]);
       }
-      document.querySelector('.whatsapp_large').click();
+      try {
+        document.querySelector('.whatsapp_large').click();
+      } catch {
+        window.open(`https://api.whatsapp.com/send?text=${location.href}`, '', 'width=600,height=600');
+      }
       return false; 
   };
   function emailShareClickHandler() {
     console.log('emailShareClickHandler');
+    window.open(`mailto:?body=${location.href}`, '', 'width=600,height=600');
   };
-  $(document).ready(function(){
+  window.addEventListener('load', (event) => {
     document.querySelectorAll('.whatsapp_large').forEach(e => {
       e.setAttribute('target', '_blank');
       e.setAttribute('tabindex', '-1')
@@ -93,7 +100,7 @@
           counter++;
       });
 
-      if(counter === 4) {
+      if(counter >= 4) {
         document.querySelectorAll('.skeleton').forEach(e => e.classList.remove("skeleton"));
       }
     });
@@ -102,6 +109,14 @@
       attributes: true,
       attributeFilter: ['href']
     });
+
+    var shareProgressTimeout = setTimeout(function () {
+      observer.disconnect();
+      if(document.querySelectorAll('.skeleton').length) {
+        document.querySelectorAll('.skeleton').forEach(e => e.classList.remove("skeleton"));
+      }
+    }, 7000);
+
   });
 </script>
 <style>
