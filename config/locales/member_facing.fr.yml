@@ -181,6 +181,7 @@ fr:
     tweet: Tweeter
     share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus_fr'
+    copied: 'Copied!'
   aria_share:
     email: Share with email
     twitter: Share on twitter

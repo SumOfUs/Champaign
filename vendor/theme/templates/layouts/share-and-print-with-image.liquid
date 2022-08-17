@@ -4,14 +4,18 @@
 <header>
   <div class="header-logo header-logo--dark">
     <div class="header-logo__left-constraint">
-        <a href="{{ 'footer.home_url' | t }}" title="SumOfUs logo">
+      <a href="{{ 'footer.home_url' | t }}" title="SumOfUs logo">
         <div class="header-logo__logo sumofus-logo--negative"></div>
       </a>
-      <div class="header-logo__tagline sumofus-logo--tagline">{{ 'branding.tagline' | t }}</div>
+      <div class="header-logo__tagline sumofus-logo--tagline no-print">{{ 'branding.tagline' | t }}</div>
     </div>
   </div>
 </header>
-<main tabindex="0">
+<main tabindex="0" class="print">
+  <div class="print print-only logo" aria-hidden="true">
+        <img class="print print-only" src="{{ 'sumofus-logo-horizontal.svg' | asset_src }}" aria-hidden="true" alt="">
+        <span class="print print-only">{{ 'branding.tagline' | t }}</span>
+  </div>
   <h1 class="share-title">
       <span>{{ title }}</span>
   </h1>
@@ -19,7 +23,7 @@
     <div class="cover-photo__overlay">
     </div>
   </div>
-  <div class="top-share-menu">
+  <div class="top-share-menu no-print">
     {% include 'Social Share Band' %}
   </div>
   <div class="center-content center-content--accomodates-stuck-footer">
@@ -38,6 +42,11 @@
   {% include 'Social Share Band' %}
 </main>
 <style>
+  .grecaptcha-badge, .grecaptcha-logo { 
+    visibility: hidden;
+    opacity: 0;
+  }
+
   .body-text-center {
     display: block;
     margin-left: auto;
@@ -56,6 +65,10 @@
   }
 
   .top-share-menu {
+    display: none;
+  }
+
+  .print-only {
     display: none;
   }
 
@@ -89,6 +102,62 @@
   .share-title {
     padding-right: 20px;
     padding-left: 20px;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  html {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  p {
+    padding-bottom: 15px;
+  }
+
+  .grecaptcha-badge, .grecaptcha-logo { 
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .share-title {
+    padding-bottom: 5px;
+    margin-top: 15px;
+  }
+
+  .body-text-center.main-feature {
+    padding-top: 20px;
+  }
+
+  .print {
+    display: block;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact;  
+    print-color-adjust: exact;
+  }
+
+  .body-text-center.main-feature img {
+    width: 25% !important;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .logo span {
+    padding-left: 10px;
+  }
+
+  @page {
+    size: auto;  
+    margin: 0;
   }
 }
 </style>
