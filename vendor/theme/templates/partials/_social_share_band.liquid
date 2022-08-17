@@ -1,39 +1,39 @@
-<section class="social-share-band-wrapper">
+<section class="social-share-band-wrapper no-print">
   <div class="social-icons">
-  {% unless shares['facebook'] == blank %}
-    <div class="hidden-irrelevant {{ shares['facebook'].css_class }}"></div>
-    <a title="{{ 'aria_share.facebook' | t }}" target="popup" class="f-share skeleton" onclick="facebookShareClickHandler()" tabindex="0">
-      <img src="{{ 'Facebook.png' | asset_src }}" aria-hidden="true" alt=""/>
-    </a>
-  {% endunless %}
-  {% unless shares['twitter'] == blank %}
-    <div class="hidden-irrelevant {{ shares['twitter'].css_class }}"></div>
-    <a title="{{ 'aria_share.twitter' | t }}" href="#" class="t-share skeleton" onclick="twitterShareClickHandler()">
-      <img src="{{ 'Twitter.png' | asset_src }}" aria-hidden="true" alt=""/>
-    </a>
-  {% endunless %}
-  {% unless shares['whatsapp'] == blank %}
-    <div class="shares-w hidden-irrelevant">{{ shares['whatsapp'].link_html }}</div>
-    <a title="{{ 'aria_share.whatsapp' | t }}" href="#" class="w-share skeleton" onclick="whatsAppShareClickHandler()">
-      <img src="{{ 'WhatsApp.png' | asset_src }}" aria-hidden="true" alt=""/>
-    </a>
-  {% endunless %}
-  {% unless shares['email'] == blank %}
-    <div class="hidden-irrelevant {{ shares['email'].css_class }}"></div>
-    <a title="{{ 'aria_share.email' | t }}" href="#" class="e-share skeleton" onclick="emailShareClickHandler()">
-      <img src="{{ 'Mail.png' | asset_src }}" aria-hidden="true" alt="" />
-    </a>
-  {% endunless %}
+  <div class="hidden-irrelevant {{ shares['facebook'].css_class }}"></div>
+  <a title="{{ 'aria_share.facebook' | t }}" target="popup" class="f-share skeleton" onclick="facebookShareClickHandler()" tabindex="0">
+    <img src="{{ 'Facebook.png' | asset_src }}" aria-hidden="true" alt=""/>
+  </a>
+  <div class="hidden-irrelevant {{ shares['twitter'].css_class }}"></div>
+  <a title="{{ 'aria_share.twitter' | t }}" href="#" class="t-share skeleton" onclick="twitterShareClickHandler()">
+    <img src="{{ 'Twitter.png' | asset_src }}" aria-hidden="true" alt=""/>
+  </a>
+  <div class="shares-w hidden-irrelevant">{{ shares['whatsapp'].link_html }}</div>
+  <a title="{{ 'aria_share.whatsapp' | t }}" href="#" class="w-share skeleton" onclick="whatsAppShareClickHandler()">
+    <img src="{{ 'WhatsApp.png' | asset_src }}" aria-hidden="true" alt=""/>
+  </a>
+  <div class="hidden-irrelevant {{ shares['email'].css_class }}"></div>
+  <a title="{{ 'aria_share.email' | t }}" href="#" class="e-share skeleton" onclick="emailShareClickHandler()">
+    <img src="{{ 'Mail.png' | asset_src }}" aria-hidden="true" alt="" />
+  </a>
+  <a title="{{ 'aria_share.print' | t }}" href="#" class="p-share skeleton" onclick="printShareClickHandler()">
+    <img src="{{ 'Print.png' | asset_src }}" aria-hidden="true" alt="" />
+  </a>
+  <a title="{{ 'aria_share.copy' | t }}" href="#" class="c-share skeleton" onclick="copyLinkShareClickHandler()">
+    <img class="copy" src="{{ 'Copy.png' | asset_src }}" aria-hidden="true" alt="" />
+    <span class="copied" style="display: none;" role="status">{{ 'share.copied' | t }}</span>
+  </a>
+
   </div>
 </section>
 <script type="text/javascript">
   function facebookShareClickHandler() {
     console.log('facebookShareClickHandler');
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${location.href}`, '', 'width=600,height=600');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${location.origin + location.pathname}`, '', 'width=600,height=600');
   };
   function twitterShareClickHandler() {
     console.log('twitterShareClickHandler');
-    window.open(`https://twitter.com/intent/tweet?text=${location.href}`, '', 'width=600,height=600');
+    window.open(`https://twitter.com/intent/tweet?text=${location.origin + location.pathname}`, '', 'width=600,height=600');
   };
   function whatsAppShareClickHandler() {
     if(window.ga) {
@@ -45,13 +45,30 @@
       try {
         document.querySelector('.whatsapp_large').click();
       } catch {
-        window.open(`https://api.whatsapp.com/send?text=${location.href}`, '', 'width=600,height=600');
+        window.open(`https://api.whatsapp.com/send?text=${location.origin + location.pathname}`, '', 'width=600,height=600');
       }
       return false; 
   };
   function emailShareClickHandler() {
     console.log('emailShareClickHandler');
-    window.open(`mailto:?body=${location.href}`, '', 'width=600,height=600');
+    window.open(`mailto:?body=${location.origin + location.pathname}`, '', 'width=600,height=600');
+  };
+  function printShareClickHandler() {
+    console.log('printShareClickHandler');
+    window.print();
+  };
+  function copyLinkShareClickHandler() {
+    console.log('copyLinkShareClickHandler');
+    navigator.clipboard.writeText(location.origin + location.pathname);
+    $('.copy').fadeOut(100, () => {
+      $('.copied').show();
+    });
+
+    setTimeout(() => {
+      $('.copied').fadeOut(100, () => {
+      $('.copy').fadeIn(200);
+    });
+    }, 3500);
   };
   window.addEventListener('load', (event) => {
     document.querySelectorAll('.whatsapp_large').forEach(e => {
@@ -59,8 +76,8 @@
       e.setAttribute('tabindex', '-1')
       e.setAttribute('aria-hidden', 'true');
     });
-    document.querySelector('.whatsapp_large').setAttribute('tabindex', '-1');
-    document.querySelector('.whatsapp_large').setAttribute('aria-hidden', 'true');
+    document.querySelector('.whatsapp_large')?.setAttribute('tabindex', '-1');
+    document.querySelector('.whatsapp_large')?.setAttribute('aria-hidden', 'true');
     var counter = 0;
     var observer = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
@@ -110,7 +127,7 @@
       attributeFilter: ['href']
     });
 
-    var shareProgressTimeout = setTimeout(function () {
+    setTimeout(function () {
       observer.disconnect();
       if(document.querySelectorAll('.skeleton').length) {
         document.querySelectorAll('.skeleton').forEach(e => e.classList.remove("skeleton"));
@@ -167,6 +184,16 @@
         pointer-events: none
     }
 
+    .copied {
+      display: block;
+      background-color: #00C0CF;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 3px;
+      color: #16213C;
+      transition: all 1s ease-in;
+    }
+
 @keyframes shine {
 	to {
 		background-position: right -40px top 0;
@@ -176,7 +203,7 @@
 @media (max-width: 700px) {
   .social-icons {
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .social-icons img {
@@ -186,9 +213,9 @@
   .social-share-band-wrapper {
     margin-right: auto;
     margin-left: auto;
-    width: 50%;
+    width: 80%;
     padding-bottom: 15px;
-    padding-top: 32px;
+    padding-top: 15px;
     position: relative;
   }
 
@@ -207,6 +234,17 @@
   .share-title {
     padding-right: 20px;
     padding-left: 20px;
+  }
+
+  .copied {
+    padding: 5px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .social-icons {
+    justify-content: flex-start;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 - if user_signed_in? && page.present?
   section role="contentinfo"
-    .campaigner-overlay.mobile-hide class="#{page.published? ? 'campaigner-overlay--active' : 'campaigner-overlay--inactive'}" data-status="#{page.published? ? 'active' : 'inactive'}"
+    .campaigner-overlay.mobile-hide class="#{page.published? ? 'campaigner-overlay--active no-print' : 'campaigner-overlay--inactive no-print'}" data-status="#{page.published? ? 'active' : 'inactive'}"
       .campaigner-overlay__close.fa.fa-close
       .campaigner-overlay__status.campaigner-overlay__info--active
         | Published
