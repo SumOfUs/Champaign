@@ -200,6 +200,7 @@ en:
     tweet: Tweet
     share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus' # override this with your orgs twitter handle
+    copied: 'Copied!'
   aria_share:
     email: Share with email
     twitter: Share on twitter

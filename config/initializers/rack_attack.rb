@@ -54,7 +54,9 @@ end
 
 def transaction_rule(req)
   if req.path =~ %r{^/api/payment/braintree/pages/\d+/transaction} && req.post?
-    req.location.ip unless req.env['warden'].user
+    ip = req.env['HTTP_X_IP'] || req.location.ip
+    Rails.logger.info "Passing proxied IP from Pronto #{req.env['HTTP_X_IP']}"
+    ip unless req.env['warden'].user
   end
 end
 

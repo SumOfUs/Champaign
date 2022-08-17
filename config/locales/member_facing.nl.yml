@@ -194,6 +194,7 @@ nl: # translated 22 July 2021
     tweet: Tweet
     share_on_whatsapp: WhatsApp
     twitter_handle: '@sumofus' # change to a Dutch twitter account when we have one
+    copied: 'Copied!'
   aria_share:
     email: Share with email
     twitter: Share on twitter
