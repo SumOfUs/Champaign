@@ -73,7 +73,8 @@
       console.log(e);
       var url = location.origin + location.pathname;
       var plainTitle = document.querySelector('.share-title').textContent;
-      navigator.clipboard.writeText(plainTitle + url);
+      var plainContent = document.querySelector('.main-feature > p:first-of-type').textContent + '\n';
+      navigator.clipboard.writeText(plainTitle + url + plainContent);
     }
 
     $('.copy').fadeOut(100, () => {
