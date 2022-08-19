@@ -60,7 +60,7 @@
     var translatedLinkLabel = window.I18n?.translate('page.more_info') || 'More information';
     var title = document.querySelector('.share-title').outerHTML;
     var link = `<br><a href='${location.origin + location.pathname}'>${translatedLinkLabel}</a>`;
-    const content = title + document.querySelector('.main-feature > p:first-of-type').innerHTML + link;
+    const content = title + (document.querySelector('.main-feature p:first-of-type')?.innerHTML || '') + link;
     const blob = new Blob([content], { type: "text/html" });
     const richTextInput = new ClipboardItem({ "text/html": blob });
     await navigator.clipboard.write([richTextInput]);
@@ -73,7 +73,7 @@
       console.log(e);
       var url = location.origin + location.pathname;
       var plainTitle = document.querySelector('.share-title').textContent;
-      var plainContent = document.querySelector('.main-feature > p:first-of-type').textContent + '\n';
+      var plainContent = (document.querySelector('.main-feature p:first-of-type')?.textContent || '') + '\n';
       navigator.clipboard.writeText(plainTitle + plainContent + url);
     }
 
