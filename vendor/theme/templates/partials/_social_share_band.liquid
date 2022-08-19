@@ -23,7 +23,6 @@
     <img class="copy" src="{{ 'Copy.png' | asset_src }}" aria-hidden="true" alt="" />
     <span class="copied" style="display: none;" role="status">{{ 'share.copied' | t }}</span>
   </a>
-
   </div>
 </section>
 <script type="text/javascript">
@@ -57,9 +56,27 @@
     console.log('printShareClickHandler');
     window.print();
   };
-  function copyLinkShareClickHandler() {
+  async function copyRichText () {
+    var translatedLinkLabel = window.I18n?.translate('page.more_info') || 'More information';
+    var title = document.querySelector('.share-title').outerHTML;
+    var link = `<br><a href='${location.origin + location.pathname}'>${translatedLinkLabel}</a>`;
+    const content = title + document.querySelector('.main-feature > p:first-of-type').innerHTML + link;
+    const blob = new Blob([content], { type: "text/html" });
+    const richTextInput = new ClipboardItem({ "text/html": blob });
+    await navigator.clipboard.write([richTextInput]);
+  };
+  async function copyLinkShareClickHandler() {
     console.log('copyLinkShareClickHandler');
-    navigator.clipboard.writeText(location.origin + location.pathname);
+    try {
+      await copyRichText();
+    } catch(e) {
+      console.log(e);
+      var url = location.origin + location.pathname;
+      var plainTitle = document.querySelector('.share-title').textContent;
+      var plainContent = document.querySelector('.main-feature > p:first-of-type').textContent + '\n';
+      navigator.clipboard.writeText(plainTitle + plainContent + url);
+    }
+
     $('.copy').fadeOut(100, () => {
       $('.copied').show();
     });
