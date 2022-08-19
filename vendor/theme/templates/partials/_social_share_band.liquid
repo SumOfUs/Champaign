@@ -74,7 +74,7 @@
       var url = location.origin + location.pathname;
       var plainTitle = document.querySelector('.share-title').textContent;
       var plainContent = document.querySelector('.main-feature > p:first-of-type').textContent + '\n';
-      navigator.clipboard.writeText(plainTitle + url + plainContent);
+      navigator.clipboard.writeText(plainTitle + plainContent + url);
     }
 
     $('.copy').fadeOut(100, () => {
