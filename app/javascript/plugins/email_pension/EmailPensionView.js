@@ -25,7 +25,11 @@ import {
   changeFund,
   changeConsented,
 } from '../../state/email_pension/actions';
-import { showConsentRequired } from '../../state/consent/index';
+import {
+  changeConsent,
+  changeIsRequiredNew,
+  showConsentRequired,
+} from '../../state/consent/index';
 import {
   convertHtmlToPlainText,
   copyToClipboard,
@@ -248,7 +252,18 @@ class EmailPensionView extends Component {
                   }
                   value={this.props.email}
                   errorMessage={this.state.errors.email}
-                  onChange={value => this.props.changeEmail(value)}
+                  onChange={value => {
+                    this.props.changeEmail(value);
+                    if (this.props.consent !== null) {
+                      this.props.changeConsent(null);
+                      this.props.changeIsRequiredNew(
+                        consent.isRequired(
+                          this.props.countryCode,
+                          window.champaign.personalization.member
+                        )
+                      );
+                    }
+                  }}
                 />
               </FormGroup>
 
@@ -516,7 +531,11 @@ export const mapDispatchToProps = dispatch => ({
   changeName: name => {
     dispatch(changeName(name));
   },
-  changeEmail: email => dispatch(changeEmail(email)),
+  changeEmail: email => {
+    dispatch(changeEmail(email));
+  },
+  changeConsent: value => dispatch(changeConsent(value)),
+  changeIsRequiredNew: value => dispatch(changeIsRequiredNew(value)),
   showConsentRequired: consentRequired =>
     dispatch(showConsentRequired(consentRequired)),
 });

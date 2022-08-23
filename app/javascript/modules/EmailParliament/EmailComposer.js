@@ -18,7 +18,11 @@ import {
   composeEmailLink,
   buildToEmailForCompose,
 } from '../../util/util';
-import { showConsentRequired } from '../../state/consent';
+import {
+  changeConsent,
+  showConsentRequired,
+  changeIsRequiredNew,
+} from '../../state/consent';
 
 export function EmailComposer(props) {
   const dispatch = useDispatch();
@@ -53,6 +57,13 @@ export function EmailComposer(props) {
     if (listType.includes('Councillor') && target.type === 'Councillor')
       return true;
   });
+  const onEmailChange = email => {
+    setEmail(email);
+    if (consented !== null) {
+      dispatch(changeConsent(null));
+      dispatch(changeIsRequiredNew(true));
+    }
+  };
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -179,7 +190,7 @@ export function EmailComposer(props) {
             name="email"
             type="email"
             value={email}
-            onChange={setEmail}
+            onChange={onEmailChange}
           />
           <ErrorMessages
             name={<FormattedMessage id="email_tool.form.your_email" />}
