@@ -6,7 +6,10 @@ describe PagesController do
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
+  let!(:follow_up_layout) { create :liquid_layout, title: 'Follow up layout' }
+  let!(:liquid_layout)    { create :liquid_layout, title: 'Liquid layout', default_follow_up_layout: follow_up_layout }
   let(:page) { instance_double('Page', published?: true, featured?: true, pronto: false, to_param: 'foo', id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
+  let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
   let(:renderer) do
     instance_double(
       'LiquidRenderer',
@@ -146,6 +149,7 @@ describe PagesController do
     it 'does not redirect to homepage if user not logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:published?) { true }
+      allow(page).to receive(:donation_page?) { false }
       expect(subject).not_to be_redirect
     end
 
@@ -169,7 +173,8 @@ describe PagesController do
       allow(Page).to            receive(:find) { page }
       allow(page).to            receive(:update)
       allow(page).to            receive(:language_code).and_return('en')
-      allow(LiquidRenderer).to  receive(:new) { renderer }
+      allow(page).to receive(:donation_page?) { false }
+      allow(LiquidRenderer).to receive(:new) { renderer }
     end
 
     include_examples 'show and follow-up'
@@ -220,6 +225,7 @@ describe PagesController do
         before { allow(Page).to receive(:find) { french_page } }
 
         it 'sets the locality to :fr' do
+          allow(french_page).to receive(:donation_page?) { false }
           get :show, params: { id: '42' }
           expect(I18n.locale).to eq :fr
         end
@@ -229,6 +235,7 @@ describe PagesController do
           before { allow(Page).to receive(:find) { english_page } }
 
           it 'sets the locality to :en' do
+            allow(english_page).to receive(:donation_page?) { false }
             get :show, params: { id: '66' }
             expect(I18n.locale).to eq :en
           end
