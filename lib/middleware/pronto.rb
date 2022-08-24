@@ -9,7 +9,7 @@ class Pronto
   end
 
   class TemplateMatcher
-    PRONTO_TEMPLATES = ['Default: Petition And Scroll To Share Greenpeace'].freeze
+    PRONTO_TEMPLATES = ['Default: Petition And Scroll To Share Greenpeace', 'Fundraiser With Title Below Image'].freeze
 
     def self.has_pronto_inclusion_template(liquid_layout_id)
       layout ||= LiquidLayout.find(liquid_layout_id)
