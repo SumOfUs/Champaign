@@ -15,6 +15,8 @@ json.extract!(
   :meta_description
 )
 
+json.publish_status @page.publish_status
+json.isLoggedIn user_signed_in?
 json.template_name  @page.liquid_layout.title
 json.follow_up_template @page.follow_up_liquid_layout
 
