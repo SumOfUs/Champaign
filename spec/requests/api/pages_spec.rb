@@ -26,7 +26,6 @@ describe 'api/pages' do
       donation_page
       plugin_names
       percentage_completed
-      isLoggedIn
     ]
   end
 
@@ -88,6 +87,7 @@ describe 'api/pages' do
         meta_description
         template_name
         follow_up_template
+        isLoggedIn
       ]
       expect(subject.keys).to match_array(expected)
       expect(subject.symbolize_keys).to include(title: 'Foo',
