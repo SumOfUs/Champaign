@@ -26,6 +26,7 @@ describe 'api/pages' do
       donation_page
       plugin_names
       percentage_completed
+      isLoggedIn
     ]
   end
 
