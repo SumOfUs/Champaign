@@ -90,8 +90,14 @@ json.fundraiser do
   end
 end
 
-json.actions_offset_count actionsThermometer.offset if actionsThermometer
-json.donations_offset_count donationsThermometer.offset if donationsThermometer
+json.thermometer do 
+  if actionsThermometer
+    json.actions actionsThermometer
+  end
+  if donationsThermometer
+    json.donations donationsThermometer
+  end
+end
 
 json.sources do
   json.array! @page.links, :title, :source, :url, :date
