@@ -182,6 +182,7 @@ Rails.application.routes.draw do
     end
 
     resources :pages do
+      post 'update', action: 'update'
       get 'share-rows', on: :member, action: 'share_rows'
       get 'actions', on: :member, action: 'actions'
       get 'featured', on: :collection
