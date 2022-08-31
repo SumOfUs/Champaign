@@ -2,7 +2,6 @@
 
 class Api::UserAuthController < ApplicationController
   before_action :authenticate_http_token
-  TOKEN = Settings.pronto.api_secret_key.to_s
 
   def authenticate
     if authenticate_user!
@@ -17,7 +16,7 @@ class Api::UserAuthController < ApplicationController
 
   def authenticate_http_token
     authenticate_or_request_with_http_token do |token, _options|
-      ActiveSupport::SecurityUtils.secure_compare(token, TOKEN)
+      ActiveSupport::SecurityUtils.secure_compare(token, Settings.pronto_api_secret_key)
     end
   end
 end
