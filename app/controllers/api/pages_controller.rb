@@ -3,7 +3,9 @@
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
   before_action :get_page, except: %i[index featured disinfo similar total_donations]
-  before_action :authenticate_user!, only: %i[update share_rows]
+  # before_action :authenticate_user!, only: %i[update share_rows]
+  # TODO this checks for valid user session, this has to be handled
+  skip_before_action :verify_authenticity_token, raise: false, only: %i[update]
 
   layout false
 
