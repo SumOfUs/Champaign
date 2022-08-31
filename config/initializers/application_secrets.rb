@@ -65,6 +65,10 @@ if Rails.env == 'production' && Settings.aws_secrets_manager_prefix.present?
       merchants: Settings.braintree.merchants,
       subscription_plans: Settings.braintree.subscription_plans
     },
+    pronto: {
+      domain: Settings.pronto.domain,
+      api_secret_key: SecretsManager.get_value('pronto')['secretApiKey']
+    },
     sentry_dsn: SecretsManager.get_value('prod/sentry_dsn')['champaign'],
     airbrake_project_id: airbrake_secrets['projectId'],
     airbrake_api_key: airbrake_secrets['apiKey']

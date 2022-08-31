@@ -1,6 +1,7 @@
 # Production Settings for Champaign
 pronto:
   domain: <%= ENV['PRONTO_DOMAIN'] || 'https://action.sumofus.org' %>
+  api_secret_key: 'secreto'
 
 google_optimize:
   key: <%= ENV['GOOGLE_OPTIMIZE'] || 'OPT-PS8FHLC' %>

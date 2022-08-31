@@ -130,6 +130,8 @@ Rails.application.routes.draw do
       post 'track', to: '/share/shares#track'
     end
 
+    get 'user/auth', to: '/api/user_auth#authenticate', as: 'authenticate'
+
     get 'donations/total'
 
     resources :email_target_emails, only: [:index] do
