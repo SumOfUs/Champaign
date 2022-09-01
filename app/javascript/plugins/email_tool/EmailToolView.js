@@ -22,6 +22,7 @@ import {
 import './EmailToolView';
 import consent from '../../modules/consent/consent';
 import { changeConsent } from '../../state/consent';
+import { resetMember } from '../../state/member/reducer';
 
 function emailTargetAsSelectOption(target) {
   return {
@@ -179,8 +180,9 @@ export class EmailToolView extends Component {
 
   onEmailChange = email => {
     this.setState({ email });
-    if (this.state.consented !== null) {
+    if (this.state.isRequiredNew) {
       window.champaign.store.dispatch(changeConsent(null));
+      window.champaign.store.dispatch(resetMember());
       this.setState({
         isRequiredNew: consent.isRequired(
           this.props.countryCode,
