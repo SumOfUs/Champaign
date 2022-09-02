@@ -114,6 +114,21 @@ class EmailPensionView extends Component {
     this.setState(state => ({ ...state, body }));
   };
 
+  onEmailChange = value => {
+    this.props.changeEmail(value);
+    if (window.champaign.personalization.member)
+      window.champaign.store.dispatch(resetMember());
+    if (this.props.consent !== null) {
+      this.props.changeConsent(null);
+      this.props.changeIsRequiredNew(
+        consent.isRequired(
+          this.props.countryCode,
+          window.champaign.personalization.member
+        )
+      );
+    }
+  };
+
   validateFormBeforeCopying = () => {
     if (!this.validateForm()) {
       alert('Form has errors. Please fix before copying.');
@@ -253,20 +268,7 @@ class EmailPensionView extends Component {
                   }
                   value={this.props.email}
                   errorMessage={this.state.errors.email}
-                  onChange={value => {
-                    this.props.changeEmail(value);
-                    if (window.champaign.personalization.member)
-                      window.champaign.store.dispatch(resetMember());
-                    if (this.props.consent !== null) {
-                      this.props.changeConsent(null);
-                      this.props.changeIsRequiredNew(
-                        consent.isRequired(
-                          this.props.countryCode,
-                          window.champaign.personalization.member
-                        )
-                      );
-                    }
-                  }}
+                  onChange={this.onEmailChange}
                 />
               </FormGroup>
 
