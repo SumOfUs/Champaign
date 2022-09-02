@@ -23,6 +23,7 @@ import {
   showConsentRequired,
   changeIsRequiredNew,
 } from '../../state/consent';
+import { resetMember } from '../../state/member/reducer';
 
 export function EmailComposer(props) {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ export function EmailComposer(props) {
   });
   const onEmailChange = email => {
     setEmail(email);
+    if (window.champaign.personalization.member) dispatch(resetMember());
     if (consented !== null) {
       dispatch(changeConsent(null));
       dispatch(changeIsRequiredNew(true));

@@ -181,8 +181,9 @@ export class EmailToolView extends Component {
   onEmailChange = email => {
     this.setState({ email });
     if (this.state.isRequiredNew) {
+      if (window.champaign.personalization.member)
+        window.champaign.store.dispatch(resetMember());
       window.champaign.store.dispatch(changeConsent(null));
-      window.champaign.store.dispatch(resetMember());
       this.setState({
         isRequiredNew: consent.isRequired(
           this.props.countryCode,

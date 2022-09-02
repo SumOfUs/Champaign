@@ -38,6 +38,7 @@ import {
 } from '../../util/util';
 import { MailerClient } from '../../util/ChampaignClient';
 import URI from 'urijs';
+import { resetMember } from '../../state/member/reducer';
 
 class EmailPensionView extends Component {
   constructor(props) {
@@ -254,6 +255,8 @@ class EmailPensionView extends Component {
                   errorMessage={this.state.errors.email}
                   onChange={value => {
                     this.props.changeEmail(value);
+                    if (window.champaign.personalization.member)
+                      window.champaign.store.dispatch(resetMember());
                     if (this.props.consent !== null) {
                       this.props.changeConsent(null);
                       this.props.changeIsRequiredNew(
