@@ -55,6 +55,8 @@ export default function reducer(state = defaultState, action) {
       return { ...state, modalOpen: action.modalOpen };
     case '@@chmp:consent:show_consent_required':
       return { ...state, showConsentRequired: action.value };
+    case '@@chmp:consent:change_required_new':
+      return { ...state, isRequiredNew: action.value };
     case '@@chmp:consent:reset_state':
       return defaultState;
     default:
@@ -84,6 +86,10 @@ export function toggleModal(value) {
 
 export function showConsentRequired(value) {
   return { type: '@@chmp:consent:show_consent_required', value };
+}
+
+export function changeIsRequiredNew(value) {
+  return { type: '@@chmp:consent:change_required_new', value };
 }
 
 export function dispatchFieldUpdate(name, value, dispatch = null) {

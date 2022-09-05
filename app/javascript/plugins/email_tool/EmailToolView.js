@@ -21,6 +21,8 @@ import {
 
 import './EmailToolView';
 import consent from '../../modules/consent/consent';
+import { changeConsent } from '../../state/consent';
+import { resetMember } from '../../state/member/reducer';
 
 function emailTargetAsSelectOption(target) {
   return {
@@ -35,6 +37,7 @@ export class EmailToolView extends Component {
     this.state = {
       name: this.props.name,
       email: this.props.email,
+      isRequiredNew: this.props.isRequiredNew,
       emailService: null,
       subject: this.props.emailSubject,
       body: '', // this is the complete body: header + body + footer
@@ -83,7 +86,13 @@ export class EmailToolView extends Component {
   validateForm() {
     const errors = {};
     // For GDPR countries alone this field should have value
-    if (this.props.isRequiredNew && this.props.consented === null) {
+    if (
+      consent.isRequired(
+        this.props.countryCode,
+        window.champaign.personalization.member
+      ) &&
+      this.props.consented === null
+    ) {
       this.props.setShowConsentRequired(true);
       errors['consented'] = true;
     }
@@ -169,7 +178,20 @@ export class EmailToolView extends Component {
 
   onNameChange = name => this.setState({ name });
 
-  onEmailChange = email => this.setState({ email });
+  onEmailChange = email => {
+    this.setState({ email });
+    if (this.state.isRequiredNew) {
+      if (window.champaign.personalization.member)
+        window.champaign.store.dispatch(resetMember());
+      window.champaign.store.dispatch(changeConsent(null));
+      this.setState({
+        isRequiredNew: consent.isRequired(
+          this.props.countryCode,
+          window.champaign.personalization.member
+        ),
+      });
+    }
+  };
 
   onEmailServiceChange = emailService => this.setState({ emailService });
 
@@ -439,7 +461,7 @@ export class EmailToolView extends Component {
               <ConsentComponent
                 alwaysShow={true}
                 isRequired={
-                  this.props.isRequiredNew || this.props.isRequiredExisting
+                  this.state.isRequiredNew || this.props.isRequiredExisting
                 }
               />
             )}
@@ -472,7 +494,12 @@ export class EmailToolView extends Component {
 
 export const mapStateToProps = ({ consent }) => {
   const { countryCode, consented, isRequiredNew, isRequiredExisting } = consent;
-  return { countryCode, consented, isRequiredNew, isRequiredExisting };
+  return {
+    countryCode,
+    consented,
+    isRequiredNew,
+    isRequiredExisting,
+  };
 };
 
 export const mapDispatchToProps = dispatch => ({
