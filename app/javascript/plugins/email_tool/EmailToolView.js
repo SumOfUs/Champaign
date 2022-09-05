@@ -78,7 +78,7 @@ export class EmailToolView extends Component {
     };
     // For double optin countries consented field should not have a value
     if (this.props.consented !== null) {
-      payload.consented = this.props.consented ? 1 : 0;
+      payload.email.consented = this.props.consented ? 1 : 0;
     }
     return payload;
   }
