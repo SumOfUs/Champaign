@@ -81,8 +81,14 @@ export class FundraiserView extends Component {
         ) || {};
 
       if (variant && variant === '1' && this.props.idMismatch) {
+        const { donationAmount } = this.props.fundraiser;
         this.props.resetMember();
-        this.props.changeStep(0);
+        if (donationAmount && donationAmount > 0) {
+          this.props.selectAmount(donationAmount);
+          this.props.changeStep(1);
+        } else {
+          this.props.changeStep(0);
+        }
       }
     }
   }
