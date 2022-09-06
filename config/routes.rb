@@ -183,6 +183,10 @@ Rails.application.routes.draw do
       post 'webhook'
     end
 
+    namespace :pages do
+      put ':id/update', action: :update
+    end
+
     resources :pages do
       get 'share-rows', on: :member, action: 'share_rows'
       get 'actions', on: :member, action: 'actions'
