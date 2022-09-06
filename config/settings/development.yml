@@ -4,6 +4,7 @@ pronto:
 google_optimize:
   key: "OPT-5XL8RFP"
 secret_key_base: secret_key_base
+pronto_api_secret_key: 'for local devlopment get me from secrets manager and replace me on development.local.yml'
 omniauth_client_secret: omniauth_client_secret
 omniauth_client_id: omniauth_client_id
 liquid_templating_source: db

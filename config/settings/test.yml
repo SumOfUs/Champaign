@@ -16,6 +16,7 @@
 google_optimize:
   key: "test-1234"
 secret_key_base: 'a fake secret key'
+pronto_api_secret_key: 'secreto'
 omniauth_client_secret: 'a fake client secret'
 omniauth_client_id: 'a fake client_id'
 homepage_url: 'http://sumofus.org'

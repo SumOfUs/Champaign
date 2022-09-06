@@ -25,7 +25,11 @@ import {
   changeFund,
   changeConsented,
 } from '../../state/email_pension/actions';
-import { showConsentRequired } from '../../state/consent/index';
+import {
+  changeConsent,
+  changeIsRequiredNew,
+  showConsentRequired,
+} from '../../state/consent/index';
 import {
   convertHtmlToPlainText,
   copyToClipboard,
@@ -34,6 +38,7 @@ import {
 } from '../../util/util';
 import { MailerClient } from '../../util/ChampaignClient';
 import URI from 'urijs';
+import { resetMember } from '../../state/member/reducer';
 
 class EmailPensionView extends Component {
   constructor(props) {
@@ -107,6 +112,21 @@ class EmailPensionView extends Component {
   onEmailEditorUpdate = ({ subject, body }) => {
     this.props.changeSubject(subject);
     this.setState(state => ({ ...state, body }));
+  };
+
+  onEmailChange = value => {
+    this.props.changeEmail(value);
+    if (window.champaign.personalization.member)
+      window.champaign.store.dispatch(resetMember());
+    if (this.props.consent !== null) {
+      this.props.changeConsent(null);
+      this.props.changeIsRequiredNew(
+        consent.isRequired(
+          this.props.countryCode,
+          window.champaign.personalization.member
+        )
+      );
+    }
   };
 
   validateFormBeforeCopying = () => {
@@ -248,7 +268,7 @@ class EmailPensionView extends Component {
                   }
                   value={this.props.email}
                   errorMessage={this.state.errors.email}
-                  onChange={value => this.props.changeEmail(value)}
+                  onChange={this.onEmailChange}
                 />
               </FormGroup>
 
@@ -516,7 +536,11 @@ export const mapDispatchToProps = dispatch => ({
   changeName: name => {
     dispatch(changeName(name));
   },
-  changeEmail: email => dispatch(changeEmail(email)),
+  changeEmail: email => {
+    dispatch(changeEmail(email));
+  },
+  changeConsent: value => dispatch(changeConsent(value)),
+  changeIsRequiredNew: value => dispatch(changeIsRequiredNew(value)),
   showConsentRequired: consentRequired =>
     dispatch(showConsentRequired(consentRequired)),
 });

@@ -10,7 +10,7 @@ class EmailToolSender
     @target = @plugin.find_target(params[:target_id])
     @page = Page.find(page_id)
     @params = params.slice(:from_email, :from_name, :body, :subject, :target_id, :country, :email_service,
-                           :clicked_copy_body_button)
+                           :clicked_copy_body_button, :consented)
     @tracking_params = tracking_params.slice(
       :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
     )
@@ -43,7 +43,6 @@ class EmailToolSender
   end
 
   def create_action
-    # TODO: Not handling consent.
     # No new members for EEA countries
     @action = ManageAction.create(
       {
@@ -52,7 +51,8 @@ class EmailToolSender
         email: @params[:from_email],
         country: @params[:country],
         email_service: @params[:email_service],
-        clicked_copy_body_button: @params[:clicked_copy_body_button]
+        clicked_copy_body_button: @params[:clicked_copy_body_button],
+        consented: @params[:consented]
       }.merge(action_target_params, @tracking_params)
     )
   end
