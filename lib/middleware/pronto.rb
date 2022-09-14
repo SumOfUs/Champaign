@@ -34,7 +34,8 @@ class Pronto
       page = Page.find_by(slug: path_match)
 
       if page&.petition_page? && TemplateMatcher.has_pronto_inclusion_template(page&.liquid_layout_id)
-        location = "#{Settings.pronto.domain}/#{req.fullpath}"
+        pronto_path = !req.env['warden'].user.nil? ? "#{page.language_code}#{req.fullpath}" : req.fullpath.to_s
+        location = "#{Settings.pronto.domain}/#{pronto_path}"
         return [301, { 'Location' => location, 'Content-Type' => 'text/html', 'Content-Length' => '0' }, []]
       end
     end
