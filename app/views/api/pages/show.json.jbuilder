@@ -11,6 +11,7 @@ json.extract!(
   :publish_status,
   :featured,
   :action_count,
+  :shares,
   :campaign_action_count,
   :meta_description
 )
