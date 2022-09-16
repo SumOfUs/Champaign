@@ -83,7 +83,6 @@ describe 'api/pages' do
         language
         campaign_action_count
         share_buttons
-        shares
         sources
         meta_description
         template_name

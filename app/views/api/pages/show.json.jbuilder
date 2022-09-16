@@ -11,7 +11,6 @@ json.extract!(
   :publish_status,
   :featured,
   :action_count,
-  :shares,
   :campaign_action_count,
   :meta_description
 )
@@ -21,13 +20,17 @@ json.follow_up_template @page.follow_up_liquid_layout
 
 share_buttons = @page.share_buttons.to_a.map do |share|
   share = share.attributes
+  share['title'] = case share['share_type']
+                   when 'whatsapp' 
+                   @page.shares.select{|obj| obj.button_id == share['id']}.pluck(:text).first
+  end
   share['rank'] = case share['share_type']
                   when 'facebook' then 0
                   when 'twitter' then 1
                   when 'whatsapp' then 2
                   when 'email' then 3
   end
-
+  
   share
 end
 
