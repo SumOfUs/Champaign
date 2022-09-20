@@ -77,6 +77,8 @@ en:
     follow_up: "Choose what the follow-up page should look like, or redirect to another page after the action"
     image_upload: "Use this uploader for both the page image and any images for shares."
     main_image: "Select which image should appear at the top of the page."
+    post_action_image: "Select which image should appear at the top of the page on the post donate page with recurring ask."
+    post_donate_settings_text: "Add the copy to be used on the post donate page with recurring ask"
     campaign: "Action counters of pages belonging to the same campaign are consolidated."
     canonical_url: "If a page is accessible through multiple URLs, then pick the best one for SEO. Defaults to https://our.site/a/page-slug"
     optimizely_status: "Optimizely can be slow to load, but we load it on all pages so we can run site-wide experiments. Please only disable for exceptional pages like microsites."
@@ -184,6 +186,8 @@ en:
       photos: 'Photos'
       follow_up: 'Post action'
       sources: 'Sources'
+      post_donate_settings: 'Follow up action settings'
+      post_donate_settings_text: 'Post donate action copy'
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
       ak_reports: 'ActionKit Reports:'
@@ -204,6 +208,7 @@ en:
       add_link: 'Add source'
       language_label: "Language"
       primary_image: 'Which is the main image for the page?'
+      post_action_image: 'Which is the main image for the post donate page?'
       new_variant: 'Create new share variant'
       unsaved_changes: 'You have unsaved changes.'
       user_error: "The server didn't like something you entered. Click here to see the error."

@@ -12,7 +12,8 @@ json.extract!(
   :featured,
   :action_count,
   :campaign_action_count,
-  :meta_description
+  :meta_description,
+  :post_action_copy
 )
 
 json.template_name  @page.liquid_layout.title
@@ -35,6 +36,7 @@ share_buttons.sort_by! { |hsh| hsh['rank'] }
 json.share_buttons share_buttons
 
 image = @page.image_to_display
+post_action_image = @page.post_action_image_to_display
 
 if image&.try(:content)
   if image.dimensions
@@ -52,6 +54,26 @@ if image&.try(:content)
     json.large do
       json.path image.content.path(:large)
       json.url image.content.url(:large)
+    end
+  end
+end
+
+if post_action_image&.try(:content)
+  if post_action_image.dimensions
+    w, h = post_action_image.dimensions.split(':')
+
+    json.width w
+    json.height h
+  end
+
+  json.post_action_image do
+    json.original do
+      json.url post_action_image.content.url
+      json.path post_action_image.content.path
+    end
+    json.large do
+      json.path post_action_image.content.path(:large)
+      json.url post_action_image.content.url(:large)
     end
   end
 end
