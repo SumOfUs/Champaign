@@ -32,7 +32,7 @@ section.page-edit-step#sources data-icon='link'
   h1.page-edit-step__title = t('.sources')
   = render 'link_form', page: @page
 
-section.page-edit-step#sources data-icon='post_donate_settings'
+section.page-edit-step#postActionSettings data-icon='post_donate_settings'
   h1.page-edit-step__title = t('.post_donate_settings')
   = render 'follow_up_action_settings', page: @page
 
@@ -55,4 +55,18 @@ javascript:
     window.ee.emit("activation:toggle");
     window.ee.emit("shares:edit");
     new PageEditBar();
+    $(".radio-group__option").on("click", function() {
+      try {
+        var selectedFollowUpTemplate = $(this).find('input')[0].value;
+        console.log('click',selectedFollowUpTemplate);
+        if(selectedFollowUpTemplate === "18") {
+          console.log('Recurring ask');
+          $("#postActionSettings").removeClass('hidden-irrelevant');
+        } else {
+          $("#postActionSettings").addClass('hidden-irrelevant');
+        }
+      } catch (err){
+        console.log(err);
+      }
+    });
   });

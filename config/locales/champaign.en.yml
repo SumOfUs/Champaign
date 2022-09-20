@@ -186,7 +186,7 @@ en:
       photos: 'Photos'
       follow_up: 'Post action'
       sources: 'Sources'
-      post_donate_settings: 'Follow up action settings'
+      post_donate_settings: 'Post donate with recurring ask settings'
       post_donate_settings_text: 'Post donate action copy'
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."

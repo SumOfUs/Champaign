@@ -1,11 +1,12 @@
-.row
-  .col-md-12
-    = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|
+- if page.follow_up_liquid_layout_id.present? && page.follow_up_liquid_layout_id == 18
+  .row
+    .col-md-12
+      = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|
+          .form-group
+              = label_with_tooltip(f, :post_action_copy, t('pages.edit.post_donate_settings_text'), t('tooltips.post_donate_settings_text'))
+              = f.text_area :post_action_copy, class: 'form-control', 'max-length' => 140
+    .col-md-7
+      = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |form|
         .form-group
-            = label_with_tooltip(f, :post_action_copy, t('pages.edit.post_donate_settings_text'), t('tooltips.post_donate_settings_text'))
-            = f.text_area :post_action_copy, class: 'form-control', 'max-length' => 140
-  .col-md-7
-    = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |form|
-      .form-group
-          = form.label :post_action_image_id, t('pages.edit.post_action_image')
-          = form.select :post_action_image_id, page.images.map{|im| [im.content_file_name, im.id] }, { include_blank: "No image" }, class: 'form-control'
+            = form.label :post_action_image_id, t('pages.edit.post_action_image')
+            = form.select :post_action_image_id, page.images.map{|im| [im.content_file_name, im.id] }, { include_blank: "No image" }, class: 'form-control'
