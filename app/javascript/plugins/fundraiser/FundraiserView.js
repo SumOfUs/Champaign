@@ -23,6 +23,7 @@ import {
   setSupportedLocalCurrency,
   setIsCustomAmount,
 } from '../../state/fundraiser/actions';
+import { supportedCurrency } from '../../state/fundraiser/reducer';
 
 export class FundraiserView extends Component {
   constructor(props) {
@@ -66,7 +67,17 @@ export class FundraiserView extends Component {
     this.props.setSupportedLocalCurrency(this.supportedLocalCurrency());
     if (donationAmount && donationAmount > 0) {
       this.props.selectAmount(donationAmount);
-      this.props.changeStep(1);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const currencyFromUrl = urlParams.get('currency');
+      const currencyFromState = this.props.supportedCurrency(currencyFromUrl);
+      const invalidCurrency =
+        currencyFromState === 'USD' && currencyFromState !== currencyFromUrl;
+      console.log('invalidCurrency', invalidCurrency);
+      console.log('currencyFromState', currencyFromState);
+      if (invalidCurrency === false) {
+        this.props.changeStep(1);
+      }
     }
   }
 
@@ -288,6 +299,7 @@ export const mapDispatchToProps = dispatch => ({
   setExperimentVariant: value => dispatch(setExperimentVariant(value)),
   setIsCustomAmount: (isCustomAmount, amount) =>
     dispatch(setIsCustomAmount(isCustomAmount, amount)),
+  supportedCurrency: currency => dispatch(supportedCurrency(currency)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);
