@@ -88,7 +88,8 @@ class PaymentRequestAuthorizer
 
   def verify_recaptcha
     @captcha = Recaptcha3.new(token: recaptcha, action: action)
-    puts "Transaction Recaptcha score #{@captcha.score}"
+    Rails.logger.info "Transaction Recaptcha score #{@captcha.score}"
+
     @valid_captcha = @captcha.human?
   end
 
