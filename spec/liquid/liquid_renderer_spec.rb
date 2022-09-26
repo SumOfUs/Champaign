@@ -134,6 +134,7 @@ describe LiquidRenderer do
         primary_image
         petition_target
         locale
+        post_action_image
       ]
 
       expected_keys += page.liquid_data.keys.map(&:to_s)

@@ -87,6 +87,7 @@ describe 'api/pages' do
         meta_description
         template_name
         follow_up_template
+        post_action_copy
       ]
       expect(subject.keys).to match_array(expected)
       expect(subject.symbolize_keys).to include(title: 'Foo',

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_23_114525) do
+ActiveRecord::Schema.define(version: 2022_09_19_211947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "intarray"
@@ -245,6 +245,8 @@ ActiveRecord::Schema.define(version: 2022_02_23_114525) do
     t.decimal "fundraising_goal", precision: 10, scale: 2, default: "0.0"
     t.string "ak_slug", default: ""
     t.boolean "pronto", default: false
+    t.text "post_action_copy", default: ""
+    t.integer "post_action_image_id"
     t.index ["campaign_id"], name: "index_pages_on_campaign_id"
     t.index ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id"
     t.index ["follow_up_page_id"], name: "index_pages_on_follow_up_page_id"
@@ -741,6 +743,7 @@ ActiveRecord::Schema.define(version: 2022_02_23_114525) do
   add_foreign_key "links", "pages"
   add_foreign_key "member_authentications", "members"
   add_foreign_key "pages", "campaigns"
+  add_foreign_key "pages", "images", column: "post_action_image_id"
   add_foreign_key "pages", "images", column: "primary_image_id"
   add_foreign_key "pages", "languages"
   add_foreign_key "pages", "liquid_layouts"

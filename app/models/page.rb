@@ -23,6 +23,7 @@
 #  meta_tags                  :string
 #  notes                      :text
 #  optimizely_status          :integer          default("optimizely_enabled"), not null
+#  post_action_copy           :text             default("")
 #  pronto                     :boolean          default(FALSE)
 #  publish_actions            :integer          default("secure"), not null
 #  publish_status             :integer          default("unpublished"), not null
@@ -37,6 +38,7 @@
 #  follow_up_page_id          :integer
 #  language_id                :integer
 #  liquid_layout_id           :integer
+#  post_action_image_id       :integer
 #  primary_image_id           :integer
 #
 # Indexes
@@ -54,6 +56,7 @@
 #  fk_rails_...  (follow_up_liquid_layout_id => liquid_layouts.id)
 #  fk_rails_...  (language_id => languages.id)
 #  fk_rails_...  (liquid_layout_id => liquid_layouts.id)
+#  fk_rails_...  (post_action_image_id => images.id)
 #  fk_rails_...  (primary_image_id => images.id)
 #
 
@@ -74,6 +77,7 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :follow_up_page, class_name: 'Page'
   belongs_to :follow_up_liquid_layout, class_name: 'LiquidLayout'
   belongs_to :primary_image, class_name: 'Image'
+  belongs_to :post_action_image, class_name: 'Image'
 
   has_many :pages_tags, dependent: :destroy
   has_many :tags, through: :pages_tags
@@ -142,6 +146,10 @@ class Page < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def image_to_display
     primary_image || images.first
+  end
+
+  def post_action_image_to_display
+    post_action_image
   end
 
   def plugin_thermometers
