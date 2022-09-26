@@ -1,4 +1,4 @@
-- if page.follow_up_liquid_layout_id.present? && page.follow_up_liquid_layout_id == 18
+- if page.follow_up_liquid_layout.present? && page.follow_up_liquid_layout.title == "Post Donate Page With Recurring Ask"
   .row
     .col-md-12
       = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|

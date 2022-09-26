@@ -57,9 +57,8 @@ javascript:
     new PageEditBar();
     $(".radio-group__option").on("click", function() {
       try {
-        var selectedFollowUpTemplate = $(this).find('input')[0].value;
-        console.log('click',selectedFollowUpTemplate);
-        if(selectedFollowUpTemplate === "18") {
+        var selectedFollowUpTemplate = $(this).find('.layout-settings__title')[0].innerText;
+        if(selectedFollowUpTemplate === "Post Donate Page With Recurring Ask") {
           console.log('Recurring ask');
           $("#postActionSettings").removeClass('hidden-irrelevant');
         } else {
