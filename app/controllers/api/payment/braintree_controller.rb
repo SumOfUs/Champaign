@@ -144,7 +144,7 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
   end
 
   def authenticate_cypress_http_token
-    authenticate_or_request_with_http_token do |token, _options|
+    authenticate_with_http_token do |token, _options|
       return ActiveSupport::SecurityUtils.secure_compare(token, Settings.pronto_api_secret_key)
     end
     false
