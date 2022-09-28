@@ -34,6 +34,7 @@ import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 // Styles
 import './Payment.css';
+import DonateLink from '../DonateLink';
 
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
@@ -691,7 +692,7 @@ export class Payment extends Component {
             </ShowIf>
 
             <ShowIf condition={this.showOneOffButton()}>
-              <DonateButton
+              <DonateLink
                 currency={currency}
                 amount={donationAmount || 0}
                 submitting={this.state.submitting}
