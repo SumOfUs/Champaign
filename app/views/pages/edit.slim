@@ -32,6 +32,10 @@ section.page-edit-step#sources data-icon='link'
   h1.page-edit-step__title = t('.sources')
   = render 'link_form', page: @page
 
+section.page-edit-step#postActionSettings data-icon='post_donate_settings'
+  h1.page-edit-step__title = t('.post_donate_settings')
+  = render 'follow_up_action_settings', page: @page
+
 - @page.plugins.each do |plugin|
   - next unless low_priority_plugins.include? plugin.class
   section.page-edit-step id=plugin_section_id(plugin) data-icon=plugin_icon(plugin)
@@ -51,4 +55,17 @@ javascript:
     window.ee.emit("activation:toggle");
     window.ee.emit("shares:edit");
     new PageEditBar();
+    $(".radio-group__option").on("click", function() {
+      try {
+        var selectedFollowUpTemplate = $(this).find('.layout-settings__title')[0].innerText;
+        if(selectedFollowUpTemplate === "Post Donate Page With Recurring Ask") {
+          console.log('Recurring ask');
+          $("#postActionSettings").removeClass('hidden-irrelevant');
+        } else {
+          $("#postActionSettings").addClass('hidden-irrelevant');
+        }
+      } catch (err){
+        console.log(err);
+      }
+    });
   });

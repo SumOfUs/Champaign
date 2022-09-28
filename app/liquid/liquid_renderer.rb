@@ -69,6 +69,7 @@ class LiquidRenderer # rubocop:disable Metrics/ClassLength
       images: images,
       named_images: named_images,
       primary_image: image_urls(@page.image_to_display),
+      post_action_image: image_urls(@page.post_action_image_to_display),
       shares: Shares.get_all(@page),
       locale: @page.language&.code || 'en',
       follow_up_url: follow_up_url

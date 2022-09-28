@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class Api::Payment::BraintreeController < PaymentController
+class Api::Payment::BraintreeController < PaymentController # rubocop:disable Metrics/ClassLength
   include ExceptionHandler
   protect_from_forgery with: :exception, prepend: true
   skip_before_action :verify_authenticity_token, raise: false
   before_action :check_api_key, only: [:refund]
-  before_action :verify_bot, only: [:transaction]
+  before_action :verify_bot, only: [:transaction], if: -> { authenticate_cypress_http_token == false }
 
   def token
     @merchant_account_id = unsafe_params[:merchantAccountId]
@@ -141,6 +141,13 @@ class Api::Payment::BraintreeController < PaymentController
       render json: { success: false, message: msg }, status: :unprocessable_entity
       return false
     end
+  end
+
+  def authenticate_cypress_http_token
+    authenticate_with_http_token do |token, _options|
+      return ActiveSupport::SecurityUtils.secure_compare(token, Settings.pronto_api_secret_key)
+    end
+    false
   end
 
   def member_matches_payload

@@ -7,9 +7,16 @@
 
 <div id="fa-optimisation" data-value="post-donate"></div>
 {% include 'Top Bar' %}
-<div class="cover-photo" style="background-image: url(https://storage.googleapis.com/fa-assets/sou/sou-post-donate-bg.jpg); background-position:top;">
-	<div class="cover-photo__overlay"></div>
-</div>
+{% unless post_action_image.urls.large == blank %}
+	<div class="cover-photo" style="background-image: url({{ post_action_image.urls.large }}); background-position:top;">
+		<div class="cover-photo__overlay"></div>
+	</div>
+{% endunless %}
+{% unless post_action_image.urls.large != blank %}
+	<div class="cover-photo" style="background-image: url(https://storage.googleapis.com/fa-assets/sou/sou-post-donate-bg.jpg); background-position:top;">
+		<div class="cover-photo__overlay"></div>
+	</div>
+{% endunless %}
 <div class="cover-photo__titles">
 	<div class="center-content">
 		<div class="center-content__big-column" style="float:none; margin-left:0px; width:100%; text-align:center;">
@@ -645,6 +652,10 @@ function handleLanguages(){
 
 	var language = $('html').attr('lang');
 
+	if(window.champaign?.page?.post_action_copy !== undefined && window.champaign?.page?.post_action_copy !== '') {
+		$('.en-copy').html(window.champaign.page.post_action_copy);
+	}
+
   switch (language) {
     case 'fr':
       postDonatePage = "https://actions.sumofus.org/a/soutiner-sumofus-donate-french";
@@ -658,6 +669,10 @@ function handleLanguages(){
           thankyou = "Vous êtes fantastique "+name+"!";
           secondFirstname = "Merci, "+name+", ";
       }
+
+	  if(window.champaign?.page?.post_action_copy) {
+		 $('.fr-copy').html(window.champaign.page.post_action_copy);
+	  }
 
       $('.fr-copy').show();
       $('.en-copy').hide();
@@ -684,6 +699,10 @@ function handleLanguages(){
     	    secondFirstname = "Vielen Dank, ";
     	}
 
+		if(window.champaign?.page?.post_action_copy) {
+			 $('.de-copy').html(window.champaign.page.post_action_copy);
+	  	}
+
       $('.de-copy').show();
       $('.fr-copy').hide();
       $('.en-copy').hide();
@@ -707,6 +726,10 @@ function handleLanguages(){
         thankyou = "¡Eres lo máximo, "+name+"!";
         secondFirstname = "Gracias, "+name+", ";
       }
+
+	  if(window.champaign?.page?.post_action_copy) {
+		 $('.es-copy').html(window.champaign.page.post_action_copy);
+	  }
 
       $('.es-copy').show();
       $('.de-copy').hide();
@@ -733,6 +756,10 @@ function handleLanguages(){
         secondFirstname = "Obrigadx "+name+" ";
       }
 
+	  if(window.champaign?.page?.post_action_copy) {
+		 $('.pt-copy').html(window.champaign.page.post_action_copy);
+	  }
+
       $('.pt-copy').show();
       $('.es-copy').hide();
       $('.de-copy').hide();
@@ -757,6 +784,10 @@ function handleLanguages(){
           secondFirstname = "";
       }
 
+	  if(window.champaign?.page?.post_action_copy) {
+		 $('.nl-copy').html(window.champaign.page.post_action_copy);
+	  }
+
       $('.nl-copy').show();
       $('.de-copy').hide();
       $('.fr-copy').hide();
@@ -780,6 +811,10 @@ function handleLanguages(){
           thankyou = name+"، ما أروعك!";
           secondFirstname = "";
       }
+
+	  if(window.champaign?.page?.post_action_copy) {
+		 $('.ar-copy').html(window.champaign.page.post_action_copy);
+	  }
 
 	  $('.ar-copy').show();
       $('.nl-copy').hide();
