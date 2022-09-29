@@ -14,7 +14,6 @@ import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
 
 import './ExpressDonation.scss';
-import DonateLink from '../DonateLink';
 
 const style = {
   width: 'auto',
@@ -272,11 +271,12 @@ export class ExpressDonation extends Component {
                 !this.state.currentPaymentMethod || this.state.submitting
               }
               onClick={e => this.onClickHandle(e)}
+              theme={'primary'}
             />
           </ShowIf>
 
           <ShowIf condition={this.props.showOneOffButton}>
-            <DonateLink
+            <DonateButton
               currency={this.props.fundraiser.currency}
               amount={this.props.fundraiser.donationAmount || 0}
               name="one_time"
@@ -287,6 +287,7 @@ export class ExpressDonation extends Component {
                 !this.state.currentPaymentMethod || this.state.submitting
               }
               onClick={e => this.onClickHandle(e)}
+              theme={'secondary'}
             />
           </ShowIf>
         </>

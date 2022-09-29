@@ -29,9 +29,13 @@ export default props => {
       name={props.name}
       onClick={props.onClick}
       disabled={props.disabled}
+      theme={props.theme}
     >
       <ProcessingThen processing={props.submitting || false}>
-        <span className="fa fa-lock" />
+        {props.theme !== 'secondary' && <span className="fa fa-lock" />}
+        {props.theme == 'secondary' && (
+          <FormattedMessage id={'basics.or'} defaultMessage={'OR'} />
+        )}
         &nbsp;
         <FormattedMessage
           id={buttonId}
