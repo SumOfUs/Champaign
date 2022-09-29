@@ -106,3 +106,5 @@ group :test do
 end
 
 gem "aws-sdk-secretsmanager", "~> 1.21"
+
+gem "aws-sdk-eventbridge", "~> 1.38"

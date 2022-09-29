@@ -18,11 +18,16 @@ class CampaignCreator
   private
 
   def publish_event
-    ChampaignQueue.push(
-      { type: 'create_campaign',
-        name: @campaign.name,
-        campaign_id: @campaign.id },
-      { group_id: "campaign:#{@campaign.id}" }
-    )
+    detail_type = 'campaignCreatedOnChampaign'
+    detail = {
+      name: @campaign.name,
+      id: @campaign.id
+    }
+    EventBridgeService.new
+      .call(detail: detail.to_json,
+            detail_type: detail_type)
+  rescue StandardError => e
+    puts "Error while trying to put campaignCreatedOnChampaign event on pulpo event bus: #{e.message}."
+    {}
   end
 end
