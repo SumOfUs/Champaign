@@ -35,7 +35,7 @@ export default props => {
         {props.theme !== 'secondary' && (
           <>
             <span className="fa fa-lock" />
-            <span>&nbsp;</span>
+            <>&nbsp;</>
           </>
         )}
         <FormattedMessage
