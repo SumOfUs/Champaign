@@ -25,12 +25,7 @@ describe 'Campaigns', type: :request do
       end
 
       it 'publishes the event' do
-        expect(ChampaignQueue).to receive(:push).with(
-          { name: 'Super Campaign',
-            type: 'create_campaign',
-            campaign_id: be_a(Integer) },
-          { group_id: /campaign:\d+/ }
-        )
+        expect(EventBridgeService).to receive_message_chain(:new, :call)
         post '/campaigns', params
       end
     end

@@ -4,7 +4,7 @@ class EventBridgeService
   def initialize(options: default_options)
     @options = options
     @client = Aws::EventBridge::Client.new(
-      region: @options[:region]
+      region: @options[:region], stub_responses: Rails.env.test?
     )
   end
 
