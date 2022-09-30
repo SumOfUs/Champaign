@@ -3,8 +3,8 @@ $link-font-size: 12px;
 
 .Button-root,
 .Button-root.primary {
-  border: 2px solid #f8492e;
-  background-color: #f8492e;
+  border: 2px solid #ed3224;
+  background-color: #ed3224;
   box-sizing: border-box;
   color: white;
   font-weight: bold;
@@ -53,7 +53,7 @@ $link-font-size: 12px;
 
 .Button-root.secondary {
   pointer-events: visible;
-  color: #00c0cf;
+  color: #172340;
   background-color: transparent;
   font-size: $link-font-size;
   font-weight: normal;
@@ -64,10 +64,11 @@ $link-font-size: 12px;
   margin-left: auto;
   margin-right: auto;
   cursor: pointer;
-}
-
-.Button-root.secondary:hover {
   text-decoration: underline;
+    &:focus {
+        outline: auto;
+        border-color: #172340;
+      }
 }
 
 .Button-root.secondary:active {

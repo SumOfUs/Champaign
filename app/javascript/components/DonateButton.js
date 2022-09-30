@@ -32,11 +32,12 @@ export default props => {
       theme={props.theme}
     >
       <ProcessingThen processing={props.submitting || false}>
-        {props.theme !== 'secondary' && <span className="fa fa-lock" />}
-        {props.theme == 'secondary' && (
-          <FormattedMessage id={'basics.or'} defaultMessage={'OR'} />
+        {props.theme !== 'secondary' && (
+          <>
+            <span className="fa fa-lock" />
+            <span>&nbsp;</span>
+          </>
         )}
-        &nbsp;
         <FormattedMessage
           id={buttonId}
           defaultMessage={buttonText}

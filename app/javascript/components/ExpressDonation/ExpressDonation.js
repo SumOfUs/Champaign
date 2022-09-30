@@ -287,7 +287,11 @@ export class ExpressDonation extends Component {
                 !this.state.currentPaymentMethod || this.state.submitting
               }
               onClick={e => this.onClickHandle(e)}
-              theme={'secondary'}
+              theme={
+                this.state.recurringDefault === 'only_one_off'
+                  ? 'primary'
+                  : 'secondary'
+              }
             />
           </ShowIf>
         </>

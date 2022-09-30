@@ -701,7 +701,11 @@ export class Payment extends Component {
                 recurringDonor={this.state.recurringDonor}
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
-                theme={'secondary'}
+                theme={
+                  this.state.recurringDefault === 'only_one_off'
+                    ? 'primary'
+                    : 'secondary'
+                }
               />
             </ShowIf>
           </>
