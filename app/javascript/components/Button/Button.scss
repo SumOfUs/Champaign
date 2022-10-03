@@ -65,6 +65,7 @@ $link-font-size: 12px;
   margin-right: auto;
   cursor: pointer;
   text-decoration: underline;
+  text-underline-offset: 2px;
     &:focus {
         outline: auto;
         border-color: #172340;
