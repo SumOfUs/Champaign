@@ -46,6 +46,9 @@ const initialize = function() {
 const addImageOption = function(file, id, html) {
   const newOption = "<option value='" + id + "'>" + file.name + '</option>';
   $('#page_primary_image_id').append(newOption);
+  if ($('#page_post_action_image_id').length) {
+    $('#page_post_action_image_id').append(newOption);
+  }
 };
 
 const removeImageOption = function(id) {
