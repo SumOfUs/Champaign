@@ -17,9 +17,20 @@
             = f.hidden_field :publish_status, class: 'campaigner-overlay__publish-field', value: page.published? ? "unpublished" : "published"
             = f.submit "Publish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--inactive'
             = f.submit "Unpublish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--active', 'data-confirm' => "Are you sure you want to unpublish this page? It will become inaccessible except to logged-in campaigners."
+        .campaigner-overlay__copy-url-link
+          | Copy URL
         = link_to 'Edit', edit_page_path(page), class: 'campaigner-overlay__edit-link'
 
   javascript:
     $(document).ready(function(){
       window.champaign.myCampaignerOverlay = new window.champaign.CampaignerOverlay();
+      $('.campaigner-overlay__copy-url-link').on('click', function(e){
+            var dummy = document.createElement('input'),
+            text = window.location.pathname.split('/').pop(); 
+            document.body.appendChild(dummy);
+            dummy.value = "https://actions.sumofus.org/a/" + text;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+    })
     });

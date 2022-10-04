@@ -4,7 +4,7 @@
   left: 6px;
   z-index: 10000;
   color: black;
-  width: 130px;
+  width: 175px;
   @include box-sizing(border-box);
   @include transition(bottom 1s linear);
   padding: 15px 15px 30px;
@@ -42,12 +42,20 @@
     padding-right: 0;
     float: left;
     position: relative;
+    padding-top: 2px;
   }
   &__edit-link {
     float: right;
     padding-top: 2px;
   }
-  &__edit-link, &__toggle-publish {
+  &__copy-url-link {
+    color: black;
+    float: left;
+    padding-top: 2px;
+    margin-left: 4px;
+    margin-right: 2px;
+  }
+  &__edit-link, &__toggle-publish, &__copy-url-link {
     line-height: 12px;
     height: 14px;
     font-size: 12px;
