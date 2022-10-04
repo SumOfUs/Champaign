@@ -68,6 +68,13 @@
     }
   }
 
+  &__copy-url-copied {
+    line-height: 12px;
+    height: 14px;
+    font-size: 12px;
+    display: none;
+  }
+
   &__actions {
     float: left;
     display: block;
