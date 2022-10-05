@@ -1,10 +1,14 @@
-.Button-root {
-  border: 2px solid #f8492e;
-  background-color: #f8492e;
+$button-font-size: 16px;
+$link-font-size: 12px;
+
+.Button-root,
+.Button-root.primary {
+  border: 2px solid #ed3224;
+  background-color: #ed3224;
   box-sizing: border-box;
   color: white;
   font-weight: bold;
-  font-size: 16px;
+  font-size: $button-font-size;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
@@ -30,16 +34,50 @@
 
 .Button-root.disabled,
 .Button-root.disabled:hover,
-.Button-root.disabled:active {
+.Button-root.primary.disabled:hover,
+.Button-root.disabled:active,
+.Button-root.primary.disabled:active{
   border: 2px solid #d0d0d0;
   background-color: #d3d3d3;
   box-shadow: none;
+  cursor: not-allowed;
 }
 
-.Button-root:hover {
+.Button-root:hover, .Button-root.primary:hover{
   background-color: #f73415;
 }
 
-.Button-root:active {
+.Button-root:active, .Button-root.primary:active {
   box-shadow: inset #d22207 0 3px 10px;
+}
+
+.Button-root.secondary {
+  pointer-events: visible;
+  color: #172340;
+  background-color: transparent;
+  font-size: $link-font-size;
+  font-weight: normal;
+  height: fit-content;
+  align-self: center;
+  width: fit-content;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+    &:focus {
+        outline: auto;
+        border-color: #172340;
+      }
+}
+
+.Button-root.secondary:active {
+  box-shadow: none;
+}
+
+.Button-root.secondary.disabled {
+  pointer-events: none;
+  color: #d1d5db;
+  cursor: not-allowed;
 }

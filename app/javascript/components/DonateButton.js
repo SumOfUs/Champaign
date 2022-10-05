@@ -29,10 +29,15 @@ export default props => {
       name={props.name}
       onClick={props.onClick}
       disabled={props.disabled}
+      theme={props.theme}
     >
       <ProcessingThen processing={props.submitting || false}>
-        <span className="fa fa-lock" />
-        &nbsp;
+        {props.theme !== 'secondary' && (
+          <>
+            <span className="fa fa-lock" />
+            <>&nbsp;</>
+          </>
+        )}
         <FormattedMessage
           id={buttonId}
           defaultMessage={buttonText}
