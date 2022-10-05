@@ -17,9 +17,27 @@
             = f.hidden_field :publish_status, class: 'campaigner-overlay__publish-field', value: page.published? ? "unpublished" : "published"
             = f.submit "Publish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--inactive'
             = f.submit "Unpublish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--active', 'data-confirm' => "Are you sure you want to unpublish this page? It will become inaccessible except to logged-in campaigners."
+        .campaigner-overlay__copy-url-link
+          | Copy URL
+        span.campaigner-overlay__copy-url-copied
+          = "Copied!"
         = link_to 'Edit', edit_page_path(page), class: 'campaigner-overlay__edit-link'
 
   javascript:
     $(document).ready(function(){
       window.champaign.myCampaignerOverlay = new window.champaign.CampaignerOverlay();
+      $('.campaigner-overlay__copy-url-link').on('click', function(e){
+        const url = 'https://actions.sumofus.org/a/' + '#{@page.slug}';
+             navigator.clipboard.writeText(url);
+
+            // Hide the copy link text and show the copied! span
+            $('.campaigner-overlay__copy-url-link').fadeOut(100, () => {
+              $('.campaigner-overlay__copy-url-copied').show();
+            });
+            setTimeout(() => {
+                $('.campaigner-overlay__copy-url-copied').fadeOut(100, () => {
+                $('.campaigner-overlay__copy-url-link').fadeIn(200);
+              });
+            }, 3500);
+    })
     });
