@@ -65,11 +65,9 @@ describe 'Campaigns', type: :request do
       end
 
       it 'publishes the event' do
-        expect(ChampaignQueue).to receive(:push).with(
-          { type: 'update_campaign',
-            name: 'Updated Campaign',
-            campaign_id: campaign.id },
-          { group_id: /campaign:\d+/ }
+        expect(EventBridgeService).to receive_message_chain(:new, :call).with(
+          detail_type: 'campaignUpdatedOnChampaign',
+          detail: "{\"name\":\"Updated Campaign\",\"id\":#{campaign.id}}"
         )
         put "/campaigns/#{campaign.id}", params
       end
