@@ -687,6 +687,7 @@ export class Payment extends Component {
                 weekly={this.props.weekly}
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
+                theme={'primary'}
               />
             </ShowIf>
 
@@ -700,6 +701,7 @@ export class Payment extends Component {
                 recurringDonor={this.state.recurringDonor}
                 disabled={this.disableSubmit()}
                 onClick={e => this.onClickHandle(e)}
+                theme={this.showMonthlyButton() ? 'secondary' : 'primary'}
               />
             </ShowIf>
           </>

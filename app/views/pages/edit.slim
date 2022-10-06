@@ -32,7 +32,7 @@ section.page-edit-step#sources data-icon='link'
   h1.page-edit-step__title = t('.sources')
   = render 'link_form', page: @page
 
-section.page-edit-step#postActionSettings data-icon='post_donate_settings'
+section.page-edit-step.hidden-irrelevant#postActionSettings data-icon='cog'
   h1.page-edit-step__title = t('.post_donate_settings')
   = render 'follow_up_action_settings', page: @page
 
@@ -55,6 +55,9 @@ javascript:
     window.ee.emit("activation:toggle");
     window.ee.emit("shares:edit");
     new PageEditBar();
+    if(#{@page.follow_up_liquid_layout.present?} && #{@page.follow_up_liquid_layout&.title == "Post Donate Page With Recurring Ask"}) {
+      $("#postActionSettings").removeClass('hidden-irrelevant');
+    }
     $(".radio-group__option").on("click", function() {
       try {
         var selectedFollowUpTemplate = $(this).find('.layout-settings__title')[0].innerText;

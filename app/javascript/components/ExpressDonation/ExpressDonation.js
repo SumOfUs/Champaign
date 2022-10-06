@@ -271,6 +271,7 @@ export class ExpressDonation extends Component {
                 !this.state.currentPaymentMethod || this.state.submitting
               }
               onClick={e => this.onClickHandle(e)}
+              theme={'primary'}
             />
           </ShowIf>
 
@@ -286,6 +287,7 @@ export class ExpressDonation extends Component {
                 !this.state.currentPaymentMethod || this.state.submitting
               }
               onClick={e => this.onClickHandle(e)}
+              theme={this.props.showMonthlyButton ? 'secondary' : 'primary'}
             />
           </ShowIf>
         </>

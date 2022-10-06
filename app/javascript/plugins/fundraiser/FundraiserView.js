@@ -23,6 +23,7 @@ import {
   setSupportedLocalCurrency,
   setIsCustomAmount,
 } from '../../state/fundraiser/actions';
+import { supportedCurrency } from '../../state/fundraiser/reducer';
 
 export class FundraiserView extends Component {
   constructor(props) {
@@ -66,7 +67,9 @@ export class FundraiserView extends Component {
     this.props.setSupportedLocalCurrency(this.supportedLocalCurrency());
     if (donationAmount && donationAmount > 0) {
       this.props.selectAmount(donationAmount);
-      this.props.changeStep(1);
+      if (this.isValidCurrency() === true) {
+        this.props.changeStep(1);
+      }
     }
   }
 
@@ -126,6 +129,22 @@ export class FundraiserView extends Component {
   showStepTwo() {
     const { outstandingFields } = this.props.fundraiser;
     return !outstandingFields || outstandingFields.length !== 0;
+  }
+
+  isValidCurrency() {
+    const { donationBands } = this.props.fundraiser;
+    const supportedCurrencies = Object.keys(donationBands);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const currencyFromUrl = urlParams.get('currency');
+    if (!currencyFromUrl) return true;
+    const currencyFromState =
+      supportedCurrencies.find(c => c === currencyFromUrl) ||
+      supportedCurrencies[0];
+    const invalidCurrency =
+      currencyFromState === 'USD' && currencyFromState !== currencyFromUrl;
+
+    return !invalidCurrency;
   }
 
   render() {

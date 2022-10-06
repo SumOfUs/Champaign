@@ -5,6 +5,7 @@ import './Button.scss';
 const Button = props => {
   const className = classnames(
     'Button-root',
+    props.theme,
     props.disabled ? 'disabled' : '',
     props.className ? props.className : ''
   );
