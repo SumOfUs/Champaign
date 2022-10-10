@@ -2,8 +2,8 @@ import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { snakeCase } from 'lodash';
 import ee from '../../shared/pub_sub';
-import Checkbox from '../Checkbox/Checkbox';
 import DonateButton from '../DonateButton';
 import PaymentMethodWrapper from './PaymentMethodWrapper';
 import PaymentMethodItem from './PaymentMethod';
@@ -84,6 +84,21 @@ export class ExpressDonation extends Component {
     const event = `fundraiser:${donationType}_transaction_submitted`;
 
     ee.emit(event, label);
+
+    const { original, forced } =
+      window.champaign.plugins?.fundraiser?.default?.config?.fundraiser
+        ?.forcedDonateLayout || {};
+    const emitForcedLayoutSuccess = () => {
+      ee.emit(`${event}_forced_layout`, {
+        label: `${snakeCase(original)}_template_used_scroll_to_donate`,
+        amount: this.props.fundraiser.donationAmount,
+      });
+    };
+
+    if (forced === true) {
+      emitForcedLayoutSuccess();
+    }
+
     return data;
   }
 
