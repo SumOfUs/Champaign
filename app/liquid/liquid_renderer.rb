@@ -4,6 +4,7 @@ class LiquidRenderer # rubocop:disable Metrics/ClassLength
   include Rails.application.routes.url_helpers
 
   HIDDEN_FIELDS = %w[source bucket referrer_id rid akid referring_akid].freeze
+  SCROLL_TO_DONATE_LAYOUT = 'Default: Petition And Scroll To Donate Greenpeace'
 
   def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [], id_mismatch: false)
     @page            = page
@@ -12,10 +13,20 @@ class LiquidRenderer # rubocop:disable Metrics/ClassLength
     @payment_methods = payment_methods
     @url_params      = url_params
     @id_mismatch     = id_mismatch
+    @forced_donate_layout = false
   end
 
   def render
-    render_layout(@page.liquid_layout)
+    if @page.petition_page? && Plugins::Fundraiser.exists?(page_id: @page.id)
+      render_layout(donate_and_share_layout)
+    else
+      render_layout(@page.liquid_layout)
+    end
+  end
+
+  def donate_and_share_layout
+    @forced_donate_layout = true
+    LiquidLayout.find_by_title!('Default: Petition And Scroll To Donate Greenpeace')
   end
 
   def render_custom_without_cache(layout_name, data = {})
@@ -48,7 +59,8 @@ class LiquidRenderer # rubocop:disable Metrics/ClassLength
       email_pension: email_pension_data,
       action_count: @page.action_count,
       payment_methods: @payment_methods,
-      id_mismatch: @id_mismatch
+      id_mismatch: @id_mismatch,
+      forced_donate_layout: @forced_donate_layout
     }.deep_stringify_keys
   end
 

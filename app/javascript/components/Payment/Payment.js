@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client';
 import braintree from 'braintree-web';
 import dataCollector from 'braintree-web/data-collector';
-import { isEmpty } from 'lodash';
+import { isEmpty, snakeCase } from 'lodash';
 import ee from '../../shared/pub_sub';
 import captcha from '../../shared/recaptcha';
 
@@ -418,22 +418,32 @@ export class Payment extends Component {
           ? 'recurring'
           : 'not_recurring',
       });
-
-      let donationType;
-      if (this.props.fundraiser.recurring) {
-        donationType = this.props.weekly ? 'weekly' : 'monthly';
-      } else {
-        donationType = 'one_time';
-      }
-
-      const label = `successful_${donationType}_donation_submitted`;
-      const event = `fundraiser:${donationType}_transaction_submitted`;
-
-      ee.emit(event, label);
     }
+
+    let donationType;
+    if (this.props.fundraiser.recurring) {
+      donationType = this.props.weekly ? 'weekly' : 'monthly';
+    } else {
+      donationType = 'one_time';
+    }
+
+    const label = `successful_${donationType}_donation_submitted`;
+    const event = `fundraiser:${donationType}_transaction_submitted`;
+
+    ee.emit(event, label);
 
     const emitTransactionSuccess = () => {
       ee.emit('fundraiser:transaction_success', data, this.props.formData);
+    };
+
+    const { original, forced } =
+      window.champaign.plugins?.fundraiser?.default?.config?.fundraiser
+        ?.forcedDonateLayout || {};
+    const emitForcedLayoutSuccess = () => {
+      ee.emit(`${event}_forced_layout`, {
+        label: `${snakeCase(original)}_template_used_scroll_to_donate`,
+        amount: this.props.fundraiser.donationAmount,
+      });
     };
 
     if (
@@ -446,6 +456,10 @@ export class Payment extends Component {
       });
     }
     emitTransactionSuccess();
+
+    if (forced === true) {
+      emitForcedLayoutSuccess();
+    }
 
     this.setState({ errors: [] });
   };

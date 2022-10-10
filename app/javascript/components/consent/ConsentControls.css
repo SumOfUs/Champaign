@@ -24,22 +24,27 @@
 }
 
 .ConsentControls label {
-  display: block;
-  margin-right: 30px;
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
   font-size: 85%;
   clear: left;
 }
 
 .simple .ConsentControls input[type='radio'] {
-  float: left;
-  display: block;
   background: transparent;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 0;
+  top: unset;
+}
+
+.simple .ConsentControls input[type='radio']::before {
+  top: unset;
 }
 
 .simple .ConsentControls label span {
   display: block;
-  margin-left: 30px;
 }
 
 /* Selectable Buttons variant */

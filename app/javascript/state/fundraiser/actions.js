@@ -1,4 +1,5 @@
 import ee from '../../shared/pub_sub';
+import { snakeCase } from 'lodash';
 
 export function changeAmount(payload) {
   ee.emit('fundraiser:change_amount', payload);
@@ -80,6 +81,7 @@ export function setSelectedAmountButton(payload) {
     );
 
     ee.emit(event, { label, amount: null });
+    emitForcedLayoutEvent();
 
     dispatch({ type: 'set_selected_amount_button', payload });
   };
@@ -111,4 +113,17 @@ export function actionFormUpdated(data) {
 
 export function setSupportedLocalCurrency(payload) {
   return { type: 'set_supported_local_currency', payload };
+}
+
+function emitForcedLayoutEvent() {
+  const {
+    original,
+    forced,
+  } = window.champaign.plugins.fundraiser.default.config.fundraiser.forcedDonateLayout;
+  if (forced === true) {
+    ee.emit(
+      'fundraiser:donate_button_clicked_forced_layout',
+      `${snakeCase(original)}_template_used_scroll_to_donate`
+    );
+  }
 }
