@@ -41,7 +41,7 @@ en:
       body: "Thanks for taking action with SumOfUs. You’re awesome! Your action helps fight corporate power all over the world. But there's still lots of work to be done. SumOfUs is funded almost entirely by small donations from people in our community just like you, so every little donation counts. Your donation means that we can take on the biggest, baddest corporations and hold them accountable. Will you provide a donation to help us keep fighting today?"
     two_step:
       cta:
-        "<p><span class='inject-name'>Dear friend</span>, we need your support today to win campaigns against corporate power in 2021</p>
+        "<p><span class='inject-name'>Dear friend</span>, we need your support today to win campaigns against corporate power in %{current_year}</p>
         <br/>
         <p>Can you chip in to help power SumOfUs?</p>"
       cta_eoy:
