@@ -1,3 +1,4 @@
+{% assign currentYear = "now" | date: "%Y" %}
 {% if plugins.donations_thermometer[ref].active %}
     <style type="text/css">
 
@@ -19,7 +20,7 @@
 
     <div class="thank-you__cta">
         <span class="two-step__question">
-            {{ 'fundraiser.two_step.cta' | t }}
+            {{ 'fundraiser.two_step.cta' | val: 'current_year', currentYear | t }}
         </span>
     </div>
 
@@ -60,7 +61,7 @@
     </script>
 {% else %}
   <div class="thank-you__cta">
-    <span class="two-step__question">{{ 'fundraiser.two_step.cta' | t }}</span>
+    <span class="two-step__question">{{ 'fundraiser.two_step.cta' | val: 'current_year', currentYear | t }}</span>
   </div>
 
   <div class="center-content__centered-element">

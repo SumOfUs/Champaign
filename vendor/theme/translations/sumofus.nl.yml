@@ -43,7 +43,7 @@ nl:
       body: "Bedankt dat je actie onderneemt met SumOfUs. Je bent geweldig! Met je actie draag je bij aan de strijd tegen de macht van bedrijven over de hele wereld. Maar er is nog steeds veel werk te doen. SumOfUs wordt bijna volledig gefinancierd door kleine donaties van mensen in onze community zoals jij, dus elke kleine bijdrage telt. Jouw donatie zorgt ervoor dat we het kunnen opnemen tegen de grootste en meest kwaadaardige bedrijven, en hen ter verantwoording kunnen roepen. Help jij ons vandaag nog met een donatie zodat we kunnen blijven strijden? "
     two_step:
       cta:
-        "<p><span class='inject-name'>Beste vriend, beste vriendin</span>, we hebben vandaag je hulp nodig om campagnes tegen de macht van het bedrijfsleven in 2022 te winnen. </p>
+        "<p><span class='inject-name'>Beste vriend, beste vriendin</span>, we hebben vandaag je hulp nodig om campagnes tegen de macht van het bedrijfsleven in %{current_year} te winnen. </p>
         <br/>
         <p>Kun je een donatie doen om SumOfUs sterker te maken?</p>"
       cta_eoy:

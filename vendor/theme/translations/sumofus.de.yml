@@ -41,9 +41,9 @@ de:
       body: "Vielen Dank, dass Sie die Petition unterschrieben haben. Das war großartig! Jede Stimme zählt, wenn wir uns weltweit mit Großkonzernen anlegen. Doch es gibt noch viel zu tun! Dafür benötigen wir Geld. SumOfUs finanziert sich fast ausschließlich aus den Spenden unserer Mitglieder – und jeder kleine Beitrag hilft. Dank Ihrer Spende können wir es mit den größten und skrupellosesten Konzernen aufnehmen und sie zur Verantwortung ziehen. Unterstützen Sie uns bitte heute mit einer Spende!"
     two_step:
       cta:
-        "<p>Damit wir auch 2021 Kampagnen gewinnen können, brauchen wir heute Ihre Unterstützung, <span class='inject-name'></span>.</p>
+        "<p>Damit wir auch %{current_year} Kampagnen gewinnen können, brauchen wir heute Ihre Unterstützung, <span class='inject-name'></span>.</p>
         <br/>
-        <p>Helfen Sie mit Ihrer Spende dabei, SumOfUs für 2021 stark zu machen?</p>"
+        <p>Helfen Sie mit Ihrer Spende dabei, SumOfUs für %{current_year} stark zu machen?</p>"
       cta_eoy:
         "<p><b><span class='inject-name'>2020 ist fast zu Ende</span>, aber wir haben unser Spendenziel für dieses Jahr noch nicht erreicht.</b> Wir brauchen Ihre Unterstützung, damit wir auch 2021 Kampagnen gegen skrupellose Konzerne gewinnen.
         <br>

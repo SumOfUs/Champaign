@@ -41,7 +41,7 @@ pt:
       body: "Agradecemos sua ação! Você é incrível! Sua ação ajuda no combate ao poder corporativo no mundo todo. Mas há muito trabalho a ser feito. A SumofUs é financiada quase inteiramente por pequenas doações de nossxs membrxs, assim como você. Por isso, cada quantia vale muito! Sua doação significa que poderemos lutar contra as piores e maiores multinacionais, e responsabilizá-las por suas ações. Você gostaria de doar e nos ajudar nessa luta?"
     two_step:
       cta:
-        "<p><span class='inject-name'>Caro amigx</span>, precisamos de seu apoio para vencer campanhas contra o poder corporativo em 2021.</p>
+        "<p><span class='inject-name'>Caro amigx</span>, precisamos de seu apoio para vencer campanhas contra o poder corporativo em %{current_year}.</p>
         <br/>
         <p>Você pode doar para apoiar a SumofUs?</p>"
       cta_eoy:
