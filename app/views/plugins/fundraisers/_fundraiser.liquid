@@ -26,6 +26,10 @@
           formValues: global.formValues,
           formId: "{{ plugins.fundraiser[ref].form_id }}",
           outstandingFields: global.outstandingFields,
+          forcedDonateLayout: {
+            original: window.champaign.page.layout,
+            forced: global.forcedDonateLayout
+          },
         {% if fundraiser_title %}
           title: "{{ fundraiser_title }}",
         {% else %}

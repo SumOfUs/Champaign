@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { snakeCase } from 'lodash';
 import DonationBands from '../DonationBands/DonationBands';
 import DonateButton from '../DonateButton';
 import CurrencySelector from '../CurrencySelector/CurrencySelector';
@@ -76,6 +77,20 @@ class OneClick extends Component {
     const event = 'fundraiser:one_time_transaction_submitted';
 
     ee.emit(event, label);
+
+    const { original, forced } =
+      window.champaign.plugins?.fundraiser?.default?.config?.fundraiser
+        ?.forcedDonateLayout || {};
+    const emitForcedLayoutSuccess = () => {
+      ee.emit(`${event}_forced_layout`, {
+        label: `${snakeCase(original)}_template_used_scroll_to_donate`,
+        amount: this.props.donationAmount,
+      });
+    };
+
+    if (forced === true) {
+      emitForcedLayoutSuccess();
+    }
 
     return data;
   }

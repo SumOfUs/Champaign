@@ -2,6 +2,7 @@
 {% comment %} Primary layout: true {% endcomment %}
 
 {% include 'Small Header' %}
+{% assign currentYear = "now" | date: "%Y" %}
 
 <div class="center-content center-content--accomodates-stuck-footer">
   <div class="center-content__big-column">
@@ -20,7 +21,7 @@
       {% capture message %}{{ 'petition.thank_you' | val: 'petition_title', title | t }}{% endcapture %}
       <h1 class="thank-you__thanks">{{ message }}</h1>
       <div class="thank-you__cta">
-        <span class="two-step__question">{{ 'fundraiser.two_step.cta' | t }}</span>
+        <span class="two-step__question">{{ 'fundraiser.two_step.cta' | val: 'current_year', currentYear | t }}</span>
       </div>
 
       <div class="center-content__centered-element">
