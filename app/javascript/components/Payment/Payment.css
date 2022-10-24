@@ -151,3 +151,56 @@ html[dir='rtl'] .payment-message {
 .mb-10 {
   margin-bottom: 10px !important;
 }
+
+.RecurringPaymentAsk {
+  width: 600px;
+  text-align: center;
+}
+
+.RecurringPaymentAsk--title {
+  font-size: 22px;
+  line-height: 1.3em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-weight: bold;
+}
+
+.RecurringPaymentAsk--message {
+  font-size: 16px;
+  line-height: 1.5em !important;
+  margin-bottom: 1em;
+  text-align: center;
+  padding: 10px;
+  word-spacing: 2px;
+}
+
+.RecurringPaymentAsk--accept.Button-root,
+.RecurringPaymentAsk--decline.Button-root {
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.RecurringPaymentAsk--decline.Button-root {
+  background: transparent;
+  border: none;
+  color: #172340;
+  text-transform: none;
+  height: auto;
+  width: auto;
+  font-weight: normal;
+  text-decoration: underline;
+}
+
+.RecurringPaymentAsk--decline.Button-root:active {
+  box-shadow: none;
+}
+
+@media (max-width: 700px) {
+  .RecurringPaymentAsk {
+    width: 100%;
+  }
+  .RecurringPaymentAsk--title {
+    font-size: 18px;
+  }
+}

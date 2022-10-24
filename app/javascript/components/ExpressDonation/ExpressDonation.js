@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { snakeCase } from 'lodash';
 import ee from '../../shared/pub_sub';
 import DonateButton from '../DonateButton';
@@ -18,6 +18,10 @@ import './ExpressDonation.scss';
 const style = {
   width: 'auto',
   padding: 30,
+};
+const recurringPopupStyle = {
+  width: '700px',
+  padding: 26,
 };
 
 export class ExpressDonation extends Component {
@@ -37,6 +41,8 @@ export class ExpressDonation extends Component {
       source: null,
       optForRedonation: false,
       failureReason: '',
+      askRecurring: true,
+      openRecurringPopup: false,
     };
   }
 
@@ -126,7 +132,9 @@ export class ExpressDonation extends Component {
   onClickHandle(e) {
     const isRecurring = e.currentTarget.name === 'recurring';
     this.props.setRecurring(isRecurring);
-    ee.on('fundraiser:change_recurring', this.submit, this);
+    if (!isRecurring && this.state.askRecurring)
+      this.setState({ openRecurringPopup: true });
+    else ee.on('fundraiser:change_recurring', this.submit, this);
   }
 
   submit() {
@@ -279,7 +287,7 @@ export class ExpressDonation extends Component {
               amount={this.props.fundraiser.donationAmount || 0}
               recurring={true}
               name="recurring"
-              recurringDonor={this.state.recurringDonor}
+              recurringDonor={this.props.fundraiser.recurring}
               weekly={this.props.weekly}
               submitting={this.state.submitting}
               disabled={
@@ -297,7 +305,7 @@ export class ExpressDonation extends Component {
               name="one_time"
               recurring={false}
               submitting={this.state.submitting}
-              recurringDonor={this.state.recurringDonor}
+              recurringDonor={this.props.fundraiser.recurring}
               disabled={
                 !this.state.currentPaymentMethod || this.state.submitting
               }
@@ -343,6 +351,70 @@ export class ExpressDonation extends Component {
               <FormattedMessage
                 id="consent.existing.decline"
                 defaultMessage="Not right now"
+              />
+            </Button>
+          </div>
+        </Popup>
+
+        <Popup
+          open={this.state.openRecurringPopup}
+          closeOnDocumentClick
+          contentStyle={recurringPopupStyle}
+          onClose={() => {
+            this.setState({
+              openRecurringPopup: false,
+              askRecurring: false,
+            });
+            this.submit();
+          }}
+        >
+          <div>
+            <div className="RecurringPaymentAsk--title">
+              <FormattedMessage
+                id="recurring_ask.title"
+                defaultMessage="Before we finish processing that, do you want to create impact every month by supporting our campaigns?"
+              />
+            </div>
+            <div className="RecurringPaymentAsk--message">
+              <FormattedHTMLMessage id="recurring_ask.message" />
+            </div>
+            <Button
+              className="RecurringPaymentAsk--accept"
+              onClick={() => {
+                this.setState({
+                  askRecurring: false,
+                  openRecurringPopup: false,
+                });
+                this.props.setRecurring(true);
+                this.submit();
+              }}
+            >
+              <FormattedMessage
+                id="recurring_ask.accept"
+                defaultMessage={`Yes, I'll chip in {amount} a month to support SumOfUs campaigns`}
+                values={{
+                  amount: (
+                    <CurrencyAmount
+                      amount={this.props.getFinalDonationAmount}
+                      currency={this.props.fundraiser.currency}
+                    />
+                  ),
+                }}
+              />
+            </Button>
+            <Button
+              className="RecurringPaymentAsk--decline"
+              onClick={() => {
+                this.setState({
+                  askRecurring: false,
+                  openRecurringPopup: false,
+                });
+                this.submit();
+              }}
+            >
+              <FormattedMessage
+                id="recurring_ask.decline"
+                defaultMessage="No, I’ll finish my one-time donation"
               />
             </Button>
           </div>

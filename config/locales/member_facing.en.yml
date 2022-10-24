@@ -314,3 +314,8 @@ en:
     opt_in:
       notice: "You’ve successfully opted into receiving our remaining fundraising emails in 2019."
       alert: "An error occurred while opting you into the remaining fundraising emails in 2019. Click here to try again."
+  recurring_ask:
+    title: 'Before we finish processing that, do you want to create impact every month by supporting our campaigns?'
+    message: 'Your contribution allows SumOfUs to plan ahead and move fast to win the campaigns that matter to all of us. But you may not know that <b>we don’t take a single penny from corporations or governments.</b> The vast majority of our funding comes from our members across the globe. Without the support of people like you, none of this would be possible. Will you help power our campaigns with a regular contribution?'
+    dismiss_link_text: "No, I’ll finish my one-time donation"
+    accept: 'Yes, I’ll chip in %{amount} a month to support SumOfUs campaigns'

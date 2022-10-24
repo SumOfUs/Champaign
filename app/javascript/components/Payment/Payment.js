@@ -34,6 +34,8 @@ import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 // Styles
 import './Payment.css';
+import Popup from 'reactjs-popup';
+import Button from '../Button/Button';
 
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
@@ -64,6 +66,8 @@ export class Payment extends Component {
       },
       errors: [],
       waitingForGoCardless: false,
+      askRecurring: true,
+      openRecurringPopup: false,
     };
   }
 
@@ -237,9 +241,14 @@ export class Payment extends Component {
     }
     const label = `user_clicks_${donationType}_donation_button`;
     const event = `fundraiser:set_${donationType}`;
-
     ee.emit(event, label);
-    ee.on('fundraiser:change_recurring', this.makePayment, this);
+    if (!isRecurring && this.state.askRecurring) {
+      this.setState({
+        openRecurringPopup: true,
+      });
+    } else {
+      ee.on('fundraiser:change_recurring', this.makePayment, this);
+    }
   }
 
   getFinalDonationAmount = () => {
@@ -482,6 +491,8 @@ export class Payment extends Component {
     if (reason.code === '3DS') {
       const errors = [<FormattedMessage id="fundraiser.unknown_error" />];
       this.setState({ errors });
+    } else {
+      console.log(reason);
     }
     this.props.setSubmitting(false);
   };
@@ -564,6 +575,11 @@ export class Payment extends Component {
         storeInVault,
       },
     } = this.props;
+    const recurringPopupStyle = {
+      width: '700px',
+      padding: 26,
+    };
+
     return (
       <div className="Payment section">
         <ShowIf condition={!isEmpty(this.state.errors)}>
@@ -742,6 +758,69 @@ export class Payment extends Component {
             <img src={require('./dd_logo_landscape.png')} alt="DIRECT Debit" />
           </div>
         )}
+        <Popup
+          open={this.state.openRecurringPopup}
+          closeOnDocumentClick
+          contentStyle={recurringPopupStyle}
+          onClose={() => {
+            this.setState({
+              openRecurringPopup: false,
+              askRecurring: false,
+            });
+            this.makePayment();
+          }}
+        >
+          <div>
+            <div className="RecurringPaymentAsk--title">
+              <FormattedMessage
+                id="recurring_ask.title"
+                defaultMessage="Before we finish processing that, do you want to create impact every month by supporting our campaigns?"
+              />
+            </div>
+            <div className="RecurringPaymentAsk--message">
+              <FormattedHTMLMessage id="recurring_ask.message" />
+            </div>
+            <Button
+              className="RecurringPaymentAsk--accept"
+              onClick={() => {
+                this.setState({
+                  askRecurring: false,
+                  openRecurringPopup: false,
+                });
+                this.props.setRecurring(true);
+                this.makePayment();
+              }}
+            >
+              <FormattedMessage
+                id="recurring_ask.accept"
+                defaultMessage={`Yes, I'll chip in {amount} a month to support SumOfUs campaigns`}
+                values={{
+                  amount: (
+                    <CurrencyAmount
+                      amount={this.getFinalDonationAmount()}
+                      currency={this.props.fundraiser.currency}
+                    />
+                  ),
+                }}
+              />
+            </Button>
+            <Button
+              className="RecurringPaymentAsk--decline"
+              onClick={() => {
+                this.setState({
+                  askRecurring: false,
+                  openRecurringPopup: false,
+                });
+                this.makePayment();
+              }}
+            >
+              <FormattedMessage
+                id="recurring_ask.decline"
+                defaultMessage="No, I’ll finish my one-time donation"
+              />
+            </Button>
+          </div>
+        </Popup>
       </div>
     );
   }
