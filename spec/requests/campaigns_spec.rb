@@ -25,7 +25,12 @@ describe 'Campaigns', type: :request do
       end
 
       it 'publishes the event' do
-        expect(EventBridgeService).to receive_message_chain(:new, :call)
+        expect(ChampaignQueue).to receive(:push).with(
+          { name: 'Super Campaign',
+            type: 'create_campaign',
+            campaign_id: be_a(Integer) },
+          { group_id: /campaign:\d+/ }
+        )
         post '/campaigns', params
       end
     end
@@ -65,9 +70,11 @@ describe 'Campaigns', type: :request do
       end
 
       it 'publishes the event' do
-        expect(EventBridgeService).to receive_message_chain(:new, :call).with(
-          detail_type: 'campaignUpdatedOnChampaign',
-          detail: "{\"name\":\"Updated Campaign\",\"id\":#{campaign.id}}"
+        expect(ChampaignQueue).to receive(:push).with(
+          { type: 'update_campaign',
+            name: 'Updated Campaign',
+            campaign_id: campaign.id },
+          { group_id: /campaign:\d+/ }
         )
         put "/campaigns/#{campaign.id}", params
       end
