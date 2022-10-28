@@ -19,16 +19,11 @@ class CampaignUpdater
   private
 
   def publish_event
-    detail_type = 'campaignUpdatedOnChampaign'
-    detail = {
-      name: @campaign.name,
-      id: @campaign.id
-    }
-    EventBridgeService.new
-      .call(detail: detail.to_json,
-            detail_type: detail_type)
-  rescue StandardError => e
-    puts "Error while trying to put campaignUpdatedOnChampaign event on pulpo event bus: #{e.message}."
-    {}
+    ChampaignQueue.push(
+      { type: 'update_campaign',
+        name: @campaign.name,
+        campaign_id: @campaign.id },
+      { group_id: "campaign:#{@campaign.id}" }
+    )
   end
 end
