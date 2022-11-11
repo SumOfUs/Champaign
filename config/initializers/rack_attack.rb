@@ -10,9 +10,9 @@ class Rack::Attack
     device_key = "tx/device/#{period}#{unit}"
     recaptcha_token_key = "tx/token/#{period}#{unit}"
 
-    # throttle(ip_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| transaction_rule(req) }
-    # throttle(device_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| device_rule(req) }
-    # throttle(recaptcha_token_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| token_rule(req) }
+    throttle(ip_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| transaction_rule(req) }
+    throttle(device_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| device_rule(req) }
+    throttle(recaptcha_token_key, limit: limit.to_i, period: period.to_i.send(unit)) { |req| token_rule(req) }
   end
 
   # Exponential throttling on actions endpoint:
