@@ -54,6 +54,9 @@ end
 
 def transaction_rule(req)
   if req.path =~ %r{^/api/payment/braintree/pages/\d+/transaction} && req.post?
+    Rails.logger.info "req.location.ip #{req.location.ip}"
+    Rails.logger.info "req.ip #{req.ip}"
+
     req.location.ip unless req.env['warden'].user
   end
 end
