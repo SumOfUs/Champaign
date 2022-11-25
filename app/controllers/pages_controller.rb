@@ -90,9 +90,16 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
     else
       @rendered = renderer.render
       @data = renderer.personalization_data
-      render :show, layout: 'member_facing'
+      @error = {
+        declined: true,
+        code: error_code
+      }
+      render :show, layout: 'member_facing', error: @error
+      return
     end
   end
+
+  attr_writer :error_code
 
   def double_opt_in_notice
     @rendered = renderer.render_custom_without_cache('Double Opt In Follow Up',
@@ -192,6 +199,9 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
       member: recognized_member,
       cookied_payment_methods: cookies.signed[:payment_methods]
     ).process
+  rescue PaymentProcessor::Exceptions::BraintreePaymentError => e
+    error_code(e.message)
+    @process_one_click = false
   rescue StandardError
     @process_one_click = false
   end
