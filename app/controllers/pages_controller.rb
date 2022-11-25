@@ -13,6 +13,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   before_action :localize, only: %i[show follow_up double_opt_in_notice]
   before_action :record_tracking, only: %i[show]
 
+  attr_reader :error_code
   def index
     @pages = Search::PageSearcher.search(search_params)
   end
@@ -99,7 +100,9 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
     end
   end
 
-  attr_writer :error_code
+  def set_error_code(code)
+    @error_code = code
+  end
 
   def double_opt_in_notice
     @rendered = renderer.render_custom_without_cache('Double Opt In Follow Up',
@@ -200,7 +203,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
       cookied_payment_methods: cookies.signed[:payment_methods]
     ).process
   rescue PaymentProcessor::Exceptions::BraintreePaymentError => e
-    error_code(e.message)
+    set_error_code(e.message)
     @process_one_click = false
   rescue StandardError
     @process_one_click = false
