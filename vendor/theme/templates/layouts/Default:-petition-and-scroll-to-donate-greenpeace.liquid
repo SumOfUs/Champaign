@@ -142,9 +142,6 @@
     window.ee.on('action:submitted_success', function () {
       var formData = window.champaign.myActionForm.formData();
       $('.inject-name').text(formData.name.split(' ')[0]);
-      if (typeof window.fbq === 'function') {
-        window.fbq('track', 'ActionSubmitted');
-      }
     });
 
     var interval = setInterval(function() {

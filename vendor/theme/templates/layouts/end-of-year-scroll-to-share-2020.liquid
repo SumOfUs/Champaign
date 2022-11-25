@@ -231,9 +231,6 @@
       console.log("Action submitted, inject name");
       var formData = window.champaign.myActionForm.formData();
       $('.inject-name').text(formData.name.split(' ')[0]);
-      if (typeof window.fbq === 'function') {
-        window.fbq('track', 'ActionSubmitted');
-      }
     });
     window.addEventListener(
       "share",
