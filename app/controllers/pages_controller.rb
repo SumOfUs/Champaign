@@ -91,10 +91,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
     else
       @rendered = renderer.render
       @data = renderer.personalization_data
-      @error = {
-        declined: true,
-        code: error_code
-      }
+      @error = error_code
       render :show, layout: 'member_facing', error: @error
       return
     end

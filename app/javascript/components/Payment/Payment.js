@@ -64,9 +64,7 @@ export class Payment extends Component {
         paypal: true,
         card: true,
       },
-      errors: window.champaign.personalization.braintreeErrorCode.length
-        ? errors
-        : [],
+      errors: window.champaign.oneClickErrorCode?.length ? errors : [],
       waitingForGoCardless: false,
     };
   }
