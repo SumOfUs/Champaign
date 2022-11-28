@@ -65,6 +65,9 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
   def one_click
     @result = client::OneClick.new(unsafe_params, cookies.signed[:payment_methods], member).run
     render status: :unprocessable_entity, errors: oneclick_payment_errors unless @result.success?
+  rescue PaymentProcessor::Exceptions::BraintreePaymentError => e
+    @result = e
+    render status: :unprocessable_entity, errors: e.message
   end
 
   private
