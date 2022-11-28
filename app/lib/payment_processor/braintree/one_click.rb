@@ -22,7 +22,11 @@ module PaymentProcessor::Braintree
         action = create_action(extra_fields(sale))
         store_locally(sale, action)
       else
-        raise "Error while making a sale transaction on BrainTree: #{sale}" unless sale.success?
+        error_code = sale.transaction.processor_response_code
+        Rails.logger.error(
+          "Error while making a sale transaction on BrainTree: #{sale.message} code: #{error_code}"
+        )
+        raise PaymentProcessor::Exceptions::BraintreePaymentError, sale.transaction.processor_response_code.to_s
       end
 
       sale

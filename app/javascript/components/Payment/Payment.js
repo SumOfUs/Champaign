@@ -38,6 +38,8 @@ import './Payment.css';
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 const LOCAL_PAYMENT_PROVIDERS = ['ideal', 'giropay'];
+// TODO: Handle each code independently
+const errors = [<FormattedMessage id="fundraiser.unknown_error" />];
 
 export class Payment extends Component {
   static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
@@ -62,7 +64,7 @@ export class Payment extends Component {
         paypal: true,
         card: true,
       },
-      errors: [],
+      errors: window.champaign.oneClickErrorCode?.length ? errors : [],
       waitingForGoCardless: false,
     };
   }
