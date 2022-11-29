@@ -116,6 +116,13 @@ en:
     thank_you_with_amount: "<strong>Thank you for your donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
     recurring_thank_you_with_amount: "<strong>Thank you for your recurring donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
 
+    bank_rejected_error: "Your bank is unwilling to accept the transaction. Please contact your bank or try with a different payment method."
+    transaction_declined: "Transaction declined: please verify your information or try with a different payment method."
+    insufficient_funds: "Transaction declined: Insufficient Funds. "
+    expired_card: "Transaction declined: Expired card. "
+    paypal_transaction_declined: "Your PayPal transaction has been declined by the processor or your bank. Please try with a different payment method."
+    try_again: "Please try again with a different payment method."
+
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
     fine_print: "Donations are not tax deductable. For more information please email us." # override this with org-specific details in your own yml file.

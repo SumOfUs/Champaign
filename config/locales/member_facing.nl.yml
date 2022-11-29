@@ -112,6 +112,14 @@ nl: # translated 22 July 2021
     thank_you: Bedankt voor je donatie!
     thank_you_with_amount: "<strong>Bedankt voor je donatie van %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org. "
     recurring_thank_you_with_amount: "<strong>Bedankt voor je terugkerende donatie van  %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org."
+    
+    bank_rejected_error: "Your bank is unwilling to accept the transaction. Please contact your bank or try with a different payment method."
+    transaction_declined: "Transaction declined: please verify your information or try with a different payment method."
+    insufficient_funds: "Transaction declined: Insufficient Funds. "
+    expired_card: "Transaction declined: Expired card. "
+    paypal_transaction_declined: "Your PayPal transaction has been declined by the processor or your bank. Please try with a different payment method."
+    try_again: "Please try again with a different payment method."
+    
     card_declined: Je kaart werd geweigerd door de betalingsverwerker. Gelieve een andere betaalmethode te proberen.
     unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen.
     fine_print: "Donaties zijn niet belastingaftrekbaar. Voor meer informatie kun je ons mailen. " # override this with org-specific details in your own yml file.

@@ -102,6 +102,14 @@ de:
     thank_you: Vielen Dank!
     thank_you_with_amount: "<strong>Vielen Dank für Ihre Spende in Höhe von %{amount}!</strong> Sie haben Fragen oder versehentlich gespendet? Dann schreiben Sie uns an  hallo@sumofus.org."
     recurring_thank_you_with_amount: "<strong> Vielen Dank für Ihre regelmäßige Spende in Höhe von %{amount}!</strong> Falls Sie eine Frage an uns haben oder diese Spende unabsichtlich getätigt haben, schreiben Sie uns gern eine Nachricht an hallo@sumofus.org."
+    
+    bank_rejected_error: "Ihre Bank akzeptiert die Transaktion nicht. Bitte kontaktieren Sie Ihre Bank oder versuchen Sie es mit einer anderen Zahlungsmethode."
+    transaction_declined: "Transaktion abgelehnt: Bitte überprüfen Sie Ihre Angaben oder versuchen Sie es mit einer anderen Zahlungsmethode."
+    insufficient_funds: "Transaktion abgelehnt: Unzureichende Kontodeckung. "
+    expired_card: "Transaktion abgelehnt: Abgelaufene Karte. "
+    paypal_transaction_declined: "Ihre PayPal-Transaktion wurde vom Prozessor oder Ihrer Bank abgelehnt. Bitte versuchen Sie es mit einer anderen Zahlungsmethode."
+    try_again: "Bitte versuchen Sie es erneut mit einer anderen Zahlungsmethode."
+
     card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "Donations are not tax deductable. For more information please email us."

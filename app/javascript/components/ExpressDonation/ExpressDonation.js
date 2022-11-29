@@ -2,7 +2,7 @@ import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { snakeCase } from 'lodash';
+import { isEmpty, snakeCase } from 'lodash';
 import ee from '../../shared/pub_sub';
 import DonateButton from '../DonateButton';
 import PaymentMethodWrapper from './PaymentMethodWrapper';
@@ -12,6 +12,7 @@ import CurrencyAmount from '../CurrencyAmount';
 import ShowIf from '../ShowIf';
 import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
+import { getErrorsByCode } from '../../util/getBraintreeErrorMessages';
 
 import './ExpressDonation.scss';
 
@@ -37,6 +38,8 @@ export class ExpressDonation extends Component {
       source: null,
       optForRedonation: false,
       failureReason: '',
+      failureCode: '',
+      errors: [],
     };
   }
 
@@ -109,6 +112,8 @@ export class ExpressDonation extends Component {
         ? reason.responseJSON.immediate_redonation
         : false,
       failureReason: reason.responseJSON.message,
+      failureCode: reason.responseJSON.errorCode,
+      errors: getErrorsByCode(reason.responseJSON.errorCode),
       optForRedonation:
         reason.responseJSON && reason.responseJSON.immediate_redonation
           ? reason.responseJSON.immediate_redonation
@@ -215,6 +220,24 @@ export class ExpressDonation extends Component {
 
     return (
       <div className="ExpressDonation">
+        <ShowIf condition={!isEmpty(this.state.errors)}>
+          <div className="fundraiser-bar__errors">
+            <div className="fundraiser-bar__error-intro">
+              <span className="fa fa-exclamation-triangle" />
+              <FormattedMessage
+                id="fundraiser.error_intro"
+                defaultMessage="Unable to process donation!"
+              />
+            </div>
+            {this.state.errors.map((e, i) => {
+              return (
+                <div key={i} className="fundraiser-bar__error-detail">
+                  {e}
+                </div>
+              );
+            })}
+          </div>
+        </ShowIf>
         <div className="ExpressDonation__payment-methods">
           {this.props.paymentMethods.length === 1
             ? this.renderSingle()
@@ -229,19 +252,6 @@ export class ExpressDonation extends Component {
             />
           </a>
         </div>
-
-        {/* <Checkbox
-          className="ExpressDonation__recurring-checkbox"
-          disabled={this.props.fundraiser.recurringDefault === 'only_recurring'}
-          checked={this.props.fundraiser.recurring}
-          onChange={e => this.props.setRecurring(e.currentTarget.checked)}
-        >
-          <FormattedMessage
-            id="fundraiser.make_recurring"
-            defaultMessage="Make my donation monthly"
-          />
-        </Checkbox> */}
-
         <div className="payment-message">
           <br />
           {this.props.showMonthlyButton && (

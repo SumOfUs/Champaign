@@ -31,6 +31,7 @@ import {
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
 import { isDirectDebitSupported } from '../../util/directDebitDecider';
+import { getErrorsByCode } from '../../util/getBraintreeErrorMessages';
 
 // Styles
 import './Payment.css';
@@ -38,8 +39,6 @@ import './Payment.css';
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 const LOCAL_PAYMENT_PROVIDERS = ['ideal', 'giropay'];
-// TODO: Handle each code independently
-const errors = [<FormattedMessage id="fundraiser.unknown_error" />];
 
 export class Payment extends Component {
   static title = (<FormattedMessage id="payment" defaultMessage="payment" />);
@@ -64,7 +63,9 @@ export class Payment extends Component {
         paypal: true,
         card: true,
       },
-      errors: window.champaign.oneClickErrorCode?.length ? errors : [],
+      errors: window.champaign.oneClickErrorCode?.length
+        ? getErrorsByCode(window.champaign.oneClickErrorCode)
+        : [],
       waitingForGoCardless: false,
     };
   }
@@ -496,8 +497,8 @@ export class Payment extends Component {
       response.responseJSON.errors
     ) {
       errors = response.responseJSON.errors.map(function(error) {
-        if (error.declined) {
-          return <FormattedMessage id="fundraiser.card_declined" />;
+        if (error.code) {
+          return getErrorsByCode(error.code);
         } else {
           return error.message;
         }
