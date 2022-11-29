@@ -7,6 +7,8 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
   before_action :check_api_key, only: [:refund]
   before_action :verify_bot, only: [:transaction], if: -> { authenticate_cypress_http_token == false }
 
+  EXPIRED_CARD_ERROR_CODE = '2004'
+
   def token
     @merchant_account_id = unsafe_params[:merchantAccountId]
     render json: { token: ::Braintree::ClientToken.generate(merchant_account_id: @merchant_account_id) }
@@ -31,7 +33,8 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
         cookied_payment_methods: params.to_unsafe_hash['payment_method_ids']
       ).process
     rescue PaymentProcessor::Exceptions::BraintreePaymentError => e
-      render json: { error: e.message, success: false }, status: 500
+      remove_expired_card unless e.message != EXPIRED_CARD_ERROR_CODE
+      render json: { error: e.message, success: false }, status: 422
     rescue ArgumentError => e
       @status = 400
       @status = 404 if e.to_s == 'PaymentProcessor::Exceptions::CustomerNotFound'
@@ -67,6 +70,7 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
     render status: :unprocessable_entity, errors: oneclick_payment_errors unless @result.success?
   rescue PaymentProcessor::Exceptions::BraintreePaymentError => e
     @result = e
+    remove_expired_card unless e.message != EXPIRED_CARD_ERROR_CODE
     render status: :unprocessable_entity, errors: e.message
   end
 
@@ -159,5 +163,16 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
     return false unless recognized_member.present?
 
     recognized_member.email == user_params[:email]
+  end
+
+  def remove_expired_card
+    @payment_options = BraintreeServices::PaymentOptions.new(unsafe_params, cookies.signed[:payment_methods])
+    existing_payment_methods = (cookies.signed[:payment_methods] || '').split(',')
+
+    unless @payment_options.nil?
+      @payment_method_obj = Payment::Braintree::PaymentMethod.find_by_token(@payment_options.token)&.attributes
+      existing_payment_methods.delete(@payment_options.token)
+      Payment::Braintree::PaymentMethod.find_by_token(@payment_options.token).destroy unless @payment_method_obj.nil?
+    end
   end
 end
