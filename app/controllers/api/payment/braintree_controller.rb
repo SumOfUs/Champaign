@@ -168,10 +168,15 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
   def remove_expired_card
     @payment_options = BraintreeServices::PaymentOptions.new(unsafe_params, cookies.signed[:payment_methods])
     existing_payment_methods = (cookies.signed[:payment_methods] || '').split(',')
-
     unless @payment_options.nil?
       @payment_method_obj = Payment::Braintree::PaymentMethod.find_by_token(@payment_options.token)&.attributes
       existing_payment_methods.delete(@payment_options.token)
+
+      cookies.signed[:payment_methods] = {
+        value: existing_payment_methods.uniq.join(','),
+        expires: 1.year.from_now,
+        domain: :all
+      }
       Payment::Braintree::PaymentMethod.find_by_token(@payment_options.token).destroy unless @payment_method_obj.nil?
     end
   end

@@ -13,6 +13,8 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
   before_action :localize, only: %i[show follow_up double_opt_in_notice]
   before_action :record_tracking, only: %i[show]
 
+  EXPIRED_CARD_ERROR_CODE = '2004'
+
   attr_reader :error_code
   def index
     @pages = Search::PageSearcher.search(search_params)
@@ -201,6 +203,7 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
     ).process
   rescue PaymentProcessor::Exceptions::BraintreePaymentError => e
     set_error_code(e.message)
+    remove_expired_card unless e.message != EXPIRED_CARD_ERROR_CODE
     @process_one_click = false
   rescue StandardError
     @process_one_click = false
@@ -223,6 +226,27 @@ class PagesController < ApplicationController # rubocop:disable Metrics/ClassLen
     path_match = %r{^/a/}
     if request.path.match(path_match) && @page.has_pronto_inclusion_template?
       redirect_to request.fullpath.gsub(path_match, "/#{@page.language_code}/a/")
+    end
+  end
+
+  def remove_expired_card
+    unless recognized_member.present?
+      @payment_options = BraintreeServices::PaymentOptions.new(params.to_unsafe_hash,
+                                                               cookies.signed[:payment_methods],
+                                                               recognized_member)
+    end
+
+    existing_payment_methods = (cookies.signed[:payment_methods] || '').split(',')
+
+    unless @payment_options.nil?
+      @payment_method_obj = Payment::Braintree::PaymentMethod.find_by_token(@payment_options.token)&.attributes
+      existing_payment_methods.delete(@payment_options.token)
+      cookies.signed[:payment_methods] = {
+        value: existing_payment_methods.uniq.join(','),
+        expires: 1.year.from_now,
+        domain: :all
+      }
+      Payment::Braintree::PaymentMethod.find_by_token(@payment_options.token).destroy unless @payment_method_obj.nil?
     end
   end
 end
