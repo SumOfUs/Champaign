@@ -4,11 +4,9 @@ import ee from '../../shared/pub_sub';
 import { isDirectDebitSupported } from '../../util/directDebitDecider';
 
 const getLocalPaymentTypes = ({ country, recurring, currency }) => {
-  if (recurring) return false;
-
   const supportedList = [];
 
-  if (currency !== 'EUR') return supportedList;
+  if (currency !== 'EUR' || recurring) return supportedList;
 
   // IDEAL
   if (country === 'NL') supportedList.push('ideal');

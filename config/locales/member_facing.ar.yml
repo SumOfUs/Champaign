@@ -120,6 +120,13 @@ ar:
     thank_you_with_amount: "<strong>شكراً لتبرّعك بمبلغ %{amount}!</strong> إذا كانت لديك أيّ أسئلة، أو إذا كنت قد أتممت التبرّع بالخطأ، يُرجى مراسلتنا على العنوان donations@sumofus.org."
     recurring_thank_you_with_amount: "<strong>شكراً لتبرّعك الدوري بمبلغ %{amount}! </strong> إذا كانت لديك أيّ أسئلة، أو إذا كنت قد أتممت التبرّع بالخطأ، يُرجى مراسلتنا على العنوان donations@sumofus.org."
 
+    bank_rejected_error: "Your bank is unwilling to accept the transaction. Please contact your bank or try with a different payment method."
+    transaction_declined: "Transaction declined: please verify your information or try with a different payment method."
+    insufficient_funds: "Transaction declined: Insufficient Funds. "
+    expired_card: "Transaction declined: Expired card. "
+    paypal_transaction_declined: "Your PayPal transaction has been declined by the processor or your bank. Please try with a different payment method."
+    try_again: "Please try again with a different payment method."
+
     card_declined: تمّ رفض بطاقتك من قبل معالج الدفع. يُرجى تجربة طريقة دفع مختلفة.
     unknown_error: "تمّ إبلاغ فريقنا التقني. يُرجى التأكّد من معلوماتك أو محاولة طريقة دفعٍ أخرى. "
     fine_print: "التبرّعات لصالحنا ليست معفاة من الضرائب. لمزيد من المعلومات، الرجاء مراسلتنا عبر البريد الإلكتروني." # override this with org-specific details in your own yml file.

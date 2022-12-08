@@ -31,6 +31,7 @@ import {
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
 import { isDirectDebitSupported } from '../../util/directDebitDecider';
+import { getErrorsByCode } from '../../util/getBraintreeErrorMessages';
 
 // Styles
 import './Payment.css';
@@ -62,7 +63,9 @@ export class Payment extends Component {
         paypal: true,
         card: true,
       },
-      errors: [],
+      errors: window.champaign.oneClickErrorCode?.length
+        ? getErrorsByCode(window.champaign.oneClickErrorCode)
+        : [],
       waitingForGoCardless: false,
     };
   }
@@ -494,8 +497,8 @@ export class Payment extends Component {
       response.responseJSON.errors
     ) {
       errors = response.responseJSON.errors.map(function(error) {
-        if (error.declined) {
-          return <FormattedMessage id="fundraiser.card_declined" />;
+        if (error.code) {
+          return getErrorsByCode(error.code);
         } else {
           return error.message;
         }

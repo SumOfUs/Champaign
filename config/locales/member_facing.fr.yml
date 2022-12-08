@@ -98,6 +98,14 @@ fr:
     thank_you: Nous vous remercions pour votre don !
     thank_you_with_amount: "<strong>Merci pour votre don de %{amount} !</strong> si vous avez la moindre question ou si vous avez fait ce don par erreur, veuillez nous contacter via donations@sumofus.org."
     recurring_thank_you_with_amount: "<strong>Merci pour votre don régulier de %{amount} !</strong> Si vous avez la moindre question ou si vous avez fait ce don par erreur, veuillez nous contacter via donations@sumofus.org."
+    
+    bank_rejected_error: "Votre banque a refusé de valider la transaction. Veuillez contacter votre banque ou essayer avec un autre mode de paiement."
+    transaction_declined: "Transaction refusée : veuillez vérifier vos informations ou essayer avec une autre méthode de paiement."
+    insufficient_funds: "Transaction refusée : Fonds insuffisants. "
+    expired_card: "Transaction refusée : Carte bancaire expirée. "
+    paypal_transaction_declined: "Votre transaction PayPal a été refusée par le processeur ou par votre banque. Veuillez essayer avec un autre mode de paiement."
+    try_again: "Veuillez réessayer avec un autre mode de paiement s'il vous plaît."
+    
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
     fine_print: "Les dons ne sont pas déductibles de vos impôts. Pour plus d’information, contactez-nous."

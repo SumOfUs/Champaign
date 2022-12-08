@@ -30,6 +30,8 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
         member: recognized_member,
         cookied_payment_methods: params.to_unsafe_hash['payment_method_ids']
       ).process
+    rescue PaymentProcessor::Exceptions::BraintreePaymentError => e
+      render json: { error: e.message, success: false }, status: 500
     rescue ArgumentError => e
       @status = 400
       @status = 404 if e.to_s == 'PaymentProcessor::Exceptions::CustomerNotFound'
@@ -63,6 +65,9 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
   def one_click
     @result = client::OneClick.new(unsafe_params, cookies.signed[:payment_methods], member).run
     render status: :unprocessable_entity, errors: oneclick_payment_errors unless @result.success?
+  rescue PaymentProcessor::Exceptions::BraintreePaymentError => e
+    @result = e
+    render status: :unprocessable_entity, errors: e.message
   end
 
   private
