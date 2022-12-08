@@ -210,9 +210,8 @@ class BraintreeCardFields extends Component {
               });
           } else {
             resolve(data);
+            this.teardown();
           }
-
-          this.teardown();
         }
       );
     });
