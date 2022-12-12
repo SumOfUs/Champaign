@@ -17,7 +17,8 @@ module PaymentProcessor
               email: 'test@example.com',
               name: 'Bob Loblaw',
               country: 'AU'
-            }
+            },
+            three_d_secure: true
           }
         end
         let(:member) { create(:member, email: 'test@example.com') }

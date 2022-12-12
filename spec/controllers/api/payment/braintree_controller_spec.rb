@@ -61,7 +61,8 @@ describe Api::Payment::BraintreeController do
         user: params[:user],
         currency: params[:currency],
         page_id: params[:page_id],
-        store_in_vault: false
+        store_in_vault: false,
+        three_d_secure: false
       }
     end
 

@@ -97,6 +97,7 @@ class Api::Payment::BraintreeController < PaymentController # rubocop:disable Me
       page_id: params.require(:page_id),
       store_in_vault: store_in_vault?
     }.to_hash.tap do |options|
+      options[:three_d_secure] = three_d_secure? unless recurring?
       options[:device_data] = unsafe_params[:device_data].to_json unless unsafe_params[:device_data].nil?
 
       options[:extra_params] = unsafe_params[:extra_action_fields] if unsafe_params[:extra_action_fields].present?

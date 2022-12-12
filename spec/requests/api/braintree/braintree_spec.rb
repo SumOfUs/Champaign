@@ -667,7 +667,8 @@ describe 'Braintree API' do
                                                                             device_data: {},
                                                                             options: {
                                                                               submit_for_settlement: true,
-                                                                              store_in_vault_on_success: true
+                                                                              store_in_vault_on_success: true,
+                                                                              three_d_secure: { required: false }
                                                                             },
                                                                             customer: {
                                                                               first_name: 'Bernie',
@@ -877,7 +878,8 @@ describe 'Braintree API' do
                                                                             device_data: {},
                                                                             options: {
                                                                               submit_for_settlement: true,
-                                                                              store_in_vault_on_success: true
+                                                                              store_in_vault_on_success: true,
+                                                                              three_d_secure: { required: false }
                                                                             },
                                                                             customer: {
                                                                               first_name: 'Bernie',

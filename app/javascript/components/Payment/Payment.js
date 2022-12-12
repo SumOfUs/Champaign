@@ -393,6 +393,10 @@ export class Payment extends Component {
       recaptcha_action,
       ...(data.threeDSecureInfo?.threeDSecureAuthenticationId && {
         authenticationId: data.threeDSecureInfo.threeDSecureAuthenticationId,
+        ...(data.threeDSecureInfo.status != 'unsupported_card' &&
+          data.threeDSecureInfo.liabilityShiftPossible && {
+            three_d_secure: true,
+          }),
       }),
     };
 

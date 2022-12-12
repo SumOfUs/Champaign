@@ -26,7 +26,8 @@ module PaymentProcessor
             currency: 'USD',
             user: { email: 'test@example.com', name: 'Bob' },
             page_id: 1,
-            device_data: { foo: 'bar' }
+            device_data: { foo: 'bar' },
+            three_d_secure: true
           }
         end
 
@@ -49,7 +50,8 @@ module PaymentProcessor
             device_data: { foo: 'bar' },
             options: {
               submit_for_settlement: true,
-              store_in_vault_on_success: false
+              store_in_vault_on_success: false,
+              three_d_secure: { required: true }
             },
             customer: {
               first_name: 'Bob',

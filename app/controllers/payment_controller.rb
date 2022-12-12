@@ -123,6 +123,10 @@ class PaymentController < ApplicationController
     (ActiveRecord::Type::Boolean.new.cast(params[:store_in_vault]) || false) && provider_not_gc
   end
 
+  def three_d_secure?
+    (ActiveRecord::Type::Boolean.new.cast(params[:three_d_secure]) || false) && provider_not_gc
+  end
+
   def provider_not_gc
     params[:provider] != 'GC'
   end

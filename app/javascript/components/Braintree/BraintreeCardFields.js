@@ -192,6 +192,7 @@ class BraintreeCardFields extends Component {
                 nonce: data.nonce,
                 bin: data.details.bin,
                 amount: donationAmount,
+                challengeRequested: true,
               })
               .then(function(response) {
                 if (

@@ -21,17 +21,17 @@ module PaymentProcessor
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
       attr_reader :action, :result, :store_in_vault
 
+      # rubocop:disable Metrics/ParameterLists
       def self.make_transaction(nonce:, amount:, currency:, user:, page_id:,
-                                store_in_vault: false, device_data: {}, extra_params: {})
-        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data, extra_params)
+                                three_d_secure:, store_in_vault: false, device_data: {}, extra_params: {})
+        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data, extra_params, three_d_secure)
         builder.transact
         builder
       end
 
       # Long parameter list is doing my head in - let's replace with a parameter object
-      #
       def initialize(nonce, amount, currency, user, page_id,
-                     store_in_vault = false, device_data = {}, extra_params = {})
+                     three_d_secure, store_in_vault = false, device_data = {}, extra_params = {})
         @amount = amount
         @nonce = nonce
         @user = user
@@ -40,7 +40,9 @@ module PaymentProcessor
         @store_in_vault = store_in_vault
         @device_data = device_data
         @extra_params = extra_params || {}
+        @three_d_secure = three_d_secure
       end
+      # rubocop:enable Metrics/ParameterLists
 
       def transact
         @result = ::Braintree::Transaction.sale(options)
@@ -75,7 +77,11 @@ module PaymentProcessor
             # we always want to store in vault unless we're using an existing
             # payment_method_token. we haven't built anything to do that yet,
             # so for now always store the payment method.
-            store_in_vault_on_success: store_in_vault
+            store_in_vault_on_success: store_in_vault,
+            three_d_secure: {
+              required: @three_d_secure
+            }
+
           },
           customer: customer_options,
           billing: billing_options
