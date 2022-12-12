@@ -61,8 +61,7 @@ describe Api::Payment::BraintreeController do
         user: params[:user],
         currency: params[:currency],
         page_id: params[:page_id],
-        store_in_vault: false,
-        three_d_secure: false
+        store_in_vault: false
       }
     end
 
@@ -102,6 +101,7 @@ describe Api::Payment::BraintreeController do
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
           payment_options[:store_in_vault] = false
+          payment_options[:three_d_secure] = false
           post :transaction, params: params
         end
 
@@ -167,7 +167,7 @@ describe Api::Payment::BraintreeController do
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
           post :transaction, params: params
-          payment_options.merge!(store_in_vault: false)
+          payment_options.merge!(store_in_vault: false, three_d_secure: false)
         end
 
         it 'calls Transaction.make_transaction' do

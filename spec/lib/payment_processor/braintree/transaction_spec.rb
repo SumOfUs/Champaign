@@ -27,7 +27,7 @@ module PaymentProcessor
             user: { email: 'test@example.com', name: 'Bob' },
             page_id: 1,
             device_data: { foo: 'bar' },
-            three_d_secure: true
+            three_d_secure: false
           }
         end
 
@@ -51,7 +51,7 @@ module PaymentProcessor
             options: {
               submit_for_settlement: true,
               store_in_vault_on_success: false,
-              three_d_secure: { required: true }
+              three_d_secure: { required: false }
             },
             customer: {
               first_name: 'Bob',

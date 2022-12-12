@@ -668,7 +668,7 @@ describe 'Braintree API' do
                                                                             options: {
                                                                               submit_for_settlement: true,
                                                                               store_in_vault_on_success: true,
-                                                                              three_d_secure: { required: false }
+                                                                              three_d_secure: { required: true }
                                                                             },
                                                                             customer: {
                                                                               first_name: 'Bernie',
