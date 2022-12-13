@@ -113,12 +113,12 @@ nl: # translated 22 July 2021
     thank_you_with_amount: "<strong>Bedankt voor je donatie van %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org. "
     recurring_thank_you_with_amount: "<strong>Bedankt voor je terugkerende donatie van  %{amount}!</strong> Als je vragen hebt of deze donatie per vergissing hebt gedaan, stuur dan een e-mail naar donations@sumofus.org."
     
-    bank_rejected_error: "Your bank is unwilling to accept the transaction. Please contact your bank or try with a different payment method."
+    bank_rejected_error: "Je bank is niet bereid de transactie te accepteren. Neem contact op met je bank of probeer het met een andere betaalmethode."
     transaction_declined: "Transaction declined: please verify your information or try with a different payment method."
-    insufficient_funds: "Transaction declined: Insufficient Funds. "
-    expired_card: "Transaction declined: Expired card. "
-    paypal_transaction_declined: "Your PayPal transaction has been declined by the processor or your bank. Please try with a different payment method."
-    try_again: "Please try again with a different payment method."
+    insufficient_funds: "Transactie geweigerd: onvoldoende saldo. "
+    expired_card: "Transactie geweigerd: kaart verlopen. "
+    paypal_transaction_declined: "Je PayPal-transactie is geweigerd door de processor van je bank. Probeer het opnieuw met een andere betaalmethode."
+    try_again: "Probeer het opnieuw met een andere betaalmethode."
     
     card_declined: Je kaart werd geweigerd door de betalingsverwerker. Gelieve een andere betaalmethode te proberen.
     unknown_error: Ons technisch team is op de hoogte gebracht. Gelieve nogmaals je gegevens te controleren of een andere betaalmethode te proberen.

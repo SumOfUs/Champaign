@@ -23,7 +23,7 @@ module PaymentProcessor
 
       # rubocop:disable Metrics/ParameterLists
       def self.make_transaction(nonce:, amount:, currency:, user:, page_id:,
-                                three_d_secure:, store_in_vault: false, device_data: {}, extra_params: {})
+                                store_in_vault: false, device_data: {}, extra_params: {}, three_d_secure: false)
         builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data, extra_params, three_d_secure)
         builder.transact
         builder
@@ -31,7 +31,7 @@ module PaymentProcessor
 
       # Long parameter list is doing my head in - let's replace with a parameter object
       def initialize(nonce, amount, currency, user, page_id,
-                     three_d_secure, store_in_vault = false, device_data = {}, extra_params = {})
+                     store_in_vault = false, device_data = {}, extra_params = {}, three_d_secure = false)
         @amount = amount
         @nonce = nonce
         @user = user
