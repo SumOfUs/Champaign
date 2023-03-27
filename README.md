@@ -1,3 +1,5 @@
+# NOTE: This repository is no longer actively maintained and has been archived.
+
 # Champaign
 
 [![Circle CI](https://circleci.com/gh/SumOfUs/Champaign/tree/master.svg?style=shield)](https://circleci.com/gh/SumOfUs/Champaign/tree/master) [![Coverage Status](https://coveralls.io/repos/github/SumOfUs/Champaign/badge.svg?branch=master)](https://coveralls.io/github/SumOfUs/Champaign?branch=master) [![Code Climate](https://codeclimate.com/github/SumOfUs/Champaign/badges/gpa.svg)](https://codeclimate.com/github/SumOfUs/Champaign)
